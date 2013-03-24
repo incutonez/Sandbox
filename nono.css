@@ -8,23 +8,41 @@
 	border-right: 2px solid black;
 }
 
-.column:first-child {
-	border-left: 2px solid black;
+#rowNums {
+	float: left;
 }
 
-.row:first-child .column {
+#nonoGrid, #spacer {	
+	float: left;
+
+}
+
+#spacer {
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+.colHover:hover {
+	background-color: rgba(173, 216, 230, 0.5);
+}
+
+.row:first-child .rowNums {
 	border-top: 2px solid black;
-}
-
-.row:first-child {
-	height: 23px;
 }
 
 .row:last-child {
 	height: 23px;
 }
 
-.row:last-child .column {
+.row:last-child .rowNums, .row:first-child .rowNums {
+	height: 21px;
+}
+
+.row:last-child .column, .row:last-child .rowNums {
+	border-bottom: 2px solid black;
+}
+
+.rowNums:last-child {
 	border-bottom: 2px solid black;
 }
 
@@ -32,8 +50,33 @@
 	height: 22px;
 }
 
-.colHover:hover {
-	background-color: rgba(173, 216, 230, 0.5);
+.rowNums {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+	width: 40px;
+	height: 20px;
+}
+
+.colNums {
+	height: 39px;
+	width: 20px;
+	float: left;
+	border-right: 1px solid black;
+	border-left: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+.colNums:first-child {
+	border-left: 2px solid black;
+}
+
+.colNums:last-child {
+	border-right: 2px solid black;
+}
+
+#colNums {
+	height: 40px;
 }
 
 .black {
