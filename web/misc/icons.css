@@ -1,0 +1,33 @@
+.trashIcon {
+  background: url("../images/trash.png") no-repeat;
+  width: 16px;
+  height: 16px;
+  display: none;
+}
+
+.addIcon {
+  background: url("../images/add.png") no-repeat;
+  width: 16px;
+  height: 16px;
+  display: none;
+}
+
+body {
+  background-color: lightBlue;
+}
+
+.iconContainer:hover .link {
+  background-color: white;
+}
+
+.iconContainer:hover {
+  cursor: pointer;
+}
+
+.iconContainer:hover .trashIcon {
+  display: inline-block;
+}
+
+.border {
+  border: 1px solid black;
+}
