@@ -1,12 +1,12 @@
 .trashIcon {
-  background: url("../images/trash.png") no-repeat;
+  background: url("../css/images/trash.png") no-repeat;
   width: 16px;
   height: 16px;
   display: none;
 }
 
 .addIcon {
-  background: url("../images/add.png") no-repeat;
+  background: url("../css/images/add.png") no-repeat;
   width: 16px;
   height: 16px;
   display: none;

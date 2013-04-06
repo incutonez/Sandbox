@@ -1,0 +1,28 @@
+﻿.on {
+  display: inline;
+  background-image: url('resources/themes/images/default/menu/checked.gif');
+}
+
+.bold td div {
+  font-weight: bold;
+}
+
+.bold2 div {
+  font-weight: bold;
+}
+
+.bold3 {
+  font-weight: bold;
+}
+
+.bold4 {
+  font-weight: bold;
+}
+
+.boldOff {
+  font-weight: normal;
+}
+
+.off {
+  display: none !important;
+}
