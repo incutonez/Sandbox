@@ -1,0 +1,16 @@
+﻿-get player to move
+-create AI, so it moves to player
+-create AI, so it moves away from player
+-implement physics
+-have player move between screens
+-have player interact with items
+--move item
+--destroy item
+--carry item
+--pick up item
+-have player die
+-create welcome screen
+-create saving
+-give player items
+-create item screen
+-create dialog
