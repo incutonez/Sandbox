@@ -4,6 +4,10 @@
 	cursor: pointer;
 }
 
+.colNumber {
+	float: left;
+}
+
 .column:last-child {
 	border-right: 2px solid black;
 }
@@ -52,18 +56,19 @@
 
 .rowNums {
 	border-top: 1px solid black;
-	border-bottom: 1px solid black;
-	border-right: 1px solid black;
-	width: 40px;
 	height: 20px;
+	text-align: right;
 }
 
 .colNums {
-	height: 39px;
 	width: 20px;
 	float: left;
-	border-right: 1px solid black;
 	border-left: 1px solid black;
+}
+
+.colNums, .rowNums {
+	font-size: 15px;
+	border-right: 1px solid black;
 	border-bottom: 1px solid black;
 }
 
@@ -73,6 +78,10 @@
 
 .colNums:last-child {
 	border-right: 2px solid black;
+}
+
+.colNumber, .rowNumber {
+	padding: 0 6px 0 6px;
 }
 
 #colNums {

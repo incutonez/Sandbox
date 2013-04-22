@@ -1,31 +1,59 @@
 $(document).ready(function() {
-	var json = {
-		"columns": {"col0": [1, 2, 3, 4], "col1": [1, 1], "col2": [2, 4, 4, 4, 4], "col3": [10], "col4": [6, 6]},
-		"rows": {"row0": [1, 2, 3], "row1": [2, 2, 3], "row2": [10], "row3": [2, 3, 1], "row4": [1, 1]}
-	};
+	var json;
+	$.getJSON('nono.json', function(data) {
+		json = data;
+	});
+	
 	$('#nonoSize').on('change', function(event) {
 		$('#nonoGrid').children().remove();
 		$('#rowNums').children().remove();
 		$('#colNums').children('.colNums').remove();
 		var size = $(this).val();
+		var maxHeight = 0;
+		var maxWidth = 0;
+		var fontSize = 15;
+		var widthPadding = 12;
 		for (var i = 0; i < size; i++) {
 			var row = '<div id="row' + i + '" class="row">';
 			for (var j = 0; j < size; j++) {
 				row += '<canvas class="column colHover" width="20" height="20" oncontextmenu="return false;"></canvas>';
 			}
 			row += '</div>';
-			$('#rowNums').append('<div class="rowNums"></div>');
-			$('#colNums').append('<div class="colNums"></div>');
+			
+			var rowElem = $('<div class="rowNums"></div>');
+			var colElem = $('<div class="colNums"></div>');
+			var c = json[size].column[i];			
+			var r = json[size].row[i];
+			for (var idx in c) {
+				colElem.append('<span class="colNumber">' + c[idx] + '</span>');
+			}
+			for (var idx in r) {
+				rowElem.append('<span class="rowNumber">' + r[idx] + '</span>');
+			}
+			if (!maxHeight || maxHeight < c.length) {
+				maxHeight = c.length;
+			}
+			if (!maxWidth || maxWidth < r.length) {
+				maxWidth = r.length;
+			}
+			$('#rowNums').append(rowElem);
+			$('#colNums').append(colElem);
 			$('#nonoGrid').append(row);
 		}
 		var rowWidth = $('.rowNums').css('width');
 		$('.rowNums').css({
-			width: '40px'
+			width: (maxWidth * fontSize) + (widthPadding * maxWidth) + 'px'
+		});
+		$('.colNums').css({
+			height: ((maxHeight + 2) * fontSize) - 1 + 'px'
+		});
+		$('#colNums').css({
+			height: ((maxHeight + 2) * fontSize) + 'px'
 		});
 		$('.row').css('width', size * 22 + 2 + rowWidth + 'px');
 		$('#spacer').css({
-			width: rowWidth,
-			height: '39px'
+			width: (maxWidth * fontSize) + (maxWidth * widthPadding) + 'px',
+			height: ((maxHeight + 2) * fontSize) - 1 + 'px'
 		});
 		
 		$('.column').on('mousedown', function(event) {
