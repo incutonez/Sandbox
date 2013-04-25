@@ -5,11 +5,12 @@ use Getopt::Long;
 use List::Util 'shuffle';
 
 my $folds;
-GetOptions( "folds=i" => \$folds);
-pod2usage(1) unless $folds;
+my $root;
+GetOptions( "folds=i" => \$folds,
+            "dir=s" => \$root );
+pod2usage(1) unless $folds and $root;
 
-my $root = '20/';
-opendir my $dh, $root or die "Cannot open $root: $!";
+opendir my $dh, "$root/" or die "Cannot open $root: $!";
 my @dirs = grep { ! -d } readdir $dh;
 closedir $dh;
 
@@ -23,72 +24,60 @@ foreach my $sword (<$stop>) {
 my @hash = ();
 # Getting each directory.
 foreach my $dir (@dirs) {
-  my @files = <$root$dir/*>;
+  my @files = <$root/$dir/*>;
   # Getting each file.
   foreach my $file (@files) {
     my %words = ();
     open my $fh, '<', "$file" or die "Can't open that file!  $!\n";
     
     my $next = 0;
+    my $begin = 0;
     # Getting the lines of the file.
     foreach my $line (<$fh>) {
       chomp $line;
-      # Trying to skip lines that are irrelevant with the email's content.
-      next if $line =~ /(^(from|subject):)|in article \<|wr(i|o)tes*:$/i;
-      # Trying to strip out signatures in the emails.
-      #if ($line =~ /^\s*-{1,4}$/) {
-      #  print $file, "\n\n\n";
-      #}
+      # Trying to skip subjects that are just attached files.
+      last if $line =~ /^subject.*\w+\.(zip|bmp|jpg|exe)/i;
+      
+      # Stripping out long path names (mainly in computer text files)...
+      next if $line =~ /\>*path:\s*[\w.!]+/i;
+      
+      # Trying to skip lines in the document that appear to be attachments.
+      if ($line =~ /^begin.*(zip|bmp|jpg|exe)|part\s*\d+\s*of\s*\d+/i) {
+        $begin = 1;
+        next;
+      }
+      elsif ($line =~ /^end(.*-{4,}.*|)$|end\s*of\s*part\s*\d+\s*of\s*\d+/i) {
+        $begin = 0;
+        next;
+      }
+      next if $begin;
+      next if $line =~ /(^(from|subject):)|\<|wr(i|o)tes*:$/i;
       last if $line =~ /^\s*-{1,4}\s*$|^-+begin.*signature-+/i;
       $line = lc $line;   # lowercasing words
-      #$line =~ s/\'|\"|\,|\.|\[|\]|\?|\!//g;
       # Only reserves spaces and letters... gets rid of numbers and anything else.
       $line =~ s/[^a-z\s]+//g;
       my @line = split(/\s+/, $line);
       foreach my $word (@line) {
         next if $stops{$word};
         
-        # Binary weighting.
-        $words{$word} = 1 if $word and !$words{$word};
-        
         # This is for tf weighting the words...
-        #if ($word and $words{$word}) {
-        #  $words{$word}++;
-        #}
-        #elsif ($word) {
-        #  $words{$word} = 1;
-        #}
-        
-        # Splits apart @ symbols and the words.
-        #if ($word =~ /\@/) {
-          #my @words = split(/\@/, $word);
-          #foreach my $sub_word (@words) {
-          #  print $sub_word, "\n";
-          #}
-        #}
-        #print $word, "\n";
+        if ($word and $words{$word}) {
+          $words{$word}++;
+        }
+        elsif ($word) {
+          $words{$word} = 1;
+        }
       }
     }
-    #print "$dir: <";
     $words{1} = $dir;
     my $beg = 0;
     push @hash, {%words};
-    #foreach my $key (keys %words) {
-    #  if ($beg == 0) {
-    #    print "$key: $words{$key}";
-    #    $beg = 1;
-    #  }
-    #  else {
-    #    print ", $key: $words{$key}";
-    #  }
-    #}
-    #print ">\n";
   }
 }
 @hash = shuffle(@hash);
 
-my %sets = ();
 my @test = ();
+my %sets = ();
 setup($folds);
 split_data(\@hash, $folds);
 undef @hash; # Free some memory.
@@ -100,10 +89,10 @@ for (my $test_num = 0; $test_num < scalar @test; $test_num++) {
   my %test = %{$test[$test_num]};
   for (my $i = 1; $i <= $folds; $i++) {
     my %prob = ();
-    # Going through each vector in the training set.
+    
+    my $doc_count = scalar @{$sets{"set$i"}};
     for (my $j = 0; $j < scalar @{$sets{"set$i"}}; $j++) {
       my $class = $sets{"set$i"}[$j]{1};  # Grabs training set's classification.
-      
       # Initiliaze the number of classes seen in training set.
       if ($prob{$class}{1}) {
         $prob{$class}{1}++;
@@ -130,33 +119,30 @@ for (my $test_num = 0; $test_num < scalar @test; $test_num++) {
     my $tot_class = scalar @{$sets{"set$i"}};
     my %probs = ();
     print "The actual class was: $test{1}\n";
-    print "Its words:", %test, "\n";
+    foreach my $key (keys %test) {
+      print "$key\t" if ($key cmp 1) != 0;
+    }
+    print "\n";
     foreach my $key (keys %prob) {
       my $cond_prob = 1;
       my $class_size = $prob{$key}{1} + 2;
       my $priori = log($class_size / $tot_class);
-      my $test = 1;
-      my $how = 0;
+      my $vocab_total = 0;
+      foreach my $word_prob (keys %{$prob{$key}}) {
+        $vocab_total += $prob{$key}{$word_prob};
+      }
       foreach my $word_prob (keys %{$prob{$key}}) {
         next if ($word_prob cmp "1") == 0;
         my $term_prob = $prob{$key}{$word_prob};
-        if ($term_prob == 0) {
-          #$term_prob = 1;
-          $how++;
-        }
-        $cond_prob += log($term_prob + 1) / ($class_size + 2);
-        $test *= $class_size;
+        $cond_prob += log(($term_prob + 1) / ($vocab_total + scalar keys %{$prob{$key}}));
       }
-      #print "test: $test, class_size: $class_size, how_many_0: $how, words_in_test: ", scalar keys %{$prob{$key}}, "\n";
-      my $probability = $priori + $cond_prob;
-      $probs{$key} = $probability;
+      $probs{$key} = $cond_prob + $priori;
     }
-    #print "tot_size: $total_size\n";
     my $chosen = 0;
     foreach my $p (sort {$probs{$b} <=> $probs{$a}} keys %probs) {
       if (!$chosen) {
-      #  $right++ if $p == $test{1};
-      #  $total++;
+        $right++ if ($p cmp $test{1}) == 0;
+        $total++;
         $chosen = 1;
       }
       print "class: $p, value: $probs{$p}\n";
@@ -164,7 +150,7 @@ for (my $test_num = 0; $test_num < scalar @test; $test_num++) {
     print "\n";
   }
 }
-#print "Accuracy: ", $right / $total * 100, "%\n";
+print "Accuracy: ", $right / $total * 100, "%\n";
 
 # Splits the data in the number of folds... if the fold divides evenly,
 # then all arrays will be same number, otherwise, the beginning sets will have more.
@@ -195,18 +181,26 @@ __END__
 
 =head1 SYNOPSIS
 
-[perl|./] naive.pl -f /path/to/file
+[perl|./] naive.pl -f num_of_folds -dir /path/to/newgroups
 
 =head1 OPTIONS
 
 =item B<-f>
 
-The file that contains your boolean function.
+The number of folds for cross validation.
+
+=item B<-dir>
+
+The directory where all of the newsgroups live.
 
 =head1 DESCRIPTION
 
-This program creates a bag of words from the given file.
+This program creates a bag of words from the 20 newsgroups folder.  It performs
 
-a 0 or 1.
+some normalization features like lower casing all words and stripping out any
+
+characters that aren't a-z or spaces.  It then uses a multinomial Naive Bayes
+
+algorithm to calculate which newsgroup the given test document belongs to.
 
 =cut

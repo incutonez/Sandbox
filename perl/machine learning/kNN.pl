@@ -10,6 +10,8 @@ my $file;
 my $folds;
 my $index;
 my $k;
+my $tot_right = 0;
+my $tot_rows = 0;
 GetOptions( "f=s" => \$file,
             "folds=i" => \$folds,
             "i=i" => \$index,
@@ -37,11 +39,14 @@ split_data(\@data, $folds);
 my $chosen = 1;
 my $overall_acc = 0;
 for (my $chosen = 1; $chosen <= $folds; $chosen++) {
-  print "Chosen test set is $chosen...\n";
+  #print "Chosen test set is $chosen...\n";
   $overall_acc += euclid($chosen, $index, $folds);
   print "\n";
 }
-print "Overall accuracy ~", ceil($overall_acc / $folds), "%\n";
+print "\\hline\n";
+print " & Final & $tot_right & ", $tot_rows - $tot_right, " & ", ceil($overall_acc / $folds), "\\%\n";
+#print "Total right: $tot_right, total wrong: ", $tot_rows - $tot_right, "\n";
+#print "Overall accuracy ~", ceil($overall_acc / $folds), "%\n";
 
 # Splits the data in the number of folds... if the fold divides evenly,
 # then all arrays will be same number, otherwise, the beginning sets will have more.
@@ -70,7 +75,7 @@ sub euclid {
   my $accuracy = 0;
   for (my $train = 1; $train <= $folds; $train++) {
     next if $train == $chosen;
-    print "Training set $train...\n";
+    #print "Training set $train...\n";
     my $train_rows = scalar(@{$sets{"set$train"}});
     my $right = 0;
     for (my $test_row = 0; $test_row < $test_rows; $test_row++) {
@@ -92,11 +97,14 @@ sub euclid {
       my $decision = decide(@out);
       $right++ if $decision eq $test_attr;
     }
-    print "Right: $right, Wrong: ", $test_rows - $right, "\n";
+    print "$chosen & $train & $right & ", $test_rows - $right, " & ", ceil(($right / $test_rows) * 100), "\\% \\\\\n";
+    #print "Right: $right, Wrong: ", $test_rows - $right, "\n";
     $count++;
     $accuracy += ($right / $test_rows) * 100;
-    print "Accuracy: ", ($right / $test_rows) * 100, "%\n";
-    print "\n";
+    $tot_rows += $test_rows;
+    $tot_right += $right;
+    #print "Accuracy: ", ($right / $test_rows) * 100, "%\n";
+    #print "\n";
   }
   return $accuracy / $count;
 }
