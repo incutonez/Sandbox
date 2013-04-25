@@ -6,22 +6,28 @@
     <link rel="stylesheet" href="angular_checkbox.css" />
   </head>
   <body ng-app>
-    <div ng-controller="Blah">
+    <div ng-controller="Ctrl">
       <ul>
         <li>
           <input type="checkbox" value="allChecks.id" ng-model="allChecks.isChecked" ng-change="checkChange(allChecks)">
           <label>{{allChecks.id}}</label>
-        <li>
+        </li>
         <li ng-repeat="child in allChecks.children">
-          <input type="checkbox" ng-model="child.isChecked" ng-change="checkChange(this, allChecks)">
+          <input type="checkbox" ng-model="child.isChecked" ng-change="checkChange(child)">
           <label>{{child.id}}</label>
           <ul>
             <li ng-repeat="grandchild in child.children">
-              <input type="checkbox" ng-model="grandchild.isChecked" ng-change="checkChange(this, child)">
+              <input type="checkbox" ng-model="grandchild.isChecked" ng-change="checkChange(grandchild)">
               <label>{{grandchild.id}}</label>
+              <ul>
+                <li ng-repeat="grandgrandchild in grandchild.children">
+                  <input type="checkbox" ng-model="grandgrandchild.isChecked" ng-change="checkChange(grandgrandchild)">
+                  <label>{{grandgrandchild.id}}</label>
+                </li>
+              </ul>
             </li>
           </ul>
-        <li>
+        </li>
       </ul>
     </div>
   </body>  

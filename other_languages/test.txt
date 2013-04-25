@@ -1,0 +1,116 @@
+// Choosing the only side available.
+// Going LEFT is only available.
+0.0 1.0 0.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0
+
+// Going STRAIGHT is only available.
+0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0
+
+// Going RIGHT is only available.
+0.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0
+
+
+// Cases that we tried but didn't really work out.
+//0.2 0.1 0.0 0.0 0.2 0.9 0.0 0.0 0.0 1.0
+//0.3 0.0 0.0 0.1 0.0 0.9 0.3 0.0 0.0 1.0
+//0.4 0.0 0.1 0.0 0.0 0.9 0.0 0.0 0.0 1.0
+//0.2 0.2 0.0 0.0 0.0 0.9 0.2 0.0 0.0 1.0
+//0.0 0.0 0.3 0.3 0.3 0.9 0.1 0.0 0.0 1.0
+//0.0 0.3 0.3 0.2 0.0 0.9 0.0 0.0 0.0 1.0
+//0.2 0.0 0.2 0.1 0.0 0.9 0.2 0.0 0.0 1.0
+//0.0 0.2 0.0 0.0 0.2 0.9 0.0 0.0 0.0 1.0
+//0.1 0.0 0.0 0.0 0.1 0.9 0.3 0.0 0.0 1.0
+//0.0 0.4 0.0 0.3 0.3 0.9 0.4 0.0 0.0 1.0
+//0.3 0.0 0.0 0.2 0.4 0.9 0.1 0.0 0.0 1.0
+//0.0 0.0 0.0 0.1 0.1 0.9 0.2 0.0 0.0 1.0
+//0.3 1.0 1.0 1.0 0.8 0.8 0.3 0.0 1.0 0.0
+//0.0 0.9 0.2 0.2 0.2 1.0 1.0 0.0 0.0 1.0
+//1.0 1.0 0.0 0.0 0.0 0.8 0.8 1.0 0.0 0.0
+
+// Corridor avoidance. *Note* Actually makes agent worse (Conflicts with other training)
+//0.0 0.0 0.0 1.0 0.0 0.5 0.5 0.0 0.0 1.0
+//0.0 0.0 0.5 0.5 0.0 1.0 0.0 0.0 1.0 0.0
+//0.5 0.5 0.0 0.0 0.0 1.0 0.0 1.0 0.0 0.0
+//0.5 0.5 0.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0
+//0.0 1.0 0.0 0.5 0.5 0.0 0.0 0.0 1.0 0.0
+//0.0 1.0 0.0 0.0 0.0 0.5 0.5 0.0 0.0 1.0
+
+
+// Choosing the direction with only 2 of that side available.
+// Going LEFT is only available.
+1.0 1.0 0.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0
+0.0 1.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0
+
+// Going STRAIGHT is only available.
+0.0 0.0 1.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0
+0.0 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0
+
+// Going RIGHT is only available.
+0.0 0.0 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0
+0.0 0.0 0.0 0.0 0.0 1.0 1.0 0.0 0.0 1.0
+
+
+// Choosing a side based on the walls around the diagonals.
+// Choosing LEFT based on the values around it.
+0.2 0.8 0.5 0.4 0.1 0.0 0.2 1.0 0.0 0.0
+
+// Choosing STRAIGHT based on the values around it.
+0.0 0.4 0.3 0.8 0.2 0.3 0.5 0.0 1.0 0.0
+
+// Choosing RIGHT based on the values around it.
+0.1 0.2 0.3 0.5 0.6 0.8 0.5 0.0 0.0 1.0
+
+
+// Choose the side that has values around it that are higher than the other directions.
+// Choosing LEFT based on the higher values around it.
+0.5 1.0 0.6 0.5 0.2 0.3 0.5 1.0 0.0 0.0
+
+// Choosing STRAIGHT based on the higher values around it.
+0.0 0.4 0.3 1.0 0.2 0.3 0.5 0.0 1.0 0.0
+
+// Choosing RIGHT based on the higher values around it.
+0.0 0.4 0.3 0.8 0.6 1.0 0.5 0.0 0.0 1.0
+
+
+// MESSES UP THE CORRIDOR AVOIDANCE
+// If you have no walls in one direction, choose it regardless of diagonals.
+// Choosing LEFT direction.
+0.2 1.0 0.0 0.6 0.5 0.6 0.7 1.0 0.0 0.0
+
+// Choosing STRAIGHT direction.
+0.6 0.5 0.0 1.0 0.2 0.6 0.7 0.0 1.0 0.0
+
+// Choosing RIGHT direction.
+0.5 0.6 0.7 0.6 0.1 1.0 0.2 0.0 0.0 1.0
+
+
+// If all directions are equal, choose the one with best diagonals.
+// Choosing LEFT direction based on its higher diagonals.
+0.7 0.5 0.9 0.5 0.3 0.5 0.2 1.0 0.0 0.0
+
+// Choosing STRAIGHT direction based on its higher diagonals.
+0.2 0.5 0.8 0.5 0.6 0.5 0.2 0.0 1.0 0.0
+
+// Choosing RIGHT direction based on its higher diagonals.
+0.2 0.5 0.0 0.5 0.5 0.5 0.7 0.0 0.0 1.0
+
+
+// Making sure we choose a good side, even if diagonals are high around another direction.
+// Choosing LEFT direction.
+0.5 0.9 0.7 0.5 1.0 0.3 1.0 1.0 0.0 0.0
+
+// Choosing STRAIGHT direction.
+1.0 0.0 1.0 0.5 0.5 0.3 0.2 0.0 1.0 0.0
+
+// Choosing RIGHT direction.
+0.3 0.5 1.0 0.2 1.0 0.8 0.5 0.0 0.0 1.0
+
+
+// Always choose any small opening vs. a wall.
+// Choosing LEFT.
+0.0 0.1 0.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0
+
+// Choosing STRAIGHT.
+0.0 0.0 0.0 0.1 0.0 0.0 0.0 0.0 1.0 0.0
+
+// Choosing RIGHT.
+0.0 0.0 0.0 0.0 0.0 0.1 0.0 0.0 0.0 1.0
