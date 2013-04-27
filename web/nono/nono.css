@@ -72,16 +72,16 @@
 	border-bottom: 1px solid black;
 }
 
-.colNums:first-child {
-	border-left: 2px solid black;
-}
-
 .colNums:last-child {
 	border-right: 2px solid black;
 }
 
 .colNumber, .rowNumber {
 	padding: 0 6px 0 6px;
+}
+
+#colBox {
+	float: left;
 }
 
 #colNums {

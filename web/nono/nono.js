@@ -7,7 +7,7 @@ $(document).ready(function() {
 	$('#nonoSize').on('change', function(event) {
 		$('#nonoGrid').children().remove();
 		$('#rowNums').children().remove();
-		$('#colNums').children('.colNums').remove();
+		$('#colBox').children('.colNums').remove();
 		var size = $(this).val();
 		var maxHeight = 0;
 		var maxWidth = 0;
@@ -22,7 +22,7 @@ $(document).ready(function() {
 			
 			var rowElem = $('<div class="rowNums"></div>');
 			var colElem = $('<div class="colNums"></div>');
-			var c = json[size].column[i];			
+			var c = json[size].column[i];
 			var r = json[size].row[i];
 			for (var idx in c) {
 				colElem.append('<span class="colNumber">' + c[idx] + '</span>');
@@ -37,7 +37,7 @@ $(document).ready(function() {
 				maxWidth = r.length;
 			}
 			$('#rowNums').append(rowElem);
-			$('#colNums').append(colElem);
+			$('#colBox').append(colElem);
 			$('#nonoGrid').append(row);
 		}
 		var rowWidth = $('.rowNums').css('width');
@@ -53,6 +53,9 @@ $(document).ready(function() {
 		$('.row').css('width', size * 22 + 2 + rowWidth + 'px');
 		$('#spacer').css({
 			width: (maxWidth * fontSize) + (maxWidth * widthPadding) + 'px',
+			height: ((maxHeight + 2) * fontSize) - 1 + 'px'
+		});
+		$('#colBox').css({
 			height: ((maxHeight + 2) * fontSize) - 1 + 'px'
 		});
 		
