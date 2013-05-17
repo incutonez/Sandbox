@@ -1,0 +1,7 @@
+To create a new file template:
+-regedit
+-HKEY_CLASSES_ROOT
+-find your extension
+-add ShellNew (if not already there)
+-in ShellNew add FileName as a key
+-Double click, and add the path to the template (C:\Windows\ShellNew\yourfile.extension) as Value data
