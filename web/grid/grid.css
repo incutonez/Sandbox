@@ -1,0 +1,59 @@
+body, html {
+	height: 100%;
+	width: 100%;
+}
+
+#grid {
+  height: inherit;
+	width: inherit;
+}
+
+#column-sorters {
+	height: 4%;
+	width: inherit;
+}
+
+.sorter {
+	width: 10%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	float: left;
+	background-color: blue;
+	color: yellow;
+	border: 2px solid black;
+	height: 100%;
+	cursor: pointer;
+}
+
+#rows {
+	height: 96%;
+}
+
+div,span {
+	-moz-box-sizing: border-box;
+	text-align: center;
+}
+
+#rows div span {
+	width: 10%;
+	float: left;
+	border: 2px solid black;
+	height: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#rows div:nth-child(odd) span {
+	background-color: lightGrey;
+}
+
+#rows div:nth-child(even) span {
+	background-color: grey;
+}
+
+#rows div {
+	clear: both;
+	height: 5%;
+}
