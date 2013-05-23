@@ -5,13 +5,20 @@ function sorter(a, b) {
 $(document).ready(function() {
 	$('.sorter').click(function(event) {
 		var $target = $(event.target);
-		$target.toggleClass('ascending');
 		var list = $('.' + $target.attr('id')).get();
-		if ($target.hasClass('ascending')) {			
+		if (!$target.hasClass('asc') || $target.hasClass('desc')) {
 			list.sort(sorter);
+      $('.asc').removeClass('asc');
+      $('.desc').removeClass('desc');
+      $target.addClass('asc');
+      $target.removeClass('desc');
 		}
 		else {
 			list.reverse(sorter);
+      $('.asc').removeClass('asc');
+      $('.desc').removeClass('desc');
+      $target.removeClass('asc');
+      $target.addClass('desc');
 		}
 			
 		for (var i = 0; i < list.length; i++) {

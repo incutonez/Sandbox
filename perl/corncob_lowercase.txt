@@ -23,6 +23,7 @@ abattoirs
 abbe
 abbess
 abbey
+maxis
 abbeys
 abbot
 abbots
