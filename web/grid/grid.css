@@ -6,11 +6,16 @@ body, html {
 #grid {
   height: inherit;
 	width: inherit;
+	clear: both;
 }
 
 #column-sorters {
 	height: 4%;
 	width: inherit;
+}
+
+.hidden {
+	display: none;
 }
 
 .sorter {
@@ -30,7 +35,7 @@ body, html {
 	height: 96%;
 }
 
-div,span {
+span {
 	-moz-box-sizing: border-box;
 	text-align: center;
 }
