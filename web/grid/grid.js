@@ -45,4 +45,8 @@ $(document).ready(function() {
 			$('.hidden').removeClass('hidden');
 		}
 	});
+	
+	// TODO: Add pagination
+	// TODO: Read initial grid data from JSON
+	// TODO: Allow for contenteditable?
 });
