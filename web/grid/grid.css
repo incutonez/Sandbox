@@ -32,7 +32,12 @@ body, html {
 }
 
 #rows {
-	height: 96%;
+	height: 50%;
+	overflow: hidden;
+}
+
+.next, .prev {
+	display: none;
 }
 
 span {
@@ -60,5 +65,5 @@ span {
 
 #rows div {
 	clear: both;
-	height: 5%;
+	height: 10%;
 }

@@ -3,6 +3,8 @@ function sorter(a, b) {
 }
 
 $(document).ready(function() {
+	var pageSize = 10;
+	var page = 0;
 	// Column sorting
 	$('.sorter').click(function(event) {
 		var $target = $(event.target);
@@ -25,6 +27,26 @@ $(document).ready(function() {
 		for (var i = 0; i < list.length; i++) {
 			list[i].parentNode.parentNode.appendChild(list[i].parentNode);
     }
+	});
+	
+	$('#rows > * :gt(' + (pageSize - 1) +')').addClass('next');
+	
+	$('#next').on('click', function(e) {
+		var nextRows = $('#rows > div.next').slice(0, pageSize - 1);
+		if (nextRows.length != 0) {
+			$('#rows > div:visible').addClass('prev');
+			nextRows.removeClass('next');
+			page++;
+		}
+	});
+	
+	$('#prev').on('click', function(e) {
+		var prevRows = $('#rows > div.prev').slice((page - 1) * pageSize, (page * pageSize) - 1);
+		if (prevRows.length != 0) {
+			$('#rows > div:visible').addClass('next');
+			prevRows.removeClass('prev');
+			page--;
+		}
 	});
 	
 	// Search filtering
