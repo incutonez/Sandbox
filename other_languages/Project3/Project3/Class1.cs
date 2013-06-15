@@ -117,7 +117,7 @@ namespace Project3 {
         if (copy[i] == 0) {
           continue;
         }
-        var next = Array.IndexOf(copy, 1, i + 1);
+        var next = Array.IndexOf(copy, 0, i + 1);
         if (next != -1) {
           recurse(copy, next);
         }
@@ -126,49 +126,47 @@ namespace Project3 {
         var current = i;
         bool canShift = false;
         while (current != -1) {
-          next = Array.IndexOf(copy, 1, current + 1);
-          //var nextZero = Array.IndexOf(copy, 0, current + 1);
           var zero = Array.IndexOf(copy, 0, current + 1);
-          var nextZero = Array.IndexOf(copy, 0, zero + 1);
-          //for (int nextZero = Array.IndexOf(copy, 0, current + 1); nextZero < copy.Length; nextZero
-          // next != -1 means we found 1
-          // next + 1 means it's not the last number in the array
-          // next - 1 means it's not right next to our current one
-          if (next != -1 && next + 1 < copy.Length) {
+          var nextZero = -1;
+          if (zero != -1) {
+            nextZero = Array.IndexOf(copy, 0, nextZero + 1);
+          }
+          if (nextZero - 1 == zero) {
             canShift = true;
           }
-          else if ((zero != -1 && zero + 1 < copy.Length && copy[zero + 1] != 1) || zero == copy.Length - 1) {
+          else if (zero + 1 == copy.Length) {
             canShift = true;
+          }
+          current = zero;
+        }
+        /*while (current != -1) {
+          var nextZero = Array.IndexOf(copy, 0, current + 1);
+          var nextOne = -1;
+          if (nextZero != -1) {
+            nextOne = Array.IndexOf(copy, 1, nextZero);
+          }
+          if ((nextOne == -1 && nextZero != -1) ||
+              (nextOne != -1 && nextOne - 1 != nextZero && nextOne - 1 != current)) {
+            canShift = true;
+            current = -1;
           }
           else {
-            canShift = false;
+            current = nextOne;
           }
-          if (canShift) {
+        }*/
+        current = i;
+        if (canShift) {
+          // while loop
+          while (current != -1 && current + 1 < copy.Length) {
+            var zero = Array.IndexOf(copy, 0, current + 1);
             copy[current] = 0;
-            copy[current + 1] = 1;
-          }
-          current = next;
-        }
-        /*while (next != -1) {
-
-          if (next + 1 < copy.Length) {
-            copy[next] = 0;
-            copy[next + 1] = 1;
-            // check next
-            next++;
-            next = Array.IndexOf(copy, 1, next + 1);
-            if (next + 2 < copy.Length && copy[next + 2] == 1) {
-              next = next + 2;
-            }
-            else {
-              next = -1;
-            }
+            copy[zero] = 1;
+            current = Array.IndexOf(copy, 1, zero + 1);
           }
         }
-        for (int j = 0; j < copy.Length; j++) {
-          Console.Write(copy[j] + " ");
+        else {
+          i = copy.Length;
         }
-        Console.Write("\n");*/
       }
     }
 
@@ -195,7 +193,7 @@ namespace Project3 {
       );
 
       //nono.printSoln();
-      int[] test = new int[]{1, 0, 1, 0, 1, 0, 0, 0, 0};
+      int[] test = new int[]{1, 1, 1, 0, 1, 0, 1, 0, 0};
       // start at beginning, recursively go in with next index, and once you reach
       // the end, move the squares as much as possible
       recurse(test, 0);
