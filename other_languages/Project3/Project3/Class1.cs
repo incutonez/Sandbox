@@ -110,17 +110,18 @@ namespace Project3 {
       int[] copy = new int[test.Length];
       test.CopyTo(copy, 0);
       for (int i = index; i < copy.Length; i++) {
-        for (int j = 0; j < copy.Length; j++) {
-          Console.Write(copy[j] + " ");
-        }
-        Console.Write("\n");
         if (copy[i] == 0) {
           continue;
-        }
+        }    
         var next = Array.IndexOf(copy, 0, i + 1);
         if (next != -1) {
           recurse(copy, next);
         }
+        for (int j = 0; j < copy.Length; j++)
+        {
+          Console.Write(copy[j] + " ");
+        }
+        Console.Write("\n");    
 
         // shifting
         var current = i;
@@ -139,21 +140,7 @@ namespace Project3 {
           }
           current = zero;
         }
-        /*while (current != -1) {
-          var nextZero = Array.IndexOf(copy, 0, current + 1);
-          var nextOne = -1;
-          if (nextZero != -1) {
-            nextOne = Array.IndexOf(copy, 1, nextZero);
-          }
-          if ((nextOne == -1 && nextZero != -1) ||
-              (nextOne != -1 && nextOne - 1 != nextZero && nextOne - 1 != current)) {
-            canShift = true;
-            current = -1;
-          }
-          else {
-            current = nextOne;
-          }
-        }*/
+
         current = i;
         if (canShift) {
           // while loop
