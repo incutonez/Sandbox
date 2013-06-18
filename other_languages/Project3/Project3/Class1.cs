@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -77,6 +78,8 @@ namespace Project3 {
     public int[][] rows, cols;
     // normal 2d array
     public int[,] soln;
+    public Dictionary<string, string> permutations = new Dictionary<string, string>();
+    public int count = 0;
 
     public Class1(int[][] r, int[][] c) {
       this.rows = r;
@@ -105,24 +108,24 @@ namespace Project3 {
       }
     }
 
-    public static void recurse(int[] test, int index) {
-      Console.WriteLine("index: " + index);
+    public void printPerms() {
+      var keys = this.permutations.Keys.Cast<String>().OrderByDescending(x => x);
+      foreach (var blah in keys) {
+        Console.WriteLine(blah);
+      }
+    }
+
+    public static void recurse(int[] test, int index, Class1 nono) {
       int[] copy = new int[test.Length];
       test.CopyTo(copy, 0);
       for (int i = index; i < copy.Length; i++) {
         if (copy[i] == 0) {
           continue;
-        }    
+        }
         var next = Array.IndexOf(copy, 0, i + 1);
-        if (next != -1) {
-          recurse(copy, next);
+        if (next != -1) { 
+          recurse(copy, next, nono);
         }
-        for (int j = 0; j < copy.Length; j++)
-        {
-          Console.Write(copy[j] + " ");
-        }
-        Console.Write("\n");    
-
         // shifting
         var current = i;
         bool canShift = false;
@@ -150,6 +153,13 @@ namespace Project3 {
             copy[zero] = 1;
             current = Array.IndexOf(copy, 1, zero + 1);
           }
+          String permutation = "";
+          for (int idx = 0; idx < copy.Length; idx++) {
+            Console.Write(copy[idx] + " ");
+            permutation += copy[idx];
+          }
+          Console.Write("\n");
+          nono.permutations[permutation] = permutation;
         }
         else {
           i = copy.Length;
@@ -180,11 +190,18 @@ namespace Project3 {
       );
 
       //nono.printSoln();
-      int[] test = new int[]{1, 1, 1, 0, 1, 0, 1, 0, 0};
+      int[] test = new int[] { 1, 1, 1, 0, 1, 0, 1, 0, 0 };
+      String permutation = "";
+      for (int idx = 0; idx < test.Length; idx++) {
+        Console.Write(test[idx] + " ");
+        permutation += test[idx];
+      }
+      Console.Write("\n");
+      nono.permutations[permutation] = permutation;
       // start at beginning, recursively go in with next index, and once you reach
       // the end, move the squares as much as possible
-      recurse(test, 0);
-      Console.WriteLine(Array.IndexOf(test, 1));
+      recurse(test, 0, nono);
+      nono.printPerms();
     }
   }
 }
