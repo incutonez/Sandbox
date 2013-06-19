@@ -1,0 +1,27 @@
+.row:hover, .hover {
+	background-color: lightblue;
+}
+
+.row {
+	height: 50px;
+	padding: 5px;
+	white-space: nowrap;
+}
+
+.row > span {
+	display: inline-block;
+	border: 5px solid black;
+}
+
+#leftChild, #rightChild {
+	float: left;
+}
+
+#rightChild {
+	width: 300px;
+	overflow: auto;
+}
+
+#rightChild .row {
+	display: inline-block;
+}
