@@ -1,17 +1,10 @@
-function loaded() {
-	/*var parent = document.getElementById('parent');
-	parent.onmouseenter = function(event) {
-		console.log(event.target);
-	};
-	parent.onmouseleave = function(event) {
-		console.log(event.target);
-	};*/
-	
+// Native JS approach... fastest (according to my jsPerf http://jsperf.com/removeclass-vs-native-js-remove-class/2)
+function loaded() {	
 	var rows = document.getElementsByClassName('row');
 	for (var i = 0; i < rows.length; i++) {
 		rows[i].onmouseenter = function(event) {
-			var splits = event.target.className.split(" ");
-			var elems = document.getElementsByClassName(splits[splits.length - 1]);
+			var row = this.className.match(/row-[\d]+/);
+			var elems = document.getElementsByClassName(row[0]);
 			for (var j = 0; j < elems.length; j++) {
 				elems[j].className += " hover";
 			}
@@ -26,3 +19,30 @@ function loaded() {
 		};
 	}
 }
+
+// jQuery approach (slowest)
+/*$(document).ready(function() {
+	$('.row').on('mouseenter', function(event) {
+		var row = this.className.match(/row-[\d]+/);
+		$('.' + row).addClass('hover');
+	});
+	
+	$('.row').on('mouseleave', function(event) {
+		$('.hover').removeClass('hover');
+	});
+});*/
+
+// Hybrid approach (basically as fast as native JS approach)
+/*$(document).ready(function() {
+	var rows = document.getElementsByClassName('row');
+  for (var i = 0; i < rows.length; i++) {
+    rows[i].onmouseenter = function(event) {
+      var row = this.className.match(/row-[\d]+/);
+      $('.' + row[0]).addClass('hover');
+    };
+
+		rows[i].onmouseleave = function(event) {
+			$('.hover').removeClass('hover');
+		};
+	}
+});*/
