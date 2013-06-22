@@ -2,10 +2,60 @@
 	background-color: lightblue;
 }
 
+.selected {
+	background-color: orange;
+}
+
+.wrapper {
+	clear: left;
+}
+
+/*#leftChild  .selected:before {
+	background-color: blue;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	bottom: 25px;
+	color: white;
+	content: "You are editing:";
+	font-size: 10px;
+	padding: 5px;
+	display: inline-block;
+}*/
+
+#leftChild .row {
+	width: 100px;
+}
+
+#rightChild .row {	
+	white-space: nowrap;
+	position: relative;
+}
+
 .row {
 	height: 50px;
 	padding: 5px;
-	white-space: nowrap;
+	position: relative;
+}
+
+.editing {
+	display: none;
+	background-color: blue;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	bottom: 60px;
+	color: white;
+	font-size: 10px;
+	padding: 5px;
+	position: absolute;
+	left: 0px;
+}
+
+.selected .editing {
+	display: block;
+}
+
+.row:hover {
+	cursor: pointer;
 }
 
 .row > span {
@@ -15,6 +65,7 @@
 
 #leftChild, #rightChild {
 	float: left;
+	position: relative;
 }
 
 #rightChild {

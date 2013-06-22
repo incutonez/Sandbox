@@ -1,21 +1,34 @@
 // Native JS approach... fastest (according to my jsPerf http://jsperf.com/removeclass-vs-native-js-remove-class/2)
 function loaded() {	
 	var rows = document.getElementsByClassName('row');
+	function addHighlight(elem, className) {
+		var row = elem.className.match(/row-[\d]+/);
+		var elems = document.getElementsByClassName(row[0]);
+		for (var j = 0; j < elems.length; j++) {
+			elems[j].className += " " + className;
+		}
+	}
+	
+	function removeHighlight(className) {
+		var hovers = document.getElementsByClassName(className);
+		var len = hovers.length;
+		for (var j = 0; j < len; j++) {
+			hovers[0].className = hovers[0].className.replace(new RegExp('\\s' + className + '(\\s|$)'), ' ');
+		}
+	}
+	
 	for (var i = 0; i < rows.length; i++) {
 		rows[i].onmouseenter = function(event) {
-			var row = this.className.match(/row-[\d]+/);
-			var elems = document.getElementsByClassName(row[0]);
-			for (var j = 0; j < elems.length; j++) {
-				elems[j].className += " hover";
-			}
+			addHighlight(this, 'hover');
 		};
 		
 		rows[i].onmouseleave = function(event) {
-			var hovers = document.getElementsByClassName('hover');
-			var len = hovers.length;
-			for (var j = 0; j < len; j++) {
-				hovers[0].className = hovers[0].className.replace(/\shover(\s|$)/, '');
-			}
+			removeHighlight('hover');
+		};
+		
+		rows[i].onclick = function(event) {
+			removeHighlight('selected');
+			addHighlight(this, 'selected');
 		};
 	}
 }
