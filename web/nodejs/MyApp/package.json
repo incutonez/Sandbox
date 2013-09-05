@@ -12,7 +12,8 @@
   , "stylus": "latest"
   , "seedjs": "latest"
   , "co-assets-compiler": "*"
-  , "jugglingdb-mysql": "latest"
+  , "jugglingdb-mysql": "latest",
+  "socket.io": "latest"
   },
   "devDependencies":
   { "nodeunit": "*"
