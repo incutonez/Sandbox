@@ -1,4 +1,3 @@
-<?php
   <html>
     <head>
     </head>
@@ -6,3 +5,4 @@
       <span>Welcome to my forum!</span>
     </body>
   </html>
+<?php
