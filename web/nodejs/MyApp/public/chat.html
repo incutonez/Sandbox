@@ -12,6 +12,24 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   </head>
   <body>
-    <div>TODO write content</div>
+    <div id="chatArea">
+      <div id="messages">
+      </div>
+      <div id="userList">
+      </div>
+    </div>
+    <div id="userArea">
+      <textarea id="message">
+      </textarea>
+      <input type="button" id="sndBtn" value="Send Message" />
+    </div>
+    <div id="audioArea">
+      <input type="checkbox" id="audioCheck" />
+      <span>Would you like text to speech translation?</span>
+      <audio id="audio" autoplay hidden></audio>
+    </div>
+    <div id="dialog">
+      <input type="text" id="username" />
+    </div>
   </body>
 </html>
