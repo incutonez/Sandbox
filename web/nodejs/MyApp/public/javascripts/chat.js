@@ -1,8 +1,16 @@
 $(document).ready(function() {
   var username = "";
+  // Hide our label if the message textarea gets focus
 	$('#message').on('click', function() {
 		$('#messageLabel').hide();
 	});
+  
+  // Show our label if the message textarea loses focus and has no content
+  $('#message').on('focusout', function() {
+    if (!$(this).prop('value')) {
+      $('#messageLabel').show();
+    }
+  });
 	
   $('#dialog').dialog({
     modal: true,
