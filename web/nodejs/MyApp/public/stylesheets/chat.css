@@ -40,13 +40,16 @@
 }
 
 #userArea {
-  
+  height: 150px;
+  width: 700px;  
 }
 
 #message {
   background-color: transparent;
 	border: 7px solid darkred;
 	border-radius: 7px;
+  width: 80%;
+  height: 100%;
 }
 
 #audioArea {

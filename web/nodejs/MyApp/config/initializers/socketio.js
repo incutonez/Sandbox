@@ -1,6 +1,7 @@
 var sio = require('socket.io');
 
 module.exports = function (compound) {
+  // TODO: Make a user object... seeing as these are globals that get reset
   var io = compound.io = sio.listen(compound.server);
   var userId = "";
   var users = {};
@@ -63,6 +64,7 @@ module.exports = function (compound) {
     });
 
     socket.on('disconnect', function(data) {
+      var username = users[userId];
       console.log(username + ' disconnected');
 			var left = userId;
       delete users[userId];

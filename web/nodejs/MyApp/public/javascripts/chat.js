@@ -67,7 +67,7 @@ $(document).ready(function() {
         $('#messages').append('<p id="msg' + msgId + '"><span class="' + participant + '">' + sender + ': </span><span>' + msg + '</span></p>');
 
         if (dataUri) {
-          $('#voiceArea').prop('src', dataUri);
+          $('#audio').prop('src', dataUri);
         }
       });
     }
