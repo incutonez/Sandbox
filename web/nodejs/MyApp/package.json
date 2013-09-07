@@ -13,7 +13,8 @@
   , "seedjs": "latest"
   , "co-assets-compiler": "*"
   , "jugglingdb-mysql": "latest",
-  "socket.io": "latest"
+  "socket.io": "latest",
+  "espeak": "latest"
   },
   "devDependencies":
   { "nodeunit": "*"
