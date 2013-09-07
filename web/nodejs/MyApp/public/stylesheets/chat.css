@@ -13,6 +13,20 @@
   float: left;
 }
 
+#messages > p {
+	margin-left: 14px;
+	margin-top: 7px;
+}
+
+#messageLabel {
+	position: absolute;
+	bottom: 24%;
+	left: 7%;
+	font-size: 24pt;
+	opacity: 0.3;
+	z-index: -1;
+}
+
 #userList {
   height: 100%;
   width: 19%;
@@ -20,12 +34,19 @@
   float: left;
 }
 
+#sndBtn {
+  position: relative;
+	top: 40%;
+}
+
 #userArea {
   
 }
 
 #message {
-  
+  background-color: transparent;
+	border: 7px solid darkred;
+	border-radius: 7px;
 }
 
 #audioArea {
@@ -37,7 +58,8 @@
 }
 
 .userList {
-  
+  margin-left: 14px;
+	margin-top: 7px;
 }
 
 .you {

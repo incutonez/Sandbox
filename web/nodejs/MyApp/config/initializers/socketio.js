@@ -5,9 +5,12 @@ module.exports = function (compound) {
   var userId = "";
   var users = {};
   var msgId = 0;
+	var speech = false;	
+	var espeak = require('espeak');
+	espeak.cmd = '/usr/local/bin/espeak';
 
   io.sockets.on('connection', function(socket) {
-    console.log("io.sockets.on 'connection' ");
+    console.log("Guest connected");
     userId = socket.id;
 
     socket.on('joined', function(data) {
@@ -23,6 +26,15 @@ module.exports = function (compound) {
         userList: joined
       });
     });
+		
+		socket.on('speech', function(data) {
+			if (data.speech) {
+				speech = true;
+			}
+			else {
+				speech = false;
+			}
+		});
 
     socket.on('sndMsg', function(data) {
       msgId++;
@@ -32,14 +44,31 @@ module.exports = function (compound) {
         msgId: msgId,
         dataUri: false
       };
+			if (speech) {
+				// This is asynchronous, so we can't send the message back to the user until it completes
+				espeak.speak(data.message, function(err, wav) {
+					if (err) {
+						return console.error(err);
+					}
 
-      socket.emit('newMsg', newMsg);
+					// get a base64-encoded data URI
+					newMsg.dataUri = wav.toDataUri();
+					socket.emit('newMsg', newMsg);
+				});
+			}
+			else {
+				socket.emit('newMsg', newMsg);
+			}
       socket.broadcast.emit('newMsg', newMsg);
     });
 
     socket.on('disconnect', function(data) {
       console.log(username + ' disconnected');
+			var left = userId;
       delete users[userId];
+			socket.broadcast.emit('disconnected', {
+				left: left
+			});
     });
   });
 }

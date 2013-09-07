@@ -1,5 +1,9 @@
 $(document).ready(function() {
   var username = "";
+	$('#message').on('click', function() {
+		$('#messageLabel').hide();
+	});
+	
   $('#dialog').dialog({
     modal: true,
     closeOnEscape: false,
@@ -22,16 +26,31 @@ $(document).ready(function() {
     close: function(e, ui) {
       $('#sndBtn').on('click', function(e) {
         var msg = $('#message').prop('value');
+				var speech = $('#audioCheck').is(':checked');
         socket.emit('sndMsg', {
           sender: username,
-          message: msg
+          message: msg,
+					speech: speech
         });
+				$('#message').prop('value', '');
+				$('#messageLabel').show();
       });
+			
+			$('#audioCheck').on('click', function() {
+				var value = $(this).is(':checked');
+				socket.emit('speech', {
+					speech: value
+				});
+			});
+			
+			socket.on('disconnected', function(data) {
+				$('#' + data.left).remove();
+			});
 
       socket.on('userList', function(data) {
         var users = data.userList;
         for (var user in users) {
-          $('#userList').append('<div class="userList">' + users[user] + '</div>')
+          $('#userList').append('<div class="userList" id="' + user + '">' + users[user] + '</div>')
         }
       });
 
