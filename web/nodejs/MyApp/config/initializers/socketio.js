@@ -3,8 +3,7 @@ var sio = require('socket.io');
 module.exports = function (compound) {
   // TODO: Make a user object... seeing as these are globals that get reset
   var io = compound.io = sio.listen(compound.server);
-  var userId = "";
-  var users = {};
+  var users = [];
   var msgId = 0;
 	var speech = false;	
 	var espeak = require('espeak');
@@ -12,11 +11,13 @@ module.exports = function (compound) {
 
   io.sockets.on('connection', function(socket) {
     console.log("Guest connected");
-    userId = socket.id;
+    var userId = socket.id;
 
     socket.on('joined', function(data) {
       var joined  = {};
-      users[userId] = joined[userId] = data.username;
+      joined.userId = userId;
+      joined.username = data.username;
+      users.push(joined);
       console.log(data.username + ' joined');
 
       socket.emit('userList', {
@@ -24,7 +25,7 @@ module.exports = function (compound) {
       });
 
       socket.broadcast.emit('userList', {
-        userList: joined
+        userList: [joined]
       });
     });
 		
@@ -64,12 +65,16 @@ module.exports = function (compound) {
     });
 
     socket.on('disconnect', function(data) {
-      var username = users[userId];
-      console.log(username + ' disconnected');
-			var left = userId;
-      delete users[userId];
+      var exited = undefined;
+      for (var i = 0; i < users.length; i++) {
+        if (users[i].userId === userId) {
+          exited = users.splice(i, 1)[0];
+          break;
+        }
+      }
+      console.log(exited.username + ' disconnected');
 			socket.broadcast.emit('disconnected', {
-				left: left
+				exited: exited
 			});
     });
   });

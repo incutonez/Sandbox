@@ -52,13 +52,13 @@ $(document).ready(function() {
 			});
 			
 			socket.on('disconnected', function(data) {
-				$('#' + data.left).remove();
+				$('#' + data.exited.userId).remove();
 			});
 
       socket.on('userList', function(data) {
         var users = data.userList;
-        for (var user in users) {
-          $('#userList').append('<div class="userList" id="' + user + '">' + users[user] + '</div>')
+        for (var i = 0; i < users.length; i++) {
+          $('#userList').append('<div class="userList" id="' + users[i].userId + '">' + users[i].username + '</div>')
         }
       });
 
