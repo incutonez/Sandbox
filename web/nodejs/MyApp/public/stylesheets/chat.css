@@ -20,8 +20,8 @@
 
 #messageLabel {
 	position: absolute;
-	bottom: 24%;
-	left: 7%;
+	bottom: 35%;
+	left: 14%;
 	font-size: 24pt;
 	opacity: 0.3;
 	z-index: -1;
@@ -41,7 +41,8 @@
 
 #userArea {
   height: 150px;
-  width: 700px;  
+  width: 700px;
+  position: relative;
 }
 
 #message {
