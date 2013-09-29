@@ -53,12 +53,15 @@ $(document).ready(function() {
 			
 			socket.on('disconnected', function(data) {
 				$('#' + data.exited.userId).remove();
+				$('#messages').append('<p class="roomAction">' + data.exited.username + ' has left the room.</p>');
 			});
 
       socket.on('userList', function(data) {
         var users = data.userList;
         for (var i = 0; i < users.length; i++) {
-          $('#userList').append('<div class="userList" id="' + users[i].userId + '">' + users[i].username + '</div>')
+					var user = users[i];
+					$('#messages').append('<p class="roomAction">' + user.username + ' has joined the room.</p>');
+          $('#userList').append('<div class="userList" id="' + user.userId + '">' + user.username + '</div>')
         }
       });
 
