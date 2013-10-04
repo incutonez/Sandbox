@@ -1,9 +1,43 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+  /*width: 100%;*/
+}
+
 .roomInfo {
   display: inline-block;
-  text-align: center;
-  padding-right: 50px;
+  /*text-align: center;*/
+  /*padding-right: 50px;*/
 }
 
 #calendarArea {
   white-space: nowrap;
+  height: 100%;
+}
+
+.taken {
+  background-color: red;
+  height: 70%;
+}
+
+.open {
+  background-color: green;
+  height: 70%;
+}
+
+.entry {
+  height: 100px;
+}
+
+.nameDiv {
+  height: 10%;
+  width: 100%;
+}
+
+.roomName {
+  height: 30%;
 }
