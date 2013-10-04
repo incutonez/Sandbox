@@ -1,5 +1,6 @@
 <?php
   date_default_timezone_set('America/Denver');
+  $date = $_POST['date'];
   $file_handle = fopen("creds", "r");
   $login = trim(preg_replace('/\s+/', '', fgets($file_handle)));
   $password = trim(preg_replace('/\s+/', '', fgets($file_handle)));
@@ -12,7 +13,7 @@
   
   // TimeZone definition
   $tz = $GetUserAvailability->TimeZone = new stdClass();
-  $tz->Bias = "360";
+  $tz->Bias = "420";
   
   // StandardTime definition
   $st = $tz->StandardTime = new stdClass();
@@ -56,8 +57,8 @@
   
   // TimeWindow definition
   $tw = $fbvo->TimeWindow = new stdClass();
-  $tw->StartTime = "2013-10-02T00:00:00";
-  $tw->EndTime = "2013-10-02T23:59:59";
+  $tw->StartTime = $date . "T00:00:00";
+  $tw->EndTime = $date . "T23:59:59";
 
   // Get the result from the SoapClient WSDL
   $res = $client->GetUserAvailability($GetUserAvailability);

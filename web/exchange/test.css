@@ -5,27 +5,34 @@
 
 html, body {
   height: 100%;
-  /*width: 100%;*/
 }
 
 .roomInfo {
   display: inline-block;
-  /*text-align: center;*/
-  /*padding-right: 50px;*/
+  vertical-align: top;
+  border: 1px solid black;
+}
+
+.nameDiv > :nth-child(2) {
+  border-left: 2px solid black;
+}
+
+.nameDiv > :last-child {
+  border-right: 2px solid black;
 }
 
 #calendarArea {
-  white-space: nowrap;
   height: 100%;
+  overflow-y: scroll;
 }
 
 .taken {
-  background-color: red;
+  background-color: #AA0000;
   height: 70%;
 }
 
 .open {
-  background-color: green;
+  background-color: #056805;
   height: 70%;
 }
 
@@ -40,4 +47,8 @@ html, body {
 
 .roomName {
   height: 30%;
+}
+
+div > span {
+  white-space: normal;
 }
