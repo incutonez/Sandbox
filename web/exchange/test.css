@@ -11,7 +11,22 @@ html, body {
   display: inline-block;
   vertical-align: top;
   border: 1px solid black;
+  text-align: center;
 }
+
+.roomInfo2 {
+  display: inline-block;
+  vertical-align: top;
+  height: 100%;
+}
+
+/*.nameDiv:nth-child(even) {
+  background-color: blue;
+}
+
+.nameDiv:nth-child(odd) {
+  background-color: black;
+}*/
 
 .nameDiv > :nth-child(2) {
   border-left: 2px solid black;
