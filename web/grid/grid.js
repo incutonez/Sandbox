@@ -1,4 +1,5 @@
 function sorter(a, b) {
+  log();
 	return a.innerHTML.localeCompare(b.innerHTML, 'kn', {'sensitivity': 'base'});
 }
 
