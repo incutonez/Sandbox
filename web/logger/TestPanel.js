@@ -1,3 +1,7 @@
+/**
+ * @author Jef Harkay
+ * @docauthor Jef Harkay
+ */
 Ext.define('TestPanel', {
   extend: 'Ext.panel.Panel',
   alias: 'widget.testPanel',

@@ -1,7 +1,7 @@
 Ext.Loader.setConfig({
   enabled: true
 });
-
+Ext.require('TestPanel');
 Ext.onReady(function() {
   Ext.create('TestPanel', {
     title: 'TestPanel',
