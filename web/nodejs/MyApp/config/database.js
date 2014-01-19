@@ -1,26 +1,11 @@
 module.exports = {
     development: {
-        driver: 'mysql',
-        host: 'localhost',
-        port: 3306,
-        username: 'mysql',
-        password: 'mysql123',
-        database: 'dev'
+        driver: 'memory'
     },
     test: {
-        driver: 'mysql',
-        host: 'localhost',
-        port: 3306,
-        username: 'mysql',
-        password: 'mysql123',
-        database: 'dev'
+        driver: 'memory'
     },
     production: {
-        driver: 'mysql',
-        host: 'localhost',
-        port: 3306,
-        username: 'mysql',
-        password: 'mysql123',
-        database: 'dev'
+        driver: 'memory'
     }
 };

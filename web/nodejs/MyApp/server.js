@@ -15,7 +15,7 @@ var app = module.exports = function getServerInstance(params) {
 
 if (!module.parent) {
     var port = process.env.PORT || 3000;
-    var host = 'ec2-54-244-147-98.us-west-2.compute.amazonaws.com' || process.env.HOST || '127.0.0.1';
+    var host = '127.0.0.1' || 'ec2-54-244-147-98.us-west-2.compute.amazonaws.com' || process.env.HOST || '127.0.0.1';
 
     var server = app();
     server.listen(port, host, function () {
