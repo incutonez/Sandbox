@@ -57,13 +57,28 @@ if ($letters) {
   }
 }
 elsif ($word) {
+  my %letters = ();
   foreach my $key (sort keys %hash) {
-		if ($not) {
-			print "$key\n" if $key =~ /^$word$/ && $key !~ /[$not]/;
+    my @splits = ();
+    if ($key =~ /^$word$/) {
+      if ($not) {
+        if ($key !~ /[$not]/) {
+          print "$key\n";
+          @splits = split('', $key);
+        }
+      }
+      else {
+        print "$key\n";
+        @splits = split('', $key);
+      }
+      foreach my $split (@splits) {
+        $letters{$split}++;
+      }
 		}
-		else {
-			print "$key\n" if $key =~ /^$word$/;
-		}
+  }
+  
+  foreach my $letter (sort { $letters{$b} <=> $letters{$a} } keys %letters) {
+    print "$letter: $letters{$letter}\n";
   }
 }
 
