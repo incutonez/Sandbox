@@ -44,6 +44,28 @@ $(document).ready(function() {
     [0, 0, 0, 0, 0, 0]
   ];
 
+  arr = [
+    [1, 1, 1, 0, 0, 1, 1, 0, 0, 0],
+    [0, 1, 0, 0, 0, 1, 1, 0, 0, 0],
+    [0, 0, 0, 0, 1, 1, 0, 1, 1, 1],
+    [1, 1, 1, 1, 0, 0, 1, 0, 0, 0],
+    [0, 0, 1, 1, 0, 0, 1, 0, 0, 0],
+    [0, 1, 1, 1, 0, 0, 1, 0, 0, 0],
+    [1, 0, 1, 1, 1, 0, 0, 1, 1, 0],
+    [0, 1, 1, 0, 0, 0, 1, 1, 1, 0],
+    [0, 1, 1, 0, 1, 0, 1, 0, 0, 0],
+    [1, 0, 1, 1, 1, 0, 1, 1, 0, 1]
+  ];
+  var n = 50;
+  arr = [];
+  for (var i = 0; i < n; i++) {
+    var arr2 = [];
+    for (var j = 0; j < n; j++) {
+      arr2.push(Math.floor(Math.random() * 2));
+    }
+    arr.push(arr2);
+  }
+  
   function getNeighborCount(neighbors) {
     var count = 0;
     for (var i = 0; i < neighbors.length; i++) {
