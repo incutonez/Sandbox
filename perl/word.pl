@@ -8,11 +8,14 @@ my $word;
 my $not = '';
 my $len;
 my %hash;
+my $last_vowel;
+my $vowels = '[^aeiou]';
 
 GetOptions( 'l|letters=s' => \$letters,
             'w|word=s' => \$word,
             'n|not=s' => \$not,
-            'len=i' => \$len );
+            'len=i' => \$len,
+            'last|lv' => \$last_vowel );
 pod2usage(1) unless ($letters || $word);
 open my $fh, '<', 'corncob_lowercase.txt' or die "Can't open that file!  $!\n";
 
@@ -58,6 +61,20 @@ if ($letters) {
 }
 elsif ($word) {
   my %letters = ();
+  if ($last_vowel) {
+  #s/(\w+)\.+(\w*)$/$1$vowels$2/g
+    my @splits = split(/(\w+)/, $word);
+    my $length = scalar @splits;
+    if ($splits[$length - 1] =~ /\./) {
+      $splits[$length - 1] =~ s/\./$vowels/g;
+    }
+    $word = '';
+    for (my $i = 0; $i < $length; $i++) {
+      $word .= $splits[$i];
+    }
+    print $word, "\n";
+    #$word =~ s/\.*\w+$/$vowels/g;
+  }
   foreach my $key (sort keys %hash) {
     my @splits = ();
     if ($key =~ /^$word$/) {
@@ -76,7 +93,6 @@ elsif ($word) {
       }
 		}
   }
-  
   foreach my $letter (sort { $letters{$b} <=> $letters{$a} } keys %letters) {
     print "$letter: $letters{$letter}\n";
   }
@@ -96,8 +112,8 @@ Examples:
 
 		perl word.pl --help
 		
-		# Returns beard, bears, beers, beery, and berry
-		perl word.pl -w be.r.
+		# Returns alined, clinch, clinic, flinch, plinth
+		perl word.pl -w .lin..
 		
 		# Returns beery and berry
 		perl word.pl -w be.r. -n osd
