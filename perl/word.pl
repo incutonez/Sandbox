@@ -65,15 +65,18 @@ elsif ($word) {
   #s/(\w+)\.+(\w*)$/$1$vowels$2/g
     my @splits = split(/(\w+)/, $word);
     my $length = scalar @splits;
-    if ($splits[$length - 1] =~ /\./) {
-      $splits[$length - 1] =~ s/\./$vowels/g;
+    for (my $i = $length - 1; $i > 0; $i--) {
+      if ($splits[$i] =~ /[aeiou]/) {
+        last;
+      }
+      elsif ($splits[$i] =~ /\./) {
+        $splits[$i] =~ s/\./$vowels/g;
+      }
     }
     $word = '';
     for (my $i = 0; $i < $length; $i++) {
       $word .= $splits[$i];
     }
-    print $word, "\n";
-    #$word =~ s/\.*\w+$/$vowels/g;
   }
   foreach my $key (sort keys %hash) {
     my @splits = ();
