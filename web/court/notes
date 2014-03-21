@@ -1,0 +1,16 @@
+A few ideas:
+- Defendant/plaintiff are color coded... maybe green and blue
+- When jury votes, they turn to the color they voted for
+- The judge makes the final ruling, and he will turn that color upon ruling
+- when you click a person (judge, jury, defendant, plaintiff), you can view their profile...
+  it'll show how many times they've served, been the judge, been the plaintiff,
+  been the defendant, etc.  It also shows how long they've been on the site/
+  maybe devise some sort of experience system or rating...
+- There should be a centralized chatroom, where conversation between the judge,
+  defendant, and plaintiff will take place... the jury will use it only when
+  they are giving their ruling.  (may need to create some sort of other chat
+  for them to use when deciding on the case)
+- There should be an area that has all the witnesses... and a room should require
+  1 witness, but that's not necessary
+- Maybe add in the ability to bring friends in
+- Judge/jury should be randomly selected from users online
