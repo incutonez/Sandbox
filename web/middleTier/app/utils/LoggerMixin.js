@@ -51,7 +51,7 @@ var LoggerMixin = module.exports = function LoggerMixin(init) {
         var theStack = splits[5];
         if (theStack) {
           var funcPattern = /\s*at\s+(?:\w+\.)(\w+)\s/;
-          var classPattern = /.*\\(\w+)\.js/;
+          var classPattern = /.*[\\\/](\w+)\.js/;
           var matches = theStack.match(classPattern);
           if (matches && matches[1]) {
             logLocation = matches[1] + '::';
