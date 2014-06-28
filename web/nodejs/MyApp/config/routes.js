@@ -1,4 +1,6 @@
 exports.routes = function (map) {
+    map.resources('tests');
+
     map.resources('users');
 
     // Generic routes. Add all your routes below this line

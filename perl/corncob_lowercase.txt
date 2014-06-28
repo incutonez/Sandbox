@@ -32,6 +32,9 @@ qi
 qis
 qoph
 qophs
+ahi
+hon
+ed
 juiced
 haeing
 luges
@@ -2199,6 +2202,7 @@ antrum
 ants
 antwerp
 anus
+lin
 anvil
 anvils
 anxieties
@@ -33630,6 +33634,7 @@ nepotism
 neptune
 neptunium
 nerd
+nerdy
 nerds
 nerve
 nerveless
@@ -40914,6 +40919,7 @@ razoring
 razors
 razorsharp
 razzmatazz
+cos
 re
 reabsorb
 reabsorbed
@@ -55743,6 +55749,10 @@ vastness
 vat
 vatican
 vats
+trig
+zee
+qi
+foh
 vault
 vaulted
 vaulting
@@ -58010,6 +58020,7 @@ yellowish
 yellows
 yellowy
 yells
+de
 yelp
 yelped
 yelping

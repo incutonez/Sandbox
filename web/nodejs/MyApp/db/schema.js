@@ -27,3 +27,9 @@ var User = describe('User', function () {
     set('restPath', pathTo.users);
 });
 
+
+var Test = describe('Test', function () {
+
+    set('restPath', pathTo.tests);
+});
+
