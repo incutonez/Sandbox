@@ -9,13 +9,15 @@ my $not = '';
 my $len;
 my %hash;
 my $last_vowel;
+my $strict_match;
 my $vowels = '[^aeiou]';
 
 GetOptions( 'l|letters=s' => \$letters,
             'w|word=s' => \$word,
             'n|not=s' => \$not,
             'len=i' => \$len,
-            'last|lv' => \$last_vowel );
+            'last|lv' => \$last_vowel,
+            's|strict' => \$strict_match );
 pod2usage(1) unless ($letters || $word);
 open my $fh, '<', 'corncob_lowercase.txt' or die "Can't open that file!  $!\n";
 
@@ -27,6 +29,9 @@ while (my $line = <$fh>) {
 if ($letters) {
   my @letters = split('', $letters);
   foreach my $key (sort keys %hash) {
+    if ($strict_match) {
+      next if length $letters ne length $key;
+    }
     my $all = 0;
     my $original = $key;
     foreach my $letter (@letters) {
@@ -94,7 +99,7 @@ elsif ($word) {
       foreach my $split (@splits) {
         $letters{$split}++;
       }
-		}
+    }
   }
   foreach my $letter (sort { $letters{$b} <=> $letters{$a} } keys %letters) {
     print "$letter: $letters{$letter}\n";
