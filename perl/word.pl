@@ -19,7 +19,7 @@ GetOptions( 'l|letters=s' => \$letters,
             'last|lv' => \$last_vowel,
             's|strict' => \$strict_match );
 pod2usage(1) unless ($letters || $word);
-open my $fh, '<', 'corncob_lowercase.txt' or die "Can't open that file!  $!\n";
+open my $fh, '<', 'dictionary.txt' or die "Can't open that file!  $!\n";
 
 while (my $line = <$fh>) {
   $line =~ s/\p{IsC}|['"-]//g;
