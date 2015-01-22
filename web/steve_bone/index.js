@@ -1,14 +1,25 @@
 $(document).ready(function() {
-  $('.soundboard-knob').on('click', function() {
-    if ($(this).hasClass('soundboard-knob-dot-clicked')) {
-      $(this).siblings('span').removeClass('highlighted');
-      $(this).removeClass('soundboard-knob-dot-clicked').addClass('soundboard-knob-dot-unclicked');
+  var KNOB_CLICKED_CSS = 'soundboard-knob-clicked';
+  var KNOB_UNCLICKED_CSS = 'soundboard-knob-unclicked';
+  function clickedItem() {
+    var clickedItems = $('.' + KNOB_CLICKED_CSS);
+    if (clickedItems.length) {
+      $('.' + KNOB_CLICKED_CSS).siblings('.nav-item').removeClass('highlighted');
+      $('.' + KNOB_CLICKED_CSS).removeClass(KNOB_CLICKED_CSS).addClass(KNOB_UNCLICKED_CSS);
     }
-    else {
-      $(this).one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {
-        $(this).siblings('span').addClass('highlighted');
-      });
-      $(this).removeClass('soundboard-knob-dot-unclicked').addClass('soundboard-knob-dot-clicked');
+    var soundboardDiv = $(this).children('.soundboard-knob');
+    if (!soundboardDiv.is(clickedItems)) {
+      if (soundboardDiv.hasClass(KNOB_CLICKED_CSS)) {
+        soundboardDiv.siblings('.nav-item').removeClass('highlighted');
+        soundboardDiv.removeClass(KNOB_CLICKED_CSS).addClass(KNOB_UNCLICKED_CSS);
+      }
+      else {
+        soundboardDiv.one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {
+          soundboardDiv.siblings('.nav-item').addClass('highlighted');
+        });
+        soundboardDiv.removeClass(KNOB_UNCLICKED_CSS).addClass(KNOB_CLICKED_CSS);
+      }
     }
-  });
+  }
+  $('.soundboard-nav').on('click', clickedItem);
 });
