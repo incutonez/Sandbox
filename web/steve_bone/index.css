@@ -1,7 +1,14 @@
 @import url(http://fonts.googleapis.com/css?family=Cinzel+Decorative:400,900);
-body {
+html {
+  height: 100%;
+  width: 100%;
   background-color: black;
   color: white;
+}
+
+/* Get rid of that beginning border in the html... and make the body 100% height/width */
+body {
+  min-height: 100%;
 }
 
 .highlighted {
@@ -33,7 +40,7 @@ h1 {
   border-bottom: 1px solid white;
   border-top: 1px solid white;
   top: 0;
-  width: 500px;
+  width: 60%;
 }
 .fancy span:before {
   right: 100%;
