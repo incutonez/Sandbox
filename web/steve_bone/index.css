@@ -1,8 +1,6 @@
+@import url(http://fonts.googleapis.com/css?family=Cinzel+Decorative:400,900);
 body {
   background-color: black;
-}
-
-span {
   color: white;
 }
 
@@ -10,10 +8,62 @@ span {
   color: yellow;
 }
 
+h1 {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 3em;
+  text-align: center;
+}
+
+.subtitle {
+  margin: 0 0 2em 0;
+}
+.fancy {
+  line-height: 0.5;
+  text-align: center;
+}
+.fancy span {
+  display: inline-block;
+  position: relative;  
+}
+.fancy span:before,
+.fancy span:after {
+  content: "";
+  position: absolute;
+  height: 5px;
+  border-bottom: 1px solid white;
+  border-top: 1px solid white;
+  top: 0;
+  width: 500px;
+}
+.fancy span:before {
+  right: 100%;
+  margin-right: 15px;
+}
+.fancy span:after {
+  left: 100%;
+  margin-left: 15px;
+}
+
 .nav-item {
   font-weight: bold;
   font-size: 24pt;
   cursor: pointer;
+}
+
+#nav-items {
+  width: 200px;
+  float: left;
+}
+
+#nav-item-content {
+  position: relative;
+  width: 500px;
+  height: 300px;
+  float: left;
+}
+
+.hidden {
+  display: none;
 }
 
 .soundboard-nav {

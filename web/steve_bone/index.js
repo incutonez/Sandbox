@@ -4,7 +4,10 @@ $(document).ready(function() {
   function clickedItem() {
     var clickedItems = $('.' + KNOB_CLICKED_CSS);
     if (clickedItems.length) {
-      $('.' + KNOB_CLICKED_CSS).siblings('.nav-item').removeClass('highlighted');
+      var navItem = $('.' + KNOB_CLICKED_CSS).siblings('.nav-item');
+      navItem.removeClass('highlighted');
+      var navItemId = navItem.attr('id');
+      $('#' + navItemId + '-content').addClass('hidden');
       $('.' + KNOB_CLICKED_CSS).removeClass(KNOB_CLICKED_CSS).addClass(KNOB_UNCLICKED_CSS);
     }
     var soundboardDiv = $(this).children('.soundboard-knob');
@@ -15,7 +18,10 @@ $(document).ready(function() {
       }
       else {
         soundboardDiv.one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {
-          soundboardDiv.siblings('.nav-item').addClass('highlighted');
+          var navItem = soundboardDiv.siblings('.nav-item');
+          navItem.addClass('highlighted');
+          var navItemId = navItem.attr('id');
+          $('#' + navItemId + '-content').removeClass('hidden');
         });
         soundboardDiv.removeClass(KNOB_UNCLICKED_CSS).addClass(KNOB_CLICKED_CSS);
       }
