@@ -12,20 +12,18 @@ body {
   /*min-height: 100%;*/
 }
 
-.highlighted {
-  color: yellow;
-}
-
 h1 {
   font-family: 'Cinzel Decorative', cursive;
   font-size: 3em;
   text-align: center;
+  color: #77cdff;
 }
 
 .subtitle {
   margin: 0 0 2em 0;
   width: 100%;
   text-align: center;
+  color: #77cdff;
 }
 
 .subtitle span {
@@ -34,8 +32,8 @@ h1 {
 
 .fancy-left,
 .fancy-right {
-  border-top: 1px solid white;
-  border-bottom: 1px solid white;
+  border-top: 1px solid #0043FF;
+  border-bottom: 1px solid #0043FF;
   width: 40%;
   min-width: 150px;
   height: 5px;
@@ -54,6 +52,24 @@ h1 {
   font-weight: bold;
   font-size: 24pt;
   cursor: pointer;
+  /* Green */
+  /*color: #BBFF00;*/
+  color: #77cdff;
+}
+
+.nav-item:hover {
+  /* Orange */
+  /*color: #FFA900;*/
+  color: #BBFF00;
+}
+
+.highlighted {
+  /* Red */
+  /*color: #FF0114;*/
+  color: #BBFF00;
+  /* h-shadow, v-shadow, blur radius, color */
+  /*text-shadow: -1px 1px 4px #ffc, 1px -1px 4px #fff;*/
+  text-shadow: 0 0 30px rgba(255,255,255,1);
 }
 
 #music-content-right,

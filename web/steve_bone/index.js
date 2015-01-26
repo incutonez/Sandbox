@@ -17,7 +17,8 @@ $(document).ready(function() {
         soundboardDiv.removeClass(KNOB_CLICKED_CSS).addClass(KNOB_UNCLICKED_CSS);
       }
       else {
-        soundboardDiv.one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {
+        // Used to use these, but it caused issues in Chrome (might need them for older versions of browsers): webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd
+        soundboardDiv.one('transitionend', function(e) {
           var navItem = soundboardDiv.siblings('.nav-item');
           navItem.addClass('highlighted');
           var navItemId = navItem.attr('id');
