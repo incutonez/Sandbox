@@ -1,148 +1,88 @@
-@import url(http://fonts.googleapis.com/css?family=Cinzel+Decorative:400,900);
-html {
-  /*height: 100%;
-  width: 100%;*/
+html, body {
   background-color: black;
   color: white;
-  /*font: "Helvetica Neue",Helvetica,Arial,sans-serif;*/
-}
-
-/* Get rid of that beginning border in the html... and make the body 100% height/width */
-body {
-  /*min-height: 100%;*/
-}
-
-h1 {
-  font-family: 'Cinzel Decorative', cursive;
-  font-size: 3em;
-  text-align: center;
-  color: #77cdff;
-}
-
-.subtitle {
-  margin: 0 0 2em 0;
-  width: 100%;
-  text-align: center;
-  color: #77cdff;
-}
-
-.subtitle span {
-  vertical-align: middle;
-}
-
-.fancy-left,
-.fancy-right {
-  border-top: 1px solid #0043FF;
-  border-bottom: 1px solid #0043FF;
-  width: 40%;
-  min-width: 150px;
-  height: 5px;
-  display: inline-block;
-}
-
-.fancy-right {
-  margin-left: 15px;
-}
-
-.fancy-left {
-  margin-right: 15px;
-}
-
-.nav-item {
-  font-weight: bold;
-  font-size: 24pt;
-  cursor: pointer;
-  /* Green */
-  /*color: #BBFF00;*/
-  color: #77cdff;
-}
-
-.nav-item:hover {
-  /* Orange */
-  /*color: #FFA900;*/
-  color: #BBFF00;
-}
-
-.highlighted {
-  /* Red */
-  /*color: #FF0114;*/
-  color: #BBFF00;
-  /* h-shadow, v-shadow, blur radius, color */
-  /*text-shadow: -1px 1px 4px #ffc, 1px -1px 4px #fff;*/
-  text-shadow: 0 0 30px rgba(255, 255, 255, 1);
-  -webkit-text-shadow: 0 0 30px rgba(255, 255, 255, 1);
-}
-
-#music-content-right,
-#music-content-left {
-  float: left;
-  position: relative;
-}
-
-#music-content-right {
-  width: 30%;
-}
-
-#music-content-left {
-  width: 70%;
-}
-
-#nav-items {
-  width: 20%;
-  float: left;
-  min-width: 200px;
-}
-
-#nav-item-content {
-  position: relative;
-  width: 70%;
-  height: 400px;
-  float: left;
-}
-
-#nav-item-content div {
+  margin: 0;
+  padding: 0;
   height: 100%;
-  overflow: auto;
 }
 
-.hidden {
+#fader-area {
+  background-color: white;
+  height: 200px;
+  width: 50%;
+  bottom: 0;
+  left: 25%;
+  position: fixed;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.fader-bar {
+  height: 70%;
+  background-color: black;
+  width: 4px;
+  display: inline-block;
+  position: relative;
+  top: 15%;
+  margin: 0px 30px;
+}
+
+.fader {
+  background-color: grey;
+  height: 30px;
+  width: 15px;
+  /* Because height of fader-bar is 140px */
+  top: 110px;
+  left: -5px;
+  position: absolute;
+}
+
+.fader:hover {
+  background-color: blue;
+  cursor: pointer;
+}
+
+.fader-on {
+  transition-property: top;
+  transition-duration: 0.5s;
+  transition-timing-function: linear;
+  top: 0px;
+}
+
+.fader-off {
+  transition-property: top;
+  transition-duration: 0.5s;
+  transition-timing-function: linear;
+  top: 110px;
+}
+
+.fader-lights {
+  position: absolute;
+  bottom: 0;
+}
+
+/*.fader-light:first-child {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}*/
+
+.fader-light {
+  height: 10px;
+  width: 40px;
+  right: 17.5px;
+  position: relative;
   display: none;
 }
 
-.soundboard-nav {
-  padding: 10px;
+.fader-light-green {
+  background-color: #BBFF00;
 }
 
-.soundboard-knob {
-  height: 40px;
-  width: 40px;
-  background-color: silver;
-  border-radius: 50%;
-  background-image: url(knob.png);
-  background-size: auto 100%;
-  cursor: pointer;
-  display: inline-block;
-  vertical-align: bottom;
+.fader-light-yellow {
+  background-color: #FFA900;
 }
 
-.soundboard-knob-clicked {
-  -webkit-transition-property: all;
-  -webkit-transition-duration: 0.3s;
-  -webkit-timing-function: linear;
-  -webkit-transform: rotate(270deg);
-  transform: rotate(270deg);
-  transition-property: all;
-  transition-duration: 0.3s;
-  transition-timing-function: linear;
-}
-
-.soundboard-knob-unclicked {
-  transform: rotate(0deg);
-  transition-property: all;
-  transition-duration: 0.3s;
-  transition-timing-function: linear;
-  -webkit-transform: rotate(0deg);
-  -webkit-transition-property: all;
-  -webkit-transition-duration: 0.3s;
-  -webkit-timing-function: linear;
+.fader-light-red {
+  background-color: #FF0114;
 }

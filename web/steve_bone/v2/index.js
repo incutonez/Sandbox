@@ -1,32 +1,54 @@
 $(document).ready(function() {
-  var KNOB_CLICKED_CSS = 'soundboard-knob-clicked';
-  var KNOB_UNCLICKED_CSS = 'soundboard-knob-unclicked';
-  function clickedItem() {
-    var clickedItems = $('.' + KNOB_CLICKED_CSS);
-    if (clickedItems.length) {
-      var navItem = $('.' + KNOB_CLICKED_CSS).siblings('.nav-item');
-      navItem.removeClass('highlighted');
-      var navItemId = navItem.attr('id');
-      $('#' + navItemId + '-content').addClass('hidden');
-      $('.' + KNOB_CLICKED_CSS).removeClass(KNOB_CLICKED_CSS).addClass(KNOB_UNCLICKED_CSS);
-    }
-    var soundboardDiv = $(this).children('.soundboard-knob');
-    if (!soundboardDiv.is(clickedItems)) {
-      if (soundboardDiv.hasClass(KNOB_CLICKED_CSS)) {
-        soundboardDiv.siblings('.nav-item').removeClass('highlighted');
-        soundboardDiv.removeClass(KNOB_CLICKED_CSS).addClass(KNOB_UNCLICKED_CSS);
+  var intervalMs = 45;
+  function removeFaderLights(faders) {
+    var j = 0;
+    var faderLights = faders.siblings('.fader-lights');
+    var faderLightsChildren = faderLights.children();
+    function myDownInterval() {
+      var child = $(faderLightsChildren[j++]);
+      if (child.length) {
+        child.hide();
       }
       else {
-        // Used to use these, but it caused issues in Chrome (might need them for older versions of browsers): webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd
-        soundboardDiv.one('transitionend', function(e) {
-          var navItem = soundboardDiv.siblings('.nav-item');
-          navItem.addClass('highlighted');
-          var navItemId = navItem.attr('id');
-          $('#' + navItemId + '-content').removeClass('hidden');
-        });
-        soundboardDiv.removeClass(KNOB_UNCLICKED_CSS).addClass(KNOB_CLICKED_CSS);
+        clearInterval(intervalDownId);
       }
     }
+    var intervalDownId = setInterval(myDownInterval, intervalMs);
+    faders.addClass(FADER_OFF_CLS).removeClass(FADER_ON_CLS);
   }
-  $('.soundboard-nav').on('click', clickedItem);
+  function addFaderLights(clickedFader) {    
+    var i = 11;
+    var faderLightChildren
+    var faderLights = clickedFader.siblings('.fader-lights');
+    if (faderLights) {
+      faderLightChildren = faderLights.children();
+      function myInterval() {
+        var child = $(faderLightChildren[--i]);
+        if (child.length) {
+          child.show();
+        }
+        else {
+          clearInterval(intervalId);
+        }
+      }
+      var intervalId = setInterval(myInterval, intervalMs);
+    }
+  }
+  var FADER_ON_CLS = 'fader-on';
+  var FADER_OFF_CLS = 'fader-off';
+  $('.fader').on('click', function(e) {
+    var clickedFader = $(this);
+    var onFaders = $('.' + FADER_ON_CLS);
+    removeFaderLights(onFaders);
+    if (clickedFader.is(onFaders)) {
+      onFaders.addClass(FADER_OFF_CLS).removeClass(FADER_ON_CLS);
+    }
+    else {
+      clickedFader.removeClass(FADER_OFF_CLS).addClass(FADER_ON_CLS);
+      addFaderLights(clickedFader);
+      /*clickedFader.one('transitionend', function(e) {
+        
+      });*/
+    }
+  });
 });
