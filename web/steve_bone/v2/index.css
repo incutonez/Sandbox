@@ -1,3 +1,8 @@
+@font-face {
+  font-family: sharpieFont;
+  src: url(PermanentMarker.ttf);
+}
+
 html, body {
   background-color: black;
   color: white;
@@ -6,32 +11,67 @@ html, body {
   height: 100%;
 }
 
+#wrapper {
+  min-height: 100%;
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
 #fader-area {
   background-color: white;
   height: 200px;
-  width: 50%;
+  width: 30%;
   bottom: 0;
-  left: 25%;
-  position: fixed;
-  margin-left: auto;
-  margin-right: auto;
+  left: 35%;
+  position: absolute;
   text-align: center;
+}
+
+#content {
+  padding-bottom: 200px;
+}
+
+.tape {
+  font-family: sharpieFont;
+  width: 70px;
+  font-weight: bold;
+  height: 30px;
+  color: black;
+  position: relative;
+	top: -35px;
+  right: 30px;
+  text-shadow: -1px 1px white, 1px -1px white;
+	background-color: rgba(220,212,176,0.85);
+	border-left: 1px dashed rgba(0, 0, 0, 0.1);
+	border-right: 1px dashed rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: 0px 0px 1px 0px #cccccc;
+	-moz-box-shadow: 0px 0px 1px 0px #cccccc;
+	box-shadow: 0px 0px 1px 0px #cccccc;
+	-webkit-transform: rotate(-2deg) skew(0,0) translate(0%,-5px);
+	-moz-transform: rotate(-2deg) skew(0,0) translate(0%,-5px);
+	-o-transform: rotate(-2deg) skew(0,0) translate(0%,-5px);
+	transform: rotate(-2deg) skew(0,0) translate(0%,-5px);
+}
+
+.tape-clicked {
+  text-shadow: -4px 4px #FFEE00, 4px 0 #FFEE00, -4px 0 #FFEE00, 4px -4px #FFEE00, 0px 4px #FFEE00, 0px -4px #FFEE00;
 }
 
 .fader-bar {
   height: 70%;
   background-color: black;
-  width: 4px;
+  width: 10px;
   display: inline-block;
   position: relative;
-  top: 15%;
+  top: 25%;
   margin: 0px 30px;
 }
 
 .fader {
   background-color: grey;
   height: 30px;
-  width: 15px;
+  width: 20px;
   /* Because height of fader-bar is 140px */
   top: 110px;
   left: -5px;
@@ -58,21 +98,16 @@ html, body {
 }
 
 .fader-lights {
+  height: 110px;
+  width: 100%;
   position: absolute;
   bottom: 0;
 }
 
-/*.fader-light:first-child {
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-}*/
-
 .fader-light {
   height: 10px;
-  width: 40px;
-  right: 17.5px;
+  width: 100%;
   position: relative;
-  display: none;
 }
 
 .fader-light-green {
