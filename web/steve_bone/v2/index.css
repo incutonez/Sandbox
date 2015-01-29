@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Cinzel+Decorative:400,900);
 @font-face {
   font-family: sharpieFont;
   src: url(PermanentMarker.ttf);
@@ -8,7 +9,15 @@ html, body {
   color: white;
   margin: 0;
   padding: 0;
-  height: 100%;
+  /* height is fucking up... why? */
+  /*height: 100%;*/
+}
+
+h1 {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 3em;
+  text-align: center;
+  color: #77cdff;
 }
 
 #wrapper {
@@ -18,18 +27,60 @@ html, body {
   width: 100%;
 }
 
-#fader-area {
-  background-color: white;
-  height: 200px;
-  width: 30%;
-  bottom: 0;
-  left: 35%;
-  position: absolute;
-  text-align: center;
+#header {
+  height: 150px;
 }
 
 #content {
-  padding-bottom: 200px;
+  position: relative;
+  width: 70%;
+  height: 350px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#fader-area {
+  background-color: white;
+  height: 200px;
+  width: 400px;
+  left: 35%;
+  position: relative;
+  text-align: center;
+}
+
+.selected-content {
+  display: block;
+  box-shadow: 0 0 30px 15px #49628a inset;
+  border-radius: 50px;
+}
+
+.subtitle {
+  margin: 0 0 2em 0;
+  width: 100%;
+  text-align: center;
+  color: #77cdff;
+}
+
+.subtitle span {
+  vertical-align: middle;
+}
+
+.fancy-left,
+.fancy-right {
+  border-top: 1px solid #0043FF;
+  border-bottom: 1px solid #0043FF;
+  width: 40%;
+  min-width: 150px;
+  height: 5px;
+  display: inline-block;
+}
+
+.fancy-right {
+  margin-left: 15px;
+}
+
+.fancy-left {
+  margin-right: 15px;
 }
 
 .tape {
@@ -110,14 +161,40 @@ html, body {
   position: relative;
 }
 
+#music-content-right,
+#music-content-left {
+  float: left;
+  position: relative;
+}
+
+#music-content-right {
+  width: 30%;
+}
+
+#music-content-left {
+  width: 70%;
+}
+
+#content div {
+  height: 100%;
+  overflow: auto;
+}
+
+.hidden {
+  display: none;
+}
+
 .fader-light-green {
-  background-color: #BBFF00;
+  /*background-color: #BBFF00;*/
+  box-shadow: -10px 0px #bbff00, 10px 0px #bbff00;
 }
 
 .fader-light-yellow {
-  background-color: #FFA900;
+  /*background-color: #FFA900;*/
+  box-shadow: -10px 0px #FFA900, 10px 0px #FFA900;
 }
 
 .fader-light-red {
-  background-color: #FF0114;
+  /*background-color: #FF0114;*/
+  box-shadow: -10px 0px #FF0114, 10px 0px #FF0114;
 }

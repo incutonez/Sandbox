@@ -23,12 +23,7 @@ $(document).ready(function() {
       }
     }
     faders.addClass(FADER_OFF_CLS).removeClass(FADER_ON_CLS);
-    var intervalDownId;
-    /* Set a timeout of our interval first, so we can let the fader start going
-     * down before we start removing the lights */
-    setTimeout(function() {
-      intervalDownId = setInterval(myDownInterval, intervalMs);
-    }, intervalMs);
+    var intervalDownId = setInterval(myDownInterval, intervalMs);
   }
   function addFaderLights(clickedFader) {    
     var i = 10;
@@ -58,7 +53,6 @@ $(document).ready(function() {
       /* Call the interval function twice to populate two lights, so we don't
        * see a lag in the colors lighting up */
       myInterval();
-      myInterval();
       clickedFader.removeClass(FADER_OFF_CLS).addClass(FADER_ON_CLS);
     }
   }
@@ -67,6 +61,7 @@ $(document).ready(function() {
   $('.fader').on('click', function(e) {
     var clickedFader = $(this);
     var onFaders = $('.' + FADER_ON_CLS);
+    $('.selected-content').removeClass('selected-content').addClass('hidden');
     $('.tape-clicked').removeClass('tape-clicked');
     removeFaderLights(onFaders);
     if (clickedFader.is(onFaders)) {
@@ -76,6 +71,8 @@ $(document).ready(function() {
       addFaderLights(clickedFader);
       clickedFader.one('transitionend', function(e) {
         clickedFader.siblings('.tape').addClass('tape-clicked');
+        var clickedFaderId = clickedFader.attr('id');
+        $('#' + clickedFaderId + '-content').removeClass('hidden').addClass('selected-content');
       });
     }
   });
