@@ -64,6 +64,7 @@ h1 {
   margin-right: auto;
   box-shadow: 0 0 15px 15px #49628a inset;
   border-radius: 50px;
+  overflow: hidden;
 }
 
 #music-content-right,
@@ -82,7 +83,6 @@ h1 {
 
 #content > div {
   height: 290px;
-  top: 25px;
   position: relative;
   overflow: auto;
   width: 1000px;
@@ -97,10 +97,6 @@ h1 {
   left: 35%;
   position: relative;
   text-align: center;
-}
-
-.selected-content {
-  display: block;
 }
 
 .subtitle {
@@ -229,6 +225,18 @@ h1 {
 
 .hidden {
   display: none;
+  /*transition-property: top;
+  transition-duration: 0.5s;
+  transition-timing-function: linear;*/
+  top: 350px;
+}
+
+.selected-content {
+  display: block;
+  /*transition-property: top;
+  transition-duration: 0.5s;
+  transition-timing-function: linear;*/
+  top: 25px;
 }
 
 .fader-light-green {
