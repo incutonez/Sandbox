@@ -70,7 +70,7 @@ $(document).ready(function() {
     else {
       addFaderLights(clickedFader);
       clickedFader.one('transitionend', function(e) {
-        clickedFader.siblings('.tape').addClass('tape-clicked');
+        clickedFader.parent().siblings('.tape').addClass('tape-clicked');
         var clickedFaderId = clickedFader.attr('id');
         $('#' + clickedFaderId + '-content').removeClass('hidden').addClass('selected-content');
       });
