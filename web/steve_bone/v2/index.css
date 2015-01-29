@@ -14,10 +14,12 @@ html, body {
 }
 
 h1 {
-  font-family: 'Cinzel Decorative', cursive;
   font-size: 3em;
   text-align: center;
-  color: #77cdff;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  /*font-family: 'Cinzel Decorative', cursive;
+  color: #77cdff;*/
 }
 
 #wrapper {
@@ -29,12 +31,48 @@ h1 {
 
 #header {
   height: 150px;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#header > div {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 #content {
   position: relative;
-  width: 70%;
+  width: 80%;
   height: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 0 15px 15px #49628a inset;
+  border-radius: 50px;
+}
+
+#music-content-right,
+#music-content-left {
+  float: left;
+  position: relative;
+}
+
+#music-content-right {
+  width: 30%;
+}
+
+#music-content-left {
+  width: 70%;
+}
+
+#content > div {
+  height: 290px;
+  top: 25px;
+  position: relative;
+  overflow: auto;
+  width: 1000px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -50,8 +88,6 @@ h1 {
 
 .selected-content {
   display: block;
-  box-shadow: 0 0 30px 15px #49628a inset;
-  border-radius: 50px;
 }
 
 .subtitle {
@@ -83,15 +119,18 @@ h1 {
   margin-right: 15px;
 }
 
-.tape {
-  font-family: sharpieFont;
+.fader-bar > .tape {
   width: 70px;
-  font-weight: bold;
   height: 30px;
-  color: black;
-  position: relative;
 	top: -35px;
   right: 30px;
+}
+
+.tape {
+  font-family: sharpieFont;
+  font-weight: bold;
+  color: black;
+  position: relative;
   text-shadow: -1px 1px white, 1px -1px white;
 	background-color: rgba(220,212,176,0.85);
 	border-left: 1px dashed rgba(0, 0, 0, 0.1);
@@ -159,25 +198,6 @@ h1 {
   height: 10px;
   width: 100%;
   position: relative;
-}
-
-#music-content-right,
-#music-content-left {
-  float: left;
-  position: relative;
-}
-
-#music-content-right {
-  width: 30%;
-}
-
-#music-content-left {
-  width: 70%;
-}
-
-#content div {
-  height: 100%;
-  overflow: auto;
 }
 
 .hidden {
