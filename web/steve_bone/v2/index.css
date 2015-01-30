@@ -4,11 +4,19 @@
   src: url(PermanentMarker.ttf);
 }
 
+@font-face {
+  src: local('PT Sans'), local('PTSans-Regular'), url(pt_sans.woff2) format('woff2'), url(pt_sans.woff) format('woff');
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+}
+
 html, body {
   background-color: black;
   color: white;
   margin: 0;
   padding: 0;
+  font-family: 'PT Sans';
   /* height is fucking up... why? */
   /*height: 100%;*/
 }
@@ -181,17 +189,21 @@ h1 {
 }
 
 .fader {
-  background-color: grey;
+  background-repeat: no-repeat;
+  background-image: url(fader.png);
+  background-position: center;
+  background-size: contain;
   height: 30px;
   width: 20px;
   /* Because height of fader-bar is 140px */
   top: 120px;
   left: -5px;
   position: absolute;
+  border-radius: 10px;
 }
 
 .fader:hover {
-  background-color: blue;
+  background-image: url(fader_hover.png);
   cursor: pointer;
 }
 
