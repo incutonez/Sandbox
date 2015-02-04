@@ -1,5 +1,11 @@
 $(document).ready(function() {
   var intervalMs = 45;
+  var msie = window.navigator.userAgent.indexOf('MSIE ');
+  function faderFinished(clickedFader) {    
+    clickedFader.parent().siblings('.tape').addClass('tape-clicked');
+    var clickedFaderId = clickedFader.attr('id');
+    $('#' + clickedFaderId + '-content').removeClass('hidden').addClass('selected-content');
+  }
   function removeFaderLights(faders) {
     var i = 0;
     var faderLights = faders.siblings('.fader-lights');
@@ -46,6 +52,10 @@ $(document).ready(function() {
           i--;
         }
         else {
+          // Check if we're dealing with IE9-
+          if (msie > 0) {
+            faderFinished(clickedFader);
+          }
           clearInterval(intervalId);
         }
       }
@@ -70,9 +80,7 @@ $(document).ready(function() {
     else {
       addFaderLights(clickedFader);
       clickedFader.one('transitionend', function(e) {
-        clickedFader.parent().siblings('.tape').addClass('tape-clicked');
-        var clickedFaderId = clickedFader.attr('id');
-        $('#' + clickedFaderId + '-content').removeClass('hidden').addClass('selected-content');
+        faderFinished(clickedFader);
       });
     }
   });

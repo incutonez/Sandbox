@@ -26,6 +26,7 @@ $tape-clicked-shadow-size: 4px;
   -webkit-border-radius: $radius;
      -moz-border-radius: $radius;
           border-radius: $radius;
+          behavior: url(PIE.htc);
 }
 
 @mixin transition-delay($delay) {
@@ -56,6 +57,7 @@ $tape-clicked-shadow-size: 4px;
   -webkit-box-shadow: unquote($value);
   -moz-box-shadow: unquote($value);
   box-shadow: unquote($value);
+        behavior: url(PIE.htc);
 }
 
 @mixin fader-transition() {
