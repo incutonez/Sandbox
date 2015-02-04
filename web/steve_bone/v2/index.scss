@@ -64,16 +64,16 @@ h1 {
   width: 20%;
   min-width: 200px;
   @include center-div();
-}
 
-#header > .tape {
-  @include transform("rotate(-5deg) skew(0deg, 0deg) translate(0%, -5px)");
-}
+  > .tape {
+    @include transform("rotate(-5deg) skew(0deg, 0deg) translate(0%, -5px)");
+  }
 
-#header > div {
-  width: 50%;
-  text-align: center;
-  @include center-div();
+  > div {
+    width: 50%;
+    text-align: center;
+    @include center-div();
+  }
 }
 
 #content {
@@ -85,6 +85,14 @@ h1 {
   @include border-radius(50px);
   overflow: hidden;
   @include center-div();
+
+  > div {
+    height: 290px;
+    position: relative;
+    overflow: auto;
+    width: 1000px;
+    @include center-div();
+  }
 }
 
 #music-content-right,
@@ -101,14 +109,6 @@ h1 {
   width: 70%;
 }
 
-#content > div {
-  height: 290px;
-  position: relative;
-  overflow: auto;
-  width: 1000px;
-  @include center-div();
-}
-
 #fader-area {
   background-color: #272727;
   height: 200px;
@@ -116,13 +116,6 @@ h1 {
   left: 35%;
   position: relative;
   text-align: center;
-}
-
-.fader-bar > .tape {
-  width: 70px;
-  height: 30px;
-	top: -35px;
-  right: 30px;
 }
 
 .tape {
@@ -163,6 +156,13 @@ h1 {
   position: relative;
   margin: 0px 30px;
   top: 10%;
+
+  > .tape {
+    width: 70px;
+    height: 30px;
+    top: -35px;
+    right: 30px;
+  }
 }
 
 .fader {
