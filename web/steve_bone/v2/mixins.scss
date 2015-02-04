@@ -56,3 +56,8 @@
        -o-background-size: $background-size;
           background-size: $background-size;
 }
+
+@mixin center-div() {
+  margin-left: auto;
+  margin-right: auto;
+}
