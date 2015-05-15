@@ -1,0 +1,29 @@
+{
+  "name": "MyButton",
+  "format": "1",
+  "version": "1.0.2",
+  "compatVersion": "1.0.0",
+  "creator": "Jef",
+  "summary": "Short summary",
+  "detailedDescription": "Long description of package",
+  "type": "code",
+  "signatures": [
+    {
+      "name": "Jef",
+      "uuid": "d2d93a51-2de8-469c-9fcd-b04314322570",
+      "created": "2015-05-15T03:05:20Z",
+      "algorithm": "SHA1withRSA",
+      "nonce": "GxINq/89Rsk\u003d",
+      "signature": "IiPfcp2h1sXKv9OD2hXBoIlpkLbaygD8wR77F2Qcz7xEXoJaIbDBYziQgzDW38vRMOmANeBYWAvJ418uAsWCykPUaYomFa+YFrQ53JPJl4a+qiIpwwJKay0ggjVFaf/uv6rtgvnB5LsQQM7NAYGGTs3oqKyGUWNJIy5L7UldYpWuRAKsvhf0wASIZO6rfvPi2WMyLKOCdnaCEQ3IAr9CMi4XzL76upfo376jtdTz2TK2/ODpiFNwGanDVIqgParyAfO+veWXFXmyOgDpzwRIiTEpxzhjjF5QUfcbD/D3FBP2nFUbiuX0z+J/VEEsS9Gh3oMfxD3pwEo+MqoTmwkpfw\u003d\u003d"
+    }
+  ],
+  "slicer": {
+    "js": [
+      {
+        "path": "${package.dir}/sass/example/custom.js",
+        "isWidgetManifest": true
+      }
+    ]
+  },
+  "output": "${package.dir}/build"
+}
