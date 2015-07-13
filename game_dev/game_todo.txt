@@ -1,16 +1,32 @@
-﻿-get player to move
--create AI, so it moves to player
--create AI, so it moves away from player
--implement physics
--have player move between screens
--have player interact with items
---move item
---destroy item
---carry item
---pick up item
--have player die
--create welcome screen
--create saving
--give player items
--create item screen
--create dialog
+﻿- add player enum statuses
+-- walking
+-- stopped
+-- fighting
+- create simple player images with 3 movements
+-- right leg ahead
+-- left leg ahead
+-- both legs stopped
+- create AI, so it moves to player
+- create AI, so it moves away from player
+- implement physics (possibly)
+- have player move between screens
+- have player interact with items
+-- move item
+-- destroy item
+-- carry item (put in inventory)
+-- pick up item
+- have player die
+- create welcome screen
+- create saving
+- give player items
+- create item screen
+- create dialog
+- create health bar
+- 4 types of sword upgrades
+-- dark red sword
+-- white sword
+-- orange red sword (tempered)
+-- gold sword (final, Grand Sword)
+- split the map into block levels... block level 1 contains the path to get to dungeon 1, block level 2 for dungeon 2, etc.
+-- randomize the blocks, so maybe the user would have to travel through block 8 to get to block 1
+-- possibly randomize the block levels
