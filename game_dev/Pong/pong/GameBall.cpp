@@ -64,7 +64,7 @@ float GameBall::BounceBall(std::string paddleName, float moveByX, float moveByY)
 			moveByY = -moveByY;
 			// TODO: Figure out how to check if the ball hit on the side of the paddle
       if (paddleName == "Paddle2") {
-        SetPosition(GetPosition().x, player->GetBoundingRect().top + player->GetBoundingRect().height + GetHeight() / 2);
+        SetPosition(GetPosition().x, player->GetBoundingRect().top + player->GetBoundingRect().height + GetHeight() / 2 + 1);
       }
       else {
         SetPosition(GetPosition().x, player->GetBoundingRect().top - GetHeight() / 2 - 1 );

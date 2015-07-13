@@ -1,3 +1,6 @@
 *nbproject*
 *.map
 *.sass-cache/
+*.opensdf
+*ipch/
+game_dev/Pong/pong/Debug/
