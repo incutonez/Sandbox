@@ -2,5 +2,5 @@
 *.map
 *.sass-cache/
 *.opensdf
-*ipch/
+*/**/ipch/
 game_dev/Pong/pong/Debug/
