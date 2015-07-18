@@ -30,3 +30,9 @@
 - split the map into block levels... block level 1 contains the path to get to dungeon 1, block level 2 for dungeon 2, etc.
 -- randomize the blocks, so maybe the user would have to travel through block 8 to get to block 1
 -- possibly randomize the block levels
+- sword can cut non-enemy objects in the game (trees, doors, etc.)
+-- objects take so many cuts before breaking
+-- some objects aren't breakable
+-- some non-breakable objects are secretly breakable... like a certain boulder can be broken
+-- higher powered swords take less time to break these objects
+-- highest powered sword can only break these secretly breakable objects
