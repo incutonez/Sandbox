@@ -6,7 +6,11 @@
 -- right leg ahead
 -- left leg ahead
 -- both legs stopped
-- create AI, so it moves to player
+- create different types of AI
+-- moves back and forth between a path
+-- chases player
+-- moves back and forth between a path but chases player when they get clos
+-- stationary that fires at player
 - create AI, so it moves away from player
 - implement physics (possibly)
 - have player move between screens
