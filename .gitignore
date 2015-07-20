@@ -4,5 +4,4 @@
 *.opensdf
 */**/ipch/
 game_dev/**/**/Debug/
-game_dev/**/Debug/
 *.vcxproj.user
