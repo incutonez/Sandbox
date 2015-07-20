@@ -3,4 +3,6 @@
 *.sass-cache/
 *.opensdf
 */**/ipch/
-game_dev/Pong/pong/Debug/
+game_dev/**/**/Debug/
+game_dev/**/Debug/
+*.vcxproj.user
