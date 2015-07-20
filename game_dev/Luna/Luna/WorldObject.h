@@ -10,13 +10,13 @@ class WorldObject {
     virtual void Load(std::string filename);
 	  virtual void Draw(sf::RenderWindow & window);
     virtual void Update(float elapsedTime);
-
 	  virtual void SetPosition(float x, float y);
     virtual sf::Vector2f GetPosition();
     virtual bool IsLoaded() const;
     virtual float GetWidth();
     virtual float GetHeight();
     virtual sf::Rect<float> GetBoundingRect();
+    bool SetIsDamagable(bool isDamagable);
 
   protected:
     sf::Sprite &GetSprite();
@@ -26,4 +26,5 @@ class WorldObject {
 	  sf::Texture _image;
 	  std::string _filename;
 	  bool _isLoaded;
+    bool _isDamagable;
 };

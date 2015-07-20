@@ -54,6 +54,10 @@ bool WorldObject::IsLoaded() const {
   return _isLoaded;
 }
 
+bool WorldObject::SetIsDamagable(bool isDamagable) {
+  return _isDamagable = isDamagable;
+}
+
 float WorldObject::GetHeight() {
   return GetBoundingRect().height;
 }

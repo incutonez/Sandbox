@@ -44,7 +44,7 @@ void WorldObjectManager::DrawAll(sf::RenderWindow &renderWindow) {
 
 void WorldObjectManager::UpdateAll() {
   std::map<std::string, WorldObject *>::const_iterator itr = GetGameObjects().begin();
-  float timeDelta = clock.restart().asSeconds();
+  float timeDelta = GetElapsedTime();
 
   while (itr != GetGameObjects().end()) {
     itr->second->Update(timeDelta);
@@ -54,4 +54,12 @@ void WorldObjectManager::UpdateAll() {
 
 std::map<std::string, WorldObject *> &WorldObjectManager::GetGameObjects() {
   return _gameObjects;
+}
+
+sf::Clock WorldObjectManager::GetClock() {
+  return _clock;
+}
+
+float WorldObjectManager::GetElapsedTime() {
+  return _clock.restart().asSeconds();
 }

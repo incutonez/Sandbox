@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "SFML\Graphics.hpp"
 #include "PlayerObject.h"
+#include "StaticWorldObject.h"
 
 void Game::Start() {
   SetGameState(GameStates::PLAYING);
@@ -10,18 +11,27 @@ void Game::Start() {
   player->SetPosition(SCREEN_WIDTH / 2, 600);
   GetWorldObjectManager().Add("Player", player);
   
-  WorldObject *rock1 = new WorldObject("images/rock.png");
+  StaticWorldObject *rock1 = new StaticWorldObject("images/rock.png", false, false);
   rock1->SetPosition(SCREEN_WIDTH / 4, 100);
-  WorldObject *rock2 = new WorldObject("images/rock.png");
+  StaticWorldObject *rock2 = new StaticWorldObject("images/rock.png", false, false);
   rock2->SetPosition(SCREEN_WIDTH / 2, 100);
-  WorldObject *rock3 = new WorldObject("images/rock.png");
+  StaticWorldObject *rock3 = new StaticWorldObject("images/rock.png", false, false);
   rock3->SetPosition(SCREEN_WIDTH / 4, 500);
-  WorldObject *rock4 = new WorldObject("images/rock.png");
+  StaticWorldObject *rock4 = new StaticWorldObject("images/rock.png", true, false);
   rock4->SetPosition(SCREEN_WIDTH / 2, 500);
+  StaticWorldObject *rock5 = new StaticWorldObject("images/rock.png", false, false);
+  rock5->SetPosition(SCREEN_WIDTH / 2, 530);
+  StaticWorldObject *rock6 = new StaticWorldObject("images/rock.png", false, false);
+  rock6->SetPosition(SCREEN_WIDTH / 2 + 30, 130);
+  StaticWorldObject *wall1 = new StaticWorldObject("images/big_rock.png", false, false);
+  wall1->SetPosition(0, 0);
   GetStaticObjectsManager().Add("Rock1", rock1);
   GetStaticObjectsManager().Add("Rock2", rock2);
   GetStaticObjectsManager().Add("Rock3", rock3);
   GetStaticObjectsManager().Add("Rock4", rock4);
+  GetStaticObjectsManager().Add("Rock5", rock5);
+  GetStaticObjectsManager().Add("Rock6", rock6);
+  GetStaticObjectsManager().Add("Wall1", wall1);
   while (!IsExiting()) {
     GameLoop();
   }
@@ -31,7 +41,7 @@ WorldObjectManager &Game::GetWorldObjectManager() {
   return _worldObjectManager;
 }
 
-WorldObjectManager &Game::GetStaticObjectsManager() {
+StaticWorldObjectManager &Game::GetStaticObjectsManager() {
   return _staticObjectsManager;
 }
 
@@ -89,4 +99,4 @@ void Game::GameLoop() {
 sf::RenderWindow Game::_mainWindow;
 Game::GameStates Game::_currentGameState = Game::GameStates::STARTING;
 WorldObjectManager Game::_worldObjectManager;
-WorldObjectManager Game::_staticObjectsManager;
+StaticWorldObjectManager Game::_staticObjectsManager;

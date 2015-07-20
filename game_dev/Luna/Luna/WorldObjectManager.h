@@ -12,12 +12,14 @@ class WorldObjectManager {
 	  int GetObjectCount();
 	  WorldObject *Get(std::string name);
     std::map<std::string, WorldObject *> &GetGameObjects();
+    sf::Clock GetClock();
+    float GetElapsedTime();
 
-	  void DrawAll(sf::RenderWindow& renderWindow);
+	  virtual void DrawAll(sf::RenderWindow& renderWindow);
     void UpdateAll();
 
   private:
-    sf::Clock clock;
+    sf::Clock _clock;
 	  std::map<std::string, WorldObject *> _gameObjects;
 	
 	  struct GameObjectDeallocator {
