@@ -16,8 +16,10 @@ class Game {
     static GameStates SetGameState(GameStates);
     static GameStates GetGameState();
 	  static WorldObjectManager &GetWorldObjectManager();
+	  static WorldObjectManager &GetStaticObjectsManager();
   private:
     static GameStates _currentGameState;
     static sf::RenderWindow _mainWindow;
     static WorldObjectManager _worldObjectManager;
+    static WorldObjectManager _staticObjectsManager;
 };

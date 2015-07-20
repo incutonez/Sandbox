@@ -6,6 +6,10 @@ WorldObject::WorldObject()
   : _isLoaded(false) {
 }
 
+WorldObject::WorldObject(std::string fileName) {
+  Load(fileName);
+}
+
 WorldObject::~WorldObject() { }
 
 void WorldObject::Load(std::string filename) {

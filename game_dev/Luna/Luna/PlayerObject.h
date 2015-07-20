@@ -8,6 +8,16 @@ class PlayerObject: public WorldObject {
     void Update(float elapsedTime);
     void Draw(sf::RenderWindow &rw);
     float GetMovementValue();
+    enum Actions {
+      WALKING, FIGHTING, STANDING
+    };
+    Actions SetCurrentAction(Actions);
+    bool CollisionDetection(float, float);
+    bool PlayerObject::HitsTop(std::map<std::string, WorldObject *>::const_iterator);
+    bool PlayerObject::HitsBottom(std::map<std::string, WorldObject *>::const_iterator);
+    bool PlayerObject::HitsLeft(std::map<std::string, WorldObject *>::const_iterator);
+    bool PlayerObject::HitsRight(std::map<std::string, WorldObject *>::const_iterator);
   private:
     const float _MOVEMENT_VALUE;
+    Actions _currentAction;
 };

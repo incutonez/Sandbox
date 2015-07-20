@@ -5,6 +5,7 @@
 class WorldObject {
   public:
 	  WorldObject();
+    WorldObject(std::string);
 	  virtual ~WorldObject();
     virtual void Load(std::string filename);
 	  virtual void Draw(sf::RenderWindow & window);
