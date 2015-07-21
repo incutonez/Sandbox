@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "StaticWorldObjectManager.h"
 
-void StaticWorldObjectManager::Add(std::string name, StaticWorldObject *gameObject) {
-	GetGameObjects().insert(std::pair<std::string, StaticWorldObject *>(name, gameObject));
+void StaticWorldObjectManager::Add(StaticWorldObject *gameObject) {
+  GetGameObjects().insert(std::pair<std::string, StaticWorldObject *>(gameObject->GetKeyName(), gameObject));
 }
 
 void StaticWorldObjectManager::Remove(std::string name) {

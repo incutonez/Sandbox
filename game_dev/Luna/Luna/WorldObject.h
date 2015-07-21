@@ -4,8 +4,9 @@
 
 class WorldObject {
   public:
-	  WorldObject();
-    WorldObject(std::string);
+    WorldObject();
+	  WorldObject(std::string keyName);
+    WorldObject(std::string keyName, std::string fileName);
 	  virtual ~WorldObject();
     virtual void Load(std::string filename);
 	  virtual void Draw(sf::RenderWindow & window);
@@ -17,6 +18,8 @@ class WorldObject {
     virtual float GetHeight();
     virtual sf::Rect<float> GetBoundingRect();
     bool SetIsDamagable(bool isDamagable);
+    std::string GetKeyName();
+    std::string SetKeyName(std::string keyName);
 
   protected:
     sf::Sprite &GetSprite();
@@ -27,4 +30,5 @@ class WorldObject {
 	  std::string _filename;
 	  bool _isLoaded;
     bool _isDamagable;
+    std::string _keyName;
 };

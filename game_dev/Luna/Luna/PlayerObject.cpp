@@ -5,6 +5,7 @@
 PlayerObject::PlayerObject():
   _MOVEMENT_VALUE(100.0f) {
 	Load("images/left.png");
+  SetKeyName("Player");
   /* Reason for assert is that you cannot return from a constructor,
    * and if this errors out, you could try dealing with error handling,
    * but if the assert is not true, then it kills the program, which
@@ -44,10 +45,7 @@ void PlayerObject::Update(float elapsedTime) {
     moveByX = GetMovementValue();
   }
 
-  if (CollisionDetection(moveByX, moveByY)) {
-    moveByX = 0.0f;
-    moveByY = 0.0f;
-  }
+  CollisionDetection(&moveByX, &moveByY, elapsedTime);
   if (moveByX != 0.0f || moveByY != 0.0f) {
     SetCurrentAction(WALKING);
   }
@@ -57,26 +55,43 @@ void PlayerObject::Update(float elapsedTime) {
   GetSprite().move(moveByX * elapsedTime, moveByY * elapsedTime);
 }
 
-bool PlayerObject::CollisionDetection(float moveByX, float moveByY) {
+bool PlayerObject::CollisionDetection(float *moveByX, float *moveByY, float elapsedtime) {
   bool collided = false;
   std::map<std::string, StaticWorldObject *>::const_iterator itr = Game::GetStaticObjectsManager().GetGameObjects().begin();
   while (itr != Game::GetStaticObjectsManager().GetGameObjects().end()) {
     if (itr->second->GetBoundingRect().intersects(GetBoundingRect())) {
+      float moveObjectByX = 0.0f;
+      float moveObjectByY = 0.0f;
       // if moving down, and we hit the top but not the left or right
-      if (moveByY > 0 && HitsTop(itr) && !HitsLeft(itr) && !HitsRight(itr)) {
+      if (*moveByY > 0 && HitsTop(itr) && !HitsLeft(itr) && !HitsRight(itr)) {
         collided = true;
+        *moveByY = 0.0f;
+        moveObjectByY = itr->second->GetHeight();
       }
       // if moving up, and we hit the bottom but not the left or right
-      else if (moveByY < 0 && HitsBottom(itr) && !HitsLeft(itr) && !HitsRight(itr)) {
+      else if (*moveByY < 0 && HitsBottom(itr) && !HitsLeft(itr) && !HitsRight(itr)) {
         collided = true;
+        *moveByY = 0.0f;
+        moveObjectByY = -itr->second->GetHeight();
       }
       // if moving right, and we hit the left but not the top or bottom
-      else if (moveByX > 0 && HitsLeft(itr) && !HitsBottom(itr) && !HitsTop(itr)) {
+      else if (*moveByX > 0 && HitsLeft(itr) && !HitsBottom(itr) && !HitsTop(itr)) {
         collided = true;
+        *moveByX = 0.0f;
+        moveObjectByX = itr->second->GetWidth();
       }
       // if moving left, and we hit the right but not the top or bottom
-      else if (moveByX < 0 && HitsRight(itr) && !HitsBottom(itr) && !HitsTop(itr)) {
+      else if (*moveByX < 0 && HitsRight(itr) && !HitsBottom(itr) && !HitsTop(itr)) {
         collided = true;
+        *moveByX = 0.0f;
+        moveObjectByX = -itr->second->GetWidth();
+      }
+      if (itr->second->IsMovable()) {
+        // TODO: When pushing two blocks and the front block hits a static block, it doesn't stop
+        if (moveObjectByX != 0.0f || moveObjectByY != 0.0f) {
+          itr->second->CollisionDetection(&moveObjectByX, &moveObjectByY, elapsedtime);
+        }
+        itr->second->SetPosition(itr->second->GetPosition().x + (moveObjectByX * elapsedtime), itr->second->GetPosition().y + (moveObjectByY * elapsedtime));
       }
     }
     itr++;

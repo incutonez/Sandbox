@@ -1,12 +1,16 @@
 #include "stdafx.h"
 #include "WorldObject.h"
 
-WorldObject::WorldObject()
+WorldObject::WorldObject() { }
+
+WorldObject::WorldObject(std::string keyName)
   // Constructor member initialization list http://www.cprogramming.com/tutorial/initialization-lists-c++.html
   : _isLoaded(false) {
+  SetKeyName(keyName);
 }
 
-WorldObject::WorldObject(std::string fileName) {
+WorldObject::WorldObject(std::string keyName, std::string fileName) {
+  SetKeyName(keyName);
   Load(fileName);
 }
 
@@ -68,4 +72,12 @@ float WorldObject::GetWidth() {
 
 sf::Rect<float> WorldObject::GetBoundingRect() {
   return GetSprite().getGlobalBounds();
+}
+
+std::string WorldObject::GetKeyName() {
+  return _keyName;
+}
+
+std::string WorldObject::SetKeyName(std::string keyName) {
+  return _keyName = keyName;
 }

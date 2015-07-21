@@ -13,7 +13,7 @@ class PlayerObject: public WorldObject {
       WALKING, FIGHTING, STANDING
     };
     Actions SetCurrentAction(Actions);
-    bool CollisionDetection(float, float);
+    bool CollisionDetection(float *moveByX, float *moveByY, float elapsedTime);
     bool PlayerObject::HitsTop(std::map<std::string, StaticWorldObject *>::const_iterator);
     bool PlayerObject::HitsBottom(std::map<std::string, StaticWorldObject *>::const_iterator);
     bool PlayerObject::HitsLeft(std::map<std::string, StaticWorldObject *>::const_iterator);

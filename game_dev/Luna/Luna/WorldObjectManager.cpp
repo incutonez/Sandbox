@@ -10,8 +10,8 @@ WorldObjectManager::~WorldObjectManager() {
 	std::for_each(GetGameObjects().begin(), GetGameObjects().end(), GameObjectDeallocator());
 }
 
-void WorldObjectManager::Add(std::string name, WorldObject *gameObject) {
-	GetGameObjects().insert(std::pair<std::string, WorldObject *>(name, gameObject));
+void WorldObjectManager::Add(WorldObject *gameObject) {
+  GetGameObjects().insert(std::pair<std::string, WorldObject *>(gameObject->GetKeyName(), gameObject));
 }
 
 void WorldObjectManager::Remove(std::string name) {

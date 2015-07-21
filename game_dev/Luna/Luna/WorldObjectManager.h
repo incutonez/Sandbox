@@ -6,8 +6,8 @@ class WorldObjectManager {
   public:	
 	  WorldObjectManager();
 	  ~WorldObjectManager();
-
-	  void Add(std::string name, WorldObject *gameObject);
+    
+	  void Add(WorldObject *gameObject);
 	  void Remove(std::string name);
 	  int GetObjectCount();
 	  WorldObject *Get(std::string name);
