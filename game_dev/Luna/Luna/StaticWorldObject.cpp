@@ -17,57 +17,55 @@ bool StaticWorldObject::IsMovable() {
   return _isMovable;
 }
 
-bool StaticWorldObject::CollisionDetection(float *moveByX, float *moveByY, float elapsedTime) {
+bool StaticWorldObject::CollisionDetection(float *moveByX, float *moveByY, float elapsedTime, std::vector<std::string> names) {
   bool collided = false;
   std::map<std::string, StaticWorldObject *>::const_iterator itr = Game::GetStaticObjectsManager().GetGameObjects().begin();
   while (itr != Game::GetStaticObjectsManager().GetGameObjects().end()) {
-    if (itr->first != GetKeyName() && itr->second->GetBoundingRect().intersects(GetBoundingRect())) {
-      if (itr->second->IsMovable()) {
-        // if moving down, and we hit the top but not the left or right
-        if (*moveByY > 0 && HitsTop(itr) && !HitsLeft(itr) && !HitsRight(itr)) {
-          collided = true;
+    if (std::find(names.begin(), names.end(), itr->first) == names.end() && itr->second->GetBoundingRect().intersects(GetBoundingRect())) {
+      // if moving down, and we hit the top but not the left or right
+      if (*moveByY > 0 && HitsTop(itr) && !HitsLeft(itr) && !HitsRight(itr)) {
+        collided = true;
+        if (itr->second->IsMovable()) {
           *moveByY /= 2.0f;
         }
-        // if moving up, and we hit the bottom but not the left or right
-        else if (*moveByY < 0 && HitsBottom(itr) && !HitsLeft(itr) && !HitsRight(itr)) {
-          collided = true;
-          *moveByY /= 2.0f;
-        }
-        // if moving right, and we hit the left but not the top or bottom
-        else if (*moveByX > 0 && HitsLeft(itr) && !HitsBottom(itr) && !HitsTop(itr)) {
-          collided = true;
-          *moveByX /= 2.0f;
-        }
-        // if moving left, and we hit the right but not the top or bottom
-        else if (*moveByX < 0 && HitsRight(itr) && !HitsBottom(itr) && !HitsTop(itr)) {
-          collided = true;
-          *moveByX /= 2.0f;
-        }
-        if (collided == true) {
-          itr->second->SetPosition(itr->second->GetPosition().x + (*moveByX * elapsedTime), itr->second->GetPosition().y + (*moveByY * elapsedTime));
+        else {
+          *moveByY = 0.0f;
         }
       }
-      else {
-        // if moving down, and we hit the top but not the left or right
-        if (*moveByY > 0 && HitsTop(itr) && !HitsLeft(itr) && !HitsRight(itr)) {
-          collided = true;
+      // if moving up, and we hit the bottom but not the left or right
+      else if (*moveByY < 0 && HitsBottom(itr) && !HitsLeft(itr) && !HitsRight(itr)) {
+        collided = true;
+        if (itr->second->IsMovable()) {
+          *moveByY /= 2.0f;
+        }
+        else {
           *moveByY = 0.0f;
         }
-        // if moving up, and we hit the bottom but not the left or right
-        else if (*moveByY < 0 && HitsBottom(itr) && !HitsLeft(itr) && !HitsRight(itr)) {
-          collided = true;
-          *moveByY = 0.0f;
+      }
+      // if moving right, and we hit the left but not the top or bottom
+      else if (*moveByX > 0 && HitsLeft(itr) && !HitsBottom(itr) && !HitsTop(itr)) {
+        collided = true;
+        if (itr->second->IsMovable()) {
+          *moveByX /= 2.0f;
         }
-        // if moving right, and we hit the left but not the top or bottom
-        else if (*moveByX > 0 && HitsLeft(itr) && !HitsBottom(itr) && !HitsTop(itr)) {
-          collided = true;
+        else {
           *moveByX = 0.0f;
         }
-        // if moving left, and we hit the right but not the top or bottom
-        else if (*moveByX < 0 && HitsRight(itr) && !HitsBottom(itr) && !HitsTop(itr)) {
-          collided = true;
+      }
+      // if moving left, and we hit the right but not the top or bottom
+      else if (*moveByX < 0 && HitsRight(itr) && !HitsBottom(itr) && !HitsTop(itr)) {
+        collided = true;
+        if (itr->second->IsMovable()) {
+          *moveByX /= 2.0f;
+        }
+        else {
           *moveByX = 0.0f;
         }
+      }
+      if (collided == true) {
+        names.push_back(itr->first);
+        itr->second->CollisionDetection(moveByX, moveByY, elapsedTime, names);
+        itr->second->SetPosition(itr->second->GetPosition().x + (*moveByX * elapsedTime), itr->second->GetPosition().y + (*moveByY * elapsedTime));
       }
     }
     itr++;
