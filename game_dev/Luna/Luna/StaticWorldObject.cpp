@@ -20,10 +20,14 @@ bool StaticWorldObject::IsMovable() {
 bool StaticWorldObject::CollisionDetection(float *moveByX, float *moveByY, float elapsedTime, std::vector<std::string> names) {
   bool collided = false;
   std::map<std::string, StaticWorldObject *>::const_iterator itr = Game::GetStaticObjectsManager().GetGameObjects().begin();
+  sf::Rect<float> rect = GetBoundingRect();
+  rect.top += *moveByY * elapsedTime;
+  rect.left += *moveByX * elapsedTime;
   while (itr != Game::GetStaticObjectsManager().GetGameObjects().end()) {
-    if (std::find(names.begin(), names.end(), itr->first) == names.end() && itr->second->GetBoundingRect().intersects(GetBoundingRect())) {
-      // if moving down, and we hit the top but not the left or right
-      if (*moveByY > 0 && HitsTop(itr) && !HitsLeft(itr) && !HitsRight(itr)) {
+    if (std::find(names.begin(), names.end(), itr->first) == names.end() && itr->second->GetBoundingRect().intersects(rect)) {
+      // if moving down, and we hit the top or moving up and we hit bottom
+      if (*moveByY > 0 && HitsTop(itr) ||
+          *moveByY < 0 && HitsBottom(itr)) {
         collided = true;
         if (itr->second->IsMovable()) {
           *moveByY /= 2.0f;
@@ -31,35 +35,22 @@ bool StaticWorldObject::CollisionDetection(float *moveByX, float *moveByY, float
         else {
           *moveByY = 0.0f;
         }
+        if (sf::Keyboard::Left || sf::Keyboard::Right) {
+          *moveByX = 0.0f;
+        }
       }
-      // if moving up, and we hit the bottom but not the left or right
-      else if (*moveByY < 0 && HitsBottom(itr) && !HitsLeft(itr) && !HitsRight(itr)) {
+      // if moving right, and we hit the left or moving left and we hit right
+      else if (*moveByX > 0 && HitsLeft(itr) ||
+               *moveByX < 0 && HitsRight(itr)) {
         collided = true;
         if (itr->second->IsMovable()) {
-          *moveByY /= 2.0f;
+          *moveByX /= 2.0f;
         }
         else {
+          *moveByX = 0.0f;
+        }
+        if (sf::Keyboard::Up || sf::Keyboard::Down) {
           *moveByY = 0.0f;
-        }
-      }
-      // if moving right, and we hit the left but not the top or bottom
-      else if (*moveByX > 0 && HitsLeft(itr) && !HitsBottom(itr) && !HitsTop(itr)) {
-        collided = true;
-        if (itr->second->IsMovable()) {
-          *moveByX /= 2.0f;
-        }
-        else {
-          *moveByX = 0.0f;
-        }
-      }
-      // if moving left, and we hit the right but not the top or bottom
-      else if (*moveByX < 0 && HitsRight(itr) && !HitsBottom(itr) && !HitsTop(itr)) {
-        collided = true;
-        if (itr->second->IsMovable()) {
-          *moveByX /= 2.0f;
-        }
-        else {
-          *moveByX = 0.0f;
         }
       }
       if (collided == true) {
