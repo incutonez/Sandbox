@@ -8,10 +8,6 @@ class StaticWorldObject: public WorldObject {
     bool SetIsMovable(bool isMovable);
     bool IsMovable();
     bool CollisionDetection(float *moveByX, float *moveByY, float elapsedTime, std::vector<std::string> names);
-    bool HitsTop(std::map<std::string, StaticWorldObject *>::const_iterator);
-    bool HitsBottom(std::map<std::string, StaticWorldObject *>::const_iterator);
-    bool HitsLeft(std::map<std::string, StaticWorldObject *>::const_iterator);
-    bool HitsRight(std::map<std::string, StaticWorldObject *>::const_iterator);
 
   private:
     bool _isMovable;

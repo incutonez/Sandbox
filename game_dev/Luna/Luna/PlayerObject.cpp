@@ -67,8 +67,8 @@ bool PlayerObject::CollisionDetection(float *moveByX, float *moveByY, float elap
   while (itr != Game::GetStaticObjectsManager().GetGameObjects().end()) {
     if (itr->second->GetBoundingRect().intersects(rect)) {
       // if moving down, and we hit the top or moving up and we hit bottom
-      if (*moveByY > 0 && HitsTop(itr) ||
-          *moveByY < 0 && HitsBottom(itr)) {
+      if (*moveByY > 0 && HitsTop<StaticWorldObject>(itr) ||
+          *moveByY < 0 && HitsBottom<StaticWorldObject>(itr)) {
         collided = true;
         if (!itr->second->IsMovable()) {
           *moveByY = 0.0f;
@@ -79,8 +79,8 @@ bool PlayerObject::CollisionDetection(float *moveByX, float *moveByY, float elap
         }
       }
       // if moving right and we hit the left or moving left and we hit right
-      else if (*moveByX > 0 && HitsLeft(itr) ||
-               *moveByX < 0 && HitsRight(itr)) {
+      else if (*moveByX > 0 && HitsLeft<StaticWorldObject>(itr) ||
+               *moveByX < 0 && HitsRight<StaticWorldObject>(itr)) {
         collided = true;
         if (!itr->second->IsMovable()) {
           *moveByX = 0.0f;
@@ -100,38 +100,6 @@ bool PlayerObject::CollisionDetection(float *moveByX, float *moveByY, float elap
       }
     }
     itr++;
-  }
-  return collided;
-}
-
-bool PlayerObject::HitsTop(std::map<std::string, StaticWorldObject *>::const_iterator itr) {
-  bool collided = false;
-  if ((GetBoundingRect().top + GetBoundingRect().height) - itr->second->GetBoundingRect().top < 1.0f) {
-    collided = true;
-  }
-  return collided;
-}
-
-bool PlayerObject::HitsBottom(std::map<std::string, StaticWorldObject *>::const_iterator itr) {
-  bool collided = false;
-  if (itr->second->GetBoundingRect().top + itr->second->GetBoundingRect().height - GetBoundingRect().top < 1.0f) {
-    collided = true;
-  }
-  return collided;
-}
-
-bool PlayerObject::HitsLeft(std::map<std::string, StaticWorldObject *>::const_iterator itr) {
-  bool collided = false;
-  if ((GetBoundingRect().left + GetBoundingRect().width) - itr->second->GetBoundingRect().left < 1.0f) {
-    collided = true;
-  }
-  return collided;
-}
-
-bool PlayerObject::HitsRight(std::map<std::string, StaticWorldObject *>::const_iterator itr) {
-  bool collided = false;
-  if (itr->second->GetBoundingRect().left + itr->second->GetBoundingRect().width - GetBoundingRect().left < 1.0f) {
-    collided = true;
   }
   return collided;
 }
