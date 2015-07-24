@@ -7,7 +7,8 @@ class WorldObjectManager {
 	  WorldObjectManager();
 	  ~WorldObjectManager();
     
-	  void Add(WorldObject *gameObject);
+    template <typename T>
+	  void Add(T *gameObject);
 	  void Remove(std::string name);
 	  int GetObjectCount();
 	  WorldObject *Get(std::string name);

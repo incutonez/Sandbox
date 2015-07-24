@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "WorldObjectManager.h"
+#include "PlayerObject.h"
 
 // TODO: look into Smart Pointers http://www.boost.org/doc/libs/1_47_0/libs/smart_ptr/smart_ptr.htm
 
@@ -10,8 +11,9 @@ WorldObjectManager::~WorldObjectManager() {
 	std::for_each(GetGameObjects().begin(), GetGameObjects().end(), GameObjectDeallocator());
 }
 
-void WorldObjectManager::Add(WorldObject *gameObject) {
-  GetGameObjects().insert(std::pair<std::string, WorldObject *>(gameObject->GetKeyName(), gameObject));
+template <typename T>
+void WorldObjectManager::Add(T *gameObject) {
+  GetGameObjects().insert(std::pair<std::string, T *>(gameObject->GetKeyName(), gameObject));
 }
 
 void WorldObjectManager::Remove(std::string name) {
@@ -63,3 +65,7 @@ sf::Clock WorldObjectManager::GetClock() {
 float WorldObjectManager::GetElapsedTime() {
   return _clock.restart().asSeconds();
 }
+
+// TODO: figure out how to put in an impl file...
+template void WorldObjectManager::Add<PlayerObject>(PlayerObject *gameObject);
+template void WorldObjectManager::Add<StaticWorldObject>(StaticWorldObject *gameObject);
