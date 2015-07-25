@@ -4,68 +4,73 @@
 
 // TODO: look into Smart Pointers http://www.boost.org/doc/libs/1_47_0/libs/smart_ptr/smart_ptr.htm
 
-WorldObjectManager::WorldObjectManager() { }
+template <typename T>
+WorldObjectManager<T>::WorldObjectManager() { }
 
-WorldObjectManager::~WorldObjectManager() {
+template <typename T>
+WorldObjectManager<T>::~WorldObjectManager() {
   // GameObjectDeallocator is a "functor..." basically an object that can be called like a function
 	std::for_each(GetGameObjects().begin(), GetGameObjects().end(), GameObjectDeallocator());
 }
 
 template <typename T>
-void WorldObjectManager::Add(T *gameObject) {
+void WorldObjectManager<T>::Add(T *gameObject) {
   GetGameObjects().insert(std::pair<std::string, T *>(gameObject->GetKeyName(), gameObject));
 }
 
-void WorldObjectManager::Remove(std::string name) {
-	std::map<std::string, WorldObject *>::iterator results = GetGameObjects().find(name);
-	if (results != GetGameObjects().end()) {
+template <typename T>
+void WorldObjectManager<T>::Remove(std::string name) {
+  std::map<std::string, T *> gameObjects = GetGameObjects();
+	std::map<std::string, T *>::iterator results = gameObjects.find(name);
+	if (results != gameObjects.end()) {
 		delete results->second;
-		GetGameObjects().erase(results);
+		gameObjects.erase(results);
 	}
 }
 
-WorldObject *WorldObjectManager::Get(std::string name) {
-	std::map<std::string, WorldObject *>::const_iterator results = GetGameObjects().find(name);
-	if (results == GetGameObjects().end()) {
+template <typename T>
+T *WorldObjectManager<T>::Get(std::string name) {
+  std::map<std::string, T *> gameObjects = GetGameObjects();
+	std::map<std::string, T *>::const_iterator results = gameObjects.find(name);
+	if (results == gameObjects.end()) {
 		return NULL;
   }
 	return results->second;
 }
 
-int WorldObjectManager::GetObjectCount() {
-	return GetGameObjects().size();
-}
-
-void WorldObjectManager::DrawAll(sf::RenderWindow &renderWindow) {
-	std::map<std::string, WorldObject *>::const_iterator itr = GetGameObjects().begin();
-	while (itr != GetGameObjects().end()) {
+template <typename T>
+void WorldObjectManager<T>::DrawAll(sf::RenderWindow &renderWindow) {
+  std::map<std::string, T *> gameObjects = GetGameObjects();
+	std::map<std::string, T *>::const_iterator itr = gameObjects.begin();
+	while (itr != gameObjects.end()) {
 		itr->second->Draw(renderWindow);
 		itr++;
 	}
 }
 
-void WorldObjectManager::UpdateAll() {
-  std::map<std::string, WorldObject *>::const_iterator itr = GetGameObjects().begin();
+template <typename T>
+void WorldObjectManager<T>::UpdateAll() {
+  std::map<std::string, T *> gameObjects = GetGameObjects();
+  std::map<std::string, T *>::const_iterator itr = gameObjects.begin();
   float timeDelta = GetElapsedTime();
 
-  while (itr != GetGameObjects().end()) {
+  while (itr != gameObjects.end()) {
     itr->second->Update(timeDelta);
     itr++;
   }
 }
 
-std::map<std::string, WorldObject *> &WorldObjectManager::GetGameObjects() {
+template <typename T>
+std::map<std::string, T *> &WorldObjectManager<T>::GetGameObjects() {
   return _gameObjects;
 }
 
-sf::Clock WorldObjectManager::GetClock() {
+template <typename T>
+sf::Clock WorldObjectManager<T>::GetClock() {
   return _clock;
 }
 
-float WorldObjectManager::GetElapsedTime() {
+template <typename T>
+float WorldObjectManager<T>::GetElapsedTime() {
   return _clock.restart().asSeconds();
 }
-
-// TODO: figure out how to put in an impl file...
-template void WorldObjectManager::Add<PlayerObject>(PlayerObject *gameObject);
-template void WorldObjectManager::Add<StaticWorldObject>(StaticWorldObject *gameObject);

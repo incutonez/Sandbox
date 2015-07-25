@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "SFML\Graphics.hpp"
 #include "WorldObjectManager.h"
-#include "StaticWorldObjectManager.h"
+#include "StaticWorldObject.h"
+#include "PlayerObject.h"
 
 class Game {
   public:
@@ -16,11 +17,11 @@ class Game {
     static const int SCREEN_HEIGHT = 768;
     static GameStates SetGameState(GameStates);
     static GameStates GetGameState();
-	  static WorldObjectManager &GetWorldObjectManager();
-	  static StaticWorldObjectManager &GetStaticObjectsManager();
+    static WorldObjectManager<PlayerObject> &GetWorldObjectManager();
+    static WorldObjectManager<StaticWorldObject> &GetStaticObjectsManager();
   private:
     static GameStates _currentGameState;
     static sf::RenderWindow _mainWindow;
-    static WorldObjectManager _worldObjectManager;
-    static StaticWorldObjectManager _staticObjectsManager;
+    static WorldObjectManager<PlayerObject> _worldObjectManager;
+    static WorldObjectManager<StaticWorldObject> _staticObjectsManager;
 };

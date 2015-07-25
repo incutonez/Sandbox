@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Game.h"
 #include "SFML\Graphics.hpp"
+#include "WorldObjectManager.h"
 #include "PlayerObject.h"
 #include "StaticWorldObject.h"
 
@@ -37,11 +38,11 @@ void Game::Start() {
   }
 }
 
-WorldObjectManager &Game::GetWorldObjectManager() {
+WorldObjectManager<PlayerObject> &Game::GetWorldObjectManager() {
   return _worldObjectManager;
 }
 
-StaticWorldObjectManager &Game::GetStaticObjectsManager() {
+WorldObjectManager<StaticWorldObject> &Game::GetStaticObjectsManager() {
   return _staticObjectsManager;
 }
 
@@ -98,5 +99,5 @@ void Game::GameLoop() {
 
 sf::RenderWindow Game::_mainWindow;
 Game::GameStates Game::_currentGameState = Game::GameStates::STARTING;
-WorldObjectManager Game::_worldObjectManager;
-StaticWorldObjectManager Game::_staticObjectsManager;
+WorldObjectManager<PlayerObject> Game::_worldObjectManager;
+WorldObjectManager<StaticWorldObject> Game::_staticObjectsManager;

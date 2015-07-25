@@ -39,9 +39,6 @@
     <ClInclude Include="StaticWorldObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StaticWorldObjectManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -63,9 +60,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StaticWorldObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StaticWorldObjectManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WorldObjectManager-impl.cpp">

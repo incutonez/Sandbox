@@ -2,29 +2,25 @@
 #include "stdafx.h"
 #include "WorldObject.h"
 
+template <typename T>
 class WorldObjectManager {
   public:	
 	  WorldObjectManager();
 	  ~WorldObjectManager();
-    
-    template <typename T>
-	  void Add(T *gameObject);
-	  void Remove(std::string name);
-	  int GetObjectCount();
-	  WorldObject *Get(std::string name);
-    std::map<std::string, WorldObject *> &GetGameObjects();
     sf::Clock GetClock();
     float GetElapsedTime();
-
-	  virtual void DrawAll(sf::RenderWindow& renderWindow);
+	  T *Get(std::string name);
+    std::map<std::string, T *> &GetGameObjects();
     void UpdateAll();
-
+	  void Add(T *gameObject);
+	  void Remove(std::string name);
+	  virtual void DrawAll(sf::RenderWindow& renderWindow);
   private:
     sf::Clock _clock;
-	  std::map<std::string, WorldObject *> _gameObjects;
+	  std::map<std::string, T *> _gameObjects;
 	
 	  struct GameObjectDeallocator {
-		  void operator() (const std::pair<std::string, WorldObject *> & p) const {
+		  void operator() (const std::pair<std::string, T *> & p) const {
 			  delete p.second;
 		  }
 	  };
