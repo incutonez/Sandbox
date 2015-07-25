@@ -72,5 +72,5 @@ sf::Clock WorldObjectManager<T>::GetClock() {
 
 template <typename T>
 float WorldObjectManager<T>::GetElapsedTime() {
-  return _clock.restart().asSeconds();
+  return GetClock().restart().asSeconds();
 }
