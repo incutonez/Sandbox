@@ -28,11 +28,12 @@ PlayerObject::Actions PlayerObject::SetCurrentAction(Actions currentAction) {
   return _currentAction = currentAction;
 }
 
-void PlayerObject::AddInventoryItem(std::string itemName, StaticWorldObject *inventoryItem) {
-  GetInventoryItems().insert(std::pair<std::string, StaticWorldObject *>(itemName, inventoryItem));
+void PlayerObject::AddInventoryItem(StaticWorldObject *item) {
+  StaticWorldObject *copyItem = new StaticWorldObject(item->GetKeyName(), item->GetFileName(), item->IsMovable(), item->IsDamagable());
+  GetInventoryItems().insert(std::pair<std::string, StaticWorldObject *>(copyItem->GetKeyName(), copyItem));
 }
 
-std::map<std::string, StaticWorldObject *> PlayerObject::GetInventoryItems() {
+std::map<std::string, StaticWorldObject *> &PlayerObject::GetInventoryItems() {
   return _inventoryItems;
 }
 
@@ -86,7 +87,7 @@ bool PlayerObject::CollisionDetection(float *moveByX, float *moveByY, float elap
   while (itr != Game::GetStaticObjectsManager().GetGameObjects().end()) {
     if (itr->second->GetBoundingRect().intersects(rect)) {
       if (itr->second->IsCollectible()) {
-        //AddInventoryItem(itr->second->GetKeyName(), itr->second);
+        AddInventoryItem(itr->second);
         itr = Game::GetStaticObjectsManager().Remove(itr->first);
       }
       else {

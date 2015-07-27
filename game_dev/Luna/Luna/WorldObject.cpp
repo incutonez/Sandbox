@@ -62,6 +62,10 @@ bool WorldObject::SetIsDamagable(bool isDamagable) {
   return _isDamagable = isDamagable;
 }
 
+bool WorldObject::IsDamagable() {
+  return _isDamagable;
+}
+
 float WorldObject::GetHeight() {
   return GetBoundingRect().height;
 }
@@ -80,4 +84,8 @@ std::string WorldObject::GetKeyName() {
 
 std::string WorldObject::SetKeyName(std::string keyName) {
   return _keyName = keyName;
+}
+
+std::string WorldObject::GetFileName() {
+  return _filename;
 }

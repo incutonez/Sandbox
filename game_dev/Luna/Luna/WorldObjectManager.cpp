@@ -23,7 +23,7 @@ typename std::map<std::string, T *>::iterator WorldObjectManager<T>::Remove(std:
   std::map<std::string, T *> &gameObjects = GetGameObjects();
 	std::map<std::string, T *>::iterator results = gameObjects.find(name);
 	if (results != gameObjects.end()) {
-		delete results->second;
+    delete results->second;
 		results = gameObjects.erase(results);
 	}
   return results;

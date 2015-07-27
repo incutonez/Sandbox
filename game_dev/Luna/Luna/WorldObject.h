@@ -18,8 +18,10 @@ class WorldObject {
     virtual float GetHeight();
     virtual sf::Rect<float> GetBoundingRect();
     bool SetIsDamagable(bool isDamagable);
+    bool IsDamagable();
     std::string GetKeyName();
     std::string SetKeyName(std::string keyName);
+    std::string GetFileName();
     template <class T>
     bool HitsTop(typename std::map<std::string, T *>::const_iterator itr);
     template <class T>
