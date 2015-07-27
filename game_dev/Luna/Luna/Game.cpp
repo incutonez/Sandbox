@@ -26,6 +26,8 @@ void Game::Start() {
   rock6->SetPosition(SCREEN_WIDTH / 2 + 30, 130);
   StaticWorldObject *wall1 = new StaticWorldObject("Wall1", "images/big_rock.png", false, false);
   wall1->SetPosition(0, 0);
+  StaticWorldObject *sword = new StaticWorldObject("Sword1", "images/sword.png", false, false, true);
+  sword->SetPosition(100, 100);
   GetStaticObjectsManager().Add(rock1);
   GetStaticObjectsManager().Add(rock2);
   GetStaticObjectsManager().Add(rock3);
@@ -33,6 +35,7 @@ void Game::Start() {
   GetStaticObjectsManager().Add(rock5);
   GetStaticObjectsManager().Add(rock6);
   GetStaticObjectsManager().Add(wall1);
+  GetStaticObjectsManager().Add(sword);
   while (!IsExiting()) {
     GameLoop();
   }

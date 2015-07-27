@@ -15,7 +15,11 @@ class PlayerObject: public WorldObject {
     };
     Actions SetCurrentAction(Actions);
     bool CollisionDetection(float *moveByX, float *moveByY, float elapsedTime);
+    std::map<std::string, StaticWorldObject *> GetInventoryItems();
+    void AddInventoryItem(std::string, StaticWorldObject *);
+    StaticWorldObject * GetInventoryItem(std::string);
   private:
     const float _MOVEMENT_VALUE;
     Actions _currentAction;
+    std::map<std::string, StaticWorldObject *> _inventoryItems;
 };

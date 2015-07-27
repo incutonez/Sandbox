@@ -19,13 +19,14 @@ void WorldObjectManager<T>::Add(T *gameObject) {
 }
 
 template <typename T>
-void WorldObjectManager<T>::Remove(std::string name) {
-  std::map<std::string, T *> gameObjects = GetGameObjects();
+typename std::map<std::string, T *>::iterator WorldObjectManager<T>::Remove(std::string name) {
+  std::map<std::string, T *> &gameObjects = GetGameObjects();
 	std::map<std::string, T *>::iterator results = gameObjects.find(name);
 	if (results != gameObjects.end()) {
 		delete results->second;
-		gameObjects.erase(results);
+		results = gameObjects.erase(results);
 	}
+  return results;
 }
 
 template <typename T>
@@ -66,7 +67,7 @@ std::map<std::string, T *> &WorldObjectManager<T>::GetGameObjects() {
 }
 
 template <typename T>
-sf::Clock WorldObjectManager<T>::GetClock() {
+sf::Clock &WorldObjectManager<T>::GetClock() {
   return _clock;
 }
 

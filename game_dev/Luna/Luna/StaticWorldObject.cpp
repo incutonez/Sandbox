@@ -2,11 +2,24 @@
 #include "StaticWorldObject.h"
 #include "Game.h"
 
+StaticWorldObject::StaticWorldObject(std::string keyName, std::string fileName, bool movable, bool damagable, bool collectible) {
+  SetKeyName(keyName);
+  Load(fileName);
+  SetIsMovable(movable);
+  SetIsDamagable(damagable);
+  SetIsCollectible(collectible);
+}
+
 StaticWorldObject::StaticWorldObject(std::string keyName, std::string fileName, bool movable, bool damagable) {
   SetKeyName(keyName);
   Load(fileName);
   SetIsMovable(movable);
   SetIsDamagable(damagable);
+  SetIsCollectible(false);
+}
+
+StaticWorldObject::~StaticWorldObject() {
+
 }
 
 bool StaticWorldObject::SetIsMovable(bool isMovable) {
@@ -15,6 +28,14 @@ bool StaticWorldObject::SetIsMovable(bool isMovable) {
 
 bool StaticWorldObject::IsMovable() {
   return _isMovable;
+}
+
+bool StaticWorldObject::SetIsCollectible(bool isCollectible) {
+  return _isCollectible = isCollectible;
+}
+
+bool StaticWorldObject::IsCollectible() {
+  return _isCollectible;
 }
 
 bool StaticWorldObject::CollisionDetection(float *moveByX, float *moveByY, float elapsedTime, std::vector<std::string> names) {

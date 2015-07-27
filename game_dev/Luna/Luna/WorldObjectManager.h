@@ -7,13 +7,13 @@ class WorldObjectManager {
   public:	
 	  WorldObjectManager();
 	  ~WorldObjectManager();
-    sf::Clock GetClock();
+    sf::Clock &GetClock();
     float GetElapsedTime();
 	  T *Get(std::string name);
     std::map<std::string, T *> &GetGameObjects();
     void UpdateAll();
 	  void Add(T *gameObject);
-	  void Remove(std::string name);
+	  typename std::map<std::string, T *>::iterator Remove(std::string name);
 	  virtual void DrawAll(sf::RenderWindow& renderWindow);
   private:
     sf::Clock _clock;
