@@ -19,8 +19,11 @@ class Game {
     static GameStates GetGameState();
     static WorldObjectManager<PlayerObject> &GetWorldObjectManager();
     static WorldObjectManager<StaticWorldObject> &GetStaticObjectsManager();
+    static sf::Event GetCurrentEvent();
+    static void SetCurrentEvent(sf::Event currentEvent);
   private:
     static GameStates _currentGameState;
+    static sf::Event _currentEvent;
     static sf::RenderWindow _mainWindow;
     static WorldObjectManager<PlayerObject> _worldObjectManager;
     static WorldObjectManager<StaticWorldObject> _staticObjectsManager;

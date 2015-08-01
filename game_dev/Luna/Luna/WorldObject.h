@@ -30,7 +30,9 @@ class WorldObject {
     bool HitsLeft(typename std::map<std::string, T *>::const_iterator itr);
     template <class T>
     bool HitsRight(typename std::map<std::string, T *>::const_iterator itr);
-
+    void MoveObject(float x, float y);
+    void RotateObject(float angle);
+    void SetObjectRotationAngle(float angle);
   protected:
     sf::Sprite &GetSprite();
 

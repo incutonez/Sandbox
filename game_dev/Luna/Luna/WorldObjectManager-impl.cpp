@@ -12,6 +12,8 @@ template void WorldObjectManager<PlayerObject>::Add(PlayerObject *gameObject);
 template void WorldObjectManager<StaticWorldObject>::Add(StaticWorldObject *gameObject);
 template std::map<std::string, PlayerObject *>::iterator WorldObjectManager<PlayerObject>::Remove(std::string);
 template std::map<std::string, StaticWorldObject *>::iterator WorldObjectManager<StaticWorldObject>::Remove(std::string);
+template std::map<std::string, PlayerObject *>::iterator WorldObjectManager<PlayerObject>::RemoveFromWorld(std::string);
+template std::map<std::string, StaticWorldObject *>::iterator WorldObjectManager<StaticWorldObject>::RemoveFromWorld(std::string);
 template PlayerObject *WorldObjectManager<PlayerObject>::Get(std::string name);
 template StaticWorldObject *WorldObjectManager<StaticWorldObject>::Get(std::string name);
 template void WorldObjectManager<PlayerObject>::UpdateAll();

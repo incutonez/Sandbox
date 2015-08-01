@@ -6,6 +6,7 @@ PlayerObject::PlayerObject():
   _MOVEMENT_VALUE(100.0f) {
 	Load("images/left.png");
   SetKeyName("Player");
+  SetHasSword(false);
   /* Reason for assert is that you cannot return from a constructor,
    * and if this errors out, you could try dealing with error handling,
    * but if the assert is not true, then it kills the program, which
@@ -24,13 +25,25 @@ float PlayerObject::GetMovementValue() {
   return _MOVEMENT_VALUE;
 }
 
+PlayerObject::Actions PlayerObject::GetCurrentAction() {
+  return _currentAction;
+}
+
 PlayerObject::Actions PlayerObject::SetCurrentAction(Actions currentAction) {
   return _currentAction = currentAction;
 }
 
+void PlayerObject::SetHasSword(bool hasSword) {
+  _hasSword = hasSword;
+}
+
 void PlayerObject::AddInventoryItem(StaticWorldObject *item) {
-  StaticWorldObject *copyItem = new StaticWorldObject(item->GetKeyName(), item->GetFileName(), item->IsMovable(), item->IsDamagable());
-  GetInventoryItems().insert(std::pair<std::string, StaticWorldObject *>(copyItem->GetKeyName(), copyItem));
+  StaticWorldObject *clone = new StaticWorldObject(item->GetKeyName(), item->GetFileName(), item->IsMovable(), item->IsDamagable());
+  std::string keyName = clone->GetKeyName();
+  if (keyName == "Sword1") {
+    SetHasSword(true);
+  }
+  GetInventoryItems().insert(std::pair<std::string, StaticWorldObject *>(keyName, clone));
 }
 
 std::map<std::string, StaticWorldObject *> &PlayerObject::GetInventoryItems() {
@@ -41,15 +54,18 @@ StaticWorldObject * PlayerObject::GetInventoryItem(std::string itemName) {
   return GetInventoryItems().find(itemName)->second;
 }
 
+bool PlayerObject::HasSword() {
+  return _hasSword;
+}
+
 void PlayerObject::Update(float elapsedTime) {
   float moveByX = 0.0f;
   float moveByY = 0.0f;
-  
   // If fighting, can't move too
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) {
+  if (GetCurrentAction() != DONE_FIGHTING && GetCurrentAction() != FIGHTING && sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) {
     SetCurrentAction(FIGHTING);
   }
-  else {
+  else if (GetCurrentAction() != FIGHTING) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
       moveByY = GetMovementValue();
     }
@@ -68,11 +84,37 @@ void PlayerObject::Update(float elapsedTime) {
     if (moveByX != 0.0f || moveByY != 0.0f) {
       SetCurrentAction(WALKING);
     }
-    else {
+    else if (GetCurrentAction() != DONE_FIGHTING) {
       SetCurrentAction(STANDING);
     }
   }
-  GetSprite().move(moveByX * elapsedTime, moveByY * elapsedTime);
+  if (GetCurrentAction() == FIGHTING) {
+    if (HasSword()) {
+      StaticWorldObject *inventoryItem = GetInventoryItem("Sword1");
+      if (inventoryItem != NULL) {
+        if (Game::GetStaticObjectsManager().Get("Sword1") == NULL) {
+          Game::GetStaticObjectsManager().Add(inventoryItem);
+          inventoryItem->SetObjectRotationAngle(90.0f);
+          inventoryItem->SetPosition(GetBoundingRect().left + GetBoundingRect().width + inventoryItem->GetBoundingRect().width / 2, GetBoundingRect().top + 15);
+        }
+        if (inventoryItem->GetBoundingRect().left < GetBoundingRect().left + GetBoundingRect().width) {
+          SetCurrentAction(FIGHTING);
+          inventoryItem->MoveObject(40.0f * elapsedTime, 0.0f);
+        }
+        else {
+          SetCurrentAction(DONE_FIGHTING);
+          Game::GetStaticObjectsManager().RemoveFromWorld("Sword1");
+        }
+      }
+    }
+    else {
+      SetCurrentAction(DONE_FIGHTING);
+    }
+  }
+  if (GetCurrentAction() == DONE_FIGHTING && Game::GetCurrentEvent().key.code == sf::Keyboard::RControl) {
+    SetCurrentAction(STANDING);
+  }
+  MoveObject(moveByX * elapsedTime, moveByY * elapsedTime);
 }
 
 bool PlayerObject::CollisionDetection(float *moveByX, float *moveByY, float elapsedtime) {

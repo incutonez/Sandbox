@@ -4,6 +4,10 @@
 
 class StaticWorldObject: public WorldObject {
   public:
+    // Clone constructor
+    StaticWorldObject(const StaticWorldObject& rhs) {}
+    // Clone assignment operator
+    StaticWorldObject& operator=(const StaticWorldObject& rhs) {};
     StaticWorldObject(std::string keyName, std::string fileName, bool movable, bool damagable);
     StaticWorldObject(std::string keyName, std::string fileName, bool movable, bool damagable, bool collectible);
     ~StaticWorldObject();

@@ -14,6 +14,7 @@ class WorldObjectManager {
     void UpdateAll();
 	  void Add(T *gameObject);
 	  typename std::map<std::string, T *>::iterator Remove(std::string name);
+	  typename std::map<std::string, T *>::iterator RemoveFromWorld(std::string name);
 	  virtual void DrawAll(sf::RenderWindow& renderWindow);
   private:
     sf::Clock _clock;

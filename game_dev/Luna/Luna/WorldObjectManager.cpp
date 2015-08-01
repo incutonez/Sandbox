@@ -19,6 +19,16 @@ void WorldObjectManager<T>::Add(T *gameObject) {
 }
 
 template <typename T>
+typename std::map<std::string, T *>::iterator WorldObjectManager<T>::RemoveFromWorld(std::string name) {
+  std::map<std::string, T *> &gameObjects = GetGameObjects();
+	std::map<std::string, T *>::iterator results = gameObjects.find(name);
+	if (results != gameObjects.end()) {
+		results = gameObjects.erase(results);
+	}
+  return results;
+}
+
+template <typename T>
 typename std::map<std::string, T *>::iterator WorldObjectManager<T>::Remove(std::string name) {
   std::map<std::string, T *> &gameObjects = GetGameObjects();
 	std::map<std::string, T *>::iterator results = gameObjects.find(name);

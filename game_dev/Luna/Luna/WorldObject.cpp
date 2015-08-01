@@ -16,6 +16,18 @@ WorldObject::WorldObject(std::string keyName, std::string fileName) {
 
 WorldObject::~WorldObject() { }
 
+void WorldObject::RotateObject(float angle) {
+  GetSprite().rotate(angle);
+}
+
+void WorldObject::SetObjectRotationAngle(float angle) {
+  GetSprite().setRotation(angle);
+}
+
+void WorldObject::MoveObject(float x, float y) {
+  GetSprite().move(x, y);
+}
+
 void WorldObject::Load(std::string filename) {
   if (_image.loadFromFile(filename) == false) {
     _filename = "";
