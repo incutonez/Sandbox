@@ -61,9 +61,11 @@ bool PlayerObject::HasSword() {
 void PlayerObject::Update(float elapsedTime) {
   float moveByX = 0.0f;
   float moveByY = 0.0f;
-  // If fighting, can't move too
-  if (GetCurrentAction() != DONE_FIGHTING && GetCurrentAction() != FIGHTING && sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) {
-    SetCurrentAction(FIGHTING);
+  // If right control is pressed, don't allow any movement until it's released
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) {
+    if (GetCurrentAction() != DONE_FIGHTING && GetCurrentAction() != FIGHTING) {
+      SetCurrentAction(FIGHTING);
+    }
   }
   else if (GetCurrentAction() != FIGHTING) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
@@ -111,7 +113,8 @@ void PlayerObject::Update(float elapsedTime) {
       SetCurrentAction(DONE_FIGHTING);
     }
   }
-  if (GetCurrentAction() == DONE_FIGHTING && Game::GetCurrentEvent().key.code == sf::Keyboard::RControl) {
+  // Check to see if the right control was released from being pressed... this is so the user can swing the sword again, even if they don't move
+  if (GetCurrentAction() == DONE_FIGHTING && Game::GetCurrentEvent().type == sf::Event::KeyReleased && Game::GetCurrentEvent().key.code == sf::Keyboard::RControl) {
     SetCurrentAction(STANDING);
   }
   MoveObject(moveByX * elapsedTime, moveByY * elapsedTime);

@@ -68,18 +68,13 @@ Game::GameStates Game::GetGameState() {
   return _currentGameState;
 }
 
-sf::Event Game::GetCurrentEvent() {
+sf::Event &Game::GetCurrentEvent() {
   return _currentEvent;
 }
 
-void Game::SetCurrentEvent(sf::Event currentEvent) {
-  _currentEvent = currentEvent;
-}
-
 void Game::GameLoop() {
-  sf::Event currentEvent;
+  sf::Event &currentEvent = GetCurrentEvent();
   GetMainWindow().pollEvent(currentEvent);
-  SetCurrentEvent(currentEvent);
   switch(GetGameState()) {
     case Game::STARTING: {
       if (currentEvent.type == sf::Event::KeyPressed) {
@@ -91,9 +86,9 @@ void Game::GameLoop() {
     case Game::PLAYING: {
       GetMainWindow().clear(sf::Color(0, 0, 0));
       GetWorldObjectManager().UpdateAll();
-      GetWorldObjectManager().DrawAll(_mainWindow);
+      GetWorldObjectManager().DrawAll(GetMainWindow());
       GetStaticObjectsManager().UpdateAll();
-      GetStaticObjectsManager().DrawAll(_mainWindow);
+      GetStaticObjectsManager().DrawAll(GetMainWindow());
       GetMainWindow().display();
          
       if (currentEvent.type == sf::Event::Closed) {
