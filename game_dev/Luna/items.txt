@@ -1,0 +1,27 @@
+- hookshot (pulls you to certain areas/only able to hook certain objects)
+- shovel (for digging/finding secrets... maybe have some sort of secret castle with it)
+- boomerang
+- bow & arrow
+- bombs
+- candle (burn things, allows you to see in dark areas)
+- axe (have a plant castle, and can use this item for chopping down trees)
+- tnt (upgrade to bombs?  does more damage/blast radius/blows up boulders)
+- skeleton key
+- hammer?  (break boulders/stone?)
+- power bracelet (lift/move heavier items)
+- electricity wand
+- wallet (carrying money)
+- shields
+-- wood
+-- metal (gets in castle)
+- swords (in order)
+-- dark red sword (starting sword)
+-- white sword
+-- orange red sword (tempered)
+-- gold sword (final, Grand Sword)
+- tunics
+-- green (normal)
+-- red (fire)
+-- blue (water)
+-- black (replaces green)
+-- silver/white (replaces black, final)

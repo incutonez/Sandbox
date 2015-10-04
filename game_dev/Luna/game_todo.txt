@@ -1,0 +1,32 @@
+﻿- create simple player images with 3 movements
+-- right leg ahead
+-- left leg ahead
+-- both legs stopped
+- create different types of AI
+-- moves back and forth between a path
+-- chases player
+-- moves back and forth between a path but chases player when they get close
+-- stationary that fires at player
+-- moves away from player
+- implement physics (possibly)
+- have player move between screens
+-- need to know player's current tile
+-- also will need to know player's current castle tile (gets removed upon leaving a castle)
+-- create tile files, which contain how that tile is laid out
+-- dynamically create tiles/generate random enemies in there
+- have player die
+- create welcome screen
+- create saving
+- give player items
+- create item screen
+- create dialog
+- create health bar
+- split the map into block levels... block level 1 contains the path to get to dungeon 1, block level 2 for dungeon 2, etc.
+-- randomize the blocks, so maybe the user would have to travel through block 8 to get to block 1
+-- possibly randomize the block levels
+- sword can cut non-enemy objects in the game (trees, doors, etc.)
+-- objects take so many cuts before breaking
+-- some objects aren't breakable
+-- some non-breakable objects are secretly breakable... like a certain boulder can be broken
+-- higher powered swords take less time to break these objects
+-- highest powered sword can only break these secretly breakable objects
