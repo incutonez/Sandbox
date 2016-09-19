@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         final Uri uri = MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI;
         final String idKey = MediaStore.Audio.Playlists._ID;
         final String nameKey = MediaStore.Audio.Playlists.NAME;
-        final String countKey = MediaStore.Audio.Playlists._COUNT;
         final String[] columns = { idKey, nameKey };
         final Cursor playLists = resolver.query(uri, columns, null, null, null);
         if (playLists == null) {

@@ -15,6 +15,7 @@ import android.widget.TextView;
 public class PlaylistSongCursor extends CursorAdapter {
     final String songNameKey = MediaStore.Audio.AudioColumns.TITLE;
     final String artistKey = MediaStore.Audio.AudioColumns.ARTIST;
+    final String SONG_ALBUM_KEY = MediaStore.Audio.AudioColumns.ALBUM;
 
     public PlaylistSongCursor(Context context, Cursor cursor) {
         super(context, cursor, 0);
@@ -34,11 +35,14 @@ public class PlaylistSongCursor extends CursorAdapter {
         // Find fields to populate in inflated template
         TextView songName = (TextView) view.findViewById(R.id.songName);
         TextView artistName = (TextView) view.findViewById(R.id.artistName);
+        TextView albumName = (TextView) view.findViewById(R.id.albumName);
         // Extract properties from cursor
         String name = cursor.getString(cursor.getColumnIndexOrThrow(songNameKey));
         String artist = cursor.getString(cursor.getColumnIndexOrThrow(artistKey));
+        String album = cursor.getString(cursor.getColumnIndexOrThrow(SONG_ALBUM_KEY));
         // Populate fields with extracted properties
         songName.setText(name);
         artistName.setText(artist);
+        albumName.setText(album);
     }
 }
