@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="playlist_settings_array">
+        <item>Default</item>
         <item>Sort by Artist, Album, Track ASC</item>
         <item>Sort by Artist, Album, Track DESC</item>
     </string-array>
