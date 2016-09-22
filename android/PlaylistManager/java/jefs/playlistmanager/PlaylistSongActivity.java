@@ -1,5 +1,6 @@
 package jefs.playlistmanager;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -25,8 +26,12 @@ public class PlaylistSongActivity extends AppCompatActivity {
     final String SONG_TRACK_NO_KEY = MediaStore.Audio.AudioColumns.TRACK;
     final String DEFAULT_SORT_KEY = MediaStore.Audio.Playlists.Members.DEFAULT_SORT_ORDER;
     final String PLAYLIST_ID_KEY = MediaStore.Audio.Playlists.Members.PLAYLIST_ID;
+    final String AUDIO_ID_KEY = MediaStore.Audio.Playlists.Members.AUDIO_ID;
+    final String PLAY_ORDER_KEY = MediaStore.Audio.Playlists.Members.PLAY_ORDER;
+    final String DATE_ADDED_KEY = MediaStore.Audio.Playlists.Members.DATE_ADDED;
+    final String DATE_MODIFIED_KEY = MediaStore.Audio.Playlists.Members.DATE_MODIFIED;
     final String CASE_INSENSITIVE = " COLLATE NOCASE ";
-    final String[] PLAYLIST_QUERY_COLUMNS = {DEFAULT_SORT_KEY, SONG_ID_KEY, SONG_ARTIST_KEY, SONG_TITLE_KEY, SONG_ALBUM_KEY, SONG_TRACK_NO_KEY};
+    final String[] PLAYLIST_QUERY_COLUMNS = {DATE_MODIFIED_KEY, AUDIO_ID_KEY, PLAYLIST_ID_KEY, DEFAULT_SORT_KEY, SONG_ID_KEY, SONG_ARTIST_KEY, SONG_TITLE_KEY, SONG_ALBUM_KEY, SONG_TRACK_NO_KEY};
     String sort;
 
     @Override
@@ -56,23 +61,43 @@ public class PlaylistSongActivity extends AppCompatActivity {
         // Song grid
         ListView playlistSongsView = getSongGrid();
         final Cursor playlistSongs = createPlaylistCursor(null);
-        PlaylistSongCursor playlistSongsAdapter = new PlaylistSongCursor(playlistSongsView.getContext(), playlistSongs);
-        playlistSongsView.setAdapter((playlistSongsAdapter));
+        if (playlistSongs != null) {
+            playlistSongs.moveToFirst();
+            PlaylistSongCursor playlistSongsAdapter = new PlaylistSongCursor(playlistSongsView.getContext(), playlistSongs);
+            playlistSongsView.setAdapter((playlistSongsAdapter));
+        }
+        getSaveButton().setOnClickListener(new AdapterView.OnClickListener() {
+            public void onClick(View view) {
+                Cursor myCursor = createPlaylistCursor(sort);
+                int i = 0;
+                if(myCursor.moveToFirst()) {
+                    Uri playListUri = getPlaylistUri();
+                    ContentValues[] values = new ContentValues[myCursor.getCount()];
+                    ContentResolver contentResolver = getContentResolver();
+                    do {
+                        ContentValues map = new ContentValues();
+                        map.put(PLAY_ORDER_KEY, Long.valueOf(i + 1));
+                        map.put(AUDIO_ID_KEY, myCursor.getInt(myCursor.getColumnIndexOrThrow(AUDIO_ID_KEY)));
+                        values[i++] = map;
+                    } while(myCursor.moveToNext());
+                    contentResolver.delete(playListUri, null, null);
+                    contentResolver.bulkInsert(playListUri, values);
+                    Log.d("BLA", "done");
+                }
+            }
+        });
     }
 
     public void sortGrid(int sortType) {
         ListView songGrid = getSongGrid();
         PlaylistSongCursor songGridAdapter = (PlaylistSongCursor) songGrid.getAdapter();
-        Cursor currentCursor = songGridAdapter.getCursor();
-        sort = currentCursor.getString(currentCursor.getColumnIndexOrThrow(DEFAULT_SORT_KEY));
-        Log.d("BLAH", sort);
         switch (sortType) {
             case 1:
                 sort = SONG_ARTIST_KEY + CASE_INSENSITIVE + "ASC, " +
                         SONG_ALBUM_KEY + CASE_INSENSITIVE + "ASC, " +
                         SONG_TRACK_NO_KEY + " ASC";
                 break;
-            case 2:
+            default:
                 sort = SONG_ARTIST_KEY + CASE_INSENSITIVE + "DESC, " +
                         SONG_ALBUM_KEY + CASE_INSENSITIVE + "DESC, " +
                         SONG_TRACK_NO_KEY + " DESC";
@@ -81,46 +106,8 @@ public class PlaylistSongActivity extends AppCompatActivity {
         songGridAdapter.changeCursor(createPlaylistCursor(sort));
     }
 
-    public void onClickSaveButton(View view) {
-        ListView songGrid = getSongGrid();
-        PlaylistSongCursor songGridAdapter = (PlaylistSongCursor) songGrid.getAdapter();
-        Cursor myCursor = songGridAdapter.getCursor();
-        ContentValues[] retVal = new ContentValues[myCursor.getCount()];
-        int i = 0;
-        if(myCursor.moveToFirst()) {
-            do {
-                ContentValues map = new ContentValues();
-                DatabaseUtils.cursorRowToContentValues(myCursor, map);
-                retVal[i++] = map;
-            } while(myCursor.moveToNext());
-        }
-        // Empties db
-        getContentResolver().delete(getPlaylistUri(), null, null);
-        // Logs 2 (as that's how many items are in my list)
-        Log.d("BLA", String.valueOf(retVal.length));
-        /* Threw an error once saying:
-         * Uncaught remote exception!  (Exceptions are not yet supported across processes.)
-         * java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Number */
-        final int retInt = getContentResolver().bulkInsert(getPlaylistUri(), retVal);
-        // Logs 0
-        Log.d("DONE", String.valueOf(retInt));
-    }
-
-    // doesn't persist to other apps
-    public void onClickSaveButton2(View view) {
-        //Create empty values
-        ContentValues values= new ContentValues();
-        Log.d("BLAH", sort);
-        //put all you want to update
-        values.put(DEFAULT_SORT_KEY, sort);
-        //call update method on ContentResolver
-        int rows = getContentResolver().update(
-                getPlaylistUri(), //uri to modify
-                values, //new values for
-                PLAYLIST_ID_KEY + "=?", //selection clause
-                new String[] {String.valueOf(getPlaylistId())} //selection args
-        );
-        Log.d("BLA", String.valueOf(rows));
+    public Button getSaveButton() {
+        return (Button) findViewById(R.id.saveButton);
     }
 
     public ListView getSongGrid() {

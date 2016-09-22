@@ -21,7 +21,6 @@
                     android:text="Save"
                     android:id="@+id/saveButton"
                     android:layout_gravity="center_horizontal"
-                    android:onClick="onClickSaveButton"
                     android:layout_weight="0" />
         </LinearLayout>
         <ListView
