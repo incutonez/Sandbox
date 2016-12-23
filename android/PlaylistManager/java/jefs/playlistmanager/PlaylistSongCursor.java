@@ -13,9 +13,9 @@ import android.widget.TextView;
  * Created by Jef on 9/18/2016.
  */
 public class PlaylistSongCursor extends CursorAdapter {
-    final String songNameKey = MediaStore.Audio.AudioColumns.TITLE;
-    final String artistKey = MediaStore.Audio.AudioColumns.ARTIST;
-    final String SONG_ALBUM_KEY = MediaStore.Audio.AudioColumns.ALBUM;
+    final String songNameKey = "folder_files.name";
+    final String artistKey = "artists.artist";
+    final String SONG_ALBUM_KEY = "albums.album";
 
     public PlaylistSongCursor(Context context, Cursor cursor) {
         super(context, cursor, 0);

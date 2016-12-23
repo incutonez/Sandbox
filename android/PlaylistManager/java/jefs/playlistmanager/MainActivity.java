@@ -16,8 +16,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.maxmpz.poweramp.player.PowerampAPI;
+
 public class MainActivity extends AppCompatActivity {
-    private static final String LOGGING_TAG = "PlaylistManager";
+    private static final String LOGGING_TAG = "BLAH";
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     @Override
@@ -42,10 +44,11 @@ public class MainActivity extends AppCompatActivity {
         // Get a cursor over all playlists.
         final ContentResolver resolver = this.getContentResolver();
         final Uri uri = MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI;
-        final String idKey = MediaStore.Audio.Playlists._ID;
-        final String nameKey = MediaStore.Audio.Playlists.NAME;
+        final String idKey = "_id";
+        final String nameKey = "folder_playlists.name";
         final String[] columns = { idKey, nameKey };
-        final Cursor playLists = resolver.query(uri, columns, null, null, null);
+        final String criteria = null;
+        final Cursor playLists = resolver.query(Uri.parse("content://com.maxmpz.audioplayer.data/playlists"), columns, criteria, null, "name ASC");
         if (playLists == null) {
             Log.e(LOGGING_TAG, "Found no playlists.");
             return;
