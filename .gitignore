@@ -3,5 +3,12 @@
 *.sass-cache/
 *.opensdf
 */**/ipch/
-game_dev/**/**/Debug/
 *.vcxproj.user
+/game_dev/Luna/SFML-2.4.2/doc
+/game_dev/Luna/SFML-2.4.2/examples
+/game_dev/Luna/SFML-2.4.2/license.txt
+/game_dev/Luna/SFML-2.4.2/readme.txt
+/game_dev/Luna/.vs/Luna/v15/.suo
+/game_dev/Luna/.vs/Luna/v15/Browse.VC.db
+/game_dev/Luna/.vs/Luna/v15/Browse.VC.opendb
+/game_dev/Luna/Luna/x64
