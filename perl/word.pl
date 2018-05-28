@@ -81,6 +81,7 @@ if ($word) {
 while (my $line = <$fh>) {
   my $output;
   $line =~ s/\p{IsC}|['"-]//g;
+  next if $len && length $line != $len;
   next if $strict_match && length $letters ne length $line;
   next if $word && $line !~ /^$word$/;
   if ($available && $word) {
