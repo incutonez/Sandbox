@@ -193,7 +193,9 @@ Examples:
     # Option -t is used for printing words that are greater than a certain
     # number, so you can see higher values
     
-    # Options -d is used to suppress any printing for debugging purposes
+    # Option -d is used to suppress any printing for debugging purposes
+    
+    # Option -c sorts the words by their point count
 		
 		# Returns alined, clinch, clinic, flinch, plinth
 		perl word.pl -w .lin..
