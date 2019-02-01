@@ -1,12 +1,8 @@
 package com.jef.playlistmanager;
 
-import android.content.ContentProvider;
-import android.content.ContentResolver;
-import android.content.ContentValues;
+import android.content.ContentProviderOperation;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,7 +13,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
 public class PlaylistSongActivity extends AppCompatActivity {
@@ -27,7 +22,7 @@ public class PlaylistSongActivity extends AppCompatActivity {
     final String SONG_TITLE_KEY  = "folder_files.name";
     final String SONG_TRACK_NO_KEY = "folder_files.track_number";
     final String CASE_INSENSITIVE = " COLLATE NOCASE ";
-    final String[] columns = { SONG_ID_KEY, SONG_TITLE_KEY, SONG_ARTIST_KEY, SONG_ALBUM_KEY, SONG_TRACK_NO_KEY };
+    final String[] columns = { SONG_ID_KEY, SONG_TITLE_KEY, SONG_ARTIST_KEY, SONG_ALBUM_KEY, SONG_TRACK_NO_KEY, "folder_files.shuffle_order", "playlist_id" };
     String sort;
 
     @Override
@@ -69,19 +64,24 @@ public class PlaylistSongActivity extends AppCompatActivity {
         }
         getSaveButton().setOnClickListener(new AdapterView.OnClickListener() {
             public void onClick(View view) {
-                Cursor myCursor = createPlaylistCursor(sort);
-                int i = 0;
-                if(myCursor.moveToFirst()) {
+                Cursor songs = createPlaylistCursor(sort);
+                if (songs.moveToFirst()) {
+                    int i = 0;
                     Uri playListUri = getPlaylistUri();
-                    ContentResolver contentResolver = getContentResolver();
-                    ContentValues map;
-                    String whereClause = "folder_file_id=" + myCursor.getInt(myCursor.getColumnIndexOrThrow(SONG_ID_KEY));
+                    // Update in bulk fashion https://stackoverflow.com/a/54471557/1253609
+                    ArrayList<ContentProviderOperation> cs = new ArrayList<ContentProviderOperation>();
                     do {
-                        map = new ContentValues();
-                        map.put("sort", i++);
-                        // The table this updates is folder_playlist_entries and folder_file_id is the folder_files._id (SONG_ID_KEY) for that song
-                        contentResolver.update(playListUri, map, whereClause, null);
-                    } while(myCursor.moveToNext());
+                        cs.add(ContentProviderOperation.newUpdate(playListUri)
+                                .withSelection("folder_file_id=" + songs.getInt(songs.getColumnIndexOrThrow("folder_files._id")), null)
+                                .withValue("sort", i++)
+                                .build());
+                    } while (songs.moveToNext());
+                    try {
+                        getContentResolver().applyBatch("com.jef.playlistmanager", cs);
+                    }
+                    catch (Exception e) {
+
+                    }
                 }
             }
         });
