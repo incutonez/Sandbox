@@ -77,10 +77,11 @@ public class PlaylistSongActivity extends AppCompatActivity {
                                 .build());
                     } while (songs.moveToNext());
                     try {
-                        getContentResolver().applyBatch("com.jef.playlistmanager", cs);
+                        // Needs to be a valid authority for that package... found this in the PowerampAPI class
+                        getContentResolver().applyBatch("com.maxmpz.audioplayer.data", cs);
                     }
                     catch (Exception e) {
-
+                        Log.e("BLAH", "Err", e);
                     }
                 }
             }
