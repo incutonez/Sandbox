@@ -4,12 +4,13 @@ $sw = [Diagnostics.Stopwatch]::StartNew()
 $objShell = New-Object -ComObject Shell.Application
 $table = @()
 $FormatEnumerationLimit=-1
-$filePath = "C:\Users\jharkay\Desktop\blah2.txt"
-$wStream = New-Object IO.FileStream $filePath ,'Create','Write'
+$outFilePath = "C:\Users\jharkay\Desktop\blah2.txt"
+$inFilePath = "C:\Users\jharkay\Desktop\music"
+$wStream = New-Object IO.FileStream $outFilePath,'Create','Write'
 $sWriter = New-Object System.IO.StreamWriter $wStream
-$i = 0;
+$i = 0
 echo "Starting loading files..."
-foreach($file in Get-ChildItem "music" -file -recurse -include $include) 
+foreach($file in Get-ChildItem $inFilePath -file -recurse -include $include) 
 {
   if ($i++ -eq 0) {
     echo "Done loading files..."
@@ -25,26 +26,26 @@ foreach($file in Get-ChildItem "music" -file -recurse -include $include)
   #$album = $objFolder.getDetailsOf($item, 14);
   # works, but I'm not sure if it's valid?
   #$album = $item.ExtendedProperty("album")
+  # track name
+  $trackName = $objFolder.getDetailsOf($item, 21);
   $fileNameOriginal = $file.name
   $fileName = $fileNameOriginal -replace [regex]::escape($trackName),""
   #if ($fileName -match "$artist|$album|album|nodrm|\(dc[^)]*|lp version|remaster") {
-    # track name
-    $trackName = $objFolder.getDetailsOf($item, 21);
-    # Doesn't seem to work?
-    #$trackName = $item.ExtendedProperty("title")
-    # track number
-    #$trackNumber = $objFolder.getDetailsOf($item, 26);
-    # Doesn't seem to work?
-    $trackNumber = $item.ExtendedProperty("track")
-    $extension = $file.Extension
-    if ($trackNumber -and [convert]::ToInt32($trackNumber, 10) -lt 10) {
+  # Doesn't seem to work?
+  #$trackName = $item.ExtendedProperty("title")
+  # track number
+  #$trackNumber = $objFolder.getDetailsOf($item, 26);
+  # Doesn't seem to work?
+  $trackNumber = $item.ExtendedProperty("track")
+  $extension = $file.Extension
+  if ($trackNumber) {
+    if ([convert]::ToInt32($trackNumber, 10) -lt 10) {
       $trackNumber = "0$trackNumber"
     }
-    if ($trackNumber) {
-      $trackNumber = "$trackNumber "
-    }
-    #$table += @{Before="$fileNameOriginal"; After="$trackNumber$trackName$extension"}
-    $sWriter.WriteLine("$fileNameOriginal`n$trackNumber$trackName$extension`n")
+    $trackNumber = "$trackNumber "
+  }
+  #$table += @{Before="$fileNameOriginal"; After="$trackNumber$trackName$extension"}
+  $sWriter.WriteLine("$fileNameOriginal`n$trackNumber$trackName$extension`n")
   #}
 }
 $sWriter.close()
