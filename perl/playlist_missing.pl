@@ -4,31 +4,32 @@ use HTML::Entities;
 use Data::Dumper;
 
 # 1st param
-my %artistsToCompare;
+my %listToCompare;
 # 2nd param... the one you'd like to modify
-my %artistsToCheck;
+my %listToChange;
 my $extensions = '(1?|ph)\.(mp3|wma|m4a)$';
 my $removeChars = '\(|\)|\.|\*|\\?';
+my $debug = 0;
 foreach my $file (@ARGV) {
-  my $currHash = \%artistsToCompare;
+  my $currHash = \%listToCompare;
   # wpl format
-  my $patt = qq(src="..\\\\([^"]*)");
+  my $patt = '.*Shared Music\\\([^"]*)';
   my $splitExp = '\\\\';
   open (my $fh, '<', $file) or die "Can't open file $file.\n";
   if ($ARGV[1] && $file eq $ARGV[1]) {
-    $currHash = \%artistsToCheck;
+    $currHash = \%listToChange;
   }
   if ($file =~ /lastfm/) {
     $patt = '(.*)';
     $splitExp = ',,';
   }
   # format from Android playlist
-  elsif ($file =~ /Favorites|Bike/) {
-    $patt = qq(\\/storage\\/3066-6539\\/Music\\/(.*));
+  elsif ($file =~ /m3u8/) {
+    $patt = qq(../(.*));
     $splitExp = '\\/';
   }
   while (my $line = <$fh>) {
-    if ($line =~ /$patt/) {
+    if ($line =~ qr/$patt/) {
       my $str = lc $1;
       chomp $str;
       $str =~ s/$extensions//;
@@ -54,20 +55,28 @@ foreach my $file (@ARGV) {
     }
   }
 }
-foreach my $artist (sort keys %artistsToCompare) {
-  foreach my $song (sort keys %{$artistsToCompare{$artist}}) {
-    if ($artistsToCheck{$artist}) {
-      my $found = $artistsToCheck{$artist}{$song};
+
+if ($debug) {
+  $Data::Dumper::Sortkeys = 1;
+  print Dumper(\%listToCompare);
+}
+foreach my $artist (sort keys %listToCompare) {
+  foreach my $song (sort keys %{$listToCompare{$artist}}) {
+    if ($listToChange{$artist}) {
+      my $found = $listToChange{$artist}{$song};
       if ($found) {
-        delete $artistsToCheck{$artist}{$song};
+        delete $listToChange{$artist}{$song};
       }
       else {
-        print "$artist - $song\n";
+        if (!$debug) {
+          print "$artist - $song\n";
+        }
       }
     }
     else {
-      print "$artist - $song\n";
+      if (!$debug) {
+        print "$artist - $song\n";
+      }
     }
   }
 }
-#print Dumper(\%artistsToCompare);
