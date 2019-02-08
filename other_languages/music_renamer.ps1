@@ -1,10 +1,15 @@
-# if it includes the album name, artist name, (dc), nodrm, album version, lp version, digital remaster
+# if it includes the explicit, album version, lp version, yyyy digital remaster
+# can't have \ / : * ? " < > |
 $include=@("*.mp3","*.m4a", "*.wma", "*.wav", "*.m4p", "*.flac", "*.mp4")
+$badTitleChars='\(?\[?(album version|lp version|(\d\d\d\d)*\s*digital remaster|explicit|dc[^\)]*)\]?\)?'
+$replaceChars='[\\/:*?"<>|]'
 $sw = [Diagnostics.Stopwatch]::StartNew()
 $objShell = New-Object -ComObject Shell.Application
-$table = @()
+$missingTitles = @()
+$badTitles = @()
 $FormatEnumerationLimit=-1
-$outFilePath = "C:\Users\jharkay\Desktop\blah2.txt"
+$outFilePath = "C:\Users\jharkay\Desktop\blah_test.txt"
+#$inFilePath = "Z:\Shared Music"
 $inFilePath = "C:\Users\jharkay\Desktop\music"
 $wStream = New-Object IO.FileStream $outFilePath,'Create','Write'
 $sWriter = New-Object System.IO.StreamWriter $wStream
@@ -12,48 +17,41 @@ $i = 0
 echo "Starting loading files..."
 foreach($file in Get-ChildItem $inFilePath -file -recurse -include $include) 
 {
-  if ($i++ -eq 0) {
-    echo "Done loading files..."
-    $sw.elapsed
-  }
   $objFolder = $objShell.namespace($file.directory.fullname)
   $item = $objFolder.items().item($file.name)
-  # artist name
-  #$artist = $objFolder.getDetailsOf($item, 13);
-  # works, but I'm not sure if it's valid?
-  #$artist = $item.ExtendedProperty('artist')
-  # album name
-  #$album = $objFolder.getDetailsOf($item, 14);
-  # works, but I'm not sure if it's valid?
-  #$album = $item.ExtendedProperty("album")
-  # track name
   $trackName = $objFolder.getDetailsOf($item, 21);
   $fileNameOriginal = $file.name
-  $fileName = $fileNameOriginal -replace [regex]::escape($trackName),""
-  #if ($fileName -match "$artist|$album|album|nodrm|\(dc[^)]*|lp version|remaster") {
-  # Doesn't seem to work?
-  #$trackName = $item.ExtendedProperty("title")
-  # track number
-  #$trackNumber = $objFolder.getDetailsOf($item, 26);
-  # Doesn't seem to work?
-  $trackNumber = $item.ExtendedProperty("track")
-  $extension = $file.Extension
-  if ($trackNumber) {
-    if ([convert]::ToInt32($trackNumber, 10) -lt 10) {
-      $trackNumber = "0$trackNumber"
+  if ($trackName) {
+    if ($trackName -match $badTitleChars) {
+      $trackName = $trackName -replace $badTitleChars,''
+      $tag = [TagLib.File]::Create($file.FullName)
+      $tag.tag.title = $trackName
+      $badTitles += "$fileNameOriginal`n$trackName`n"
+      #$tag.save()
     }
-    $trackNumber = "$trackNumber "
+    else {
+      $trackNumber = $item.ExtendedProperty("track")
+      $extension = $file.Extension
+      $trackName = $trackName -replace $replaceChars,''
+      if ($trackNumber) {
+        if ([convert]::ToInt32($trackNumber, 10) -lt 10) {
+          $trackNumber = "0$trackNumber"
+        }
+        $trackNumber = "$trackNumber "
+      }
+      $output = "$trackNumber$trackName$extension"
+      if ($fileNameOriginal -ne $output) {
+        $sWriter.WriteLine("$fileNameOriginal`n$output`n")
+      }
+    }
   }
-  #$table += @{Before="$fileNameOriginal"; After="$trackNumber$trackName$extension"}
-  $sWriter.WriteLine("$fileNameOriginal`n$trackNumber$trackName$extension`n")
-  #}
+  else {
+    $missingTitles += "$($item.ExtendedProperty('artist')) - $fileNameOriginal"
+  }
 }
+$sWriter.WriteLine("BAD TITLES`n$($badTitles -join "`n")")
+$sWriter.WriteLine("MISSING TITLES`n$($missingTitles -join "`n")")
 $sWriter.close()
 echo "Done processing files..."
-#$(foreach ($ht in $table) {
-#  New-Object psobject -Property $ht
-#})| Format-Table -Wrap -AutoSize | Out-File "blah.txt"
-#$table | Out-File "blah2.txt"
-#echo "done"
 $sw.stop()
 $sw.elapsed
