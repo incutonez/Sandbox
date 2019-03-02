@@ -20,11 +20,11 @@ $badTitles = @()
 $badTitlesAndTracks = @()
 $FormatEnumerationLimit=-1
 $outFilePath = "C:\Users\jharkay\Desktop\blah2.txt"
-#$inFilePath = "Z:\Shared Music"
+$inFilePath = "Z:\Shared Music"
 #$inFilePath = "C:\Users\jharkay\workspace\personal\applications\other_languages\test"
 $wStream = New-Object IO.FileStream $outFilePath,'Create','Write'
 $sWriter = New-Object System.IO.StreamWriter $wStream
-$shouldSave = $true
+$shouldSave = $false
 echo "Starting loading files..."
 function doSave($file, $trackName, $output) {
   if ($shouldSave -eq $true) {
@@ -40,7 +40,6 @@ function doSave($file, $trackName, $output) {
 }
 
 function doRename($file, $trackName) {
-  "blah $file"
   if ($shouldSave -eq $true) {
     Rename-Item -Path $file.FullName -NewName $trackName
   }
@@ -88,7 +87,6 @@ foreach($file in Get-ChildItem $inFilePath -file -recurse -include $include)
       }
       elseif ($fileNameOriginal -ne $output) {
         $sWriter.WriteLine("Rewriting...`n$fileNameOriginal`n$output`n")
-        "blah $output"
         doRename $file $output
       }
     }
