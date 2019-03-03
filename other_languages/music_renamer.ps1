@@ -19,29 +19,36 @@ $missingTitles = @()
 $badTitles = @()
 $badTitlesAndTracks = @()
 $FormatEnumerationLimit=-1
-$outFilePath = "C:\Users\jharkay\Desktop\blah2.txt"
-$inFilePath = "Z:\Shared Music"
+$outFilePath = "C:\Users\Jef\Desktop\blah2.txt"
+$inFilePath = "D:\Music"
 #$inFilePath = "C:\Users\jharkay\workspace\personal\applications\other_languages\test"
 $wStream = New-Object IO.FileStream $outFilePath,'Create','Write'
 $sWriter = New-Object System.IO.StreamWriter $wStream
-$shouldSave = $false
+$shouldSave = $true
 echo "Starting loading files..."
 function doSave($file, $trackName, $output) {
   if ($shouldSave -eq $true) {
     $tag = [TagLib.File]::Create($file.FullName)
     if ($tag) {
       $tag.tag.title = $trackName
-      $tag.save()
-    }
-    if ($output) {
-      doRename($file, $output)
+      try {
+        $tag.save()
+        if ($output) {
+          doRename $file $output
+        }
+      }
+      catch {
+        $tag.RemoveTags($tag.TagTypes)
+        $tag.save()
+        doSave $file $trackName $output
+      }
     }
   }
 }
 
 function doRename($file, $trackName) {
   if ($shouldSave -eq $true) {
-    Rename-Item -Path $file.FullName -NewName $trackName
+    Rename-Item -LiteralPath $file.FullName -NewName "$trackName"
   }
 }
 
