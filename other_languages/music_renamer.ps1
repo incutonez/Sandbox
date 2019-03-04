@@ -13,34 +13,46 @@ Import-Module taglib
 $include=@("*.mp3","*.m4a", "*.wma", "*.wav", "*.m4p", "*.flac", "*.mp4")
 $badTitleChars='\s*\(?\[?(original)?(album(\sversion)?|(full)?\s?lp version|\((the\s)?stereo(\smix)?\)|\(.*remaster.*|explicit|dc[\d]+)\]?\)?|\s+$'
 $replaceChars='[\\/:*?"<>|]'
+$extensions = '\.(mp3|m4a|wma|wav|m4p|flac|mp4)$'
 $sw = [Diagnostics.Stopwatch]::StartNew()
 $objShell = New-Object -ComObject Shell.Application
 $missingTitles = @()
 $badTitles = @()
 $badTitlesAndTracks = @()
 $FormatEnumerationLimit=-1
-$outFilePath = "C:\Users\Jef\Desktop\blah2.txt"
-$inFilePath = "D:\Music"
+$outFilePath = "C:\Users\jharkay\Desktop\music_renamed.txt"
+$inFilePath = "Z:\Shared Music"
 #$inFilePath = "C:\Users\jharkay\workspace\personal\applications\other_languages\test"
 $wStream = New-Object IO.FileStream $outFilePath,'Create','Write'
 $sWriter = New-Object System.IO.StreamWriter $wStream
 $shouldSave = $true
 echo "Starting loading files..."
+$startingWrite = 0
 function doSave($file, $trackName, $output) {
   if ($shouldSave -eq $true) {
     $tag = [TagLib.File]::Create($file.FullName)
     if ($tag) {
       $tag.tag.title = $trackName
       try {
+        $startingWrite = 0
         $tag.save()
         if ($output) {
           doRename $file $output
         }
       }
       catch {
-        $tag.RemoveTags($tag.TagTypes)
-        $tag.save()
-        doSave $file $trackName $output
+        # Prevent infinite looping
+        if ($startingWrite -ne 1) {
+          $startingWrite = 1
+          $tag.TagTypes
+          $tag.tag
+          $tag.RemoveTags($tag.TagTypes)
+          $tag.save()
+          doSave $file $trackName $output
+        }
+        else {
+          $startingWrite = 0
+        }
       }
     }
   }
@@ -64,6 +76,7 @@ foreach($file in Get-ChildItem $inFilePath -file -recurse -include $include)
     if ($trackName) {
       $trackNumber = $item.ExtendedProperty("track")
       $trackName = $trackName -replace $replaceChars,''
+      $trackName = $trackName -replace $extensions,''
       $extension = $file.Extension
       if ($trackNumber) {
         if ([convert]::ToInt32($trackNumber, 10) -lt 10) {
