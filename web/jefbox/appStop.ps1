@@ -16,8 +16,11 @@ function findTaskByPort($portNumber) {
 
 function killTaskByPort($portNumber) {
   $netStat = findTaskByPort($portNumber)
+  if ($netStat -eq $null -Or $netStat.length -lt 0) {
+    return;
+  }
   $PortNumRegex = [regex]"(\d+)$";
-  $portnum = $PortNumRegex.Match($netstat);
+  $portnum = $PortNumRegex.Match($netstat[$netStat.length -1]);
   killTask $portnum.captures[0].Value;
 }
 

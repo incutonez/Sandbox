@@ -6,7 +6,8 @@
   "template": "universalmodern",
   "indexHtmlPath": "index.html",
   "requires": [
-    "font-awesome"
+    "font-awesome",
+    "font-ext"
   ],
   "builds": {
     "desktop": {
