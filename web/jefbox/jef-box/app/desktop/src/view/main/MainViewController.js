@@ -2,54 +2,83 @@ Ext.define('JefBox.view.main.MainViewController', {
   extend: 'Ext.app.ViewController',
   alias: 'controller.mainView',
 
-  onClickCreateUserBtn: function() {
-    var userGrid = this.lookupReference('userGrid');
-    var userGridStore = userGrid && userGrid.getStore();
-    var userGridEditor = userGrid && userGrid.getPlugin('rowEditingPlugin');
-    if (userGridEditor && userGridStore) {
-      var record = userGridStore.add({});
-      userGridEditor.startEdit(record[0]);
+  constructor: function(config) {
+    var routes = {};
+    routes[Routes.HOME] = 'onRouteHome';
+    routes[Routes.USERS] = 'onRouteUsers';
+    config.routes = routes;
+    config.openWindows = {};
+    this.callParent(arguments);
+  },
+
+  onRouteHome: function() {
+    for (var key in this.openWindows) {
+      var win = this.openWindows[key];
+      win.hide();
     }
   },
 
-  refreshUsersGrid: function() {
-    var userGrid = this.lookupReference('userGrid');
-    var userGridStore = userGrid && userGrid.getStore();
-    if (userGridStore) {
-      userGridStore.load();
-    }
+  onRouteUsers: function(params) {
+    this.createTaskWindow('Users', 'usersView', Icons.USERS);
   },
 
-  onClickRefreshBtn: function() {
-    this.refreshUsersGrid();
-  },
-
-  onEditRow: function(gridEditor, context) {
-    var me = this;
-    me.savingRecord = true;
-    context.record.save({
-      callback: function(record, operation, successful) {
-        me.savingRecord = false;
-        console.log(successful);
-        me.refreshUsersGrid();
+  createTaskWindow: function(title, xtype, iconCls) {
+    var win = Ext.create('Ext.Dialog', {
+      title: title,
+      layout: 'fit',
+      height: 400,
+      width: 800,
+      closable: true,
+      maximizable: true,
+      modal: false,
+      tools: [{
+        type: 'minimize',
+        scope: this,
+        handler: 'onMinimizeTaskWindow'
+      }, {
+        type: 'maximize'
+      }],
+      items: [{
+        xtype: xtype
+      }],
+      listeners: {
+        scope: this,
+        destroy: 'onDestroyTaskView'
       }
+    }).show();
+    var button = Ext.create('Ext.Button', {
+      iconCls: iconCls,
+      text: title,
+      enableToggle: true,
+      pressed: true,
+      handler: 'onClickTaskButton',
+      taskWindow: win
     });
+    win.taskButton = button;
+    this.getView().getBbar().add(button);
+    this.openWindows[win.getId()] = win;
   },
 
-  onClickDeleteUser: function(grid, info) {
-    var me = this;
-    info.record.erase({
-      callback: function(record, operation, successful) {
-        console.log(successful);
-        me.refreshUsersGrid();
-      }
-    });
+  onMinimizeTaskWindow: function(win) {
+    win.hide();
+    win.taskButton.setPressed(false);
   },
 
-  onCancelEditRow: function(sender, location) {
-    var record = location.record;
-    if (!this.savingRecord && record.phantom) {
-      record.store.remove(record);
+  onClickTaskButton: function(button) {
+    if (button.isPressed()) {
+      button.taskWindow.show();
     }
+    else {
+      button.taskWindow.hide();
+    }
+  },
+
+  onDestroyTaskView: function(win) {
+    win.taskButton.destroy();
+    this.redirectTo(Routes.HOME);
+  },
+
+  onClickUsersView: function(button) {
+    this.redirectTo(Routes.USERS);
   }
 });

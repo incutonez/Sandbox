@@ -2,6 +2,8 @@ Ext.define('JefBox.shared.Application', {
   extend: 'Ext.app.Application',
   name: 'JefBox',
 
+  defaultToken: Routes.HOME,
+
   removeSplash: function() {
     Ext.getBody().removeCls('launching');
     var elem = document.getElementById('splash');

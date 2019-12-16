@@ -40,7 +40,7 @@
     "app/${build.id}/overrides"
   ],
   "sass": {
-    "namespace": "JefBox",
+    "namespace": "",
     "etc": [
       "sass/etc/all.scss"
     ],
@@ -49,7 +49,7 @@
       "app/${build.id}/sass/var.scss"
     ],
     "src": [
-      "app/shared/src/sass/src.scss",
+      "app/shared/sass/src.scss",
       "app/${build.id}/sass/src.scss"
     ]
   },

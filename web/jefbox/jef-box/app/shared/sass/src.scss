@@ -1,0 +1,10 @@
+.jb-button-large {
+  .x-icon-el {
+    height: 32px;
+    width: 32px;
+
+    &::before {
+      font-size: 26px;
+    }
+  }
+}

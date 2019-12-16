@@ -1,6 +1,9 @@
 Ext.define('JefBox.view.main.MainView', {
   extend: 'Ext.Panel',
   alias: 'widget.mainView',
+  requires: [
+    'JefBox.shared.view.users.MainView'
+  ],
 
   controller: {
     type: 'mainView'
@@ -9,68 +12,28 @@ Ext.define('JefBox.view.main.MainView', {
     type: 'mainView'
   },
 
-  title: 'Desktop',
-  layout: 'fit',
-  items: [{
-    xtype: 'grid',
-    reference: 'userGrid',
-    title: 'Users',
-    listeners: {
-      edit: 'onEditRow',
-      canceledit: 'onCancelEditRow'
-    },
-    plugins: [{
-      type: 'rowedit',
-      id: 'rowEditingPlugin',
-      clicksToEdit: 2
-    }],
-    titleBar: {
-      items: [{
-        align: 'right',
-        xtype: 'button',
-        text: 'Create User',
-        handler: 'onClickCreateUserBtn'
-      }, {
-        align: 'right',
-        xtype: 'button',
-        text: 'Refresh',
-        handler: 'onClickRefreshBtn'
-      }]
-    },
-    store: {
-      model: 'JefBox.model.User',
-      autoLoad: true
-    },
-    columns: [{
-      text: 'Actions',
-      cell: {
-        tools: [{
-          iconCls: 'x-fa fa-trash',
-          tooltip: 'Delete User',
-          handler: 'onClickDeleteUser'
-        }]
-      }
+  bodyStyle: 'background-color: #222;',
+  bodyPadding: 10,
+  bbar: {
+    items: [{
+      xtype: 'button',
+      tooltip: 'Areas',
+      iconCls: Icons.START_MENU
     }, {
-      text: 'Id',
-      dataIndex: 'Id',
-      flex: 1
-    }, {
-      text: 'Name',
-      dataIndex: 'Name',
-      flex: 1,
-      editor: {
-        xtype: 'textfield',
-        allowBlank: false
-      }
-    }, {
-      text: 'Active',
-      dataIndex: 'IsActive',
-      flex: 1
-    }, {
-      text: 'Create Date',
-      dataIndex: 'CreateDate',
-      formatter: 'date("m/d/Y g:m:s A")',
-      flex: 1
+      xtype: 'component',
+      width: 1,
+      margin: '0 10',
+      height: '100%',
+      style: 'background-color: #cecece;'
     }]
+  },
+  items: [{
+    xtype: 'button',
+    text: 'Users',
+    iconAlign: 'top',
+    cls: Styles.BUTTON_LARGE,
+    iconCls: Icons.USERS,
+    style: 'border: 1px solid #cecece;',
+    handler: 'onClickUsersView'
   }]
 });
