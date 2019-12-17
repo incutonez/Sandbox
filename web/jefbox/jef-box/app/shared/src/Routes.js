@@ -17,6 +17,12 @@ Ext.define('JefBox.shared.Routes', {
      */
     key: 'USERS',
     basePath: 'users'
+  }, {
+    /**
+     * @property LOGIN
+     */
+    key: 'LOGIN',
+    basePath: 'login'
   }],
 
   constructor: function(config) {

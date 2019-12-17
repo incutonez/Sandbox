@@ -6,9 +6,14 @@ Ext.define('JefBox.view.main.MainViewController', {
     var routes = {};
     routes[Routes.HOME] = 'onRouteHome';
     routes[Routes.USERS] = 'onRouteUsers';
+    routes[Routes.LOGIN] = 'onRouteLogin';
     config.routes = routes;
     config.openWindows = {};
     this.callParent(arguments);
+  },
+
+  onRouteLogin: function() {
+    Ext.create('JefBox.shared.view.auth.LoginView').show();
   },
 
   onRouteHome: function() {
