@@ -21,6 +21,6 @@ module.exports = (app) => {
   app.use(process.env.BASE_API_PATH, require('./Users'));
   app.use(process.env.BASE_API_PATH, require('./Login'));
   app.get('/', function(req, res) {
-    res.render(__dirname + '/jef-box/index.html');
+    res.render(__dirname + process.env.UI_DIR + '/index.html');
   });
 };
