@@ -5,23 +5,23 @@ Ext.define('JefBox.shared.UserProfile', {
     'UserProfile'
   ],
 
-  logInUser: function(selectedUser, callback) {
+  logInUser: function(callback) {
     var me = this;
-    if (selectedUser) {
-      Ext.Ajax.request({
-        method: 'POST',
-        url: 'api/login',
-        jsonData: selectedUser.getData(),
-        callback: function(options, successful, response) {
-          if (successful) {
-            me.ACCESS_TOKEN = response.getResponseHeader('x-access-token');
-            me.set(Ext.decode(response.responseText).data);
-          }
-          if (Ext.isFunction(callback)) {
-            callback(successful);
-          }
+    Ext.Ajax.request({
+      method: 'POST',
+      url: 'api/login',
+      jsonData: {
+        UserName: me.get('UserName'),
+        Password: me.get('Password')
+      },
+      callback: function(options, successful, response) {
+        if (successful) {
+          me.set(Ext.decode(response.responseText).data);
         }
-      });
-    }
+        if (Ext.isFunction(callback)) {
+          callback(successful);
+        }
+      }
+    });
   }
 });

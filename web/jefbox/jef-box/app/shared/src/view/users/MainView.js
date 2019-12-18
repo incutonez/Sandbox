@@ -68,7 +68,7 @@ Ext.define('JefBox.shared.view.users.MainView', {
     flex: 1
   }, {
     text: 'Name',
-    dataIndex: 'Name',
+    dataIndex: 'UserName',
     flex: 1,
     editor: {
       xtype: 'textfield',
@@ -79,8 +79,13 @@ Ext.define('JefBox.shared.view.users.MainView', {
     dataIndex: 'IsActive',
     flex: 1
   }, {
-    text: 'Create Date',
+    text: 'Created',
     dataIndex: 'CreateDate',
+    formatter: 'date("m/d/Y g:m:s A")',
+    flex: 1
+  }, {
+    text: 'Last Updated',
+    dataIndex: 'UpdateDate',
     formatter: 'date("m/d/Y g:m:s A")',
     flex: 1
   }]

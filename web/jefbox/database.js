@@ -14,6 +14,6 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   }
 });
 module.exports = {
-  orm: sequelize,
-  types: Sequelize
+  conn: sequelize,
+  orm: Sequelize
 };

@@ -7,8 +7,9 @@ Ext.define('JefBox.model.User', {
     name: 'Id',
     type: 'int'
   }, {
-    name: 'Name',
-    type: 'string'
+    name: 'UserName',
+    type: 'string',
+    allowBlank: false
   }, {
     name: 'IsActive',
     type: 'boolean'
@@ -16,6 +17,15 @@ Ext.define('JefBox.model.User', {
     name: 'CreateDate',
     type: 'date',
     dateFormat: 'c'
+  }, {
+    name: 'UpdateDate',
+    type: 'date',
+    dateFormat: 'c'
+  }, {
+    // Used only on creating a user
+    name: 'Password',
+    type: 'string',
+    allowBlank: false
   }],
 
   proxy: {

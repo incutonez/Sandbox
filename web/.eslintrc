@@ -33,6 +33,9 @@
   },
   "globals": {
     "Ext": true,
-    "socket": true
+    "socket": true,
+    "Routes": true,
+    "Icons": true,
+    "Styles": true
   }
 }

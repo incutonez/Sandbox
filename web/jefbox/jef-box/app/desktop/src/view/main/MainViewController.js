@@ -13,21 +13,37 @@ Ext.define('JefBox.view.main.MainViewController', {
   },
 
   onRouteLogin: function() {
-    Ext.create('JefBox.shared.view.auth.LoginView').show();
+    Ext.create('JefBox.shared.view.auth.LoginView', {
+      listeners: {
+        scope: this,
+        destroy: 'onDestroyTaskView'
+      }
+    }).show();
   },
 
   onRouteHome: function() {
     for (var key in this.openWindows) {
       var win = this.openWindows[key];
       win.hide();
+      win.taskButton.setPressed(false);
     }
   },
 
   onRouteUsers: function(params) {
-    this.createTaskWindow('Users', 'usersView', Icons.USERS);
+    this.createTaskWindow('Users', 'usersView', Icons.USERS, Routes.USERS);
   },
 
-  createTaskWindow: function(title, xtype, iconCls) {
+  getTaskWindowByType: function(key) {
+    return this.openWindows[key];
+  },
+
+  createTaskWindow: function(title, xtype, iconCls, key) {
+    var openWindow = this.getTaskWindowByType(key);
+    if (openWindow) {
+      openWindow.show();
+      openWindow.taskButton.setPressed(true);
+      return;
+    }
     var win = Ext.create('Ext.Dialog', {
       title: title,
       layout: 'fit',
@@ -36,6 +52,7 @@ Ext.define('JefBox.view.main.MainViewController', {
       closable: true,
       maximizable: true,
       modal: false,
+      openWindowKey: key,
       tools: [{
         type: 'minimize',
         scope: this,
@@ -61,12 +78,11 @@ Ext.define('JefBox.view.main.MainViewController', {
     });
     win.taskButton = button;
     this.getView().getBbar().add(button);
-    this.openWindows[win.getId()] = win;
+    this.openWindows[key] = win;
   },
 
   onMinimizeTaskWindow: function(win) {
-    win.hide();
-    win.taskButton.setPressed(false);
+    this.redirectTo(Routes.HOME);
   },
 
   onClickTaskButton: function(button) {
@@ -79,7 +95,10 @@ Ext.define('JefBox.view.main.MainViewController', {
   },
 
   onDestroyTaskView: function(win) {
-    win.taskButton.destroy();
+    if (win.taskButton) {
+      win.taskButton.destroy();
+      delete this.openWindows[win.openWindowKey];
+    }
     this.redirectTo(Routes.HOME);
   },
 

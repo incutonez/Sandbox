@@ -7,19 +7,12 @@ Ext.define('JefBox.shared.view.auth.LoginView', {
 
   viewModel: {
     data: {
-      selectedUser: null
+      UserProfile: UserProfile
     },
-    stores: {
-      usersStore: {
-        model: 'JefBox.model.User',
-        autoLoad: true,
-        proxy: {
-          type: 'ajax',
-          url: 'api/users',
-          extraParams: {
-            login: true
-          }
-        }
+    formulas: {
+      isViewValid: function(get) {
+        console.log(get('UserProfile.valid'));
+        return get('UserProfile.valid');
       }
     }
   },
@@ -34,29 +27,37 @@ Ext.define('JefBox.shared.view.auth.LoginView', {
       xtype: 'button',
       text: 'Log In',
       bind: {
-        disabled: '{!selectedUser}'
+        disabled: '{!isViewValid}'
       },
       handler: function() {
         var me = this;
-        var vm = this.lookupViewModel();
-        UserProfile.logInUser(vm && vm.get('selectedUser'), function(successful) {
+        UserProfile.logInUser(function(successful) {
           if (successful) {
             me.up('loginView').close();
+          }
+          else {
+            Ext.toast('Incorrect credentials.');
           }
         });
       }
     }]
   },
   items: [{
-    xtype: 'combobox',
+    xtype: 'textfield',
     allowBlank: false,
-    forceSelection: true,
-    queryMode: 'local',
-    valueField: 'Id',
-    displayField: 'Name',
+    label: 'User Name',
+    labelAlign: 'top',
     bind: {
-      store: '{usersStore}',
-      selection: '{selectedUser}'
+      value: '{UserProfile.UserName}'
+    }
+  }, {
+    xtype: 'textfield',
+    allowBlank: false,
+    inputType: 'password',
+    label: 'Password',
+    labelAlign: 'top',
+    bind: {
+      value: '{UserProfile.Password}'
     }
   }]
 });

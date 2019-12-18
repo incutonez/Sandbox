@@ -5,6 +5,7 @@ const app = express();
 const server = require('http').createServer(app);
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/jef-box'));
 require('./sockets')(server);
 require('./controllers/index')(app);
