@@ -4,6 +4,21 @@ Ext.define('JefBox.shared.Application', {
 
   defaultToken: Routes.HOME,
 
+  routes: {
+    '*': {
+      before: 'onBeforeEveryRoute'
+    }
+  },
+
+  onBeforeEveryRoute: function(action) {
+    if (UserProfile.phantom) {
+      action.stop();
+      UserProfile.checkSession(Ext.util.History.getToken());
+      return false;
+    }
+    action.resume();
+  },
+
   removeSplash: function() {
     Ext.getBody().removeCls('launching');
     var elem = document.getElementById('splash');

@@ -71,9 +71,7 @@ UserModel.createUser = async function(userData) {
 };
 
 UserModel.updateUser = async function(userData) {
-  return await this.update({
-    UserName: userData.UserName
-  }, {
+  return await this.update(userData, {
     where: {
       Id: userData.Id
     }

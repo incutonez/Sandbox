@@ -11,13 +11,12 @@ Ext.define('JefBox.shared.view.auth.LoginView', {
     },
     formulas: {
       isViewValid: function(get) {
-        console.log(get('UserProfile.valid'));
         return get('UserProfile.valid');
       }
     }
   },
 
-  title: 'Select User',
+  title: 'Log In',
   bbar: {
     layout: {
       type: 'hbox',
@@ -25,20 +24,12 @@ Ext.define('JefBox.shared.view.auth.LoginView', {
     },
     items: [{
       xtype: 'button',
-      text: 'Log In',
+      text: 'GO!',
       bind: {
         disabled: '{!isViewValid}'
       },
       handler: function() {
-        var me = this;
-        UserProfile.logInUser(function(successful) {
-          if (successful) {
-            me.up('loginView').close();
-          }
-          else {
-            Ext.toast('Incorrect credentials.');
-          }
-        });
+        UserProfile.logInUser();
       }
     }]
   },
@@ -46,7 +37,6 @@ Ext.define('JefBox.shared.view.auth.LoginView', {
     xtype: 'textfield',
     allowBlank: false,
     label: 'User Name',
-    labelAlign: 'top',
     bind: {
       value: '{UserProfile.UserName}'
     }
@@ -55,7 +45,6 @@ Ext.define('JefBox.shared.view.auth.LoginView', {
     allowBlank: false,
     inputType: 'password',
     label: 'Password',
-    labelAlign: 'top',
     bind: {
       value: '{UserProfile.Password}'
     }

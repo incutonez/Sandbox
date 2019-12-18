@@ -6,7 +6,7 @@ Ext.define('JefBox.shared.overrides.data.Connection', {
     this.on({
       requestexception: function(conn, response, options, eOpts) {
         if (response.status === 401) {
-          location.hash = '#' + Routes.LOGIN;
+          UserProfile.showLogInView();
         }
       }
     });

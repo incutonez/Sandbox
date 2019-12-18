@@ -9,23 +9,30 @@ Ext.define('JefBox.model.User', {
   }, {
     name: 'UserName',
     type: 'string',
-    allowBlank: false
+    validators: [{
+      type: 'presence'
+    }]
   }, {
     name: 'IsActive',
-    type: 'boolean'
+    type: 'boolean',
+    persist: false
   }, {
     name: 'CreateDate',
     type: 'date',
-    dateFormat: 'c'
+    dateFormat: 'c',
+    persist: false
   }, {
     name: 'UpdateDate',
     type: 'date',
-    dateFormat: 'c'
+    dateFormat: 'c',
+    persist: false
   }, {
     // Used only on creating a user
     name: 'Password',
     type: 'string',
-    allowBlank: false
+    validators: [{
+      type: 'presence'
+    }]
   }],
 
   proxy: {

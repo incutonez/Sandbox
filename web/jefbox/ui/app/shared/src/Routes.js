@@ -3,6 +3,9 @@ Ext.define('JefBox.shared.Routes', {
   alternateClassName: [
     'Routes'
   ],
+  mixins: [
+    'Ext.route.Mixin'
+  ],
 
   basePath: '',
   paths: [{
@@ -45,5 +48,9 @@ Ext.define('JefBox.shared.Routes', {
         this.buildPath(paths, parentPath);
       }
     }
+  },
+
+  redirectToHome: function() {
+    this.redirectTo(this.HOME);
   }
 });
