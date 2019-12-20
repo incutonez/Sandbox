@@ -1,4 +1,4 @@
-Ext.define('JefBox.shared.view.auth.LoginView', {
+Ext.define('JefBox.view.auth.LoginView', {
   extend: 'Ext.Dialog',
   alias: 'widget.loginView',
   requires: [

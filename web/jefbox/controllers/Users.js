@@ -1,36 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
-// Gets all users
-router.get('/users', function(req, res) {
-  User.getAllUsers().then((results) => {
-    res.send(results);
-  });
-});
+const BaseCrudController = require('./BaseCrud')(require('../models/User'));
 
-router.post('/users', (req, res) => {
-  User.createUser(req.body).then((results) => {
-    res.send({success: true, data: results});
-  });
-});
-
-router.get('/users/:id', (req, res) => {
-  User.getUserById(req.params.id).then((results) => {
-    res.send(results);
-  });
-});
-
-// TODO: When this updates a user, it should potentially propagate that information to the logged in use through sockets
-router.put('/users/:id', (req, res) => {
-  User.updateUser(req.body).then((results) => {
-    res.send({success: true, data: results});
-  });
-});
-
-router.delete('/users/:id', (req, res) => {
-  User.deleteUser(req.params.id).then((results) => {
-    res.sendStatus(204);
-  });
-});
+router.get('/users', BaseCrudController.getAll);
+router.post('/users', BaseCrudController.createRecord);
+router.get('/users/:id', BaseCrudController.getById);
+router.put('/users/:id', BaseCrudController.updateById);
+router.delete('/users/:id', BaseCrudController.deleteById);
 
 module.exports = router;

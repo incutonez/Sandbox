@@ -1,92 +1,29 @@
-Ext.define('JefBox.shared.view.users.MainView', {
-  extend: 'Ext.grid.Grid',
-  alias: 'widget.usersView',
+Ext.define('JefBox.view.users.MainView', {
+  extend: 'JefBox.view.BaseCrudView',
+  alias: 'widget.usersMainView',
   requires: [
     'JefBox.model.User',
-    'JefBox.shared.view.users.MainViewController'
+    'JefBox.view.users.MainViewController'
   ],
 
   controller: {
     type: 'usersView'
   },
   viewModel: {
-    stores: {
-      usersStore: {
-        model: 'JefBox.model.User'
-      }
+    data: {
+      mainStoreModel: 'JefBox.model.User'
     }
   },
 
-  border: true,
-  bind: {
-    store: '{usersStore}'
-  },
-  listeners: {
-    edit: 'onEditRow',
-    canceledit: 'onCancelEditRow'
-  },
-  plugins: [{
-    type: 'rowedit',
-    id: 'rowEditingPlugin',
-    clicksToEdit: 2
-  }],
-  items: [{
-    xtype: 'toolbar',
-    docked: 'top',
-    layout: {
-      type: 'hbox',
-      pack: 'end'
-    },
-    items: [{
-      align: 'right',
-      xtype: 'button',
-      text: 'Create User',
-      handler: 'onClickCreateUserBtn'
-    }, {
-      align: 'right',
-      xtype: 'button',
-      text: 'Refresh',
-      handler: 'onClickRefreshBtn'
-    }]
-  }],
-  store: {
-    model: 'JefBox.model.User',
-    autoLoad: true
-  },
-  columns: [{
-    text: 'Actions',
-    cell: {
-      tools: [{
-        iconCls: 'x-fa fa-trash',
-        tooltip: 'Delete User',
-        handler: 'onClickDeleteUser'
-      }]
-    }
-  }, {
-    text: 'Id',
-    dataIndex: 'Id',
-    flex: 1
-  }, {
-    text: 'Name',
-    dataIndex: 'UserName',
-    flex: 1,
-    editor: {
-      xtype: 'textfield',
-      allowBlank: false
-    }
-  }, {
-    text: 'Active',
-    dataIndex: 'IsActive',
-    flex: 1
-  }, {
-    text: 'Created',
-    dataIndex: 'CreateDate',
-    formatter: 'date("m/d/Y g:m:s A")',
-    flex: 1
-  }, {
-    text: 'Last Updated',
-    dataIndex: 'UpdateDate',
-    formatter: 'date("m/d/Y g:m:s A")',
-    flex: 1
-  }]
+  NAME_DATAINDEX: 'UserName',
+
+  getColumnsConfig: function() {
+    var config = this.callParent();
+    Ext.Array.insert(config, 3, [{
+      text: 'Active',
+      dataIndex: 'IsActive',
+      flex: 1
+    }]);
+    return config;
+  }
 });

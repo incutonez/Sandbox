@@ -2,7 +2,7 @@ Ext.define('JefBox.view.main.MainView', {
   extend: 'Ext.Panel',
   alias: 'widget.mainView',
   requires: [
-    'JefBox.shared.view.users.MainView'
+    'JefBox.view.users.MainView'
   ],
 
   controller: {
@@ -35,5 +35,13 @@ Ext.define('JefBox.view.main.MainView', {
     iconCls: Icons.USERS,
     style: 'border: 1px solid #cecece;',
     handler: 'onClickUsersView'
+  }, {
+    xtype: 'button',
+    text: 'Teams',
+    iconAlign: 'top',
+    cls: Styles.BUTTON_LARGE,
+    iconCls: Icons.TEAMS,
+    style: 'border: 1px solid #cecece;',
+    handler: 'onClickTeamsView'
   }]
 });

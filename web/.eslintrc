@@ -36,6 +36,7 @@
     "socket": true,
     "Routes": true,
     "Icons": true,
-    "Styles": true
+    "Styles": true,
+    "UserProfile": true
   }
 }

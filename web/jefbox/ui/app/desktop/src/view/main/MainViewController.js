@@ -1,11 +1,17 @@
 Ext.define('JefBox.view.main.MainViewController', {
   extend: 'Ext.app.ViewController',
   alias: 'controller.mainView',
+  requires: [
+    'JefBox.view.auth.LoginView',
+    'JefBox.view.teams.MainView',
+    'JefBox.view.users.MainView'
+  ],
 
   constructor: function(config) {
     var routes = {};
     routes[Routes.HOME] = 'onRouteHome';
     routes[Routes.USERS] = 'onRouteUsers';
+    routes[Routes.TEAMS] = 'onRouteTeams';
     routes[Routes.LOGIN] = 'onRouteLogin';
     config.routes = routes;
     config.openWindows = {};
@@ -13,7 +19,7 @@ Ext.define('JefBox.view.main.MainViewController', {
   },
 
   onRouteLogin: function() {
-    Ext.create('JefBox.shared.view.auth.LoginView', {
+    Ext.create('JefBox.view.auth.LoginView', {
       listeners: {
         scope: this,
         destroy: 'onDestroyTaskView'
@@ -30,7 +36,11 @@ Ext.define('JefBox.view.main.MainViewController', {
   },
 
   onRouteUsers: function(params) {
-    this.createTaskWindow('Users', 'usersView', Icons.USERS, Routes.USERS);
+    this.createTaskWindow('Users', 'usersMainView', Icons.USERS, Routes.USERS);
+  },
+
+  onRouteTeams: function(params) {
+    this.createTaskWindow('Teams', 'teamsMainView', Icons.TEAMS, Routes.TEAMS);
   },
 
   getTaskWindowByType: function(key) {
@@ -104,5 +114,9 @@ Ext.define('JefBox.view.main.MainViewController', {
 
   onClickUsersView: function(button) {
     this.redirectTo(Routes.USERS);
+  },
+
+  onClickTeamsView: function(button) {
+    this.redirectTo(Routes.TEAMS);
   }
 });

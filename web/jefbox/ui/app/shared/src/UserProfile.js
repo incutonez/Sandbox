@@ -9,6 +9,8 @@ Ext.define('JefBox.shared.UserProfile', {
     // We set phantom to false because we've loaded an actual user at this point
     this.phantom = false;
     this.set(data);
+    console.log(data);
+    socket.emit('authenticated', data);
   },
 
   checkSession: function(nextToken) {
@@ -32,7 +34,7 @@ Ext.define('JefBox.shared.UserProfile', {
     var me = this;
     nextToken = nextToken || Ext.util.History.getToken();
     if (!me.authWindow) {
-      me.authWindow = Ext.create('JefBox.shared.view.auth.LoginView', {
+      me.authWindow = Ext.create('JefBox.view.auth.LoginView', {
         listeners: {
           destroy: function() {
             me.authWindow = null;
@@ -56,7 +58,7 @@ Ext.define('JefBox.shared.UserProfile', {
       },
       callback: function(options, successful, response) {
         if (successful) {
-          me.updateUserData(Ext.decode(response.responseText).data);
+          me.updateUserData(Ext.decode(response.responseText));
           me.authWindow.close();
         }
         else {

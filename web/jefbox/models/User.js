@@ -46,12 +46,8 @@ const UserModel = db.conn.define('User', {
 });
 
 // Class methods
-UserModel.getUserById = async function(userId) {
-  return await this.findOne({
-    where: {
-      Id: userId
-    }
-  });
+UserModel.getUserById = async function(id) {
+  return await this.findById(id);
 };
 
 UserModel.getUserByName = async function(userName) {

@@ -3,42 +3,38 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/login', (req, res) => {
-  var user = req.session.user;
+  const user = req.session.user;
   if (user) {
-    // TODO: Figure out a better way of doing this... also DRY it up
-    User.updateUser({
-      IsActive: true,
-      Id: user.Id
+    return User.getUserByName(user.UserName).then((userResult) => {
+      req.session.user = userResult;
+      res.send(userResult);
+    }).catch((err) => {
+      console.log(err);
+      res.sendStatus(401);
     });
-    return res.send(user);
   }
   res.sendStatus(401);
 });
 
 router.post('/login', (req, res) => {
-  User.getUserByName(req.body.UserName).then((results) => {
-    if (results) {
+  User.getUserByName(req.body.UserName).then((userResult) => {
+    if (userResult) {
       // Now that we've found the user, let's check to see if they've entered the right password
-      if (results.isPassword(req.body.Password)) {
-        req.session.user = results;
-        // TODO: Figure out a better way of doing this... also DRY it up
-        User.updateUser({
-          IsActive: true,
-          Id: results.Id
-        });
-        return res.send({success: true, data: results});
+      if (userResult.isPassword(req.body.Password)) {
+        req.session.user = userResult;
+        return res.send(userResult);
       }
       return res.sendStatus(401);
     }
-    User.createUser(req.body).then((results) => {
-      req.session.user = results;
-      // TODO: Figure out a better way of doing this... also DRY it up
-      User.updateUser({
-        IsActive: true,
-        Id: results.Id
-      });
-      return res.send({success: true, data: results});
+    return User.createUser(req.body).then((userResult) => {
+      req.session.user = userResult;
+      res.send(userResult);
+    }).catch((err) => {
+      console.log(err);
     });
+  }).catch((err) => {
+    // TODO: Figure out elegant way of handling errors
+    console.log(err);
   });
 });
 
