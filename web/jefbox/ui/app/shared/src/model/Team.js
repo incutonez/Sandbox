@@ -1,6 +1,11 @@
 Ext.define('JefBox.model.Team', {
   extend: 'Ext.data.Model',
+  requires: [
+    'JefBox.model.User'
+  ],
 
+  idProperty: 'Id',
+  identifier: 'negative',
   fields: [{
     name: 'Id',
     type: 'int'
@@ -12,8 +17,22 @@ Ext.define('JefBox.model.Team', {
     type: 'string'
   }],
 
+  hasMany: [{
+    model: 'JefBox.model.User',
+    associationKey: 'Users',
+    getterName: 'getUsersStore',
+    role: 'Users'
+  }],
+
   proxy: {
     type: 'rest',
-    url: 'api/teams'
+    url: 'api/teams',
+    writer: {
+      type: 'json',
+      partialDataOptions: {
+        associated: true,
+        critical: true
+      }
+    }
   }
 });

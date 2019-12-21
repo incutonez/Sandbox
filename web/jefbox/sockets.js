@@ -1,4 +1,4 @@
-const User = require('./models/User');
+const db = require('./database');
 let people = {};
 module.exports = function(server) {
   const io = require('socket.io')(server);
@@ -10,11 +10,11 @@ module.exports = function(server) {
     });
     client.on('authenticated', (config) => {
       user = people[client.id] = config;
-      User.updateUser({
+      db.User.updateUser({
         Id: user.Id,
         IsActive: true
       }).then(() => {
-        io.sockets.emit('userStatusChange', user);
+        io.emit('userStatusChange', user);
       }).catch((err) => {
         console.log(err);
       });
@@ -23,11 +23,11 @@ module.exports = function(server) {
     client.on('disconnect', () => {
       console.log('client disconnected', user);
       if (user) {
-        User.updateUser({
+        db.User.updateUser({
           Id: user.Id,
           IsActive: false
         }).then(() => {
-          io.sockets.emit('userStatusChange', user);
+          io.emit('userStatusChange', user);
         }).catch((err) => {
           console.log(err);
         });

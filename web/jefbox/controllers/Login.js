@@ -1,11 +1,11 @@
-const User = require('../models/User');
+const db = require('../database');
 const express = require('express');
 const router = express.Router();
 
 router.get('/login', (req, res) => {
   const user = req.session.user;
   if (user) {
-    return User.getUserByName(user.UserName).then((userResult) => {
+    return db.User.getUserByName(user.UserName).then((userResult) => {
       req.session.user = userResult;
       res.send(userResult);
     }).catch((err) => {
@@ -17,7 +17,7 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  User.getUserByName(req.body.UserName).then((userResult) => {
+  db.User.getUserByName(req.body.UserName).then((userResult) => {
     if (userResult) {
       // Now that we've found the user, let's check to see if they've entered the right password
       if (userResult.isPassword(req.body.Password)) {
@@ -26,7 +26,7 @@ router.post('/login', (req, res) => {
       }
       return res.sendStatus(401);
     }
-    return User.createUser(req.body).then((userResult) => {
+    return db.User.createUser(req.body).then((userResult) => {
       req.session.user = userResult;
       res.send(userResult);
     }).catch((err) => {

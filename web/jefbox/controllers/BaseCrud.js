@@ -1,40 +1,28 @@
 module.exports = (Model) => {
   const BaseCrudModel = require('../models/BaseCrud')(Model);
   return {
-    getAll: (req, res) => {
-      return BaseCrudModel.getAllRecords().then((data) => {
-        res.send(data);
-      }).catch((err) => {
-        console.log(err);
-      });
+    getAll: async (req, res) => {
+      let data = await BaseCrudModel.getAllRecords();
+      return res.send(data);
     },
-    createRecord: (req, res) => {
-      return BaseCrudModel.createRecord(req.body).then((data) => {
-        res.sendStatus(204);
-      }).catch((err) => {
-        console.log(err);
-      });
+    createRecord: async (req, res) => {
+      await BaseCrudModel.createRecord(req.body);
+      return res.sendStatus(204);
     },
-    getById: (req, res) => {
-      return BaseCrudModel.getRecordById(req.params.id).then((data) => {
-        res.send(data);
-      }).catch((err) => {
-        console.log(err);
-      });
+    getById: async (req, res) => {
+      let data = await BaseCrudModel.getRecordById(req.params.id);
+      if (data) {
+        return res.send(data);
+      }
+      return res.sendStatus(404);
     },
-    updateById: (req, res) => {
-      return BaseCrudModel.updateRecord(req.body).then((data) => {
-        res.sendStatus(204);
-      }).catch((err) => {
-        console.log(err);
-      });
+    updateById: async (req, res) => {
+      await BaseCrudModel.updateRecord(req.body);
+      return res.sendStatus(204);
     },
-    deleteById: (req, res) => {
-      return BaseCrudModel.deleteRecord(req.params.id).then((data) => {
-        res.sendStatus(204);
-      }).catch((err) => {
-        console.log(err);
-      });
+    deleteById: async (req, res) => {
+      await BaseCrudModel.deleteRecord(req.params.id);
+      return res.sendStatus(204);
     }
   };
 };

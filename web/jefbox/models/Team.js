@@ -1,26 +1,37 @@
-const db = require('../database');
-const TeamModel = db.conn.define('Team', {
-  Id: {
-    type: db.orm.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  Name: {
-    type: db.orm.STRING,
-    allowNull: false
-  },
-  Color: {
-    type: db.orm.STRING
-  }
-}, {
-  timestamps: true,
-  createdAt: 'CreateDate',
-  updatedAt: 'UpdateDate',
-  deletedAt: false
-});
+module.exports = (conn, types) => {
+  let TeamModel = conn.define('Team', {
+    Id: {
+      type: types.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    Name: {
+      type: types.STRING,
+      allowNull: false
+    },
+    Color: {
+      type: types.STRING
+    }
+  }, {
+    timestamps: true,
+    createdAt: 'CreateDate',
+    updatedAt: 'UpdateDate',
+    deletedAt: false
+  });
 
-db.conn.sync().then(() => {
-  console.log('Team table synced.');
-});
+  TeamModel.associate = (models) => {
+    TeamModel.belongsToMany(models.User, {
+      as: 'Users',
+      through: 'TeamUsers'
+    });
+  };
 
-module.exports = TeamModel;
+  TeamModel.includeOptions = [{
+    all: true,
+    through: {
+      attributes: []
+    }
+  }];
+
+  return TeamModel;
+};

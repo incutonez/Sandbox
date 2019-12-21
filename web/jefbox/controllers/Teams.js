@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const BaseCrudController = require('./BaseCrud')(require('../models/Team'));
+const db = require('../database');
+const BaseCrudController = require('./BaseCrud')(db.Team);
 
 router.get('/teams', BaseCrudController.getAll);
 router.post('/teams', BaseCrudController.createRecord);

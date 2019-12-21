@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const BaseCrudController = require('./BaseCrud')(require('../models/User'));
+const db = require('../database');
+const BaseCrudController = require('./BaseCrud')(db.User);
 
 router.get('/users', BaseCrudController.getAll);
 router.post('/users', BaseCrudController.createRecord);
