@@ -37,6 +37,7 @@
     "Routes": true,
     "Icons": true,
     "Styles": true,
-    "UserProfile": true
+    "UserProfile": true,
+    "JefBox": true
   }
 }

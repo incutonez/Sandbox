@@ -24,14 +24,17 @@ module.exports = (conn, types) => {
       as: 'Users',
       through: 'TeamUsers'
     });
+
+    TeamModel.includeOptions.push({
+      model: models.User,
+      as: 'Users',
+      through: {
+        attributes: []
+      }
+    });
   };
 
-  TeamModel.includeOptions = [{
-    all: true,
-    through: {
-      attributes: []
-    }
-  }];
+  TeamModel.includeOptions = [];
 
   return TeamModel;
 };

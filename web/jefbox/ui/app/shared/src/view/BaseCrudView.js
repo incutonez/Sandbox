@@ -72,20 +72,41 @@ Ext.define('JefBox.view.BaseCrudView', {
 
   getActionsColumnConfig: function() {
     return {
+      edit: true,
+      delete: true
+    };
+  },
+
+  getActionsColumnItems: function() {
+    var items = [];
+    var config = this.getActionsColumnConfig();
+    if (config.edit) {
+      items.push({
+        iconCls: Icons.EDIT,
+        tooltip: 'Edit Game',
+        handler: 'onClickEditRecord'
+      });
+    }
+    if (config.delete) {
+      items.push({
+        iconCls: Icons.DELETE,
+        tooltip: 'Delete Record',
+        handler: 'onClickDeleteRecord'
+      });
+    }
+    var width = items.length * 25;
+    return {
       text: 'Actions',
+      width: width < 75 ? 75 : width,
       cell: {
-        tools: [{
-          iconCls: 'x-fa fa-trash',
-          tooltip: 'Delete Team',
-          handler: 'onClickDeleteUser'
-        }]
+        tools: items
       }
     };
   },
 
   getColumnsConfig: function() {
     var config = [];
-    var actionsColumnConfig = this.getActionsColumnConfig();
+    var actionsColumnConfig = this.getActionsColumnItems();
     if (actionsColumnConfig) {
       config.push(actionsColumnConfig);
     }

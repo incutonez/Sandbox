@@ -3,7 +3,7 @@ module.exports = (Model) => {
     for (let key in Model.associations) {
       // If the association exists in our create, let's do something about it
       if (data[key]) {
-        // TODO: Could be more efficient if I used parallel prgoramming (web workers)?
+        // TODO: Could be more efficient if I used parallel programming (web workers)?
         await record['set' + key](data[key]);
       }
     }

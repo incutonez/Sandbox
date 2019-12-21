@@ -1,6 +1,7 @@
 let db = process.env.DB_DIALECT === 'sqlite' ? require('./config/sqlite') : require('./config/mssql');
 db.User = db.conn.import('./models/User');
 db.Team = db.conn.import('./models/Team');
+db.Game = db.conn.import('./models/Game');
 
 for (let key in db) {
   let model = db[key];

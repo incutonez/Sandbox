@@ -19,6 +19,7 @@ module.exports = (app) => {
   app.use(process.env.BASE_API_PATH, require('./Login'));
   app.use(process.env.BASE_API_PATH, require('./Users'));
   app.use(process.env.BASE_API_PATH, require('./Teams'));
+  app.use(process.env.BASE_API_PATH, require('./Games'));
   app.get('/', function(req, res) {
     res.render(__dirname + process.env.UI_DIR + '/index.html');
   });

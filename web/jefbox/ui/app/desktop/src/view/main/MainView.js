@@ -14,6 +14,10 @@ Ext.define('JefBox.view.main.MainView', {
 
   bodyStyle: 'background-color: #222;',
   bodyPadding: 10,
+  layout: {
+    type: 'vbox',
+    align: 'start'
+  },
   bbar: {
     items: [{
       xtype: 'button',
@@ -34,7 +38,8 @@ Ext.define('JefBox.view.main.MainView', {
     cls: Styles.BUTTON_LARGE,
     iconCls: Icons.USERS,
     style: 'border: 1px solid #cecece;',
-    handler: 'onClickUsersView'
+    handler: 'onClickUsersView',
+    margin: '0 0 10 0'
   }, {
     xtype: 'button',
     text: 'Teams',
@@ -42,6 +47,16 @@ Ext.define('JefBox.view.main.MainView', {
     cls: Styles.BUTTON_LARGE,
     iconCls: Icons.TEAMS,
     style: 'border: 1px solid #cecece;',
-    handler: 'onClickTeamsView'
+    handler: 'onClickTeamsView',
+    margin: '0 0 10 0'
+  }, {
+    xtype: 'button',
+    text: 'Games',
+    iconAlign: 'top',
+    cls: Styles.BUTTON_LARGE,
+    iconCls: Icons.GAMES,
+    style: 'border: 1px solid #cecece;',
+    handler: 'onClickGamesView',
+    margin: '0 0 10 0'
   }]
 });

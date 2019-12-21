@@ -53,7 +53,9 @@ Ext.define('JefBox.view.BaseCrudViewController', {
     });
   },
 
-  onClickDeleteUser: function(grid, info) {
+  onClickEditRecord: Ext.emptyFn,
+
+  onClickDeleteRecord: function(grid, info) {
     var me = this;
     info.record.erase({
       callback: function(record, operation, successful) {

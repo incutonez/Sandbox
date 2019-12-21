@@ -1,26 +1,38 @@
-const db = require('../database');
-const GameModel = db.conn.define('Game', {
-  Id: {
-    type: db.orm.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  Name: {
-    type: db.orm.STRING,
-    allowNull: false
-  },
-  Room: {
-    type: db.orm.STRING
-  }
-}, {
-  timestamps: true,
-  createdAt: 'CreateDate',
-  updatedAt: 'UpdateDate',
-  deletedAt: false
-});
+module.exports = (conn, types) => {
+  const GameModel = conn.define('Game', {
+    Id: {
+      type: types.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    Name: {
+      type: types.STRING,
+      allowNull: false
+    },
+    Room: {
+      type: types.STRING
+    }
+  }, {
+    timestamps: true,
+    createdAt: 'CreateDate',
+    updatedAt: 'UpdateDate',
+    deletedAt: false
+  });
 
-db.conn.sync().then(() => {
-  console.log('Game table synced.');
-});
+  GameModel.associate = (models) => {
+    GameModel.hasMany(models.Team, {
+      as: 'Teams',
+      foreignKey: 'GameId'
+    });
 
-module.exports = GameModel;
+    GameModel.includeOptions.push({
+      model: models.Team,
+      as: 'Teams',
+      include: models.Team.includeOptions
+    });
+  };
+
+  GameModel.includeOptions = [];
+
+  return GameModel;
+};

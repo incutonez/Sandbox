@@ -29,7 +29,6 @@ Ext.define('JefBox.view.teams.MainView', {
       dataIndex: 'Users',
       flex: 1,
       renderer: function(value, record) {
-        console.log(record);
         var users = record.getUsersStore();
         return users && users.getCount();
       },

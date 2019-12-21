@@ -9,7 +9,6 @@ Ext.define('JefBox.shared.UserProfile', {
     // We set phantom to false because we've loaded an actual user at this point
     this.phantom = false;
     this.set(data);
-    console.log(data);
     socket.emit('authenticated', data);
   },
 

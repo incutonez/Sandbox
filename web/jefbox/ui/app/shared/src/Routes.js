@@ -28,6 +28,12 @@ Ext.define('JefBox.shared.Routes', {
     basePath: 'teams'
   }, {
     /**
+     * @property GAMES
+     */
+    key: 'GAMES',
+    basePath: 'games'
+  }, {
+    /**
      * @property LOGIN
      */
     key: 'LOGIN',
