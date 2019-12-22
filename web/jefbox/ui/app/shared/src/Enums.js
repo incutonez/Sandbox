@@ -8,6 +8,9 @@ Ext.define('JefBox.Enums', {
   alternateClassName: [
     'Enums'
   ],
+  requires: [
+    'JefBox.store.Enum'
+  ],
 
   loadEnums: function(callback) {
     var me = this;

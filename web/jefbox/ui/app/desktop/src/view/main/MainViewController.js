@@ -4,7 +4,8 @@ Ext.define('JefBox.view.main.MainViewController', {
   requires: [
     'JefBox.view.auth.LoginView',
     'JefBox.view.teams.MainView',
-    'JefBox.view.users.MainView'
+    'JefBox.view.users.MainView',
+    'JefBox.view.games.MainView'
   ],
 
   constructor: function(config) {

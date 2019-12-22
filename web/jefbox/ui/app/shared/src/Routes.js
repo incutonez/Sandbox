@@ -1,4 +1,4 @@
-Ext.define('JefBox.shared.Routes', {
+Ext.define('JefBox.Routes', {
   singleton: true,
   alternateClassName: [
     'Routes'

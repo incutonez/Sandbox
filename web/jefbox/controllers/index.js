@@ -23,7 +23,4 @@ module.exports = (app) => {
   app.use(process.env.BASE_API_PATH, require('./Teams'));
   app.use(process.env.BASE_API_PATH, require('./Games'));
   app.use(process.env.BASE_API_PATH, require('./Enums'));
-  app.get('/', function(req, res) {
-    res.render(__dirname + process.env.UI_DIR + '/index.html');
-  });
 };

@@ -4,7 +4,13 @@ Ext.define('JefBox.shared.Application', {
   requires: [
     'Ext.*',
     'Ext.Loader',
-    'JefBox.*'
+    'JefBox.UserProfile',
+    'JefBox.Routes',
+    'JefBox.view.auth.LoginView',
+    'JefBox.Icons',
+    'JefBox.Enums',
+    'JefBox.Socket',
+    'JefBox.Styles'
   ],
 
   appLoaded: false,
@@ -24,10 +30,12 @@ Ext.define('JefBox.shared.Application', {
     }
     if (!me.appLoaded) {
       Ext.Loader.loadScript({
-        url: 'app/viewport.js',
+        url: 'app/' + Ext.manifest.profile + '/viewport.js',
         onLoad: function() {
           me.appLoaded = true;
-          action.resume();
+          setTimeout(function() {
+            action.resume();
+          }, 100);
         }
       });
       return;
@@ -37,10 +45,6 @@ Ext.define('JefBox.shared.Application', {
 
   init: function() {
     Enums.loadEnums();
-  },
-
-  launch: function() {
-    Ext.get('splash').destroy();
   },
 
   onAppUpdate: function() {

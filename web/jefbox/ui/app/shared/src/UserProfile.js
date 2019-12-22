@@ -1,4 +1,4 @@
-Ext.define('JefBox.shared.UserProfile', {
+Ext.define('JefBox.UserProfile', {
   extend: 'JefBox.model.User',
   singleton: true,
   alternateClassName: [

@@ -1,4 +1,4 @@
-Ext.define('JefBox.shared.Icons', {
+Ext.define('JefBox.Icons', {
   singleton: true,
   alternateClassName: [
     'Icons'

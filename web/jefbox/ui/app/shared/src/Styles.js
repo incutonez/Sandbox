@@ -1,4 +1,4 @@
-Ext.define('JefBox.shared.Styles', {
+Ext.define('JefBox.Styles', {
   singleton: true,
   alternateClassName: [
     'Styles'
