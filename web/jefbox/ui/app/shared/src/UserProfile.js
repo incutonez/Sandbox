@@ -42,7 +42,7 @@ Ext.define('JefBox.shared.UserProfile', {
             });
           }
         }
-      }).show();
+      });
     }
   },
 

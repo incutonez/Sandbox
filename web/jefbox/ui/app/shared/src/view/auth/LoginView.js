@@ -1,5 +1,5 @@
 Ext.define('JefBox.view.auth.LoginView', {
-  extend: 'Ext.Dialog',
+  extend: 'JefBox.BaseDialog',
   alias: 'widget.loginView',
   requires: [
     'JefBox.model.User'
@@ -17,6 +17,14 @@ Ext.define('JefBox.view.auth.LoginView', {
   },
 
   title: 'Log In',
+  minimizable: false,
+  maximizable: false,
+  closable: false,
+  maximized: true,
+  defaultListenerScope: true,
+  layout: {
+    type: 'vbox'
+  },
   bbar: {
     layout: {
       type: 'hbox',
@@ -39,6 +47,9 @@ Ext.define('JefBox.view.auth.LoginView', {
     label: 'User Name',
     bind: {
       value: '{UserProfile.UserName}'
+    },
+    listeners: {
+      keydown: 'onKeyDownField'
     }
   }, {
     xtype: 'textfield',
@@ -47,6 +58,18 @@ Ext.define('JefBox.view.auth.LoginView', {
     label: 'Password',
     bind: {
       value: '{UserProfile.Password}'
+    },
+    listeners: {
+      keydown: 'onKeyDownField'
     }
-  }]
+  }],
+
+  onKeyDownField: function(field, event, eOpts) {
+    if (event.getKey() === event.ENTER) {
+      var viewModel = this.getViewModel();
+      if (viewModel && viewModel.get('isViewValid')) {
+        UserProfile.logInUser();
+      }
+    }
+  }
 });

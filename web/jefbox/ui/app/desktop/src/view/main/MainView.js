@@ -2,6 +2,8 @@ Ext.define('JefBox.view.main.MainView', {
   extend: 'Ext.Panel',
   alias: 'widget.mainView',
   requires: [
+    'JefBox.view.main.MainViewModel',
+    'JefBox.view.main.MainViewController',
     'JefBox.view.users.MainView'
   ],
 
@@ -19,6 +21,7 @@ Ext.define('JefBox.view.main.MainView', {
     align: 'start'
   },
   bbar: {
+    style: 'background-color: #cdcdcd;',
     items: [{
       xtype: 'button',
       tooltip: 'Areas',
@@ -28,7 +31,7 @@ Ext.define('JefBox.view.main.MainView', {
       width: 1,
       margin: '0 10',
       height: '100%',
-      style: 'background-color: #cecece;'
+      style: 'background-color: rgb(34, 34, 34);'
     }]
   },
   items: [{

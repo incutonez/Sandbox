@@ -5,6 +5,8 @@ Ext.define('JefBox.view.games.MainViewController', {
     'JefBox.view.games.EditView'
   ],
 
+  BASE_ROUTE: Routes.GAMES,
+
   showEditView: function(record) {
     Ext.create('JefBox.view.games.EditView', {
       viewModel: {
@@ -12,10 +14,10 @@ Ext.define('JefBox.view.games.MainViewController', {
           viewRecord: record
         }
       }
-    }).show();
+    });
   },
 
-  onClickCreateRecordBtn: function() {
+  onClickCreateRecordBtn: function(button, event) {
     this.showEditView(JefBox.model.Game.loadData());
   },
 

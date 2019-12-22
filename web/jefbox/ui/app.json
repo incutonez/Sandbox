@@ -73,6 +73,9 @@
     "resources": {
       "path": "${build.id}/resources",
       "shared": "resources"
+    },
+    "framework": {
+      "enable": true
     }
   },
   "fashion": {

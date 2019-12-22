@@ -1,4 +1,4 @@
-Ext.define('JefBox.shared.overrides.data.Connection', {
+Ext.define('Shared.shared.overrides.data.Connection', {
   override: 'Ext.data.Connection',
 
   constructor: function(config) {

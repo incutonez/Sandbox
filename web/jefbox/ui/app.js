@@ -1,4 +1,4 @@
 Ext.application({
-  extend: 'JefBox.Application',
+  extend: 'JefBox.shared.Application',
   name: 'JefBox'
 });

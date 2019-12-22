@@ -1,7 +1,13 @@
 Ext.define('JefBox.shared.Application', {
   extend: 'Ext.app.Application',
-  name: 'JefBox',
+  name: 'Shared',
+  requires: [
+    'Ext.*',
+    'Ext.Loader',
+    'JefBox.*'
+  ],
 
+  appLoaded: false,
   defaultToken: Routes.HOME,
 
   routes: {
@@ -11,34 +17,37 @@ Ext.define('JefBox.shared.Application', {
   },
 
   onBeforeEveryRoute: function(action) {
+    var me = this;
     if (UserProfile.phantom) {
-      action.stop();
       UserProfile.checkSession(Ext.util.History.getToken());
       return false;
+    }
+    if (!me.appLoaded) {
+      Ext.Loader.loadScript({
+        url: 'app/viewport.js',
+        onLoad: function() {
+          me.appLoaded = true;
+          action.resume();
+        }
+      });
+      return;
     }
     action.resume();
   },
 
-  removeSplash: function() {
-    Ext.getBody().removeCls('launching');
-    var elem = document.getElementById('splash');
-    elem.parentNode.removeChild(elem);
+  init: function() {
+    Enums.loadEnums();
   },
 
   launch: function() {
-    this.removeSplash();
-    Ext.Viewport.add([{
-      xtype: 'mainView'
-    }]);
+    Ext.get('splash').destroy();
   },
 
   onAppUpdate: function() {
-    Ext.Msg.confirm('Application Update', 'This application has an update, reload?',
-    function(choice) {
+    Ext.Msg.confirm('Application Update', 'This application has an update, reload?', function(choice) {
       if (choice === 'yes') {
         window.location.reload();
       }
-    }
-    );
+    });
   }
 });

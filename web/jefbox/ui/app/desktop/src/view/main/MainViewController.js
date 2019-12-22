@@ -25,7 +25,7 @@ Ext.define('JefBox.view.main.MainViewController', {
         scope: this,
         destroy: 'onDestroyTaskView'
       }
-    }).show();
+    });
   },
 
   onRouteHome: function() {
@@ -59,30 +59,19 @@ Ext.define('JefBox.view.main.MainViewController', {
       openWindow.taskButton.setPressed(true);
       return;
     }
-    var win = Ext.create('Ext.Dialog', {
+    var win = Ext.create('JefBox.BaseDialog', {
       title: title,
-      layout: 'fit',
-      height: 400,
-      width: 800,
-      closable: true,
-      maximizable: true,
       modal: false,
       openWindowKey: key,
-      tools: [{
-        type: 'minimize',
-        scope: this,
-        handler: 'onMinimizeTaskWindow'
-      }, {
-        type: 'maximize'
-      }],
       items: [{
         xtype: xtype
       }],
       listeners: {
         scope: this,
-        destroy: 'onDestroyTaskView'
+        destroy: 'onDestroyTaskView',
+        minimize: 'onMinimizeTaskWindow'
       }
-    }).show();
+    });
     var button = Ext.create('Ext.Button', {
       iconCls: iconCls,
       text: title,

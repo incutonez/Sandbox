@@ -1,4 +1,4 @@
-Ext.define('JefBox.shared.overrides.grid.Grid', {
+Ext.define('Shared.shared.overrides.grid.Grid', {
   override: 'Ext.grid.Grid',
 
   constructor: function(config) {
