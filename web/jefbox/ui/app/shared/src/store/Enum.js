@@ -3,6 +3,11 @@ Ext.define('JefBox.store.Enum', {
   alias: 'store.enum',
   model: 'JefBox.model.KeyValue',
 
+  getDisplayValue: function(value) {
+    var record = this.getEnumByValue(value);
+    return record && record.get('Description');
+  },
+
   getEnumByValue: function(value) {
     return this.findRecord('Value', value, 0, false, true, true);
   },

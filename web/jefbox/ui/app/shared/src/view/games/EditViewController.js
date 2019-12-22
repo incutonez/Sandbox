@@ -18,7 +18,6 @@ Ext.define('JefBox.view.games.EditViewController', {
   },
 
   onEditTeam: function(sender, location) {
-    console.log(location.record, sender, location);
     this.savingRecord = true;
   },
 
@@ -48,7 +47,6 @@ Ext.define('JefBox.view.games.EditViewController', {
     if (viewRecord) {
       viewRecord.save({
         callback: function(record, operation, successful) {
-          console.log(successful);
           me.closeView();
         }
       });

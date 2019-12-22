@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const orm = require('sequelize');
+const AccessLevels = require('../enums/AccessLevels');
 module.exports = (conn, types) => {
   let UserModel = conn.define('User', {
     Id: {
@@ -14,6 +15,10 @@ module.exports = (conn, types) => {
     IsActive: {
       type: types.BOOLEAN,
       defaultValue: 0
+    },
+    AccessLevel: {
+      type: types.INTEGER,
+      defaultValue: AccessLevels.STANDARD
     },
     Password: {
       type: types.STRING,

@@ -17,6 +17,9 @@ Ext.define('JefBox.model.User', {
     type: 'boolean',
     persist: false
   }, {
+    name: 'AccessLevel',
+    type: 'int'
+  }, {
     name: 'CreateDate',
     type: 'date',
     dateFormat: 'c',
@@ -33,6 +36,13 @@ Ext.define('JefBox.model.User', {
     validators: [{
       type: 'presence'
     }]
+  }, {
+    name: 'accessLevelDisplay',
+    type: 'string',
+    depends: ['AccessLevel'],
+    convert: function(value, record) {
+      return Enums.AccessLevels && Enums.AccessLevels.getDisplayValue(record.get('AccessLevel'));
+    }
   }],
 
   proxy: {

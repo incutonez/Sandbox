@@ -1,5 +1,4 @@
-let enums = {
-  GameTypes: require('./GameTypes')
+module.exports = {
+  GameTypes: require('./GameTypes'),
+  AccessLevels: require('./AccessLevels')
 };
-
-module.exports = enums;

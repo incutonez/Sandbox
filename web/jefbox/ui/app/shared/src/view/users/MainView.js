@@ -23,6 +23,9 @@ Ext.define('JefBox.view.users.MainView', {
       text: 'Active',
       dataIndex: 'IsActive',
       flex: 1
+    }, {
+      text: 'Access Level',
+      dataIndex: 'accessLevelDisplay'
     }]);
     return config;
   }

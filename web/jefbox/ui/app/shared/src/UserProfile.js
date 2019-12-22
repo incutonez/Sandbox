@@ -12,34 +12,41 @@ Ext.define('JefBox.UserProfile', {
     socket.emit('authenticated', data);
   },
 
-  checkSession: function(nextToken) {
+  checkSession: function(callback) {
     var me = this;
     me.load({
       callback: function(record, operation, successful) {
         if (successful) {
           me.updateUserData(record.getData());
-          Routes.redirectTo(nextToken, {
-            force: true
-          });
+          if (Ext.isFunction(callback)) {
+            callback(successful);
+          }
         }
         else if (!me.authWindow) {
-          me.showLogInView(nextToken);
+          me.showLogInView({
+            callback: callback
+          });
         }
       }
     });
   },
 
-  showLogInView: function(nextToken) {
-    var me = this;
-    nextToken = nextToken || Ext.util.History.getToken();
+  showLogInView: function(config) {
+    const me = this;
+    config = config || {};
     if (!me.authWindow) {
       me.authWindow = Ext.create('JefBox.view.auth.LoginView', {
         listeners: {
           destroy: function() {
             me.authWindow = null;
-            Routes.redirectTo(nextToken, {
-              force: true
-            });
+            if (config.token) {
+              Routes.redirectTo(config.token, {
+                force: true
+              });
+            }
+            if (Ext.isFunction(config.callback)) {
+              config.callback(true);
+            }
           }
         }
       });
