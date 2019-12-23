@@ -22,7 +22,8 @@
   "scripts": {
     "start": "npm run dev",
     "clean": "rimraf build",
-    "dev": "webpack-dev-server --env.browser=yes --env.verbose=no",
+    "devPhone": "webpack-dev-server --env.browser=yes --env.verbose=no --port=8888 --env.profile=phone",
+    "dev": "webpack-dev-server --env.browser=yes --env.verbose=no --port=7777",
     "build": "npm run clean && cross-env webpack --env.profile=desktop --env.environment=production --env.treeshake=yes"
   },
   "dependencies": {

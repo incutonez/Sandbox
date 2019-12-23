@@ -11,10 +11,16 @@ Ext.define('JefBox.model.Team', {
     type: 'int'
   }, {
     name: 'Name',
-    type: 'string'
+    type: 'string',
+    validators: [{
+      type: 'presence'
+    }]
   }, {
     name: 'Color',
-    type: 'string'
+    type: 'string',
+    validators: [{
+      type: 'presence'
+    }]
   }],
 
   hasMany: [{

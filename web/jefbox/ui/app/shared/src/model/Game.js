@@ -11,10 +11,16 @@ Ext.define('JefBox.model.Game', {
     type: 'int'
   }, {
     name: 'Name',
-    type: 'string'
+    type: 'string',
+    validators: [{
+      type: 'presence'
+    }]
   }, {
-    name: 'Color',
-    type: 'string'
+    name: 'Type',
+    type: 'int',
+    validators: [{
+      type: 'presence'
+    }]
   }, {
     name: 'Room',
     type: 'string'

@@ -13,6 +13,11 @@ Ext.define('JefBox.view.teams.EditView', {
     data: {
       viewRecord: null
     },
+    formulas: {
+      saveBtnDisabled: function(get) {
+        return !get('viewRecord.valid');
+      }
+    },
     stores: {
       usersStore: {
         model: 'JefBox.model.User',
@@ -27,20 +32,36 @@ Ext.define('JefBox.view.teams.EditView', {
     type: 'vbox'
   },
   items: [{
-    xtype: 'textfield',
-    required: true,
-    label: 'Name',
-    bind: {
-      value: '{viewRecord.Name}'
-    }
-  }, {
-    xtype: 'textfield',
-    required: true,
-    label: 'Color',
-    inputType: 'color',
-    bind: {
-      value: '{viewRecord.Color}'
-    }
+    xtype: 'container',
+    margin: '0 0 10 0',
+    layout: {
+      type: 'hbox'
+    },
+    items: [{
+      xtype: 'textfield',
+      required: true,
+      label: 'Name',
+      margin: '0 20 0 0',
+      bind: {
+        value: '{viewRecord.Name}'
+      }
+    }, {
+      xtype: 'textfield',
+      label: 'Hex',
+      margin: '0 10 0 0',
+      inputMask: '#hhhhhh',
+      bind: {
+        value: '{viewRecord.Color}'
+      }
+    }, {
+      xtype: 'textfield',
+      required: true,
+      label: 'Color',
+      inputType: 'color',
+      bind: {
+        value: '{viewRecord.Color}'
+      }
+    }]
   }, {
     xtype: 'container',
     flex: 1,

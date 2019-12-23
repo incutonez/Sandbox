@@ -9,6 +9,11 @@ Ext.define('JefBox.view.games.EditView', {
     data: {
       viewRecord: null
     },
+    formulas: {
+      saveBtnDisabled: function(get) {
+        return !get('viewRecord.valid');
+      }
+    },
     stores: {
       teamsStore: {
         type: 'chained',
@@ -40,6 +45,7 @@ Ext.define('JefBox.view.games.EditView', {
     },
     items: [{
       iconCls: Icons.INFO,
+      bodyPadding: '0 0 0 10',
       layout: {
         type: 'hbox',
         align: 'left'
@@ -47,8 +53,23 @@ Ext.define('JefBox.view.games.EditView', {
       items: [{
         xtype: 'textfield',
         label: 'Name',
+        required: true,
+        margin: '0 10 0 0',
         bind: {
           value: '{viewRecord.Name}'
+        }
+      }, {
+        xtype: 'combobox',
+        label: 'Type',
+        valueField: 'Value',
+        displayField: 'Description',
+        forceSelection: true,
+        queryMode: false,
+        required: true,
+        store: Enums.GameTypes,
+        margin: '0 10 0 0',
+        bind: {
+          value: '{viewRecord.Type}'
         }
       }, {
         xtype: 'textfield',

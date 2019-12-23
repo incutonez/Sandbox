@@ -1,5 +1,4 @@
 module.exports = (Model) => {
-  // TODOJEF: Not sure this is working on update
   async function updateAssociations(record, data) {
     for (let key in Model.associations) {
       // If the association exists in our create, let's do something about it
@@ -11,44 +10,55 @@ module.exports = (Model) => {
     return record;
   }
 
-  return {
-    getRecordById: async (id) => {
-      let searchOptions = {
-        where: {
-          Id: id
-        }
-      };
-      if (Model.includeOptions) {
-        searchOptions.include = Model.includeOptions;
+  async function getRecordById(id) {
+    let searchOptions = {
+      where: {
+        Id: id
       }
-      return await Model.findOne(searchOptions);
-    },
-    getAllRecords: async () => {
-      let searchOptions = {};
-      if (Model.includeOptions) {
-        searchOptions.include = Model.includeOptions;
-      }
-      return await Model.findAll(searchOptions);
-    },
-    createRecord: async (data) => {
-      delete data.Id;
-      let record = await Model.create(data);
-      return await updateAssociations(record, data);
-    },
-    updateRecord: async (data) => {
-      let record = Model.update(data, {
-        where: {
-          Id: data.Id
-        }
-      });
-      return await updateAssociations(record, data);
-    },
-    deleteRecord: async (id) => {
-      return await Model.destroy({
-        where: {
-          Id: id
-        }
-      });
+    };
+    if (Model.includeOptions) {
+      searchOptions.include = Model.includeOptions;
     }
+    return Model.findOne(searchOptions);
+  }
+
+  async function getAllRecords() {
+    let searchOptions = {};
+    if (Model.includeOptions) {
+      searchOptions.include = Model.includeOptions;
+    }
+    return Model.findAll(searchOptions);
+  }
+
+  async function createRecord(data) {
+    delete data.Id;
+    let record = await Model.create(data);
+    return await updateAssociations(record, data);
+  }
+
+  async function updateRecord(data) {
+    await Model.update(data, {
+      where: {
+        Id: data.Id
+      }
+    });
+    let record = await getRecordById(data.Id);
+    return await updateAssociations(record, data);
+  }
+
+  async function deleteRecord(id) {
+    return Model.destroy({
+      where: {
+        Id: id
+      }
+    });
+  }
+
+  return {
+    getRecordById: getRecordById,
+    getAllRecords: getAllRecords,
+    createRecord: createRecord,
+    updateRecord: updateRecord,
+    deleteRecord: deleteRecord
   };
 };

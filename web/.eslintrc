@@ -38,6 +38,7 @@
     "Icons": true,
     "Styles": true,
     "UserProfile": true,
-    "JefBox": true
+    "JefBox": true,
+    "Enums": true
   }
 }
