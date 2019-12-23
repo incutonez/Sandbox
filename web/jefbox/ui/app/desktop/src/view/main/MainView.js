@@ -3,7 +3,8 @@ Ext.define('JefBox.view.main.MainView', {
   alias: 'widget.mainView',
   requires: [
     'JefBox.view.main.MainViewModel',
-    'JefBox.view.main.MainViewController'
+    'JefBox.view.main.MainViewController',
+    'JefBox.store.Teams'
   ],
 
   controller: {

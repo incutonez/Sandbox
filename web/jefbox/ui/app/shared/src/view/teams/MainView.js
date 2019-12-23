@@ -4,6 +4,7 @@ Ext.define('JefBox.view.teams.MainView', {
   requires: [
     'JefBox.model.Team',
     'JefBox.model.User',
+    'JefBox.store.Teams',
     'JefBox.view.teams.MainViewController'
   ],
 
@@ -11,14 +12,12 @@ Ext.define('JefBox.view.teams.MainView', {
     type: 'teamsMainView'
   },
   viewModel: {
-    data: {
-      mainStoreModel: 'JefBox.model.Team'
-    },
     stores: {
       usersStore: {
         model: 'JefBox.model.User',
         autoLoad: true
-      }
+      },
+      mainStore: JefBox.store.Teams
     }
   },
 

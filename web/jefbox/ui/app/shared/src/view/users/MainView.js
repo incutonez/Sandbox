@@ -22,10 +22,27 @@ Ext.define('JefBox.view.users.MainView', {
     Ext.Array.insert(config, 3, [{
       text: 'Active',
       dataIndex: 'IsActive',
-      flex: 1
+      align: 'center',
+      width: 70,
+      cell: {
+        encodeHtml: false
+      },
+      renderer: function(value) {
+        let colorCls = Styles.COLOR_FAILURE;
+        let iconCls = Icons.CROSS;
+        if (value) {
+          iconCls = Icons.CHECKMARK;
+          colorCls = Styles.COLOR_SUCCESS;
+        }
+        return Icons.getIconMarkup({
+          iconCls: iconCls,
+          colorCls: colorCls
+        });
+      }
     }, {
       text: 'Access Level',
-      dataIndex: 'accessLevelDisplay'
+      dataIndex: 'accessLevelDisplay',
+      width: 110
     }]);
     return config;
   }

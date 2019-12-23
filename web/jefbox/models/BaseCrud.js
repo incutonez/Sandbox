@@ -1,4 +1,5 @@
 module.exports = (Model) => {
+  // TODOJEF: Not sure this is working on update
   async function updateAssociations(record, data) {
     for (let key in Model.associations) {
       // If the association exists in our create, let's do something about it

@@ -29,9 +29,22 @@ Ext.define('JefBox.model.Team', {
     url: 'api/teams',
     writer: {
       type: 'json',
+      allDataOptions: {
+        associated: true,
+        critical: true
+      },
       partialDataOptions: {
         associated: true,
         critical: true
+      },
+      transform: function(data, request) {
+        var users = data.Users;
+        if (users) {
+          data.Users = users.map(function(item) {
+            return item.Id;
+          });
+        }
+        return data;
       }
     }
   }

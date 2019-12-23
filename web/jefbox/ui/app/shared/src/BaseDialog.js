@@ -2,28 +2,63 @@ Ext.define('JefBox.BaseDialog', {
   extend: 'Ext.Dialog',
   alias: 'widget.baseDialog',
 
-  autoShow: true,
-  closable: true,
-  maximizable: true,
-  minimizable: true,
   height: 500,
   width: 1000,
   layout: 'fit',
+  maximizable: true,
+  closable: true,
+  config: {
+    autoShow: true,
+    minimizable: true,
+    isCrudDialog: false
+  },
 
-  initialize: function() {
-    var me = this;
-    me.callParent();
-    if (me.minimizable) {
+  updateMinimizable: function(minimizable) {
+    let me = this;
+    if (minimizable) {
       me.addTool({
         type: 'minimize',
         scope: me,
         handler: 'onMinimizeDialog'
       });
     }
-    if (me.autoShow) {
-      me.show();
+  },
+
+  updateAutoShow: function(autoShow) {
+    if (autoShow) {
+      this.show();
     }
   },
+
+  updateIsCrudDialog: function(isCrudDialog) {
+    let buttons = this.getButtons();
+    if (isCrudDialog) {
+      if (buttons) {
+        buttons.add({
+          save: 'onClickSave',
+          cancel: 'onClickCancel'
+        });
+      }
+      else {
+        this.setButtons({
+          save: 'onClickSave',
+          cancel: 'onClickCancel'
+        });
+      }
+    }
+  },
+
+  /**
+   * @abstract
+   * Implement this class if you have isCrudDialog set to true
+   */
+  onClickSave: Ext.emptyFn,
+
+  /**
+   * @abstract
+   * Implement this class if you have isCrudDialog set to true
+   */
+  onClickCancel: Ext.emptyFn,
 
   onMinimizeDialog: function() {
     this.hide();

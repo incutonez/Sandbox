@@ -1,6 +1,15 @@
 Ext.define('Shared.overrides.util.Format', {
   override: 'Ext.util.Format',
 
+  dateMonthDayYearHourMinuteSecond: function(value) {
+    if (!Ext.isDate(value)) {
+      value = new Date(value);
+    }
+    if (value.isValid()) {
+      return Ext.Date.format(value, 'm/d/Y g:m:s A');
+    }
+  },
+
   storeToList: function(config) {
     config = config || {};
     let list = [];

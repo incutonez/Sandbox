@@ -1,4 +1,4 @@
-module.exports = (Model) => {
+module.exports = (Model, io) => {
   const BaseCrudModel = require('../models/BaseCrud')(Model);
   return {
     getAll: async (req, res) => {
@@ -7,6 +7,9 @@ module.exports = (Model) => {
     },
     createRecord: async (req, res) => {
       await BaseCrudModel.createRecord(req.body);
+      if (io && Model.updateEvent) {
+        io.emit(Model.updateEvent);
+      }
       return res.sendStatus(204);
     },
     getById: async (req, res) => {
@@ -18,10 +21,16 @@ module.exports = (Model) => {
     },
     updateById: async (req, res) => {
       await BaseCrudModel.updateRecord(req.body);
+      if (io && Model.updateEvent) {
+        io.emit(Model.updateEvent);
+      }
       return res.sendStatus(204);
     },
     deleteById: async (req, res) => {
       await BaseCrudModel.deleteRecord(req.params.id);
+      if (io && Model.updateEvent) {
+        io.emit(Model.updateEvent);
+      }
       return res.sendStatus(204);
     }
   };

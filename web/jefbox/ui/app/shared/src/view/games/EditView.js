@@ -11,8 +11,8 @@ Ext.define('JefBox.view.games.EditView', {
     },
     stores: {
       teamsStore: {
-        model: 'JefBox.model.Team',
-        autoLoad: true
+        type: 'chained',
+        source: JefBox.store.Teams
       }
     }
   },
@@ -21,10 +21,7 @@ Ext.define('JefBox.view.games.EditView', {
   },
 
   title: 'Games',
-  buttons: {
-    save: 'onClickSave',
-    cancel: 'onClickCancel'
-  },
+  isCrudDialog: true,
   items: [{
     xtype: 'tabpanel',
     tabBarPosition: 'left',
@@ -67,7 +64,7 @@ Ext.define('JefBox.view.games.EditView', {
       },
       items: [{
         xtype: 'grid',
-        title: 'In Game',
+        title: 'Teams',
         reference: 'teamsView',
         flex: 1,
         bind: {
@@ -119,8 +116,17 @@ Ext.define('JefBox.view.games.EditView', {
         }]
       }, {
         xtype: 'grid',
-        title: 'Available Teams',
+        title: 'Available',
         margin: '0 0 0 10',
+        titleBar: {
+          items: [{
+            xtype: 'button',
+            align: 'right',
+            tooltip: 'Create Team',
+            iconCls: Icons.NEW,
+            handler: 'onClickCreateTeam'
+          }]
+        },
         bind: {
           store: '{teamsStore}'
         },
@@ -129,7 +135,8 @@ Ext.define('JefBox.view.games.EditView', {
         }],
         columns: [{
           text: 'Name',
-          dataIndex: 'Name'
+          dataIndex: 'Name',
+          flex: 1
         }]
       }]
     }]

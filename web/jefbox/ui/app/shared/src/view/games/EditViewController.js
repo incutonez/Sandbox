@@ -41,6 +41,16 @@ Ext.define('JefBox.view.games.EditViewController', {
     info.record.store.remove(info.record);
   },
 
+  onClickCreateTeam: function() {
+    Ext.create('JefBox.view.teams.EditView', {
+      viewModel: {
+        data: {
+          viewRecord: JefBox.model.Team.loadData()
+        }
+      }
+    });
+  },
+
   onClickSave: function() {
     var me = this;
     var viewRecord = me.getViewRecord();

@@ -43,7 +43,7 @@ Ext.define('JefBox.view.auth.LoginView', {
   },
   items: [{
     xtype: 'textfield',
-    allowBlank: false,
+    required: true,
     label: 'User Name',
     bind: {
       value: '{UserProfile.UserName}'
@@ -53,7 +53,7 @@ Ext.define('JefBox.view.auth.LoginView', {
     }
   }, {
     xtype: 'textfield',
-    allowBlank: false,
+    required: true,
     inputType: 'password',
     label: 'Password',
     bind: {

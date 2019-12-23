@@ -35,4 +35,5 @@ module.exports = function(server) {
       delete people[client.id];
     });
   });
+  return io;
 };

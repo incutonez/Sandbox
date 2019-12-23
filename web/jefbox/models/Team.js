@@ -35,6 +35,7 @@ module.exports = (conn, types) => {
   };
 
   TeamModel.includeOptions = [];
+  TeamModel.updateEvent = 'updatedTeams';
 
   return TeamModel;
 };

@@ -1,7 +1,7 @@
 const url = require('url');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-module.exports = (app) => {
+module.exports = (app, io) => {
   app.use(cookieParser());
   app.use(session({
     key: 'auth_token',
@@ -19,8 +19,8 @@ module.exports = (app) => {
     next();
   });
   app.use(process.env.BASE_API_PATH, require('./Login'));
-  app.use(process.env.BASE_API_PATH, require('./Users'));
-  app.use(process.env.BASE_API_PATH, require('./Teams'));
-  app.use(process.env.BASE_API_PATH, require('./Games'));
+  app.use(process.env.BASE_API_PATH, require('./Users')(io));
+  app.use(process.env.BASE_API_PATH, require('./Teams')(io));
+  app.use(process.env.BASE_API_PATH, require('./Games')(io));
   app.use(process.env.BASE_API_PATH, require('./Enums'));
 };

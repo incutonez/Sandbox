@@ -113,25 +113,32 @@ Ext.define('JefBox.view.BaseCrudView', {
     config.push({
       text: 'Id',
       dataIndex: 'Id',
-      flex: 1
+      align: 'center',
+      width: 50
     }, {
       text: 'Name',
       dataIndex: this.NAME_DATAINDEX,
       flex: 1,
       editor: {
         xtype: 'textfield',
-        allowBlank: false
+        required: true
       }
     }, {
       text: 'Created',
       dataIndex: 'CreateDate',
-      formatter: 'date("m/d/Y g:m:s A")',
-      flex: 1
+      formatter: 'dateMonthDayYearHourMinuteSecond',
+      width: 175,
+      cell: {
+        encodeHtml: false
+      }
     }, {
       text: 'Last Updated',
       dataIndex: 'UpdateDate',
-      formatter: 'date("m/d/Y g:m:s A")',
-      flex: 1
+      formatter: 'dateMonthDayYearHourMinuteSecond',
+      width: 175,
+      cell: {
+        encodeHtml: false
+      }
     });
     return config;
   }
