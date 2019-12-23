@@ -1,3 +1,4 @@
+const db = require('../database');
 module.exports = (Model) => {
   async function updateAssociations(record, data) {
     for (let key in Model.associations) {
@@ -10,8 +11,9 @@ module.exports = (Model) => {
     return record;
   }
 
-  async function getRecordById(id) {
+  async function getRecordById(id, userId) {
     let searchOptions = {
+      paranoid: await db.User.excludeDeleted(userId),
       where: {
         Id: id
       }
@@ -22,8 +24,10 @@ module.exports = (Model) => {
     return Model.findOne(searchOptions);
   }
 
-  async function getAllRecords() {
-    let searchOptions = {};
+  async function getAllRecords(userId) {
+    let searchOptions = {
+      paranoid: await db.User.excludeDeleted(userId)
+    };
     if (Model.includeOptions) {
       searchOptions.include = Model.includeOptions;
     }

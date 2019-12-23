@@ -8,29 +8,22 @@ module.exports = function(server) {
     client.on('pickingTeam', (config) => {
       console.log('pickingTeam', config);
     });
-    client.on('authenticated', (config) => {
+    client.on('authenticated', async (config) => {
       user = people[client.id] = config;
-      db.User.updateUser({
+      await db.User.updateUser({
         Id: user.Id,
         IsActive: true
-      }).then(() => {
-        io.emit('userStatusChange', user);
-      }).catch((err) => {
-        console.log(err);
       });
-      console.log(user);
+      io.emit('userStatusChange', user);
     });
-    client.on('disconnect', () => {
+    client.on('disconnect', async () => {
       console.log('client disconnected', user);
       if (user) {
-        db.User.updateUser({
+        await db.User.updateUser({
           Id: user.Id,
           IsActive: false
-        }).then(() => {
-          io.emit('userStatusChange', user);
-        }).catch((err) => {
-          console.log(err);
         });
+        io.emit('userStatusChange', user);
       }
       delete people[client.id];
     });

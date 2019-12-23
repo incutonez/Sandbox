@@ -2,16 +2,16 @@ Ext.define('JefBox.view.users.MainView', {
   extend: 'JefBox.view.BaseCrudView',
   alias: 'widget.usersMainView',
   requires: [
-    'JefBox.model.User',
-    'JefBox.view.users.MainViewController'
+    'JefBox.view.users.MainViewController',
+    'JefBox.store.Users'
   ],
 
   controller: {
     type: 'usersView'
   },
   viewModel: {
-    data: {
-      mainStoreModel: 'JefBox.model.User'
+    stores: {
+      mainStore: JefBox.store.Users
     }
   },
 

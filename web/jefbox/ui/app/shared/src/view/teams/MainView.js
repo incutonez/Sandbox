@@ -2,21 +2,28 @@ Ext.define('JefBox.view.teams.MainView', {
   extend: 'JefBox.view.BaseCrudView',
   alias: 'widget.teamsMainView',
   requires: [
-    'JefBox.model.Team',
-    'JefBox.model.User',
+    'JefBox.store.Users',
     'JefBox.store.Teams',
     'JefBox.view.teams.MainViewController'
   ],
 
+  itemConfig: {
+    viewModel: {
+      formulas: {
+        usersDisplay: function(get) {
+          return Ext.util.Format.storeToList({
+            store: get('record.Users'),
+            fields: 'UserName'
+          });
+        }
+      }
+    }
+  },
   controller: {
     type: 'teamsMainView'
   },
   viewModel: {
     stores: {
-      usersStore: {
-        model: 'JefBox.model.User',
-        autoLoad: true
-      },
       mainStore: JefBox.store.Teams
     }
   },
@@ -27,9 +34,11 @@ Ext.define('JefBox.view.teams.MainView', {
       text: 'Users',
       dataIndex: 'Users',
       flex: 1,
-      renderer: function(value, record) {
-        var users = record.getUsersStore();
-        return users && users.getCount();
+      cell: {
+        encodeHtml: false,
+        bind: {
+          value: '{usersDisplay}'
+        }
       },
       editor: {
         xtype: 'combobox',
@@ -37,9 +46,7 @@ Ext.define('JefBox.view.teams.MainView', {
         queryMode: 'local',
         valueField: 'Id',
         displayField: 'UserName',
-        bind: {
-          store: '{usersStore}'
-        },
+        store: JefBox.store.Users,
         listeners: {
           select: 'onSelectUserField'
         }

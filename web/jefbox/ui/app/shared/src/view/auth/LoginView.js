@@ -1,9 +1,6 @@
 Ext.define('JefBox.view.auth.LoginView', {
   extend: 'JefBox.BaseDialog',
   alias: 'widget.loginView',
-  requires: [
-    'JefBox.model.User'
-  ],
 
   viewModel: {
     data: {

@@ -2,40 +2,37 @@ const db = require('../database');
 const express = require('express');
 const router = express.Router();
 
-router.get('/login', (req, res) => {
+router.get('/login', async (req, res) => {
   const user = req.session.user;
-  if (user) {
-    return db.User.getUserByName(user.UserName).then((userResult) => {
-      req.session.user = userResult;
-      res.send(userResult);
-    }).catch((err) => {
-      console.log(err);
-      res.sendStatus(401);
+  const record = user && await db.User.findOne({
+    where: {
+      UserName: db.User.getUserNameFind(user.UserName)
+    }
+  });
+  if (record) {
+    req.session.user = record.get({
+      plain: true
     });
+    return res.send(record);
   }
-  res.sendStatus(401);
+  return res.sendStatus(401);
 });
 
-router.post('/login', (req, res) => {
-  db.User.getUserByName(req.body.UserName).then((userResult) => {
-    if (userResult) {
-      // Now that we've found the user, let's check to see if they've entered the right password
-      if (userResult.isPassword(req.body.Password)) {
-        req.session.user = userResult;
-        return res.send(userResult);
-      }
-      return res.sendStatus(401);
-    }
-    return db.User.createUser(req.body).then((userResult) => {
-      req.session.user = userResult;
-      res.send(userResult);
-    }).catch((err) => {
-      console.log(err);
-    });
-  }).catch((err) => {
-    // TODO: Figure out elegant way of handling errors
-    console.log(err);
+router.post('/login', async (req, res) => {
+  const results = await db.User.findOrCreate({
+    where: {
+      UserName: db.User.getUserNameFind(req.body.UserName)
+    },
+    defaults: req.body
   });
+  const record = results && results[0];
+  if (record && record.isPassword(req.body.Password)) {
+    req.session.user = record.get({
+      plain: true
+    });
+    return res.send(record);
+  }
+  return res.sendStatus(401);
 });
 
 module.exports = router;

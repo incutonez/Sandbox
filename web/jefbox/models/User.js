@@ -35,12 +35,22 @@ module.exports = (conn, types) => {
       get() {
         return () => this.getDataValue('Salt');
       }
+    },
+    IsAdmin: {
+      type: new types.VIRTUAL(types.BOOLEAN, ['AccessLevel']),
+      get() {
+        return () => {
+          const accessLevel = this.getDataValue('AccessLevel');
+          return accessLevel === AccessLevels.ADMIN || accessLevel === AccessLevels.SUPER;
+        };
+      }
     }
   }, {
     timestamps: true,
+    paranoid: true,
     createdAt: 'CreateDate',
     updatedAt: 'UpdateDate',
-    deletedAt: false,
+    deletedAt: 'DeleteDate',
     hooks: {
       beforeCreate: (user) => {
         user.setSaltAndPassword();
@@ -52,48 +62,41 @@ module.exports = (conn, types) => {
   });
 
   // Class methods
-  UserModel.getUserById = async function(id) {
-    return await this.findById(id);
-  };
-
-  UserModel.getUserByName = async function(userName) {
-    return await this.findOne({
-      where: {
-        UserName: orm.where(orm.fn('lower', orm.col('UserName')), orm.fn('lower', userName))
-      }
-    });
-  };
-
-  UserModel.getAllUsers = async function() {
-    return await this.findAll();
-  };
-
-  UserModel.createUser = async function(userData) {
-    return this.create(userData);
+  UserModel.getUserNameFind = (userName) => {
+    return orm.where(orm.fn('lower', orm.col('UserName')), orm.fn('lower', userName));
   };
 
   UserModel.updateUser = async function(userData) {
-    return await this.update(userData, {
+    return this.update(userData, {
       where: {
         Id: userData.Id
       }
     });
   };
 
-  UserModel.deleteUser = async function(userId) {
-    return await this.destroy({
-      where: {
-        Id: userId
-      }
-    });
+  // In Sequelize, when using find and wanting to return soft-deleted items, paranoid must be set to false
+  UserModel.excludeDeleted = async (userId) => {
+    const record = await UserModel.findByPk(userId);
+    return !record || !record.IsAdmin();
   };
 
   UserModel.associate = (models) => {
+    UserModel.hasOne(models.User, {
+      foreignKey: 'UpdatedById'
+    });
+    UserModel.hasOne(models.Team, {
+      foreignKey: 'UpdatedById'
+    });
+    UserModel.hasOne(models.Game, {
+      foreignKey: 'UpdatedById'
+    });
     UserModel.belongsToMany(models.Team, {
       as: 'Teams',
       through: 'TeamUsers'
     });
   };
+
+  UserModel.updateEvent = 'updatedUsers';
 
   // Instance methods
   UserModel.prototype.encryptPassword = function(password) {

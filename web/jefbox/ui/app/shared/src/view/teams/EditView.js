@@ -2,8 +2,7 @@ Ext.define('JefBox.view.teams.EditView', {
   extend: 'JefBox.BaseDialog',
   alias: 'widget.teamsEditView',
   requires: [
-    'JefBox.view.teams.EditViewController',
-    'JefBox.model.User'
+    'JefBox.view.teams.EditViewController'
   ],
 
   controller: {
@@ -16,12 +15,6 @@ Ext.define('JefBox.view.teams.EditView', {
     formulas: {
       saveBtnDisabled: function(get) {
         return !get('viewRecord.valid');
-      }
-    },
-    stores: {
-      usersStore: {
-        model: 'JefBox.model.User',
-        autoLoad: true
       }
     }
   },
@@ -97,6 +90,7 @@ Ext.define('JefBox.view.teams.EditView', {
       title: 'Available',
       margin: '0 0 0 10',
       flex: 1,
+      store: JefBox.store.Users,
       titleBar: {
         items: [{
           xtype: 'button',
@@ -105,9 +99,6 @@ Ext.define('JefBox.view.teams.EditView', {
           iconCls: Icons.NEW,
           handler: 'onClickCreateUser'
         }]
-      },
-      bind: {
-        store: '{usersStore}'
       },
       plugins: [{
         type: 'gridrowdragdrop'

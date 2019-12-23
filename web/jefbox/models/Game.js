@@ -18,9 +18,10 @@ module.exports = (conn, types) => {
     }
   }, {
     timestamps: true,
+    paranoid: true,
     createdAt: 'CreateDate',
     updatedAt: 'UpdateDate',
-    deletedAt: false
+    deletedAt: 'DeleteDate'
   });
 
   GameModel.associate = (models) => {
@@ -37,6 +38,7 @@ module.exports = (conn, types) => {
   };
 
   GameModel.includeOptions = [];
+  GameModel.updateEvent = 'updatedGames';
 
   return GameModel;
 };

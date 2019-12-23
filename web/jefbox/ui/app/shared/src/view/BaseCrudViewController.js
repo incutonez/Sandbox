@@ -2,22 +2,6 @@ Ext.define('JefBox.view.BaseCrudViewController', {
   extend: 'Ext.app.ViewController',
   alias: 'controller.baseCrudView',
 
-  constructor: function(config) {
-    var me = this;
-    var baseRoute = config.BASE_ROUTE || me.BASE_ROUTE;
-    var routes = {};
-    routes[baseRoute] = {
-      action: 'onRouteMainView',
-      lazy: true
-    };
-    config.routes = routes;
-    me.callParent(arguments);
-  },
-
-  onRouteMainView: function() {
-    this.refreshMainStore();
-  },
-
   onClickCreateRecordBtn: function() {
     var mainStore = this.getMainStore();
     var mainGrid = this.getView().getPlugin('rowEditingPlugin');

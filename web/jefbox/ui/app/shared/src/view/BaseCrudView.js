@@ -15,6 +15,9 @@ Ext.define('JefBox.view.BaseCrudView', {
 
   border: true,
   NAME_DATAINDEX: 'Name',
+  itemConfig: {
+    viewModel: true
+  },
   bind: {
     store: '{mainStore}'
   },
