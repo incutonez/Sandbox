@@ -23,6 +23,9 @@ Ext.define('JefBox.view.teams.MainView', {
     type: 'teamsMainView'
   },
   viewModel: {
+    data: {
+      entityName: 'Team'
+    },
     stores: {
       mainStore: JefBox.store.Teams
     }
@@ -46,10 +49,16 @@ Ext.define('JefBox.view.teams.MainView', {
         queryMode: 'local',
         valueField: 'Id',
         displayField: 'UserName',
-        store: JefBox.store.Users,
+        store: JefBox.store.Users.getActiveUsersStore(),
         listeners: {
           select: 'onSelectUserField'
         }
+      }
+    }, {
+      text: 'Owner',
+      dataIndex: 'OwnerId',
+      renderer: function(value) {
+        return JefBox.store.Users.getUserNameById(value);
       }
     }]);
     return config;

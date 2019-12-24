@@ -1,12 +1,7 @@
 Ext.define('JefBox.model.User', {
-  extend: 'Ext.data.Model',
+  extend: 'JefBox.model.Crud',
 
-  idProperty: 'Id',
-  identifier: 'negative',
   fields: [{
-    name: 'Id',
-    type: 'int'
-  }, {
     name: 'UserName',
     type: 'string',
     validators: [{
@@ -20,16 +15,6 @@ Ext.define('JefBox.model.User', {
     name: 'AccessLevel',
     type: 'int'
   }, {
-    name: 'CreateDate',
-    type: 'date',
-    dateFormat: 'c',
-    persist: false
-  }, {
-    name: 'UpdateDate',
-    type: 'date',
-    dateFormat: 'c',
-    persist: false
-  }, {
     // Used only on creating a user
     name: 'Password',
     type: 'string',
@@ -37,16 +22,32 @@ Ext.define('JefBox.model.User', {
       type: 'presence'
     }]
   }, {
+    name: 'IsAdmin',
+    type: 'boolean',
+    persist: false
+  }, {
     name: 'accessLevelDisplay',
     type: 'string',
+    persist: false,
     depends: ['AccessLevel'],
     convert: function(value, record) {
       return Enums.AccessLevels && Enums.AccessLevels.getDisplayValue(record.get('AccessLevel'));
     }
   }],
 
+  hasMany: [{
+    model: 'JefBox.model.Team',
+    associationKey: 'Teams',
+    getterName: 'getTeamsStore',
+    role: 'Teams'
+  }],
+
   proxy: {
     type: 'rest',
-    url: 'api/users'
+    url: 'api/users',
+    writer: {
+      type: 'json',
+      writeAllFields: true
+    }
   }
 });

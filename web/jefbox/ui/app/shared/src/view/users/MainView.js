@@ -10,6 +10,9 @@ Ext.define('JefBox.view.users.MainView', {
     type: 'usersView'
   },
   viewModel: {
+    data: {
+      entityName: 'User'
+    },
     stores: {
       mainStore: JefBox.store.Users
     }
@@ -17,9 +20,21 @@ Ext.define('JefBox.view.users.MainView', {
 
   NAME_DATAINDEX: 'UserName',
 
+  getPluginsConfig: function() {
+    return UserProfile.get('IsAdmin') ? this.callParent() : null;
+  },
+
+  getTitleBarConfig: function() {
+    var config = this.callParent();
+    if (!UserProfile.get('IsAdmin')) {
+      Ext.Array.removeAt(config, 0);
+    }
+    return config;
+  },
+
   getColumnsConfig: function() {
     var config = this.callParent();
-    Ext.Array.insert(config, 3, [{
+    var columns = [{
       text: 'Active',
       dataIndex: 'IsActive',
       align: 'center',
@@ -39,11 +54,27 @@ Ext.define('JefBox.view.users.MainView', {
           colorCls: colorCls
         });
       }
-    }, {
-      text: 'Access Level',
-      dataIndex: 'accessLevelDisplay',
-      width: 110
-    }]);
+    }];
+    if (UserProfile.get('IsAdmin')) {
+      columns.push({
+        text: 'Access Level',
+        dataIndex: 'accessLevelDisplay',
+        width: 110,
+        editor: {
+          xtype: 'combobox',
+          queryMode: 'local',
+          valueField: 'Value',
+          displayField: 'Description',
+          forceSelection: true,
+          required: true,
+          store: Enums.AccessLevels,
+          bind: {
+            value: '{record.AccessLevel}'
+          }
+        }
+      });
+    }
+    Ext.Array.insert(config, 3, columns);
     return config;
   }
 });

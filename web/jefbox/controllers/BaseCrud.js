@@ -31,7 +31,9 @@ module.exports = (Model, io) => {
     deleteById: async (req, res) => {
       await BaseCrudModel.updateRecord({
         Id: req.body.Id,
-        UpdatedById: req.session.user.Id
+        UpdatedById: req.session.user.Id,
+        // TODOJEF: Should move this flag into the User's controller
+        IsActive: false
       });
       await BaseCrudModel.deleteRecord(req.params.id);
       if (io && Model.updateEvent) {

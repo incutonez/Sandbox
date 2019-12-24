@@ -19,6 +19,7 @@ Ext.define('JefBox.BaseDialog', {
   layout: 'fit',
   maximizable: true,
   closable: true,
+  bodyPadding: 0,
   config: {
     autoShow: true,
     minimizable: true,
@@ -52,11 +53,6 @@ Ext.define('JefBox.BaseDialog', {
           text: 'Save',
           bind: {
             disabled: '{disableSaveButton}'
-          },
-          listeners: {
-            afterrender: function(button) {
-              console.log(button);
-            }
           }
         }, {
           xtype: 'button',

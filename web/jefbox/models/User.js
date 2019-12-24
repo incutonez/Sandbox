@@ -38,11 +38,9 @@ module.exports = (conn, types) => {
     },
     IsAdmin: {
       type: new types.VIRTUAL(types.BOOLEAN, ['AccessLevel']),
-      get() {
-        return () => {
-          const accessLevel = this.getDataValue('AccessLevel');
-          return accessLevel === AccessLevels.ADMIN || accessLevel === AccessLevels.SUPER;
-        };
+      get: function() {
+        const accessLevel = this.getDataValue('AccessLevel');
+        return accessLevel === AccessLevels.ADMIN || accessLevel === AccessLevels.SUPER;
       }
     }
   }, {
@@ -77,7 +75,7 @@ module.exports = (conn, types) => {
   // In Sequelize, when using find and wanting to return soft-deleted items, paranoid must be set to false
   UserModel.excludeDeleted = async (userId) => {
     const record = await UserModel.findByPk(userId);
-    return !record || !record.IsAdmin();
+    return !record || !record.IsAdmin;
   };
 
   UserModel.associate = (models) => {
@@ -87,6 +85,9 @@ module.exports = (conn, types) => {
     UserModel.hasOne(models.Team, {
       foreignKey: 'UpdatedById'
     });
+    UserModel.hasOne(models.Team, {
+      foreignKey: 'OwnerId'
+    });
     UserModel.hasOne(models.Game, {
       foreignKey: 'UpdatedById'
     });
@@ -94,8 +95,16 @@ module.exports = (conn, types) => {
       as: 'Teams',
       through: 'TeamUsers'
     });
+    UserModel.includeOptions.push({
+      model: models.Team,
+      as: 'Teams',
+      through: {
+        attributes: []
+      }
+    });
   };
 
+  UserModel.includeOptions = [];
   UserModel.updateEvent = 'updatedUsers';
 
   // Instance methods

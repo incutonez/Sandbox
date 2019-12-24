@@ -5,6 +5,7 @@ Ext.define('JefBox.view.main.MainView', {
     'JefBox.view.main.MainViewModel',
     'JefBox.view.main.MainViewController',
     'JefBox.store.Teams',
+    'JefBox.store.Games',
     'JefBox.store.Users'
   ],
 

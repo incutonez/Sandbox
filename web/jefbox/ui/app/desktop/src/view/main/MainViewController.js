@@ -61,7 +61,6 @@ Ext.define('JefBox.view.main.MainViewController', {
       return;
     }
     var win = Ext.create('JefBox.BaseDialog', {
-      title: title,
       modal: false,
       openWindowKey: key,
       items: [{
@@ -79,7 +78,8 @@ Ext.define('JefBox.view.main.MainViewController', {
       enableToggle: true,
       pressed: true,
       handler: 'onClickTaskButton',
-      taskWindow: win
+      taskWindow: win,
+      margin: '0 10 0 0'
     });
     win.taskButton = button;
     this.getView().getBbar().add(button);

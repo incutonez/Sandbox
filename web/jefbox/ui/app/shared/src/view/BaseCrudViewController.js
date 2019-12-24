@@ -48,6 +48,20 @@ Ext.define('JefBox.view.BaseCrudViewController', {
     });
   },
 
+  // TODOJEF: Impl
+  onClickViewRecord: function(grid, info) {
+
+  },
+
+  onClickRevertRecord: function(grid, info) {
+    let record = info.record;
+    // Reverting
+    if (record.get('isDeleted')) {
+      record.set('DeleteDate', null);
+      record.save();
+    }
+  },
+
   onCancelEditRow: function(sender, location) {
     var record = location.record;
     if (!this.savingRecord && record.phantom) {

@@ -1,15 +1,10 @@
 Ext.define('JefBox.model.Team', {
-  extend: 'Ext.data.Model',
+  extend: 'JefBox.model.Crud',
   requires: [
     'JefBox.model.User'
   ],
 
-  idProperty: 'Id',
-  identifier: 'negative',
   fields: [{
-    name: 'Id',
-    type: 'int'
-  }, {
     name: 'Name',
     type: 'string',
     validators: [{
@@ -21,6 +16,14 @@ Ext.define('JefBox.model.Team', {
     validators: [{
       type: 'presence'
     }]
+  }, {
+    name: 'GameId',
+    type: 'int',
+    allowNull: true
+  }, {
+    name: 'OwnerId',
+    type: 'int',
+    defaultValue: UserProfile.getId()
   }],
 
   hasMany: [{
@@ -35,13 +38,9 @@ Ext.define('JefBox.model.Team', {
     url: 'api/teams',
     writer: {
       type: 'json',
+      writeAllFields: true,
       allDataOptions: {
-        associated: true,
-        critical: true
-      },
-      partialDataOptions: {
-        associated: true,
-        critical: true
+        associated: true
       },
       transform: function(data, request) {
         var users = data.Users;

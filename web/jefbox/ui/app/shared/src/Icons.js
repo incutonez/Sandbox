@@ -10,10 +10,13 @@ Ext.define('JefBox.Icons', {
   EDIT: 'x-fa fa-edit',
   GAMES: 'x-fa fa-gamepad',
   INFO: 'x-fa fa-info',
-  NEW: 'x-fa fa-plus',
+  NEW: 'x-fa fa-plus-circle',
+  REFRESH: 'x-fa fa-redo',
+  REVERT: 'x-fa fa-history',
   START_MENU: 'x-fa fa-monument',
   TEAMS: 'x-fa fa-sitemap',
   USERS: 'x-fa fa-users',
+  VIEW: 'x-fa fa-info-circle',
 
   getIconMarkup: function(config) {
     if (!config) {

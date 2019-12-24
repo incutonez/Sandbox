@@ -1,15 +1,10 @@
 Ext.define('JefBox.model.Game', {
-  extend: 'Ext.data.Model',
+  extend: 'JefBox.model.Crud',
   requires: [
     'JefBox.model.Team'
   ],
 
-  idProperty: 'Id',
-  identifier: 'negative',
   fields: [{
-    name: 'Id',
-    type: 'int'
-  }, {
     name: 'Name',
     type: 'string',
     validators: [{

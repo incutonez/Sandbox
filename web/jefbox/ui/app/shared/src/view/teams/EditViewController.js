@@ -23,7 +23,6 @@ Ext.define('JefBox.view.teams.EditViewController', {
       JefBox.store.Teams.add(viewRecord);
       JefBox.store.Teams.sync({
         callback: function(record, options, successful) {
-          console.log(successful);
           me.closeView();
         }
       });

@@ -15,11 +15,13 @@ Ext.define('JefBox.view.BaseCrudView', {
 
   border: true,
   NAME_DATAINDEX: 'Name',
+  // Needed to trigger any kind of cell/row binding
   itemConfig: {
     viewModel: true
   },
   bind: {
-    store: '{mainStore}'
+    store: '{mainStore}',
+    title: '{viewTitle}'
   },
   listeners: {
     edit: 'onEditRow',
@@ -29,7 +31,7 @@ Ext.define('JefBox.view.BaseCrudView', {
   constructor: function(config) {
     config = config || {};
     config.plugins = this.getPluginsConfig();
-    config.items = this.getItemsConfig();
+    config.titleBar = this.getTitleBarItems();
     config.columns = this.getColumnsConfig();
     this.callParent([config]);
   },
@@ -42,41 +44,80 @@ Ext.define('JefBox.view.BaseCrudView', {
     }];
   },
 
-  getTopToolbarConfig: function() {
-    return {
-      xtype: 'toolbar',
-      docked: 'top',
-      layout: {
-        type: 'hbox',
-        pack: 'end'
-      },
-      items: [{
-        align: 'right',
-        xtype: 'button',
-        text: 'Create Record',
-        handler: 'onClickCreateRecordBtn'
-      }, {
-        align: 'right',
-        xtype: 'button',
-        text: 'Refresh',
-        handler: 'onClickRefreshBtn'
-      }]
-    };
+  getTitleBarConfig: function() {
+    return [{
+      align: 'right',
+      xtype: 'button',
+      handler: 'onClickCreateRecordBtn',
+      iconCls: Icons.NEW,
+      bind: {
+        text: '{entityName}',
+        tooltip: 'New {entityName}'
+      }
+    }, {
+      align: 'right',
+      xtype: 'button',
+      tooltip: 'Refresh',
+      iconCls: Icons.REFRESH,
+      handler: 'onClickRefreshBtn'
+    }];
   },
 
-  getItemsConfig: function() {
-    var config = [];
-    var topToolbarConfig = this.getTopToolbarConfig();
-    if (topToolbarConfig) {
-      config.push(topToolbarConfig);
+  getTitleBarItems: function() {
+    const titleBarConfig = this.getTitleBarConfig();
+    if (titleBarConfig) {
+      return {
+        items: titleBarConfig
+      };
     }
-    return config;
   },
 
   getActionsColumnConfig: function() {
+    var isAdmin = UserProfile.get('IsAdmin');
     return {
-      edit: true,
-      delete: true
+      edit: isAdmin,
+      delete: isAdmin,
+      view: !isAdmin,
+      revert: isAdmin
+    };
+  },
+
+  getViewActionConfig: function() {
+    return {
+      iconCls: Icons.VIEW,
+      tooltip: 'View Record',
+      handler: 'onClickViewRecord'
+    };
+  },
+
+  getDeleteActionConfig: function() {
+    return {
+      tooltip: 'Delete Record',
+      handler: 'onClickDeleteRecord',
+      bind: {
+        iconCls: '{record.isDeleted ? "' + Styles.ELEMENT_HIDDEN + '" : "' + Icons.DELETE + '"}'
+      }
+    };
+  },
+
+  getEditActionConfig: function() {
+    return {
+      tooltip: 'Edit Record',
+      handler: 'onClickEditRecord',
+      bind: {
+        iconCls: '{record.isDeleted ? "' + Styles.ELEMENT_HIDDEN + '" : "' + Icons.EDIT + '"}'
+      }
+    };
+  },
+
+  getRevertActionConfig: function() {
+    return {
+      iconCls: Icons.REVERT,
+      tooltip: 'Revert Record',
+      handler: 'onClickRevertRecord',
+      bind: {
+        iconCls: '{!record.isDeleted ? "' + Styles.ELEMENT_HIDDEN + '" : "' + Icons.REVERT + '"}'
+      }
     };
   },
 
@@ -84,22 +125,21 @@ Ext.define('JefBox.view.BaseCrudView', {
     var items = [];
     var config = this.getActionsColumnConfig();
     if (config.edit) {
-      items.push({
-        iconCls: Icons.EDIT,
-        tooltip: 'Edit Game',
-        handler: 'onClickEditRecord'
-      });
+      items.push(this.getEditActionConfig());
     }
     if (config.delete) {
-      items.push({
-        iconCls: Icons.DELETE,
-        tooltip: 'Delete Record',
-        handler: 'onClickDeleteRecord'
-      });
+      items.push(this.getDeleteActionConfig());
+    }
+    if (config.revert) {
+      items.push(this.getRevertActionConfig());
+    }
+    if (config.view) {
+      items.push(this.getViewActionConfig());
     }
     var width = items.length * 25;
     return {
       text: 'Actions',
+      align: 'right',
       width: width < 75 ? 75 : width,
       cell: {
         tools: items
@@ -141,6 +181,12 @@ Ext.define('JefBox.view.BaseCrudView', {
       width: 175,
       cell: {
         encodeHtml: false
+      }
+    }, {
+      text: 'Updated By',
+      dataIndex: 'UpdatedById',
+      renderer: function(value) {
+        return JefBox.store.Users.getUserNameById(value);
       }
     });
     return config;

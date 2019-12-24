@@ -42,6 +42,7 @@ module.exports = (Model) => {
 
   async function updateRecord(data) {
     await Model.update(data, {
+      paranoid: await db.User.excludeDeleted(data.UpdatedById),
       where: {
         Id: data.Id
       }

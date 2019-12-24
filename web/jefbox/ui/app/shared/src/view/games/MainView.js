@@ -2,7 +2,6 @@ Ext.define('JefBox.view.games.MainView', {
   extend: 'JefBox.view.BaseCrudView',
   alias: 'widget.gamesMainView',
   requires: [
-    'JefBox.model.Game',
     'JefBox.view.games.MainViewController'
   ],
 
@@ -11,7 +10,10 @@ Ext.define('JefBox.view.games.MainView', {
   },
   viewModel: {
     data: {
-      mainStoreModel: 'JefBox.model.Game'
+      entityName: 'Game'
+    },
+    stores: {
+      mainStore: JefBox.store.Games
     }
   },
 
