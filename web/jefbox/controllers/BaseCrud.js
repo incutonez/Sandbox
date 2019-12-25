@@ -14,6 +14,7 @@ module.exports = (Model, io) => {
     },
     createRecord: async (req, res) => {
       req.body.UpdatedById = req.session.user.Id;
+      req.body.OwnerId = req.session.user.Id;
       await BaseCrudModel.createRecord(req.body);
       if (io && Model.updateEvent) {
         io.emit(Model.updateEvent);

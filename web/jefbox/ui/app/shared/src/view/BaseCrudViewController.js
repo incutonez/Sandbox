@@ -2,13 +2,30 @@ Ext.define('JefBox.view.BaseCrudViewController', {
   extend: 'Ext.app.ViewController',
   alias: 'controller.baseCrudView',
 
-  onClickCreateRecordBtn: function() {
-    var mainStore = this.getMainStore();
-    var mainGrid = this.getView().getPlugin('rowEditingPlugin');
-    if (mainGrid && mainStore) {
-      var record = mainStore.add({});
-      mainGrid.startEdit(record[0]);
+  EDIT_VIEW: null,
+
+  showEditDialog: function(record) {
+    if (this.EDIT_VIEW) {
+      Ext.create(this.EDIT_VIEW, {
+        viewModel: {
+          data: {
+            viewRecord: record
+          }
+        }
+      });
     }
+  },
+
+  onClickCreateRecordBtn: function() {
+    let mainStore = this.getMainStore();
+    let mainModel = mainStore && mainStore.getModel();
+    if (mainModel) {
+      this.showEditDialog(mainModel.loadData());
+    }
+  },
+
+  onClickEditRecord: function(grid, info) {
+    this.showEditDialog(info.record);
   },
 
   refreshMainStore: function() {
@@ -26,8 +43,12 @@ Ext.define('JefBox.view.BaseCrudViewController', {
     this.refreshMainStore();
   },
 
+  onBeforeEditRow: function(gridEditor, context) {
+    return context.record.get('CanEdit');
+  },
+
   onEditRow: function(gridEditor, context) {
-    var me = this;
+    let me = this;
     me.savingRecord = true;
     context.record.save({
       callback: function(record, operation, successful) {
@@ -37,13 +58,14 @@ Ext.define('JefBox.view.BaseCrudViewController', {
     });
   },
 
-  onClickEditRecord: Ext.emptyFn,
-
   onClickDeleteRecord: function(grid, info) {
-    var me = this;
     info.record.erase({
       callback: function(record, operation, successful) {
-        me.refreshMainStore();
+        let response = operation.getResponse();
+        let toastMsg = response && response.getToastMsg();
+        if (toastMsg) {
+          Ext.toast(toastMsg);
+        }
       }
     });
   },
@@ -58,7 +80,17 @@ Ext.define('JefBox.view.BaseCrudViewController', {
     // Reverting
     if (record.get('isDeleted')) {
       record.set('DeleteDate', null);
-      record.save();
+      record.save({
+        callback: function(record, operation, succcessful) {
+          let response = operation.getResponse();
+          let toastMsg = response && response.getToastMsg({
+            actionType: 'revert'
+          });
+          if (toastMsg) {
+            Ext.toast(toastMsg);
+          }
+        }
+      });
     }
   },
 
@@ -70,9 +102,9 @@ Ext.define('JefBox.view.BaseCrudViewController', {
   },
 
   getMainStore: function() {
-    var mainStore = this.getStore('mainStore');
+    const mainStore = this.getStore('mainStore');
     if (!mainStore) {
-      console.error('mainStore is undefined');
+      this.logError('mainStore is undefined');
     }
     return mainStore;
   }

@@ -4,11 +4,11 @@ Ext.define('JefBox.view.auth.LoginView', {
 
   viewModel: {
     data: {
-      UserProfile: UserProfile
+      userProfile: null
     },
     formulas: {
       isViewValid: function(get) {
-        return get('UserProfile.valid');
+        return get('userProfile.valid');
       }
     }
   },
@@ -34,7 +34,11 @@ Ext.define('JefBox.view.auth.LoginView', {
         disabled: '{!isViewValid}'
       },
       handler: function() {
-        UserProfile.logInUser();
+        let viewModel = this.lookupViewModel();
+        let userProfile = viewModel && viewModel.get('userProfile');
+        if (userProfile) {
+          userProfile.logInUser();
+        }
       }
     }]
   },
@@ -43,7 +47,7 @@ Ext.define('JefBox.view.auth.LoginView', {
     required: true,
     label: 'User Name',
     bind: {
-      value: '{UserProfile.UserName}'
+      value: '{userProfile.UserName}'
     },
     listeners: {
       keydown: 'onKeyDownField'
@@ -54,7 +58,7 @@ Ext.define('JefBox.view.auth.LoginView', {
     inputType: 'password',
     label: 'Password',
     bind: {
-      value: '{UserProfile.Password}'
+      value: '{userProfile.Password}'
     },
     listeners: {
       keydown: 'onKeyDownField'
@@ -63,9 +67,10 @@ Ext.define('JefBox.view.auth.LoginView', {
 
   onKeyDownField: function(field, event, eOpts) {
     if (event.getKey() === event.ENTER) {
-      var viewModel = this.getViewModel();
-      if (viewModel && viewModel.get('isViewValid')) {
-        UserProfile.logInUser();
+      let viewModel = this.getViewModel();
+      let userProfile = viewModel && viewModel.get('userProfile');
+      if (userProfile && viewModel.get('isViewValid')) {
+        userProfile.logInUser();
       }
     }
   }

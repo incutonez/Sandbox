@@ -1,15 +1,10 @@
 Ext.define('JefBox.view.teams.MainViewController', {
   extend: 'JefBox.view.BaseCrudViewController',
   alias: 'controller.teamsMainView',
+  requires: [
+    'JefBox.view.teams.EditView'
+  ],
 
   BASE_ROUTE: Routes.TEAMS,
-
-  onSelectUserField: function(field, record) {
-    var team = field.parent.getRecord();
-    var usersStore = team && team.getUsersStore();
-    if (usersStore) {
-      usersStore.removeAll();
-      usersStore.add(record);
-    }
-  }
+  EDIT_VIEW: 'JefBox.view.teams.EditView'
 });

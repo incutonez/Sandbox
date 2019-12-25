@@ -17,13 +17,41 @@ Ext.define('JefBox.view.BaseCrudView', {
   NAME_DATAINDEX: 'Name',
   // Needed to trigger any kind of cell/row binding
   itemConfig: {
-    viewModel: true
+    viewModel: {
+      formulas: {
+        canEditRecord: function(get) {
+          return get('record.CanEdit');
+        },
+        viewIconCls: function(get) {
+          return get('canEditRecord') ? Styles.ELEMENT_HIDDEN : Icons.VIEW;
+        },
+        revertIconCls: function(get) {
+          if (!get('canEditRecord')) {
+            return Styles.ELEMENT_HIDDEN;
+          }
+          return !get('record.isDeleted') ? Styles.ELEMENT_HIDDEN : Icons.REVERT;
+        },
+        editIconCls: function(get) {
+          if (!get('canEditRecord')) {
+            return Styles.ELEMENT_HIDDEN;
+          }
+          return get('record.isDeleted') ? Styles.ELEMENT_HIDDEN : Icons.EDIT;
+        },
+        deleteIconCls: function(get) {
+          if (!get('canEditRecord')) {
+            return Styles.ELEMENT_HIDDEN;
+          }
+          return get('record.isDeleted') ? Styles.ELEMENT_HIDDEN : Icons.DELETE;
+        }
+      }
+    }
   },
   bind: {
     store: '{mainStore}',
     title: '{viewTitle}'
   },
   listeners: {
+    beforeedit: 'onBeforeEditRow',
     edit: 'onEditRow',
     canceledit: 'onCancelEditRow'
   },
@@ -73,20 +101,21 @@ Ext.define('JefBox.view.BaseCrudView', {
   },
 
   getActionsColumnConfig: function() {
-    var isAdmin = UserProfile.get('IsAdmin');
     return {
-      edit: isAdmin,
-      delete: isAdmin,
-      view: !isAdmin,
-      revert: isAdmin
+      edit: true,
+      delete: true,
+      view: true,
+      revert: true
     };
   },
 
   getViewActionConfig: function() {
     return {
-      iconCls: Icons.VIEW,
       tooltip: 'View Record',
-      handler: 'onClickViewRecord'
+      handler: 'onClickViewRecord',
+      bind: {
+        iconCls: '{viewIconCls}'
+      }
     };
   },
 
@@ -95,7 +124,7 @@ Ext.define('JefBox.view.BaseCrudView', {
       tooltip: 'Delete Record',
       handler: 'onClickDeleteRecord',
       bind: {
-        iconCls: '{record.isDeleted ? "' + Styles.ELEMENT_HIDDEN + '" : "' + Icons.DELETE + '"}'
+        iconCls: '{deleteIconCls}'
       }
     };
   },
@@ -105,18 +134,17 @@ Ext.define('JefBox.view.BaseCrudView', {
       tooltip: 'Edit Record',
       handler: 'onClickEditRecord',
       bind: {
-        iconCls: '{record.isDeleted ? "' + Styles.ELEMENT_HIDDEN + '" : "' + Icons.EDIT + '"}'
+        iconCls: '{editIconCls}'
       }
     };
   },
 
   getRevertActionConfig: function() {
     return {
-      iconCls: Icons.REVERT,
       tooltip: 'Revert Record',
       handler: 'onClickRevertRecord',
       bind: {
-        iconCls: '{!record.isDeleted ? "' + Styles.ELEMENT_HIDDEN + '" : "' + Icons.REVERT + '"}'
+        iconCls: '{revertIconCls}'
       }
     };
   },

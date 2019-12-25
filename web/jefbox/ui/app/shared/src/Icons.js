@@ -13,6 +13,7 @@ Ext.define('JefBox.Icons', {
   NEW: 'x-fa fa-plus-circle',
   REFRESH: 'x-fa fa-redo',
   REVERT: 'x-fa fa-history',
+  SAVE: 'x-fa fa-save',
   START_MENU: 'x-fa fa-monument',
   TEAMS: 'x-fa fa-sitemap',
   USERS: 'x-fa fa-users',

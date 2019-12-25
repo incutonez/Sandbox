@@ -32,7 +32,7 @@ Ext.define('JefBox.view.teams.MainView', {
   },
 
   getColumnsConfig: function() {
-    var config = this.callParent();
+    let config = this.callParent();
     Ext.Array.insert(config, 3, [{
       text: 'Users',
       dataIndex: 'Users',
@@ -41,17 +41,6 @@ Ext.define('JefBox.view.teams.MainView', {
         encodeHtml: false,
         bind: {
           value: '{usersDisplay}'
-        }
-      },
-      editor: {
-        xtype: 'combobox',
-        multiSelect: true,
-        queryMode: 'local',
-        valueField: 'Id',
-        displayField: 'UserName',
-        store: JefBox.store.Users.getActiveUsersStore(),
-        listeners: {
-          select: 'onSelectUserField'
         }
       }
     }, {

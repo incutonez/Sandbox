@@ -1,6 +1,7 @@
 Ext.define('JefBox.model.Team', {
   extend: 'JefBox.model.Crud',
   requires: [
+    'JefBox.AssociationWriter',
     'JefBox.model.User'
   ],
 
@@ -22,8 +23,7 @@ Ext.define('JefBox.model.Team', {
     allowNull: true
   }, {
     name: 'OwnerId',
-    type: 'int',
-    defaultValue: UserProfile.getId()
+    type: 'int'
   }],
 
   hasMany: [{
@@ -37,19 +37,10 @@ Ext.define('JefBox.model.Team', {
     type: 'rest',
     url: 'api/teams',
     writer: {
-      type: 'json',
+      type: 'associationWriter',
       writeAllFields: true,
       allDataOptions: {
         associated: true
-      },
-      transform: function(data, request) {
-        var users = data.Users;
-        if (users) {
-          data.Users = users.map(function(item) {
-            return item.Id;
-          });
-        }
-        return data;
       }
     }
   }

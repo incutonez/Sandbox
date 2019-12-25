@@ -20,10 +20,6 @@ Ext.define('JefBox.view.users.MainView', {
 
   NAME_DATAINDEX: 'UserName',
 
-  getPluginsConfig: function() {
-    return UserProfile.get('IsAdmin') ? this.callParent() : null;
-  },
-
   getTitleBarConfig: function() {
     var config = this.callParent();
     if (!UserProfile.get('IsAdmin')) {

@@ -5,7 +5,8 @@ Ext.define('JefBox.BaseDialog', {
   viewModel: {
     data: {
       cancelBtnText: 'Cancel',
-      saveBtnText: 'Save'
+      saveBtnText: 'Save',
+      viewRecord: null
     },
     formulas: {
       saveBtnDisabled: function(get) {
@@ -44,62 +45,101 @@ Ext.define('JefBox.BaseDialog', {
   },
 
   updateIsCrudDialog: function(isCrudDialog) {
-    let bbar = this.getBbar();
     if (isCrudDialog) {
+      let bbar = this.getBbar();
+      const buttonConfig = [{
+        xtype: 'button',
+        handler: 'onClickSaveBtn',
+        text: 'Save',
+        align: 'right',
+        scope: this,
+        bind: {
+          text: '{saveBtnText}',
+          disabled: '{saveBtnDisabled}'
+        }
+      }, {
+        xtype: 'button',
+        align: 'right',
+        text: 'Cancel',
+        scope: this,
+        handler: 'onClickCancelBtn',
+        bind: {
+          text: '{cancelBtnText}'
+        }
+      }];
       if (bbar) {
-        bbar.add([{
-          xtype: 'button',
-          handler: 'onClickSave',
-          text: 'Save',
-          bind: {
-            disabled: '{disableSaveButton}'
-          }
-        }, {
-          xtype: 'button',
-          text: 'Cancel'
-        }]);
+        bbar.add(buttonConfig);
       }
+      // bbar hasn't been created, so let's do that here
       else {
         this.setBbar({
           layout: {
             pack: 'end'
           },
-          items: [{
-            xtype: 'button',
-            handler: 'onClickSave',
-            text: 'Save',
-            align: 'right',
-            bind: {
-              text: '{saveBtnText}',
-              disabled: '{saveBtnDisabled}'
-            }
-          }, {
-            xtype: 'button',
-            align: 'right',
-            text: 'Cancel',
-            bind: {
-              text: '{cancelBtnText}'
-            }
-          }]
+          items: buttonConfig
         });
+      }
+      this.on('close', this.onCloseDialog, this);
+    }
+  },
+
+  onCloseDialog: function() {
+    // If the close was invoked, and the user didn't click the save button, let's revert any changes
+    if (!this.clickedSave) {
+      let viewRecord = this.getViewRecord();
+      if (viewRecord) {
+        viewRecord.reject();
       }
     }
   },
 
   /**
-   * @abstract
-   * Implement this class if you have isCrudDialog set to true
+   * Override this if you'd like custom logic when the save button is clicked
    */
-  onClickSave: Ext.emptyFn,
+  onClickSaveBtn: function() {
+    let me = this;
+    let viewRecord = me.getViewRecord();
+    if (viewRecord) {
+      viewRecord.save({
+        callback: function(record, operation, successful) {
+          let response = operation.getResponse();
+          let toastMsg = response && response.getToastMsg();
+          if (toastMsg) {
+            Ext.toast(toastMsg);
+          }
+          if (successful) {
+            me.clickedSave = true;
+            me.close();
+          }
+        }
+      });
+    }
+  },
+
+  onCloseTool: function() {
+    this.clickedX = true;
+    this.callParent(arguments);
+  },
 
   /**
-   * @abstract
-   * Implement this class if you have isCrudDialog set to true
+   * Override this handler if you'd like to do something else with cancel
    */
-  onClickCancel: Ext.emptyFn,
+  onClickCancelBtn: function() {
+    this.clickedCancel = true;
+    this.close();
+  },
 
   onMinimizeDialog: function() {
     this.hide();
     this.fireEvent('minimize', this);
+  },
+
+  getViewRecord: function() {
+    let viewModel = this.getViewModel();
+    let viewRecord = viewModel && viewModel.get('viewRecord');
+    if (!viewRecord) {
+      this.logError('viewRecord is undefined');
+    }
+    return viewRecord;
   }
 });

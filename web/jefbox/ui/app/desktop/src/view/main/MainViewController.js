@@ -2,7 +2,6 @@ Ext.define('JefBox.view.main.MainViewController', {
   extend: 'Ext.app.ViewController',
   alias: 'controller.mainView',
   requires: [
-    'JefBox.view.auth.LoginView',
     'JefBox.view.teams.MainView',
     'JefBox.view.users.MainView',
     'JefBox.view.games.MainView'
@@ -14,19 +13,9 @@ Ext.define('JefBox.view.main.MainViewController', {
     routes[Routes.USERS] = 'onRouteUsers';
     routes[Routes.TEAMS] = 'onRouteTeams';
     routes[Routes.GAMES] = 'onRouteGames';
-    routes[Routes.LOGIN] = 'onRouteLogin';
     config.routes = routes;
     config.openWindows = {};
     this.callParent(arguments);
-  },
-
-  onRouteLogin: function() {
-    Ext.create('JefBox.view.auth.LoginView', {
-      listeners: {
-        scope: this,
-        destroy: 'onDestroyTaskView'
-      }
-    });
   },
 
   onRouteHome: function() {

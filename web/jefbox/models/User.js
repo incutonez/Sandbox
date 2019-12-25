@@ -22,6 +22,7 @@ module.exports = (conn, types) => {
     },
     Password: {
       type: types.STRING,
+      defaultValue: 'password',
       /* We use get() to tell Sequelize to treat this column as a function instead of variables, preventing them from
        * showing up on queries like findAll() or findById(1) */
       get() {
@@ -38,7 +39,7 @@ module.exports = (conn, types) => {
     },
     IsAdmin: {
       type: new types.VIRTUAL(types.BOOLEAN, ['AccessLevel']),
-      get: function() {
+      get() {
         const accessLevel = this.getDataValue('AccessLevel');
         return accessLevel === AccessLevels.ADMIN || accessLevel === AccessLevels.SUPER;
       }
@@ -90,6 +91,9 @@ module.exports = (conn, types) => {
     });
     UserModel.hasOne(models.Game, {
       foreignKey: 'UpdatedById'
+    });
+    UserModel.hasOne(models.Game, {
+      foreignKey: 'OwnerId'
     });
     UserModel.belongsToMany(models.Team, {
       as: 'Teams',

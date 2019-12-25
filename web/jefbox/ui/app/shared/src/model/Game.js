@@ -1,6 +1,7 @@
 Ext.define('JefBox.model.Game', {
   extend: 'JefBox.model.Crud',
   requires: [
+    'JefBox.AssociationWriter',
     'JefBox.model.Team'
   ],
 
@@ -32,7 +33,7 @@ Ext.define('JefBox.model.Game', {
     type: 'rest',
     url: 'api/games',
     writer: {
-      type: 'json',
+      type: 'associationWriter',
       allDataOptions: {
         associated: true,
         critical: true
@@ -40,15 +41,6 @@ Ext.define('JefBox.model.Game', {
       partialDataOptions: {
         associated: true,
         critical: true
-      },
-      transform: function(data, request) {
-        var teams = data.Teams;
-        if (teams) {
-          data.Teams = teams.map(function(item) {
-            return item.Id;
-          });
-        }
-        return data;
       }
     }
   }

@@ -26,12 +26,25 @@ Ext.define('JefBox.model.Crud', {
     dateFormat: 'c',
     allowNull: true
   }, {
+    name: 'OwnerId',
+    type: 'int'
+  }, {
     name: 'isDeleted',
     type: 'boolean',
     persist: false,
     depends: ['DeleteDate'],
     convert: function(value, record) {
       return !Ext.isEmpty(record.get('DeleteDate'));
+    }
+  }, {
+    name: 'CanEdit',
+    type: 'boolean',
+    depends: ['OwnerId'],
+    convert: function(value, record) {
+      if (window.UserProfile) {
+        value = UserProfile.get('IsAdmin') || record.get('OwnerId') === UserProfile.getId();
+      }
+      return value;
     }
   }]
 });

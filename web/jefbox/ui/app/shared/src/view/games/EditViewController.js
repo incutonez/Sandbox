@@ -3,12 +3,12 @@ Ext.define('JefBox.view.games.EditViewController', {
   alias: 'controller.gamesEditView',
 
   onClickAddTeam: function(gridEditor, context) {
-    var viewRecord = this.getViewRecord();
-    var teamsStore = viewRecord && viewRecord.getTeamsStore();
-    var teamsView = this.lookup('teamsView');
-    var teamsPlugin = teamsView && teamsView.getPlugin('rowEditingPlugin');
+    let viewRecord = this.getViewRecord();
+    let teamsStore = viewRecord && viewRecord.getTeamsStore();
+    let teamsView = this.lookup('teamsView');
+    let teamsPlugin = teamsView && teamsView.getPlugin('rowEditingPlugin');
     if (teamsStore && teamsPlugin) {
-      var team = teamsStore.add({});
+      let team = teamsStore.add({});
       teamsPlugin.startEdit(team[0]);
     }
   },
@@ -17,43 +17,9 @@ Ext.define('JefBox.view.games.EditViewController', {
     this.closeView();
   },
 
-  onEditTeam: function(sender, location) {
-    this.savingRecord = true;
-  },
-
-  onCancelEditTeam: function(sender, location) {
-    var record = location.record;
-    if (!this.savingRecord && record.phantom) {
-      record.store.remove(record);
-    }
-    this.savingRecord = false;
-  },
-
-  onClickEditTeam: function(grid, info) {
-    var teamsView = this.lookup('teamsView');
-    var teamsPlugin = teamsView && teamsView.getPlugin('rowEditingPlugin');
-    if (teamsPlugin) {
-      teamsPlugin.startEdit(info.record);
-    }
-  },
-
-  onClickDeleteTeam: function(grid, info) {
-    info.record.store.remove(info.record);
-  },
-
-  onClickCreateTeam: function() {
-    Ext.create('JefBox.view.teams.EditView', {
-      viewModel: {
-        data: {
-          viewRecord: JefBox.model.Team.loadData()
-        }
-      }
-    });
-  },
-
   onClickSave: function() {
-    var me = this;
-    var viewRecord = me.getViewRecord();
+    let me = this;
+    let viewRecord = me.getViewRecord();
     if (viewRecord) {
       viewRecord.save({
         callback: function(record, operation, successful) {
@@ -64,10 +30,10 @@ Ext.define('JefBox.view.games.EditViewController', {
   },
 
   getViewRecord: function() {
-    var viewModel = this.getViewModel();
-    var viewRecord = viewModel && viewModel.get('viewRecord');
+    let viewModel = this.getViewModel();
+    let viewRecord = viewModel && viewModel.get('viewRecord');
     if (!viewRecord) {
-      console.error('viewRecord is undefined');
+      this.logError('viewRecord is undefined');
     }
     return viewRecord;
   }
