@@ -119,9 +119,7 @@ Ext.define('JefBox.model.User', {
     },
 
     updateUserProfile: function(data) {
-      socket.setUpStoreListeners();
       window.UserProfile = this.loadData(data);
-      socket.emit('authenticated', data);
     }
   },
 

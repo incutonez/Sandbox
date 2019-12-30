@@ -29,11 +29,11 @@ Ext.define('JefBox.view.BaseCrudViewController', {
   },
 
   refreshMainStore: function() {
-    var viewModel = this.getViewModel();
+    let viewModel = this.getViewModel();
     if (viewModel) {
       viewModel.notify();
     }
-    var mainStore = this.getMainStore();
+    let mainStore = this.getMainStore();
     if (mainStore) {
       mainStore.load();
     }
@@ -95,7 +95,7 @@ Ext.define('JefBox.view.BaseCrudViewController', {
   },
 
   onCancelEditRow: function(sender, location) {
-    var record = location.record;
+    let record = location.record;
     if (!this.savingRecord && record.phantom) {
       record.store.remove(record);
     }

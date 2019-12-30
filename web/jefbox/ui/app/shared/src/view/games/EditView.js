@@ -11,6 +11,9 @@ Ext.define('JefBox.view.games.EditView', {
       viewRecord: null
     },
     formulas: {
+      hideQuestions: function(get) {
+        return get('viewRecord.Type') !== Enums.GameTypes.TRIVIA;
+      },
       saveBtnDisabled: function(get) {
         return !get('viewRecord.valid');
       }
@@ -42,36 +45,73 @@ Ext.define('JefBox.view.games.EditView', {
       iconCls: Icons.INFO,
       bodyPadding: '0 0 0 10',
       layout: {
-        type: 'hbox',
-        align: 'left'
+        type: 'vbox'
       },
       items: [{
-        xtype: 'textfield',
-        label: 'Name',
-        required: true,
-        margin: '0 10 0 0',
-        bind: {
-          value: '{viewRecord.Name}'
-        }
+        xtype: 'container',
+        layout: {
+          type: 'hbox'
+        },
+        items: [{
+          xtype: 'textfield',
+          label: 'Name',
+          required: true,
+          margin: '0 10 0 0',
+          bind: {
+            value: '{viewRecord.Name}'
+          }
+        }, {
+          xtype: 'enumComboBox',
+          label: 'Type',
+          store: Enums.GameTypes,
+          margin: '0 10 0 0',
+          bind: {
+            value: '{viewRecord.Type}'
+          }
+        }, {
+          xtype: 'textfield',
+          label: 'Room',
+          bind: {
+            value: '{viewRecord.Room}'
+          }
+        }]
       }, {
-        xtype: 'combobox',
-        label: 'Type',
-        valueField: 'Value',
-        displayField: 'Description',
-        forceSelection: true,
-        queryMode: false,
-        required: true,
-        store: Enums.GameTypes,
-        margin: '0 10 0 0',
+        xtype: 'grid',
+        title: 'Questions',
+        flex: 1,
+        margin: '10 0 0 0',
         bind: {
-          value: '{viewRecord.Type}'
-        }
-      }, {
-        xtype: 'textfield',
-        label: 'Room',
-        bind: {
-          value: '{viewRecord.Room}'
-        }
+          hidden: '{hideQuestions}',
+          store: '{viewRecord.Questions}'
+        },
+        titleBar: {
+          items: [{
+            xtype: 'button',
+            text: 'Question',
+            align: 'right',
+            iconCls: Icons.NEW,
+            handler: 'onClickAddQuestionBtn'
+          }]
+        },
+        columns: [{
+          text: 'Actions',
+          align: 'right',
+          width: 75,
+          cell: {
+            tools: [{
+              iconCls: Icons.EDIT,
+              tooltip: 'Edit Question',
+              handler: 'onEditQuestionRow'
+            }, {
+              iconCls: Icons.DELETE,
+              tooltip: 'Delete Question',
+              handler: 'onDeleteQuestionRow'
+            }]
+          }
+        }, {
+          text: 'Type',
+          dataIndex: 'Type'
+        }]
       }]
     }, {
       xtype: 'teamsSelectView',

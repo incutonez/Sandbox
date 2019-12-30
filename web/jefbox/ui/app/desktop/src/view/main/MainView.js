@@ -4,9 +4,8 @@ Ext.define('JefBox.view.main.MainView', {
   requires: [
     'JefBox.view.main.MainViewModel',
     'JefBox.view.main.MainViewController',
-    'JefBox.store.Teams',
-    'JefBox.store.Games',
-    'JefBox.store.Users'
+    'JefBox.Socket',
+    'JefBox.EnumComboBox'
   ],
 
   controller: {

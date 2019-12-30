@@ -1,6 +1,19 @@
 Ext.define('JefBox.view.games.EditViewController', {
   extend: 'Ext.app.ViewController',
   alias: 'controller.gamesEditView',
+  requires: [
+    'JefBox.view.games.QuestionView'
+  ],
+
+  showQuestionView: function(record) {
+    Ext.create('JefBox.view.games.QuestionView', {
+      viewModel: {
+        data: {
+          viewRecord: record || JefBox.model.game.Question.loadData()
+        }
+      }
+    });
+  },
 
   onClickAddTeam: function(gridEditor, context) {
     let viewRecord = this.getViewRecord();
@@ -11,6 +24,22 @@ Ext.define('JefBox.view.games.EditViewController', {
       let team = teamsStore.add({});
       teamsPlugin.startEdit(team[0]);
     }
+  },
+
+  onEditQuestionRow: function(grid, info) {
+    this.showQuestionView(info.record);
+  },
+
+  onDeleteQuestionRow: function(grid, info) {
+    let record = info.record;
+    let store = record && record.store;
+    if (store) {
+      store.remove(record);
+    }
+  },
+
+  onClickAddQuestionBtn: function() {
+    this.showQuestionView();
   },
 
   onClickCancel: function() {

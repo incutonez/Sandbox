@@ -1,8 +1,20 @@
+/**
+ * When this gets required is key... it used be required in Application.js, but that caused issues with models and
+ * stores loading before they should, and I couldn't use defaultValue in model definitions.  Now, this class is
+ * required from the respective MainView, and when that happens, this requires the stores, which requires their models,
+ * and allows for us to use Enums
+ */
 Ext.define('JefBox.Socket', {
+  singleton: true,
   alternateClassName: [
     'socket'
   ],
-  singleton: true,
+  requires: [
+    'JefBox.store.Teams',
+    'JefBox.store.Games',
+    'JefBox.store.Users'
+  ],
+
   config: {
     connection: null
   },
@@ -10,25 +22,27 @@ Ext.define('JefBox.Socket', {
   constructor: function(config) {
     if (window.io) {
       this.setConnection(io());
+      this.setUpStoreListeners();
+      this.emit('authenticated', UserProfile.getData());
     }
   },
 
   on: function(event, handler) {
-    var connection = this.getConnection();
+    let connection = this.getConnection();
     if (connection) {
       connection.on(event, handler);
     }
   },
 
   off: function(event, handler) {
-    var connection = this.getConnection();
+    let connection = this.getConnection();
     if (connection) {
       connection.off(event, handler);
     }
   },
 
   emit: function(id, message) {
-    var connection = this.getConnection();
+    let connection = this.getConnection();
     if (connection) {
       connection.emit(id, message);
     }

@@ -57,12 +57,7 @@ Ext.define('JefBox.view.users.MainView', {
         dataIndex: 'accessLevelDisplay',
         width: 110,
         editor: {
-          xtype: 'combobox',
-          queryMode: 'local',
-          valueField: 'Value',
-          displayField: 'Description',
-          forceSelection: true,
-          required: true,
+          xtype: 'enumComboBox',
           store: Enums.AccessLevels,
           bind: {
             value: '{record.AccessLevel}'

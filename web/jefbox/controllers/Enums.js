@@ -12,10 +12,16 @@ router.get('/enums', (req, res) => {
       if (key.endsWith('_DESCRIPTION')) {
         continue;
       }
+      let description = value[key + '_DESCRIPTION'];
+      if (!description) {
+        description = key.split('_').map((item) => {
+          return item[0] + item.slice(1).toLowerCase();
+        }).join(' ');
+      }
       result.push({
         Key: key,
         Value: value[key],
-        Description: value[key + '_DESCRIPTION'] || key[0] + key.slice(1).toLowerCase()
+        Description: description
       });
     }
     enums.push({

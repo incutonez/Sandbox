@@ -25,13 +25,8 @@ Ext.define('JefBox.view.users.EditView', {
       value: '{viewRecord.UserName}'
     }
   }, {
-    xtype: 'combobox',
+    xtype: 'enumComboBox',
     label: 'Access Level',
-    queryMode: 'local',
-    valueField: 'Value',
-    displayField: 'Description',
-    forceSelection: true,
-    required: true,
     store: Enums.AccessLevels,
     bind: {
       value: '{viewRecord.AccessLevel}'

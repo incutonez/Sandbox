@@ -1,8 +1,9 @@
 Ext.define('JefBox.model.Game', {
-  extend: 'JefBox.model.Crud',
+  extend: 'Ext.data.Model',
   requires: [
     'JefBox.AssociationWriter',
-    'JefBox.model.Team'
+    'JefBox.model.Team',
+    'JefBox.model.game.Question'
   ],
 
   fields: [{
@@ -27,6 +28,11 @@ Ext.define('JefBox.model.Game', {
     associationKey: 'Teams',
     role: 'Teams',
     getterName: 'getTeamsStore'
+  }, {
+    model: 'JefBox.model.game.Question',
+    associationKey: 'Questions',
+    role: 'Questions',
+    getterName: 'getQuestionsStore'
   }],
 
   proxy: {

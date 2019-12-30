@@ -30,10 +30,21 @@ module.exports = (conn, types) => {
       foreignKey: 'GameId'
     });
 
+    GameModel.hasMany(models.Question, {
+      as: 'Questions',
+      foreignKey: 'GameId'
+    });
+
     GameModel.includeOptions.push({
       model: models.Team,
       as: 'Teams',
       include: models.Team.includeOptions
+    });
+
+    GameModel.includeOptions.push({
+      model: models.Question,
+      as: 'Questions',
+      include: models.Question.includeOptions
     });
   };
 

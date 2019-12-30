@@ -8,7 +8,6 @@ Ext.define('JefBox.shared.Application', {
     'JefBox.model.User',
     'JefBox.Routes',
     'JefBox.Icons',
-    'JefBox.Socket',
     'JefBox.Styles'
   ],
 

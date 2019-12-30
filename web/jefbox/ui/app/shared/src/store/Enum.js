@@ -4,7 +4,7 @@ Ext.define('JefBox.store.Enum', {
   model: 'JefBox.model.KeyValue',
 
   getDisplayValue: function(value) {
-    var record = this.getEnumByValue(value);
+    const record = this.getEnumByValue(value);
     return record && record.get('Description');
   },
 

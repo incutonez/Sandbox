@@ -23,6 +23,7 @@ Ext.define('JefBox.view.teams.SelectView', {
     },
     stores: {
       availableTeamsStore: {
+        type: 'chained',
         source: JefBox.store.Teams,
         filters: '{availableTeamsFilter}'
       }

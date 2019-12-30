@@ -1,4 +1,5 @@
 module.exports = {
   GameTypes: require('./GameTypes'),
-  AccessLevels: require('./AccessLevels')
+  AccessLevels: require('./AccessLevels'),
+  QuestionTypes: require('./QuestionTypes')
 };

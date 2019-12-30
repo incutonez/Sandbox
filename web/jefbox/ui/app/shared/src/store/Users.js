@@ -4,7 +4,7 @@ Ext.define('JefBox.store.Users', {
   model: 'JefBox.model.User',
 
   getUserNameById: function(id) {
-    var record = this.findRecord('Id', id, 0, false, true, true);
+    let record = this.findRecord('Id', id, 0, false, true, true);
     return record && record.get('UserName');
   },
 

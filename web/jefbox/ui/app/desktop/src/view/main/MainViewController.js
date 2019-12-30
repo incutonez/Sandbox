@@ -8,7 +8,7 @@ Ext.define('JefBox.view.main.MainViewController', {
   ],
 
   constructor: function(config) {
-    var routes = {};
+    let routes = {};
     routes[Routes.HOME] = 'onRouteHome';
     routes[Routes.USERS] = 'onRouteUsers';
     routes[Routes.TEAMS] = 'onRouteTeams';
@@ -19,8 +19,8 @@ Ext.define('JefBox.view.main.MainViewController', {
   },
 
   onRouteHome: function() {
-    for (var key in this.openWindows) {
-      var win = this.openWindows[key];
+    for (let key in this.openWindows) {
+      let win = this.openWindows[key];
       win.hide();
       win.taskButton.setPressed(false);
     }
