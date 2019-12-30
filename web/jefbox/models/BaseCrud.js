@@ -1,5 +1,6 @@
-const db = require('../database');
 module.exports = (Model) => {
+  const db = require('./index');
+
   async function updateAssociations(record, data) {
     for (let key in Model.associations) {
       // If the association exists in our create, let's do something about it

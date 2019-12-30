@@ -9,6 +9,9 @@ module.exports = (conn, types) => {
       type: types.INTEGER,
       allowNull: false
     },
+    Round: {
+      type: types.INTEGER
+    },
     Information: {
       type: types.STRING,
       allowNull: false

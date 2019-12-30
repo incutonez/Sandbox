@@ -4,7 +4,7 @@
   "description": "Application similar to Jackbox games",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "sequelize db:migrate && node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "cd ui && npm install"
   },
@@ -18,9 +18,11 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
+    "fs": "0.0.1-security",
     "ip": "^1.1.5",
     "mssql": "^6.0.1",
     "sequelize": "^5.21.3",
+    "sequelize-cli": "^5.5.1",
     "socket.io": "^2.3.0",
     "sqlite3": "^4.1.1"
   }

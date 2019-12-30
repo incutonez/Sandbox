@@ -1,4 +1,4 @@
-const db = require('./database');
+const db = require('./models/index');
 let people = {};
 module.exports = function(server) {
   const io = require('socket.io')(server);

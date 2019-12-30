@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../database');
+const db = require('../models/index');
 
 module.exports = (io) => {
   const BaseCrudController = require('./BaseCrud')(db.Team, io);

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../database');
+const db = require('../models/index');
 const BASE_ROUTE = '/games';
 const BASE_ID_ROUTE = BASE_ROUTE + '/:id';
 
