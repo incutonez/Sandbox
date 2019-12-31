@@ -9,9 +9,13 @@ Ext.define('JefBox.model.game.Question', {
   }, {
     name: 'Type',
     type: 'int',
-    // TODOJEF: There's an issue here... this model is trying to get required sooner than it should... something with
-    // the stores being enums, I think
     defaultValue: Enums.QuestionTypes.TEXT,
+    validators: [{
+      type: 'presence'
+    }]
+  }, {
+    name: 'Round',
+    type: 'int',
     validators: [{
       type: 'presence'
     }]

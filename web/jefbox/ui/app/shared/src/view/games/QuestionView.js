@@ -21,7 +21,8 @@ Ext.define('JefBox.view.games.QuestionView', {
   title: 'Question',
   minimizable: false,
   maximizable: false,
-  padding: 10,
+  isCrudDialog: true,
+  bodyPadding: 10,
   layout: {
     type: 'vbox'
   },
@@ -31,6 +32,14 @@ Ext.define('JefBox.view.games.QuestionView', {
     label: 'Type',
     bind: {
       value: '{viewRecord.Type}'
+    }
+  }, {
+    xtype: 'numberfield',
+    label: 'Round',
+    minValue: 1,
+    required: true,
+    bind: {
+      value: '{viewRecord.Round}'
     }
   }, {
     xtype: 'textfield',
@@ -48,5 +57,11 @@ Ext.define('JefBox.view.games.QuestionView', {
       hidden: '{hideAnswer}',
       value: '{viewRecord.Answer}'
     }
-  }]
+  }],
+
+  onClickSaveBtn: function() {
+    this.clickedSave = true;
+    this.fireEvent('clickSave', this.getViewRecord());
+    this.close();
+  }
 });

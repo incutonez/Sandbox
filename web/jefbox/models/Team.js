@@ -26,6 +26,11 @@ module.exports = (conn, types) => {
       through: 'TeamUsers'
     });
 
+    TeamModel.belongsToMany(models.Question, {
+      as: 'Questions',
+      through: 'QuestionWinners'
+    });
+
     TeamModel.includeOptions.push({
       model: models.User,
       as: 'Users',

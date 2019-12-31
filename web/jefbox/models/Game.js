@@ -46,9 +46,16 @@ module.exports = (conn, types) => {
       as: 'Questions',
       include: models.Question.includeOptions
     });
+
+    // GameModel.updateOptions.include = [{
+    //   association: GameModel.associations.Questions
+    // }, {
+    //   association: GameModel.associations.Teams
+    // }];
   };
 
   GameModel.includeOptions = [];
+  GameModel.updateOptions = {};
   GameModel.updateEvent = 'updatedGames';
 
   return GameModel;

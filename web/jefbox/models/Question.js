@@ -21,6 +21,13 @@ module.exports = (conn, types) => {
     }
   });
 
+  QuestionModel.associate = (models) => {
+    QuestionModel.belongsToMany(models.Team, {
+      as: 'Winners',
+      through: 'QuestionWinners'
+    });
+  };
+
   QuestionModel.includeOptions = [];
 
   return QuestionModel;

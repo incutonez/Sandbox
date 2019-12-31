@@ -110,7 +110,13 @@ Ext.define('JefBox.view.games.EditView', {
           }
         }, {
           text: 'Type',
-          dataIndex: 'Type'
+          dataIndex: 'Type',
+          renderer: function(value) {
+            return Enums.QuestionTypes.getDisplayValue(value);
+          }
+        }, {
+          text: 'Round',
+          dataIndex: 'Round'
         }]
       }]
     }, {

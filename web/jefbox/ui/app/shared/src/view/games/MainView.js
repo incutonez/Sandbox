@@ -20,7 +20,7 @@ Ext.define('JefBox.view.games.MainView', {
   getPluginsConfig: Ext.emptyFn,
 
   getColumnsConfig: function() {
-    var config = this.callParent();
+    let config = this.callParent();
     Ext.Array.insert(config, 3, [{
       text: 'Room',
       dataIndex: 'Room'

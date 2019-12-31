@@ -41,7 +41,7 @@ Ext.define('JefBox.model.Crud', {
     type: 'boolean',
     depends: ['OwnerId'],
     convert: function(value, record) {
-      if (window.UserProfile) {
+      if (UserProfile) {
         value = UserProfile.get('IsAdmin') || record.get('OwnerId') === UserProfile.getId();
       }
       return value;

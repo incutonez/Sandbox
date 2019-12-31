@@ -10,7 +10,7 @@ Ext.define('JefBox.AssociationWriter', {
       let associationKeys = [];
       for (let key in associations) {
         let association = associations[key];
-        if (association && (!association.instanceName || association.fromSingle)) {
+        if (association && association.transform !== false && (!association.instanceName || association.fromSingle)) {
           associationKeys.push({
             key: association.associationKey,
             id: association.cls.idProperty

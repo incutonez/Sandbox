@@ -11,8 +11,20 @@ Ext.define('JefBox.view.games.EditViewController', {
         data: {
           viewRecord: record || JefBox.model.game.Question.loadData()
         }
+      },
+      listeners: {
+        scope: this,
+        clickSave: 'onClickSaveQuestionBtn'
       }
     });
+  },
+
+  onClickSaveQuestionBtn: function(questionRecord) {
+    let viewRecord = this.getViewRecord();
+    let questionsStore = viewRecord && viewRecord.getQuestionsStore();
+    if (questionsStore && questionRecord && !questionRecord.store) {
+      questionsStore.add(questionRecord);
+    }
   },
 
   onClickAddTeam: function(gridEditor, context) {

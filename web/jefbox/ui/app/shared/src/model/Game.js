@@ -1,5 +1,5 @@
 Ext.define('JefBox.model.Game', {
-  extend: 'Ext.data.Model',
+  extend: 'JefBox.model.Crud',
   requires: [
     'JefBox.AssociationWriter',
     'JefBox.model.Team',
@@ -15,6 +15,7 @@ Ext.define('JefBox.model.Game', {
   }, {
     name: 'Type',
     type: 'int',
+    defaultValue: Enums.GameTypes.TRIVIA,
     validators: [{
       type: 'presence'
     }]
@@ -32,7 +33,8 @@ Ext.define('JefBox.model.Game', {
     model: 'JefBox.model.game.Question',
     associationKey: 'Questions',
     role: 'Questions',
-    getterName: 'getQuestionsStore'
+    getterName: 'getQuestionsStore',
+    transform: false
   }],
 
   proxy: {
@@ -40,6 +42,7 @@ Ext.define('JefBox.model.Game', {
     url: 'api/games',
     writer: {
       type: 'associationWriter',
+      writeAllFields: true,
       allDataOptions: {
         associated: true,
         critical: true
