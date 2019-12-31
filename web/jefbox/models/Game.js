@@ -30,8 +30,8 @@ module.exports = (conn, types) => {
       foreignKey: 'GameId'
     });
 
-    GameModel.hasMany(models.Question, {
-      as: 'Questions',
+    GameModel.hasMany(models.RoundItem, {
+      as: 'RoundItems',
       foreignKey: 'GameId'
     });
 
@@ -42,16 +42,10 @@ module.exports = (conn, types) => {
     });
 
     GameModel.includeOptions.push({
-      model: models.Question,
-      as: 'Questions',
-      include: models.Question.includeOptions
+      model: models.RoundItem,
+      as: 'RoundItems',
+      include: models.RoundItem.includeOptions
     });
-
-    // GameModel.updateOptions.include = [{
-    //   association: GameModel.associations.Questions
-    // }, {
-    //   association: GameModel.associations.Teams
-    // }];
   };
 
   GameModel.includeOptions = [];

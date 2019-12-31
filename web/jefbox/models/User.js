@@ -95,6 +95,9 @@ module.exports = (conn, types) => {
     UserModel.hasOne(models.Game, {
       foreignKey: 'OwnerId'
     });
+    UserModel.hasOne(models.Upload, {
+      foreignKey: 'OwnerId'
+    });
     UserModel.belongsToMany(models.Team, {
       as: 'Teams',
       through: 'TeamUsers'

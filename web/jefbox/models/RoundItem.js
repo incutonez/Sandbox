@@ -1,5 +1,5 @@
 module.exports = (conn, types) => {
-  const QuestionModel = conn.define('Question', {
+  const RoundItemModel = conn.define('RoundItem', {
     Id: {
       type: types.INTEGER,
       primaryKey: true,
@@ -15,7 +15,10 @@ module.exports = (conn, types) => {
     Order: {
       type: types.INTEGER
     },
-    Information: {
+    Points: {
+      type: types.DECIMAL
+    },
+    Question: {
       type: types.STRING,
       allowNull: false
     },
@@ -24,14 +27,14 @@ module.exports = (conn, types) => {
     }
   });
 
-  QuestionModel.associate = (models) => {
-    QuestionModel.belongsToMany(models.Team, {
+  RoundItemModel.associate = (models) => {
+    RoundItemModel.belongsToMany(models.Team, {
       as: 'Winners',
-      through: 'QuestionWinners'
+      through: 'RoundItemWinners'
     });
   };
 
-  QuestionModel.includeOptions = [];
+  RoundItemModel.includeOptions = [];
 
-  return QuestionModel;
+  return RoundItemModel;
 };

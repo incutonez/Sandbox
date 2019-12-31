@@ -3,7 +3,7 @@ Ext.define('JefBox.model.Game', {
   requires: [
     'JefBox.AssociationWriter',
     'JefBox.model.Team',
-    'JefBox.model.game.Question'
+    'JefBox.model.game.RoundItem'
   ],
 
   fields: [{
@@ -30,10 +30,10 @@ Ext.define('JefBox.model.Game', {
     role: 'Teams',
     getterName: 'getTeamsStore'
   }, {
-    model: 'JefBox.model.game.Question',
-    associationKey: 'Questions',
-    role: 'Questions',
-    getterName: 'getQuestionsStore',
+    model: 'JefBox.model.game.RoundItem',
+    associationKey: 'RoundItems',
+    role: 'RoundItems',
+    getterName: 'getRoundItemsStore',
     transform: false,
     storeConfig: {
       remoteSort: false,

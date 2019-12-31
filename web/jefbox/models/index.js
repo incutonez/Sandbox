@@ -36,4 +36,10 @@ for (let key in db) {
   }
 }
 
+db.conn.sync().then(() => {
+  console.log('synced');
+}).catch((err) => {
+  console.log(err);
+});
+
 module.exports = db;

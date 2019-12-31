@@ -1,11 +1,11 @@
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('QuestionWinners', {
-      QuestionId: {
+    return queryInterface.createTable('RoundItemWinners', {
+      RoundItemId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Question',
+          model: 'RoundItem',
           key: 'Id'
         }
       },
@@ -19,6 +19,6 @@ module.exports = {
       }
     });
   }, down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('QuestionWinners');
+    return queryInterface.dropTable('RoundItemWinners');
   }
 };

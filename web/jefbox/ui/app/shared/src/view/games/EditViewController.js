@@ -2,17 +2,17 @@ Ext.define('JefBox.view.games.EditViewController', {
   extend: 'Ext.app.ViewController',
   alias: 'controller.gamesEditView',
   requires: [
-    'JefBox.view.games.QuestionView'
+    'JefBox.view.games.RoundItemView'
   ],
 
   showQuestionView: function(record) {
-    let questionsStore = this.getQuestionsStore();
+    let questionsStore = this.getRoundItemsStore();
     let lastRecord = questionsStore && questionsStore.last();
     if (questionsStore) {
-      Ext.create('JefBox.view.games.QuestionView', {
+      Ext.create('JefBox.view.games.RoundItemView', {
         viewModel: {
           data: {
-            viewRecord: record || JefBox.model.game.Question.loadData({
+            viewRecord: record || JefBox.model.game.RoundItem.loadData({
               Order: lastRecord && lastRecord.get('Order') + 1 || 1,
               Round: lastRecord && lastRecord.get('Round') || 1
             })
@@ -27,7 +27,7 @@ Ext.define('JefBox.view.games.EditViewController', {
   },
 
   reorderQuestionsStore: function() {
-    let questionsStore = this.getQuestionsStore();
+    let questionsStore = this.getRoundItemsStore();
     if (questionsStore) {
       let previousRound = 0;
       let previousOrder = 0;
@@ -43,7 +43,7 @@ Ext.define('JefBox.view.games.EditViewController', {
   },
 
   onClickSaveQuestionBtn: function(questionRecord) {
-    let questionsStore = this.getQuestionsStore();
+    let questionsStore = this.getRoundItemsStore();
     if (questionsStore && questionRecord && !questionRecord.store) {
       questionsStore.add(questionRecord);
     }
@@ -53,7 +53,7 @@ Ext.define('JefBox.view.games.EditViewController', {
   onDropQuestionRecord: function(node, data, overModel, dropPosition, eOpts) {
     let me = this;
     let record = data.records[0];
-    let questionsStore = me.getQuestionsStore();
+    let questionsStore = me.getRoundItemsStore();
     if (record && overModel && questionsStore) {
       // Need to insert before if we're dropping it before
       let sign = dropPosition === 'before' ? -1 : 0;
@@ -118,8 +118,8 @@ Ext.define('JefBox.view.games.EditViewController', {
     return viewRecord;
   },
 
-  getQuestionsStore: function() {
+  getRoundItemsStore: function() {
     let viewRecord = this.getViewRecord();
-    return viewRecord && viewRecord.getQuestionsStore();
+    return viewRecord && viewRecord.getRoundItemsStore();
   }
 });

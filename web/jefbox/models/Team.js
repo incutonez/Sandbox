@@ -26,9 +26,9 @@ module.exports = (conn, types) => {
       through: 'TeamUsers'
     });
 
-    TeamModel.belongsToMany(models.Question, {
-      as: 'Questions',
-      through: 'QuestionWinners'
+    TeamModel.belongsToMany(models.RoundItem, {
+      as: 'RoundItems',
+      through: 'RoundItemWinners'
     });
 
     TeamModel.includeOptions.push({

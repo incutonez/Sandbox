@@ -11,7 +11,7 @@ Ext.define('JefBox.view.games.EditView', {
       viewRecord: null
     },
     formulas: {
-      hideQuestions: function(get) {
+      hideRoundItems: function(get) {
         return get('viewRecord.Type') !== Enums.GameTypes.TRIVIA;
       },
       saveBtnDisabled: function(get) {
@@ -77,7 +77,7 @@ Ext.define('JefBox.view.games.EditView', {
         }]
       }, {
         xtype: 'grid',
-        title: 'Questions',
+        title: 'Items',
         flex: 1,
         margin: '10 0 0 0',
         grouped: true,
@@ -88,8 +88,8 @@ Ext.define('JefBox.view.games.EditView', {
           type: 'gridrowdragdrop'
         }],
         bind: {
-          hidden: '{hideQuestions}',
-          store: '{viewRecord.Questions}'
+          hidden: '{hideRoundItems}',
+          store: '{viewRecord.RoundItems}'
         },
         listeners: {
           drop: 'onDropQuestionRecord'
@@ -97,7 +97,7 @@ Ext.define('JefBox.view.games.EditView', {
         titleBar: {
           items: [{
             xtype: 'button',
-            text: 'Question',
+            text: 'Round Item',
             align: 'right',
             iconCls: Icons.NEW,
             handler: 'onClickAddQuestionBtn'
@@ -110,11 +110,11 @@ Ext.define('JefBox.view.games.EditView', {
           cell: {
             tools: [{
               iconCls: Icons.EDIT,
-              tooltip: 'Edit Question',
+              tooltip: 'Edit Round Item',
               handler: 'onEditQuestionRow'
             }, {
               iconCls: Icons.DELETE,
-              tooltip: 'Delete Question',
+              tooltip: 'Delete Round Item',
               handler: 'onDeleteQuestionRow'
             }]
           }
@@ -125,11 +125,11 @@ Ext.define('JefBox.view.games.EditView', {
           text: 'Type',
           dataIndex: 'Type',
           renderer: function(value) {
-            return Enums.QuestionTypes.getDisplayValue(value);
+            return Enums.RoundItemTypes.getDisplayValue(value);
           }
         }, {
           text: 'Question',
-          dataIndex: 'Information',
+          dataIndex: 'Question',
           flex: 1
         }]
       }]

@@ -1,4 +1,4 @@
-Ext.define('JefBox.model.game.Question', {
+Ext.define('JefBox.model.game.RoundItem', {
   extend: 'Ext.data.Model',
 
   idProperty: 'Id',
@@ -9,7 +9,7 @@ Ext.define('JefBox.model.game.Question', {
   }, {
     name: 'Type',
     type: 'int',
-    defaultValue: Enums.QuestionTypes.TEXT,
+    defaultValue: Enums.RoundItemTypes.TEXT,
     validators: [{
       type: 'presence'
     }]
@@ -26,7 +26,13 @@ Ext.define('JefBox.model.game.Question', {
       type: 'presence'
     }]
   }, {
-    name: 'Information',
+    name: 'Points',
+    type: 'number',
+    validators: [{
+      type: 'presence'
+    }]
+  }, {
+    name: 'Question',
     type: 'string',
     validators: [{
       type: 'presence'
@@ -34,6 +40,15 @@ Ext.define('JefBox.model.game.Question', {
   }, {
     name: 'Answer',
     type: 'string'
+  }, {
+    name: 'Url',
+    type: 'string'
+  }, {
+    name: 'Upload',
+    type: 'string'
+  }, {
+    name: 'GameId',
+    type: 'int'
   }],
 
   proxy: {

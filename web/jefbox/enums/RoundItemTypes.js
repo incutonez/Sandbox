@@ -1,5 +1,5 @@
 // Truly make it a constant by freezing it
-const QuestionTypes = Object.freeze({
+const RoundItemTypes = Object.freeze({
   TEXT: 1,
   MULTIPLE_CHOICE: 2,
   IMAGE: 3,
@@ -8,4 +8,4 @@ const QuestionTypes = Object.freeze({
   DRAWING: 6
 });
 
-module.exports = QuestionTypes;
+module.exports = RoundItemTypes;
