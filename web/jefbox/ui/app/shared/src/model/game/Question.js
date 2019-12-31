@@ -20,6 +20,12 @@ Ext.define('JefBox.model.game.Question', {
       type: 'presence'
     }]
   }, {
+    name: 'Order',
+    type: 'int',
+    validators: [{
+      type: 'presence'
+    }]
+  }, {
     name: 'Information',
     type: 'string',
     validators: [{

@@ -42,6 +42,14 @@ Ext.define('JefBox.view.games.QuestionView', {
       value: '{viewRecord.Round}'
     }
   }, {
+    xtype: 'numberfield',
+    label: 'Order',
+    minValue: 1,
+    required: true,
+    bind: {
+      value: '{viewRecord.Order}'
+    }
+  }, {
     xtype: 'textfield',
     label: 'Question',
     required: true,
@@ -60,8 +68,12 @@ Ext.define('JefBox.view.games.QuestionView', {
   }],
 
   onClickSaveBtn: function() {
+    let viewRecord = this.getViewRecord();
+    if (viewRecord) {
+      viewRecord.commit();
+    }
     this.clickedSave = true;
-    this.fireEvent('clickSave', this.getViewRecord());
+    this.fireEvent('clickSave', viewRecord);
     this.close();
   }
 });

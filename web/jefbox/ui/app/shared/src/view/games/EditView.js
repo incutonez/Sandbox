@@ -80,9 +80,19 @@ Ext.define('JefBox.view.games.EditView', {
         title: 'Questions',
         flex: 1,
         margin: '10 0 0 0',
+        grouped: true,
+        groupHeader: {
+          tpl: 'Round: {name}'
+        },
+        plugins: [{
+          type: 'gridrowdragdrop'
+        }],
         bind: {
           hidden: '{hideQuestions}',
           store: '{viewRecord.Questions}'
+        },
+        listeners: {
+          drop: 'onDropQuestionRecord'
         },
         titleBar: {
           items: [{
@@ -109,14 +119,18 @@ Ext.define('JefBox.view.games.EditView', {
             }]
           }
         }, {
+          text: 'Order',
+          dataIndex: 'Order'
+        }, {
           text: 'Type',
           dataIndex: 'Type',
           renderer: function(value) {
             return Enums.QuestionTypes.getDisplayValue(value);
           }
         }, {
-          text: 'Round',
-          dataIndex: 'Round'
+          text: 'Question',
+          dataIndex: 'Information',
+          flex: 1
         }]
       }]
     }, {

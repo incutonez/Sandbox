@@ -6,25 +6,64 @@ Ext.define('JefBox.view.games.EditViewController', {
   ],
 
   showQuestionView: function(record) {
-    Ext.create('JefBox.view.games.QuestionView', {
-      viewModel: {
-        data: {
-          viewRecord: record || JefBox.model.game.Question.loadData()
+    let questionsStore = this.getQuestionsStore();
+    let lastRecord = questionsStore && questionsStore.last();
+    if (questionsStore) {
+      Ext.create('JefBox.view.games.QuestionView', {
+        viewModel: {
+          data: {
+            viewRecord: record || JefBox.model.game.Question.loadData({
+              Order: lastRecord && lastRecord.get('Order') + 1 || 1,
+              Round: lastRecord && lastRecord.get('Round') || 1
+            })
+          }
+        },
+        listeners: {
+          scope: this,
+          clickSave: 'onClickSaveQuestionBtn'
         }
-      },
-      listeners: {
-        scope: this,
-        clickSave: 'onClickSaveQuestionBtn'
-      }
-    });
+      });
+    }
+  },
+
+  reorderQuestionsStore: function() {
+    let questionsStore = this.getQuestionsStore();
+    if (questionsStore) {
+      let previousRound = 0;
+      let previousOrder = 0;
+      questionsStore.each(function(record) {
+        let currentRound = record.get('Round');
+        if (previousRound !== currentRound) {
+          previousOrder = 1;
+          previousRound = currentRound;
+        }
+        record.set('Order', previousOrder++);
+      });
+    }
   },
 
   onClickSaveQuestionBtn: function(questionRecord) {
-    let viewRecord = this.getViewRecord();
-    let questionsStore = viewRecord && viewRecord.getQuestionsStore();
+    let questionsStore = this.getQuestionsStore();
     if (questionsStore && questionRecord && !questionRecord.store) {
       questionsStore.add(questionRecord);
     }
+    this.reorderQuestionsStore();
+  },
+
+  onDropQuestionRecord: function(node, data, overModel, dropPosition, eOpts) {
+    let me = this;
+    let record = data.records[0];
+    let questionsStore = me.getQuestionsStore();
+    if (record && overModel && questionsStore) {
+      // Need to insert before if we're dropping it before
+      let sign = dropPosition === 'before' ? -1 : 0;
+      record.set({
+        Round: overModel.get('Round'),
+        Order: overModel.get('Order') + sign
+      });
+      questionsStore.insert(record.get('Order'), record);
+    }
+    me.reorderQuestionsStore();
   },
 
   onClickAddTeam: function(gridEditor, context) {
@@ -77,5 +116,10 @@ Ext.define('JefBox.view.games.EditViewController', {
       this.logError('viewRecord is undefined');
     }
     return viewRecord;
+  },
+
+  getQuestionsStore: function() {
+    let viewRecord = this.getViewRecord();
+    return viewRecord && viewRecord.getQuestionsStore();
   }
 });

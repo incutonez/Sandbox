@@ -34,7 +34,16 @@ Ext.define('JefBox.model.Game', {
     associationKey: 'Questions',
     role: 'Questions',
     getterName: 'getQuestionsStore',
-    transform: false
+    transform: false,
+    storeConfig: {
+      remoteSort: false,
+      remoteFilter: false,
+      groupField: 'Round',
+      sorters: [{
+        property: 'Order',
+        direction: 'ASC'
+      }]
+    }
   }],
 
   proxy: {
