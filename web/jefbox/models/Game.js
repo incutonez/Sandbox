@@ -3,7 +3,10 @@ module.exports = (conn, types) => {
     Id: {
       type: types.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
+      set(id) {
+        this.setDataValue('Id', id < 0 ? null : id);
+      }
     },
     Name: {
       type: types.STRING,
@@ -46,10 +49,16 @@ module.exports = (conn, types) => {
       as: 'RoundItems',
       include: models.RoundItem.includeOptions
     });
+
+    GameModel.updateInclude.push({
+      model: models.RoundItem,
+      as: 'RoundItems',
+      include: models.RoundItem.updateInclude
+    });
   };
 
   GameModel.includeOptions = [];
-  GameModel.updateOptions = {};
+  GameModel.updateInclude = [];
   GameModel.updateEvent = 'updatedGames';
 
   return GameModel;

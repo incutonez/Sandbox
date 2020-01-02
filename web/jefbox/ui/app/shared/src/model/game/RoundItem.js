@@ -1,5 +1,9 @@
 Ext.define('JefBox.model.game.RoundItem', {
   extend: 'Ext.data.Model',
+  requires: [
+    'JefBox.model.Upload',
+    'JefBox.model.game.RoundItemChoice'
+  ],
 
   idProperty: 'Id',
   identifier: 'negative',
@@ -41,14 +45,23 @@ Ext.define('JefBox.model.game.RoundItem', {
     name: 'Answer',
     type: 'string'
   }, {
-    name: 'Url',
-    type: 'string'
-  }, {
-    name: 'Upload',
-    type: 'string'
-  }, {
     name: 'GameId',
-    type: 'int'
+    type: 'int',
+    allowNull: true
+  }],
+
+  hasOne: [{
+    model: 'JefBox.model.Upload',
+    associationKey: 'Upload',
+    role: 'Upload',
+    getterName: 'getUploadRecord'
+  }],
+
+  hasMany: [{
+    model: 'JefBox.model.game.RoundItemChoice',
+    associationKey: 'Choices',
+    role: 'Choices',
+    getterName: 'getChoicesStore'
   }],
 
   proxy: {

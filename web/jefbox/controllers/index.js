@@ -1,13 +1,21 @@
 const url = require('url');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const SQLiteStore = require('connect-sqlite3')(session);
 module.exports = (app, io) => {
   app.use(cookieParser());
   app.use(session({
     key: 'auth_token',
     secret: 'jackjohnson1',
-    resave: false,
-    saveUninitialized: false
+    resave: true,
+    saveUninitialized: true,
+    store: new SQLiteStore({
+      db: './database.sqlite'
+    }),
+    cookie: {
+      // Expires in 30 days
+      maxAge: 1000 * 60 * 60 * 24 * 30
+    }
   }));
   app.use((req, res, next) => {
     // TODO: This should probably check the database for the req.session.user.Id value
