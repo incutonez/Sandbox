@@ -12,7 +12,3 @@
 /game_dev/Luna/.vs/Luna/v15/Browse.VC.db
 /game_dev/Luna/.vs/Luna/v15/Browse.VC.opendb
 /game_dev/Luna/Luna/x64
-/web/jefbox/.idea
-*node_modules*
-*package-lock.json*
-/web/jefbox/ui/main.js
