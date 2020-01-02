@@ -21,9 +21,6 @@ Ext.define('JefBox.model.Team', {
     name: 'GameId',
     type: 'int',
     allowNull: true
-  }, {
-    name: 'OwnerId',
-    type: 'int'
   }],
 
   hasMany: [{

@@ -2,7 +2,9 @@ Ext.define('JefBox.view.games.RoundItemView', {
   extend: 'JefBox.BaseDialog',
   alias: 'widget.gamesRoundItemView',
   requires: [
-    'JefBox.model.Upload'
+    'JefBox.model.Upload',
+    'JefBox.view.uploads.EditView',
+    'JefBox.view.uploads.ReadView'
   ],
 
   viewModel: {
@@ -14,22 +16,8 @@ Ext.define('JefBox.view.games.RoundItemView', {
         return get('viewRecord.Type') !== Enums.RoundItemTypes.MULTIPLE_CHOICE;
       },
       hideMediaField: function(get) {
-        return get('viewRecord.Type') !== Enums.RoundItemTypes.MEDIA;
-      },
-      hideUploadField: function(get) {
-        return get('viewRecord.Upload.Type') !== Enums.UploadTypes.FILE;
-      },
-      uploadRecordFm: function(get) {
-        let viewRecord = get('viewRecord');
-        if (get('hideMediaField')) {
-          let uploadRecord = viewRecord && viewRecord.getUploadRecord();
-          if (uploadRecord) {
-            uploadRecord.erase();
-          }
-        }
-        else {
-          viewRecord.setUploadRecord(JefBox.model.Upload.loadData());
-        }
+        const types = Enums.RoundItemTypes;
+        return !Ext.Array.contains([types.AUDIO, types.IMAGE, types.VIDEO], get('viewRecord.Type'));
       }
     }
   },
@@ -172,6 +160,7 @@ Ext.define('JefBox.view.games.RoundItemView', {
     }]
   }, {
     xtype: 'container',
+    flex: 1,
     layout: {
       type: 'vbox'
     },
@@ -179,66 +168,90 @@ Ext.define('JefBox.view.games.RoundItemView', {
       hidden: '{hideMediaField}'
     },
     items: [{
-      xtype: 'enumComboBox',
-      label: 'Media Type',
-      store: Enums.UploadTypes,
-      bind: {
-        value: '{viewRecord.Upload.Type}'
-      }
-    }, {
       xtype: 'textfield',
       label: 'Url',
       bind: {
-        hidden: '{!hideUploadField}',
-        value: '{viewRecord.Upload.Url}'
+        disabled: '{viewRecord.UploadId}',
+        value: '{viewRecord.Url}'
       }
     }, {
-      xtype: 'formpanel',
-      bodyPadding: 0,
-      reference: 'uploadForm',
+      xtype: 'container',
       layout: {
         type: 'hbox',
-        align: 'end'
+        align: 'left'
       },
       bind: {
-        hidden: '{hideUploadField}'
+        disabled: '{viewRecord.Url}'
       },
       items: [{
-        xtype: 'hiddenfield',
-        name: 'fileType',
-        value: Enums.UploadTypes.FILE
-      }, {
-        xtype: 'filefield',
-        label: 'Attachment',
-        name: 'uploadFile',
-        flex: 1,
-        listeners: {
-          initialize: 'onPaintedAttachmentField'
+        xtype: 'button',
+        iconCls: Icons.VIEW,
+        handler: 'onClickViewAttachment',
+        tooltip: 'View Attachment',
+        bind: {
+          hidden: '{!viewRecord.UploadId}'
         }
       }, {
         xtype: 'button',
-        height: 36,
-        width: 36,
-        iconCls: Icons.UPLOAD,
-        handler: 'onClickUploadAttachment'
+        iconCls: Icons.DELETE,
+        handler: 'onClickDeleteAttachment',
+        tooltip: 'Delete Attachment',
+        bind: {
+          hidden: '{!viewRecord.UploadId}'
+        }
+      }, {
+        xtype: 'button',
+        text: 'Attachment',
+        iconCls: Icons.NEW,
+        handler: 'onClickAddAttachmentBtn',
+        bind: {
+          disabled: '{viewRecord.Url}'
+        }
       }]
     }]
   }],
 
-  onClickUploadAttachment: function() {
-    let uploadForm = this.lookup('uploadForm');
-    if (uploadForm) {
-      uploadForm.submit({
-        url: 'api/upload'
+  onClickDeleteAttachment: function() {
+    let viewRecord = this.getViewRecord();
+    let uploadRecord = JefBox.store.Uploads.findRecord('Id', viewRecord && viewRecord.get('UploadId'), 0, false, true, true);
+    if (uploadRecord) {
+      uploadRecord.erase({
+        callback: function(record, operation, success) {
+          if (success) {
+            viewRecord.set('UploadId', null);
+          }
+        }
       });
     }
   },
 
-  onPaintedAttachmentField: function(field) {
-    let fileButton = field.getFileButton();
-    if (fileButton) {
-      fileButton.setIconCls(Icons.SEARCH);
-      fileButton.setText(null);
+  onClickViewAttachment: function() {
+    let viewRecord = this.getViewRecord();
+    let uploadRecord = JefBox.store.Uploads.findRecord('Id', viewRecord && viewRecord.get('UploadId'), 0, false, true, true);
+    if (uploadRecord) {
+      Ext.create('JefBox.view.uploads.ReadView', {
+        viewModel: {
+          data: {
+            viewRecord: uploadRecord
+          }
+        }
+      });
+    }
+  },
+
+  onClickAddAttachmentBtn: function() {
+    Ext.create('JefBox.view.uploads.EditView', {
+      listeners: {
+        scope: this,
+        uploaded: 'onUploadedAttachment'
+      }
+    });
+  },
+
+  onUploadedAttachment: function(result) {
+    let viewRecord = this.getViewRecord();
+    if (viewRecord && result) {
+      viewRecord.set('UploadId', result.UploadId);
     }
   },
 

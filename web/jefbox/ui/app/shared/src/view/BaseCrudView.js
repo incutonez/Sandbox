@@ -102,9 +102,9 @@ Ext.define('JefBox.view.BaseCrudView', {
 
   getActionsColumnConfig: function() {
     return {
+      view: true,
       edit: true,
       delete: true,
-      view: true,
       revert: true
     };
   },
@@ -152,6 +152,9 @@ Ext.define('JefBox.view.BaseCrudView', {
   getActionsColumnItems: function() {
     let items = [];
     let config = this.getActionsColumnConfig();
+    if (config.view) {
+      items.push(this.getViewActionConfig());
+    }
     if (config.edit) {
       items.push(this.getEditActionConfig());
     }
@@ -160,9 +163,6 @@ Ext.define('JefBox.view.BaseCrudView', {
     }
     if (config.revert) {
       items.push(this.getRevertActionConfig());
-    }
-    if (config.view) {
-      items.push(this.getViewActionConfig());
     }
     const width = items.length * 25;
     return {
@@ -212,10 +212,7 @@ Ext.define('JefBox.view.BaseCrudView', {
       }
     }, {
       text: 'Updated By',
-      dataIndex: 'UpdatedById',
-      renderer: function(value) {
-        return JefBox.store.Users.getUserNameById(value);
-      }
+      dataIndex: 'updatedByDisplay'
     });
     return config;
   }

@@ -54,11 +54,12 @@ Ext.define('JefBox.Socket', {
     let users = JefBox.store.Users;
     let teams = JefBox.store.Teams;
     let games = JefBox.store.Games;
+    let uploads = JefBox.store.Uploads;
+    me.off('userStatusChange');
     me.off('updatedTeams');
     me.off('updatedUsers');
-    me.off('userStatusChange');
     me.off('updatedGames');
-    // TODOJEF: How to remove socket events
+    me.off('updatedUploads');
     me.on('updatedTeams', function() {
       teams.load();
       users.load();
@@ -75,9 +76,15 @@ Ext.define('JefBox.Socket', {
       if (!teams.isLoaded()) {
         teams.load();
       }
+      if (!uploads.isLoaded()) {
+        uploads.load();
+      }
     });
     me.on('updatedGames', function() {
       games.load();
+    });
+    me.on('updatedUploads', function() {
+      uploads.load();
     });
   }
 });

@@ -45,10 +45,7 @@ Ext.define('JefBox.view.teams.MainView', {
       }
     }, {
       text: 'Owner',
-      dataIndex: 'OwnerId',
-      renderer: function(value) {
-        return JefBox.store.Users.getUserNameById(value);
-      }
+      dataIndex: 'ownerDisplay'
     }]);
     return config;
   }

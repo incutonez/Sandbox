@@ -8,14 +8,10 @@ module.exports = (conn, types) => {
         this.setDataValue('Id', id < 0 ? null : id);
       }
     },
-    Type: {
-      type: types.INTEGER,
-      allowNull: false
-    },
-    MimeType: {
+    FileName: {
       type: types.STRING
     },
-    Url: {
+    MimeType: {
       type: types.STRING
     },
     Data: {

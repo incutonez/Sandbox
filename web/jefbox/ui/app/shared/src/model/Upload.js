@@ -1,20 +1,11 @@
 Ext.define('JefBox.model.Upload', {
-  extend: 'Ext.data.Model',
+  extend: 'JefBox.model.Crud',
 
-  idProperty: 'Id',
-  identifier: 'negative',
   fields: [{
-    name: 'Id',
-    type: 'int'
-  }, {
-    name: 'Type',
-    type: 'int',
-    defaultValue: Enums.UploadTypes.VIDEO_URL
-  }, {
-    name: 'MimeType',
+    name: 'FileName',
     type: 'string'
   }, {
-    name: 'Url',
+    name: 'MimeType',
     type: 'string'
   }, {
     name: 'Data',
@@ -33,6 +24,7 @@ Ext.define('JefBox.model.Upload', {
   }],
 
   proxy: {
-    type: 'memory'
+    type: 'rest',
+    url: 'api/upload'
   }
 });

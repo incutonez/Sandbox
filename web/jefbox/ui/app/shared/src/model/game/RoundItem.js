@@ -1,7 +1,6 @@
 Ext.define('JefBox.model.game.RoundItem', {
   extend: 'Ext.data.Model',
   requires: [
-    'JefBox.model.Upload',
     'JefBox.model.game.RoundItemChoice'
   ],
 
@@ -45,17 +44,16 @@ Ext.define('JefBox.model.game.RoundItem', {
     name: 'Answer',
     type: 'string'
   }, {
+    name: 'Url',
+    type: 'string'
+  }, {
     name: 'GameId',
     type: 'int',
     allowNull: true
-  }],
-
-  hasOne: [{
-    model: 'JefBox.model.Upload',
-    associationKey: 'Upload',
-    role: 'Upload',
-    getterName: 'getUploadRecord',
-    setterName: 'setUploadRecord'
+  }, {
+    name: 'UploadId',
+    type: 'int',
+    allowNull: true
   }],
 
   hasMany: [{

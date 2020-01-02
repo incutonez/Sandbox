@@ -39,12 +39,29 @@ Ext.define('JefBox.model.Crud', {
   }, {
     name: 'CanEdit',
     type: 'boolean',
+    persist: false,
     depends: ['OwnerId'],
     convert: function(value, record) {
       if (UserProfile) {
         value = UserProfile.get('IsAdmin') || record.get('OwnerId') === UserProfile.getId();
       }
       return value;
+    }
+  }, {
+    name: 'updatedByDisplay',
+    type: 'string',
+    persist: false,
+    depends: ['UpdatedById'],
+    convert: function(value, record) {
+      return JefBox.store.Users.getUserNameById(record.get('UpdatedById'));
+    }
+  }, {
+    name: 'ownerDisplay',
+    type: 'string',
+    persist: false,
+    depends: ['OwnerId'],
+    convert: function(value, record) {
+      return JefBox.store.Users.getUserNameById(record.get('OwnerId'));
     }
   }]
 });

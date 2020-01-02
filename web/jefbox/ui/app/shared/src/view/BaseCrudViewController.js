@@ -71,9 +71,7 @@ Ext.define('JefBox.view.BaseCrudViewController', {
   },
 
   // TODOJEF: Impl
-  onClickViewRecord: function(grid, info) {
-
-  },
+  onClickViewRecord: Ext.emptyFn,
 
   onClickRevertRecord: function(grid, info) {
     let record = info.record;

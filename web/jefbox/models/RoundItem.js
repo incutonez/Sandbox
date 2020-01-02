@@ -27,6 +27,9 @@ module.exports = (conn, types) => {
     },
     Answer: {
       type: types.STRING
+    },
+    Url: {
+      type: types.STRING
     }
   });
 
