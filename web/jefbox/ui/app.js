@@ -11,7 +11,10 @@ JefBox.Enums.loadEnums(function() {
          * the viewport's main view can be added... we do all of this deferring so routing has a chance to take place */
         Ext.application({
           extend: 'JefBox.shared.Application',
-          name: 'JefBox'
+          name: 'JefBox',
+          config: {
+            quickTips: true
+          }
         });
       }
     });

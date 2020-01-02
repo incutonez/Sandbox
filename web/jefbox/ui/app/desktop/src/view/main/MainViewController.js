@@ -4,7 +4,8 @@ Ext.define('JefBox.view.main.MainViewController', {
   requires: [
     'JefBox.view.teams.MainView',
     'JefBox.view.users.MainView',
-    'JefBox.view.games.MainView'
+    'JefBox.view.games.MainView',
+    'JefBox.view.uploads.MainView'
   ],
 
   constructor: function(config) {
@@ -13,6 +14,7 @@ Ext.define('JefBox.view.main.MainViewController', {
     routes[Routes.USERS] = 'onRouteUsers';
     routes[Routes.TEAMS] = 'onRouteTeams';
     routes[Routes.GAMES] = 'onRouteGames';
+    routes[Routes.UPLOADS] = 'onRouteUploads';
     config.routes = routes;
     config.openWindows = {};
     this.callParent(arguments);
@@ -36,6 +38,10 @@ Ext.define('JefBox.view.main.MainViewController', {
 
   onRouteGames: function(params) {
     this.createTaskWindow('Games', 'gamesMainView', Icons.GAMES, Routes.GAMES);
+  },
+
+  onRouteUploads: function(params) {
+    this.createTaskWindow('Uploads', 'uploadsMainView', Icons.UPLOAD, Routes.UPLOADS);
   },
 
   getTaskWindowByType: function(key) {
@@ -106,5 +112,9 @@ Ext.define('JefBox.view.main.MainViewController', {
 
   onClickGamesView: function(button) {
     this.redirectTo(Routes.GAMES);
+  },
+
+  onClickUploadsView: function(button) {
+    this.redirectTo(Routes.UPLOADS);
   }
 });

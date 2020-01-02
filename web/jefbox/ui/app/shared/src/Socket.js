@@ -12,7 +12,8 @@ Ext.define('JefBox.Socket', {
   requires: [
     'JefBox.store.Teams',
     'JefBox.store.Games',
-    'JefBox.store.Users'
+    'JefBox.store.Users',
+    'JefBox.store.Uploads'
   ],
 
   config: {

@@ -54,7 +54,8 @@ Ext.define('JefBox.model.game.RoundItem', {
     model: 'JefBox.model.Upload',
     associationKey: 'Upload',
     role: 'Upload',
-    getterName: 'getUploadRecord'
+    getterName: 'getUploadRecord',
+    setterName: 'setUploadRecord'
   }],
 
   hasMany: [{

@@ -62,5 +62,14 @@ Ext.define('JefBox.view.main.MainView', {
     style: 'border: 1px solid #cecece;',
     handler: 'onClickGamesView',
     margin: '0 0 10 0'
+  }, {
+    xtype: 'button',
+    text: 'Uploads',
+    iconAlign: 'top',
+    cls: Styles.BUTTON_LARGE,
+    iconCls: Icons.UPLOAD,
+    style: 'border: 1px solid #cecece;',
+    handler: 'onClickUploadsView',
+    margin: '0 0 10 0'
   }]
 });

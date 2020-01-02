@@ -2,10 +2,8 @@
 const RoundItemTypes = Object.freeze({
   TEXT: 1,
   MULTIPLE_CHOICE: 2,
-  IMAGE: 3,
-  AUDIO: 4,
-  VIDEO: 5,
-  DRAWING: 6
+  MEDIA: 3,
+  DRAWING: 4
 });
 
 module.exports = RoundItemTypes;

@@ -1,6 +1,9 @@
 Ext.define('JefBox.view.games.RoundItemView', {
   extend: 'JefBox.BaseDialog',
   alias: 'widget.gamesRoundItemView',
+  requires: [
+    'JefBox.model.Upload'
+  ],
 
   viewModel: {
     data: {
@@ -9,6 +12,24 @@ Ext.define('JefBox.view.games.RoundItemView', {
     formulas: {
       hideChoicesGrid: function(get) {
         return get('viewRecord.Type') !== Enums.RoundItemTypes.MULTIPLE_CHOICE;
+      },
+      hideMediaField: function(get) {
+        return get('viewRecord.Type') !== Enums.RoundItemTypes.MEDIA;
+      },
+      hideUploadField: function(get) {
+        return get('viewRecord.Upload.Type') !== Enums.UploadTypes.FILE;
+      },
+      uploadRecordFm: function(get) {
+        let viewRecord = get('viewRecord');
+        if (get('hideMediaField')) {
+          let uploadRecord = viewRecord && viewRecord.getUploadRecord();
+          if (uploadRecord) {
+            uploadRecord.erase();
+          }
+        }
+        else {
+          viewRecord.setUploadRecord(JefBox.model.Upload.loadData());
+        }
       }
     }
   },
@@ -149,7 +170,77 @@ Ext.define('JefBox.view.games.RoundItemView', {
         required: true
       }
     }]
+  }, {
+    xtype: 'container',
+    layout: {
+      type: 'vbox'
+    },
+    bind: {
+      hidden: '{hideMediaField}'
+    },
+    items: [{
+      xtype: 'enumComboBox',
+      label: 'Media Type',
+      store: Enums.UploadTypes,
+      bind: {
+        value: '{viewRecord.Upload.Type}'
+      }
+    }, {
+      xtype: 'textfield',
+      label: 'Url',
+      bind: {
+        hidden: '{!hideUploadField}',
+        value: '{viewRecord.Upload.Url}'
+      }
+    }, {
+      xtype: 'formpanel',
+      bodyPadding: 0,
+      reference: 'uploadForm',
+      layout: {
+        type: 'hbox',
+        align: 'end'
+      },
+      bind: {
+        hidden: '{hideUploadField}'
+      },
+      items: [{
+        xtype: 'hiddenfield',
+        name: 'fileType',
+        value: Enums.UploadTypes.FILE
+      }, {
+        xtype: 'filefield',
+        label: 'Attachment',
+        name: 'uploadFile',
+        flex: 1,
+        listeners: {
+          initialize: 'onPaintedAttachmentField'
+        }
+      }, {
+        xtype: 'button',
+        height: 36,
+        width: 36,
+        iconCls: Icons.UPLOAD,
+        handler: 'onClickUploadAttachment'
+      }]
+    }]
   }],
+
+  onClickUploadAttachment: function() {
+    let uploadForm = this.lookup('uploadForm');
+    if (uploadForm) {
+      uploadForm.submit({
+        url: 'api/upload'
+      });
+    }
+  },
+
+  onPaintedAttachmentField: function(field) {
+    let fileButton = field.getFileButton();
+    if (fileButton) {
+      fileButton.setIconCls(Icons.SEARCH);
+      fileButton.setText(null);
+    }
+  },
 
   onClickSaveBtn: function() {
     let viewRecord = this.getViewRecord();

@@ -34,10 +34,10 @@ Ext.define('JefBox.Routes', {
     basePath: 'games'
   }, {
     /**
-     * @property LOGIN
+     * @property UPLOADS
      */
-    key: 'LOGIN',
-    basePath: 'login'
+    key: 'UPLOADS',
+    basePath: 'uploads'
   }],
 
   constructor: function(config) {

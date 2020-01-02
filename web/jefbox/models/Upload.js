@@ -12,6 +12,9 @@ module.exports = (conn, types) => {
       type: types.INTEGER,
       allowNull: false
     },
+    MimeType: {
+      type: types.STRING
+    },
     Url: {
       type: types.STRING
     },

@@ -14,8 +14,10 @@ Ext.define('JefBox.Icons', {
   REFRESH: 'x-fa fa-redo',
   REVERT: 'x-fa fa-history',
   SAVE: 'x-fa fa-save',
+  SEARCH: 'x-fa fa-search',
   START_MENU: 'x-fa fa-monument',
   TEAMS: 'x-fa fa-sitemap',
+  UPLOAD: 'x-fa fa-upload',
   USERS: 'x-fa fa-users',
   VIEW: 'x-fa fa-info-circle',
 

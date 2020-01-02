@@ -30,5 +30,6 @@ module.exports = (app, io) => {
   app.use(process.env.BASE_API_PATH, require('./Users')(io));
   app.use(process.env.BASE_API_PATH, require('./Teams')(io));
   app.use(process.env.BASE_API_PATH, require('./Games')(io));
+  app.use(process.env.BASE_API_PATH, require('./Upload'));
   app.use(process.env.BASE_API_PATH, require('./Enums'));
 };
