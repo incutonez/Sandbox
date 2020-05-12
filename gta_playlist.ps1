@@ -48,9 +48,13 @@ Function FileBrowser([string] $initialDirectory = 'Desktop', [bool] $foldersOnly
 }
 
 function playlistGta($playlist) {
+  [System.Collections.ArrayList] $list = @()
   foreach($line in Get-Content $playlist) {
     # Winamp adds some weird metadata to m3u8 files
     if (!($line -match "^#")) {
+      if ($line -match "^\\Shared") {
+        $line = 'Z:' + $line
+      }
       $a = Get-Item -LiteralPath $line
       # Replace any slashes, so we don't attempt to create new dirs
       $path = $a.FullName.Replace('\', "_")
@@ -58,14 +62,25 @@ function playlistGta($playlist) {
       # See also https://github.com/PowerShell/PowerShell/issues/6232
       $a = $a.FullName.Replace('[', "```[")
       $a = $a.Replace(']', "```]")
-      New-Item -ItemType SymbolicLink -Path "$path" -Target "$a"
+      $a = $a -replace '\\\\MyCloudEx2Ultra\\Public', 'Z:'
+      $list.Add([System.Collections.ArrayList] @($path, $a))
     }
   }
+  for ($i = 0; $i -lt 100; $i++) {
+    $max = $list.Count - 1
+    $index = Get-Random -Minimum 0 -Maximum $max
+    $item = $list[$index]
+    $list.RemoveAt($index)
+    #echo $item[0]
+    #echo $item[1]
+    New-Item -ItemType SymbolicLink -Path $item[0] -Target $item[1]
+  }
+  #New-Item -ItemType SymbolicLink -Path "$path" -Target "$a"
 }
 
 # Make sure admin user can access network drive... https://stackoverflow.com/a/4777229
 net use Z: '\\MyCloudEx2Ultra\Public'
-$gtaLocation = FileBrowser "$env:userprofile\Documents" $true 'Select GTA V User Music Directory'
+$gtaLocation = FileBrowser "$env:userprofile\Documents\Rockstar Games\GTA V\User Music" $true 'Select GTA V User Music Directory'
 $playlist = FileBrowser 'Z:\Shared Music\Playlists\Playlists'
 cd $gtaLocation
 playlistGta "$playlist"
