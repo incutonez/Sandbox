@@ -1,3 +1,4 @@
+# In order to run, you may have to allow custom scripts... Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
 # Taken from https://superuser.com/questions/108207/how-to-run-a-powershell-script-as-administrator
 param([switch]$Elevated)
 
@@ -21,23 +22,40 @@ exit
 'running with full privileges'
 
 # Taken from https://stackoverflow.com/a/25690250/1253609
-Function Get-Folder([string] $initialDirectory = 'Desktop') {
+Function FileBrowser([string] $initialDirectory = 'Desktop', [bool] $foldersOnly = $false, [string] $description) {
     [System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms") | Out-Null
-    $Browser = New-Object System.Windows.Forms.OpenFileDialog
-    if ($initialDirectory) {
-      $Browser.initialDirectory = $initialDirectory
+    if ($foldersOnly -eq $true) {
+      $Browser = New-Object System.Windows.Forms.FolderBrowserDialog
+      if ($initialDirectory) {
+        $Browser.SelectedPath = $initialDirectory
+      }
+      if ($description) {
+        $Browser.Description = $description
+      }
     }
-    $Browser.filter = 'All files (*.*)|*.*'
+    else {    
+      $Browser = New-Object System.Windows.Forms.OpenFileDialog
+      $Browser.filter = 'All files (*.*)|*.*'
+      if ($initialDirectory) {
+        $Browser.initialDirectory = $initialDirectory
+      }
+    }
     [void] $Browser.ShowDialog()
+    if ($foldersOnly) {
+      return $Browser.SelectedPath
+    }
     return $Browser.FileName
 }
 
 function playlistGta($playlist) {
   foreach($line in Get-Content $playlist) {
-    if ($line -match 'MyCloudEx2Ultra') {
+    # Winamp adds some weird metadata to m3u8 files
+    if (!($line -match "^#")) {
       $a = Get-Item -LiteralPath $line
-      $path = $a.FullName -replace '\\\\MyCloudEx2Ultra\\Public\\Shared Music\\', ""
-      $path = $path.Replace('\', "_")
+      # Replace any slashes, so we don't attempt to create new dirs
+      $path = $a.FullName.Replace('\', "_")
+      # Unfortunately, we have to replace [ and ] with three tildas before it... -Target doesn't use literal pathing like -Path
+      # See also https://github.com/PowerShell/PowerShell/issues/6232
       $a = $a.FullName.Replace('[', "```[")
       $a = $a.Replace(']', "```]")
       New-Item -ItemType SymbolicLink -Path "$path" -Target "$a"
@@ -45,6 +63,9 @@ function playlistGta($playlist) {
   }
 }
 
-$playlist = Get-Folder('Z:\Shared Music\Playlists\Playlists')
-cd 'C:\Users\incut\Documents\Rockstar Games\GTA V\User Music'
+# Make sure admin user can access network drive... https://stackoverflow.com/a/4777229
+net use Z: '\\MyCloudEx2Ultra\Public'
+$gtaLocation = FileBrowser "$env:userprofile\Documents" $true 'Select GTA V User Music Directory'
+$playlist = FileBrowser 'Z:\Shared Music\Playlists\Playlists'
+cd $gtaLocation
 playlistGta "$playlist"
