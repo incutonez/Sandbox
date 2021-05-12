@@ -66,7 +66,7 @@ function playlistGta($playlist) {
       $list.Add([System.Collections.ArrayList] @($path, $a))
     }
   }
-  for ($i = 0; $i -lt 100; $i++) {
+  for ($i = 0; $i -lt 200; $i++) {
     $max = $list.Count - 1
     $index = Get-Random -Minimum 0 -Maximum $max
     $item = $list[$index]

@@ -1,7 +1,0 @@
-http://sfmlcoder.wordpress.com/2011/05/18/creating-a-first-sfml-project/
-http://sfmlcoder.wordpress.com/2011/05/11/building-sfml-2-0/
-http://www.sfml-dev.org/tutorials/2.0/
-http://www.sfml-dev.org/documentation/2.0/annotated.php
-http://www.iforce2d.net/b2dtut/
-http://en.sfml-dev.org/forums/index.php?topic=9071.msg61161#msg61161
-http://www.gamefromscratch.com/page/Game-From-Scratch-CPP-Edition.aspx

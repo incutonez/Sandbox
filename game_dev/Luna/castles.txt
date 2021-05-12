@@ -1,9 +1,0 @@
-- in the woods (plants are enemies, gets axe as item?)
-- on an island (need a raft?)
-- on the beach (gets raft as item?)
-- in a volcano (needs red tunic/gets TNT as item?)
-- in a lake (needs blue tunic/gets hookshot)
-- in a swamp
-- in the desert
-- in the sky
-- underground
