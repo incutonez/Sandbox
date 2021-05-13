@@ -1,5 +1,12 @@
 <template>
-  <Grid />
+  <Grid :columns="[{
+    text: 'Id',
+    field: 'Id'
+  }, {
+    text: 'Username',
+    field: 'Username'
+  }]"
+        :store="usersStore" />
 </template>
 
 <script lang="ts">

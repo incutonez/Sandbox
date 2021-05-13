@@ -19,11 +19,14 @@ const Component = defineComponent({
   },
 
   async created() {
-    await this.usersStore.load();
-    await this.user.load({
-      url: 'api/users/10'
-    });
-    console.log(this.user, this.usersStore);
+    console.log('created');
+    setTimeout(async () => {
+      await this.usersStore.load();
+      console.log('calling');
+      await this.user.load({
+        url: 'api/users/10'
+      });
+    }, 1000);
   }
 });
 

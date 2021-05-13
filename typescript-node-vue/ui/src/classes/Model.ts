@@ -22,7 +22,6 @@ export default class Model {
   set(data: any) {
     for (const field in data) {
       Reflect.set(this, field, data[field]);
-      console.log('setting', field, data[field]);
     }
   }
 }
