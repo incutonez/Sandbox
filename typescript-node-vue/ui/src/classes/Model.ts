@@ -13,7 +13,6 @@ export default class Model {
     try {
       const Response = await this.proxy.load(config);
       this.set(Response?.data);
-      // TODO: Potentially use a spread operator here?  Object.assign(this, Response)
     }
     catch (ex) {
       console.error(ex);
@@ -22,8 +21,7 @@ export default class Model {
 
   set(data: any) {
     for (const field in data) {
-      // @ts-ignore
-      this[field] = data[field];
+      Reflect.set(this, field, data[field]);
       console.log('setting', field, data[field]);
     }
   }

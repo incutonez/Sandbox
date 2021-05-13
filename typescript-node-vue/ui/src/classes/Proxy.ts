@@ -62,9 +62,8 @@ export default class Proxy {
 
   // TODO: Is there a better way of doing this?
   getInitialConfig(): any {
-    const Me: this = this;
-    return Object.getOwnPropertyNames(Me).reduce(function(result: any, currentValue: string) {
-      result[currentValue] = Reflect.get(Me, currentValue);
+    return Object.getOwnPropertyNames(this).reduce((result: any, currentValue: string) => {
+      result[currentValue] = Reflect.get(this, currentValue);
       return result;
     }, {});
   }
