@@ -9,7 +9,7 @@ export default class Model {
   }
 
   // TODO: Had to add the default config here, otherwise, we'd get an error
-  async load(config: any) {
+  async load(config: any): Promise<void> {
     try {
       const Response = await this.proxy.load(config);
       this.set(Response?.data);
@@ -19,7 +19,7 @@ export default class Model {
     }
   }
 
-  set(data: any) {
+  set(data: any): void {
     for (const field in data) {
       Reflect.set(this, field, data[field]);
     }

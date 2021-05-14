@@ -1,10 +1,11 @@
 <template>
-  <td :class="clsFm">{{ value }}</td>
+  <td :class="clsFm">
+    {{ value }}
+  </td>
 </template>
 
 <script lang="ts">
 import {defineComponent} from 'vue';
-import {MDClasses} from '@/statics/MaterialDesign';
 import ColumnTypes from '@/statics/ColumnTypes';
 
 export default defineComponent({
@@ -39,12 +40,10 @@ export default defineComponent({
     },
     clsFm(): any {
       const Cls = this.cls;
-      Cls.push(MDClasses.TABLE_CELL);
       switch (this.column.type) {
         case ColumnTypes.String:
           break;
         case ColumnTypes.Number:
-          Cls.push(MDClasses.TABLE_COLUMN_NUMERIC);
           break;
       }
       return Cls.join(' ');

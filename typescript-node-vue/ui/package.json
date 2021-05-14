@@ -8,10 +8,10 @@
     "start": "vue-cli-service serve"
   },
   "dependencies": {
-    "@material/data-table": "^11.0.0",
     "@types/express": "^4.17.11",
     "@types/node": "^15.0.2",
     "axios": "^0.21.1",
+    "bootstrap": "^5.0.1",
     "core-js": "^3.6.5",
     "lodash": "^4.17.21",
     "sass": "^1.32.13",

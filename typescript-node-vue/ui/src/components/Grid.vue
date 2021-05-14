@@ -1,36 +1,37 @@
 <template>
   <div class="jef-grid"
        :style="gridStyles">
-    <div :class="MDClasses.TABLE_CONTAINER">
-      <table :class="`${MDClasses.TABLE} ${MDClasses.TABLE_FIXED_HEADER}`">
-        <thead>
-          <tr :class="MDClasses.TABLE_COLUMN_CONTAINER">
-            <Column v-for="(column, index) in columns"
-                    :key="index"
-                    :type="column.type"
-                    :cls="column.cls"
-                    :text="column.text"
-                    :field="column.field" />
-          </tr>
-        </thead>
-        <tbody :class="MDClasses.TABLE_CONTENT">
-          <Row v-for="(record, index) in store"
-               :key="index"
-               :record="record"
-               :columns="columns" />
-        </tbody>
-      </table>
-    </div>
+    <table :class="`${TableCls.ROOT} ${TableCls.STRIPED} ${TableCls.HOVER} ${TableCls.DARK} ${TableCls.BORDERED} ${TableCls.SMALL}`">
+      <thead>
+        <tr>
+          <Column v-for="(column, index) in columns"
+                  :key="index"
+                  :type="column.type"
+                  :cls="column.cls"
+                  :text="column.text"
+                  :field="column.field" />
+        </tr>
+      </thead>
+      <tbody :style="bodyStyles">
+        <Row v-for="(record, index) in store"
+             :key="index"
+             :record="record"
+             :columns="columns"
+             @click="onClickRow" />
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent, h} from 'vue';
+import {defineComponent} from 'vue';
 import Column from '@/components/grid/Column.vue';
 import Row from '@/components/grid/Row.vue';
 import Store from '@/classes/Store';
 import ColumnTypes from '@/statics/ColumnTypes';
-import {MDClasses} from '@/statics/MaterialDesign';
+import {TableCls} from '@/statics/TableCls';
+import ITableCls from '@/interfaces/ITableCls';
+import IEnum from '@/interfaces/IEnum';
 
 export default defineComponent({
   name: 'Grid',
@@ -50,17 +51,40 @@ export default defineComponent({
       default: () => {
         return new Store();
       }
+    },
+    height: {
+      type: String,
+      default: '200px'
+    },
+    width: {
+      type: String,
+      default: '200px'
     }
   },
   data() {
-    return {
-      ColumnTypes: ColumnTypes,
-      MDClasses: MDClasses
-    };
+    return new class {
+      ColumnTypes: IEnum = ColumnTypes;
+      TableCls: ITableCls = TableCls;
+      selectedRow: HTMLElement | null = null;
+    }();
   },
   computed: {
-    gridStyles() {
-      return 'height: 200px; overflow: auto;';
+    gridStyles(): string {
+      return `width: ${this.width};`;
+    },
+    bodyStyles(): string {
+      return `max-height: ${this.height}; overflow: auto;`;
+    }
+  },
+  methods: {
+    onClickRow(event: Event) {
+      const Target: HTMLTableCellElement = event.target as HTMLTableCellElement;
+      // TODO: Would we ever have to worry about event.target not being the td?
+      if (this.selectedRow) {
+        this.selectedRow.classList.remove(TableCls.ACTIVE);
+      }
+      this.selectedRow = Target.parentElement;
+      this.selectedRow?.classList.add(TableCls.ACTIVE);
     }
   }
 });
@@ -68,7 +92,19 @@ export default defineComponent({
 
 <style scoped
        lang="scss">
-::v-deep * {
-  @import "Grid";
+.jef-grid {
+  tbody {
+    display: block;
+  }
+
+  thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  thead {
+    width: calc(100% - 1.1em);
+  }
 }
 </style>

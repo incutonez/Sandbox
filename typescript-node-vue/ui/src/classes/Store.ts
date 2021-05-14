@@ -28,7 +28,7 @@ export default class Store extends Array {
     this.proxy = new Proxy(config.proxy);
   }
 
-  async load() {
+  async load(): Promise<void> {
     try {
       const Response: AxiosResponse | undefined = await this.proxy.load();
       this.clear();
@@ -39,7 +39,7 @@ export default class Store extends Array {
     }
   }
 
-  add(data: any) {
+  add(data: any): void {
     if (data) {
       const Model: any = this.model;
       data = data.map((item: Model) => {
@@ -49,15 +49,15 @@ export default class Store extends Array {
     }
   }
 
-  first() {
+  first(): Model {
     return this[0];
   }
 
-  last() {
+  last(): Model {
     return this[this.length - 1];
   }
 
-  clear() {
+  clear(): void {
     while (this.length) {
       this.pop();
     }

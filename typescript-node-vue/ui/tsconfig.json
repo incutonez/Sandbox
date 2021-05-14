@@ -12,6 +12,8 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
+    // https://github.com/TypeStrong/ts-loader/issues/1138
+    "importsNotUsedAsValues": "preserve",
     "types": [
       "webpack-env"
     ],

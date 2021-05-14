@@ -1,5 +1,5 @@
 <template>
-  <tr class="mdc-data-table__row">
+  <tr :class="clsFm">
     <Cell v-for="(column, index) in columns"
           :key="index"
           :column="column"
@@ -18,10 +18,25 @@ export default defineComponent({
   },
   props: {
     record: {
-      type: Object
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     columns: {
-      type: Array
+      type: Array,
+      default: () => {
+        return [];
+      }
+    },
+    cls: {
+      type: String,
+      default: ''
+    }
+  },
+  computed: {
+    clsFm() {
+      return this.cls;
     }
   }
 });

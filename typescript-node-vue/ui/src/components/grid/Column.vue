@@ -1,6 +1,5 @@
 <template>
   <th :class="clsFm"
-      role="columnheader"
       scope="col">
     {{ text }}
   </th>
@@ -9,7 +8,6 @@
 <script lang="ts">
 import {defineComponent} from 'vue';
 import ColumnTypes from '@/statics/ColumnTypes';
-import {MDClasses} from '@/statics/MaterialDesign';
 
 export default defineComponent({
   name: 'Column',
@@ -40,12 +38,10 @@ export default defineComponent({
   computed: {
     clsFm: function(): string {
       let cls = this.cls;
-      cls.push(MDClasses.TABLE_COLUMN);
       switch (this.type) {
         case ColumnTypes.String:
           break;
         case ColumnTypes.Number:
-          cls.push(MDClasses.TABLE_COLUMN_NUMERIC);
           break;
       }
       return cls.join(' ');
