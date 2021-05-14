@@ -10,6 +10,7 @@
                   :cls="column.cls"
                   :text="column.text"
                   :field="column.field" />
+          <th></th>
         </tr>
       </thead>
       <tbody :style="bodyStyles">
@@ -103,8 +104,8 @@ export default defineComponent({
     table-layout: fixed;
   }
 
-  thead {
-    width: calc(100% - 1.1em);
+  thead th:last-child {
+    width: 17px;
   }
 }
 </style>
