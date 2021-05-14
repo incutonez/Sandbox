@@ -1,24 +1,30 @@
 <template>
-  <td class="mdc-data-table__cell">{{ value }}</td>
+  <td :class="clsFm">{{ value }}</td>
 </template>
 
 <script lang="ts">
 import {defineComponent} from 'vue';
+import {MDClasses} from '@/statics/MaterialDesign';
+import ColumnTypes from '@/statics/ColumnTypes';
 
 export default defineComponent({
   name: 'Cell',
   props: {
-    colIdx: {
-      type: Number,
-      default: 0
+    /**
+     * @property
+     * This gets applied to the th tag in the class property
+     */
+    cls: {
+      type: Array,
+      default: () => {
+        return [];
+      }
     },
-    rowIdx: {
-      type: Number,
-      default: 0
-    },
-    field: {
-      type: String,
-      default: ''
+    column: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     record: {
       type: Object,
@@ -29,7 +35,19 @@ export default defineComponent({
   },
   computed: {
     value(): any {
-      return this.record[this.field];
+      return this.record[this.column.field];
+    },
+    clsFm(): any {
+      const Cls = this.cls;
+      Cls.push(MDClasses.TABLE_CELL);
+      switch (this.column.type) {
+        case ColumnTypes.String:
+          break;
+        case ColumnTypes.Number:
+          Cls.push(MDClasses.TABLE_COLUMN_NUMERIC);
+          break;
+      }
+      return Cls.join(' ');
     }
   }
 });
