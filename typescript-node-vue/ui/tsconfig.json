@@ -12,6 +12,7 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "outDir": "./dist",
     // https://github.com/TypeStrong/ts-loader/issues/1138
     "importsNotUsedAsValues": "preserve",
     "types": [
