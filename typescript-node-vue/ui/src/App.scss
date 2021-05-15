@@ -1,4 +1,11 @@
+// Had to set path https://github.com/vuejs-templates/webpack/issues/1313
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+
 @import "~bootstrap/scss/bootstrap";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/brands";
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

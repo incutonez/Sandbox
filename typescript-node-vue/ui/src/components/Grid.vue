@@ -3,21 +3,18 @@
        :style="gridStyles">
     <table :class="`${TableCls.ROOT} ${TableCls.STRIPED} ${TableCls.HOVER} ${TableCls.DARK} ${TableCls.BORDERED} ${TableCls.SMALL}`">
       <thead>
-        <tr>
-          <Column v-for="(column, index) in columns"
+        <tr v-for="(columnCfg, parentIdx) in columnsCfg"
+            :key="parentIdx">
+          <Column v-for="(column, index) in columnCfg"
                   :key="index"
-                  :type="column.type"
-                  :cls="column.cls"
-                  :text="column.text"
-                  :field="column.field" />
-          <th></th>
+                  :config="column" />
         </tr>
       </thead>
       <tbody :style="bodyStyles">
         <Row v-for="(record, index) in store"
              :key="index"
              :record="record"
-             :columns="columns"
+             :columns="rowCfg"
              @click="onClickRow" />
       </tbody>
     </table>
@@ -33,6 +30,7 @@ import ColumnTypes from '@/statics/ColumnTypes';
 import {TableCls} from '@/statics/TableCls';
 import ITableCls from '@/interfaces/ITableCls';
 import IEnum from '@/interfaces/IEnum';
+import IColumn from '@/interfaces/IColumn';
 
 export default defineComponent({
   name: 'Grid',
@@ -42,7 +40,7 @@ export default defineComponent({
   },
   props: {
     columns: {
-      type: Array,
+      type: Array as () => Array<IColumn>,
       default: () => {
         return [];
       }
@@ -75,9 +73,62 @@ export default defineComponent({
     },
     bodyStyles(): string {
       return `max-height: ${this.height}; overflow: auto;`;
+    },
+    rowCfg(): any {
+      return this.getRowConfig(this.columns);
+    },
+    columnsCfg(): Array<Array<IColumn>> {
+      const max = this.peekColumns(this.columns, 0);
+      return this.getColumnsCfg([], this.columns, 0, max);
     }
   },
   methods: {
+    peekColumns(columns: IColumn[], currentLevel: number): number {
+      let max = currentLevel;
+      if (columns) {
+        columns.forEach((column) => {
+          let response = 0;
+          if (column.columns) {
+            response = this.peekColumns(column.columns, currentLevel + 1);
+          }
+          if (response > max) {
+            max = response;
+          }
+        });
+      }
+      return max;
+    },
+    getRowConfig(columns: IColumn[]) {
+      let Config: IColumn[] = [];
+      columns.forEach((column) => {
+        if (column.columns) {
+          Config = [...Config, ...this.getRowConfig(column.columns)];
+        }
+        else {
+          Config.push(column);
+        }
+      });
+      return Config;
+    },
+    getColumnsCfg(output: IColumn[][], columns: IColumn[], level: number, depth: number) {
+      if (columns) {
+        if (!output[level]) {
+          output[level] = [];
+        }
+        columns.forEach((column) => {
+          if (column.columns) {
+            this.getColumnsCfg(output, column.columns, level + 1, depth);
+            column.colSpan = column.columns.length;
+          }
+          else if (level !== depth) {
+            column.rowSpan = depth - level + 1;
+          }
+          // TODO: Maybe clone it here and delete the columns property?
+          output[level].push(column);
+        });
+      }
+      return output;
+    },
     onClickRow(event: Event) {
       const Target: HTMLTableCellElement = event.target as HTMLTableCellElement;
       // TODO: Would we ever have to worry about event.target not being the td?
@@ -94,18 +145,25 @@ export default defineComponent({
 <style scoped
        lang="scss">
 .jef-grid {
-  tbody {
-    display: block;
+  table > thead > tr > th {
+    vertical-align: middle;
   }
 
-  thead, tbody tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-  }
-
-  thead th:last-child {
-    width: 17px;
-  }
+  //tbody {
+  //  display: block;
+  //}
+  //
+  //thead, tbody tr {
+  //  display: table;
+  //  width: 100%;
+  //  table-layout: fixed;
+  //}
+  //
+  //thead th:last-child {
+  //  width: 17px;
+  //}
+  //* ::v-deep .expandable {
+  //  display: none;
+  //}
 }
 </style>

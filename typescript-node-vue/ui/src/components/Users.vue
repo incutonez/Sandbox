@@ -15,19 +15,47 @@ export default defineComponent({
     Grid
   },
 
-  data() {
+  // TODO: Figure out how to use IData here... that would require the interface to have all props for columns though
+  data(): any {
     return {
       user: new User(),
       usersStore: new Store({
         model: User
       }),
       columns: [{
+        type: ColumnTypes.Expander
+      }, {
         text: 'Id',
         field: 'Id',
         type: ColumnTypes.Number
       }, {
         text: 'Username',
         field: 'Username'
+      }, {
+        text: 'Age',
+        field: 'Age',
+        type: ColumnTypes.Number
+      }, {
+        text: 'Meta',
+        columns: [{
+          text: 'Active',
+          field: 'Meta.IsActive',
+          type: ColumnTypes.Boolean
+        }, {
+          text: 'Create Date',
+          field: 'Meta.CreateDate',
+          type: ColumnTypes.Date
+        }]
+      }, {
+        text: 'Posts',
+        columns: [{
+          text: 'Id',
+          field: 'Posts.Id',
+          type: ColumnTypes.Number
+        }, {
+          text: 'Content',
+          field: 'Posts.Content'
+        }]
       }]
     };
   },

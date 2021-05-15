@@ -23,6 +23,7 @@ export default defineComponent({
         return {};
       }
     },
+    // TODO: This should be looping over the actual fields, not columns... need to flatten this
     columns: {
       type: Array,
       default: () => {
@@ -42,6 +43,9 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-
+<style scoped
+       lang="scss">
+.expand-row::v-deep(.expandable) {
+  display: block;
+}
 </style>
