@@ -1,14 +1,17 @@
 export default {
-  emptyFn: () => {
+  emptyFn() {
     return;
   },
-  isObject: (value: any): boolean => {
+  isType(type: any, value: any): boolean {
+    return value instanceof type;
+  },
+  isObject(value: any): boolean {
     return toString.call(value) === '[object Object]';
   },
-  isDate: (value: any): boolean => {
+  isDate(value: any): boolean {
     return value instanceof Date;
   },
-  isIconTag: (event: Event): boolean => {
+  isIconTag(event: Event): boolean {
     const Target: HTMLElement = event.target as HTMLElement;
     return Target && Target.tagName === 'I';
   }

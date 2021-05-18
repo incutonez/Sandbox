@@ -33,6 +33,7 @@ import {TableCls} from '@/statics/TableCls';
 import ITableCls from '@/interfaces/ITableCls';
 import IEnum from '@/interfaces/IEnum';
 import IColumn from '@/interfaces/IColumn';
+import Model from '@/classes/Model';
 
 export default defineComponent({
   name: 'Grid',
@@ -50,7 +51,7 @@ export default defineComponent({
     store: {
       type: Store,
       default: () => {
-        return new Store();
+        return new Store<Model>(Model);
       }
     },
     height: {
@@ -105,6 +106,9 @@ export default defineComponent({
     onSortStore() {
       this.store.sorters.forEach((sorter) => {
         const column = this.$refs[`column-${sorter.field}`] as typeof Column;
+        // TODO: Fix??  The problem is that when you add an initial sorter when creating the store,
+        // it's not the same instance that a column would have when it gets sorted
+        column.initialConfig.sorter = sorter;
         column.isSorted = true;
       });
     },

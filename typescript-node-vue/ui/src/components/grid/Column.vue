@@ -15,9 +15,9 @@ import {defineComponent} from 'vue';
 import ColumnTypes from '@/statics/ColumnTypes';
 import IColumn from '@/interfaces/IColumn';
 import _ from 'lodash';
-import ISorter from '@/interfaces/ISorter';
 import Icons from '@/statics/Icons';
 import Icon from '@/components/Icon.vue';
+import Sorter from '@/classes/Sorter';
 
 const DefaultConfig: IColumn = {
   type: ColumnTypes.String,
@@ -101,7 +101,7 @@ export default defineComponent({
           sorter.direction = sorter.direction === 'ASC' ? 'DESC' : 'ASC';
         }
         else {
-          this.initialConfig.sorter = new ISorter({
+          this.initialConfig.sorter = new Sorter({
             field: this.initialConfig.field,
             direction: 'ASC'
           });

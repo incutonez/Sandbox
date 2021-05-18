@@ -12,8 +12,6 @@ import Store from '@/classes/Store';
 import {defineComponent} from 'vue';
 import Grid from './Grid.vue';
 import ColumnTypes from '@/statics/ColumnTypes';
-import Collection from '@/classes/Collection';
-import Sorter from '@/interfaces/ISorter';
 
 export default defineComponent({
   components: {
@@ -24,8 +22,11 @@ export default defineComponent({
   data() {
     return {
       user: new User(),
-      usersStore: new Store({
-        model: User
+      usersStore: new Store<User>(User, {
+        sorters: [{
+          field: 'Age',
+          direction: 'DESC'
+        }]
       }),
       columns: [{
         type: ColumnTypes.Expander

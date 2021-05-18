@@ -1,4 +1,4 @@
-import ISorter from '@/interfaces/ISorter';
+import Sorter from '@/classes/Sorter';
 
 export default interface IColumn {
   cls: Array<string>;
@@ -11,5 +11,5 @@ export default interface IColumn {
   isParent: boolean;
   isAssociation: boolean;
   isSortable: boolean;
-  sorter?: ISorter;
+  sorter?: Sorter;
 }

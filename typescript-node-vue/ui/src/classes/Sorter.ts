@@ -1,8 +1,11 @@
-interface Sorter {
+interface ISorter {
   id: string;
   field: string;
   direction: string;
-  func?: () => void;
+  func: () => void;
+}
+
+interface Sorter extends ISorter {
 }
 
 class Sorter {
@@ -12,9 +15,6 @@ class Sorter {
 
   constructor(config: any = {}) {
     Object.assign(this, config);
-    if (!this.id) {
-      this.id = `sorter-${this.field}`;
-    }
   }
 }
 
