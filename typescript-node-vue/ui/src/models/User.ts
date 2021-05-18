@@ -1,37 +1,29 @@
 import Model from '../classes/Model';
 import _ from 'lodash';
-
-interface IMeta {
-  IsActive: boolean,
-  CreateDate: Date
-}
-
-interface IPost {
-  Id: number,
-  Content: string
-}
+import UserMeta from '@/models/user/Meta';
+import UserPost from '@/models/user/Post';
+import Store from '@/classes/Store';
 
 export default class User extends Model {
   Id: number;
   Username: string;
   Age: number;
-  Meta: IMeta;
-  Posts: Array<IPost>;
+  Meta: UserMeta;
+  Posts = new Store({
+    model: UserPost
+  });
 
-  static configs = {
-    proxy: {
-      url: 'api/users',
-      type: 'ajax'
-    }
+  static proxy = {
+    url: 'api/users',
+    type: 'ajax'
   };
 
-  constructor(config?: any) {
-    config = _.merge({}, User.configs, config);
+  constructor(config: any = {}) {
     super(config);
     this.Id = config.Id;
     this.Username = config.Username;
     this.Age = config.Age;
-    this.Meta = config.Meta;
-    this.Posts = config.Posts;
+    this.Meta = new UserMeta(config.Meta);
+    this.Posts.add(config.Posts);
   }
 }

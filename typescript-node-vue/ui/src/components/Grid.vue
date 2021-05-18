@@ -7,7 +7,9 @@
             :key="parentIdx">
           <Column v-for="(column, index) in columnCfg"
                   :key="index"
-                  :config="column" />
+                  :config="column"
+                  :ref="column.isParent ? `column-parent-${index}` : `column-${column.field || index}`"
+                  @sortColumn="onSortColumn" />
         </tr>
       </thead>
       <tbody :style="bodyStyles">
@@ -58,6 +60,10 @@ export default defineComponent({
     width: {
       type: String,
       default: '200px'
+    },
+    multiSort: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -74,7 +80,7 @@ export default defineComponent({
     bodyStyles(): string {
       return `max-height: ${this.height}; overflow: auto;`;
     },
-    rowCfg(): any {
+    rowCfg(): IColumn[] {
       return this.getRowConfig(this.columns);
     },
     columnsCfg(): Array<Array<IColumn>> {
@@ -82,7 +88,27 @@ export default defineComponent({
       return this.getColumnsCfg([], this.columns, 0, max);
     }
   },
+  watch: {
+    store: {
+      immediate: true,
+      handler(newStore, oldStore) {
+        if (oldStore) {
+          oldStore.off('sort', this.onSortStore);
+        }
+        if (newStore) {
+          newStore.on('sort', this.onSortStore);
+        }
+      }
+    }
+  },
   methods: {
+    onSortStore() {
+      this.store.sorters.forEach((sorter) => {
+        const column = this.$refs[`column-${sorter.field}`] as typeof Column;
+        column.isSorted = true;
+      });
+    },
+    // TODO: Try and combine with building columns?
     peekColumns(columns: IColumn[], currentLevel: number): number {
       let max = currentLevel;
       if (columns) {
@@ -119,6 +145,8 @@ export default defineComponent({
           if (column.columns) {
             this.getColumnsCfg(output, column.columns, level + 1, depth);
             column.colSpan = column.columns.length;
+            column.isParent = true;
+            column.isSortable = false;
           }
           else if (level !== depth) {
             column.rowSpan = depth - level + 1;
@@ -129,7 +157,27 @@ export default defineComponent({
       }
       return output;
     },
+    onSortColumn(column: typeof Column) {
+      if (column.isSorted) {
+        this.store.doSort(this.store.sorters);
+      }
+      else {
+        // TODO: Issue on sort... if first row is expanded, it sticks to whatever's sorted at top
+        this.store.addSorter(column.initialConfig.sorter, !this.multiSort);
+      }
+    },
     onClickRow(event: Event) {
+      /**
+       * TODO:
+       * - Add sorting
+       * - Add filtering
+       * - Add dialog class that can take an items config
+       * - Add editing records
+       * - Remove expander if the row doesn't have expandable data
+       * - Add header/title class
+       * - Potentially figure out how to get header to stick... position: sticky doesn't really work
+       * - How to add a template within a template... e.g. <Grid><Column></Column></Grid>
+       */
       const Target: HTMLTableCellElement = event.target as HTMLTableCellElement;
       // TODO: Would we ever have to worry about event.target not being the td?
       if (this.selectedRow) {
@@ -148,22 +196,5 @@ export default defineComponent({
   table > thead > tr > th {
     vertical-align: middle;
   }
-
-  //tbody {
-  //  display: block;
-  //}
-  //
-  //thead, tbody tr {
-  //  display: table;
-  //  width: 100%;
-  //  table-layout: fixed;
-  //}
-  //
-  //thead th:last-child {
-  //  width: 17px;
-  //}
-  //* ::v-deep .expandable {
-  //  display: none;
-  //}
 }
 </style>

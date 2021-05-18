@@ -1,6 +1,9 @@
 <template>
   <Grid :columns="columns"
-        :store="usersStore" />
+        :store="usersStore"
+        :multi-sort="true">
+    <div>hi</div>
+  </Grid>
 </template>
 
 <script lang="ts">
@@ -9,6 +12,8 @@ import Store from '@/classes/Store';
 import {defineComponent} from 'vue';
 import Grid from './Grid.vue';
 import ColumnTypes from '@/statics/ColumnTypes';
+import Collection from '@/classes/Collection';
+import Sorter from '@/interfaces/ISorter';
 
 export default defineComponent({
   components: {
@@ -16,7 +21,7 @@ export default defineComponent({
   },
 
   // TODO: Figure out how to use IData here... that would require the interface to have all props for columns though
-  data(): any {
+  data() {
     return {
       user: new User(),
       usersStore: new Store({
@@ -51,10 +56,12 @@ export default defineComponent({
         columns: [{
           text: 'Id',
           field: 'Posts.Id',
-          type: ColumnTypes.Number
+          type: ColumnTypes.Number,
+          isAssociation: true
         }, {
           text: 'Content',
-          field: 'Posts.Content'
+          field: 'Posts.Content',
+          isAssociation: true
         }]
       }]
     };
