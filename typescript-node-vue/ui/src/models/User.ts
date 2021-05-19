@@ -1,14 +1,15 @@
 import Model from '../classes/Model';
 import UserMeta from '@/models/user/Meta';
 import UserPost from '@/models/user/Post';
+import IUser from '@/interfaces/IUser';
 import Store from '@/classes/Store';
 
-export default class User extends Model {
-  Id: number;
-  Username: string;
-  Age: number;
-  Meta: UserMeta;
-  Posts = new Store<UserPost>(UserPost);
+interface User extends IUser {
+
+}
+
+class User extends Model {
+  Posts = new Store(UserPost);
 
   static proxy = {
     url: 'api/users',
@@ -24,3 +25,5 @@ export default class User extends Model {
     this.Posts.add(config.Posts);
   }
 }
+
+export default User;

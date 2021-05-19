@@ -22,7 +22,7 @@ export default defineComponent({
   data() {
     return {
       user: new User(),
-      usersStore: new Store<User>(User, {
+      usersStore: new Store(User, {
         sorters: [{
           field: 'Age',
           direction: 'DESC'

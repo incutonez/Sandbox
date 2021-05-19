@@ -29,6 +29,16 @@ module.exports = {
     ],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    // See also: https://github.com/typescript-eslint/typescript-eslint/issues/2063#issuecomment-675156492
+    '@typescript-eslint/ban-types': [
+      'error',
+      {
+        'extendDefaults': true,
+        'types': {
+          '{}': false
+        }
+      }
+    ],
     '@typescript-eslint/no-empty-interface': [
       'error',
       {

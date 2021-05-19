@@ -10,7 +10,7 @@ class UserPost extends Model {
   Content = '';
 
   constructor(config: any = {}) {
-    super();
+    super(config);
     Object.assign(this, config);
     // console.log('here', config);
   }

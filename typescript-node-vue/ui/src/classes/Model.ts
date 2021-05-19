@@ -1,11 +1,6 @@
 import Proxy from '@/classes/Proxy';
 import IModel from '@/interfaces/IModel';
-
-const DefaultConfig = {
-  proxy: {
-    type: 'memory'
-  }
-};
+import _ from 'lodash';
 
 interface Model extends IModel {
 }
@@ -16,8 +11,8 @@ class Model {
   };
 
   // TODO: How to codify this instead of using any?  It's like I'm using the fields I set... Interface?
-  constructor(config: any = DefaultConfig) {
-    this.proxy = new Proxy(config.proxy);
+  constructor(config: any = {}) {
+    this.proxy = new Proxy(_.merge({}, Reflect.get(this.constructor, 'proxy'), config.proxy));
   }
 
   // TODO: Had to add the default config here, otherwise, we'd get an error

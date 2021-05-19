@@ -1,7 +1,11 @@
 <template>
   <td :class="clsFm"
-      v-html="value"
-      @click="onClickCell" />
+      @click="onClickCell">
+    <Icon v-if="isExpander"
+          :icon-name="iconName"></Icon>
+    <div v-if="value !== ''"
+         v-html="value"></div>
+  </td>
 </template>
 
 <script lang="ts">
@@ -9,9 +13,13 @@ import {defineComponent} from 'vue';
 import ColumnTypes from '@/statics/ColumnTypes';
 import utilities from '@/utilities';
 import Icons from '@/statics/Icons';
+import Icon from '@/components/Icon.vue';
 
 export default defineComponent({
   name: 'Cell',
+  components: {
+    Icon
+  },
   props: {
     /**
      * @property
@@ -43,10 +51,14 @@ export default defineComponent({
     };
   },
   computed: {
+    isExpander(): boolean {
+      return this.column.type === ColumnTypes.Expander;
+    },
+    // TODO: Add formatter for dates and such?
     value(): any {
       const Column = this.column;
-      if (Column.type === ColumnTypes.Expander) {
-        return this.isExpanded ? Icons.MINUS : Icons.PLUS;
+      if (this.isExpander) {
+        return '';
       }
       const Record = this.record;
       const Field = Column.field.split('.');
@@ -74,6 +86,12 @@ export default defineComponent({
         return value;
       }
       return Record[Field];
+    },
+    iconName(): string {
+      if (this.column.type === ColumnTypes.Expander) {
+        return this.isExpanded ? Icons.MINUS : Icons.PLUS;
+      }
+      return '';
     },
     clsFm(): any {
       const Cls = this.cls;
