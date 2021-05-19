@@ -1,8 +1,7 @@
-import IBaseCollection from '@/interfaces/IBaseCollection';
-import BaseCollection from '@/classes/BaseCollection';
 import Sorter from '@/classes/Sorter';
+import BaseCollection from '@/classes/BaseCollection';
 
-export default interface ICollection<T> extends IBaseCollection<T> {
+export interface ICollection<T> extends BaseCollection<T> {
   sorters: BaseCollection<Sorter>;
 
   doSort(sorters: BaseCollection<Sorter>): void;

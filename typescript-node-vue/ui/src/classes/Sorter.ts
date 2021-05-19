@@ -1,9 +1,4 @@
-interface ISorter {
-  id: string;
-  field: string;
-  direction: string;
-  func: () => void;
-}
+import ISorter from '@/interfaces/ISorter';
 
 interface Sorter extends ISorter {
 }

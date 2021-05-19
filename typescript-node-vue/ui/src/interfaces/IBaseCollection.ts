@@ -8,10 +8,4 @@ export default interface IBaseCollection<T> {
   first(): T;
 
   last(): T;
-
-  emit(event: string): void;
-
-  on(event: string, handler: () => void): void;
-
-  off(event: string, handler: () => void): void;
 }

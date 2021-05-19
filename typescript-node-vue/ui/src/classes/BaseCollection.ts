@@ -1,12 +1,16 @@
 import utilities from '@/utilities';
+import Eventable from '@/mixins/Eventable';
 import IBaseCollection from '@/interfaces/IBaseCollection';
 
+/**
+ * For some reason, I can't get the module approach to work, so I hackily extend like this
+ * See also: https://stackoverflow.com/questions/52968047
+ */
 interface BaseCollection<T> extends IBaseCollection<T> {
+
 }
 
-class BaseCollection<T> extends Array<T> {
-  events = new EventTarget();
-
+class BaseCollection<T> extends Eventable(Array) {
   constructor(type: new (data: T) => T, args?: any) {
     super();
     this.type = type;
@@ -39,18 +43,6 @@ class BaseCollection<T> extends Array<T> {
     while (this.length) {
       this.pop();
     }
-  }
-
-  emit(event: string): void {
-    this.events.dispatchEvent(new Event(event));
-  }
-
-  on(event: string, handler: () => void): void {
-    this.events.addEventListener(event, handler);
-  }
-
-  off(event: string, handler: () => void): void {
-    this.events.removeEventListener(event, handler);
   }
 }
 

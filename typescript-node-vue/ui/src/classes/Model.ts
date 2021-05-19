@@ -1,4 +1,5 @@
 import Proxy from '@/classes/Proxy';
+import IModel from '@/interfaces/IModel';
 
 const DefaultConfig = {
   proxy: {
@@ -6,8 +7,7 @@ const DefaultConfig = {
   }
 };
 
-interface Model {
-  proxy: Proxy;
+interface Model extends IModel {
 }
 
 class Model {

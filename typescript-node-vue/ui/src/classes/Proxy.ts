@@ -1,26 +1,12 @@
 import _ from 'lodash';
-import Ajax, {Method, AxiosResponse} from 'axios';
+import Ajax, {AxiosResponse} from 'axios';
 import Server from './exceptions/Server';
+import IProxy from '@/interfaces/IProxy';
 
-interface IProxyMethods {
-  // TODO: Create enum for this
-  get: Method;
-  post: Method;
-  put: Method;
-  delete: Method;
+interface Proxy extends IProxy {
 }
 
-export interface IProxy {
-  url: string;
-  type: string;
-  methods: IProxyMethods;
-}
-
-export default class Proxy {
-  url: string;
-  type: string;
-  methods: IProxyMethods;
-
+class Proxy {
   static configs: IProxy = {
     url: '',
     type: 'memory',
@@ -68,3 +54,5 @@ export default class Proxy {
     }, {});
   }
 }
+
+export default Proxy;

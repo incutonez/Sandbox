@@ -1,8 +1,9 @@
 import BaseCollection from '@/classes/BaseCollection';
-import ICollection from '@/interfaces/ICollection';
 import Sorter from '@/classes/Sorter';
+import {ICollection} from '@/interfaces/ICollection';
 
 interface Collection<T> extends ICollection<T> {
+
 }
 
 class Collection<T> extends BaseCollection<T> {
@@ -14,7 +15,6 @@ class Collection<T> extends BaseCollection<T> {
   }
 
   doSort(sorters: BaseCollection<Sorter>): void {
-    console.log(this, sorters);
     this.sort((lhs: any, rhs: any) => {
       let result = 0;
       for (let i = 0; i < sorters.length; i++) {
@@ -30,7 +30,6 @@ class Collection<T> extends BaseCollection<T> {
             lhsValue = lhsValue[field];
             rhsValue = rhsValue[field];
           }
-          console.log(direction, lhsValue, rhsValue);
           if (lhsValue === rhsValue) {
             continue;
           }

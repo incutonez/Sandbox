@@ -1,9 +1,8 @@
 import Proxy from '@/classes/Proxy';
 
-// TODO: How to do mixin?
 interface IStore<T> {
   proxy: Proxy;
-  data: any[];
+  data: T[];
 
   load(): Promise<void>;
 }
