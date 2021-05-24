@@ -1,6 +1,6 @@
 import utilities from '@/utilities';
-import Eventable from '@/mixins/Eventable';
 import IBaseCollection from '@/interfaces/IBaseCollection';
+import Base from '@/classes/Base';
 
 /**
  * For some reason, I can't get the module approach to work, so I hackily extend like this
@@ -10,7 +10,7 @@ interface BaseCollection<T> extends IBaseCollection<T> {
 
 }
 
-class BaseCollection<T> extends Eventable(Array) {
+class BaseCollection<T> extends Base(Array, ['Eventable']) {
   constructor(type: new (data: T) => T, args?: any) {
     super();
     this.type = type;
