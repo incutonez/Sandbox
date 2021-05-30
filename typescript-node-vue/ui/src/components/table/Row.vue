@@ -1,20 +1,20 @@
 <template>
   <tr :class="clsFm">
-    <Cell v-for="(column, index) in columns"
-          :key="index"
-          :column="column"
-          :record="record" />
+    <JefCell v-for="(column, index) in columns"
+             :key="index"
+             :column="column"
+             :record="record" />
   </tr>
 </template>
 
 <script>
-import Cell from './Cell';
 import {defineComponent} from 'vue';
+import JefCell from '@/components/table/Cell';
 
 export default defineComponent({
-  name: 'Row',
+  name: 'JefRow',
   components: {
-    Cell
+    JefCell
   },
   props: {
     record: {

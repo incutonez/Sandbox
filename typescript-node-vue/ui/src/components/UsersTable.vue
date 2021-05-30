@@ -1,33 +1,27 @@
 <template>
-  <Grid :columns="columns"
-        :store="usersStore"
-        :multi-sort="true">
-    <div>hi</div>
-  </Grid>
+  <JefTable :columns="columns"
+            :store="usersStore"
+            :multi-sort="true">
+  </JefTable>
 </template>
 
 <script lang="ts">
 import User from '@/models/User';
 import Store from '@/classes/Store';
 import {defineComponent} from 'vue';
-import Grid from './Grid.vue';
 import ColumnTypes from '@/statics/ColumnTypes';
+import JefTable from '@/components/Table.vue';
 
 export default defineComponent({
   components: {
-    Grid
+    JefTable
   },
 
   // TODO: Figure out how to use IData here... that would require the interface to have all props for columns though
   data() {
     return {
       user: new User(),
-      usersStore: new Store(User, {
-        sorters: [{
-          field: 'Age',
-          direction: 'DESC'
-        }]
-      }),
+      usersStore: new Store(User),
       columns: [{
         type: ColumnTypes.Expander
       }, {
@@ -50,7 +44,8 @@ export default defineComponent({
         }, {
           text: 'Create Date',
           field: 'Meta.CreateDate',
-          type: ColumnTypes.Date
+          type: ColumnTypes.Date,
+          formatter: 'mmddyyyy'
         }]
       }, {
         text: 'Posts',

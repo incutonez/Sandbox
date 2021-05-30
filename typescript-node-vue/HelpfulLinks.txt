@@ -2,3 +2,6 @@
 - https://hacks.mozilla.org/2015/08/es6-in-depth-subclassing/ (A potential way of mixing in classes)
 - https://stackoverflow.com/questions/52968047 (merging interface/class)
 - https://www.reddit.com/r/typescript/comments/njs65t/how_to_properly_implement_mixins/
+- Mixins - https://www.typescriptlang.org/docs/handbook/mixins.html#alternative-pattern
+- Grids - https://codepen.io/ShingoNakayama/pen/LMLeRZ
+- Grid Layout - https://jsfiddle.net/incutonez/htrp7ogc/23/

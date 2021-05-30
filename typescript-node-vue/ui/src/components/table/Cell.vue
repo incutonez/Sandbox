@@ -3,8 +3,14 @@
       @click="onClickCell">
     <Icon v-if="isExpander"
           :icon-name="iconName"></Icon>
-    <div v-if="value !== ''"
-         v-html="value"></div>
+    <div v-if="values !== ''"
+         class="grid-row-cell">
+      <div v-for="(value, index) in values"
+           :key="index"
+           :class="index > 0 ? 'expandable' : ''">
+        {{ value }}
+      </div>
+    </div>
   </td>
 </template>
 
@@ -14,9 +20,15 @@ import ColumnTypes from '@/statics/ColumnTypes';
 import utilities from '@/utilities';
 import Icons from '@/statics/Icons';
 import Icon from '@/components/Icon.vue';
+import _ from 'lodash';
+import Formatters from '@/statics/Formatters';
+
+interface PlainObject {
+  [key: string]: any;
+}
 
 export default defineComponent({
-  name: 'Cell',
+  name: 'JefCell',
   components: {
     Icon
   },
@@ -55,37 +67,41 @@ export default defineComponent({
       return this.column.type === ColumnTypes.Expander;
     },
     // TODO: Add formatter for dates and such?
-    value(): any {
+    values(): any {
       const Column = this.column;
       if (this.isExpander) {
         return '';
       }
       const Record = this.record;
-      const Field = Column.field.split('.');
-      if (Array.isArray(Field)) {
-        let value = Record[Field[0]];
-        for (let i = 1; i < Field.length; i++) {
-          const SubField = Field[i];
-          if (Array.isArray(value)) {
-            const out: Array<any> = [];
-            value.forEach((item) => {
-              // Can only have an object or just a plain ole array
-              if (utilities.isObject(item)) {
-                out.push(item[SubField]);
-              }
-              else {
-                out.push(item);
-              }
-            });
-            value = '<div>' + out.join('</div><div class="expandable">') + '</div>';
-          }
-          else {
-            value = value[SubField];
-          }
-        }
-        return value;
+      let formatter = Column.formatter || _.identity;
+      if (_.isString(formatter)) {
+        formatter = (Formatters as PlainObject)[formatter];
       }
-      return Record[Field];
+      const Fields = Column.field.split('.');
+      let values = Record[Fields[0]];
+      for (let i = 1; i < Fields.length; i++) {
+        const Field = Fields[i];
+        if (Array.isArray(values)) {
+          const out: any[] = [];
+          values.forEach((item) => {
+            // Can only have an object or just a plain ole array
+            if (utilities.isObject(item)) {
+              out.push(item[Field]);
+            }
+            else {
+              out.push(item);
+            }
+          });
+          values = out;
+        }
+        else {
+          values = values[Field];
+        }
+      }
+      values = Array.isArray(values) ? values : [values];
+      return values.map((value: any) => {
+        return formatter(value);
+      });
     },
     iconName(): string {
       if (this.column.type === ColumnTypes.Expander) {

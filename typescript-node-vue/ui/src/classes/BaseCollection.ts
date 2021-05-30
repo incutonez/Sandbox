@@ -11,12 +11,12 @@ interface BaseCollection<T> extends IBaseCollection<T> {
 }
 
 class BaseCollection<T> extends Base(Array, ['Eventable']) {
-  constructor(type: new (data: T) => T, args?: any) {
+  constructor(type: new (data: T) => T) {
     super();
     this.type = type;
   }
 
-  add(args: T | T[]) {
+  add(args: T | T[]): void {
     if (!args) {
       return;
     }
@@ -39,7 +39,7 @@ class BaseCollection<T> extends Base(Array, ['Eventable']) {
     return this[this.length - 1];
   }
 
-  clear() {
+  clear(): void {
     while (this.length) {
       this.pop();
     }

@@ -28,11 +28,13 @@ const DefaultConfig: IColumn = {
   colSpan: 1,
   isAssociation: false,
   isParent: false,
-  isSortable: true
+  isSortable: true,
+  // TODO: I don't think this is necessary here... it only matters in the cell, but we define it on the column config
+  formatter: _.identity
 };
 
 export default defineComponent({
-  name: 'Column',
+  name: 'JefColumn',
   components: {
     Icon
   },

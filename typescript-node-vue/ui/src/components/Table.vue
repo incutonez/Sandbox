@@ -1,23 +1,23 @@
 <template>
-  <div class="jef-grid"
-       :style="gridStyles">
+  <div class="jef-table"
+       :style="cmpStyles">
     <table :class="`${TableCls.ROOT} ${TableCls.STRIPED} ${TableCls.HOVER} ${TableCls.DARK} ${TableCls.BORDERED} ${TableCls.SMALL}`">
       <thead>
         <tr v-for="(columnCfg, parentIdx) in columnsCfg"
             :key="parentIdx">
-          <Column v-for="(column, index) in columnCfg"
-                  :key="index"
-                  :config="column"
-                  :ref="column.isParent ? `column-parent-${index}` : `column-${column.field || index}`"
-                  @sortColumn="onSortColumn" />
+          <JefColumn v-for="(column, index) in columnCfg"
+                     :key="index"
+                     :config="column"
+                     :ref="column.isParent ? `column-parent-${index}` : `column-${column.field || index}`"
+                     @sortColumn="onSortColumn" />
         </tr>
       </thead>
       <tbody :style="bodyStyles">
-        <Row v-for="(record, index) in store"
-             :key="index"
-             :record="record"
-             :columns="rowCfg"
-             @click="onClickRow" />
+        <JefRow v-for="(record, index) in store"
+                :key="index"
+                :record="record"
+                :columns="rowCfg"
+                @click="onClickRow" />
       </tbody>
     </table>
   </div>
@@ -25,8 +25,6 @@
 
 <script lang="ts">
 import {defineComponent} from 'vue';
-import Column from '@/components/grid/Column.vue';
-import Row from '@/components/grid/Row.vue';
 import Store from '@/classes/Store';
 import ColumnTypes from '@/statics/ColumnTypes';
 import {TableCls} from '@/statics/TableCls';
@@ -34,12 +32,14 @@ import ITableCls from '@/interfaces/ITableCls';
 import IEnum from '@/interfaces/IEnum';
 import IColumn from '@/interfaces/IColumn';
 import Model from '@/classes/Model';
+import JefRow from '@/components/table/Row.vue';
+import JefColumn from '@/components/table/Column.vue';
 
 export default defineComponent({
-  name: 'Grid',
+  name: 'JefTable',
   components: {
-    Column,
-    Row
+    JefColumn,
+    JefRow
   },
   props: {
     columns: {
@@ -51,7 +51,7 @@ export default defineComponent({
     store: {
       type: Store,
       default: () => {
-        return new Store<Model>(Model);
+        return new Store(Model);
       }
     },
     height: {
@@ -75,7 +75,7 @@ export default defineComponent({
     }();
   },
   computed: {
-    gridStyles(): string {
+    cmpStyles(): string {
       return `width: ${this.width};`;
     },
     bodyStyles(): string {
@@ -105,7 +105,7 @@ export default defineComponent({
   methods: {
     onSortStore() {
       this.store.sorters.forEach((sorter) => {
-        const column = this.$refs[`column-${sorter.field}`] as typeof Column;
+        const column = this.$refs[`column-${sorter.field}`] as typeof JefColumn;
         // TODO: Fix??  The problem is that when you add an initial sorter when creating the store,
         // it's not the same instance that a column would have when it gets sorted
         column.initialConfig.sorter = sorter;
@@ -135,6 +135,7 @@ export default defineComponent({
           Config = [...Config, ...this.getRowConfig(column.columns)];
         }
         else {
+          // TODO: Potentially do the merging of default column properties here?  Or add formatter?
           Config.push(column);
         }
       });
@@ -161,7 +162,7 @@ export default defineComponent({
       }
       return output;
     },
-    onSortColumn(column: typeof Column) {
+    onSortColumn(column: typeof JefColumn) {
       if (column.isSorted) {
         this.store.doSort(this.store.sorters);
       }
@@ -196,7 +197,7 @@ export default defineComponent({
 
 <style scoped
        lang="scss">
-.jef-grid {
+.jef-table {
   table > thead > tr > th {
     vertical-align: middle;
   }

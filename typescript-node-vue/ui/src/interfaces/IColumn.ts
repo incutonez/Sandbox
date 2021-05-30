@@ -12,4 +12,5 @@ export default interface IColumn {
   isAssociation: boolean;
   isSortable: boolean;
   sorter?: Sorter;
+  formatter: string | ((value: any, record: any) => {});
 }
