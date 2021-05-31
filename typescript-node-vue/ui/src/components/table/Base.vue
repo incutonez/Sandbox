@@ -43,7 +43,7 @@ export default defineComponent({
   },
   props: {
     columns: {
-      type: Array as () => Array<IColumn>,
+      type: Array as () => IColumn[],
       default: () => {
         return [];
       }
@@ -84,7 +84,7 @@ export default defineComponent({
     rowCfg(): IColumn[] {
       return this.getRowConfig(this.columns);
     },
-    columnsCfg(): Array<Array<IColumn>> {
+    columnsCfg(): IColumn[][] {
       const max = this.peekColumns(this.columns, 0);
       return this.getColumnsCfg([], this.columns, 0, max);
     }

@@ -29,6 +29,7 @@ const DefaultConfig: IColumn = {
   isAssociation: false,
   isParent: false,
   isSortable: true,
+  isSorted: false,
   // TODO: I don't think this is necessary here... it only matters in the cell, but we define it on the column config
   formatter: _.identity
 };

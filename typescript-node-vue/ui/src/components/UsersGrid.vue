@@ -1,8 +1,8 @@
 <template>
-  <JefTable :columns="columns"
-            :store="usersStore"
-            :multi-sort="true">
-  </JefTable>
+  <JefGrid :columns="columns"
+           :store="usersStore"
+           :multi-sort="true">
+  </JefGrid>
 </template>
 
 <script lang="ts">
@@ -10,12 +10,12 @@ import User from '@/models/User';
 import Store from '@/classes/Store';
 import {defineComponent} from 'vue';
 import ColumnTypes from '@/statics/ColumnTypes';
-import JefTable from '@/components/table/Base.vue';
+import JefGrid from '@/components/grid/Base.vue';
 
 export default defineComponent({
-  name: 'UsersTable',
+  name: 'UsersGrid',
   components: {
-    JefTable
+    JefGrid
   },
 
   // TODO: Figure out how to use IData here... that would require the interface to have all props for columns though
@@ -66,9 +66,6 @@ export default defineComponent({
 
   async created() {
     await this.usersStore.load();
-    await this.user.load({
-      url: 'api/users/10'
-    });
   }
 });
 </script>

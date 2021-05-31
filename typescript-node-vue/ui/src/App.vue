@@ -1,15 +1,15 @@
 <template>
-  <UsersTable height="200px"
-              width="70%" />
+  <UsersGrid height="200px"
+             width="70%" />
 </template>
 
 <script lang="ts">
 import {Vue} from 'vue-class-component';
-import UsersTable from '@/components/UsersTable.vue';
+import UsersGrid from '@/components/UsersGrid.vue';
 
 export default {
   components: {
-    UsersTable
+    UsersGrid
   },
   extends: Vue
 };
