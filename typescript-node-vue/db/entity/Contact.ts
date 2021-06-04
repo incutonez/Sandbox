@@ -1,4 +1,5 @@
 import {Column, Entity, ManyToOne, PrimaryGeneratedColumn, JoinColumn, CreateDateColumn} from 'typeorm';
+import {Application} from './Application.js';
 import {Company} from './Company.js';
 
 @Entity({name: 'Contacts'})
@@ -8,12 +9,6 @@ export class Contact {
 
   @Column()
   Name!: string;
-
-  @ManyToOne(() => Company)
-  @JoinColumn({
-    name: 'CompanyId'
-  })
-  Company!: Company;
 
   @Column()
   IsRecruiter!: boolean;
@@ -33,4 +28,16 @@ export class Contact {
     select: false
   })
   CreateDate!: Date;
+
+  @ManyToOne('Company', 'Contacts')
+  @JoinColumn({
+    name: 'CompanyId'
+  })
+  Company!: Company;
+
+  @ManyToOne('Application', 'Contacts')
+  @JoinColumn({
+    name: 'ApplicationId'
+  })
+  Application!: Application;
 }

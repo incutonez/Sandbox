@@ -18,9 +18,9 @@ export class Company {
   })
   CreateDate!: Date;
 
-  @OneToMany(() => Contact, (contact) => contact.Company)
+  @OneToMany('Contact', 'Company')
   Contacts!: Contact[];
 
-  @OneToMany(() => Application, (application) => application.Company)
+  @OneToMany('Application', 'Company')
   Applications!: Application[];
 }

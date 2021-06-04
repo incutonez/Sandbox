@@ -9,7 +9,7 @@ export default (router: Router) => {
     try {
       const connection = getConnection();
       const contacts = await connection.manager.find(Contact, {
-        relations: ['Company']
+        relations: ['Company', 'Application']
       });
       return res.send(contacts);
     }

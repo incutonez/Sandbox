@@ -10,6 +10,7 @@ export default (router: Router) => {
       const connection = getRepository(Company);
       const results = await connection.createQueryBuilder('Companies')
       .leftJoinAndSelect('Companies.Contacts', 'Contacts')
+      .leftJoinAndSelect('Companies.Applications', 'Applications')
       /**
        * By default, we never include the CreateDate when selecting the Company.
        * However, we can turn this on by doing a custom createQueryBuilder and using the addSelect method

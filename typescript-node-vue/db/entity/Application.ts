@@ -1,5 +1,6 @@
-import {Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import {Company} from './Company.js';
+import {Contact} from './Contact.js';
 
 @Entity({name: 'Applications'})
 export class Application {
@@ -20,9 +21,12 @@ export class Application {
   })
   CreateDate!: Date;
 
-  @ManyToOne(() => Company)
+  @ManyToOne('Company', 'Applications')
   @JoinColumn({
     name: 'CompanyId'
   })
   Company!: Company;
+
+  @OneToMany('Contact', 'Application')
+  Contacts!: Contact[];
 }

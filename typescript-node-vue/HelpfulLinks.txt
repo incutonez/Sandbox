@@ -9,3 +9,4 @@
 -- addSelect - https://stackoverflow.com/a/55169910/1253609
 -- required fields using bang (!) - https://github.com/typeorm/typeorm/issues/2797
 -- loading entities in config - https://stackoverflow.com/a/67040103/1253609
+-- Circular Dep relations - https://github.com/typeorm/typeorm/issues/4190

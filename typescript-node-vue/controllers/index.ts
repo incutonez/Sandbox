@@ -3,11 +3,13 @@ import express, {Express} from 'express';
 import AppSettings from './AppSettings.js';
 import Contacts from './Contacts.js';
 import Companies from './Companies.js';
+import Applications from './Applications.js';
 
 export default function(app: Express) {
   const Router = express.Router();
   Companies(Router);
   Contacts(Router);
+  Applications(Router);
   AppSettings(Router);
   app.use(process.env.BASE_API_PATH, Router);
 }
