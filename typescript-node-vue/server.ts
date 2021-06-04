@@ -3,9 +3,11 @@ import dotenv from 'dotenv';
 import ip from 'ip';
 import http from 'http';
 import path from 'path';
-import controllers from './controllers/index.js';
 import {fileURLToPath} from 'url';
+import controllers from './controllers/index.js';
 import cors from 'cors';
+import 'reflect-metadata';
+import './db/DB.js';
 
 dotenv.config();
 const App = express();

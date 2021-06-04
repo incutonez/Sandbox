@@ -1,9 +1,9 @@
-/**
- * We need an interface of process.env, so we can use it as a typed class in our TS files
- * See also: https://stackoverflow.com/a/53981706/1253609
- */
 declare global {
   namespace NodeJS {
+    /**
+     * We need an interface of process.env, so we can use it as a typed class in our TS files
+     * See also: https://stackoverflow.com/a/53981706/1253609
+     */
     interface ProcessEnv {
       NODE_ENV: 'development' | 'production';
       PORT: string;

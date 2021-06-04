@@ -1,6 +1,7 @@
 import {Request, Response, Router} from 'express';
-import {promises} from 'fs';
 import {StatusCodes} from 'http-status-codes';
+// import {getConnection} from 'typeorm';
+// import Contact from '../db/entity/Contact.js';
 
 // TODO: Potentially create more generic approach https://dev.to/dakdevs/extend-express-request-in-typescript-1693
 class GetRequest {
@@ -17,27 +18,20 @@ interface IUser {
   UserName: string
 }
 
-async function getUsers() {
-  const Response = await promises.readFile(`${process.cwd()}/controllers/Users.json`);
-  return JSON.parse(Response.toString());
-}
-
 export default (router: Router) => {
   router.get('/users', async (req: Request, res: Response) => {
-    const Users = await getUsers();
-    return res.send(Users);
+    // const connection = getConnection();
+    // const contacts = await connection.manager.find(Contact);
+    // return res.send(contacts);
+    return res.sendStatus(StatusCodes.NOT_FOUND);
   });
   router.get('/users/:id', async (req: Request, res: Response) => {
-    const Users: Array<IUser> = await getUsers();
-    const Params: GetRequest = new GetRequest(req.params);
-    const found = Users.find((item: IUser) => {
-      if (item.Id === Params.id) {
-        return true;
-      }
-    });
-    if (found) {
-      return res.send(found);
-    }
+    // const connection = getConnection();
+    // const Params: GetRequest = new GetRequest(req.params);
+    // const found = await connection.manager.findOne(Contact, Params.id);
+    // if (found) {
+    //   return res.send(found);
+    // }
     return res.sendStatus(StatusCodes.NOT_FOUND);
   });
 }
