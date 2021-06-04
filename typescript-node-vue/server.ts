@@ -7,7 +7,7 @@ import {fileURLToPath} from 'url';
 import controllers from './controllers/index.js';
 import cors from 'cors';
 import 'reflect-metadata';
-import './db/DB.js';
+import './db/config.js';
 
 dotenv.config();
 const App = express();
