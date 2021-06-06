@@ -1,32 +1,22 @@
 <template>
-  <JefContainer>
-    <template #items>
-      <ol class="grid-container">
-        <li class="grid-row grid-header">
-          <JefGridColumn v-for="(column, colIdx) in columnsCfg"
-                         :key="colIdx"
-                         :column="column"
-                         @sortColumn="onSortColumn" />
-        </li>
-        <li class="grid-row"
-            v-for="(record, index) in store"
-            :key="index"
-            :record="record"
-            @click="onClickRow">
-          <JefGridCell v-for="(cell, rowIdx) in columnsCfg"
-                       :key="rowIdx"
-                       :record="record"
-                       :column="cell" />
-        </li>
-      </ol>
-    </template>
-    <!--    TODO: FIX THIS-->
-    <template v-for="(_, name) in $slots"
-              v-slot:[name]="slotData">
-      <slot :name="name"
-            v-bind="slotData" />
-    </template>
-  </JefContainer>
+  <ol class="grid-container">
+    <li class="grid-row grid-header">
+      <JefGridColumn v-for="(column, colIdx) in columnsCfg"
+                     :key="colIdx"
+                     :column="column"
+                     @sortColumn="onSortColumn" />
+    </li>
+    <li v-for="(record, index) in store"
+        :key="index"
+        class="grid-row"
+        :record="record"
+        @click="onClickRow">
+      <JefGridCell v-for="(cell, rowIdx) in columnsCfg"
+                   :key="rowIdx"
+                   :record="record"
+                   :column="cell" />
+    </li>
+  </ol>
 </template>
 
 <script lang="ts">
@@ -42,7 +32,6 @@ import _ from 'lodash';
 import JefGridCell from '@/components/grid/Cell.vue';
 import JefGridColumn from '@/components/grid/Column.vue';
 import Sorter from '@/classes/Sorter';
-import JefContainer from '@/components/base/Container.vue';
 
 const DefaultColumnConfig: IColumn = {
   type: ColumnTypes.String,
@@ -59,10 +48,16 @@ const DefaultColumnConfig: IColumn = {
   formatter: _.identity
 };
 
+interface IData {
+  ColumnTypes: IEnum;
+  TableCls: ITableCls;
+  selectedRow: HTMLElement | null;
+  columnsCfg: IColumn[];
+}
+
 export default defineComponent({
   name: 'JefGrid',
-  extends: JefContainer,
-  components: {JefContainer, JefGridColumn, JefGridCell},
+  components: {JefGridColumn, JefGridCell},
   props: {
     columns: {
       type: Array as () => IColumn[],
@@ -90,12 +85,12 @@ export default defineComponent({
     }
   },
   data() {
-    return new class {
-      ColumnTypes: IEnum = ColumnTypes;
-      TableCls: ITableCls = TableCls;
-      selectedRow: HTMLElement | null = null;
-      columnsCfg: IColumn[] = [];
-    }();
+    return {
+      ColumnTypes: ColumnTypes,
+      TableCls: TableCls,
+      selectedRow: null,
+      columnsCfg: []
+    } as IData;
   },
   computed: {
     cmpStyles(): string {

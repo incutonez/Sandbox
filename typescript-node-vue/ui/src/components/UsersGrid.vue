@@ -1,4 +1,10 @@
 <template>
+  <JefTitle :title="'This is my title!'">
+    <template #tools>
+      <button>Button 1</button>
+      <button>Button 2</button>
+    </template>
+  </JefTitle>
   <JefGrid :columns="columns"
            :store="usersStore"
            :multi-sort="true">
@@ -14,13 +20,15 @@ import Store from '@/classes/Store';
 import {defineComponent} from 'vue';
 import ColumnTypes from '@/statics/ColumnTypes';
 import JefGrid from '@/components/grid/Base.vue';
+import JefTitle from '@/components/base/Title.vue';
 
 export default defineComponent({
   name: 'UsersGrid',
-  extends: JefGrid,
   components: {
+    JefTitle,
     JefGrid
   },
+  extends: JefGrid,
 
   // TODO: Figure out how to use IData here... that would require the interface to have all props for columns though
   data() {
