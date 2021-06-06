@@ -7,11 +7,7 @@
   </JefTitle>
   <JefGrid :columns="columns"
            :store="usersStore"
-           :multi-sort="true">
-    <template #title>
-      <span>This is my title!</span>
-    </template>
-  </JefGrid>
+           :multi-sort="true" />
 </template>
 
 <script lang="ts">
