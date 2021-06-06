@@ -1,6 +1,9 @@
 <template>
-  <UsersGrid height="200px"
-             width="70%" />
+  <UsersGrid>
+    <template #title>
+      TEST
+    </template>
+  </UsersGrid>
 </template>
 
 <script lang="ts">

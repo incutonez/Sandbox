@@ -2,6 +2,9 @@
   <JefGrid :columns="columns"
            :store="usersStore"
            :multi-sort="true">
+    <template #title>
+      <span>This is my title!</span>
+    </template>
   </JefGrid>
 </template>
 
@@ -14,6 +17,7 @@ import JefGrid from '@/components/grid/Base.vue';
 
 export default defineComponent({
   name: 'UsersGrid',
+  extends: JefGrid,
   components: {
     JefGrid
   },
@@ -66,6 +70,10 @@ export default defineComponent({
 
   async created() {
     await this.usersStore.load();
+  },
+
+  mounted() {
+    console.log('UsersGrid', this.$slots.title);
   }
 });
 </script>

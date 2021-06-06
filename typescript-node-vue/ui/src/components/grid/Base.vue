@@ -1,22 +1,32 @@
 <template>
-  <ol class="grid-container">
-    <li class="grid-row grid-header">
-      <JefGridColumn v-for="(column, colIdx) in columnsCfg"
-                     :key="colIdx"
-                     :column="column"
-                     @sortColumn="onSortColumn" />
-    </li>
-    <li class="grid-row"
-        v-for="(record, index) in store"
-        :key="index"
-        :record="record"
-        @click="onClickRow">
-      <JefGridCell v-for="(cell, rowIdx) in columnsCfg"
-                   :key="rowIdx"
-                   :record="record"
-                   :column="cell" />
-    </li>
-  </ol>
+  <JefContainer>
+    <template #items>
+      <ol class="grid-container">
+        <li class="grid-row grid-header">
+          <JefGridColumn v-for="(column, colIdx) in columnsCfg"
+                         :key="colIdx"
+                         :column="column"
+                         @sortColumn="onSortColumn" />
+        </li>
+        <li class="grid-row"
+            v-for="(record, index) in store"
+            :key="index"
+            :record="record"
+            @click="onClickRow">
+          <JefGridCell v-for="(cell, rowIdx) in columnsCfg"
+                       :key="rowIdx"
+                       :record="record"
+                       :column="cell" />
+        </li>
+      </ol>
+    </template>
+    <!--    TODO: FIX THIS-->
+    <template v-for="(_, name) in $slots"
+              v-slot:[name]="slotData">
+      <slot :name="name"
+            v-bind="slotData" />
+    </template>
+  </JefContainer>
 </template>
 
 <script lang="ts">
@@ -32,6 +42,7 @@ import _ from 'lodash';
 import JefGridCell from '@/components/grid/Cell.vue';
 import JefGridColumn from '@/components/grid/Column.vue';
 import Sorter from '@/classes/Sorter';
+import JefContainer from '@/components/base/Container.vue';
 
 const DefaultColumnConfig: IColumn = {
   type: ColumnTypes.String,
@@ -50,7 +61,8 @@ const DefaultColumnConfig: IColumn = {
 
 export default defineComponent({
   name: 'JefGrid',
-  components: {JefGridColumn, JefGridCell},
+  extends: JefContainer,
+  components: {JefContainer, JefGridColumn, JefGridCell},
   props: {
     columns: {
       type: Array as () => IColumn[],

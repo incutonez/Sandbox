@@ -5,6 +5,8 @@
 - Mixins - https://www.typescriptlang.org/docs/handbook/mixins.html#alternative-pattern
 - Grids - https://codepen.io/ShingoNakayama/pen/LMLeRZ
 - Grid Layout - https://jsfiddle.net/incutonez/htrp7ogc/23/
+- Vue
+-- Layouts - https://markus.oberlehner.net/blog/dynamic-vue-layout-components/
 - TypeORM
 -- addSelect - https://stackoverflow.com/a/55169910/1253609
 -- required fields using bang (!) - https://github.com/typeorm/typeorm/issues/2797
