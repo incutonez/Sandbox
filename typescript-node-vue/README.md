@@ -8,7 +8,12 @@ Table of contents
         - [Companies](#api-urls-companies)
         - [Contacts](#api-urls-contacts)
         - [Applications](#api-urls-applications)
-- [Vue.js UI](#vuejs-ui)
+- [Vue.js UI](#vue)
+    - [Setup](#vue-setup)
+    - [Start](#vue-start)
+    - [Production](#vue-production)
+    - [Linting](#vue-linting)
+    - [Custom Config](#vue-custom-config)
 
 # <a name="api"></a> Node.js API
 
@@ -24,7 +29,7 @@ npm install
 npm start
 ```
 
-## <a name="api-url"></a> Urls
+## <a name="api-urls"></a> Urls
 
 ### <a name="api-urls-companies"></a> Companies
 
@@ -44,32 +49,32 @@ GET api/contacts
 GET api/applications
 ```
 
-# Vue.js UI
+# <a name="vue"></a> Vue.js UI
 
-## Project setup
+## <a name="vue-setup"></a> Setup
 
 ```
 npm install
 ```
 
-## Compiles and hot-reloads for development
+## <a name="vue-start"></a> Start
 
 ```
 npm start
 ```
 
-## Compiles and minifies for production
+## <a name="vue-production"></a> Production
 
 ```
 npm run build
 ```
 
-## Lints and fixes files
+## <a name="vue-linting"></a> Lints and fixes files
 
 ```
 npm run lint
 ```
 
-## Customize configuration
+## <a name="vue-custom-config"></a> Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
