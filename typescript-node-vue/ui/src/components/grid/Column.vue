@@ -4,7 +4,8 @@
       <div class="grid-cell">
         {{ column.text }}
       </div>
-      <div class="grid-nested">
+      <div class="grid-nested"
+           :style="style">
         <JefGridColumn v-for="(col, colIdx) in column.columns"
                        :key="colIdx"
                        :column="col"
@@ -56,6 +57,13 @@ export default defineComponent({
           break;
       }
       return icon;
+    },
+    style(): string {
+      const columns = this.column.columns;
+      if (columns) {
+        return `grid-template-columns: repeat(${columns.length}, 1fr);`;
+      }
+      return '';
     }
   },
   methods: {

@@ -1,22 +1,26 @@
 <template>
-  <ol class="grid-container">
-    <li class="grid-row grid-header">
-      <JefGridColumn v-for="(column, colIdx) in columnsCfg"
-                     :key="colIdx"
-                     :column="column"
-                     @sortColumn="onSortColumn" />
-    </li>
-    <li v-for="(record, index) in store"
-        :key="index"
-        class="grid-row"
-        :record="record"
-        @click="onClickRow">
-      <JefGridCell v-for="(cell, rowIdx) in columnsCfg"
-                   :key="rowIdx"
-                   :record="record"
-                   :column="cell" />
-    </li>
-  </ol>
+  <FlexItem v-bind="$props">
+    <ol class="grid-container">
+      <li class="grid-row grid-header"
+          :style="rowStyle">
+        <JefGridColumn v-for="(column, colIdx) in columnsCfg"
+                       :key="colIdx"
+                       :column="column"
+                       @sortColumn="onSortColumn" />
+      </li>
+      <li v-for="(record, index) in store"
+          :key="index"
+          class="grid-row"
+          :record="record"
+          @click="onClickRow"
+          :style="rowStyle">
+        <JefGridCell v-for="(cell, rowIdx) in columnsCfg"
+                     :key="rowIdx"
+                     :record="record"
+                     :column="cell" />
+      </li>
+    </ol>
+  </FlexItem>
 </template>
 
 <script lang="ts">
@@ -32,6 +36,7 @@ import _ from 'lodash';
 import JefGridCell from '@/components/grid/Cell.vue';
 import JefGridColumn from '@/components/grid/Column.vue';
 import Sorter from '@/classes/Sorter';
+import FlexItem from '@/components/base/FlexItem.vue';
 
 const DefaultColumnConfig: IColumn = {
   type: ColumnTypes.String,
@@ -57,7 +62,8 @@ interface IData {
 
 export default defineComponent({
   name: 'JefGrid',
-  components: {JefGridColumn, JefGridCell},
+  components: {FlexItem, JefGridColumn, JefGridCell},
+  extends: FlexItem,
   props: {
     columns: {
       type: Array as () => IColumn[],
@@ -101,6 +107,13 @@ export default defineComponent({
     },
     rowCfg(): IColumn[] {
       return this.getRowConfig(this.columnsCfg);
+    },
+    rowStyle(): string {
+      const columns = this.columns;
+      if (columns) {
+        return `grid-template-columns: repeat(${columns.length}, 1fr);`;
+      }
+      return '';
     }
   },
   watch: {
@@ -233,7 +246,6 @@ li {
 
 .grid-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
 
   &.expand-row .grid-cell .expandable {
     display: block;
@@ -255,7 +267,6 @@ li {
 
   .grid-nested {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   }
 
   /* In order to maximize row lines, only display one line for a cell */

@@ -1,6 +1,7 @@
 <template>
   <template v-if="column.columns">
-    <div class="grid-nested">
+    <div class="grid-nested"
+         :style="style">
       <JefGridCell v-for="(cell, rowIdx) in column.columns"
                    :key="rowIdx"
                    :record="record"
@@ -75,6 +76,13 @@ export default defineComponent({
     isExpander(): boolean {
       return this.column.type === ColumnTypes.Expander;
     },
+    style(): string {
+      const columns = this.column.columns;
+      if (columns) {
+        return `grid-template-columns: repeat(${columns.length}, 1fr);`;
+      }
+      return '';
+    },
     // TODO: Add formatter for dates and such?
     values(): any {
       const Column = this.column;
@@ -88,6 +96,9 @@ export default defineComponent({
       }
       const Fields = Column.field.split('.');
       let values = Record[Fields[0]];
+      if (!values) {
+        return '';
+      }
       for (let i = 1; i < Fields.length; i++) {
         const Field = Fields[i];
         if (Array.isArray(values)) {

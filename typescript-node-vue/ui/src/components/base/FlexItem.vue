@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-item"
+  <div :class="cls"
        :style="style">
     <slot />
   </div>
@@ -11,7 +11,8 @@ import {FlexAlignments, TextAlignments} from '@/statics/Flex';
 
 /**
  * This acts as an individual item within a FlexContainer.  It doesn't make sense to use it outside of that... it might
- * be best if this was mixed into each component by default, so we could specify layouts and such that way.
+ * be best if this was mixed into each component by default, so we could specify layouts and such that way.  This class
+ * is essentially the base component... similar to Ext.Component.
  */
 export default defineComponent({
   name: 'FlexItem',
@@ -39,11 +40,23 @@ export default defineComponent({
     pack: {
       type: String as PropType<TextAlignments>,
       default: TextAlignments.LEFT
+    },
+    extraCls: {
+      type: String,
+      default: ''
+    },
+    extraStyle: {
+      type: String,
+      default: ''
     }
   },
   computed: {
+    cls(): string {
+      return `${this.extraCls} flex-item`;
+    },
     style(): string {
-      return `flex: ${this.grow} ${this.shrink} ${this.basis}; order: ${this.order}; align-self: ${this.align}; text-align: ${this.pack};`;
+      const extraStyle = this.extraStyle ? `${this.extraStyle}; ` : '';
+      return `${extraStyle}flex: ${this.grow} ${this.shrink} ${this.basis}; order: ${this.order}; align-self: ${this.align}; text-align: ${this.pack};`;
     }
   }
 });

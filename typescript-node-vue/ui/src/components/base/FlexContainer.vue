@@ -59,7 +59,7 @@ export default defineComponent({
     },
     basis: {
       type: String,
-      default: 'auto'
+      default: '0'
     }
   },
   computed: {

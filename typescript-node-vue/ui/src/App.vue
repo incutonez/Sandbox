@@ -1,20 +1,14 @@
 <template>
-  <FlexTest />
-  <!--  <UsersGrid>-->
-  <!--    <template #title>-->
-  <!--      TEST-->
-  <!--    </template>-->
-  <!--  </UsersGrid>-->
+  <Contacts />
 </template>
 
 <script lang="ts">
 import {Vue} from 'vue-class-component';
-import UsersGrid from '@/components/UsersGrid.vue';
-import FlexTest from '@/components/FlexTest.vue';
+import Contacts from '@/components/Contacts.vue';
 
 export default {
   components: {
-    FlexTest
+    Contacts
   },
   extends: Vue
 };

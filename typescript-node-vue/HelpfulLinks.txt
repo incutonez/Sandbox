@@ -7,6 +7,7 @@
 - Grid Layout - https://jsfiddle.net/incutonez/htrp7ogc/23/
 - Vue
 -- Layouts - https://markus.oberlehner.net/blog/dynamic-vue-layout-components/
+-- Extending Templates - https://github.com/vuejs/vue/issues/6811#issuecomment-401044165
 - TypeORM
 -- addSelect - https://stackoverflow.com/a/55169910/1253609
 -- required fields using bang (!) - https://github.com/typeorm/typeorm/issues/2797
