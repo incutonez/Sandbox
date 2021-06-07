@@ -2,37 +2,43 @@ Table of contents
 =================
 
 - [Node.js API](#api)
-- [Vue.js UI](#ui)
+    - [Setup](#api-setup)
+    - [Start](#api-start)
+    - [URLs](#api-urls)
+        - [Companies](#api-urls-companies)
+        - [Contacts](#api-urls-contacts)
+        - [Applications](#api-urls-applications)
+- [Vue.js UI](#vuejs-ui)
 
-# Node.js API
+# <a name="api"></a> Node.js API
 
-## Setup
+## <a name="api-setup"></a> Setup
 
 ```
 npm install
 ```
 
-## Start
+## <a name="api-start"></a> Start
 
 ```
 npm start
 ```
 
-## Urls
+## <a name="api-url"></a> Urls
 
-### Companies
+### <a name="api-urls-companies"></a> Companies
 
 ```
 GET api/companies
 ```
 
-### Contacts
+### <a name="api-urls-contacts"></a> Contacts
 
 ```
 GET api/contacts
 ```
 
-### Applications
+### <a name="api-urls-applications"></a> Applications
 
 ```
 GET api/applications
