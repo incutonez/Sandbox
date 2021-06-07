@@ -11,7 +11,6 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   height: 100%;
   width: 100%;
@@ -24,4 +23,35 @@ html, body {
 body {
   margin: 0;
   padding: 0;
+}
+
+
+.app-main {
+  height: 100%;
+  display: grid;
+  grid-template-areas:
+    "t t"
+    "m m"
+    "b b";
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: auto 1fr auto;
+  background-color: $app-background-color;
+
+  .navigation {
+    grid-area: t;
+  }
+
+  .main-content {
+    grid-area: m;
+    margin: 10px;
+
+    > * {
+      height: 100% !important;
+      background-color: $app-background-color !important;
+    }
+  }
+
+  .footer {
+    grid-area: b;
+  }
 }

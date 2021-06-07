@@ -254,15 +254,11 @@ li {
   &.grid-header {
     position: sticky;
     top: 0;
-    background-color: white;
+    background-color: #FFFFFF;
   }
 
   &:first-child > div {
-    border-top: 1px solid gray;
-  }
-
-  & > .grid-cell:first-child {
-    border-left: 1px solid gray;
+    border-top: 1px solid $panel-border-color;
   }
 
   .grid-nested {
@@ -271,8 +267,9 @@ li {
 
   /* In order to maximize row lines, only display one line for a cell */
   .grid-cell {
-    border-right: 1px solid gray;
-    border-bottom: 1px solid gray;
+    // TODO: There's a double right border when we add the container's border around the grid
+    border-right: 1px solid $panel-border-color;
+    border-bottom: 1px solid $panel-border-color;
     padding: 2px;
     overflow: hidden;
     white-space: nowrap;

@@ -3,8 +3,10 @@
 - https://stackoverflow.com/questions/52968047 (merging interface/class)
 - https://www.reddit.com/r/typescript/comments/njs65t/how_to_properly_implement_mixins/
 - Mixins - https://www.typescriptlang.org/docs/handbook/mixins.html#alternative-pattern
-- Grids - https://codepen.io/ShingoNakayama/pen/LMLeRZ
-- Grid Layout - https://jsfiddle.net/incutonez/htrp7ogc/23/
+- HTML
+-- Grid vs Flexbox - https://jsfiddle.net/incutonez/2gm1Ltf3
+-- Grid Layout - https://jsfiddle.net/incutonez/htrp7ogc/23/
+-- Grids - https://codepen.io/ShingoNakayama/pen/LMLeRZ
 - Vue
 -- Layouts - https://markus.oberlehner.net/blog/dynamic-vue-layout-components/
 -- Extending Templates - https://github.com/vuejs/vue/issues/6811#issuecomment-401044165

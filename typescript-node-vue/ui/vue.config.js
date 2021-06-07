@@ -3,5 +3,13 @@ module.exports = {
   devServer: {
     hot: false,
     liveReload: false
+  },
+  css: {
+    loaderOptions: {
+      // Taken from https://cli.vuejs.org/guide/css.html#passing-options-to-pre-processor-loaders
+      scss: {
+        additionalData: `@import "@/sass/var/globals.scss";`
+      }
+    }
   }
 };

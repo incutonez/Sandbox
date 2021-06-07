@@ -1,5 +1,15 @@
 <template>
-  <Contacts />
+  <div class="app-main">
+    <div class="navigation"
+         style="text-align: center;">Navigation Menu
+    </div>
+    <div class="main-content">
+      <Contacts />
+    </div>
+    <div class="footer"
+         style="text-align: center;">Footer
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -15,5 +25,5 @@ export default {
 </script>
 
 <style lang="scss">
-@use "App";
+@import "App";
 </style>

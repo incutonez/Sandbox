@@ -17,6 +17,10 @@ import {FlexAlignments, FlexContentAlignments, FlexDirections, FlexJustification
 export default defineComponent({
   name: 'FlexContainer',
   props: {
+    border: {
+      type: Boolean,
+      default: true
+    },
     height: {
       type: [String, Number],
       default: 'auto'
@@ -25,6 +29,10 @@ export default defineComponent({
       type: [String, Number],
       default: 'auto'
     },
+    /**
+     * @property
+     * Default value is row
+     */
     direction: {
       type: String as PropType<FlexDirections>,
       default: FlexDirections.ROW
@@ -33,9 +41,6 @@ export default defineComponent({
       type: String as PropType<FlexWraps>,
       default: FlexWraps.NO_WRAP
     },
-    /**
-     *
-     */
     // This is for the main axis... if horizontal, then items will be packed on the horizontal axis, and vice versa
     pack: {
       type: String as PropType<FlexJustifications>,
@@ -60,6 +65,22 @@ export default defineComponent({
     basis: {
       type: String,
       default: '0'
+    },
+    extraCls: {
+      type: String,
+      default: ''
+    },
+    extraStyle: {
+      type: String,
+      default: ''
+    },
+    margin: {
+      type: [Number, String],
+      default: 0
+    },
+    backgroundColor: {
+      type: String,
+      default: '#FFFFFF'
     }
   },
   computed: {
@@ -71,19 +92,40 @@ export default defineComponent({
       if (this.align === FlexAlignments.STRETCH) {
         cls.push('flex-container-stretch-children');
       }
+      if (this.extraCls) {
+        cls.push(this.extraCls);
+      }
+      if (this.border) {
+        cls.push('panel-border');
+      }
       return cls.join(' ');
     },
     style(): string {
       const flexGrow = this.grow ? `flex: ${this.grow} ${this.shrink} ${this.basis}` : '';
+      const extraStyle = this.extraStyle ? `${this.extraStyle}; ` : '';
       let direction = this.direction;
+      let margin = '';
+      let bgColor = '';
+      if (this.margin) {
+        margin = `margin: ${this.margin};`;
+      }
+      if (this.backgroundColor) {
+        bgColor = `background-color: ${this.backgroundColor};`;
+      }
       direction = direction === FlexDirections.FIT ? FlexDirections.ROW : direction;
-      return `${flexGrow}; display: flex; flex-flow: ${direction} ${this.wrap}; justify-content: ${this.pack}; align-items: ${this.align}; align-content: ${this.contentAlign}; height: ${this.height}; width: ${this.width};`;
+      return `${bgColor}${margin}${extraStyle}${flexGrow}; display: flex; flex-flow: ${direction} ${this.wrap}; justify-content: ${this.pack}; align-items: ${this.align}; align-content: ${this.contentAlign}; height: ${this.height}; width: ${this.width};`;
     }
   }
 });
 </script>
 
 <style lang="scss">
+.flex-container {
+  &.panel-border {
+    @include panel();
+  }
+}
+
 .flex-container-fit {
   display: flex;
   align-items: stretch;

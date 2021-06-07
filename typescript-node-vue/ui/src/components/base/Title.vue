@@ -1,5 +1,6 @@
 <template>
-  <FlexContainer v-bind="$props">
+  <FlexContainer v-bind="$props"
+                 :border="false">
     <template v-if="showTitle">
       <FlexItem extra-cls="jef-title">
         {{ title }}
@@ -36,3 +37,12 @@ export default defineComponent({
   }
 });
 </script>
+
+<style scoped
+       lang="scss">
+.jef-title {
+  padding: $panel-title-padding;
+  background-color: $panel-title-background-color;
+  color: $panel-title-text-color;
+}
+</style>
