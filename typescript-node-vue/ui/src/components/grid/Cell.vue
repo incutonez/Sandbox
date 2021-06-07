@@ -1,16 +1,20 @@
 <template>
   <template v-if="column.columns">
-    <div class="grid-nested"
-         :style="style">
+    <FlexContainer :grow="column.flex"
+                   background-color="transparent"
+                   border="b r">
       <JefGridCell v-for="(cell, rowIdx) in column.columns"
                    :key="rowIdx"
                    :record="record"
+                   :border="rowIdx + 1 === column.columns.length ? false : 'r'"
                    :column="cell" />
-    </div>
+    </FlexContainer>
   </template>
   <template v-else>
-    <div :class="clsFm"
-         @click="onClickCell">
+    <FlexItem :class="clsFm"
+              :grow="column.flex"
+              :border="border"
+              @click="onClickCell">
       <Icon v-if="isExpander"
             :icon-name="iconName"></Icon>
       <template v-if="values !== ''">
@@ -20,7 +24,10 @@
           {{ value }}
         </div>
       </template>
-    </div>
+      <template v-else>
+        <div>&nbsp;</div>
+      </template>
+    </FlexItem>
   </template>
 </template>
 
@@ -32,6 +39,8 @@ import Icons from '@/statics/Icons';
 import Icon from '@/components/Icon.vue';
 import _ from 'lodash';
 import Formatters from '@/statics/Formatters';
+import FlexItem from '@/components/base/FlexItem.vue';
+import FlexContainer from '@/components/base/FlexContainer.vue';
 
 interface PlainObject {
   [key: string]: any;
@@ -40,6 +49,8 @@ interface PlainObject {
 export default defineComponent({
   name: 'JefGridCell',
   components: {
+    FlexContainer,
+    FlexItem,
     Icon
   },
   props: {
@@ -52,6 +63,10 @@ export default defineComponent({
       default: () => {
         return ['grid-cell'];
       }
+    },
+    border: {
+      type: [String, Boolean],
+      default: 'b r'
     },
     // TODO: Rename to RowCfg
     column: {
@@ -76,13 +91,6 @@ export default defineComponent({
     isExpander(): boolean {
       return this.column.type === ColumnTypes.Expander;
     },
-    style(): string {
-      const columns = this.column.columns;
-      if (columns) {
-        return `grid-template-columns: repeat(${columns.length}, 1fr);`;
-      }
-      return '';
-    },
     // TODO: Add formatter for dates and such?
     values(): any {
       const Column = this.column;
@@ -96,7 +104,7 @@ export default defineComponent({
       }
       const Fields = Column.field.split('.');
       let values = Record[Fields[0]];
-      if (!values) {
+      if (utilities.isEmpty(values)) {
         return '';
       }
       for (let i = 1; i < Fields.length; i++) {

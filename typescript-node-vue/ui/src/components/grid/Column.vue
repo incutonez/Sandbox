@@ -1,25 +1,31 @@
 <template>
   <template v-if="column.columns">
-    <div>
-      <div class="grid-cell">
+    <FlexContainer :direction="FlexDirections.COLUMN"
+                   :grow="column.flex"
+                   :align="FlexAlignments.AUTO"
+                   border="b r">
+      <div :class="extraCls">
         {{ column.text }}
       </div>
-      <div class="grid-nested"
-           :style="style">
+      <FlexContainer :grow="1"
+                     border="t">
         <JefGridColumn v-for="(col, colIdx) in column.columns"
                        :key="colIdx"
                        :column="col"
+                       :border="colIdx + 1 === column.columns.length ? false : 'r'"
                        @sortColumn="onSortChildColumn" />
-      </div>
-    </div>
+      </FlexContainer>
+    </FlexContainer>
   </template>
   <template v-else>
-    <div class="grid-cell"
-         @click="onClickColumn">
+    <FlexItem :extra-cls="extraCls"
+              :border="border"
+              :grow="column.flex"
+              @click="onClickColumn">
       {{ column.text }}
       <Icon v-if="column.isSorted"
             :icon-name="sortIcon" />
-    </div>
+    </FlexItem>
   </template>
 </template>
 
@@ -29,17 +35,30 @@ import {defineComponent} from 'vue';
 import ColumnTypes from '@/statics/ColumnTypes';
 import Icons from '@/statics/Icons';
 import Icon from '@/components/Icon.vue';
+import FlexContainer from '@/components/base/FlexContainer.vue';
+import {FlexAlignments, FlexDirections} from '@/statics/Flex';
+import FlexItem from '@/components/base/FlexItem.vue';
 
 export default defineComponent({
   name: 'JefGridColumn',
-  components: {Icon},
+  components: {FlexItem, FlexContainer, Icon},
   props: {
     column: {
       type: Object as () => IColumn,
       default: () => {
         return {};
       }
+    },
+    border: {
+      type: [String, Boolean],
+      default: 'b r'
     }
+  },
+  data() {
+    return {
+      FlexDirections: FlexDirections,
+      FlexAlignments: FlexAlignments
+    };
   },
   computed: {
     sortIcon() {
@@ -58,12 +77,12 @@ export default defineComponent({
       }
       return icon;
     },
-    style(): string {
-      const columns = this.column.columns;
-      if (columns) {
-        return `grid-template-columns: repeat(${columns.length}, 1fr);`;
+    extraCls() {
+      const cls = ['grid-cell grid-header'];
+      if (this.column.isSortable) {
+        cls.push('grid-header-sortable');
       }
-      return '';
+      return cls.join(' ');
     }
   },
   methods: {

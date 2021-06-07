@@ -14,4 +14,5 @@ export default interface IColumn {
   isSorted: boolean;
   sorter?: Sorter;
   formatter: string | ((value: any, record: any) => {});
+  flex: number;
 }

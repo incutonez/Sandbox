@@ -2,30 +2,20 @@ Table of contents
 =================
 
 - [Node.js API](#api)
-    - [Setup](#api-setup)
-    - [Start](#api-start)
+    - [Run](#api-run)
     - [URLs](#api-urls)
         - [Companies](#api-urls-companies)
         - [Contacts](#api-urls-contacts)
         - [Applications](#api-urls-applications)
 - [Vue.js UI](#vue)
-    - [Setup](#vue-setup)
-    - [Start](#vue-start)
-    - [Production](#vue-production)
-    - [Linting](#vue-linting)
-    - [Custom Config](#vue-custom-config)
+    - [Run](#vue-run)
 
 # <a name="api"></a> Node.js API
 
-## <a name="api-setup"></a> Setup
+## <a name="api-run"></a> Setup
 
 ```
 npm install
-```
-
-## <a name="api-start"></a> Start
-
-```
 npm start
 ```
 
@@ -51,30 +41,10 @@ GET api/applications
 
 # <a name="vue"></a> Vue.js UI
 
-## <a name="vue-setup"></a> Setup
+## <a name="vue-run"></a> Run
 
 ```
+cd ui
 npm install
-```
-
-## <a name="vue-start"></a> Start
-
-```
 npm start
 ```
-
-## <a name="vue-production"></a> Production
-
-```
-npm run build
-```
-
-## <a name="vue-linting"></a> Lints and fixes files
-
-```
-npm run lint
-```
-
-## <a name="vue-custom-config"></a> Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).

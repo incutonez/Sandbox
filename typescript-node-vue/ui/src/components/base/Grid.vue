@@ -1,26 +1,27 @@
 <template>
-  <FlexItem v-bind="$props">
-    <ol class="grid-container">
-      <li class="grid-row grid-header"
-          :style="rowStyle">
-        <JefGridColumn v-for="(column, colIdx) in columnsCfg"
-                       :key="colIdx"
-                       :column="column"
-                       @sortColumn="onSortColumn" />
-      </li>
-      <li v-for="(record, index) in store"
-          :key="index"
-          class="grid-row"
-          :record="record"
-          @click="onClickRow"
-          :style="rowStyle">
-        <JefGridCell v-for="(cell, rowIdx) in columnsCfg"
-                     :key="rowIdx"
-                     :record="record"
-                     :column="cell" />
-      </li>
-    </ol>
-  </FlexItem>
+  <FlexContainer v-bind="$props"
+                 border="r b l"
+                 extra-cls="grid-container"
+                 :direction="FlexDirections.COLUMN">
+    <FlexItem class="grid-row grid-header"
+              :grow="0">
+      <JefGridColumn v-for="(column, colIdx) in columnsCfg"
+                     :key="colIdx"
+                     :column="column"
+                     @sortColumn="onSortColumn" />
+    </FlexItem>
+    <FlexItem v-for="(record, index) in store"
+              :grow="0"
+              :key="index"
+              class="grid-row grid-row-data"
+              :record="record"
+              @click="onClickRow">
+      <JefGridCell v-for="(cell, rowIdx) in columnsCfg"
+                   :key="rowIdx"
+                   :record="record"
+                   :column="cell" />
+    </FlexItem>
+  </FlexContainer>
 </template>
 
 <script lang="ts">
@@ -37,6 +38,8 @@ import JefGridCell from '@/components/grid/Cell.vue';
 import JefGridColumn from '@/components/grid/Column.vue';
 import Sorter from '@/classes/Sorter';
 import FlexItem from '@/components/base/FlexItem.vue';
+import FlexContainer from '@/components/base/FlexContainer.vue';
+import {FlexDirections} from '@/statics/Flex';
 
 const DefaultColumnConfig: IColumn = {
   type: ColumnTypes.String,
@@ -50,7 +53,8 @@ const DefaultColumnConfig: IColumn = {
   isSortable: true,
   isSorted: false,
   // TODO: I don't think this is necessary here... it only matters in the cell, but we define it on the column config
-  formatter: _.identity
+  formatter: _.identity,
+  flex: 1
 };
 
 interface IData {
@@ -62,8 +66,8 @@ interface IData {
 
 export default defineComponent({
   name: 'JefGrid',
-  components: {FlexItem, JefGridColumn, JefGridCell},
-  extends: FlexItem,
+  components: {FlexContainer, FlexItem, JefGridColumn, JefGridCell},
+  extends: FlexContainer,
   props: {
     columns: {
       type: Array as () => IColumn[],
@@ -77,14 +81,6 @@ export default defineComponent({
         return new Store(Model);
       }
     },
-    height: {
-      type: String,
-      default: '200px'
-    },
-    width: {
-      type: String,
-      default: '200px'
-    },
     multiSort: {
       type: Boolean,
       default: false
@@ -95,25 +91,13 @@ export default defineComponent({
       ColumnTypes: ColumnTypes,
       TableCls: TableCls,
       selectedRow: null,
-      columnsCfg: []
+      columnsCfg: [],
+      FlexDirections: FlexDirections
     } as IData;
   },
   computed: {
-    cmpStyles(): string {
-      return `width: ${this.width};`;
-    },
-    bodyStyles(): string {
-      return `max-height: ${this.height}; overflow: auto;`;
-    },
     rowCfg(): IColumn[] {
       return this.getRowConfig(this.columnsCfg);
-    },
-    rowStyle(): string {
-      const columns = this.columns;
-      if (columns) {
-        return `grid-template-columns: repeat(${columns.length}, 1fr);`;
-      }
-      return '';
     }
   },
   watch: {
@@ -136,34 +120,16 @@ export default defineComponent({
     }
   },
   methods: {
-    getColumnsMarkup(columns: IColumn[], parent?: IColumn) {
-      let value = '';
-      columns.forEach((column) => {
-        if (column.columns) {
-          value += `<div><div class="grid-cell">${column.text}</div>`;
-          value += this.getColumnsMarkup(column.columns, column);
-          value += '</div>';
-        }
-        else if (parent) {
-          if (!value) {
-            value = '<div class="grid-nested">';
-          }
-          value += `<div class="grid-cell">${column.text}</div>`;
-        }
-        else {
-          value += `<div class="grid-cell">${column.text}</div>`;
-        }
-      });
-      if (parent) {
-        value += '</div>';
-      }
-      return value;
-    },
     getDefaultColumns(columns: IColumn[]): any {
       const out: any = [];
       columns.forEach((column) => {
+        let children = column.columns;
+        if (children) {
+          column.isSortable = false;
+          children = this.getDefaultColumns(children);
+        }
         out.push(_.merge({
-          columns: column.columns ? this.getDefaultColumns(column.columns) : null
+          columns: children
         }, DefaultColumnConfig, column));
       });
       return out;
@@ -181,6 +147,7 @@ export default defineComponent({
       let Config: IColumn[] = [];
       columns.forEach((column) => {
         if (column.columns) {
+          column.isSortable = false;
           Config = [...Config, ...this.getRowConfig(column.columns)];
         }
         else {
@@ -235,17 +202,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-ol.grid-container {
-  margin: 0;
-  padding: 0;
-}
-
-li {
-  list-style: none;
-}
-
 .grid-row {
-  display: grid;
+  &.grid-row-data:hover {
+    background-color: darken($grid-header-background-color, 5%);
+  }
 
   &.expand-row .grid-cell .expandable {
     display: block;
@@ -257,23 +217,24 @@ li {
     background-color: #FFFFFF;
   }
 
-  &:first-child > div {
-    border-top: 1px solid $panel-border-color;
-  }
-
-  .grid-nested {
-    display: grid;
-  }
-
   /* In order to maximize row lines, only display one line for a cell */
   .grid-cell {
-    // TODO: There's a double right border when we add the container's border around the grid
-    border-right: 1px solid $panel-border-color;
-    border-bottom: 1px solid $panel-border-color;
     padding: 2px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+
+    &.grid-header {
+      background-color: $grid-header-background-color;
+
+      &:hover {
+        background-color: darken($grid-header-background-color, 5%);
+
+        &.grid-header-sortable {
+          cursor: pointer;
+        }
+      }
+    }
 
     .expandable {
       display: none;

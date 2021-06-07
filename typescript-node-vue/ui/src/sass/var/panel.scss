@@ -2,3 +2,6 @@ $panel-title-background-color: #2c698d;
 $panel-title-text-color: #e3f6f5;
 $panel-title-padding: 5px 0 5px 5px;
 $panel-border-color: #cecece;
+$panel-border-width: 1px;
+$panel-border-style: solid;
+$panel-border: $panel-border-width $panel-border-style $panel-border-color;

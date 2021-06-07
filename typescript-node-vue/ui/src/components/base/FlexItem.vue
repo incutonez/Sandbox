@@ -1,13 +1,15 @@
 <template>
-  <div :class="cls"
-       :style="style">
+  <component :is="cmp"
+             :class="cls"
+             :style="style">
     <slot />
-  </div>
+  </component>
 </template>
 
 <script lang="ts">
 import {defineComponent, PropType} from 'vue';
 import {FlexAlignments, TextAlignments} from '@/statics/Flex';
+import utilities from '@/utilities';
 
 /**
  * This acts as an individual item within a FlexContainer.  It doesn't make sense to use it outside of that... it might
@@ -17,6 +19,10 @@ import {FlexAlignments, TextAlignments} from '@/statics/Flex';
 export default defineComponent({
   name: 'FlexItem',
   props: {
+    cmp: {
+      type: String,
+      default: 'div'
+    },
     order: {
       type: Number,
       default: 0
@@ -31,7 +37,7 @@ export default defineComponent({
     },
     basis: {
       type: String,
-      default: 'auto'
+      default: '0'
     },
     align: {
       type: String as PropType<FlexAlignments>,
@@ -45,6 +51,13 @@ export default defineComponent({
       type: String,
       default: ''
     },
+    /**
+     * The string version of this can look like "t r b l" or "t b" to mean only top and bottom get the border
+     */
+    border: {
+      type: [Boolean, String],
+      default: false
+    },
     extraStyle: {
       type: String,
       default: ''
@@ -52,7 +65,32 @@ export default defineComponent({
   },
   computed: {
     cls(): string {
-      return `${this.extraCls} flex-item`;
+      const cls = [this.extraCls, 'flex-item'];
+      const border = this.border;
+      if (border) {
+        if (border === true) {
+          cls.push('panel-border');
+        }
+        else if (utilities.isString(border)) {
+          border.split('').forEach((split) => {
+            switch (split) {
+              case 't':
+                cls.push('panel-border-top');
+                break;
+              case 'r':
+                cls.push('panel-border-right');
+                break;
+              case 'b':
+                cls.push('panel-border-bottom');
+                break;
+              case 'l':
+                cls.push('panel-border-left');
+                break;
+            }
+          });
+        }
+      }
+      return cls.join(' ');
     },
     style(): string {
       const extraStyle = this.extraStyle ? `${this.extraStyle}; ` : '';

@@ -1,6 +1,5 @@
 <template>
-  <FlexContainer v-bind="$props"
-                 :border="false">
+  <FlexContainer v-bind="$props">
     <template v-if="showTitle">
       <FlexItem extra-cls="jef-title">
         {{ title }}

@@ -1,13 +1,15 @@
 <template>
-  <div :class="cls"
-       :style="style">
+  <component :is="cmp"
+             :class="cls"
+             :style="style">
     <slot :parent-align="align" />
-  </div>
+  </component>
 </template>
 
 <script lang="ts">
 import {defineComponent, PropType} from 'vue';
 import {FlexAlignments, FlexContentAlignments, FlexDirections, FlexJustifications, FlexWraps} from '@/statics/Flex';
+import utilities from '@/utilities';
 
 /**
  * This component acts as both a container and layout for nested items.  It essentially wraps the CSS Flexbox properties
@@ -17,8 +19,15 @@ import {FlexAlignments, FlexContentAlignments, FlexDirections, FlexJustification
 export default defineComponent({
   name: 'FlexContainer',
   props: {
+    cmp: {
+      type: String,
+      default: 'div'
+    },
+    /**
+     * The string version of this can look like "t r b l" or "t b" to mean only top and bottom get the border
+     */
     border: {
-      type: Boolean,
+      type: [Boolean, String],
       default: true
     },
     height: {
@@ -86,6 +95,7 @@ export default defineComponent({
   computed: {
     cls(): string {
       const cls = ['flex-container'];
+      const border = this.border;
       if (this.direction === FlexDirections.FIT) {
         cls.push('flex-container-fit');
       }
@@ -95,8 +105,28 @@ export default defineComponent({
       if (this.extraCls) {
         cls.push(this.extraCls);
       }
-      if (this.border) {
-        cls.push('panel-border');
+      if (border) {
+        if (border === true) {
+          cls.push('panel-border');
+        }
+        else if (utilities.isString(border)) {
+          border.split('').forEach((split) => {
+            switch (split) {
+              case 't':
+                cls.push('panel-border-top');
+                break;
+              case 'r':
+                cls.push('panel-border-right');
+                break;
+              case 'b':
+                cls.push('panel-border-bottom');
+                break;
+              case 'l':
+                cls.push('panel-border-left');
+                break;
+            }
+          });
+        }
       }
       return cls.join(' ');
     },
@@ -121,9 +151,7 @@ export default defineComponent({
 
 <style lang="scss">
 .flex-container {
-  &.panel-border {
-    @include panel();
-  }
+  min-width: 0;
 }
 
 .flex-container-fit {

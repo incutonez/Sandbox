@@ -8,12 +8,14 @@
     </FlexContainer>
     <FlexContainer extra-cls="right"
                    :grow="2"
+                   :border="false"
                    :direction="FlexDirections.COLUMN">
       <JefTitle title="Contacts"
                 :grow="0">
       </JefTitle>
       <JefGrid :columns="columns"
                :store="viewStore"
+               :grow="1"
                :multi-sort="true" />
     </FlexContainer>
   </FlexContainer>
@@ -62,33 +64,31 @@ export default defineComponent({
         field: 'Email'
       }, {
         text: 'Company',
+        flex: 2,
         columns: [{
           text: 'Name',
           field: 'Company.Name'
         }, {
           text: 'Recruitment',
           field: 'Company.IsRecruitment',
-          type: ColumnTypes.Boolean
+          type: ColumnTypes.Boolean,
+          flex: 2
         }]
       }, {
         text: 'Application',
         columns: [{
           text: 'Id',
           field: 'Application.Id',
-          type: ColumnTypes.Number,
-          isAssociation: true
+          type: ColumnTypes.Number
         }, {
           text: 'Position',
-          field: 'Application.Position',
-          isAssociation: true
+          field: 'Application.Position'
         }, {
           text: 'Position Type',
-          field: 'Application.PositionType',
-          isAssociation: true
+          field: 'Application.PositionType'
         }, {
           text: 'Link',
-          field: 'Application.Link',
-          isAssociation: true
+          field: 'Application.Link'
         }]
       }]
     };
