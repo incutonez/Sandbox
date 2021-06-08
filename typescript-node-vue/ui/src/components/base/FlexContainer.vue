@@ -32,7 +32,7 @@ export default defineComponent({
     },
     height: {
       type: [String, Number],
-      default: 'auto'
+      default: 0
     },
     width: {
       type: [String, Number],
@@ -50,11 +50,18 @@ export default defineComponent({
       type: String as PropType<FlexWraps>,
       default: FlexWraps.NO_WRAP
     },
-    // This is for the main axis... if horizontal, then items will be packed on the horizontal axis, and vice versa
+    /**
+     * If direction = horizontal, then items will be packed horizontally.
+     * If direction = vertical, then items will be packed vertically.
+     */
     pack: {
       type: String as PropType<FlexJustifications>,
       default: FlexJustifications.NORMAL
     },
+    /**
+     * If direction = horizontal, then items will be aligned vertically.
+     * If direction = vertical, then items will be aligned horizontally.
+     */
     align: {
       type: String as PropType<FlexAlignments>,
       default: FlexAlignments.STRETCH
@@ -85,11 +92,15 @@ export default defineComponent({
     },
     margin: {
       type: [Number, String],
-      default: 0
+      default: null
     },
     backgroundColor: {
       type: String,
       default: '#FFFFFF'
+    },
+    alignSelf: {
+      type: String as PropType<FlexAlignments>,
+      default: FlexAlignments.AUTO
     }
   },
   computed: {
@@ -131,27 +142,49 @@ export default defineComponent({
       return cls.join(' ');
     },
     style(): string {
+      let direction = this.direction;
       let grow = this.grow;
       let shrink = this.shrink;
       let basis = this.basis;
+      let opposite = '';
       const width = this.width;
-      if (width) {
-        grow = 0;
-        shrink = 0;
-        basis = utilities.convertToPx(width);
+      const height = this.height;
+      direction = direction === FlexDirections.FIT ? FlexDirections.ROW : direction;
+      // Horizontal layout
+      // TODO: Rework so it's not so confusing?
+      if ([FlexDirections.ROW, FlexDirections.ROW_REVERSE].indexOf(direction) === -1) {
+        if (width) {
+          grow = 0;
+          shrink = 0;
+          basis = utilities.convertToPx(width);
+        }
+        if (height) {
+          opposite = `height: ${utilities.convertToPx(height)};`;
+          basis = basis || 'auto';
+        }
+      }
+      // Vertical layout
+      else {
+        if (height) {
+          grow = 0;
+          shrink = 0;
+          basis = utilities.convertToPx(height);
+        }
+        if (width) {
+          opposite = `width: ${utilities.convertToPx(width)};`;
+          basis = basis || 'auto';
+        }
       }
       const extraStyle = this.extraStyle ? `${this.extraStyle}; ` : '';
-      let direction = this.direction;
       let margin = '';
       let bgColor = '';
-      if (this.margin) {
-        margin = `margin: ${this.margin};`;
+      if (this.margin !== null) {
+        margin = `margin: ${utilities.convertToPx(this.margin)};`;
       }
       if (this.backgroundColor) {
         bgColor = `background-color: ${this.backgroundColor};`;
       }
-      direction = direction === FlexDirections.FIT ? FlexDirections.ROW : direction;
-      return `${bgColor}${margin}${extraStyle}flex: ${grow} ${shrink} ${basis}; display: flex; flex-flow: ${direction} ${this.wrap}; justify-content: ${this.pack}; align-items: ${this.align}; align-content: ${this.contentAlign}; height: ${this.height};`;
+      return `${opposite}${bgColor}${margin}${extraStyle}flex: ${grow} ${shrink} ${basis}; display: flex; flex-flow: ${direction} ${this.wrap}; justify-content: ${this.pack}; align-items: ${this.align}; align-self: ${this.alignSelf}; align-content: ${this.contentAlign};`;
     }
   }
 });

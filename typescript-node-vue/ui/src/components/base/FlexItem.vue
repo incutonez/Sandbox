@@ -120,6 +120,7 @@ export default defineComponent({
        * Otherwise, if we're in a column layout, and we've specified the width, then we actually want to
        * set the width.
        */
+      // TODO: Rework so it's not so confusing?  Maybe combine with FlexContainer?
       if (isRowLayout) {
         if (width) {
           grow = 0;

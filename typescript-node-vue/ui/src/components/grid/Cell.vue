@@ -1,8 +1,8 @@
 <template>
   <template v-if="column.columns">
-    <FlexContainer :grow="column.flex"
-                   :width="column.width"
-                   background-color="transparent"
+    <FlexContainer :grow="column.width ? 0 : column.flex"
+                   :basis="`${utilities.convertToPx(column.width)}`"
+                   background-color="false"
                    border="b r">
       <JefGridCell v-for="(cell, rowIdx) in column.columns"
                    :key="rowIdx"
@@ -30,7 +30,7 @@
                    :is="index > 0 ? 'div' : 'span'"
                    :class="index > 0 ? 'expandable' : ''">
           <!-- If we have an object, then that means we want to do custom component rendering-->
-          <template v-if="underscore.isObject(value)">
+          <template v-if="utilities.isObject(value)">
             <component :is="value.cmp"
                        v-bind="value.props" />
           </template>
@@ -52,7 +52,6 @@ import ColumnTypes from '@/statics/ColumnTypes';
 import utilities from '@/utilities';
 import Icons from '@/statics/Icons';
 import Icon from '@/components/Icon.vue';
-import _ from 'lodash';
 import Formatters from '@/statics/Formatters';
 import FlexItem from '@/components/base/FlexItem.vue';
 import FlexContainer from '@/components/base/FlexContainer.vue';
@@ -99,7 +98,7 @@ export default defineComponent({
   data: () => {
     return {
       isExpanded: false,
-      underscore: _
+      utilities: utilities
     };
   },
   computed: {
@@ -114,8 +113,8 @@ export default defineComponent({
       }
       const record = this.record;
       const formatter = column.formatter;
-      let formatterFn: (value: any) => {} = _.identity;
-      if (_.isString(formatter)) {
+      let formatterFn: (value: any) => {} = utilities.identityFn;
+      if (utilities.isString(formatter)) {
         formatterFn = (Formatters as PlainObject)[formatter];
       }
       else {

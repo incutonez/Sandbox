@@ -1,0 +1,10 @@
+- Create local/remote store filtering
+- Add tooltips (for cell data/column names)
+- Add routing
+- Window class
+-- Draggable
+-- Minimizable/Maximizable
+-- Use window class to populate edits from respective areas (Contacts, Companies, etc.)
+- Columns
+-- Make draggable
+-- Make resizable

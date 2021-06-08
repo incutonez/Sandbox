@@ -11,8 +11,8 @@
                      @sortColumn="onSortColumn" />
     </FlexItem>
     <FlexItem v-for="(record, index) in store"
-              :grow="0"
               :key="index"
+              :grow="0"
               class="grid-row grid-row-data"
               :record="record"
               @click="onClickRow">
@@ -39,7 +39,7 @@ import JefGridColumn from '@/components/grid/Column.vue';
 import Sorter from '@/classes/Sorter';
 import FlexItem from '@/components/base/FlexItem.vue';
 import FlexContainer from '@/components/base/FlexContainer.vue';
-import {FlexDirections, TextAlignments} from '@/statics/Flex';
+import {FlexAlignments, FlexDirections, TextAlignments} from '@/statics/Flex';
 
 const DefaultColumnConfig: IColumn = {
   type: ColumnTypes.String,
@@ -126,12 +126,13 @@ export default defineComponent({
     }
   },
   methods: {
-    getDefaultColumns(columns: IColumn[]): any {
-      const out: any = [];
+    getDefaultColumns(columns: IColumn[]) {
+      const out: IColumn[] = [];
       columns.forEach((column) => {
         let children = column.columns;
         if (children) {
           column.isSortable = false;
+          column.align = column.align || FlexAlignments.CENTER;
           children = this.getDefaultColumns(children);
         }
         out.push(_.merge({
@@ -184,17 +185,6 @@ export default defineComponent({
       }
     },
     onClickRow(event: Event) {
-      /**
-       * TODO:
-       * - Add sorting
-       * - Add filtering
-       * - Add dialog class that can take an items config
-       * - Add editing records
-       * - Remove expander if the row doesn't have expandable data
-       * - Add header/title class
-       * - Potentially figure out how to get header to stick... position: sticky doesn't really work
-       * - How to add a template within a template... e.g. <Grid><Column></Column></Grid>
-       */
       const Target: HTMLTableCellElement = event.target as HTMLTableCellElement;
       // TODO: Would we ever have to worry about event.target not being the td?
       if (this.selectedRow) {
@@ -225,11 +215,22 @@ export default defineComponent({
 
   /* In order to maximize row lines, only display one line for a cell */
   .grid-cell {
-    padding: 2px;
+    padding: $grid-cell-padding;
+    color: $grid-cell-font-color;
+    font-size: $grid-cell-font-size;
     @include ellipsize();
 
     &.grid-header {
       background-color: $grid-header-background-color;
+      font-weight: $grid-header-font-weight;
+
+      .grid-header-text {
+        @include ellipsize();
+      }
+
+      &.grid-header-parent {
+        text-align: center;
+      }
 
       &:hover {
         background-color: darken($grid-header-background-color, 5%);

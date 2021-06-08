@@ -1,10 +1,11 @@
 <template>
   <template v-if="column.columns">
     <FlexContainer :direction="FlexDirections.COLUMN"
-                   :grow="column.flex"
+                   :grow="column.width ? 0 : column.flex"
                    :width="column.width"
                    border="b r">
       <JefGridColumn :column="parentColumn"
+                     class="grid-header-parent"
                      :border="false" />
       <FlexContainer :grow="1"
                      border="t">

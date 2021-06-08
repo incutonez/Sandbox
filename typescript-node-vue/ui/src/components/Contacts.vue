@@ -5,6 +5,11 @@
                    :grow="1"
                    :margin="'0 10px 0 0'">
       <JefTitle title="Search Panel" />
+      <JefField label="Name"
+                v-model="search.name" />
+      <JefField label="Recruiter"
+                type="checkbox"
+                v-model="search.isRecruiter" />
     </FlexContainer>
     <FlexContainer extra-cls="right"
                    :grow="2"
@@ -36,10 +41,11 @@ import JefGrid from '@/components/base/Grid.vue';
 import JefTitle from '@/components/base/Title.vue';
 import Contact from '@/models/Contact';
 import FlexContainer from '@/components/base/FlexContainer.vue';
+import JefField from '@/components/base/Field.vue';
 
 export default defineComponent({
   name: 'ContactsGrid',
-  components: {FlexContainer, JefTitle, JefGrid},
+  components: {JefField, FlexContainer, JefTitle, JefGrid},
   data() {
     return {
       FlexDirections: FlexDirections,
@@ -48,6 +54,10 @@ export default defineComponent({
       TextAlignments: TextAlignments,
       FlexContentAlignments: FlexContentAlignments,
       viewStore: new Store(Contact),
+      search: {
+        name: '',
+        isRecruiter: false
+      },
       columns: [{
         text: 'Id',
         field: 'Id',
