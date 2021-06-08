@@ -2,11 +2,10 @@
   <template v-if="column.columns">
     <FlexContainer :direction="FlexDirections.COLUMN"
                    :grow="column.flex"
-                   :align="FlexAlignments.AUTO"
+                   :width="column.width"
                    border="b r">
-      <div :class="extraCls">
-        {{ column.text }}
-      </div>
+      <JefGridColumn :column="parentColumn"
+                     :border="false" />
       <FlexContainer :grow="1"
                      border="t">
         <JefGridColumn v-for="(col, colIdx) in column.columns"
@@ -18,9 +17,15 @@
     </FlexContainer>
   </template>
   <template v-else>
-    <FlexItem :extra-cls="extraCls"
+    <FlexItem :class="extraCls"
               :border="border"
               :grow="column.flex"
+              :basis="column.basis"
+              :shrink="column.shrink"
+              :pack="column.align"
+              :width="column.width"
+              :direction="column.direction"
+              cmp="span"
               @click="onClickColumn">
       {{ column.text }}
       <Icon v-if="column.isSorted"
@@ -31,7 +36,7 @@
 
 <script lang="ts">
 import IColumn from '../../interfaces/IColumn';
-import {defineComponent} from 'vue';
+import {defineComponent, PropType} from 'vue';
 import ColumnTypes from '@/statics/ColumnTypes';
 import Icons from '@/statics/Icons';
 import Icon from '@/components/Icon.vue';
@@ -44,7 +49,7 @@ export default defineComponent({
   components: {FlexItem, FlexContainer, Icon},
   props: {
     column: {
-      type: Object as () => IColumn,
+      type: Object as PropType<IColumn>,
       default: () => {
         return {};
       }
@@ -61,6 +66,15 @@ export default defineComponent({
     };
   },
   computed: {
+    parentColumn() {
+      if (this.column.columns) {
+        const clone: IColumn = Object.assign({}, this.column);
+        delete clone.columns;
+        clone.direction = FlexDirections.COLUMN;
+        return clone;
+      }
+      return null;
+    },
     sortIcon() {
       let icon = '';
       const direction = this.column.sorter?.direction;

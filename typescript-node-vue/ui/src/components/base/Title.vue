@@ -1,7 +1,7 @@
 <template>
   <FlexContainer v-bind="$props">
     <template v-if="showTitle">
-      <FlexItem extra-cls="jef-title">
+      <FlexItem class="jef-title">
         {{ title }}
       </FlexItem>
     </template>

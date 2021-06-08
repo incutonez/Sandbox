@@ -12,7 +12,7 @@ Table of contents
 
 # <a name="api"></a> Node.js API
 
-## <a name="api-run"></a> Setup
+## <a name="api-run"></a> Run
 
 ```
 npm install

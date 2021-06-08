@@ -36,7 +36,7 @@ export default defineComponent({
     },
     width: {
       type: [String, Number],
-      default: 'auto'
+      default: 0
     },
     /**
      * @property
@@ -69,11 +69,11 @@ export default defineComponent({
     },
     shrink: {
       type: Number,
-      default: 1
+      default: 0
     },
     basis: {
-      type: String,
-      default: '0'
+      type: [String, Number],
+      default: 0
     },
     extraCls: {
       type: String,
@@ -131,7 +131,15 @@ export default defineComponent({
       return cls.join(' ');
     },
     style(): string {
-      const flexGrow = this.grow ? `flex: ${this.grow} ${this.shrink} ${this.basis}` : '';
+      let grow = this.grow;
+      let shrink = this.shrink;
+      let basis = this.basis;
+      const width = this.width;
+      if (width) {
+        grow = 0;
+        shrink = 0;
+        basis = utilities.convertToPx(width);
+      }
       const extraStyle = this.extraStyle ? `${this.extraStyle}; ` : '';
       let direction = this.direction;
       let margin = '';
@@ -143,7 +151,7 @@ export default defineComponent({
         bgColor = `background-color: ${this.backgroundColor};`;
       }
       direction = direction === FlexDirections.FIT ? FlexDirections.ROW : direction;
-      return `${bgColor}${margin}${extraStyle}${flexGrow}; display: flex; flex-flow: ${direction} ${this.wrap}; justify-content: ${this.pack}; align-items: ${this.align}; align-content: ${this.contentAlign}; height: ${this.height}; width: ${this.width};`;
+      return `${bgColor}${margin}${extraStyle}flex: ${grow} ${shrink} ${basis}; display: flex; flex-flow: ${direction} ${this.wrap}; justify-content: ${this.pack}; align-items: ${this.align}; align-content: ${this.contentAlign}; height: ${this.height};`;
     }
   }
 });
@@ -163,12 +171,8 @@ export default defineComponent({
   }
 }
 
-.flex-container-stretch-children > .flex-item {
+.flex-container-stretch-children > div.flex-item {
   display: flex;
   align-items: stretch;
-
-  > * {
-    flex: 1;
-  }
 }
 </style>

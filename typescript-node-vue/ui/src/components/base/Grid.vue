@@ -39,7 +39,7 @@ import JefGridColumn from '@/components/grid/Column.vue';
 import Sorter from '@/classes/Sorter';
 import FlexItem from '@/components/base/FlexItem.vue';
 import FlexContainer from '@/components/base/FlexContainer.vue';
-import {FlexDirections} from '@/statics/Flex';
+import {FlexDirections, TextAlignments} from '@/statics/Flex';
 
 const DefaultColumnConfig: IColumn = {
   type: ColumnTypes.String,
@@ -54,7 +54,13 @@ const DefaultColumnConfig: IColumn = {
   isSorted: false,
   // TODO: I don't think this is necessary here... it only matters in the cell, but we define it on the column config
   formatter: _.identity,
-  flex: 1
+  flex: 1,
+  shrink: 1,
+  basis: 0,
+  width: 0,
+  cellCls: '',
+  align: TextAlignments.LEFT,
+  direction: FlexDirections.ROW
 };
 
 interface IData {
@@ -220,9 +226,7 @@ export default defineComponent({
   /* In order to maximize row lines, only display one line for a cell */
   .grid-cell {
     padding: 2px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    @include ellipsize();
 
     &.grid-header {
       background-color: $grid-header-background-color;

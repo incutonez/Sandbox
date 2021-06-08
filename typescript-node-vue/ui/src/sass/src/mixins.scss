@@ -1,14 +1,5 @@
-$orientations: "top", "right", "bottom", "left";
-
-@each $orientation in $orientations {
-  .panel-border-#{$orientation} {
-    border-#{$orientation}: $panel-border;
-  }
-}
-
-.panel-border {
-  @extend .panel-border-top;
-  @extend .panel-border-right;
-  @extend .panel-border-bottom;
-  @extend .panel-border-left;
+@mixin ellipsize() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

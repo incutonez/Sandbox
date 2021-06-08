@@ -51,35 +51,42 @@ export default defineComponent({
       columns: [{
         text: 'Id',
         field: 'Id',
-        type: ColumnTypes.Number
+        type: ColumnTypes.Number,
+        align: TextAlignments.RIGHT,
+        width: 50
       }, {
         text: 'Name',
         field: 'Name'
       }, {
         text: 'Recruiter',
         field: 'IsRecruiter',
-        type: ColumnTypes.Boolean
+        type: ColumnTypes.Boolean,
+        formatter: 'boolIconTrue',
+        align: TextAlignments.CENTER,
+        width: 80
       }, {
         text: 'Email',
         field: 'Email'
       }, {
         text: 'Company',
-        flex: 2,
+        width: 200,
         columns: [{
           text: 'Name',
-          field: 'Company.Name'
+          field: 'Company.Name',
+          width: 50
         }, {
           text: 'Recruitment',
           field: 'Company.IsRecruitment',
-          type: ColumnTypes.Boolean,
-          flex: 2
+          type: ColumnTypes.Boolean
         }]
       }, {
         text: 'Application',
+        flex: 2,
         columns: [{
           text: 'Id',
           field: 'Application.Id',
-          type: ColumnTypes.Number
+          type: ColumnTypes.Number,
+          align: TextAlignments.RIGHT
         }, {
           text: 'Position',
           field: 'Application.Position'

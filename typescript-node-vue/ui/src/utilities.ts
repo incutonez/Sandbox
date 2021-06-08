@@ -12,10 +12,10 @@ export default {
     return value instanceof type;
   },
   /**
-   * underscore's isEmpty treats booleans as being empty, even if it's true
+   * underscore's isEmpty treats booleans and numbers as being empty
    */
   isEmpty(value: any): boolean {
-    return !_.isBoolean(value) && _.isEmpty(value);
+    return !_.isBoolean(value) && !_.isNumber(value) && _.isEmpty(value);
   },
   isString(value: any): boolean {
     return _.isString(value);
@@ -29,5 +29,8 @@ export default {
   isIconTag(event: Event): boolean {
     const Target: HTMLElement = event.target as HTMLElement;
     return Target && Target.tagName === 'I';
+  },
+  convertToPx(value: string | number) {
+    return _.isNumber(value) ? `${value}px` : value;
   }
 };

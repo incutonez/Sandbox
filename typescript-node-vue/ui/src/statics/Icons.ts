@@ -12,5 +12,7 @@ export default {
   SORT_NUMBER_ASC: getIcon('sort-numeric-down'),
   SORT_NUMBER_DESC: getIcon('sort-numeric-down-alt'),
   PLUS: getIcon('plus'),
-  MINUS: getIcon('minus')
+  MINUS: getIcon('minus'),
+  CHECK: getIcon('check'),
+  TIMES: getIcon('times')
 };

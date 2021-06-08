@@ -1,0 +1,22 @@
+$orientations: "top", "right", "bottom", "left";
+
+@each $orientation in $orientations {
+  .panel-border-#{$orientation} {
+    border-#{$orientation}: $panel-border;
+  }
+}
+
+.panel-border {
+  @extend .panel-border-top;
+  @extend .panel-border-right;
+  @extend .panel-border-bottom;
+  @extend .panel-border-left;
+}
+
+.font-green {
+  color: $font-green;
+}
+
+.font-red {
+  color: $font-red;
+}

@@ -1,6 +1,7 @@
 <template>
   <template v-if="column.columns">
     <FlexContainer :grow="column.flex"
+                   :width="column.width"
                    background-color="transparent"
                    border="b r">
       <JefGridCell v-for="(cell, rowIdx) in column.columns"
@@ -13,16 +14,30 @@
   <template v-else>
     <FlexItem :class="clsFm"
               :grow="column.flex"
+              :shrink="column.shrink"
+              :basis="column.basis"
+              :width="column.width"
+              :direction="column.direction"
               :border="border"
+              :pack="column.align"
+              cmp="span"
               @click="onClickCell">
       <Icon v-if="isExpander"
-            :icon-name="iconName"></Icon>
+            :icon-name="iconName" />
       <template v-if="values !== ''">
-        <div v-for="(value, index) in values"
-             :key="index"
-             :class="index > 0 ? 'expandable' : ''">
-          {{ value }}
-        </div>
+        <component v-for="(value, index) in values"
+                   :key="index"
+                   :is="index > 0 ? 'div' : 'span'"
+                   :class="index > 0 ? 'expandable' : ''">
+          <!-- If we have an object, then that means we want to do custom component rendering-->
+          <template v-if="underscore.isObject(value)">
+            <component :is="value.cmp"
+                       v-bind="value.props" />
+          </template>
+          <template v-else>
+            {{ value }}
+          </template>
+        </component>
       </template>
       <template v-else>
         <div>&nbsp;</div>
@@ -32,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import {defineComponent, PropType} from 'vue';
 import ColumnTypes from '@/statics/ColumnTypes';
 import utilities from '@/utilities';
 import Icons from '@/statics/Icons';
@@ -41,6 +56,7 @@ import _ from 'lodash';
 import Formatters from '@/statics/Formatters';
 import FlexItem from '@/components/base/FlexItem.vue';
 import FlexContainer from '@/components/base/FlexContainer.vue';
+import IColumn from '@/interfaces/IColumn';
 
 interface PlainObject {
   [key: string]: any;
@@ -59,10 +75,8 @@ export default defineComponent({
      * This gets applied to the th tag in the class property
      */
     cls: {
-      type: Array,
-      default: () => {
-        return ['grid-cell'];
-      }
+      type: String,
+      default: ''
     },
     border: {
       type: [String, Boolean],
@@ -70,7 +84,7 @@ export default defineComponent({
     },
     // TODO: Rename to RowCfg
     column: {
-      type: Object,
+      type: Object as PropType<IColumn>,
       default: () => {
         return {};
       }
@@ -84,7 +98,8 @@ export default defineComponent({
   },
   data: () => {
     return {
-      isExpanded: false
+      isExpanded: false,
+      underscore: _
     };
   },
   computed: {
@@ -93,22 +108,26 @@ export default defineComponent({
     },
     // TODO: Add formatter for dates and such?
     values(): any {
-      const Column = this.column;
+      const column = this.column;
       if (this.isExpander) {
         return '';
       }
-      const Record = this.record;
-      let formatter = Column.formatter || _.identity;
+      const record = this.record;
+      const formatter = column.formatter;
+      let formatterFn: (value: any) => {} = _.identity;
       if (_.isString(formatter)) {
-        formatter = (Formatters as PlainObject)[formatter];
+        formatterFn = (Formatters as PlainObject)[formatter];
       }
-      const Fields = Column.field.split('.');
-      let values = Record[Fields[0]];
+      else {
+        formatterFn = formatter as (value: any) => {};
+      }
+      const fields = column.field.split('.');
+      let values = record[fields[0]];
       if (utilities.isEmpty(values)) {
         return '';
       }
-      for (let i = 1; i < Fields.length; i++) {
-        const Field = Fields[i];
+      for (let i = 1; i < fields.length; i++) {
+        const Field = fields[i];
         if (Array.isArray(values)) {
           const out: any[] = [];
           values.forEach((item) => {
@@ -128,7 +147,7 @@ export default defineComponent({
       }
       values = Array.isArray(values) ? values : [values];
       return values.map((value: any) => {
-        return formatter(value);
+        return formatterFn(value);
       });
     },
     iconName(): string {
@@ -138,14 +157,17 @@ export default defineComponent({
       return '';
     },
     clsFm(): any {
-      const Cls = this.cls;
+      const cls = ['grid-cell'];
+      if (this.column.cellCls) {
+        cls.push(this.column.cellCls);
+      }
       switch (this.column.type) {
         case ColumnTypes.String:
           break;
         case ColumnTypes.Number:
           break;
       }
-      return Cls.join(' ');
+      return cls.join(' ');
     }
   },
   methods: {

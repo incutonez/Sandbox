@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import {defineComponent, PropType} from 'vue';
-import {FlexAlignments, TextAlignments} from '@/statics/Flex';
+import {FlexAlignments, FlexDirections, TextAlignments} from '@/statics/Flex';
 import utilities from '@/utilities';
 
 /**
@@ -35,9 +35,13 @@ export default defineComponent({
       type: Number,
       default: 1
     },
+    /**
+     *  If direction is ROW, then your basis is width
+     *  If direction is COLUMN, then your basis is height
+     */
     basis: {
-      type: String,
-      default: '0'
+      type: [String, Number],
+      default: 0
     },
     align: {
       type: String as PropType<FlexAlignments>,
@@ -46,10 +50,6 @@ export default defineComponent({
     pack: {
       type: String as PropType<TextAlignments>,
       default: TextAlignments.LEFT
-    },
-    extraCls: {
-      type: String,
-      default: ''
     },
     /**
      * The string version of this can look like "t r b l" or "t b" to mean only top and bottom get the border
@@ -61,11 +61,23 @@ export default defineComponent({
     extraStyle: {
       type: String,
       default: ''
+    },
+    direction: {
+      type: String as PropType<FlexDirections>,
+      default: FlexDirections.ROW
+    },
+    width: {
+      type: [Number, String],
+      default: 0
+    },
+    height: {
+      type: [Number, String],
+      default: 0
     }
   },
   computed: {
     cls(): string {
-      const cls = [this.extraCls, 'flex-item'];
+      const cls = ['flex-item'];
       const border = this.border;
       if (border) {
         if (border === true) {
@@ -94,7 +106,43 @@ export default defineComponent({
     },
     style(): string {
       const extraStyle = this.extraStyle ? `${this.extraStyle}; ` : '';
-      return `${extraStyle}flex: ${this.grow} ${this.shrink} ${this.basis}; order: ${this.order}; align-self: ${this.align}; text-align: ${this.pack};`;
+      let grow = this.grow;
+      let shrink = this.shrink;
+      let basis = this.basis;
+      let oppositeAxis = '';
+      const width = this.width;
+      const height = this.height;
+      const isRowLayout = [FlexDirections.ROW, FlexDirections.ROW_REVERSE].indexOf(this.direction) !== -1;
+      /**
+       * This bit of code is tricky... if our parent is a row layout, and we have a width specified, then
+       * what we really want to do is change the basis... as the basis in a row layout refers to the width.
+       *
+       * Otherwise, if we're in a column layout, and we've specified the width, then we actually want to
+       * set the width.
+       */
+      if (isRowLayout) {
+        if (width) {
+          grow = 0;
+          shrink = 0;
+          basis = utilities.convertToPx(width);
+        }
+        if (height) {
+          oppositeAxis = `height: ${utilities.convertToPx(height)}`;
+          basis = basis || 'auto';
+        }
+      }
+      else {
+        if (height) {
+          grow = 0;
+          shrink = 0;
+          basis = utilities.convertToPx(height);
+        }
+        if (width) {
+          oppositeAxis = `width: ${utilities.convertToPx(width)}`;
+          basis = basis || 'auto';
+        }
+      }
+      return `${oppositeAxis}${extraStyle}flex: ${grow} ${shrink} ${basis}; order: ${this.order}; align-self: ${this.align}; text-align: ${this.pack};`;
     }
   }
 });
