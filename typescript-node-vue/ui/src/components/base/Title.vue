@@ -1,9 +1,15 @@
 <template>
-  <FlexContainer v-bind="$props">
+  <FlexContainer v-bind="$props"
+                 class="jef-title"
+                 :background-color="false">
     <template v-if="showTitle">
-      <FlexItem class="jef-title">
+      <FlexContainer :background-color="false"
+                     :border="false"
+                     :grow="titleFlex"
+                     :basis="!titleFlex ? 'auto' : 0"
+                     cmp="span">
         {{ title }}
-      </FlexItem>
+      </FlexContainer>
     </template>
     <template v-if="showTools">
       <slot name="tools" />
@@ -13,17 +19,20 @@
 
 <script>
 import {defineComponent} from 'vue';
-import FlexItem from '@/components/base/FlexItem';
 import FlexContainer from '@/components/base/FlexContainer';
 
 export default defineComponent({
   name: 'JefTitle',
-  components: {FlexContainer, FlexItem},
+  components: {FlexContainer},
   extends: FlexContainer,
   props: {
     title: {
       type: String,
       default: ''
+    },
+    titleFlex: {
+      type: Number,
+      default: 1
     }
   },
   computed: {

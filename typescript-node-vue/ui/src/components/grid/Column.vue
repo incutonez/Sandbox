@@ -33,7 +33,6 @@ import Icons from '@/statics/Icons';
 import Icon from '@/components/Icon.vue';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import {FlexAlignments, FlexDirections, FlexJustifications} from '@/statics/Flex';
-import FlexItem from '@/components/base/FlexItem.vue';
 
 export default defineComponent({
   name: 'JefGridColumn',

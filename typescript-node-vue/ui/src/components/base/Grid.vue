@@ -1,28 +1,28 @@
 <template>
   <FlexContainer v-bind="$props"
-                 border="r b l"
+                 :border="border"
                  extra-cls="grid-container"
                  :direction="FlexDirections.COLUMN">
-    <FlexItem class="grid-row grid-header"
-              :grow="0">
+    <FlexContainer class="grid-row grid-header"
+                   :border="false">
       <JefGridColumn v-for="(column, colIdx) in columnsCfg"
                      :key="colIdx"
                      :column="column"
                      :border="colIdx + 1 === columnsCfg.length ? 'b' : 'b r'"
                      @sortColumn="onSortColumn" />
-    </FlexItem>
-    <FlexItem v-for="(record, index) in store"
-              :key="index"
-              :grow="0"
-              class="grid-row grid-row-data"
-              :record="record"
-              @click="onClickRow">
+    </FlexContainer>
+    <FlexContainer v-for="(record, index) in store"
+                   :key="index"
+                   class="grid-row grid-row-data"
+                   :record="record"
+                   :border="false"
+                   @click="onClickRow">
       <JefGridCell v-for="(cell, rowIdx) in columnsCfg"
                    :key="rowIdx"
                    :record="record"
                    :border="rowIdx + 1 === columnsCfg.length ? 'b' : 'b r'"
                    :column="cell" />
-    </FlexItem>
+    </FlexContainer>
   </FlexContainer>
 </template>
 
@@ -39,7 +39,6 @@ import _ from 'lodash';
 import JefGridCell from '@/components/grid/Cell.vue';
 import JefGridColumn from '@/components/grid/Column.vue';
 import Sorter from '@/classes/Sorter';
-import FlexItem from '@/components/base/FlexItem.vue';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import {FlexAlignments, FlexDirections, TextAlignments} from '@/statics/Flex';
 
@@ -74,9 +73,13 @@ interface IData {
 
 export default defineComponent({
   name: 'JefGrid',
-  components: {FlexContainer, FlexItem, JefGridColumn, JefGridCell},
+  components: {FlexContainer, JefGridColumn, JefGridCell},
   extends: FlexContainer,
   props: {
+    border: {
+      type: [String, Boolean],
+      default: 'r b l'
+    },
     columns: {
       type: Array as () => IColumn[],
       default: () => {

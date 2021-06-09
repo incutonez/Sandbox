@@ -4,7 +4,9 @@
                    extra-cls="left"
                    :grow="1"
                    :margin="'0 10px 0 0'">
-      <JefTitle title="Search Panel" />
+      <JefTitle title="Search Panel"
+                border="b">
+      </JefTitle>
       <JefField label="Name"
                 v-model="search.name" />
       <JefField label="Recruiter"
