@@ -74,6 +74,9 @@ export default defineComponent({
       FlexAlignments: FlexAlignments
     };
   },
+  // TODO: Set a fixed width for the label
+  // TODO: Style checkboxes/radios https://dev.to/kallmanation/styling-a-checkbox-with-only-css-3o3p
+  //  See also: https://stackoverflow.com/a/4148544/1253609
   computed: {
     // Taken from https://v3.vuejs.org/guide/component-basics.html#using-v-model-on-components
     value: {
@@ -95,7 +98,7 @@ export default defineComponent({
     },
     fieldInputCls() {
       const cls = ['field-input'];
-      if (this.required) {
+      if (this.required && !this.value) {
         cls.push('field-required');
       }
       if (this.readOnly) {

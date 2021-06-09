@@ -7,6 +7,7 @@
       <JefTitle title="Search Panel"
                 border="b" />
       <JefField v-model="search.name"
+                :required="true"
                 label="Name" />
       <JefField v-model="search.isRecruiter"
                 label="Recruiter"

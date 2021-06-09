@@ -1,0 +1,12 @@
+input {
+  outline: none;
+  border: $field-input-border-width solid $field-input-border-color;
+}
+
+input:not(.field-required):focus {
+  border-color: $field-input-border-color-focus;
+}
+
+input.field-required {
+  border-color: $field-input-border-color-required;
+}
