@@ -23,4 +23,5 @@ export default interface IColumn {
   width: number | string;
   direction: FlexDirections;
   align: TextAlignments;
+  hidden: boolean;
 }

@@ -37,7 +37,7 @@ class Store<T> extends Collection<T> {
       this.doSort(this.sorters);
     }
     catch (ex) {
-      console.error(ex);
+      this.logException(ex);
     }
   }
 }

@@ -9,7 +9,9 @@
                      :key="colIdx"
                      :column="column"
                      :border="colIdx + 1 === columnsCfg.length ? 'b' : 'b r'"
-                     @sort="onSortColumn" />
+                     @sort="onSortColumn"
+                     @hide="onHideColumn"
+                     @show="onShowColumn" />
     </FlexContainer>
     <FlexContainer v-for="(record, index) in store"
                    :key="index"
@@ -61,7 +63,8 @@ const DefaultColumnConfig: IColumn = {
   width: 0,
   cellCls: '',
   align: TextAlignments.LEFT,
-  direction: FlexDirections.ROW
+  direction: FlexDirections.ROW,
+  hidden: false
 };
 
 interface IData {
@@ -106,11 +109,6 @@ export default defineComponent({
       FlexDirections: FlexDirections
     } as IData;
   },
-  computed: {
-    rowCfg(): IColumn[] {
-      return this.getRowConfig(this.columnsCfg);
-    }
-  },
   watch: {
     columns: {
       immediate: true,
@@ -133,6 +131,7 @@ export default defineComponent({
   methods: {
     getDefaultColumns(columns: IColumn[]) {
       const out: IColumn[] = [];
+      const sorters = this.store.sorters;
       columns.forEach((column) => {
         let children = column.columns;
         if (children) {
@@ -140,40 +139,56 @@ export default defineComponent({
           column.align = column.align || FlexAlignments.CENTER;
           children = this.getDefaultColumns(children);
         }
+        // Match column's sorter with any defined sorters in the store
+        for (let i = 0; i < sorters.length; i++) {
+          const sorter = sorters[i];
+          if (sorter.field === column.field) {
+            column.sorter = sorter;
+            break;
+          }
+        }
         out.push(_.merge({
           columns: children
         }, DefaultColumnConfig, column));
       });
       return out;
     },
-    onSortStore() {
-      this.store.sorters.forEach((sorter) => {
-        // const column = this.$refs[`column-${sorter.field}`] as typeof JefColumn;
-        // TODO: Fix??  The problem is that when you add an initial sorter when creating the store,
-        // it's not the same instance that a column would have when it gets sorted
-        // column.sorter = sorter;
-        // column.isSorted = true;
-      });
-    },
-    getRowConfig(columns: IColumn[]) {
-      let Config: IColumn[] = [];
+    syncColumnsSort(columns: IColumn[]) {
+      const sorters = this.store.sorters;
       columns.forEach((column) => {
-        if (column.columns) {
-          column.isSortable = false;
-          Config = [...Config, ...this.getRowConfig(column.columns)];
+        const sorter = column.sorter;
+        // We have a sorter defined, so let's see if it exists in the store's sorters
+        if (sorter) {
+          // Column's sorter was removed, so let's update
+          column.isSorted = sorters.indexOf(sorter) !== -1;
+        }
+        else if (column.columns) {
+          this.syncColumnsSort(column.columns);
         }
         else {
-          // TODO: Potentially do the merging of default column properties here?  Or add formatter?
-          Config.push(column);
+          column.isSorted = false;
         }
       });
-      return Config;
+    },
+    onSortStore() {
+      this.syncColumnsSort(this.columnsCfg);
+    },
+    // We pass the reference back to the parent, so we can update its value in the proper fashion
+    onHideColumn(column: IColumn) {
+      column.hidden = true;
+    },
+    onShowColumn(column: IColumn) {
+      column.hidden = false;
     },
     onSortColumn(column: IColumn) {
       let sorter = column.sorter;
-      // TODOJEF: Pick up here... move logic to sorter and add a clearCount... increment it, and when it's hit, clear sorter
       if (sorter) {
-        sorter.direction = sorter.direction === 'ASC' ? 'DESC' : 'ASC';
+        const shouldClear = sorter.changeDirection();
+        if (shouldClear) {
+          column.isSorted = false;
+          this.store.removeSorter(sorter);
+          return;
+        }
       }
       else {
         column.sorter = new Sorter({
@@ -234,6 +249,10 @@ export default defineComponent({
     .grid-header-child:hover {
       background-color: darken($grid-header-background-color, 5%);
     }
+  }
+
+  .grid-cell-hidden {
+    display: none !important;
   }
 
   /* In order to maximize row lines, only display one line for a cell */

@@ -31,6 +31,26 @@ class BaseCollection<T> extends Base(Array, ['Eventable']) {
     });
   }
 
+  /**
+   * This can be a T, number, T[], or a mixed array of T and number
+   * @param args
+   */
+  remove(args: any): void {
+    // Nothing to do, bail early
+    if (utilities.isEmpty(args)) {
+      return;
+    }
+    if (!utilities.isArray(args)) {
+      args = [args];
+    }
+    args.forEach((item: any) => {
+      const index = utilities.isNumber(item) ? item : this.indexOf(item);
+      if (index !== -1) {
+        this.splice(index, 1);
+      }
+    });
+  }
+
   first(): T {
     return this[0];
   }

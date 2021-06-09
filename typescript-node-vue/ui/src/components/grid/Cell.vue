@@ -3,6 +3,7 @@
                  :grow="column.width ? 0 : column.flex"
                  :width="column.width"
                  :background-color="false"
+                 :class="extraCls"
                  :border="border">
     <JefGridCell v-for="(cell, rowIdx) in column.columns"
                  :key="rowIdx"
@@ -16,6 +17,7 @@
                  :border="border"
                  :pack="FlexJustifications.CENTER"
                  :background-color="false"
+                 :class="extraCls"
                  :width="column.width">
     <Icon v-if="isExpander"
           :icon-name="iconName" />
@@ -146,18 +148,8 @@ export default defineComponent({
       }
       return '';
     },
-    clsFm(): any {
-      const cls = ['grid-cell'];
-      if (this.column.cellCls) {
-        cls.push(this.column.cellCls);
-      }
-      switch (this.column.type) {
-        case ColumnTypes.String:
-          break;
-        case ColumnTypes.Number:
-          break;
-      }
-      return cls.join(' ');
+    extraCls(): string {
+      return this.column.hidden ? 'grid-cell-hidden' : '';
     }
   },
   methods: {

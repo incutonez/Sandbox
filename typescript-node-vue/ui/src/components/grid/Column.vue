@@ -25,7 +25,9 @@
                        :key="index"
                        :border="index + 1 === column.columns.length ? false : 'r'"
                        :column="col"
-                       @sort="onSortChildColumn" />
+                       @sort="onSortChildColumn"
+                       @hide="onHideChildColumn"
+                       @show="onShowChildColumn" />
       </FlexContainer>
     </template>
   </FlexContainer>
@@ -59,7 +61,9 @@ export default defineComponent({
     }
   },
   emits: [
-    'sort'
+    'sort',
+    'hide',
+    'show'
   ],
   data() {
     return {
@@ -86,14 +90,39 @@ export default defineComponent({
       return icon;
     },
     extraCls() {
+      const cfg = this.column;
       const cls = ['grid-header'];
-      if (this.column.isSortable) {
+      if (cfg.isSortable) {
         cls.push('grid-header-sortable');
+      }
+      if (cfg.hidden) {
+        cls.push('grid-cell-hidden');
       }
       return cls.join(' ');
     }
   },
   methods: {
+    hide() {
+      this.emitHide(this.column);
+    },
+    show() {
+      this.emitShow(this.column);
+    },
+    emitHide(column: IColumn) {
+      this.$emit('hide', column);
+    },
+    emitShow(column: IColumn) {
+      this.$emit('show', column);
+    },
+    emitSort(column: IColumn) {
+      this.$emit('sort', column);
+    },
+    onHideChildColumn(column: IColumn) {
+      this.emitHide(column);
+    },
+    onShowChildColumn(column: IColumn) {
+      this.emitShow(column);
+    },
     onSortChildColumn(column: IColumn) {
       this.emitSort(column);
     },
@@ -101,9 +130,6 @@ export default defineComponent({
       if (this.column.isSortable) {
         this.emitSort(this.column);
       }
-    },
-    emitSort(column: IColumn) {
-      this.$emit('sort', column);
     }
   }
 });

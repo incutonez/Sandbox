@@ -95,7 +95,7 @@ export default defineComponent({
       default: null
     },
     backgroundColor: {
-      type: String,
+      type: [String, Boolean],
       default: '#FFFFFF'
     },
     alignSelf: {

@@ -11,6 +11,9 @@ export default {
   isType<T>(type: any, value: T): boolean {
     return value instanceof type;
   },
+  isDefined<T>(value: T): boolean {
+    return value !== undefined;
+  },
   /**
    * underscore's isEmpty treats booleans and numbers as being empty
    */
@@ -20,6 +23,9 @@ export default {
   isString: _.isString,
   isObject: _.isObject,
   isDate: _.isDate,
+  isFunction: _.isFunction,
+  isNumber: _.isNumber,
+  isArray: _.isArray,
   isIconTag(event: Event): boolean {
     const Target: HTMLElement = event.target as HTMLElement;
     return Target && Target.tagName === 'I';

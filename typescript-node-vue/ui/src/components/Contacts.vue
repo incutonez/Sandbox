@@ -53,7 +53,12 @@ export default defineComponent({
       FlexAlignments: FlexAlignments,
       TextAlignments: TextAlignments,
       FlexContentAlignments: FlexContentAlignments,
-      viewStore: new Store(Contact),
+      viewStore: new Store(Contact, {
+        sorters: [{
+          field: 'Name',
+          direction: 'DESC'
+        }]
+      }),
       search: {
         name: '',
         isRecruiter: false

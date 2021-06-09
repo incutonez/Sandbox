@@ -8,3 +8,9 @@
 - Columns
 -- Make draggable
 -- Make resizable
+
+Low Priority
+- Add remote sorting
+- Figure out a good way of showing sort order
+-- Maybe add a number near the icon
+-- 1 is the 1st sort considered, then 2, etc.
