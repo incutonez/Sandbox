@@ -4,12 +4,19 @@ interface Sorter extends ISorter {
 }
 
 class Sorter {
-  id = '';
-  field = '';
-  direction = 'ASC';
+  constructor(config: ISorter) {
+    this.field = config.field;
+    this.id = config.id;
+    this.direction = config.direction;
+    this.func = config.func;
+  }
 
-  constructor(config: any = {}) {
-    Object.assign(this, config);
+  isAsc() {
+    return this.direction === 'ASC';
+  }
+
+  isDesc() {
+    return this.direction === 'DESC';
   }
 }
 

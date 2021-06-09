@@ -14,6 +14,7 @@ export default interface IColumn {
   isSortable: boolean;
   isSorted: boolean;
   sorter?: Sorter;
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
   formatter: string | ((value: any, record: any) => {});
   flex: number;
   shrink: number;

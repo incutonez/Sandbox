@@ -9,7 +9,7 @@
                      :key="index"
                      :config="column"
                      :ref="column.isParent ? `column-parent-${index}` : `column-${column.field || index}`"
-                     @sortColumn="onSortColumn" />
+                     @sort="onSortColumn" />
         </tr>
       </thead>
       <tbody :style="bodyStyles">

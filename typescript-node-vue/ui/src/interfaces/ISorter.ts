@@ -1,6 +1,6 @@
 export default interface ISorter {
-  id: string;
+  id?: string;
   field: string;
   direction: string;
-  func: () => void;
+  func?: () => void;
 }

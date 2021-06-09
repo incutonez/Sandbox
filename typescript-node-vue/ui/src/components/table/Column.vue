@@ -109,7 +109,7 @@ export default defineComponent({
             direction: 'ASC'
           });
         }
-        this.$emit('sortColumn', this);
+        this.$emit('sort', this);
       }
     }
   }

@@ -5,21 +5,19 @@
                    :grow="1"
                    :margin="'0 10px 0 0'">
       <JefTitle title="Search Panel"
-                border="b">
-      </JefTitle>
-      <JefField label="Name"
-                v-model="search.name" />
-      <JefField label="Recruiter"
-                type="checkbox"
-                v-model="search.isRecruiter" />
+                border="b" />
+      <JefField v-model="search.name"
+                label="Name" />
+      <JefField v-model="search.isRecruiter"
+                label="Recruiter"
+                type="checkbox" />
     </FlexContainer>
     <FlexContainer extra-cls="right"
                    :grow="2"
                    :border="false"
                    :direction="FlexDirections.COLUMN">
       <JefTitle title="Contacts"
-                :grow="0">
-      </JefTitle>
+                :grow="0" />
       <JefGrid :columns="columns"
                :store="viewStore"
                :grow="1"

@@ -1,8 +1,16 @@
 import Icons from '@/statics/Icons';
-import Icon from '@/components/Icon.vue';
 import Styles from '@/statics/Styles';
 
-function boolIcon(value: boolean) {
+interface IProps {
+  iconName: string;
+}
+
+interface IBoolIcon {
+  cmp: string;
+  props: IProps;
+}
+
+function boolIcon(value: boolean): IBoolIcon {
   return {
     cmp: 'Icon',
     props: {
@@ -13,10 +21,10 @@ function boolIcon(value: boolean) {
 
 export default {
   boolIcon: boolIcon,
-  boolIconTrue(value: boolean) {
+  boolIconTrue(value: boolean): IBoolIcon | string {
     return value ? boolIcon(value) : '';
   },
-  mmddyyyy(value: string | Date) {
+  mmddyyyy(value: string | Date): string {
     if (!(value instanceof Date)) {
       value = new Date(value);
     }

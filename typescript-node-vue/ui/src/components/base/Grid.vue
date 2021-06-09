@@ -9,7 +9,7 @@
                      :key="colIdx"
                      :column="column"
                      :border="colIdx + 1 === columnsCfg.length ? 'b' : 'b r'"
-                     @sortColumn="onSortColumn" />
+                     @sort="onSortColumn" />
     </FlexContainer>
     <FlexContainer v-for="(record, index) in store"
                    :key="index"
@@ -171,6 +171,7 @@ export default defineComponent({
     },
     onSortColumn(column: IColumn) {
       let sorter = column.sorter;
+      // TODOJEF: Pick up here... move logic to sorter and add a clearCount... increment it, and when it's hit, clear sorter
       if (sorter) {
         sorter.direction = sorter.direction === 'ASC' ? 'DESC' : 'ASC';
       }
@@ -218,20 +219,20 @@ export default defineComponent({
     background-color: $grid-header-background-color;
     font-weight: $grid-header-font-weight;
 
-    .grid-header-text {
-      @include ellipsize();
+    .grid-cell {
+      color: $grid-header-font-color;
     }
 
-    &.grid-header-parent {
-      text-align: center;
+    .sort-icon {
+      margin: 0 2px 0 0;
     }
 
-    &:hover {
+    &.grid-header-sortable {
+      cursor: pointer;
+    }
+
+    .grid-header-child:hover {
       background-color: darken($grid-header-background-color, 5%);
-
-      &.grid-header-sortable {
-        cursor: pointer;
-      }
     }
   }
 

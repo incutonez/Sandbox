@@ -8,6 +8,7 @@ export interface Eventable {
   off(event: string, handler: () => void): void;
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 export function EventableMixin(cls: any) {
   const Proto = cls.prototype;
   Proto.events = new EventTarget();

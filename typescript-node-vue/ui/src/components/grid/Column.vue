@@ -2,24 +2,30 @@
   <FlexContainer :direction="FlexDirections.COLUMN"
                  :grow="column.width ? 0 : column.flex"
                  :border="border"
-                 :pack="FlexJustifications.CENTER"
                  :class="extraCls"
                  :background-color="false"
                  :width="column.width"
                  @click="onClickColumn">
-      <span :style="`text-align: ${column.align};`"
-            class="grid-cell">
+    <FlexContainer :border="false"
+                   :pack="column.align"
+                   :align="FlexAlignments.CENTER"
+                   :background-color="false"
+                   :grow="1"
+                   class="grid-header-child">
+      <span class="grid-cell">
         {{ column.text }}
-        <Icon v-if="column.isSorted"
-              :icon-name="sortIcon" />
       </span>
+      <Icon v-if="column.isSorted"
+            class="sort-icon"
+            :icon-name="sortIcon" />
+    </FlexContainer>
     <template v-if="column.columns">
       <FlexContainer border="t">
         <JefGridColumn v-for="(col, index) in column.columns"
                        :key="index"
                        :border="index + 1 === column.columns.length ? false : 'r'"
                        :column="col"
-                       @sortColumn="onSortChildColumn" />
+                       @sort="onSortChildColumn" />
       </FlexContainer>
     </template>
   </FlexContainer>
@@ -52,6 +58,9 @@ export default defineComponent({
       default: 'b r'
     }
   },
+  emits: [
+    'sort'
+  ],
   data() {
     return {
       FlexDirections: FlexDirections,
@@ -60,27 +69,18 @@ export default defineComponent({
     };
   },
   computed: {
-    parentColumn() {
-      if (this.column.columns) {
-        const clone: IColumn = Object.assign({}, this.column);
-        delete clone.columns;
-        clone.direction = FlexDirections.COLUMN;
-        return clone;
-      }
-      return null;
-    },
     sortIcon() {
       let icon = '';
-      const direction = this.column.sorter?.direction;
+      const isAsc = this.column.sorter?.isAsc();
       switch (this.column.type) {
         case ColumnTypes.String:
-          icon = direction === 'ASC' ? Icons.SORT_STRING_ASC : Icons.SORT_STRING_DESC;
+          icon = isAsc ? Icons.SORT_STRING_ASC : Icons.SORT_STRING_DESC;
           break;
         case ColumnTypes.Number:
-          icon = direction === 'ASC' ? Icons.SORT_NUMBER_ASC : Icons.SORT_NUMBER_DESC;
+          icon = isAsc ? Icons.SORT_NUMBER_ASC : Icons.SORT_NUMBER_DESC;
           break;
         default:
-          icon = direction === 'ASC' ? Icons.SORT_DEFAULT_ASC : Icons.SORT_DEFAULT_DESC;
+          icon = isAsc ? Icons.SORT_DEFAULT_ASC : Icons.SORT_DEFAULT_DESC;
           break;
       }
       return icon;
@@ -95,12 +95,15 @@ export default defineComponent({
   },
   methods: {
     onSortChildColumn(column: IColumn) {
-      this.$emit('sortColumn', column);
+      this.emitSort(column);
     },
     onClickColumn() {
       if (this.column.isSortable) {
-        this.$emit('sortColumn', this.column);
+        this.emitSort(this.column);
       }
+    },
+    emitSort(column: IColumn) {
+      this.$emit('sort', column);
     }
   }
 });

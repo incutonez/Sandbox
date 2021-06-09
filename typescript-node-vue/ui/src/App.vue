@@ -15,6 +15,7 @@
 <script lang="ts">
 import {Vue} from 'vue-class-component';
 import Contacts from '@/components/Contacts.vue';
+import '@fontsource/open-sans';
 
 export default {
   components: {

@@ -123,7 +123,7 @@ export default defineComponent({
           values.forEach((item) => {
             // Can only have an object or just a plain ole array
             if (utilities.isObject(item)) {
-              out.push(item[Field]);
+              out.push((item as PlainObject)[Field]);
             }
             else {
               out.push(item);
