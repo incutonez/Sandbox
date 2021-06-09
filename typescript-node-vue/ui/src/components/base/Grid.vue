@@ -8,6 +8,7 @@
       <JefGridColumn v-for="(column, colIdx) in columnsCfg"
                      :key="colIdx"
                      :column="column"
+                     :border="colIdx + 1 === columnsCfg.length ? 'b' : 'b r'"
                      @sortColumn="onSortColumn" />
     </FlexItem>
     <FlexItem v-for="(record, index) in store"
@@ -19,6 +20,7 @@
       <JefGridCell v-for="(cell, rowIdx) in columnsCfg"
                    :key="rowIdx"
                    :record="record"
+                   :border="rowIdx + 1 === columnsCfg.length ? 'b' : 'b r'"
                    :column="cell" />
     </FlexItem>
   </FlexContainer>
@@ -207,10 +209,27 @@ export default defineComponent({
     display: block;
   }
 
-  &.grid-header {
+  .grid-header {
     position: sticky;
     top: 0;
-    background-color: #FFFFFF;
+    background-color: $grid-header-background-color;
+    font-weight: $grid-header-font-weight;
+
+    .grid-header-text {
+      @include ellipsize();
+    }
+
+    &.grid-header-parent {
+      text-align: center;
+    }
+
+    &:hover {
+      background-color: darken($grid-header-background-color, 5%);
+
+      &.grid-header-sortable {
+        cursor: pointer;
+      }
+    }
   }
 
   /* In order to maximize row lines, only display one line for a cell */
@@ -219,27 +238,6 @@ export default defineComponent({
     color: $grid-cell-font-color;
     font-size: $grid-cell-font-size;
     @include ellipsize();
-
-    &.grid-header {
-      background-color: $grid-header-background-color;
-      font-weight: $grid-header-font-weight;
-
-      .grid-header-text {
-        @include ellipsize();
-      }
-
-      &.grid-header-parent {
-        text-align: center;
-      }
-
-      &:hover {
-        background-color: darken($grid-header-background-color, 5%);
-
-        &.grid-header-sortable {
-          cursor: pointer;
-        }
-      }
-    }
 
     .expandable {
       display: none;

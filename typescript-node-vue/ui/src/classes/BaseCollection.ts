@@ -44,6 +44,10 @@ class BaseCollection<T> extends Base(Array, ['Eventable']) {
       this.pop();
     }
   }
+
+  count(): number {
+    return this.length;
+  }
 }
 
 export default BaseCollection;

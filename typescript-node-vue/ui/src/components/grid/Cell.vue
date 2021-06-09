@@ -1,49 +1,39 @@
 <template>
-  <template v-if="column.columns">
-    <FlexContainer :grow="column.width ? 0 : column.flex"
-                   :basis="`${utilities.convertToPx(column.width)}`"
-                   background-color="false"
-                   border="b r">
-      <JefGridCell v-for="(cell, rowIdx) in column.columns"
-                   :key="rowIdx"
-                   :record="record"
-                   :border="rowIdx + 1 === column.columns.length ? false : 'r'"
-                   :column="cell" />
-    </FlexContainer>
-  </template>
-  <template v-else>
-    <FlexItem :class="clsFm"
-              :grow="column.flex"
-              :shrink="column.shrink"
-              :basis="column.basis"
-              :width="column.width"
-              :direction="column.direction"
-              :border="border"
-              :pack="column.align"
-              cmp="span"
-              @click="onClickCell">
-      <Icon v-if="isExpander"
-            :icon-name="iconName" />
-      <template v-if="values !== ''">
-        <component v-for="(value, index) in values"
-                   :key="index"
-                   :is="index > 0 ? 'div' : 'span'"
-                   :class="index > 0 ? 'expandable' : ''">
-          <!-- If we have an object, then that means we want to do custom component rendering-->
-          <template v-if="utilities.isObject(value)">
-            <component :is="value.cmp"
-                       v-bind="value.props" />
-          </template>
-          <template v-else>
-            {{ value }}
-          </template>
-        </component>
-      </template>
-      <template v-else>
-        <div>&nbsp;</div>
-      </template>
-    </FlexItem>
-  </template>
+  <FlexContainer v-if="column.columns"
+                 :grow="column.width ? 0 : column.flex"
+                 :width="column.width"
+                 :background-color="false"
+                 :border="border">
+    <JefGridCell v-for="(cell, rowIdx) in column.columns"
+                 :key="rowIdx"
+                 :record="record"
+                 :border="rowIdx + 1 === column.columns.length ? false : 'r'"
+                 :column="cell" />
+  </FlexContainer>
+  <FlexContainer v-else
+                 :direction="FlexDirections.COLUMN"
+                 :grow="column.width ? 0 : column.flex"
+                 :border="border"
+                 :pack="FlexJustifications.CENTER"
+                 :background-color="false"
+                 :width="column.width">
+    <Icon v-if="isExpander"
+          :icon-name="iconName" />
+    <template v-if="values !== ''">
+      <span v-for="(value, idx) in values"
+            :key="idx"
+            class="grid-cell"
+            :style="`text-align: ${column.align};`">
+        <template v-if="utilities.isObject(value)">
+          <component :is="value.cmp"
+                     v-bind="value.props" />
+        </template>
+        <template v-else>
+          {{ value }}
+        </template>
+      </span>
+    </template>
+  </FlexContainer>
 </template>
 
 <script lang="ts">
@@ -53,9 +43,9 @@ import utilities from '@/utilities';
 import Icons from '@/statics/Icons';
 import Icon from '@/components/Icon.vue';
 import Formatters from '@/statics/Formatters';
-import FlexItem from '@/components/base/FlexItem.vue';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import IColumn from '@/interfaces/IColumn';
+import {FlexDirections, FlexJustifications} from '@/statics/Flex';
 
 interface PlainObject {
   [key: string]: any;
@@ -65,7 +55,6 @@ export default defineComponent({
   name: 'JefGridCell',
   components: {
     FlexContainer,
-    FlexItem,
     Icon
   },
   props: {
@@ -98,7 +87,9 @@ export default defineComponent({
   data: () => {
     return {
       isExpanded: false,
-      utilities: utilities
+      utilities: utilities,
+      FlexDirections: FlexDirections,
+      FlexJustifications: FlexJustifications
     };
   },
   computed: {

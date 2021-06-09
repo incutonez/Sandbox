@@ -1,38 +1,28 @@
 <template>
-  <template v-if="column.columns">
-    <FlexContainer :direction="FlexDirections.COLUMN"
-                   :grow="column.width ? 0 : column.flex"
-                   :width="column.width"
-                   border="b r">
-      <JefGridColumn :column="parentColumn"
-                     class="grid-header-parent"
-                     :border="false" />
-      <FlexContainer :grow="1"
-                     border="t">
-        <JefGridColumn v-for="(col, colIdx) in column.columns"
-                       :key="colIdx"
+  <FlexContainer :direction="FlexDirections.COLUMN"
+                 :grow="column.width ? 0 : column.flex"
+                 :border="border"
+                 :pack="FlexJustifications.CENTER"
+                 :class="extraCls"
+                 :background-color="false"
+                 :width="column.width"
+                 @click="onClickColumn">
+      <span :style="`text-align: ${column.align};`"
+            class="grid-cell">
+        {{ column.text }}
+        <Icon v-if="column.isSorted"
+              :icon-name="sortIcon" />
+      </span>
+    <template v-if="column.columns">
+      <FlexContainer border="t">
+        <JefGridColumn v-for="(col, index) in column.columns"
+                       :key="index"
+                       :border="index + 1 === column.columns.length ? false : 'r'"
                        :column="col"
-                       :border="colIdx + 1 === column.columns.length ? false : 'r'"
                        @sortColumn="onSortChildColumn" />
       </FlexContainer>
-    </FlexContainer>
-  </template>
-  <template v-else>
-    <FlexItem :class="extraCls"
-              :border="border"
-              :grow="column.flex"
-              :basis="column.basis"
-              :shrink="column.shrink"
-              :pack="column.align"
-              :width="column.width"
-              :direction="column.direction"
-              cmp="span"
-              @click="onClickColumn">
-      {{ column.text }}
-      <Icon v-if="column.isSorted"
-            :icon-name="sortIcon" />
-    </FlexItem>
-  </template>
+    </template>
+  </FlexContainer>
 </template>
 
 <script lang="ts">
@@ -42,12 +32,15 @@ import ColumnTypes from '@/statics/ColumnTypes';
 import Icons from '@/statics/Icons';
 import Icon from '@/components/Icon.vue';
 import FlexContainer from '@/components/base/FlexContainer.vue';
-import {FlexAlignments, FlexDirections} from '@/statics/Flex';
+import {FlexAlignments, FlexDirections, FlexJustifications} from '@/statics/Flex';
 import FlexItem from '@/components/base/FlexItem.vue';
 
 export default defineComponent({
   name: 'JefGridColumn',
-  components: {FlexItem, FlexContainer, Icon},
+  components: {
+    FlexContainer,
+    Icon
+  },
   props: {
     column: {
       type: Object as PropType<IColumn>,
@@ -63,7 +56,8 @@ export default defineComponent({
   data() {
     return {
       FlexDirections: FlexDirections,
-      FlexAlignments: FlexAlignments
+      FlexAlignments: FlexAlignments,
+      FlexJustifications: FlexJustifications
     };
   },
   computed: {
@@ -93,7 +87,7 @@ export default defineComponent({
       return icon;
     },
     extraCls() {
-      const cls = ['grid-cell grid-header'];
+      const cls = ['grid-header'];
       if (this.column.isSortable) {
         cls.push('grid-header-sortable');
       }

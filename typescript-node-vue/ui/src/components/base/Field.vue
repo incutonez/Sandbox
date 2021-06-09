@@ -45,7 +45,7 @@ export default defineComponent({
       default: 'text'
     },
     modelValue: {
-      type: String,
+      type: [String, Boolean],
       default: ''
     },
     label: {
@@ -77,10 +77,10 @@ export default defineComponent({
   computed: {
     // Taken from https://v3.vuejs.org/guide/component-basics.html#using-v-model-on-components
     value: {
-      get(): string {
+      get(): string | boolean {
         return this.modelValue;
       },
-      set(value: string) {
+      set(value: string | boolean) {
         this.$emit('update:modelValue', value);
       }
     },
