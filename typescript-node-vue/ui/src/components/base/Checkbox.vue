@@ -20,7 +20,7 @@
              :required="isRequired"
              :disabled="isDisabled"
              :readonly="isReadOnly">
-      <span class="field-checkbox">
+      <span :class="`field-checkbox ${fieldCls}`">
       </span>
       <span class="field-checkbox-label">
         {{ boxLabel }}
@@ -40,6 +40,10 @@ export default defineComponent({
   name: 'JefCheckbox',
   extends: Field,
   props: {
+    fieldCls: {
+      type: String,
+      default: ''
+    },
     boxLabel: {
       type: String,
       default: ''
@@ -57,7 +61,7 @@ export default defineComponent({
   display: block;
   cursor: pointer;
   margin-top: $checkbox-margin-top;
-  height: $checkbox-size;
+  height: $checkbox-height;
   position: relative;
 
   // Hiding browser's default checkbox, as it's impossible to style
@@ -74,7 +78,11 @@ export default defineComponent({
     padding: $checkbox-padding;
   }
 
-  .field-input-checkbox:hover ~ .field-checkbox {
+  .field-required ~ .field-checkbox {
+    border-color: $field-input-border-color-required;
+  }
+
+  .field-checkbox:hover {
     background-color: lighten($field-input-border-color, 25%);
   }
 

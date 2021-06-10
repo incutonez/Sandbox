@@ -18,7 +18,7 @@ $checkbox-padding: 2px;
  * padding and size */
 $checkbox-size: 18px;
 $checkbox-height: $checkbox-size + get-vertical($field-input-border-width);
-$checkbox-width: $checkbox-size + get-vertical($field-input-border-width);
+$checkbox-width: $checkbox-height;
 $checkbox-icon-size: $checkbox-size - get-vertical($checkbox-padding);
 $checkbox-margin-top: ($field-height - $checkbox-height) / 2;
 $checkbox-background-color-checked: $field-input-border-color-focus;
