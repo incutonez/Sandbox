@@ -20,7 +20,11 @@
              :required="isRequired"
              :disabled="isDisabled"
              :readonly="isReadOnly">
-      <span class="field-checkbox" />
+      <span class="field-checkbox">
+      </span>
+      <span class="field-checkbox-label">
+        {{ boxLabel }}
+      </span>
     </label>
   </FlexContainer>
 </template>
@@ -36,6 +40,10 @@ export default defineComponent({
   name: 'JefCheckbox',
   extends: Field,
   props: {
+    boxLabel: {
+      type: String,
+      default: ''
+    },
     type: {
       type: String,
       default: 'checkbox'
@@ -45,54 +53,52 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-/* The container */
 .field-input-container {
   display: block;
   cursor: pointer;
-  width: auto;
-  margin-top: calc((#{$field-height} - #{$checkbox-size}) / 2);
+  margin-top: $checkbox-margin-top;
   height: $checkbox-size;
   position: relative;
 
-  /* Hide the browser's default checkbox */
+  // Hiding browser's default checkbox, as it's impossible to style
   .field-input-checkbox {
     display: none;
   }
 
-  /* Create a custom checkbox */
+  // Creating a "shadow" checkbox through a span and ::before styling
   .field-checkbox {
     display: inline-block;
-    height: $checkbox-size;
-    width: $checkbox-size;
-    background-color: #eee;
-    font-size: $checkbox-size;
-    font-weight: 600;
-    color: white;
+    border: $field-input-border;
+    height: $checkbox-height;
+    width: $checkbox-width;
     padding: $checkbox-padding;
   }
 
-  /* On mouse-over, add a grey background color */
   .field-input-checkbox:hover ~ .field-checkbox {
-    background-color: #ccc;
+    background-color: lighten($field-input-border-color, 25%);
   }
 
-  /* When the checkbox is checked, add a blue background */
   .field-input-checkbox:checked ~ .field-checkbox {
-    background-color: #2196F3;
+    background-color: $checkbox-background-color-checked;
+    border-color: $checkbox-background-color-checked;
   }
 
-  /* Show the checkmark when checked */
   .field-input-checkbox:checked ~ .field-checkbox::before {
-    content: "\2714";
-  }
-
-  /* Style the checkmark/indicator */
-  .field-checkbox::before {
-    content: "";
-    display: inline-block;
+    content: $checkbox-icon;
     position: absolute;
     line-height: 100%;
-    top: 0;
+    font-size: $checkbox-icon-size;
+    width: $checkbox-icon-size;
+    height: $checkbox-icon-size;
+    text-align: center;
+    font-weight: 600;
+    color: $checkbox-color-checked;
+  }
+
+  .field-checkbox-label {
+    position: absolute;
+    margin-left: 5px;
+    font-size: $checkbox-icon-size;
   }
 }
 </style>

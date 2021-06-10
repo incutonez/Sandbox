@@ -144,6 +144,7 @@ export default defineComponent({
     color: $field-label-font-color;
     text-transform: $field-label-text-transform;
     font-weight: $field-label-font-weight;
+    height: $field-height;
 
     &.field-label-horizontal {
       padding: 0 $field-label-right-padding 0 $field-label-left-padding;
