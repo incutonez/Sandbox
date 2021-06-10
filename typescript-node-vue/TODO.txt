@@ -1,5 +1,6 @@
 - Create local/remote store filtering
 - Add tooltips (for cell data/column names)
+-- https://dev.to/kallmanation/building-a-tooltip-with-only-css-4k9
 - Add routing
 - Window class
 -- Draggable

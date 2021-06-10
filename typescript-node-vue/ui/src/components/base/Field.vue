@@ -12,9 +12,9 @@
                    :align="FlexAlignments.CENTER">
       {{ label }}{{ labelSeparator }}
     </FlexContainer>
-    <input :class="fieldInputCls"
+    <input v-model="value"
+           :class="fieldInputCls"
            :type="type"
-           v-model="value"
            :required="isRequired"
            :disabled="isDisabled"
            :readonly="isReadOnly">
@@ -32,9 +32,6 @@ export default defineComponent({
   name: 'JefField',
   components: {FlexContainer},
   extends: FlexContainer,
-  emits: [
-    'update:modelValue'
-  ],
   props: {
     layout: {
       type: String as PropType<FlexDirections>,
@@ -69,6 +66,9 @@ export default defineComponent({
       default: false
     }
   },
+  emits: [
+    'update:modelValue'
+  ],
   data() {
     return {
       FlexAlignments: FlexAlignments
@@ -128,11 +128,10 @@ export default defineComponent({
 });
 </script>
 
-<style scoped
-       lang="scss">
+<style lang="scss">
 .field-container {
   margin: $field-margin-top $field-margin-right $field-margin-bottom $field-margin-left;
-  flex-basis: $field-height;
+  flex-basis: $field-height !important;
 
   .field-input {
     height: $field-height;

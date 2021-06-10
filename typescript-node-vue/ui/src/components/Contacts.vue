@@ -9,9 +9,8 @@
       <JefField v-model="search.name"
                 :required="true"
                 label="Name" />
-      <JefField v-model="search.isRecruiter"
-                label="Recruiter"
-                type="checkbox" />
+      <JefCheckbox v-model="search.isRecruiter"
+                   label="Recruiter" />
     </FlexContainer>
     <FlexContainer extra-cls="right"
                    :grow="2"
@@ -43,10 +42,11 @@ import JefTitle from '@/components/base/Title.vue';
 import Contact from '@/models/Contact';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import JefField from '@/components/base/Field.vue';
+import JefCheckbox from '@/components/base/Checkbox.vue';
 
 export default defineComponent({
   name: 'ContactsGrid',
-  components: {JefField, FlexContainer, JefTitle, JefGrid},
+  components: {JefCheckbox, JefField, FlexContainer, JefTitle, JefGrid},
   data() {
     return {
       FlexDirections: FlexDirections,
