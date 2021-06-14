@@ -8,7 +8,7 @@
     <FlexContainer v-if="showLabel"
                    :class="fieldLabelCls"
                    cmp="label"
-                   width="auto"
+                   :width="labelWidth"
                    :border="false"
                    :align="FlexAlignments.CENTER">
       {{ label }}{{ labelSeparator }}

@@ -7,7 +7,7 @@
     <FlexContainer v-if="showLabel"
                    :class="fieldLabelCls"
                    cmp="label"
-                   width="auto"
+                   :width="labelWidth"
                    :border="false"
                    :align="FlexAlignments.CENTER">
       {{ label }}{{ labelSeparator }}
@@ -64,6 +64,10 @@ export default defineComponent({
     readOnly: {
       type: Boolean,
       default: false
+    },
+    labelWidth: {
+      type: [Number, String],
+      default: 100
     }
   },
   emits: [
@@ -71,12 +75,11 @@ export default defineComponent({
   ],
   data() {
     return {
-      FlexAlignments: FlexAlignments
+      FlexAlignments: FlexAlignments,
+      originalValue: this.modelValue
     };
   },
   // TODO: Set a fixed width for the label
-  // TODO: Style checkboxes/radios https://dev.to/kallmanation/styling-a-checkbox-with-only-css-3o3p
-  //  See also: https://stackoverflow.com/a/4148544/1253609
   computed: {
     // Taken from https://v3.vuejs.org/guide/component-basics.html#using-v-model-on-components
     value: {
@@ -123,6 +126,11 @@ export default defineComponent({
     },
     showLabel(): boolean {
       return !!this.label;
+    }
+  },
+  methods: {
+    reset() {
+      this.value = this.originalValue;
     }
   }
 });

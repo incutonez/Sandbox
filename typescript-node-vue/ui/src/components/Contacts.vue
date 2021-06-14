@@ -1,17 +1,25 @@
 <template>
   <FlexContainer :border="false">
-    <FlexContainer :direction="FlexDirections.COLUMN"
-                   extra-cls="left"
-                   :grow="1"
-                   :margin="'0 10px 0 0'">
+    <SearchForm :direction="FlexDirections.COLUMN"
+                :width="300"
+                ref="searchPanel"
+                :margin="'0 10px 0 0'"
+                :hide-clear-btn="false"
+                :hide-search-btn="false">
       <JefTitle title="Search Panel"
                 border="b" />
       <JefField v-model="search.name"
-                :required="true"
                 label="Name" />
+      <JefField v-model="search.email"
+                label="Email" />
+      <JefField v-model="search.companyId"
+                label="Company" />
+      <JefField v-model="search.applicationId"
+                label="Application" />
       <JefCheckbox v-model="search.isRecruiter"
                    label="Recruiter" />
-    </FlexContainer>
+      <JefSpacer />
+    </SearchForm>
     <FlexContainer extra-cls="right"
                    :grow="2"
                    :border="false"
@@ -29,7 +37,6 @@
 <script lang="ts">
 import {defineComponent} from 'vue';
 import {
-  FlexAlignments,
   FlexContentAlignments,
   FlexDirections,
   FlexJustifications,
@@ -43,15 +50,17 @@ import Contact from '@/models/Contact';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import JefField from '@/components/base/Field.vue';
 import JefCheckbox from '@/components/base/Checkbox.vue';
+import JefSpacer from '@/components/base/Spacer.vue';
+import SearchForm from '@/components/base/SearchForm.vue';
 
+// TODO: Make a form container that allows for showing search/clear?
 export default defineComponent({
   name: 'ContactsGrid',
-  components: {JefCheckbox, JefField, FlexContainer, JefTitle, JefGrid},
+  components: {SearchForm, JefSpacer, JefCheckbox, JefField, FlexContainer, JefTitle, JefGrid},
   data() {
     return {
       FlexDirections: FlexDirections,
       FlexJustifications: FlexJustifications,
-      FlexAlignments: FlexAlignments,
       TextAlignments: TextAlignments,
       FlexContentAlignments: FlexContentAlignments,
       viewStore: new Store(Contact, {
@@ -61,7 +70,10 @@ export default defineComponent({
         }]
       }),
       search: {
-        name: '',
+        name: 'blah',
+        email: null,
+        companyId: null,
+        applicationId: null,
         isRecruiter: false
       },
       columns: [{
@@ -118,6 +130,7 @@ export default defineComponent({
   },
 
   async created() {
+    console.log(this);
     await this.viewStore.load();
   }
 });

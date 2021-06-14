@@ -13,6 +13,7 @@
 </template>
 
 <script lang="ts">
+// Shadowing this Fiddle https://fiddle.sencha.com/#view/editor&fiddle/3e5m
 import {Vue} from 'vue-class-component';
 import Contacts from '@/components/Contacts.vue';
 import '@fontsource/open-sans';

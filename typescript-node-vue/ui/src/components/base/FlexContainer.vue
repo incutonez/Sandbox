@@ -101,6 +101,14 @@ export default defineComponent({
     alignSelf: {
       type: String as PropType<FlexAlignments>,
       default: FlexAlignments.AUTO
+    },
+    padding: {
+      type: [Number, String],
+      default: 0
+    },
+    hidden: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -142,6 +150,9 @@ export default defineComponent({
       return cls.join(' ');
     },
     style(): string {
+      if (this.hidden) {
+        return 'display: none;';
+      }
       let direction = this.direction;
       let grow = this.grow;
       let shrink = this.shrink;
@@ -178,13 +189,17 @@ export default defineComponent({
       const extraStyle = this.extraStyle ? `${this.extraStyle}; ` : '';
       let margin = '';
       let bgColor = '';
+      let padding = '';
       if (this.margin !== null) {
         margin = `margin: ${utilities.convertToPx(this.margin)};`;
+      }
+      if (this.padding) {
+        padding = `padding: ${utilities.convertToPx(this.padding)};`;
       }
       if (this.backgroundColor) {
         bgColor = `background-color: ${this.backgroundColor};`;
       }
-      return `${opposite}${bgColor}${margin}${extraStyle}flex: ${grow} ${shrink} ${basis}; display: flex; flex-flow: ${direction} ${this.wrap}; justify-content: ${this.pack}; align-items: ${this.align}; align-self: ${this.alignSelf}; align-content: ${this.contentAlign};`;
+      return `${padding}${opposite}${bgColor}${margin}${extraStyle}flex: ${grow} ${shrink} ${basis}; display: flex; flex-flow: ${direction} ${this.wrap}; justify-content: ${this.pack}; align-items: ${this.align}; align-self: ${this.alignSelf}; align-content: ${this.contentAlign};`;
     }
   }
 });
