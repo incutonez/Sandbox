@@ -29,9 +29,9 @@ class Store<T> extends Collection<T> {
     this.add(config.data);
   }
 
-  async load(): Promise<void> {
+  async load(config?: any): Promise<void> {
     try {
-      const Response: AxiosResponse | undefined = await this.proxy.load();
+      const Response: AxiosResponse | undefined = await this.proxy.load(config);
       this.clear();
       this.add(Response?.data);
       this.doSort(this.sorters);

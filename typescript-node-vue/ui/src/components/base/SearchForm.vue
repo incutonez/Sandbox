@@ -29,6 +29,7 @@ import {FlexAlignments, FlexDirections} from '@/statics/Flex';
 import JefButton from '@/components/base/Button.vue';
 import JefField from '@/components/base/Field.vue';
 import utilities from '@/utilities';
+import mitt from 'mitt';
 
 
 export default defineComponent({
@@ -43,8 +44,13 @@ export default defineComponent({
   },
   provide() {
     return {
-      register: (field: Component) => this.fields.push(field),
-      unregister: (field: Component) => utilities.remove(this.fields, field)
+      eventBus: this.eventBus,
+      register: (field: Component) => {
+        this.fields.push(field);
+      },
+      unregister: (field: Component) => {
+        utilities.remove(this.fields, field);
+      }
     };
   },
   props: {
@@ -65,7 +71,8 @@ export default defineComponent({
     return {
       FlexAlignments: FlexAlignments,
       FlexDirections: FlexDirections,
-      fields: [] as Component[]
+      fields: [] as Component[],
+      eventBus: mitt()
     };
   },
   computed: {
@@ -86,9 +93,18 @@ export default defineComponent({
         field.reset();
       });
     },
+    onKeyUpSearchField() {
+      this.$emit('search');
+    },
     onClickSearchButton(cmp: typeof JefButton, event: EventTarget) {
       this.$emit('search');
     }
+  },
+  created() {
+    this.eventBus.on('press:enter', this.onKeyUpSearchField);
+  },
+  unmounted() {
+    this.eventBus.off('press:enter', this.onKeyUpSearchField);
   }
 });
 </script>

@@ -8,7 +8,10 @@ interface Contact extends IContact {
 class Contact extends Model {
   static proxy = {
     url: 'api/contacts',
-    type: 'ajax'
+    type: 'ajax',
+    methods: {
+      get: 'post'
+    }
   };
 
   constructor(config: IContact) {

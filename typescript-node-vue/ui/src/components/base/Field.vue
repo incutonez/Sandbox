@@ -17,7 +17,8 @@
            :type="type"
            :required="isRequired"
            :disabled="isDisabled"
-           :readonly="isReadOnly">
+           :readonly="isReadOnly"
+           @keyup.enter="onKeyUpField">
   </FlexContainer>
 </template>
 
@@ -33,7 +34,7 @@ export default defineComponent({
   name: 'JefField',
   components: {FlexContainer},
   extends: FlexContainer,
-  inject: ['register', 'unregister'],
+  inject: ['register', 'unregister', 'eventBus'],
   props: {
     layout: {
       type: String as PropType<FlexDirections>,
@@ -42,6 +43,17 @@ export default defineComponent({
     type: {
       type: String,
       default: 'text'
+    },
+    /**
+     * @property
+     * If this is set to true, then any falsey value will be set to null instead of the actual value...
+     * e.g.
+     * - "" becomes null
+     * - false becomes null
+     */
+    emptyValueAsNull: {
+      type: Boolean,
+      default: true
     },
     modelValue: {
       type: [String, Boolean],
@@ -73,14 +85,16 @@ export default defineComponent({
     }
   },
   emits: [
-    'update:modelValue'
+    'update:modelValue',
+    'press:enter'
   ],
   data(): {
     isField: boolean,
     FlexAlignments: typeof FlexAlignments,
     originalValue: string | boolean,
     register?: (field: Component) => {},
-    unregister?: (field: Component) => {}
+    unregister?: (field: Component) => {},
+    eventBus?: any
   } {
     return {
       isField: true,
@@ -96,7 +110,7 @@ export default defineComponent({
         return this.modelValue;
       },
       set(value: ValueAttribute) {
-        this.$emit('update:modelValue', value);
+        this.$emit('update:modelValue', value ? value : this.emptyValueAsNull ? null : value);
       }
     },
     isReadOnly(): ElementAttribute {
@@ -143,9 +157,18 @@ export default defineComponent({
     },
     clear() {
       this.value = null;
+    },
+    onKeyUpField(event: KeyboardEvent) {
+      // If we have an eventBus, then we're in a form, so let's use that instead
+      if (this.eventBus) {
+        this.eventBus.emit('press:enter', this);
+      }
+      else {
+        this.$emit('press:enter', this);
+      }
     }
   },
-  created() {
+  mounted() {
     if (this.register) {
       this.register(this);
     }

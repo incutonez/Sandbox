@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import Ajax, {AxiosResponse} from 'axios';
+import Ajax, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import Server from './exceptions/Server';
 import IProxy from '@/interfaces/IProxy';
 
@@ -29,11 +29,21 @@ class Proxy {
     try {
       if (this.type === 'ajax') {
         Ajax.defaults.baseURL = 'http://localhost:1337';
-        // TODO: Potentially store last config, so we can have a reload method?
-        return await Ajax.request({
+        const method = config.method || this.methods.get;
+        const request: AxiosRequestConfig = {
           url: config.url || this.url,
-          method: config.method || this.methods.get
-        });
+          method: method
+        };
+        // Send as query params
+        if (method === 'get') {
+          request.params = config.params;
+        }
+        // Send as JSON data
+        else {
+          request.data = config.params;
+        }
+        // TODO: Potentially store last config, so we can have a reload method?
+        return await Ajax.request(request);
       }
     }
     catch (ex) {

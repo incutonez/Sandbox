@@ -2,22 +2,22 @@
   <FlexContainer :border="false">
     <SearchForm :direction="FlexDirections.COLUMN"
                 :width="300"
-                ref="searchPanel"
                 :margin="'0 10px 0 0'"
                 :hide-clear-btn="false"
                 :hide-search-btn="false"
-                :hide-reset-btn="false">
+                :hide-reset-btn="false"
+                @search="onClickSearchBtn">
       <JefTitle title="Search Panel"
                 border="b" />
-      <JefField v-model="search.name"
+      <JefField v-model="search.Name"
                 label="Name" />
-      <JefField v-model="search.email"
+      <JefField v-model="search.Email"
                 label="Email" />
-      <JefField v-model="search.companyId"
+      <JefField v-model="search.CompanyId"
                 label="Company" />
-      <JefField v-model="search.applicationId"
+      <JefField v-model="search.ApplicationId"
                 label="Application" />
-      <JefCheckbox v-model="search.isRecruiter"
+      <JefCheckbox v-model="search.IsRecruiter"
                    label="Recruiter" />
       <JefSpacer />
     </SearchForm>
@@ -71,11 +71,11 @@ export default defineComponent({
         }]
       }),
       search: {
-        name: 'blah',
-        email: null,
-        companyId: null,
-        applicationId: null,
-        isRecruiter: false
+        Name: 'blah',
+        Email: null,
+        CompanyId: null,
+        ApplicationId: null,
+        IsRecruiter: null
       },
       columns: [{
         text: 'Id',
@@ -129,9 +129,20 @@ export default defineComponent({
       }]
     };
   },
+  methods: {
+    loadViewStore() {
+      this.viewStore.load({
+        url: 'api/contacts/search',
+        params: this.search
+      });
+    },
+    async onClickSearchBtn() {
+      await this.loadViewStore();
+    }
+  },
 
   async created() {
-    await this.viewStore.load();
+    await this.loadViewStore();
   }
 });
 </script>
