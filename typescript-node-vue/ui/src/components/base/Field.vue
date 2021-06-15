@@ -23,18 +23,29 @@
 </template>
 
 <script lang="ts">
-import {Component, defineComponent, PropType} from 'vue';
+import {defineComponent, PropType} from 'vue';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import {FlexAlignments, FlexDirections} from '@/statics/Flex';
+import RegisterInjector, {IRegisterInjector} from '@/mixins/RegisterInjector';
+import EventsInjector, {IEventsInjector} from '@/mixins/EventsInjector';
 
 type ElementAttribute = boolean | null;
 type ValueAttribute = string | boolean | null;
+
+interface IData extends IEventsInjector, IRegisterInjector {
+  isField: boolean;
+  FlexAlignments: typeof FlexAlignments;
+  originalValue: string | boolean;
+}
 
 export default defineComponent({
   name: 'JefField',
   components: {FlexContainer},
   extends: FlexContainer,
-  inject: ['register', 'unregister', 'eventBus'],
+  mixins: [
+    RegisterInjector,
+    EventsInjector
+  ],
   props: {
     layout: {
       type: String as PropType<FlexDirections>,
@@ -88,21 +99,13 @@ export default defineComponent({
     'update:modelValue',
     'press:enter'
   ],
-  data(): {
-    isField: boolean,
-    FlexAlignments: typeof FlexAlignments,
-    originalValue: string | boolean,
-    register?: (field: Component) => {},
-    unregister?: (field: Component) => {},
-    eventBus?: any
-  } {
+  data(): IData {
     return {
       isField: true,
       FlexAlignments: FlexAlignments,
       originalValue: this.modelValue
     };
   },
-  // TODO: Set a fixed width for the label
   computed: {
     // Taken from https://v3.vuejs.org/guide/component-basics.html#using-v-model-on-components
     value: {
@@ -166,16 +169,6 @@ export default defineComponent({
       else {
         this.$emit('press:enter', this);
       }
-    }
-  },
-  mounted() {
-    if (this.register) {
-      this.register(this);
-    }
-  },
-  unmounted() {
-    if (this.unregister) {
-      this.unregister(this);
     }
   }
 });

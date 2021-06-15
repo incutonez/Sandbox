@@ -4,7 +4,7 @@
  * on the Alternative Pattern, but I have yet to get a response.
  * To circumvent this from throwing an eslint error, I turned the rule off for {} in estlintrc.js
  */
-import {Eventable, EventableMixin} from '@/mixins/Eventable';
+import {ClassEvents, EventableMixin} from '@/mixins/ClassEvents';
 
 type GConstructor<T = {}> = new (...args: any[]) => T;
 
@@ -36,7 +36,7 @@ export default function <T extends GConstructor>(base: T, mixins?: string[]) {
   }
 
   // Merge interface/class with actual mixin contract
-  interface Base extends Eventable {
+  interface Base extends ClassEvents {
   }
 
   return Base;

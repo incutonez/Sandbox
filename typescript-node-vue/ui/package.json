@@ -16,9 +16,9 @@
     "bootstrap": "^5.0.1",
     "core-js": "^3.6.5",
     "lodash": "^4.17.21",
-    "mitt": "^2.1.0",
     "sass": "^1.32.13",
     "sass-loader": "^10.2.0",
+    "tiny-emitter": "^2.1.0",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0"
   },

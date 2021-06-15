@@ -23,35 +23,27 @@
 </template>
 
 <script lang="ts">
-import {Component, defineComponent} from 'vue';
+import {defineComponent} from 'vue';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import {FlexAlignments, FlexDirections} from '@/statics/Flex';
 import JefButton from '@/components/base/Button.vue';
 import JefField from '@/components/base/Field.vue';
-import utilities from '@/utilities';
-import mitt from 'mitt';
-
+import EventsProvider from '@/mixins/EventsProvider';
+import RegisterProvider from '@/mixins/RegisterProvider';
 
 export default defineComponent({
   name: 'SearchForm',
   extends: FlexContainer,
+  mixins: [
+    EventsProvider,
+    RegisterProvider
+  ],
   emits: [
     'search'
   ],
   components: {
     JefButton,
     FlexContainer
-  },
-  provide() {
-    return {
-      eventBus: this.eventBus,
-      register: (field: Component) => {
-        this.fields.push(field);
-      },
-      unregister: (field: Component) => {
-        utilities.remove(this.fields, field);
-      }
-    };
   },
   props: {
     hideSearchBtn: {
@@ -70,9 +62,7 @@ export default defineComponent({
   data() {
     return {
       FlexAlignments: FlexAlignments,
-      FlexDirections: FlexDirections,
-      fields: [] as Component[],
-      eventBus: mitt()
+      FlexDirections: FlexDirections
     };
   },
   computed: {
@@ -82,13 +72,13 @@ export default defineComponent({
   },
   methods: {
     onClickClearButton(cmp: typeof JefButton, event: EventTarget) {
-      const fields = this.fields as typeof JefField[];
+      const fields = this.children as typeof JefField[];
       fields.forEach((field) => {
         field.clear();
       });
     },
     onClickResetButton(cmp: typeof JefButton, event: EventTarget) {
-      const fields = this.fields as typeof JefField[];
+      const fields = this.children as typeof JefField[];
       fields.forEach((field) => {
         field.reset();
       });
@@ -100,11 +90,11 @@ export default defineComponent({
       this.$emit('search');
     }
   },
-  created() {
-    this.eventBus.on('press:enter', this.onKeyUpSearchField);
+  mounted() {
+    this.on('press:enter', this.onKeyUpSearchField);
   },
   unmounted() {
-    this.eventBus.off('press:enter', this.onKeyUpSearchField);
+    this.off('press:enter', this.onKeyUpSearchField);
   }
 });
 </script>
