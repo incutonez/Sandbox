@@ -22,16 +22,18 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, PropType} from 'vue';
+import {Component, defineComponent, PropType} from 'vue';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import {FlexAlignments, FlexDirections} from '@/statics/Flex';
 
-type FieldAttr = boolean | null;
+type ElementAttribute = boolean | null;
+type ValueAttribute = string | boolean | null;
 
 export default defineComponent({
   name: 'JefField',
   components: {FlexContainer},
   extends: FlexContainer,
+  inject: ['register', 'unregister'],
   props: {
     layout: {
       type: String as PropType<FlexDirections>,
@@ -73,8 +75,15 @@ export default defineComponent({
   emits: [
     'update:modelValue'
   ],
-  data() {
+  data(): {
+    isField: boolean,
+    FlexAlignments: typeof FlexAlignments,
+    originalValue: string | boolean,
+    register?: (field: Component) => {},
+    unregister?: (field: Component) => {}
+  } {
     return {
+      isField: true,
       FlexAlignments: FlexAlignments,
       originalValue: this.modelValue
     };
@@ -83,20 +92,20 @@ export default defineComponent({
   computed: {
     // Taken from https://v3.vuejs.org/guide/component-basics.html#using-v-model-on-components
     value: {
-      get(): string | boolean {
+      get(): ValueAttribute {
         return this.modelValue;
       },
-      set(value: string | boolean) {
+      set(value: ValueAttribute) {
         this.$emit('update:modelValue', value);
       }
     },
-    isReadOnly(): FieldAttr {
+    isReadOnly(): ElementAttribute {
       return this.readOnly || null;
     },
-    isRequired(): FieldAttr {
+    isRequired(): ElementAttribute {
       return this.required || null;
     },
-    isDisabled(): FieldAttr {
+    isDisabled(): ElementAttribute {
       return this.disabled || null;
     },
     fieldInputCls() {
@@ -131,6 +140,19 @@ export default defineComponent({
   methods: {
     reset() {
       this.value = this.originalValue;
+    },
+    clear() {
+      this.value = null;
+    }
+  },
+  created() {
+    if (this.register) {
+      this.register(this);
+    }
+  },
+  unmounted() {
+    if (this.unregister) {
+      this.unregister(this);
     }
   }
 });

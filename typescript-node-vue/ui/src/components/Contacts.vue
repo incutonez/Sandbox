@@ -5,7 +5,8 @@
                 ref="searchPanel"
                 :margin="'0 10px 0 0'"
                 :hide-clear-btn="false"
-                :hide-search-btn="false">
+                :hide-search-btn="false"
+                :hide-reset-btn="false">
       <JefTitle title="Search Panel"
                 border="b" />
       <JefField v-model="search.name"
@@ -130,7 +131,6 @@ export default defineComponent({
   },
 
   async created() {
-    console.log(this);
     await this.viewStore.load();
   }
 });
