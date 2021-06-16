@@ -40,7 +40,6 @@ import ColumnTypes from '@/statics/ColumnTypes';
 import Icons from '@/statics/Icons';
 import Icon from '@/components/Icon.vue';
 import FlexContainer from '@/components/base/FlexContainer.vue';
-import {FlexAlignments, FlexDirections, FlexJustifications} from '@/statics/Flex';
 
 export default defineComponent({
   name: 'JefGridColumn',
@@ -65,13 +64,6 @@ export default defineComponent({
     'hide',
     'show'
   ],
-  data() {
-    return {
-      FlexDirections: FlexDirections,
-      FlexAlignments: FlexAlignments,
-      FlexJustifications: FlexJustifications
-    };
-  },
   computed: {
     sortIcon() {
       let icon = '';

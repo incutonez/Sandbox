@@ -25,7 +25,7 @@
 <script lang="ts">
 import {defineComponent, PropType} from 'vue';
 import FlexContainer from '@/components/base/FlexContainer.vue';
-import {FlexAlignments, FlexDirections} from '@/statics/Flex';
+import {FlexDirections} from '@/statics/Flex';
 import RegisterInjector, {IRegisterInjector} from '@/mixins/RegisterInjector';
 import EventsInjector, {IEventsInjector} from '@/mixins/EventsInjector';
 
@@ -34,7 +34,6 @@ type ValueAttribute = string | boolean | null;
 
 interface IData extends IEventsInjector, IRegisterInjector {
   isField: boolean;
-  FlexAlignments: typeof FlexAlignments;
   originalValue: string | boolean;
 }
 
@@ -102,7 +101,6 @@ export default defineComponent({
   data(): IData {
     return {
       isField: true,
-      FlexAlignments: FlexAlignments,
       originalValue: this.modelValue
     };
   },
@@ -161,7 +159,7 @@ export default defineComponent({
     clear() {
       this.value = null;
     },
-    onKeyUpField(event: KeyboardEvent) {
+    onKeyUpField() {
       // If we have an eventBus, then we're in a form, so let's use that instead
       if (this.eventBus) {
         this.eventBus.emit('press:enter', this);

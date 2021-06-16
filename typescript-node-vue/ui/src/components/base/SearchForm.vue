@@ -33,18 +33,15 @@ import RegisterProvider from '@/mixins/RegisterProvider';
 
 export default defineComponent({
   name: 'SearchForm',
+  components: {
+    JefButton,
+    FlexContainer
+  },
   extends: FlexContainer,
   mixins: [
     EventsProvider,
     RegisterProvider
   ],
-  emits: [
-    'search'
-  ],
-  components: {
-    JefButton,
-    FlexContainer
-  },
   props: {
     hideSearchBtn: {
       type: Boolean,
@@ -59,6 +56,9 @@ export default defineComponent({
       default: true
     }
   },
+  emits: [
+    'search'
+  ],
   data() {
     return {
       FlexAlignments: FlexAlignments,
@@ -70,14 +70,20 @@ export default defineComponent({
       return this.hideSearchBtn && this.hideClearBtn && this.hideResetBtn;
     }
   },
+  mounted() {
+    this.on('press:enter', this.onKeyUpSearchField);
+  },
+  unmounted() {
+    this.off('press:enter', this.onKeyUpSearchField);
+  },
   methods: {
-    onClickClearButton(cmp: typeof JefButton, event: EventTarget) {
+    onClickClearButton() {
       const fields = this.children as typeof JefField[];
       fields.forEach((field) => {
         field.clear();
       });
     },
-    onClickResetButton(cmp: typeof JefButton, event: EventTarget) {
+    onClickResetButton() {
       const fields = this.children as typeof JefField[];
       fields.forEach((field) => {
         field.reset();
@@ -86,15 +92,9 @@ export default defineComponent({
     onKeyUpSearchField() {
       this.$emit('search');
     },
-    onClickSearchButton(cmp: typeof JefButton, event: EventTarget) {
+    onClickSearchButton() {
       this.$emit('search');
     }
-  },
-  mounted() {
-    this.on('press:enter', this.onKeyUpSearchField);
-  },
-  unmounted() {
-    this.off('press:enter', this.onKeyUpSearchField);
   }
 });
 </script>

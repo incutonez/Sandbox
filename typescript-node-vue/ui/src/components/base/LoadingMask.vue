@@ -27,7 +27,6 @@ import Icon from '../Icon';
 import {defineComponent} from 'vue';
 import Icons from '../../statics/Icons';
 import FlexContainer from '@/components/base/FlexContainer';
-import {FlexAlignments, FlexDirections, FlexJustifications} from '@/statics/Flex';
 
 export default defineComponent({
   name: 'LoadingMask',
@@ -49,12 +48,6 @@ export default defineComponent({
       type: Number,
       default: 6
     }
-  },
-  data() {
-    return {
-      FlexAlignments: FlexAlignments,
-      FlexJustifications: FlexJustifications
-    };
   }
 });
 </script>

@@ -47,7 +47,6 @@ import Icon from '@/components/Icon.vue';
 import Formatters from '@/statics/Formatters';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import IColumn from '@/interfaces/IColumn';
-import {FlexDirections, FlexJustifications} from '@/statics/Flex';
 
 interface PlainObject {
   [key: string]: any;
@@ -89,9 +88,7 @@ export default defineComponent({
   data: () => {
     return {
       isExpanded: false,
-      utilities: utilities,
-      FlexDirections: FlexDirections,
-      FlexJustifications: FlexJustifications
+      utilities: utilities
     };
   },
   computed: {

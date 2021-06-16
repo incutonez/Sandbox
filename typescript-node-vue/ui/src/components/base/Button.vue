@@ -14,9 +14,6 @@ import utilities from '@/utilities';
 
 export default defineComponent({
   name: 'JefButton',
-  emits: [
-    'click'
-  ],
   props: {
     disabled: {
       type: Boolean,
@@ -39,6 +36,9 @@ export default defineComponent({
       default: false
     }
   },
+  emits: [
+    'click'
+  ],
   computed: {
     style() {
       if (this.hidden) {

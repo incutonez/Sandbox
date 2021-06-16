@@ -118,9 +118,7 @@ export default defineComponent({
       ColumnTypes: ColumnTypes,
       TableCls: TableCls,
       selectedRow: null,
-      columnsCfg: [],
-      FlexDirections: FlexDirections,
-      FlexAlignments: FlexAlignments
+      columnsCfg: []
     } as IData;
   },
   computed: {
