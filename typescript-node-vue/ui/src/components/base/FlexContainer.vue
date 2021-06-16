@@ -216,7 +216,7 @@ export default defineComponent({
   align-items: stretch;
 
   > * {
-    flex: 1;
+    flex-grow: 1 !important;
   }
 }
 
