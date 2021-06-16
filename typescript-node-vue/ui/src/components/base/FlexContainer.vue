@@ -208,6 +208,7 @@ export default defineComponent({
 <style lang="scss">
 .flex-container {
   min-width: 0;
+  position: relative;
 }
 
 .flex-container-fit {

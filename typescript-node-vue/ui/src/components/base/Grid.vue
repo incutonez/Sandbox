@@ -13,17 +13,24 @@
                      @hide="onHideColumn"
                      @show="onShowColumn" />
     </FlexContainer>
-    <FlexContainer v-for="(record, index) in store"
-                   :key="index"
-                   class="grid-row grid-row-data"
-                   :record="record"
+    <FlexContainer :grow="1"
                    :border="false"
-                   @click="onClickRow">
-      <JefGridCell v-for="(cell, rowIdx) in columnsCfg"
-                   :key="rowIdx"
-                   :record="record"
-                   :border="rowIdx + 1 === columnsCfg.length ? 'b' : 'b r'"
-                   :column="cell" />
+                   :align="FlexAlignments.AUTO"
+                   :direction="FlexDirections.COLUMN"
+                   :class="gridBodyCls">
+      <FlexContainer v-for="(record, index) in store"
+                     :key="index"
+                     class="grid-row grid-row-data"
+                     :record="record"
+                     :border="false"
+                     @click="onClickRow">
+        <JefGridCell v-for="(cell, rowIdx) in columnsCfg"
+                     :key="rowIdx"
+                     :record="record"
+                     :border="rowIdx + 1 === columnsCfg.length ? 'b' : 'b r'"
+                     :column="cell" />
+      </FlexContainer>
+      <LoadingMask :hidden="!viewLoading" />
     </FlexContainer>
   </FlexContainer>
 </template>
@@ -43,6 +50,7 @@ import JefGridColumn from '@/components/grid/Column.vue';
 import Sorter from '@/classes/Sorter';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import {FlexAlignments, FlexDirections, TextAlignments} from '@/statics/Flex';
+import LoadingMask from '@/components/base/LoadingMask.vue';
 
 const DefaultColumnConfig: IColumn = {
   type: ColumnTypes.String,
@@ -76,7 +84,12 @@ interface IData {
 
 export default defineComponent({
   name: 'JefGrid',
-  components: {FlexContainer, JefGridColumn, JefGridCell},
+  components: {
+    LoadingMask,
+    FlexContainer,
+    JefGridColumn,
+    JefGridCell
+  },
   extends: FlexContainer,
   props: {
     border: {
@@ -106,8 +119,17 @@ export default defineComponent({
       TableCls: TableCls,
       selectedRow: null,
       columnsCfg: [],
-      FlexDirections: FlexDirections
+      FlexDirections: FlexDirections,
+      FlexAlignments: FlexAlignments
     } as IData;
+  },
+  computed: {
+    viewLoading(): boolean {
+      return this.store.loading;
+    },
+    gridBodyCls(): string {
+      return this.viewLoading ? 'loading-mask' : '';
+    }
   },
   watch: {
     columns: {

@@ -1,5 +1,4 @@
-- Create local/remote store filtering
-- Create a loading mask (maybe https://fiddle.sencha.com/#view/editor&fiddle/2sit for reference)
+- Create local store filtering
 - Create a visibility (hide/show) composition mixin
 - Add tooltips (for cell data/column names)
 -- https://dev.to/kallmanation/building-a-tooltip-with-only-css-4k9

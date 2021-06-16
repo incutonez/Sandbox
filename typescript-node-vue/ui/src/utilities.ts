@@ -2,9 +2,6 @@
 import _ from 'lodash';
 
 export default {
-  emptyFn(): void {
-    return;
-  },
   identityFn: _.identity,
   /* eslint-disable @typescript-eslint/no-explicit-any */
   /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
@@ -27,6 +24,7 @@ export default {
   isNumber: _.isNumber,
   isArray: _.isArray,
   remove: _.remove,
+  merge: _.merge,
   isIconTag(event: Event): boolean {
     const Target: HTMLElement = event.target as HTMLElement;
     return Target && Target.tagName === 'I';

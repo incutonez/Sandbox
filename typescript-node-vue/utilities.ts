@@ -7,6 +7,12 @@ function isEmpty<T>(value: T): boolean {
 
 export default {
   isEmpty: isEmpty,
+  // Taken from https://stackoverflow.com/a/41957152/1253609
+  sleep(ms: number) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  },
   createWhere(value: any) {
     const out: any = {};
     const obj = _(value).omitBy(_.isNil).value();
