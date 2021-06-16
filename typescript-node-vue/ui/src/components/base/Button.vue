@@ -4,6 +4,8 @@
           :class="cls"
           :style="style"
           @click="onClickButton">
+    <Icon class="jef-button-icon"
+          :icon-name="icon" />
     {{ text }}
   </button>
 </template>
@@ -11,9 +13,13 @@
 <script>
 import {defineComponent} from 'vue';
 import utilities from '@/utilities';
+import Icon from '@/components/Icon';
 
 export default defineComponent({
   name: 'JefButton',
+  components: {
+    Icon
+  },
   props: {
     disabled: {
       type: Boolean,
@@ -22,6 +28,10 @@ export default defineComponent({
     text: {
       type: String,
       default: ''
+    },
+    icon: {
+      type: String,
+      default: null
     },
     type: {
       type: String,
@@ -32,6 +42,10 @@ export default defineComponent({
       default: ''
     },
     hidden: {
+      type: Boolean,
+      default: false
+    },
+    iconOnly: {
       type: Boolean,
       default: false
     }
@@ -51,7 +65,11 @@ export default defineComponent({
       return `${margin}`;
     },
     cls() {
-      return 'jef-button';
+      const cls = ['jef-button'];
+      if (this.iconOnly) {
+        cls.push('jef-button-icon-only');
+      }
+      return cls.join(' ');
     },
     isDisabled() {
       return this.disabled || null;
@@ -68,15 +86,53 @@ export default defineComponent({
 <style scoped
        lang="scss">
 .jef-button {
-  border: $button-border;
   font-size: $button-font-size;
   height: $button-height;
   padding: $button-padding;
-  background-color: $button-background-color;
-  border-radius: $button-border-radius;
 
-  &:hover {
-    background-color: $button-background-color-hover;
+  &:not(.jef-button-icon-only) {
+    border: $button-border;
+    border-radius: $button-border-radius;
+    background-color: $button-background-color;
+
+    &:hover {
+      background-color: $button-background-color-hover;
+    }
+
+    &:active {
+      background-color: $button-background-color-pressed;
+    }
+  }
+
+  .jef-button-icon {
+    color: $color-blue-light;
+
+    // TODO: Better way of doing this?
+    @at-root .jef-button:hover .jef-button-icon {
+      color: darken($color-blue-light, 10%);
+    }
+
+    // TODO: Better way of doing this?
+    @at-root .jef-button:active .jef-button-icon {
+      color: darken($color-blue-light, 20%);
+    }
+  }
+
+  &.jef-button-icon-only {
+    background-color: transparent;
+    border: none;
+
+    .jef-title & .jef-button-icon {
+      color: $color-blue-lightest;
+
+      &:hover {
+        color: darken($color-blue-lightest, 15%);
+      }
+
+      &:active {
+        color: darken($color-blue-lightest, 35%);
+      }
+    }
   }
 
   &:focus {
@@ -85,10 +141,6 @@ export default defineComponent({
 
   &:focus-visible {
     outline: none;
-  }
-
-  &:active {
-    background-color: $button-background-color-pressed;
   }
 }
 </style>

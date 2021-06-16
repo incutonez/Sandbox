@@ -12,7 +12,8 @@ const Icons: IKeyValue = {
   MINUS: 'minus',
   CHECK: 'check',
   TIMES: 'times',
-  SQUARE: 'square'
+  SQUARE: 'square',
+  REFRESH: 'redo'
 };
 
 for (const key in Icons) {

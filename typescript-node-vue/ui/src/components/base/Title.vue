@@ -1,6 +1,7 @@
 <template>
   <FlexContainer v-bind="$props"
                  class="jef-title"
+                 :align="FlexAlignments.CENTER"
                  :background-color="false">
     <template v-if="showTitle">
       <FlexContainer :background-color="false"

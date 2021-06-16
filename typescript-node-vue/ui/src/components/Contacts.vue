@@ -26,7 +26,13 @@
                    :border="false"
                    :direction="FlexDirections.COLUMN">
       <JefTitle title="Contacts"
-                :grow="0" />
+                :grow="0">
+        <template #tools>
+          <JefButton :icon="Icons.REFRESH"
+                     :icon-only="true"
+                     @click="onClickRefreshButton" />
+        </template>
+      </JefTitle>
       <JefGrid :columns="columns"
                :store="viewStore"
                :grow="1"
@@ -38,9 +44,6 @@
 <script lang="ts">
 import {defineComponent} from 'vue';
 import {
-  FlexContentAlignments,
-  FlexDirections,
-  FlexJustifications,
   TextAlignments
 } from '@/statics/Flex';
 import Store from '@/classes/Store';
@@ -53,17 +56,14 @@ import JefField from '@/components/base/Field.vue';
 import JefCheckbox from '@/components/base/Checkbox.vue';
 import JefSpacer from '@/components/base/Spacer.vue';
 import SearchForm from '@/components/base/SearchForm.vue';
+import JefButton from '@/components/base/Button.vue';
 
 // TODO: Make a form container that allows for showing search/clear?
 export default defineComponent({
   name: 'ContactsGrid',
-  components: {SearchForm, JefSpacer, JefCheckbox, JefField, FlexContainer, JefTitle, JefGrid},
+  components: {JefButton, SearchForm, JefSpacer, JefCheckbox, JefField, FlexContainer, JefTitle, JefGrid},
   data() {
     return {
-      FlexDirections: FlexDirections,
-      FlexJustifications: FlexJustifications,
-      TextAlignments: TextAlignments,
-      FlexContentAlignments: FlexContentAlignments,
       viewStore: new Store(Contact, {
         sorters: [{
           field: 'Name',
@@ -71,7 +71,7 @@ export default defineComponent({
         }]
       }),
       search: {
-        Name: 'blah',
+        Name: 'kev',
         Email: null,
         CompanyId: null,
         ApplicationId: null,
@@ -136,8 +136,11 @@ export default defineComponent({
         params: this.search
       });
     },
-    async onClickSearchBtn() {
-      await this.loadViewStore();
+    onClickRefreshButton() {
+      this.loadViewStore();
+    },
+    onClickSearchBtn() {
+      this.loadViewStore();
     }
   },
 
