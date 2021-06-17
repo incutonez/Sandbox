@@ -2,10 +2,9 @@
   <FlexContainer v-bind="$props"
                  :direction="layout"
                  :border="false"
-                 class="field-container"
-                 :align-self="FlexAlignments.START">
+                 :class="fieldContainerCls">
     <FlexContainer v-if="showLabel"
-                   :class="fieldLabelCls"
+                   class="field-label"
                    cmp="label"
                    :width="labelWidth"
                    :border="false"
@@ -18,6 +17,7 @@
            :required="isRequired"
            :disabled="isDisabled"
            :readonly="isReadOnly"
+           :style="fieldInputStyle"
            @keyup.enter="onKeyUpField">
   </FlexContainer>
 </template>
@@ -28,6 +28,7 @@ import FlexContainer from '@/components/base/FlexContainer.vue';
 import {FlexDirections} from '@/statics/Flex';
 import RegisterInjector, {IRegisterInjector} from '@/mixins/RegisterInjector';
 import EventsInjector, {IEventsInjector} from '@/mixins/EventsInjector';
+import utilities from '@/utilities';
 
 type ElementAttribute = boolean | null;
 type ValueAttribute = string | boolean | null;
@@ -92,6 +93,10 @@ export default defineComponent({
     labelWidth: {
       type: [Number, String],
       default: 100
+    },
+    inputWidth: {
+      type: [Number, String],
+      default: '100%'
     }
   },
   emits: [
@@ -123,6 +128,13 @@ export default defineComponent({
     isDisabled(): ElementAttribute {
       return this.disabled || null;
     },
+    fieldInputStyle(): string {
+      let width = this.inputWidth;
+      if (width) {
+        width = `width: ${utilities.convertToPx(width)};`;
+      }
+      return `${width}`;
+    },
     fieldInputCls() {
       const cls = ['field-input'];
       if (this.required && !this.value) {
@@ -136,16 +148,11 @@ export default defineComponent({
       }
       return cls.join(' ');
     },
-    fieldLabelCls() {
-      const cls = ['field-label'];
-      // We're in a vertical layout
-      if ([FlexDirections.ROW, FlexDirections.ROW_REVERSE].indexOf(this.layout) === -1) {
-        cls.push('field-label-vertical');
-      }
-      // Horizontal
-      else {
-        cls.push('field-label-horizontal');
-      }
+    isVerticalLayout(): boolean {
+      return [FlexDirections.ROW, FlexDirections.ROW_REVERSE].indexOf(this.layout) === -1;
+    },
+    fieldContainerCls(): string {
+      const cls = ['field-container', this.isVerticalLayout ? 'field-layout-vertical' : 'field-layout-horizontal'];
       return cls.join(' ');
     },
     showLabel(): boolean {
@@ -181,6 +188,23 @@ export default defineComponent({
     height: $field-height;
     font-size: $field-input-font-size;
     color: $field-input-font-color;
+    width: 100%;
+  }
+
+  &.field-layout-horizontal {
+    .field-label {
+      padding: 0 $field-label-right-padding 0 $field-label-left-padding;
+    }
+
+    .field-input {
+      margin-right: $field-label-left-padding;
+    }
+  }
+
+  &.field-layout-vertical {
+    .field-label {
+      padding: $field-label-top-padding 0 $field-label-bottom-padding 0;
+    }
   }
 
   .field-label {
@@ -189,14 +213,6 @@ export default defineComponent({
     text-transform: $field-label-text-transform;
     font-weight: $field-label-font-weight;
     height: $field-height;
-
-    &.field-label-horizontal {
-      padding: 0 $field-label-right-padding 0 $field-label-left-padding;
-    }
-
-    &.field-label-vertical {
-      padding: $field-label-top-padding 0 $field-label-bottom-padding 0;
-    }
   }
 }
 </style>

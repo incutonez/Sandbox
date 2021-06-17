@@ -31,17 +31,17 @@ class Store<T> extends Collection<T> {
   }
 
   async load(config?: any): Promise<void> {
+    this.loading = true;
     try {
-      this.loading = true;
       const Response: AxiosResponse | undefined = await this.proxy.load(config);
       this.clear();
       this.add(Response?.data);
       this.doSort(this.sorters);
-      this.loading = false;
     }
     catch (ex) {
       this.logException(ex);
     }
+    this.loading = false;
   }
 }
 

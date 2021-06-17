@@ -3,9 +3,10 @@ import {getConnection, getRepository} from 'typeorm';
 import {Company} from '../db/entity/Company.js';
 import {StatusCodes} from 'http-status-codes';
 import GetRequest from '../classes/GetRequest.js';
+import utilities from '../utilities.js';
 
 export default (router: Router) => {
-  router.get('/companies', async (req: Request, res: Response) => {
+  router.post('/companies/search', async (req: Request, res: Response) => {
     try {
       const connection = getRepository(Company);
       const results = await connection.createQueryBuilder('Companies')
@@ -17,6 +18,7 @@ export default (router: Router) => {
        * See also: https://stackoverflow.com/a/55169910/1253609
        */
       .addSelect(['Companies.CreateDate'])
+      .where(utilities.createWhere(req.body))
       .getMany();
       return res.send(results);
     }

@@ -15,7 +15,7 @@ export default {
    * underscore's isEmpty treats booleans and numbers as being empty
    */
   isEmpty<T>(value: T): boolean {
-    return !_.isBoolean(value) && !_.isNumber(value) && _.isEmpty(value);
+    return !(_.isBoolean(value) || _.isNumber(value) || _.isDate(value)) && _.isEmpty(value);
   },
   isString: _.isString,
   isObject: _.isObject,
@@ -25,6 +25,9 @@ export default {
   isArray: _.isArray,
   remove: _.remove,
   merge: _.merge,
+  insert(item: any[], index: number, value: any) {
+    item.splice(index, 0, value);
+  },
   isIconTag(event: Event): boolean {
     const Target: HTMLElement = event.target as HTMLElement;
     return Target && Target.tagName === 'I';

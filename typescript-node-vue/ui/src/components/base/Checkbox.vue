@@ -3,10 +3,9 @@
                  :direction="layout"
                  :border="false"
                  cmp="label"
-                 class="field-container"
-                 :align-self="FlexAlignments.START">
+                 :class="fieldContainerCls">
     <FlexContainer v-if="showLabel"
-                   :class="fieldLabelCls"
+                   class="field-label"
                    cmp="label"
                    :width="labelWidth"
                    :border="false"

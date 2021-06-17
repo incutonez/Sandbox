@@ -31,6 +31,11 @@ class Model {
       Reflect.set(this, field, data[field]);
     }
   }
+
+  // TODO: Potentially loop through associations and figure this out?
+  showExpander(): boolean {
+    return false;
+  }
 }
 
 export default Model;

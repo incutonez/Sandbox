@@ -6,5 +6,5 @@ export interface ICollection<T> extends BaseCollection<T> {
 
   doSort(sorters: BaseCollection<Sorter>): void;
 
-  addSorter(sorter: Sorter | Sorter[], clear: boolean): void;
+  addSorter(sorter: Sorter | Sorter[], clear?: boolean): void;
 }

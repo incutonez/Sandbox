@@ -8,6 +8,7 @@ import {
 } from '@/statics/Flex';
 import IKeyValue from '@/interfaces/IKeyValue';
 import Icons from '@/statics/Icons';
+import utilities from '@/utilities';
 
 export default {
   FlexDirections,
@@ -16,5 +17,6 @@ export default {
   FlexWraps,
   FlexContentAlignments,
   TextAlignments,
-  Icons
+  Icons,
+  Utilities: utilities
 } as IKeyValue;

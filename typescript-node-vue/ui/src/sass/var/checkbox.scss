@@ -1,25 +1,12 @@
-@function get-vertical ($value) {
-  $vertical: 0;
-  $len: length($value);
-  @if ($len == 1) {
-    $vertical: nth($value, 1) * 2;
-  } @else if ($len == 2 or $len == 3) {
-    $vertical: nth($value, 2) * 2;
-  } @else {
-    $vertical: nth($value, 2) + nth($value, 4);
-  }
-  @return $vertical;
-}
-
 // This is a uniform padding amount, so all sides must have same value
 $checkbox-padding: 2px;
 /* $checkbox-size should account for padding * 2... if our padding is 2px on all directions, and we specify
  * 18px here, our size for the checkbox icon is around 14px.  The icon size should be derived from checkbox
  * padding and size */
 $checkbox-size: 18px;
-$checkbox-height: $checkbox-size + get-vertical($field-input-border-width);
+$checkbox-height: $checkbox-size + get-horizontal($field-input-border-width);
 $checkbox-width: $checkbox-height;
-$checkbox-icon-size: $checkbox-size - get-vertical($checkbox-padding);
+$checkbox-icon-size: $checkbox-size - get-horizontal($checkbox-padding);
 $checkbox-margin-top: ($field-height - $checkbox-height) / 2;
 $checkbox-background-color-checked: $field-input-border-color-focus;
 $checkbox-color-checked: #FFFFFF;

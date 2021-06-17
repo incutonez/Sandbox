@@ -7,7 +7,7 @@
                 :hide-search-btn="false"
                 :hide-reset-btn="false"
                 @search="onClickSearchBtn">
-      <JefTitle title="Search Panel"
+      <JefTitle title="Search"
                 border="b" />
       <JefField v-model="search.Name"
                 label="Name" />
@@ -58,10 +58,18 @@ import JefSpacer from '@/components/base/Spacer.vue';
 import SearchForm from '@/components/base/SearchForm.vue';
 import JefButton from '@/components/base/Button.vue';
 
-// TODO: Make a form container that allows for showing search/clear?
 export default defineComponent({
   name: 'ContactsGrid',
-  components: {JefButton, SearchForm, JefSpacer, JefCheckbox, JefField, FlexContainer, JefTitle, JefGrid},
+  components: {
+    JefButton,
+    SearchForm,
+    JefSpacer,
+    JefCheckbox,
+    JefField,
+    FlexContainer,
+    JefTitle,
+    JefGrid
+  },
   data() {
     return {
       viewStore: new Store(Contact, {
@@ -130,11 +138,16 @@ export default defineComponent({
     };
   },
   methods: {
-    loadViewStore() {
-      this.viewStore.load({
-        url: 'api/contacts/search',
-        params: this.search
-      });
+    async loadViewStore() {
+      try {
+        await this.viewStore.load({
+          url: 'api/contacts/search',
+          params: this.search
+        });
+      }
+      catch (ex) {
+        console.exception(ex);
+      }
     },
     onClickRefreshButton() {
       this.loadViewStore();

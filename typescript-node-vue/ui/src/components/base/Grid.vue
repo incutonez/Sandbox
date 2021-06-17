@@ -240,12 +240,25 @@ export default defineComponent({
 
 <style lang="scss">
 .grid-row {
-  &.grid-row-data:hover {
-    background-color: darken($grid-header-background-color, 5%);
+  &.grid-row-data {
+    .grid-cell {
+      height: $grid-cell-height;
+    }
+
+    &:hover {
+      background-color: darken($grid-header-background-color, 5%) !important;
+    }
   }
 
-  &.expand-row .grid-cell .expandable {
+  &.expand-row .grid-cell.expandable {
     display: block;
+    border-top: $panel-border-width $panel-border-style $panel-border-color;
+  }
+
+  .grid-cell-icon {
+    font-size: $grid-cell-font-size;
+    line-height: $grid-cell-height;
+    cursor: pointer;
   }
 
   .grid-header {
@@ -282,7 +295,7 @@ export default defineComponent({
     font-size: $grid-cell-font-size;
     @include ellipsize();
 
-    .expandable {
+    &.expandable {
       display: none;
     }
   }

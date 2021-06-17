@@ -15,17 +15,20 @@
                  :direction="FlexDirections.COLUMN"
                  :grow="column.width ? 0 : column.flex"
                  :border="border"
-                 :pack="FlexJustifications.CENTER"
+                 :pack="FlexJustifications.START"
                  :background-color="false"
                  :class="extraCls"
-                 :width="column.width">
-    <Icon v-if="isExpander"
-          :icon-name="iconName" />
-    <template v-if="values !== ''">
-      <span v-for="(value, idx) in values"
-            :key="idx"
-            class="grid-cell"
-            :style="`text-align: ${column.align};`">
+                 :width="column.width"
+                 @click="onClickCell">
+    <Icon v-if="showExpander"
+          :icon-name="iconName"
+          class="grid-cell-icon"
+          :style="`text-align: ${column.align};`" />
+    <template v-if="values">
+      <div v-for="(value, idx) in values"
+           :key="idx"
+           :class="idx === 0 ? 'grid-cell' : 'grid-cell expandable'"
+           :style="`text-align: ${column.align};`">
         <template v-if="utilities.isObject(value)">
           <component :is="value.cmp"
                      v-bind="value.props" />
@@ -33,7 +36,7 @@
         <template v-else>
           {{ value }}
         </template>
-      </span>
+      </div>
     </template>
   </FlexContainer>
 </template>
@@ -92,23 +95,26 @@ export default defineComponent({
     };
   },
   computed: {
+    showExpander(): boolean {
+      return this.isExpander && this.values;
+    },
     isExpander(): boolean {
       return this.column.type === ColumnTypes.Expander;
     },
     // TODO: Add formatter for dates and such?
     values(): any {
       const column = this.column;
-      if (this.isExpander) {
-        return '';
-      }
       const record = this.record;
       const formatter = column.formatter;
-      let formatterFn: (value: any) => {} = utilities.identityFn;
+      let formatterFn: (value: any, record?: any) => {} = utilities.identityFn;
       if (utilities.isString(formatter)) {
         formatterFn = (Formatters as PlainObject)[formatter];
       }
       else {
         formatterFn = formatter as (value: any) => {};
+      }
+      if (this.isExpander) {
+        return formatterFn(true, record);
       }
       const fields = column.field.split('.');
       let values = record[fields[0]];

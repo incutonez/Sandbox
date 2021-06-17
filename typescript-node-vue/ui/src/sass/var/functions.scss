@@ -1,0 +1,25 @@
+@function get-horizontal ($value) {
+  $vertical: 0;
+  $len: length($value);
+  @if ($len == 1) {
+    $vertical: nth($value, 1) * 2;
+  } @else if ($len == 2 or $len == 3) {
+    $vertical: nth($value, 2) * 2;
+  } @else {
+    $vertical: nth($value, 2) + nth($value, 4);
+  }
+  @return $vertical;
+}
+
+@function get-vertical ($value) {
+  $vertical: 0;
+  $len: length($value);
+  @if ($len == 1) {
+    $vertical: nth($value, 1) * 2;
+  } @else if ($len == 2) {
+    $vertical: nth($value, 1) * 2;
+  } @else {
+    $vertical: nth($value, 1) + nth($value, 3);
+  }
+  @return $vertical;
+}
