@@ -118,31 +118,36 @@ export default defineComponent({
       }
       const fields = column.field.split('.');
       let values = record[fields[0]];
-      if (utilities.isEmpty(values)) {
+      if (!utilities.isDefined(values)) {
         return '';
       }
-      for (let i = 1; i < fields.length; i++) {
-        const Field = fields[i];
-        if (Array.isArray(values)) {
-          const out: any[] = [];
-          values.forEach((item) => {
-            // Can only have an object or just a plain ole array
-            if (utilities.isObject(item)) {
-              out.push((item as PlainObject)[Field]);
-            }
-            else {
-              out.push(item);
-            }
-          });
-          values = out;
-        }
-        else {
-          values = values[Field];
+      else if (utilities.isEmpty(values)) {
+        values = [null];
+      }
+      else {
+        for (let i = 1; i < fields.length; i++) {
+          const Field = fields[i];
+          if (Array.isArray(values)) {
+            const out: any[] = [];
+            values.forEach((item) => {
+              // Can only have an object or just a plain ole array
+              if (utilities.isObject(item)) {
+                out.push((item as PlainObject)[Field]);
+              }
+              else {
+                out.push(item);
+              }
+            });
+            values = out;
+          }
+          else {
+            values = values[Field];
+          }
         }
       }
       values = Array.isArray(values) ? values : [values];
       return values.map((value: any) => {
-        return formatterFn(value);
+        return formatterFn(value, record);
       });
     },
     iconName(): string {

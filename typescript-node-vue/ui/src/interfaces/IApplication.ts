@@ -8,6 +8,7 @@ export default interface IApplication {
   // TODO: It's an enum
   PositionType: number;
   Link: string;
+  CreateDate: Date;
   Company: ICompany;
   Contacts: IStore<IContact>;
 }

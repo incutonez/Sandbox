@@ -6,9 +6,8 @@
                 :hide-clear-btn="false"
                 :hide-search-btn="false"
                 :hide-reset-btn="false"
+                title="Search"
                 @search="onClickSearchBtn">
-      <JefTitle title="Search"
-                border="b" />
       <JefField v-model="search.Name"
                 label="Name" />
       <JefField v-model="search.CreateDate"

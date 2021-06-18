@@ -13,6 +13,7 @@
 
 Low Priority
 - Create local store filtering
+- Add grouping to store/grid
 - Add remote sorting
 - Figure out a good way of showing sort order
 -- Maybe add a number near the icon

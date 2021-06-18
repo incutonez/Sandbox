@@ -26,6 +26,7 @@ class Application extends Model {
     this.Position = config.Position;
     this.PositionType = config.PositionType;
     this.Link = config.Link;
+    this.CreateDate = new Date(config.CreateDate);
     if (config.Company) {
       this.Company = new Company(config.Company);
     }

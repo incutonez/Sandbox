@@ -3,14 +3,11 @@
                  :direction="layout"
                  :border="false"
                  :class="fieldContainerCls">
-    <FlexContainer v-if="showLabel"
-                   class="field-label"
-                   cmp="label"
-                   :width="labelWidth"
-                   :border="false"
-                   :align="FlexAlignments.CENTER">
+    <span v-if="showLabel"
+          class="field-label"
+          :style="`min-width: ${labelWidthFm};`">
       {{ label }}{{ labelSeparator }}
-    </FlexContainer>
+    </span>
     <input v-model="value"
            :class="fieldInputCls"
            :type="type"
@@ -110,6 +107,10 @@ export default defineComponent({
     };
   },
   computed: {
+    labelWidthFm(): string {
+      const labelWidth = this.isVerticalLayout ? '100%' : this.labelWidth;
+      return utilities.convertToPx(labelWidth);
+    },
     // Taken from https://v3.vuejs.org/guide/component-basics.html#using-v-model-on-components
     value: {
       get(): ValueAttribute {
@@ -191,28 +192,30 @@ export default defineComponent({
     width: 100%;
   }
 
-  &.field-layout-horizontal {
-    .field-label {
-      padding: 0 $field-label-right-padding 0 $field-label-left-padding;
-    }
-
-    .field-input {
-      margin-right: $field-label-left-padding;
-    }
-  }
-
-  &.field-layout-vertical {
-    .field-label {
-      padding: $field-label-top-padding 0 $field-label-bottom-padding 0;
-    }
-  }
-
   .field-label {
     font-size: $field-label-font-size;
     color: $field-label-font-color;
     text-transform: $field-label-text-transform;
     font-weight: $field-label-font-weight;
-    height: $field-height;
+    line-height: $field-height;
+    @include ellipsize();
+  }
+
+  &.field-layout-horizontal {
+    .field-label {
+      padding: 0 $field-label-padding-right 0 $field-label-padding-left;
+    }
+
+    .field-input {
+      margin-right: $field-label-padding-left;
+    }
+  }
+
+  &.field-layout-vertical {
+    .field-label {
+      padding: $field-label-padding-top 0 $field-label-padding-bottom 0;
+      line-height: $field-height - $field-label-padding-top - $field-label-padding-bottom;
+    }
   }
 }
 </style>

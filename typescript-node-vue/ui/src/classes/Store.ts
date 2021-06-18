@@ -43,6 +43,10 @@ class Store<T> extends Collection<T> {
     }
     this.loading = false;
   }
+
+  getUrl(): string {
+    return this.proxy.url;
+  }
 }
 
 export default Store;

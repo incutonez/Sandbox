@@ -2,7 +2,16 @@
   <FlexContainer v-bind="$props"
                  :direction="FlexDirections.COLUMN"
                  cmp="form">
-    <slot name="default" />
+    <JefTitle v-if="title"
+              :title="title"
+              border="t" />
+    <FlexContainer v-if="showDefaultSlot"
+                   :padding="bodyPadding"
+                   :border="false"
+                   :grow="1"
+                   :direction="FlexDirections.COLUMN">
+      <slot name="default" />
+    </FlexContainer>
     <FlexContainer border="t"
                    :padding="5"
                    :pack="FlexAlignments.END"
@@ -30,10 +39,12 @@ import JefButton from '@/components/base/Button.vue';
 import JefField from '@/components/base/Field.vue';
 import EventsProvider from '@/mixins/EventsProvider';
 import RegisterProvider from '@/mixins/RegisterProvider';
+import JefTitle from '@/components/base/Title.vue';
 
 export default defineComponent({
   name: 'SearchForm',
   components: {
+    JefTitle,
     JefButton,
     FlexContainer
   },
@@ -43,6 +54,14 @@ export default defineComponent({
     RegisterProvider
   ],
   props: {
+    bodyPadding: {
+      type: [Number, String],
+      default: '0 10px'
+    },
+    title: {
+      type: [Boolean, String],
+      default: false
+    },
     hideSearchBtn: {
       type: Boolean,
       default: true
@@ -66,6 +85,9 @@ export default defineComponent({
     };
   },
   computed: {
+    showDefaultSlot(): boolean {
+      return !!this.$slots.default;
+    },
     hideBottomToolbar(): boolean {
       return this.hideSearchBtn && this.hideClearBtn && this.hideResetBtn;
     }

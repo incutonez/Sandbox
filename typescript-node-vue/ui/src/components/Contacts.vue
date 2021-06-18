@@ -6,9 +6,8 @@
                 :hide-clear-btn="false"
                 :hide-search-btn="false"
                 :hide-reset-btn="false"
+                title="Search"
                 @search="onClickSearchBtn">
-      <JefTitle title="Search"
-                border="b" />
       <JefField v-model="search.Name"
                 label="Name" />
       <JefField v-model="search.Email"
@@ -109,12 +108,14 @@ export default defineComponent({
         width: 200,
         columns: [{
           text: 'Name',
-          field: 'Company.Name',
-          width: 50
+          field: 'Company.Name'
         }, {
           text: 'Recruitment',
           field: 'Company.IsRecruitment',
-          type: ColumnTypes.Boolean
+          type: ColumnTypes.Boolean,
+          formatter: 'boolIcon',
+          align: TextAlignments.CENTER,
+          width: 100
         }]
       }, {
         text: 'Application',

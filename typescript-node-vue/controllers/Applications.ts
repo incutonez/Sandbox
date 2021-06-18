@@ -1,14 +1,20 @@
 import {Request, Response, Router} from 'express';
-import {getConnection} from 'typeorm';
+import {getManager} from 'typeorm';
 import {Application} from '../db/entity/Application.js';
+import utilities from '../utilities.js';
+
+const RoutePrefix = '/applications/';
 
 export default (router: Router) => {
-  router.get('/applications', async (req: Request, res: Response) => {
+  router.post(`${RoutePrefix}search`, async (req: Request, res: Response) => {
     try {
-      const connection = getConnection();
-      const results = await connection.manager.find(Application, {
-        relations: ['Contacts', 'Company']
-      });
+      const manager = getManager();
+      const results = await manager.createQueryBuilder(Application, 'application')
+      .leftJoinAndSelect('application.Contacts', 'Contacts')
+      .leftJoinAndSelect('application.Company', 'Company')
+      .addSelect(['application.CreateDate'])
+      .where(utilities.createWhere(req.body))
+      .getMany();
       return res.send(results);
     }
     catch (ex) {
