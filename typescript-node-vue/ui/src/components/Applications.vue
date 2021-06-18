@@ -61,8 +61,6 @@ import IApplication from '@/interfaces/IApplication';
 import Formatters from '@/statics/Formatters';
 import Icons from '@/statics/Icons';
 import IKeyValue from '@/interfaces/IKeyValue';
-import Styles from '@/statics/Styles';
-import Icon from '@/components/Icon.vue';
 
 export default defineComponent({
   name: 'ApplicationsGrid',
@@ -95,25 +93,18 @@ export default defineComponent({
           return record.showExpander();
         }
       }, {
-        // TODO: Potentially move some of this logic into the column class or default config
-        text: 'Actions',
+        type: ColumnTypes.Action,
         width: 65,
-        sortable: false,
-        columns: [{
-          type: ColumnTypes.Action,
-          align: TextAlignments.CENTER,
-          sortable: false,
-          border: false,
-          cellBorder: false,
-          formatter(value: any, record: IApplication): IKeyValue | null {
-            return record.canEdit() ? Icons.getActionIcon({
-              iconName: Icons.EDIT
-            }) : null;
-          }
-        }, {
-          type: ColumnTypes.Action,
-          align: TextAlignments.CENTER,
-          sortable: false,
+        formatter(value: any, record: IApplication) {
+          return [Icons.getActionIcon({
+            icon: Icons.EDIT,
+            disabled: record.canEdit()
+          }), Icons.getActionIcon({
+            icon: Icons.DELETE,
+            disabled: record.canDelete()
+          })];
+        },
+        items: [{
           formatter(value: any, record: IApplication): IKeyValue | null {
             return record.canEdit() ? Icons.getActionIcon({
               iconName: Icons.DELETE

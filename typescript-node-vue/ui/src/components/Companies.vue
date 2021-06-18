@@ -45,7 +45,7 @@
 
 <script lang="ts">
 import {defineComponent} from 'vue';
-import {FlexAlignments, TextAlignments} from '@/statics/Flex';
+import {TextAlignments} from '@/statics/Flex';
 import Store from '@/classes/Store';
 import ColumnTypes from '@/statics/ColumnTypes';
 import JefGrid from '@/components/base/Grid.vue';
@@ -86,7 +86,7 @@ export default defineComponent({
       columns: [{
         type: ColumnTypes.Expander,
         width: 24,
-        align: FlexAlignments.CENTER,
+        align: TextAlignments.CENTER,
         formatter: function(value: boolean, record: ICompany) {
           return record.showExpander();
         }

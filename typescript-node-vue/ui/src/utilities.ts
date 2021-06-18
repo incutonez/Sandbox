@@ -25,6 +25,10 @@ export default {
   isArray: _.isArray,
   remove: _.remove,
   merge: _.merge,
+  random: _.random,
+  contains<T>(array: Array<T>, item: T) {
+    return array.indexOf(item) !== -1;
+  },
   insert(item: any[], index: number, value: any) {
     item.splice(index, 0, value);
   },

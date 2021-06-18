@@ -7,13 +7,13 @@
                  :width="column.width"
                  @click="onClickColumn">
     <FlexContainer :border="false"
-                   :pack="column.align"
+                   :pack="column.getTextAlignment()"
                    :align="FlexAlignments.CENTER"
                    :background-color="false"
                    :grow="1"
                    class="grid-header-child">
       <span class="grid-cell">
-        {{ column.text }}
+        {{ columnText }}
       </span>
       <Icon v-if="column.isSorted"
             class="sort-icon"
@@ -65,6 +65,16 @@ export default defineComponent({
     'show'
   ],
   computed: {
+    columnText(): string {
+      const cfg = this.column;
+      let text = cfg.text;
+      if (!text) {
+        if (cfg.type === ColumnTypes.Action) {
+          text = 'Actions';
+        }
+      }
+      return text;
+    },
     sortIcon() {
       let icon = '';
       const isAsc = this.column.sorter?.isAsc();
@@ -84,7 +94,7 @@ export default defineComponent({
     extraCls() {
       const cfg = this.column;
       const cls = ['grid-header'];
-      if (cfg.sortable) {
+      if (cfg.canSort()) {
         cls.push('grid-header-sortable');
       }
       if (cfg.hidden) {
@@ -122,7 +132,7 @@ export default defineComponent({
       this.emitSort(column);
     },
     onClickColumn() {
-      if (this.column.sortable) {
+      if (this.column.canSort()) {
         this.emitSort(this.column);
       }
     }

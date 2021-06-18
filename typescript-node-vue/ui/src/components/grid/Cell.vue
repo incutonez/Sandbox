@@ -12,23 +12,22 @@
                  :column="cell" />
   </FlexContainer>
   <FlexContainer v-else
-                 :direction="FlexDirections.COLUMN"
+                 :direction="column.getCellDirection()"
                  :grow="column.width ? 0 : column.flex"
                  :border="border"
-                 :pack="FlexJustifications.START"
+                 :pack="column.getCellPack()"
+                 :style="`text-align: ${column.getCellAlignment()};`"
                  :background-color="false"
                  :class="extraCls"
                  :width="column.width"
                  @click="onClickCell">
     <Icon v-if="showExpander"
           :icon-name="iconName"
-          class="grid-cell-icon"
-          :style="`text-align: ${column.align};`" />
+          class="grid-cell-icon" />
     <template v-if="values">
       <div v-for="(value, idx) in values"
            :key="idx"
-           :class="idx === 0 ? 'grid-cell' : 'grid-cell expandable'"
-           :style="`text-align: ${column.align};`">
+           :class="getCellCls(value, idx)">
         <template v-if="Utilities.isObject(value)">
           <component :is="value.cmp"
                      v-bind="value.props" />
@@ -49,6 +48,7 @@ import Icons from '@/statics/Icons';
 import Icon from '@/components/Icon.vue';
 import Formatters from '@/statics/Formatters';
 import FlexContainer from '@/components/base/FlexContainer.vue';
+import JefButton from '@/components/base/Button.vue';
 import IColumn from '@/interfaces/IColumn';
 import IKeyValue from '@/interfaces/IKeyValue';
 
@@ -56,7 +56,8 @@ export default defineComponent({
   name: 'JefGridCell',
   components: {
     FlexContainer,
-    Icon
+    Icon,
+    JefButton
   },
   props: {
     /**
@@ -160,6 +161,18 @@ export default defineComponent({
     }
   },
   methods: {
+    getCellCls(value: any, index: number) {
+      const cls = [];
+      if (!this.column.isAction()) {
+        cls.push('grid-cell');
+      }
+      /* Right now, if we have an object, or we're at the first item, we don't consider this content to be expandable
+       * May want to extend this idea in the future to allow the value object to determine that */
+      if (!(utilities.isObject(value) || index === 0)) {
+        cls.push('expandable');
+      }
+      return cls.join(' ');
+    },
     getChildBorder(index: number, column: IColumn, parent: IColumn) {
       return index + 1 === parent.columns?.length ? false : column.cellBorder;
     },

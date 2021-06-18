@@ -24,12 +24,14 @@ for (const key in Icons) {
 }
 
 Icons.getActionIcon = (config: IKeyValue) => {
-  return [{
-    cmp: 'Icon',
+  return {
+    cmp: 'JefButton',
     props: {
-      iconName: `${config.iconName} ${Styles.FONT_BLUE} ${Styles.CLICKABLE}`
+      iconOnly: true,
+      icon: config.icon,
+      disabled: config.disabled
     }
-  }];
+  };
 };
 
 export default Icons;

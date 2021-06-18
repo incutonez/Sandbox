@@ -90,6 +90,11 @@ export default defineComponent({
   height: $button-height;
   padding: $button-padding;
 
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
   &:not(.jef-button-icon-only) {
     border: $button-border;
     border-radius: $button-border-radius;

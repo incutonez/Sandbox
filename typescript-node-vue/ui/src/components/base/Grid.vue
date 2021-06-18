@@ -48,10 +48,11 @@ import JefGridCell from '@/components/grid/Cell.vue';
 import JefGridColumn from '@/components/grid/Column.vue';
 import Sorter from '@/classes/Sorter';
 import FlexContainer from '@/components/base/FlexContainer.vue';
-import {FlexAlignments, FlexDirections, TextAlignments} from '@/statics/Flex';
+import {FlexDirections, FlexJustifications, TextAlignments} from '@/statics/Flex';
 import LoadingMask from '@/components/base/LoadingMask.vue';
 import utilities from '@/utilities';
 
+// TODOJEF: Create class for this?
 const DefaultColumnConfig: IColumn = {
   type: ColumnTypes.String,
   text: '',
@@ -70,11 +71,86 @@ const DefaultColumnConfig: IColumn = {
   basis: 0,
   width: 0,
   cellCls: '',
-  align: TextAlignments.LEFT,
-  direction: FlexDirections.ROW,
   hidden: false,
   border: 'b r',
-  cellBorder: 'r'
+  cellBorder: 'r',
+
+  isAction(): boolean {
+    return this.type === ColumnTypes.Action;
+  },
+
+  canSort(): boolean {
+    return !this.isAction() && this.sortable;
+  },
+
+  isNested(): boolean {
+    const columns = this.columns;
+    return !!(columns && columns.length > 1);
+  },
+
+  isVerticalLayout(): boolean {
+    return !this.direction && !this.isAction() || utilities.contains([FlexDirections.COLUMN, FlexDirections.COLUMN_REVERSE], this.direction);
+  },
+
+  isCellVerticalLayout(): boolean {
+    return utilities.contains([FlexDirections.COLUMN, FlexDirections.COLUMN_REVERSE], this.getCellDirection());
+  },
+
+  getTextAlignment(): string {
+    if (this.align) {
+      return this.align;
+    }
+    return this.isNested() || this.isAction() ? TextAlignments.CENTER : TextAlignments.LEFT;
+  },
+
+  getCellPack(): string {
+    // If we're in a vertical layout, then our pack is controlling the position of the text vertically
+    if (this.isCellVerticalLayout()) {
+      // Otherwise, we always want the text to be at the top of the cell
+      return FlexJustifications.START;
+    }
+    let align: any = this.align;
+    // We have to convert TextAlignment to FlexJustification
+    switch (align) {
+      case TextAlignments.LEFT:
+        align = FlexJustifications.START;
+        break;
+      case TextAlignments.CENTER:
+        align = FlexJustifications.CENTER;
+        break;
+      case TextAlignments.RIGHT:
+        align = FlexJustifications.END;
+        break;
+    }
+    if (align) {
+      return align;
+    }
+    return this.isAction() ? FlexJustifications.CENTER : FlexJustifications.START;
+  },
+
+  /**
+   * If we're in a vertical layout, then align will be horizontal-based
+   * If we're in a horizontal layout, then align will be vertical-based
+   */
+  getCellAlignment(): string {
+    // If we're vertical, then we have to use TextAlignment
+    if (this.isCellVerticalLayout()) {
+      let align = this.align;
+      if (!align) {
+        align = this.isAction() ? TextAlignments.CENTER : TextAlignments.LEFT;
+      }
+      return align;
+    }
+    return TextAlignments.LEFT;
+  },
+
+  getCellDirection(): FlexDirections {
+    let direction = FlexDirections.COLUMN;
+    if (this.isAction()) {
+      direction = FlexDirections.ROW;
+    }
+    return this.direction || direction;
+  }
 };
 
 interface IData {
@@ -162,7 +238,6 @@ export default defineComponent({
         let children = column.columns;
         if (children) {
           column.sortable = false;
-          column.align = column.align || FlexAlignments.CENTER;
           children = this.getDefaultColumns(children, true);
         }
         if (isNested) {

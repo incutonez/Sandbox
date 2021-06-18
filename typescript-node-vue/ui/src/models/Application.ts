@@ -3,6 +3,7 @@ import Model from '@/classes/Model';
 import Company from '@/models/Company';
 import Contact from '@/models/Contact';
 import Store from '@/classes/Store';
+import utilities from '@/utilities';
 
 interface Application extends IApplication {
 
@@ -34,7 +35,11 @@ class Application extends Model {
   }
 
   canEdit(): boolean {
-    return true;
+    return !!utilities.random(0, 1);
+  }
+
+  canDelete(): boolean {
+    return !!utilities.random(0, 1);
   }
 }
 

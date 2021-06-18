@@ -13,4 +13,6 @@ export default interface IApplication {
   Contacts: IStore<IContact>;
 
   canEdit(): boolean;
+
+  canDelete(): boolean;
 }
