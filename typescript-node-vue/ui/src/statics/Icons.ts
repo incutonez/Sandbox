@@ -1,4 +1,5 @@
 import IKeyValue from '@/interfaces/IKeyValue';
+import Styles from '@/statics/Styles';
 
 const FA = 'fa';
 const Icons: IKeyValue = {
@@ -13,11 +14,22 @@ const Icons: IKeyValue = {
   CHECK: 'check',
   TIMES: 'times',
   SQUARE: 'square',
-  REFRESH: 'redo'
+  REFRESH: 'redo',
+  EDIT: 'pen',
+  DELETE: 'trash'
 };
 
 for (const key in Icons) {
   Icons[key] = `${FA} ${FA}-${Icons[key]}`;
 }
+
+Icons.getActionIcon = (config: IKeyValue) => {
+  return [{
+    cmp: 'Icon',
+    props: {
+      iconName: `${config.iconName} ${Styles.FONT_BLUE} ${Styles.CLICKABLE}`
+    }
+  }];
+};
 
 export default Icons;

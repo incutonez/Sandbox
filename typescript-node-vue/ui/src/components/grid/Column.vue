@@ -23,7 +23,7 @@
       <FlexContainer border="t">
         <JefGridColumn v-for="(col, index) in column.columns"
                        :key="index"
-                       :border="index + 1 === column.columns.length ? false : 'r'"
+                       :border="getChildBorder(index, col, column)"
                        :column="col"
                        @sort="onSortChildColumn"
                        @hide="onHideChildColumn"
@@ -84,7 +84,7 @@ export default defineComponent({
     extraCls() {
       const cfg = this.column;
       const cls = ['grid-header'];
-      if (cfg.isSortable) {
+      if (cfg.sortable) {
         cls.push('grid-header-sortable');
       }
       if (cfg.hidden) {
@@ -94,6 +94,9 @@ export default defineComponent({
     }
   },
   methods: {
+    getChildBorder(index: number, column: IColumn, parent: IColumn) {
+      return index + 1 === parent.columns?.length ? false : column.border;
+    },
     hide() {
       this.emitHide(this.column);
     },
@@ -119,7 +122,7 @@ export default defineComponent({
       this.emitSort(column);
     },
     onClickColumn() {
-      if (this.column.isSortable) {
+      if (this.column.sortable) {
         this.emitSort(this.column);
       }
     }

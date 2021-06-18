@@ -8,7 +8,7 @@
     <JefGridCell v-for="(cell, rowIdx) in column.columns"
                  :key="rowIdx"
                  :record="record"
-                 :border="rowIdx + 1 === column.columns.length ? false : 'r'"
+                 :border="getChildBorder(rowIdx, cell, column)"
                  :column="cell" />
   </FlexContainer>
   <FlexContainer v-else
@@ -29,7 +29,7 @@
            :key="idx"
            :class="idx === 0 ? 'grid-cell' : 'grid-cell expandable'"
            :style="`text-align: ${column.align};`">
-        <template v-if="utilities.isObject(value)">
+        <template v-if="Utilities.isObject(value)">
           <component :is="value.cmp"
                      v-bind="value.props" />
         </template>
@@ -50,10 +50,7 @@ import Icon from '@/components/Icon.vue';
 import Formatters from '@/statics/Formatters';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import IColumn from '@/interfaces/IColumn';
-
-interface PlainObject {
-  [key: string]: any;
-}
+import IKeyValue from '@/interfaces/IKeyValue';
 
 export default defineComponent({
   name: 'JefGridCell',
@@ -90,8 +87,7 @@ export default defineComponent({
   },
   data: () => {
     return {
-      isExpanded: false,
-      utilities: utilities
+      isExpanded: false
     };
   },
   computed: {
@@ -101,6 +97,9 @@ export default defineComponent({
     isExpander(): boolean {
       return this.column.type === ColumnTypes.Expander;
     },
+    isAction(): boolean {
+      return this.column.type === ColumnTypes.Action;
+    },
     // TODO: Add formatter for dates and such?
     values(): any {
       const column = this.column;
@@ -108,12 +107,12 @@ export default defineComponent({
       const formatter = column.formatter;
       let formatterFn: (value: any, record?: any) => {} = utilities.identityFn;
       if (utilities.isString(formatter)) {
-        formatterFn = (Formatters as PlainObject)[formatter];
+        formatterFn = Formatters[formatter];
       }
       else {
         formatterFn = formatter as (value: any) => {};
       }
-      if (this.isExpander) {
+      if (this.isExpander || this.isAction) {
         return formatterFn(true, record);
       }
       const fields = column.field.split('.');
@@ -126,13 +125,13 @@ export default defineComponent({
       }
       else {
         for (let i = 1; i < fields.length; i++) {
-          const Field = fields[i];
+          const field = fields[i];
           if (Array.isArray(values)) {
             const out: any[] = [];
             values.forEach((item) => {
               // Can only have an object or just a plain ole array
               if (utilities.isObject(item)) {
-                out.push((item as PlainObject)[Field]);
+                out.push((item as IKeyValue)[field]);
               }
               else {
                 out.push(item);
@@ -141,7 +140,7 @@ export default defineComponent({
             values = out;
           }
           else {
-            values = values[Field];
+            values = values[field];
           }
         }
       }
@@ -161,6 +160,9 @@ export default defineComponent({
     }
   },
   methods: {
+    getChildBorder(index: number, column: IColumn, parent: IColumn) {
+      return index + 1 === parent.columns?.length ? false : column.cellBorder;
+    },
     onClickCell(event: Event) {
       if (this.column.type === ColumnTypes.Expander) {
         if (utilities.isIconTag(event) && event.target) {

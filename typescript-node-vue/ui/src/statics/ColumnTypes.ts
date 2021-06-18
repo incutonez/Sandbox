@@ -5,7 +5,8 @@ enum ColumnTypes {
   Date = 4,
   Object = 5,
   Array = 6,
-  Expander = 7
+  Expander = 7,
+  Action = 8
 }
 
 export default ColumnTypes;

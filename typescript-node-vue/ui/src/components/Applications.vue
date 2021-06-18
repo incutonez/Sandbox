@@ -59,6 +59,10 @@ import ICompany from '@/interfaces/ICompany';
 import Application from '@/models/Application';
 import IApplication from '@/interfaces/IApplication';
 import Formatters from '@/statics/Formatters';
+import Icons from '@/statics/Icons';
+import IKeyValue from '@/interfaces/IKeyValue';
+import Styles from '@/statics/Styles';
+import Icon from '@/components/Icon.vue';
 
 export default defineComponent({
   name: 'ApplicationsGrid',
@@ -87,9 +91,35 @@ export default defineComponent({
         type: ColumnTypes.Expander,
         width: 24,
         align: FlexAlignments.CENTER,
-        formatter: function(value: boolean, record: ICompany) {
+        formatter(value: boolean, record: ICompany) {
           return record.showExpander();
         }
+      }, {
+        // TODO: Potentially move some of this logic into the column class or default config
+        text: 'Actions',
+        width: 65,
+        sortable: false,
+        columns: [{
+          type: ColumnTypes.Action,
+          align: TextAlignments.CENTER,
+          sortable: false,
+          border: false,
+          cellBorder: false,
+          formatter(value: any, record: IApplication): IKeyValue | null {
+            return record.canEdit() ? Icons.getActionIcon({
+              iconName: Icons.EDIT
+            }) : null;
+          }
+        }, {
+          type: ColumnTypes.Action,
+          align: TextAlignments.CENTER,
+          sortable: false,
+          formatter(value: any, record: IApplication): IKeyValue | null {
+            return record.canEdit() ? Icons.getActionIcon({
+              iconName: Icons.DELETE
+            }) : null;
+          }
+        }]
       }, {
         text: 'Id',
         field: 'Id',

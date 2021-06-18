@@ -1,9 +1,11 @@
 $grid-header-background-color: $color-blue-lightest;
 $grid-header-font-color: $font-color-alternate;
+$grid-header-font-weight: 600;
+$grid-header-height: 25px;
+
 $grid-cell-font-color: #000000;
 $grid-cell-padding: 2px 5px;
 $grid-cell-font-size: 14px;
 $grid-cell-line-height: 7px;
 // I don't actually use this... as it's calculated by 4px (top and bottom) + 14px (font-size) + 1.5 line-height
 $grid-cell-height: $grid-cell-font-size + $grid-cell-line-height + get-vertical($grid-cell-padding);
-$grid-header-font-weight: 600;

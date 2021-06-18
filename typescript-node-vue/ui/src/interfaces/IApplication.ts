@@ -11,4 +11,6 @@ export default interface IApplication {
   CreateDate: Date;
   Company: ICompany;
   Contacts: IStore<IContact>;
+
+  canEdit(): boolean;
 }

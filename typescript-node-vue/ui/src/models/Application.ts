@@ -32,6 +32,10 @@ class Application extends Model {
     }
     this.Contacts.add(config.Contacts as Contact[]);
   }
+
+  canEdit(): boolean {
+    return true;
+  }
 }
 
 export default Application;

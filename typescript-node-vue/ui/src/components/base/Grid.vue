@@ -8,7 +8,7 @@
       <JefGridColumn v-for="(column, colIdx) in columnsCfg"
                      :key="colIdx"
                      :column="column"
-                     :border="colIdx + 1 === columnsCfg.length ? 'b' : 'b r'"
+                     :border="getColumnBorder(colIdx, column)"
                      @sort="onSortColumn"
                      @hide="onHideColumn"
                      @show="onShowColumn" />
@@ -27,7 +27,7 @@
         <JefGridCell v-for="(cell, rowIdx) in columnsCfg"
                      :key="rowIdx"
                      :record="record"
-                     :border="rowIdx + 1 === columnsCfg.length ? 'b' : 'b r'"
+                     :border="getColumnBorder(rowIdx, cell)"
                      :column="cell" />
       </FlexContainer>
       <LoadingMask :hidden="!viewLoading" />
@@ -44,13 +44,13 @@ import ITableCls from '@/interfaces/ITableCls';
 import IEnum from '@/interfaces/IEnum';
 import IColumn from '@/interfaces/IColumn';
 import Model from '@/classes/Model';
-import _ from 'lodash';
 import JefGridCell from '@/components/grid/Cell.vue';
 import JefGridColumn from '@/components/grid/Column.vue';
 import Sorter from '@/classes/Sorter';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import {FlexAlignments, FlexDirections, TextAlignments} from '@/statics/Flex';
 import LoadingMask from '@/components/base/LoadingMask.vue';
+import utilities from '@/utilities';
 
 const DefaultColumnConfig: IColumn = {
   type: ColumnTypes.String,
@@ -61,10 +61,10 @@ const DefaultColumnConfig: IColumn = {
   colSpan: 1,
   isAssociation: false,
   isParent: false,
-  isSortable: true,
+  sortable: true,
   isSorted: false,
   // TODO: I don't think this is necessary here... it only matters in the cell, but we define it on the column config
-  formatter: _.identity,
+  formatter: utilities.identityFn,
   flex: 1,
   shrink: 1,
   basis: 0,
@@ -72,7 +72,9 @@ const DefaultColumnConfig: IColumn = {
   cellCls: '',
   align: TextAlignments.LEFT,
   direction: FlexDirections.ROW,
-  hidden: false
+  hidden: false,
+  border: 'b r',
+  cellBorder: 'r'
 };
 
 interface IData {
@@ -149,15 +151,22 @@ export default defineComponent({
     }
   },
   methods: {
-    getDefaultColumns(columns: IColumn[]) {
+    getColumnBorder(index: number, column: IColumn) {
+      // If we're at the very last column, don't add the default border right
+      return index + 1 === this.columnsCfg.length ? 'b' : column.border;
+    },
+    getDefaultColumns(columns: IColumn[], isNested?: boolean) {
       const out: IColumn[] = [];
       const sorters = this.store.sorters;
       columns.forEach((column) => {
         let children = column.columns;
         if (children) {
-          column.isSortable = false;
+          column.sortable = false;
           column.align = column.align || FlexAlignments.CENTER;
-          children = this.getDefaultColumns(children);
+          children = this.getDefaultColumns(children, true);
+        }
+        if (isNested) {
+          column.border = utilities.isEmpty(column.border) ? 'r' : column.border;
         }
         // Match column's sorter with any defined sorters in the store
         for (let i = 0; i < sorters.length; i++) {
@@ -167,7 +176,7 @@ export default defineComponent({
             break;
           }
         }
-        out.push(_.merge({
+        out.push(utilities.merge({
           columns: children
         }, DefaultColumnConfig, column));
       });
@@ -269,6 +278,7 @@ export default defineComponent({
 
     .grid-cell {
       color: $grid-header-font-color;
+      height: $grid-header-height;
     }
 
     .sort-icon {

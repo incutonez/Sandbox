@@ -11,7 +11,7 @@ export default interface IColumn {
   columns?: IColumn[];
   isParent: boolean;
   isAssociation: boolean;
-  isSortable: boolean;
+  sortable: boolean;
   isSorted: boolean;
   sorter?: Sorter;
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
@@ -24,4 +24,6 @@ export default interface IColumn {
   direction: FlexDirections;
   align: TextAlignments;
   hidden: boolean;
+  border: string | boolean;
+  cellBorder: string | boolean;
 }
