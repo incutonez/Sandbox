@@ -2,9 +2,10 @@ import {createApp} from 'vue';
 import App from './App.vue';
 import globals from '@/globals';
 import Home from '@/components/Home.vue';
-import Contacts from '@/components/Contacts.vue';
-import Companies from '@/components/Companies.vue';
-import Applications from '@/components/Applications.vue';
+import ContactsSearch from '@/components/contacts/Search.vue';
+import CompaniesSearch from '@/components/companies/Search.vue';
+import ApplicationsSearch from '@/components/applications/Search.vue';
+import ApplicationDetails from '@/components/applications/Details.vue';
 import {createRouter, createWebHistory} from 'vue-router';
 
 const routes = [{
@@ -13,16 +14,21 @@ const routes = [{
   component: Home
 }, {
   path: '/contacts',
-  name: 'contacts',
-  component: Contacts
+  name: 'contactSearch',
+  component: ContactsSearch
 }, {
   path: '/companies',
-  name: 'companies',
-  component: Companies
+  name: 'companySearch',
+  component: CompaniesSearch
 }, {
   path: '/applications',
-  name: 'applications',
-  component: Applications
+  name: 'applicationSearch',
+  component: ApplicationsSearch,
+  children: [{
+    path: ':id',
+    name: 'applicationDetails',
+    component: ApplicationDetails
+  }]
 }];
 
 const router = createRouter({

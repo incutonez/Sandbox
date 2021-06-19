@@ -30,7 +30,8 @@
            :class="getCellCls(value, idx)">
         <template v-if="Utilities.isObject(value)">
           <component :is="value.cmp"
-                     v-bind="value.props" />
+                     v-bind="value.props"
+                     v-on="value.handlers || {}" />
         </template>
         <template v-else>
           {{ value }}
@@ -179,7 +180,7 @@ export default defineComponent({
     onClickCell(event: Event) {
       if (this.column.type === ColumnTypes.Expander) {
         if (utilities.isIconTag(event) && event.target) {
-          const target: HTMLElement = event.target as HTMLElement;
+          const target = event.target as HTMLElement;
           const parent = target.parentElement?.parentElement;
           if (parent) {
             this.isExpanded = !this.isExpanded;

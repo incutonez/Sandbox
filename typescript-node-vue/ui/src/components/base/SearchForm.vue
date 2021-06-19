@@ -40,6 +40,7 @@ import JefField from '@/components/base/Field.vue';
 import EventsProvider from '@/mixins/EventsProvider';
 import RegisterProvider from '@/mixins/RegisterProvider';
 import JefTitle from '@/components/base/Title.vue';
+import {IField} from '@/interfaces/Components';
 
 export default defineComponent({
   name: 'SearchForm',
@@ -100,13 +101,13 @@ export default defineComponent({
   },
   methods: {
     onClickClearButton() {
-      const fields = this.children as typeof JefField[];
+      const fields = this.children as IField[];
       fields.forEach((field) => {
         field.clear();
       });
     },
     onClickResetButton() {
-      const fields = this.children as typeof JefField[];
+      const fields = this.children as IField[];
       fields.forEach((field) => {
         field.reset();
       });

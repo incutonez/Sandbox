@@ -48,6 +48,10 @@ export default defineComponent({
     iconOnly: {
       type: Boolean,
       default: false
+    },
+    handler: {
+      type: Function,
+      default: null
     }
   },
   emits: [
@@ -92,7 +96,7 @@ export default defineComponent({
 
   &:disabled {
     opacity: 0.5;
-    cursor: not-allowed;
+    pointer-events: none;
   }
 
   &:not(.jef-button-icon-only) {
@@ -100,12 +104,14 @@ export default defineComponent({
     border-radius: $button-border-radius;
     background-color: $button-background-color;
 
-    &:hover {
-      background-color: $button-background-color-hover;
-    }
+    &:not(:disabled) {
+      &:hover {
+        background-color: $button-background-color-hover;
+      }
 
-    &:active {
-      background-color: $button-background-color-pressed;
+      &:active {
+        background-color: $button-background-color-pressed;
+      }
     }
   }
 
@@ -113,13 +119,14 @@ export default defineComponent({
     color: $color-blue-light;
 
     // TODO: Better way of doing this?
-    @at-root .jef-button:hover .jef-button-icon {
-      color: darken($color-blue-light, 10%);
-    }
+    @at-root .jef-button {
+      &:hover .jef-button-icon {
+        color: darken($color-blue-light, 10%);
+      }
 
-    // TODO: Better way of doing this?
-    @at-root .jef-button:active .jef-button-icon {
-      color: darken($color-blue-light, 20%);
+      &:active .jef-button-icon {
+        color: darken($color-blue-light, 20%);
+      }
     }
   }
 

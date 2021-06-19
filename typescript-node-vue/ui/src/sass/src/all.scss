@@ -30,3 +30,11 @@ $orientations: "top", "right", "bottom", "left";
 .clickable {
   cursor: pointer;
 }
+
+.fa-times {
+  // FontAwesome's times icon is a little too small, so let's adjust
+  @at-root .jef-button {
+    font-size: 18px;
+    line-height: 18px;
+  }
+}

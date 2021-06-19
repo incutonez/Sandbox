@@ -12,7 +12,7 @@ const Icons: IKeyValue = {
   PLUS: 'plus',
   MINUS: 'minus',
   CHECK: 'check',
-  TIMES: 'times',
+  CROSS: 'times',
   SQUARE: 'square',
   REFRESH: 'redo',
   EDIT: 'pen',
@@ -26,6 +26,7 @@ for (const key in Icons) {
 Icons.getActionIcon = (config: IKeyValue) => {
   return {
     cmp: 'JefButton',
+    handlers: config.handlers,
     props: {
       iconOnly: true,
       icon: config.icon,

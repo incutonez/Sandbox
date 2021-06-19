@@ -16,7 +16,7 @@ function boolIcon(value: boolean): IBoolIcon {
   return {
     cmp: 'Icon',
     props: {
-      iconName: value ? `${Icons.CHECK} ${Styles.FONT_GREEN}` : `${Icons.TIMES} ${Styles.FONT_RED}`
+      iconName: value ? `${Icons.CHECK} ${Styles.FONT_GREEN}` : `${Icons.CROSS} ${Styles.FONT_RED}`
     }
   };
 }

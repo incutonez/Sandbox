@@ -4,15 +4,15 @@
                 style="margin-right: 10px;">
       Home
     </RouterLink>
-    <RouterLink :to="{name: 'contacts'}"
+    <RouterLink :to="{name: 'contactSearch'}"
                 style="margin-right: 10px;">
       Contacts
     </RouterLink>
-    <RouterLink :to="{name: 'companies'}"
+    <RouterLink :to="{name: 'companySearch'}"
                 style="margin-right: 10px;">
       Companies
     </RouterLink>
-    <RouterLink :to="{name: 'applications'}">
+    <RouterLink :to="{name: 'applicationSearch'}">
       Applications
     </RouterLink>
   </div>

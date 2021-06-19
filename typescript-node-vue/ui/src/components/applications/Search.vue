@@ -1,5 +1,6 @@
 <template>
-  <FlexContainer :border="false">
+  <FlexContainer :border="false"
+                 :class="mainCls">
     <SearchForm :direction="FlexDirections.COLUMN"
                 :width="300"
                 :margin="'0 10px 0 0'"
@@ -40,6 +41,7 @@
                :multi-sort="true" />
     </FlexContainer>
   </FlexContainer>
+  <RouterView />
 </template>
 
 <script lang="ts">
@@ -60,10 +62,10 @@ import Application from '@/models/Application';
 import IApplication from '@/interfaces/IApplication';
 import Formatters from '@/statics/Formatters';
 import Icons from '@/statics/Icons';
-import IKeyValue from '@/interfaces/IKeyValue';
+import {IButton} from '@/interfaces/Components';
 
 export default defineComponent({
-  name: 'ApplicationsGrid',
+  name: 'ApplicationsSearch',
   components: {
     JefButton,
     SearchForm,
@@ -95,22 +97,32 @@ export default defineComponent({
       }, {
         type: ColumnTypes.Action,
         width: 65,
-        formatter(value: any, record: IApplication) {
-          return [Icons.getActionIcon({
+        formatter: (value: any, record: IApplication) => {
+          const editAction = Icons.getActionIcon({
             icon: Icons.EDIT,
-            disabled: record.canEdit()
-          }), Icons.getActionIcon({
+            disabled: record.canEdit(),
+            handlers: {
+              click: (button: IButton, event: Event) => {
+                this.$router.push({
+                  name: 'applicationDetails',
+                  params: {
+                    id: record.Id
+                  }
+                });
+              }
+            }
+          });
+          const deleteAction = Icons.getActionIcon({
             icon: Icons.DELETE,
-            disabled: record.canDelete()
-          })];
-        },
-        items: [{
-          formatter(value: any, record: IApplication): IKeyValue | null {
-            return record.canEdit() ? Icons.getActionIcon({
-              iconName: Icons.DELETE
-            }) : null;
-          }
-        }]
+            disabled: record.canDelete(),
+            handlers: {
+              click: (button: IButton, event: EventTarget) => {
+                console.log(button, event);
+              }
+            }
+          });
+          return [editAction, deleteAction];
+        }
       }, {
         text: 'Id',
         field: 'Id',
@@ -169,6 +181,11 @@ export default defineComponent({
         width: 100
       }]
     };
+  },
+  computed: {
+    mainCls(): string {
+      return this.$route.matched.some(({name}) => name === 'applicationDetails') ? 'route-enabled' : '';
+    }
   },
   methods: {
     async loadViewStore() {

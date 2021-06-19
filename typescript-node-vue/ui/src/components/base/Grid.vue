@@ -310,12 +310,12 @@ export default defineComponent({
       }
     },
     onClickRow(event: Event) {
-      const Target: HTMLTableCellElement = event.target as HTMLTableCellElement;
+      const target = event.target as HTMLTableCellElement;
       // TODO: Would we ever have to worry about event.target not being the td?
       if (this.selectedRow) {
         this.selectedRow.classList.remove(TableCls.ACTIVE);
       }
-      this.selectedRow = Target.parentElement;
+      this.selectedRow = target.parentElement;
       this.selectedRow?.classList.add(TableCls.ACTIVE);
     }
   }

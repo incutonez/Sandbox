@@ -14,6 +14,10 @@
     </template>
     <template v-if="showTools">
       <slot name="tools" />
+      <JefButton v-if="closable"
+                 :icon="Icons.CROSS"
+                 :icon-only="true"
+                 @click="onClickCloseButton" />
     </template>
   </FlexContainer>
 </template>
@@ -21,10 +25,14 @@
 <script>
 import {defineComponent} from 'vue';
 import FlexContainer from '@/components/base/FlexContainer';
+import JefButton from '@/components/base/Button';
 
 export default defineComponent({
   name: 'JefTitle',
-  components: {FlexContainer},
+  components: {
+    JefButton,
+    FlexContainer
+  },
   extends: FlexContainer,
   props: {
     title: {
@@ -34,14 +42,26 @@ export default defineComponent({
     titleFlex: {
       type: Number,
       default: 1
+    },
+    closable: {
+      type: Boolean,
+      default: false
     }
   },
+  emits: [
+    'close'
+  ],
   computed: {
     showTitle() {
       return !!this.title;
     },
     showTools() {
-      return !!this.$slots.tools;
+      return this.closable || !!this.$slots.tools;
+    }
+  },
+  methods: {
+    onClickCloseButton() {
+      this.$emit('close', this);
     }
   }
 });

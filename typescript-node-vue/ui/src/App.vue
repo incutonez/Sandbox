@@ -71,13 +71,21 @@ body {
   .main-content {
     grid-area: m;
 
-    > * {
+    > *:not(.jef-window) {
       background-color: $app-background-color !important;
     }
   }
 
   .footer {
     grid-area: b;
+  }
+
+  .route-enabled {
+    opacity: 0.5;
+
+    * {
+      pointer-events: none;
+    }
   }
 }
 </style>

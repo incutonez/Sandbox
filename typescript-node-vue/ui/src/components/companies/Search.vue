@@ -10,13 +10,16 @@
                 @search="onClickSearchBtn">
       <JefField v-model="search.Name"
                 label="Name" />
-      <JefField v-model="search.Email"
-                label="Email" />
-      <JefField v-model="search.CompanyId"
-                label="Company" />
+      <JefField v-model="search.CreateDate"
+                type="date"
+                label="Create Date" />
+      <JefField v-model="search.ContactId"
+                label="Contact"
+                :hidden="true" />
       <JefField v-model="search.ApplicationId"
-                label="Application" />
-      <JefCheckbox v-model="search.IsRecruiter"
+                label="Application"
+                :hidden="true" />
+      <JefCheckbox v-model="search.IsRecruitment"
                    label="Recruiter" />
       <JefSpacer />
     </SearchForm>
@@ -24,7 +27,7 @@
                    :grow="2"
                    :border="false"
                    :direction="FlexDirections.COLUMN">
-      <JefTitle title="Contacts"
+      <JefTitle title="Companies"
                 :grow="0">
         <template #tools>
           <JefButton :icon="Icons.REFRESH"
@@ -42,23 +45,22 @@
 
 <script lang="ts">
 import {defineComponent} from 'vue';
-import {
-  TextAlignments
-} from '@/statics/Flex';
+import {TextAlignments} from '@/statics/Flex';
 import Store from '@/classes/Store';
 import ColumnTypes from '@/statics/ColumnTypes';
 import JefGrid from '@/components/base/Grid.vue';
 import JefTitle from '@/components/base/Title.vue';
-import Contact from '@/models/Contact';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import JefField from '@/components/base/Field.vue';
 import JefCheckbox from '@/components/base/Checkbox.vue';
 import JefSpacer from '@/components/base/Spacer.vue';
 import SearchForm from '@/components/base/SearchForm.vue';
 import JefButton from '@/components/base/Button.vue';
+import Company from '@/models/Company';
+import ICompany from '@/interfaces/ICompany';
 
 export default defineComponent({
-  name: 'ContactsGrid',
+  name: 'CompaniesSearch',
   components: {
     JefButton,
     SearchForm,
@@ -71,20 +73,24 @@ export default defineComponent({
   },
   data() {
     return {
-      viewStore: new Store(Contact, {
-        sorters: [{
-          field: 'Name',
-          direction: 'DESC'
-        }]
-      }),
+      viewStore: new Store(Company),
       search: {
-        Name: 'kev',
-        Email: null,
-        CompanyId: null,
+        Name: 'town',
+        CreateDate: null,
+        // TODO: Wire up
+        ContactId: null,
+        // TODO: Wire up
         ApplicationId: null,
-        IsRecruiter: null
+        IsRecruitment: null
       },
       columns: [{
+        type: ColumnTypes.Expander,
+        width: 24,
+        align: TextAlignments.CENTER,
+        formatter: function(value: boolean, record: ICompany) {
+          return record.showExpander();
+        }
+      }, {
         text: 'Id',
         field: 'Id',
         type: ColumnTypes.Number,
@@ -94,47 +100,52 @@ export default defineComponent({
         text: 'Name',
         field: 'Name'
       }, {
-        text: 'Recruiter',
-        field: 'IsRecruiter',
+        text: 'Recruitment',
+        field: 'IsRecruitment',
         type: ColumnTypes.Boolean,
-        formatter: 'boolIconTrue',
+        formatter: 'boolIcon',
         align: TextAlignments.CENTER,
-        width: 80
+        width: 100
       }, {
-        text: 'Email',
-        field: 'Email'
-      }, {
-        text: 'Company',
-        width: 200,
+        text: 'Contacts',
+        flex: 1,
         columns: [{
           text: 'Name',
-          field: 'Company.Name'
+          field: 'Contacts.Name'
         }, {
-          text: 'Recruitment',
-          field: 'Company.IsRecruitment',
+          text: 'Recruiter',
+          field: 'Contacts.IsRecruiter',
           type: ColumnTypes.Boolean,
           formatter: 'boolIcon',
-          align: TextAlignments.CENTER,
-          width: 100
+          align: TextAlignments.CENTER
+        }, {
+          text: 'Email',
+          field: 'Contacts.Email'
         }]
       }, {
-        text: 'Application',
-        flex: 2,
+        text: 'Applications',
+        flex: 1,
         columns: [{
           text: 'Id',
-          field: 'Application.Id',
+          field: 'Applications.Id',
           type: ColumnTypes.Number,
           align: TextAlignments.RIGHT
         }, {
           text: 'Position',
-          field: 'Application.Position'
+          field: 'Applications.Position'
         }, {
           text: 'Position Type',
-          field: 'Application.PositionType'
+          field: 'Applications.PositionType'
         }, {
           text: 'Link',
-          field: 'Application.Link'
+          field: 'Applications.Link'
         }]
+      }, {
+        text: 'Create Date',
+        field: 'CreateDate',
+        formatter: 'mmddyyyy',
+        align: TextAlignments.RIGHT,
+        width: 100
       }]
     };
   },
@@ -142,7 +153,7 @@ export default defineComponent({
     async loadViewStore() {
       try {
         await this.viewStore.load({
-          url: 'api/contacts/search',
+          url: 'api/companies/search',
           params: this.search
         });
       }
