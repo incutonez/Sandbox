@@ -32,7 +32,7 @@ export default defineComponent({
      */
     border: {
       type: [Boolean, String],
-      default: true
+      default: false
     },
     height: {
       type: [String, Number],

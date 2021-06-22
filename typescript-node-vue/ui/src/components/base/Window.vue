@@ -3,7 +3,6 @@
                  background-color="#FFFFFF"
                  class="jef-window"
                  :style="mainStyle"
-                 :border="false"
                  @keyup.esc="onEscapeKey">
     <JefTitle :title="title"
               :title-flex="titleFlex"
@@ -17,7 +16,7 @@
     </JefTitle>
     <FlexContainer :grow="1"
                    :align="FlexAlignments.STRETCH"
-                   :border="false">
+                   :padding="bodyPadding">
       <slot name="body" />
     </FlexContainer>
     <slot name="toolbar" />
@@ -65,6 +64,10 @@ export default defineComponent({
     viewLoading: {
       type: Boolean,
       default: false
+    },
+    bodyPadding: {
+      type: [String, Number],
+      default: 10
     }
   },
   emits: [

@@ -1,5 +1,6 @@
 <template>
   <FlexContainer v-bind="$props"
+                 :border="true"
                  :direction="FlexDirections.COLUMN"
                  cmp="form">
     <JefTitle v-if="title"
@@ -7,7 +8,6 @@
               border="t" />
     <FlexContainer v-if="showDefaultSlot"
                    :padding="bodyPadding"
-                   :border="false"
                    :grow="1"
                    :direction="FlexDirections.COLUMN">
       <slot name="default" />

@@ -76,8 +76,8 @@ export default defineComponent({
       }
       return cls.join(' ');
     },
-    isDisabled(): boolean {
-      return this.disabled;
+    isDisabled(): boolean | null {
+      return this.disabled || null;
     }
   },
   methods: {

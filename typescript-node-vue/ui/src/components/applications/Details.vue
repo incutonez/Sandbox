@@ -4,6 +4,32 @@
              title="Edit Application"
              :view-loading="viewLoading"
              @close="onCloseWindow">
+    <template #body>
+      <FlexContainer :grow="1">
+        <FlexContainer :direction="FlexDirections.COLUMN"
+                       :align="FlexAlignments.AUTO"
+                       :width="300"
+                       margin="0 20px 0 0">
+          <JefField label="Id"
+                    :disabled="true"
+                    v-model="viewRecord.Id" />
+          <JefField label="Position"
+                    v-model="viewRecord.Position" />
+          <JefField v-model="viewRecord.PositionType"
+                    label="Position Type"
+                    type="number" />
+          <JefField label="Link"
+                    v-model="viewRecord.Link" />
+          <JefField v-model="selectedCompany"
+                    label="Company"
+                    type="number" />
+        </FlexContainer>
+        <JefGrid :store="viewRecord.Contacts"
+                 :columns="contactsColumns"
+                 title="Contacts"
+                 :grow="1" />
+      </FlexContainer>
+    </template>
     <template #toolbar>
       <FlexContainer :pack="FlexJustifications.END"
                      border="t"
@@ -23,31 +49,55 @@ import JefButton from '@/components/base/Button.vue';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import {IRouteArg, IRouteParams} from '@/interfaces/Components';
 import Application from '@/models/Application';
+import JefField from '@/components/base/Field.vue';
+import JefGrid from '@/components/base/Grid.vue';
+import IApplication from '@/interfaces/IApplication';
+import IColumn from '@/interfaces/IColumn';
 
 export default defineComponent({
   name: 'ApplicationDetails',
   components: {
+    JefGrid,
+    JefField,
     FlexContainer,
     JefButton,
     JefWindow
   },
-  data() {
+  data(): {
+    viewRecord: IApplication,
+    height: string,
+    width: string,
+    loading: boolean,
+    contactsColumns: IColumn[]
+  } {
     return {
       height: '90%',
       width: '90%',
       loading: false,
-      viewRecord: new Application()
+      // Create a dummy record so binding is OK
+      viewRecord: new Application(),
+      contactsColumns: [{
+        text: 'Name',
+        field: 'Name'
+      }, {
+        text: 'Recruiter',
+        field: 'IsRecruiter'
+      }, {
+        text: 'Email',
+        field: 'Email'
+      }] as IColumn[]
     };
   },
   methods: {
     async loadViewRecord(params: IRouteParams) {
       try {
         this.loading = true;
-        await this.viewRecord.load({
-          url: `${this.viewRecord.url}/${params.Id}`,
+        const viewRecord = new Application();
+        await viewRecord.load({
+          url: `${viewRecord.url}/${params.Id}`,
           method: 'get'
         });
-        console.log(this.viewRecord);
+        this.viewRecord = viewRecord;
       }
       catch (ex) {
         console.exception(ex);
@@ -56,6 +106,9 @@ export default defineComponent({
     },
 
     onCloseWindow() {
+      // TODO: There's an issue here when the window is closed... it fires off a request to load
+      // TODO: Transition grid titles to grid class and add tools
+      console.log('closing');
       this.$router.push({
         name: 'applicationSearch'
       });
@@ -69,6 +122,15 @@ export default defineComponent({
   computed: {
     viewLoading(): boolean {
       return this.loading;
+    },
+    selectedCompany: {
+      get(): number | undefined {
+        const company = this.viewRecord.Company;
+        return company && company.Id;
+      },
+      set(value) {
+        this.viewRecord.set('Company', value);
+      }
     }
   },
 

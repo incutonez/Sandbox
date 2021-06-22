@@ -4,10 +4,8 @@
                  :align="FlexAlignments.CENTER"
                  :pack="FlexJustifications.CENTER"
                  :background-color="false"
-                 :direction="FlexDirections.COLUMN"
-                 :border="false">
-    <FlexContainer :border="false"
-                   :align="FlexAlignments.AUTO"
+                 :direction="FlexDirections.COLUMN">
+    <FlexContainer :align="FlexAlignments.AUTO"
                    basis="auto"
                    :background-color="false">
       <Icon v-for="index in iconCount"

@@ -1,5 +1,5 @@
 <template>
-  <FlexContainer :border="false">
+  <FlexContainer>
     <SearchForm :direction="FlexDirections.COLUMN"
                 :width="300"
                 :margin="'0 10px 0 0'"
@@ -25,7 +25,6 @@
     </SearchForm>
     <FlexContainer extra-cls="right"
                    :grow="2"
-                   :border="false"
                    :direction="FlexDirections.COLUMN">
       <JefTitle title="Companies"
                 :grow="0">

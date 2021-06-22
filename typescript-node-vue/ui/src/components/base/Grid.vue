@@ -3,8 +3,10 @@
                  :border="border"
                  extra-cls="grid-container"
                  :direction="FlexDirections.COLUMN">
-    <FlexContainer class="grid-row grid-header"
-                   :border="false">
+    <JefTitle v-if="title"
+              :title="title"
+              border="b" />
+    <FlexContainer class="grid-row grid-header">
       <JefGridColumn v-for="(column, colIdx) in columnsCfg"
                      :key="colIdx"
                      :column="column"
@@ -14,7 +16,6 @@
                      @show="onShowColumn" />
     </FlexContainer>
     <FlexContainer :grow="1"
-                   :border="false"
                    :align="FlexAlignments.AUTO"
                    :direction="FlexDirections.COLUMN"
                    :class="gridBodyCls">
@@ -22,7 +23,6 @@
                      :key="index"
                      class="grid-row grid-row-data"
                      :record="record"
-                     :border="false"
                      @click="onClickRow">
         <JefGridCell v-for="(cell, rowIdx) in columnsCfg"
                      :key="rowIdx"
@@ -51,6 +51,7 @@ import FlexContainer from '@/components/base/FlexContainer.vue';
 import {FlexDirections, FlexJustifications, TextAlignments} from '@/statics/Flex';
 import LoadingMask from '@/components/base/LoadingMask.vue';
 import utilities from '@/utilities';
+import JefTitle from '@/components/base/Title.vue';
 
 // TODOJEF: Create class for this?
 const DefaultColumnConfig: IColumn = {
@@ -163,6 +164,7 @@ interface IData {
 export default defineComponent({
   name: 'JefGrid',
   components: {
+    JefTitle,
     LoadingMask,
     FlexContainer,
     JefGridColumn,
@@ -188,6 +190,10 @@ export default defineComponent({
     },
     multiSort: {
       type: Boolean,
+      default: false
+    },
+    title: {
+      type: [Boolean, String],
       default: false
     }
   },

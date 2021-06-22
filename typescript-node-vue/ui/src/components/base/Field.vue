@@ -1,7 +1,6 @@
 <template>
   <FlexContainer v-bind="$props"
                  :direction="layout"
-                 :border="false"
                  :class="fieldContainerCls">
     <span v-if="showLabel"
           class="field-label"
@@ -9,12 +8,15 @@
       {{ label }}{{ labelSeparator }}
     </span>
     <input v-model="value"
+           ref="input"
            :class="fieldInputCls"
            :type="type"
            :required="isRequired"
            :disabled="isDisabled"
            :readonly="isReadOnly"
            :style="fieldInputStyle"
+           :min="min"
+           :max="max"
            @keyup.enter="onKeyUpField">
   </FlexContainer>
 </template>
@@ -28,16 +30,19 @@ import EventsInjector, {IEventsInjector} from '@/mixins/EventsInjector';
 import utilities from '@/utilities';
 
 type ElementAttribute = boolean | null;
-type ValueAttribute = string | boolean | null;
+type ValueAttribute = string | number | boolean | null;
 
 interface IData extends IEventsInjector, IRegisterInjector {
   isField: boolean;
-  originalValue: string | boolean;
+  originalValue: string | number | boolean;
+  valid: boolean;
 }
 
 export default defineComponent({
   name: 'JefField',
-  components: {FlexContainer},
+  components: {
+    FlexContainer
+  },
   extends: FlexContainer,
   mixins: [
     RegisterInjector,
@@ -64,7 +69,7 @@ export default defineComponent({
       default: true
     },
     modelValue: {
-      type: [String, Boolean],
+      type: [String, Number, Boolean],
       default: ''
     },
     label: {
@@ -94,6 +99,14 @@ export default defineComponent({
     inputWidth: {
       type: [Number, String],
       default: '100%'
+    },
+    min: {
+      type: [Number, String],
+      default: null
+    },
+    max: {
+      type: [Number, String],
+      default: null
     }
   },
   emits: [
@@ -103,7 +116,8 @@ export default defineComponent({
   data(): IData {
     return {
       isField: true,
-      originalValue: this.modelValue
+      originalValue: this.modelValue,
+      valid: true
     };
   },
   computed: {
@@ -117,6 +131,7 @@ export default defineComponent({
         return this.modelValue;
       },
       set(value: ValueAttribute) {
+        this.isValid();
         this.$emit('update:modelValue', value ? value : this.emptyValueAsNull ? null : value);
       }
     },
@@ -147,6 +162,9 @@ export default defineComponent({
       if (this.disabled) {
         cls.push('field-disabled');
       }
+      if (!this.valid) {
+        cls.push('field-invalid');
+      }
       return cls.join(' ');
     },
     isVerticalLayout(): boolean {
@@ -164,6 +182,11 @@ export default defineComponent({
     reset() {
       this.value = this.originalValue;
     },
+    isValid(): boolean {
+      const input = this.$refs.input as HTMLInputElement;
+      this.valid = !input || input.validity.valid;
+      return this.valid;
+    },
     clear() {
       this.value = null;
     },
@@ -176,6 +199,9 @@ export default defineComponent({
         this.$emit('press:enter', this);
       }
     }
+  },
+  mounted() {
+    this.isValid();
   }
 });
 </script>

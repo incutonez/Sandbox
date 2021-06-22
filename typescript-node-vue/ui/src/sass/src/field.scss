@@ -3,10 +3,21 @@ input {
   border: $field-input-border-width solid $field-input-border-color;
 }
 
-input:not(.field-required):focus {
+input:not(.field-required):not(:invalid):focus {
   border-color: $field-input-border-color-focus;
 }
 
-input.field-required {
+// Taken from https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button, {
+  -webkit-appearance: none;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input.field-required,
+input:invalid {
   border-color: $field-input-border-color-required;
 }

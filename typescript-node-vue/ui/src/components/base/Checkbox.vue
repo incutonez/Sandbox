@@ -1,14 +1,12 @@
 <template>
   <FlexContainer v-bind="$props"
                  :direction="layout"
-                 :border="false"
                  cmp="label"
                  :class="fieldContainerCls">
     <FlexContainer v-if="showLabel"
                    class="field-label"
                    cmp="label"
                    :width="labelWidth"
-                   :border="false"
                    :align="FlexAlignments.CENTER">
       {{ label }}{{ labelSeparator }}
     </FlexContainer>

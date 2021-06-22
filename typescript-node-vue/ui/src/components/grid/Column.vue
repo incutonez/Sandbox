@@ -6,8 +6,7 @@
                  :background-color="false"
                  :width="column.width"
                  @click="onClickColumn">
-    <FlexContainer :border="false"
-                   :pack="column.getTextAlignment()"
+    <FlexContainer :pack="column.getTextAlignment()"
                    :align="FlexAlignments.CENTER"
                    :background-color="false"
                    :grow="1"

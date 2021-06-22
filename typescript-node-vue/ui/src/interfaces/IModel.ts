@@ -5,4 +5,6 @@ export default interface IModel {
   isModel: boolean;
 
   showExpander(): boolean;
+
+  set(field: any, data?: any): void;
 }

@@ -1,6 +1,5 @@
 <template>
-  <FlexContainer :border="false"
-                 :class="mainCls">
+  <FlexContainer :class="mainCls">
     <SearchForm :direction="FlexDirections.COLUMN"
                 :width="300"
                 :margin="'0 10px 0 0'"
@@ -25,7 +24,6 @@
     </SearchForm>
     <FlexContainer extra-cls="right"
                    :grow="2"
-                   :border="false"
                    :direction="FlexDirections.COLUMN">
       <JefTitle title="Applications"
                 :grow="0">
@@ -183,8 +181,11 @@ export default defineComponent({
     };
   },
   computed: {
+    hasChildRoute(): boolean {
+      return this.$route.matched.some(({name}) => name === 'applicationDetails');
+    },
     mainCls(): string {
-      return this.$route.matched.some(({name}) => name === 'applicationDetails') ? 'route-enabled' : '';
+      return this.hasChildRoute ? 'route-enabled' : '';
     }
   },
   methods: {
@@ -208,7 +209,9 @@ export default defineComponent({
   },
 
   async created() {
-    await this.loadViewStore();
+    if (!this.hasChildRoute) {
+      await this.loadViewStore();
+    }
   }
 });
 </script>

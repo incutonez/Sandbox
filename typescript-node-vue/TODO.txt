@@ -1,4 +1,3 @@
-- Set border to false by default for FlexContainer
 - Create a visibility (hide/show) composition mixin
 - Add tooltips (for cell data/column names)
 -- https://dev.to/kallmanation/building-a-tooltip-with-only-css-4k9
@@ -10,6 +9,8 @@
 - Columns
 -- Make draggable
 -- Make resizable
+- Create a Field Label class
+-- Maybe create a Field Input class as well, so we can reuse it?
 
 Low Priority
 - Create local store filtering
