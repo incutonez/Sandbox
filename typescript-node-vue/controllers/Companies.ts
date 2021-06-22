@@ -26,11 +26,11 @@ export default (router: Router) => {
       return res.send(ex);
     }
   });
-  router.get('/companies/:id', async (req: Request, res: Response) => {
+  router.get('/companies/:Id', async (req: Request, res: Response) => {
     try {
       const connection = getConnection();
       const params = new GetRequest(req.params);
-      const found = await connection.manager.findOne(Company, params.id, {
+      const found = await connection.manager.findOne(Company, params.Id, {
         relations: ['Contacts']
       });
       if (found) {

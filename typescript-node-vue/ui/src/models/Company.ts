@@ -1,5 +1,5 @@
 import ICompany from '@/interfaces/ICompany';
-import Model from '@/classes/Model';
+import Model, {IAssociations} from '@/classes/Model';
 import Contact from '@/models/Contact';
 import Store from '@/classes/Store';
 import Application from '@/models/Application';
@@ -17,17 +17,19 @@ class Company extends Model {
     }
   };
 
-  Contacts = new Store(Contact);
-  Applications = new Store(Application);
-
-  constructor(config: ICompany) {
-    super(config);
-    this.Id = config.Id;
-    this.Name = config.Name;
-    this.IsRecruitment = config.IsRecruitment;
-    this.CreateDate = new Date(config.CreateDate);
-    this.Contacts.add(config.Contacts as Contact[]);
-    this.Applications.add(config.Applications as Application[]);
+  get associations(): IAssociations | null {
+    return {
+      Contacts: {
+        type: 'store',
+        model: Contact,
+        key: 'Contacts'
+      },
+      Applications: {
+        type: 'store',
+        model: Application,
+        key: 'Applications'
+      }
+    };
   }
 
   showExpander(): boolean {

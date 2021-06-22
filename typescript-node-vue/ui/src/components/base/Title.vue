@@ -2,15 +2,15 @@
   <FlexContainer v-bind="$props"
                  class="jef-title"
                  :align="FlexAlignments.CENTER"
+                 v-if="showTitle || showTools"
                  :background-color="false">
     <template v-if="showTitle">
-      <FlexContainer :background-color="false"
-                     :border="false"
-                     :grow="titleFlex"
-                     :basis="!titleFlex ? 'auto' : 0"
-                     cmp="span">
+      <span class="jef-title-text">
         {{ title }}
-      </FlexContainer>
+      </span>
+    </template>
+    <template v-if="titleFlex">
+      <JefSpacer :grow="titleFlex" />
     </template>
     <template v-if="showTools">
       <slot name="tools" />
@@ -22,17 +22,23 @@
   </FlexContainer>
 </template>
 
-<script>
+<script lang="ts">
 import {defineComponent} from 'vue';
-import FlexContainer from '@/components/base/FlexContainer';
-import JefButton from '@/components/base/Button';
+import FlexContainer from '@/components/base/FlexContainer.vue';
+import JefButton from '@/components/base/Button.vue';
+import Hideable from '@/mixins/Hideable';
+import JefSpacer from '@/components/base/Spacer.vue';
 
 export default defineComponent({
   name: 'JefTitle',
   components: {
+    JefSpacer,
     JefButton,
     FlexContainer
   },
+  mixins: [
+    Hideable
+  ],
   extends: FlexContainer,
   props: {
     title: {
@@ -52,16 +58,16 @@ export default defineComponent({
     'close'
   ],
   computed: {
-    showTitle() {
+    showTitle(): boolean {
       return !!this.title;
     },
-    showTools() {
+    showTools(): boolean {
       return this.closable || !!this.$slots.tools;
     }
   },
   methods: {
-    onClickCloseButton() {
-      this.$emit('close', this);
+    onClickCloseButton(event: KeyboardEvent) {
+      this.$emit('close', this, event);
     }
   }
 });

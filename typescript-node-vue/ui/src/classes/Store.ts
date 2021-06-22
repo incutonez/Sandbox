@@ -16,10 +16,12 @@ interface Store<T> extends IStore<T> {
 class Store<T> extends Collection<T> {
   static proxy = {};
 
+  isStore = true;
+  loading = false;
+
   // TODO: How to codify this instead of using any?  It's like I'm using the fields I set above and below
   constructor(type: new (data: T) => T, config: any = {}) {
     super(type);
-    this.loading = false;
     /* Order of importance... if model has a proxy, then let's start with that, and then if the store
      * has a proxy, let's override what's in the model, and finally if the instance has a proxy config
      * let's use that over all of the others */
@@ -44,7 +46,7 @@ class Store<T> extends Collection<T> {
     this.loading = false;
   }
 
-  getUrl(): string {
+  get url(): string {
     return this.proxy.url;
   }
 }

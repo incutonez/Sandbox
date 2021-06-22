@@ -10,6 +10,7 @@
 import {defineComponent, PropType} from 'vue';
 import {FlexAlignments, FlexContentAlignments, FlexDirections, FlexJustifications, FlexWraps} from '@/statics/Flex';
 import utilities from '@/utilities';
+import Hideable from '@/mixins/Hideable';
 
 /**
  * This component acts as both a container and layout for nested items.  It essentially wraps the CSS Flexbox properties
@@ -18,6 +19,9 @@ import utilities from '@/utilities';
  */
 export default defineComponent({
   name: 'FlexContainer',
+  mixins: [
+    Hideable
+  ],
   props: {
     cmp: {
       type: String,
@@ -105,10 +109,6 @@ export default defineComponent({
     padding: {
       type: [Number, String],
       default: 0
-    },
-    hidden: {
-      type: Boolean,
-      default: false
     }
   },
   computed: {
@@ -150,8 +150,9 @@ export default defineComponent({
       return cls.join(' ');
     },
     style(): string {
-      if (this.hidden) {
-        return 'display: none;';
+      const hidden = this.hiddenStyle;
+      if (hidden) {
+        return hidden;
       }
       let direction = this.direction;
       let grow = this.grow;

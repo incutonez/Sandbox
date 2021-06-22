@@ -31,11 +31,11 @@ export default (router: Router) => {
       return res.send(ex);
     }
   });
-  router.get(`${RoutePrefix}/:id`, async (req: Request, res: Response) => {
+  router.get(`${RoutePrefix}/:Id`, async (req: Request, res: Response) => {
     try {
       const manager = getManager();
       const params = new GetRequest(req.params);
-      const found = await manager.findOne(Contact, params.id, {
+      const found = await manager.findOne(Contact, params.Id, {
         relations: ['Company']
       });
       if (found) {

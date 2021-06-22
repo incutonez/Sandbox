@@ -106,7 +106,7 @@ export default defineComponent({
                 this.$router.push({
                   name: 'applicationDetails',
                   params: {
-                    id: record.Id
+                    Id: record.Id
                   }
                 });
               }
@@ -191,7 +191,7 @@ export default defineComponent({
     async loadViewStore() {
       try {
         await this.viewStore.load({
-          url: `${this.viewStore.getUrl()}/search`,
+          url: `${this.viewStore.url}/search`,
           params: this.search
         });
       }

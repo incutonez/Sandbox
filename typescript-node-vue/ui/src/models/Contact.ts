@@ -1,5 +1,7 @@
-import Model from '@/classes/Model';
+import Model, {IAssociations} from '@/classes/Model';
 import IContact from '@/interfaces/IContact';
+import Company from '@/models/Company';
+import Application from '@/models/Application';
 
 interface Contact extends IContact {
 
@@ -14,14 +16,19 @@ class Contact extends Model {
     }
   };
 
-  constructor(config: IContact) {
-    super(config);
-    this.Id = config.Id;
-    this.Name = config.Name;
-    this.IsRecruiter = config.IsRecruiter;
-    this.Email = config.Email;
-    this.Company = config.Company;
-    this.Application = config.Application;
+  get associations(): IAssociations | null {
+    return {
+      Company: {
+        type: 'model',
+        model: Company,
+        key: 'Company'
+      },
+      Applications: {
+        type: 'model',
+        model: Application,
+        key: 'Application'
+      }
+    };
   }
 }
 

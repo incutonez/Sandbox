@@ -1,9 +1,9 @@
 import IApplication from '@/interfaces/IApplication';
-import Model from '@/classes/Model';
+import Model, {IAssociations} from '@/classes/Model';
 import Company from '@/models/Company';
 import Contact from '@/models/Contact';
-import Store from '@/classes/Store';
 import utilities from '@/utilities';
+import IAssociation from '@/interfaces/IAssociation';
 
 interface Application extends IApplication {
 
@@ -18,20 +18,19 @@ class Application extends Model {
     }
   };
 
-  Contacts = new Store(Contact);
-
-  constructor(config: IApplication) {
-    super(config);
-    // TODO: Maybe come up with a parser that reads the fields and auto does this?
-    this.Id = config.Id;
-    this.Position = config.Position;
-    this.PositionType = config.PositionType;
-    this.Link = config.Link;
-    this.CreateDate = new Date(config.CreateDate);
-    if (config.Company) {
-      this.Company = new Company(config.Company);
-    }
-    this.Contacts.add(config.Contacts as Contact[]);
+  get associations(): IAssociations {
+    return {
+      Contacts: {
+        model: Contact,
+        type: 'store',
+        key: 'Contacts'
+      },
+      Company: {
+        model: Company,
+        type: 'model',
+        key: 'Company'
+      }
+    };
   }
 
   canEdit(): boolean {

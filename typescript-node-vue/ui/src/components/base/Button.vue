@@ -10,16 +10,20 @@
   </button>
 </template>
 
-<script>
+<script lang="ts">
 import {defineComponent} from 'vue';
 import utilities from '@/utilities';
-import Icon from '@/components/Icon';
+import Icon from '@/components/Icon.vue';
+import Hideable from '@/mixins/Hideable';
 
 export default defineComponent({
   name: 'JefButton',
   components: {
     Icon
   },
+  mixins: [
+    Hideable
+  ],
   props: {
     disabled: {
       type: Boolean,
@@ -41,10 +45,6 @@ export default defineComponent({
       type: [Number, String],
       default: ''
     },
-    hidden: {
-      type: Boolean,
-      default: false
-    },
     iconOnly: {
       type: Boolean,
       default: false
@@ -58,9 +58,10 @@ export default defineComponent({
     'click'
   ],
   computed: {
-    style() {
-      if (this.hidden) {
-        return 'display: none;';
+    style(): string {
+      const hidden = this.hiddenStyle;
+      if (hidden) {
+        return hidden;
       }
       let margin = this.margin;
       if (margin) {
@@ -75,12 +76,12 @@ export default defineComponent({
       }
       return cls.join(' ');
     },
-    isDisabled() {
-      return this.disabled || null;
+    isDisabled(): boolean {
+      return this.disabled;
     }
   },
   methods: {
-    onClickButton(event) {
+    onClickButton(event: KeyboardEvent) {
       this.$emit('click', this, event);
     }
   }

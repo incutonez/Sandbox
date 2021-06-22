@@ -9,8 +9,8 @@ export default interface IApplication {
   PositionType: number;
   Link: string;
   CreateDate: Date;
-  Company: ICompany;
-  Contacts: IStore<IContact>;
+  Company?: ICompany;
+  Contacts?: IStore<IContact>;
 
   canEdit(): boolean;
 
