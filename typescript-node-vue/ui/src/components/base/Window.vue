@@ -7,7 +7,6 @@
     <JefTitle :title="title"
               :title-flex="titleFlex"
               :closable="closable"
-              :border="false"
               @close="onClickCloseButton">
       <template #tools
                 v-if="showTools">

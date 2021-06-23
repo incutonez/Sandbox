@@ -26,18 +26,17 @@
     <FlexContainer extra-cls="right"
                    :grow="2"
                    :direction="FlexDirections.COLUMN">
-      <JefTitle title="Companies"
-                :grow="0">
+      <JefGrid :columns="columns"
+               :store="viewStore"
+               :grow="1"
+               title="Companies"
+               :multi-sort="true">
         <template #tools>
           <JefButton :icon="Icons.REFRESH"
                      :icon-only="true"
                      @click="onClickRefreshButton" />
         </template>
-      </JefTitle>
-      <JefGrid :columns="columns"
-               :store="viewStore"
-               :grow="1"
-               :multi-sort="true" />
+      </JefGrid>
     </FlexContainer>
   </FlexContainer>
 </template>
@@ -48,7 +47,6 @@ import {TextAlignments} from '@/statics/Flex';
 import Store from '@/classes/Store';
 import ColumnTypes from '@/statics/ColumnTypes';
 import JefGrid from '@/components/base/Grid.vue';
-import JefTitle from '@/components/base/Title.vue';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import JefField from '@/components/base/Field.vue';
 import JefCheckbox from '@/components/base/Checkbox.vue';
@@ -67,7 +65,6 @@ export default defineComponent({
     JefCheckbox,
     JefField,
     FlexContainer,
-    JefTitle,
     JefGrid
   },
   data() {

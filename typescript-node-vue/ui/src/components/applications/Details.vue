@@ -106,9 +106,6 @@ export default defineComponent({
     },
 
     onCloseWindow() {
-      // TODO: There's an issue here when the window is closed... it fires off a request to load
-      // TODO: Transition grid titles to grid class and add tools
-      console.log('closing');
       this.$router.push({
         name: 'applicationSearch'
       });
@@ -134,13 +131,18 @@ export default defineComponent({
     }
   },
 
-  watch: {
-    $route: {
-      immediate: true,
-      handler(currentPath: IRouteArg, from: IRouteArg) {
-        this.loadViewRecord(currentPath.params);
-      }
-    }
+  /* We use this hook instead of watching the params because there was an issue when we close the
+   * dialog... we actually push a new route onto the history, which triggered the watch to run, but
+   * it didn't have the proper params.  Could've put in a safer check, but this hook only fires when
+   * the route is changed in the URL */
+  beforeRouteUpdate(currentRoute: IRouteArg): void {
+    this.loadViewRecord(currentRoute.params);
+  },
+
+  created() {
+    /* Because beforeRouteUpdate only fires when the route is updated after the view's been created,
+     * we have to call this method manually */
+    this.loadViewRecord(this.$route.params);
   }
 });
 </script>

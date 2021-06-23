@@ -3,9 +3,15 @@
                  :border="border"
                  extra-cls="grid-container"
                  :direction="FlexDirections.COLUMN">
-    <JefTitle v-if="title"
+    <JefTitle v-if="title || showTools"
               :title="title"
-              border="b" />
+              border="b"
+              :title-flex="titleFlex">
+      <template #tools
+                v-if="showTools">
+        <slot name="tools" />
+      </template>
+    </JefTitle>
     <FlexContainer class="grid-row grid-header">
       <JefGridColumn v-for="(column, colIdx) in columnsCfg"
                      :key="colIdx"
@@ -195,6 +201,10 @@ export default defineComponent({
     title: {
       type: [Boolean, String],
       default: false
+    },
+    titleFlex: {
+      type: Number,
+      default: 1
     }
   },
   data() {
@@ -211,6 +221,9 @@ export default defineComponent({
     },
     gridBodyCls(): string {
       return this.viewLoading ? 'loading-mask' : '';
+    },
+    showTools(): boolean {
+      return !!this.$slots.tools;
     }
   },
   watch: {

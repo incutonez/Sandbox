@@ -4,8 +4,7 @@
                  :direction="FlexDirections.COLUMN"
                  cmp="form">
     <JefTitle v-if="title"
-              :title="title"
-              border="t" />
+              :title="title" />
     <FlexContainer v-if="showDefaultSlot"
                    :padding="bodyPadding"
                    :grow="1"
@@ -57,7 +56,7 @@ export default defineComponent({
   props: {
     bodyPadding: {
       type: [Number, String],
-      default: '0 10px'
+      default: '5px 10px 0'
     },
     title: {
       type: [Boolean, String],
