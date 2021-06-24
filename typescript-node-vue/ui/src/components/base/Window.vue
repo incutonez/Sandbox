@@ -1,7 +1,7 @@
 <template>
   <FlexContainer :direction="FlexDirections.COLUMN"
                  background-color="#FFFFFF"
-                 class="jef-window"
+                 :class="cls"
                  :style="mainStyle"
                  @keyup.esc="onEscapeKey">
     <JefTitle :title="title"
@@ -30,6 +30,7 @@ import FlexContainer from '@/components/base/FlexContainer.vue';
 import JefTitle from '@/components/base/Title.vue';
 import {ITitle} from '@/interfaces/Components';
 import LoadingMask from '@/components/base/LoadingMask.vue';
+import Draggable from '@/mixins/Draggable';
 
 export default defineComponent({
   name: 'JefWindow',
@@ -38,7 +39,14 @@ export default defineComponent({
     JefTitle,
     FlexContainer
   },
+  mixins: [
+    Draggable
+  ],
   props: {
+    draggable: {
+      type: Boolean,
+      default: true
+    },
     height: {
       type: [String, Number],
       default: '80%'
@@ -73,6 +81,13 @@ export default defineComponent({
     'close'
   ],
   computed: {
+    cls(): string {
+      const cls = ['jef-window'];
+      if (this.draggable) {
+        cls.push('jef-window-draggable');
+      }
+      return cls.join(' ');
+    },
     mainStyle(): string {
       const height = utilities.convertToPx(this.height);
       const width = utilities.convertToPx(this.width);
@@ -109,5 +124,9 @@ export default defineComponent({
   z-index: 999;
   position: fixed;
   box-shadow: $window-box-shadow;
+
+  &.jef-window-draggable .jef-title {
+    cursor: move;
+  }
 }
 </style>

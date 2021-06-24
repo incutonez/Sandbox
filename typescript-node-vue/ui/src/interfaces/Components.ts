@@ -8,3 +8,5 @@ export type IField = InstanceType<typeof Field>;
 export type ITitle = InstanceType<typeof Title>;
 export type IRouteArg = RouteLocationNormalized;
 export type IRouteParams = RouteParams;
+export type IEventKeyboard = KeyboardEvent;
+export type IEventMouse = MouseEvent;
