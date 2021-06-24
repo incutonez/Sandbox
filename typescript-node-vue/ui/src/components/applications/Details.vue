@@ -1,7 +1,7 @@
 <template>
-  <JefWindow :height="height"
+  <JefWindow title="Edit Application"
+             :height="height"
              :width="width"
-             title="Edit Application"
              :view-loading="viewLoading"
              @close="onCloseWindow">
     <template #body>
@@ -64,18 +64,18 @@ export default defineComponent({
     JefWindow
   },
   data(): {
-    viewRecord: IApplication,
-    height: string,
-    width: string,
-    loading: boolean,
-    contactsColumns: IColumn[]
+    viewRecord: IApplication;
+    contactsColumns: IColumn[];
+    height: string | number;
+    width: string | number;
+    loading: boolean;
   } {
     return {
+      // Create a dummy record so binding is OK
+      viewRecord: new Application(),
       height: '90%',
       width: '90%',
       loading: false,
-      // Create a dummy record so binding is OK
-      viewRecord: new Application(),
       contactsColumns: [{
         text: 'Name',
         field: 'Name'
@@ -125,7 +125,7 @@ export default defineComponent({
         const company = this.viewRecord.Company;
         return company && company.Id;
       },
-      set(value) {
+      set(value: number | undefined) {
         this.viewRecord.set('Company', value);
       }
     }

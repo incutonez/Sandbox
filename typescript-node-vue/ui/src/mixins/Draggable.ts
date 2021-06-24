@@ -1,42 +1,66 @@
 import {defineComponent} from 'vue';
 import {IEventMouse} from '@/interfaces/Components';
 
-// Taken from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_draggable
+// General idea taken from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_draggable
 export default defineComponent({
-  data() {
+  props: {
+    dragTarget: {
+      type: String,
+      // Idea taken from https://stackoverflow.com/a/17206138/1253609
+      default: ':scope > .jef-title'
+    }
+  },
+
+  data(): {
+    position: {
+      currentX: number;
+      currentY: number;
+      nextX: number;
+      nextY: number;
+      targetEl?: HTMLElement;
+    }
+  } {
     return {
       position: {
         currentX: 0,
         currentY: 0,
         nextX: 0,
-        nextY: 0,
-        // Idea taken from https://stackoverflow.com/a/17206138/1253609
-        target: ':scope > .jef-title'
+        nextY: 0
       }
     };
   },
 
-  computed: {
-    targetEl(): HTMLElement {
-      return this.$el.querySelector(this.position.target);
+  watch: {
+    dragTarget: {
+      handler(value, oldValue) {
+        this.changeTargetEl(value);
+      }
     }
   },
 
   mounted() {
-    const el = this.targetEl;
-    if (el) {
-      el.onmousedown = this.dragMouseDown;
-    }
+    this.changeTargetEl(this.dragTarget);
   },
 
   unmounted() {
-    const el = this.targetEl;
-    if (el) {
-      el.onmousedown = null;
-    }
+    this.changeTargetEl();
   },
 
   methods: {
+    changeTargetEl(selector?: string) {
+      const oldTarget = this.position.targetEl;
+      const newTarget = selector && this.$el.querySelector(selector);
+      if (newTarget) {
+        newTarget.onmousedown = this.dragMouseDown;
+        newTarget.style.cursor = 'move';
+        this.position.targetEl = newTarget;
+      }
+      if (oldTarget) {
+        oldTarget.onmousedown = null;
+        oldTarget.style.cursor = '';
+      }
+    },
+
     dragMouseDown(event: IEventMouse) {
       event.preventDefault();
       // get the mouse cursor position at startup:

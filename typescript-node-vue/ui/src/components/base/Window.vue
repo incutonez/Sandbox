@@ -28,7 +28,7 @@ import {defineComponent} from 'vue';
 import utilities from '@/utilities';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import JefTitle from '@/components/base/Title.vue';
-import {ITitle} from '@/interfaces/Components';
+import {IEventKeyboard, ITitle} from '@/interfaces/Components';
 import LoadingMask from '@/components/base/LoadingMask.vue';
 import Draggable from '@/mixins/Draggable';
 
@@ -47,17 +47,9 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
-    height: {
-      type: [String, Number],
-      default: '80%'
-    },
-    width: {
-      type: [String, Number],
-      default: '80%'
-    },
     // TODO: Use composition API, so we don't have to dupe this?
     title: {
-      type: String,
+      type: [String, Boolean],
       default: ''
     },
     titleFlex: {
@@ -68,13 +60,21 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
-    viewLoading: {
-      type: Boolean,
-      default: false
-    },
     bodyPadding: {
       type: [String, Number],
       default: 10
+    },
+    width: {
+      type: [String, Number],
+      default: '80%'
+    },
+    height: {
+      type: [String, Number],
+      default: '80%'
+    },
+    viewLoading: {
+      type: Boolean,
+      default: false
     }
   },
   emits: [
@@ -91,27 +91,45 @@ export default defineComponent({
     mainStyle(): string {
       const height = utilities.convertToPx(this.height);
       const width = utilities.convertToPx(this.width);
-      const top = `calc((${innerHeight}px - ${utilities.convertToPx(height)}) / 2 + ${pageYOffset}px)`;
-      const left = `calc((${innerWidth}px - ${utilities.convertToPx(width)}) / 2 + ${pageXOffset}px)`;
-      return `background-color: #FFFFFF; height: ${height}; width: ${width}; top: ${top}; left: ${left};`;
+      const extra = this.center();
+      return `${extra}background-color: #FFFFFF; height: ${height}; width: ${width};`;
     },
     showTools(): boolean {
       return this.closable || !!this.$slots.tools;
     }
   },
   methods: {
-    onClickCloseButton(title: ITitle, event: KeyboardEvent) {
+    center() {
+      let result = '';
+      const top = `calc((${innerHeight}px - ${utilities.convertToPx(this.height)}) / 2 + ${pageYOffset}px)`;
+      const left = `calc((${innerWidth}px - ${utilities.convertToPx(this.width)}) / 2 + ${pageXOffset}px)`;
+      const el = this.$el;
+      const style = el && el.style;
+      if (style) {
+        style.top = top;
+        style.left = left;
+      }
+      else {
+        /* When we call center from computed the very first time, $el is not set, as the view hasn't
+         * been rendered in the DOM, so we opt for returning the actual style instead */
+        result = `top: ${top}; left: ${left};`;
+      }
+      return result;
+    },
+    onClickCloseButton(title: ITitle, event: IEventKeyboard) {
       this.$emit('close', this, event);
     },
-    onEscapeKey(event: KeyboardEvent) {
+    onEscapeKey(event: IEventKeyboard) {
       if (event.key === 'Escape' || event.key === 'Esc') {
         this.$emit('close', this, event);
       }
     }
   },
+
   mounted() {
     document.addEventListener('keyup', this.onEscapeKey);
   },
+
   unmounted() {
     document.removeEventListener('keyup', this.onEscapeKey);
   }
@@ -124,9 +142,5 @@ export default defineComponent({
   z-index: 999;
   position: fixed;
   box-shadow: $window-box-shadow;
-
-  &.jef-window-draggable .jef-title {
-    cursor: move;
-  }
 }
 </style>
