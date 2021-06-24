@@ -6,26 +6,23 @@ export default interface IColumn {
   text: string;
   type: number;
   field: string;
-  rowSpan: number;
-  colSpan: number;
-  columns?: IColumn[];
   isParent: boolean;
   isAssociation: boolean;
   sortable: boolean;
   isSorted: boolean;
-  sorter?: Sorter;
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
   formatter: string | ((value: any, record: any) => {});
   flex: number;
   shrink: number;
   basis: string | number;
-  cellCls: string;
   width: number | string;
-  direction?: FlexDirections;
-  align?: TextAlignments;
   hidden: boolean;
   border: string | boolean;
   cellBorder: string | boolean;
+  columns?: IColumn[];
+  sorter?: Sorter;
+  direction?: FlexDirections;
+  align?: TextAlignments;
   cellAlign?: FlexJustifications;
 
   isAction(): boolean;

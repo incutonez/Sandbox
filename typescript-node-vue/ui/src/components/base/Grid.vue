@@ -54,111 +54,9 @@ import JefGridCell from '@/components/grid/Cell.vue';
 import JefGridColumn from '@/components/grid/Column.vue';
 import Sorter from '@/classes/Sorter';
 import FlexContainer from '@/components/base/FlexContainer.vue';
-import {FlexDirections, FlexJustifications, TextAlignments} from '@/statics/Flex';
 import LoadingMask from '@/components/base/LoadingMask.vue';
-import utilities from '@/utilities';
 import JefTitle from '@/components/base/Title.vue';
-
-// TODOJEF: Create class for this?
-const DefaultColumnConfig: IColumn = {
-  type: ColumnTypes.String,
-  text: '',
-  cls: [],
-  field: '',
-  rowSpan: 1,
-  colSpan: 1,
-  isAssociation: false,
-  isParent: false,
-  sortable: true,
-  isSorted: false,
-  // TODO: I don't think this is necessary here... it only matters in the cell, but we define it on the column config
-  formatter: utilities.identityFn,
-  flex: 1,
-  shrink: 1,
-  basis: 0,
-  width: 0,
-  cellCls: '',
-  hidden: false,
-  border: 'b r',
-  cellBorder: 'r',
-
-  isAction(): boolean {
-    return this.type === ColumnTypes.Action;
-  },
-
-  canSort(): boolean {
-    return !this.isAction() && this.sortable;
-  },
-
-  isNested(): boolean {
-    const columns = this.columns;
-    return !!(columns && columns.length > 1);
-  },
-
-  isVerticalLayout(): boolean {
-    return !this.direction && !this.isAction() || utilities.contains([FlexDirections.COLUMN, FlexDirections.COLUMN_REVERSE], this.direction);
-  },
-
-  isCellVerticalLayout(): boolean {
-    return utilities.contains([FlexDirections.COLUMN, FlexDirections.COLUMN_REVERSE], this.getCellDirection());
-  },
-
-  getTextAlignment(): string {
-    if (this.align) {
-      return this.align;
-    }
-    return this.isNested() || this.isAction() ? TextAlignments.CENTER : TextAlignments.LEFT;
-  },
-
-  getCellPack(): string {
-    // If we're in a vertical layout, then our pack is controlling the position of the text vertically
-    if (this.isCellVerticalLayout()) {
-      // Otherwise, we always want the text to be at the top of the cell
-      return FlexJustifications.START;
-    }
-    let align: any = this.align;
-    // We have to convert TextAlignment to FlexJustification
-    switch (align) {
-      case TextAlignments.LEFT:
-        align = FlexJustifications.START;
-        break;
-      case TextAlignments.CENTER:
-        align = FlexJustifications.CENTER;
-        break;
-      case TextAlignments.RIGHT:
-        align = FlexJustifications.END;
-        break;
-    }
-    if (align) {
-      return align;
-    }
-    return this.isAction() ? FlexJustifications.CENTER : FlexJustifications.START;
-  },
-
-  /**
-   * If we're in a vertical layout, then align will be horizontal-based
-   * If we're in a horizontal layout, then align will be vertical-based
-   */
-  getCellAlignment(): string {
-    // If we're vertical, then we have to use TextAlignment
-    if (this.isCellVerticalLayout()) {
-      let align = this.align;
-      if (!align) {
-        align = this.isAction() ? TextAlignments.CENTER : TextAlignments.LEFT;
-      }
-      return align;
-    }
-    return TextAlignments.LEFT;
-  },
-
-  getCellDirection(): FlexDirections {
-    let direction = FlexDirections.COLUMN;
-    if (this.isAction()) {
-      direction = FlexDirections.ROW;
-    }
-    return this.direction || direction;
-  }
-};
+import GridColumn from '@/classes/GridColumn';
 
 interface IData {
   ColumnTypes: IEnum;
@@ -230,7 +128,7 @@ export default defineComponent({
     columns: {
       immediate: true,
       handler(columns) {
-        this.columnsCfg = this.getDefaultColumns(columns);
+        this.columnsCfg = GridColumn.generateChildren(columns, this.store.sorters);
       }
     },
     store: {
@@ -249,32 +147,6 @@ export default defineComponent({
     getColumnBorder(index: number, column: IColumn) {
       // If we're at the very last column, don't add the default border right
       return index + 1 === this.columnsCfg.length ? 'b' : column.border;
-    },
-    getDefaultColumns(columns: IColumn[], isNested?: boolean) {
-      const out: IColumn[] = [];
-      const sorters = this.store.sorters;
-      columns.forEach((column) => {
-        let children = column.columns;
-        if (children) {
-          column.sortable = false;
-          children = this.getDefaultColumns(children, true);
-        }
-        if (isNested) {
-          column.border = utilities.isEmpty(column.border) ? 'r' : column.border;
-        }
-        // Match column's sorter with any defined sorters in the store
-        for (let i = 0; i < sorters.length; i++) {
-          const sorter = sorters[i];
-          if (sorter.field === column.field) {
-            column.sorter = sorter;
-            break;
-          }
-        }
-        out.push(utilities.merge({
-          columns: children
-        }, DefaultColumnConfig, column));
-      });
-      return out;
     },
     syncColumnsSort(columns: IColumn[]) {
       const sorters = this.store.sorters;
@@ -336,6 +208,13 @@ export default defineComponent({
       }
       this.selectedRow = target.parentElement;
       this.selectedRow?.classList.add(TableCls.ACTIVE);
+    }
+  },
+
+  unmounted() {
+    const store = this.store;
+    if (store) {
+      store.off('sort', this.onSortStore);
     }
   }
 });

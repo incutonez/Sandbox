@@ -8,7 +8,7 @@ interface Collection<T> extends ICollection<T> {
 }
 
 class Collection<T> extends BaseCollection<T> {
-  sorters = new BaseCollection<Sorter>(Sorter);
+  sorters = new BaseCollection(Sorter);
 
   constructor(type: new (data: T) => T, args?: any) {
     super(type);

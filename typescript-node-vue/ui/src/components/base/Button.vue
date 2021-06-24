@@ -48,10 +48,6 @@ export default defineComponent({
     iconOnly: {
       type: Boolean,
       default: false
-    },
-    handler: {
-      type: Function,
-      default: null
     }
   },
   emits: [
