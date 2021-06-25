@@ -17,26 +17,30 @@ export default defineComponent({
 
   data(): {
     position: {
-      currentX: number;
-      currentY: number;
-      nextX: number;
-      nextY: number;
+      x: number;
+      y: number;
+      xMin: number;
+      xMax: number;
+      yMin: number;
+      yMax: number;
       targetEl?: HTMLElement;
     }
   } {
     return {
       position: {
-        currentX: 0,
-        currentY: 0,
-        nextX: 0,
-        nextY: 0
+        x: 0,
+        y: 0,
+        xMin: 0,
+        xMax: 0,
+        yMin: 0,
+        yMax: 0
       }
     };
   },
 
   watch: {
     dragTarget: {
-      handler(value, oldValue) {
+      handler(value) {
         this.changeTargetEl(value);
       }
     }
@@ -52,12 +56,19 @@ export default defineComponent({
 
   methods: {
     changeTargetEl(selector?: string) {
-      const oldTarget = this.position.targetEl;
+      const position = this.position;
+      const oldTarget = position.targetEl;
       const newTarget = selector && this.$el.querySelector(selector);
       if (newTarget) {
+        const parentRect = this.$el.getBoundingClientRect();
+        const rect = newTarget.getBoundingClientRect();
         newTarget.onmousedown = this._dragStart;
         newTarget.style.cursor = 'move';
-        this.position.targetEl = newTarget;
+        position.targetEl = newTarget;
+        position.xMin = parentRect.left - rect.left;
+        position.xMax = innerWidth + parentRect.right - rect.right - parentRect.width;
+        position.yMin = parentRect.top - rect.top;
+        position.yMax = innerHeight + parentRect.bottom - rect.bottom - parentRect.height;
       }
       if (oldTarget) {
         oldTarget.onmousedown = null;
@@ -66,23 +77,22 @@ export default defineComponent({
     },
 
     _dragStart(event: IEventMouse) {
+      const position = this.position;
       event.preventDefault();
-      this.position.currentX = event.clientX;
-      this.position.currentY = event.clientY;
-      this.$el.onmousemove = this._drag;
-      this.$el.onmouseup = this._dragEnd;
+      position.x = event.clientX;
+      position.y = event.clientY;
+      document.onmousemove = this._drag;
+      document.onmouseup = this._dragEnd;
     },
 
     _drag(event: IEventMouse) {
       event.preventDefault();
       const pos = this.position;
       const parentEl = this.$el;
-      const top = parentEl.offsetTop;
-      const left = parentEl.offsetLeft;
-      const nextY = pos.currentY - event.clientY;
-      const nextX = pos.currentX - event.clientX;
-      let inBoundsX = true;
-      let inBoundsY = true;
+      let top = parentEl.offsetTop;
+      let left = parentEl.offsetLeft;
+      let nextY = pos.y - event.clientY;
+      let nextX = pos.x - event.clientX;
       if (this.dragConstrain) {
         /* It's possible that our el is not the same as the targetEl, and we need to use that as our
          * origin for if we're in bounds... but we need to still use the el when we're changing its position, as
@@ -91,24 +101,46 @@ export default defineComponent({
         const rect = el.getBoundingClientRect();
         const nextTop = rect.top - nextY;
         const nextLeft = rect.left - nextX;
-        inBoundsY = nextTop > 0 && rect.height + nextTop < innerHeight;
-        inBoundsX = nextLeft > 0 && rect.width + nextLeft < innerWidth;
+        if (nextTop < 0) {
+          nextY = 0;
+          // Make sure we go flush against the top
+          top = pos.yMin;
+        }
+        else if (rect.height + nextTop > innerHeight) {
+          nextY = innerHeight;
+          // Make sure we go flush against the bottom
+          top = pos.yMax;
+        }
+        else {
+          top -= nextY;
+        }
+        if (nextLeft < 0) {
+          nextX = 0;
+          // Make sure we go flush against the left
+          left = pos.xMin;
+        }
+        else if (rect.width + nextLeft > innerWidth) {
+          nextX = innerWidth;
+          // Make sure we go flush against the right
+          left = pos.xMax;
+        }
+        else {
+          left -= nextX;
+        }
       }
-      if (inBoundsY) {
-        pos.nextY = nextY;
-        parentEl.style.top = top - nextY + 'px';
+      else {
+        top -= nextY;
+        left -= nextX;
       }
-      if (inBoundsX) {
-        pos.nextX = nextX;
-        parentEl.style.left = left - nextX + 'px';
-      }
-      pos.currentY = event.clientY;
-      pos.currentX = event.clientX;
+      parentEl.style.top = `${top}px`;
+      parentEl.style.left = `${left}px`;
+      pos.y = event.clientY;
+      pos.x = event.clientX;
     },
 
     _dragEnd() {
-      this.$el.onmouseup = null;
-      this.$el.onmousemove = null;
+      document.onmouseup = null;
+      document.onmousemove = null;
     }
   }
 });

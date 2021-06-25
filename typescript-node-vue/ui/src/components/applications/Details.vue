@@ -3,6 +3,7 @@
              :height="height"
              :width="width"
              :view-loading="viewLoading"
+             :drag-constrain="true"
              @close="onCloseWindow">
     <template #body>
       <FlexContainer :grow="1">
