@@ -4,6 +4,7 @@ import _ from 'lodash';
 import IAssociation from '@/interfaces/IAssociation';
 import Store from '@/classes/Store';
 import utilities from '@/utilities';
+import {IValueAttribute} from '@/interfaces/Components';
 
 export interface IAssociations {
   [key: string]: IAssociation;
@@ -75,6 +76,10 @@ class Model {
         Reflect.set(this, field, value);
       }
     }
+  }
+
+  get(field: string): IValueAttribute {
+    return Reflect.get(this, field);
   }
 
   get associations(): IAssociations | null {

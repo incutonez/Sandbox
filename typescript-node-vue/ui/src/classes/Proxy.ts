@@ -25,13 +25,19 @@ class Proxy {
     this.methods = config.methods;
   }
 
-  async load(config: any = {}): Promise<AxiosResponse | undefined> {
+  static async load(config: any = {}, scope: any = {
+    type: 'ajax',
+    methods: {
+      get: 'get'
+    }
+  }): Promise<AxiosResponse | undefined> {
     try {
-      if (this.type === 'ajax') {
+      const reqType = config.type || scope.type;
+      if (reqType === 'ajax') {
         Ajax.defaults.baseURL = 'http://localhost:1337';
-        const method = config.method || this.methods.get;
+        const method = config.method || scope.methods.get;
         const request: AxiosRequestConfig = {
-          url: config.url || this.url,
+          url: config.url || scope.url,
           method: method
         };
         // Send as query params
@@ -54,6 +60,10 @@ class Proxy {
         requestConfig: Response.config
       });
     }
+  }
+
+  async load(config: any = {}): Promise<AxiosResponse | undefined> {
+    return Proxy.load(config, this);
   }
 
   // TODO: Is there a better way of doing this?

@@ -5,8 +5,23 @@ import {StatusCodes} from 'http-status-codes';
 import GetRequest from '../classes/GetRequest.js';
 import utilities from '../utilities.js';
 
+const RoutePrefix = '/companies';
+
 export default (router: Router) => {
-  router.post('/companies/search', async (req: Request, res: Response) => {
+  router.get(RoutePrefix, async (req: Request, res: Response) => {
+    try {
+      const connection = getConnection();
+      const found = await connection.manager.find(Company);
+      if (found) {
+        return res.send(found);
+      }
+      return res.sendStatus(StatusCodes.NOT_FOUND);
+    }
+    catch (ex) {
+      return res.send(ex);
+    }
+  });
+  router.post(`${RoutePrefix}/search`, async (req: Request, res: Response) => {
     try {
       const connection = getRepository(Company);
       const results = await connection.createQueryBuilder('Companies')
@@ -26,7 +41,7 @@ export default (router: Router) => {
       return res.send(ex);
     }
   });
-  router.get('/companies/:Id', async (req: Request, res: Response) => {
+  router.get(`${RoutePrefix}/:Id`, async (req: Request, res: Response) => {
     try {
       const connection = getConnection();
       const params = new GetRequest(req.params);

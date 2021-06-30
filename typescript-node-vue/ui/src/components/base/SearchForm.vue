@@ -35,7 +35,6 @@ import {defineComponent} from 'vue';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import {FlexAlignments, FlexDirections} from '@/statics/Flex';
 import JefButton from '@/components/base/Button.vue';
-import JefField from '@/components/base/Field.vue';
 import EventsProvider from '@/mixins/EventsProvider';
 import RegisterProvider from '@/mixins/RegisterProvider';
 import JefTitle from '@/components/base/Title.vue';

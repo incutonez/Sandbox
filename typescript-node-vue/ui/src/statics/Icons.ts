@@ -16,7 +16,8 @@ const Icons: IKeyValue = {
   SQUARE: 'square',
   REFRESH: 'redo',
   EDIT: 'pen',
-  DELETE: 'trash'
+  DELETE: 'trash',
+  CHEVRON_DOWN: 'chevron-down'
 };
 
 for (const key in Icons) {

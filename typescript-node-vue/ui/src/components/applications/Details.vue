@@ -16,14 +16,16 @@
                     v-model="viewRecord.Id" />
           <JefField label="Position"
                     v-model="viewRecord.Position" />
-          <JefField v-model="viewRecord.PositionType"
+          <ComboBox v-model="viewRecord.PositionType"
                     label="Position Type"
-                    type="number" />
+                    :store="Enums.PositionTypes" />
           <JefField label="Link"
                     v-model="viewRecord.Link" />
-          <JefField v-model="selectedCompany"
+          <ComboBox v-model="selectedCompany"
                     label="Company"
-                    type="number" />
+                    value-key="Id"
+                    display-key="Name"
+                    :store="companiesStore" />
         </FlexContainer>
         <JefGrid :store="viewRecord.Contacts"
                  :columns="contactsColumns"
@@ -54,10 +56,16 @@ import JefField from '@/components/base/Field.vue';
 import JefGrid from '@/components/base/Grid.vue';
 import IApplication from '@/interfaces/IApplication';
 import IColumn from '@/interfaces/IColumn';
+import ComboBox from '@/components/base/ComboBox.vue';
+import Store from '@/classes/Store';
+import Company from '@/models/Company';
+import IStore from '@/interfaces/IStore';
+import ICompany from '@/interfaces/ICompany';
 
 export default defineComponent({
   name: 'ApplicationDetails',
   components: {
+    ComboBox,
     JefGrid,
     JefField,
     FlexContainer,
@@ -70,6 +78,7 @@ export default defineComponent({
     height: string | number;
     width: string | number;
     loading: boolean;
+    companiesStore: IStore<ICompany>
   } {
     return {
       // Create a dummy record so binding is OK
@@ -77,6 +86,9 @@ export default defineComponent({
       height: '90%',
       width: '90%',
       loading: false,
+      companiesStore: new Store(Company, {
+        autoLoad: true
+      }),
       contactsColumns: [{
         text: 'Name',
         field: 'Name'
@@ -127,7 +139,10 @@ export default defineComponent({
         return company && company.Id;
       },
       set(value: number | undefined) {
-        this.viewRecord.set('Company', value);
+        const company = this.viewRecord.Company;
+        if (company) {
+          company.set('Id', value);
+        }
       }
     }
   },

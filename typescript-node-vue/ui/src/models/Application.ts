@@ -3,7 +3,6 @@ import Model, {IAssociations} from '@/classes/Model';
 import Company from '@/models/Company';
 import Contact from '@/models/Contact';
 import utilities from '@/utilities';
-import IAssociation from '@/interfaces/IAssociation';
 
 interface Application extends IApplication {
 

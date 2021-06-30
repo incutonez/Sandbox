@@ -112,7 +112,7 @@ export default defineComponent({
             disabled: record.canDelete(),
             handlers: {
               click: (button: IButton, event: EventTarget) => {
-                console.log(button, event);
+                // TODO: impl
               }
             }
           });

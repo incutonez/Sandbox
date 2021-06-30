@@ -1,3 +1,5 @@
 export default interface IEnum {
-  [id: number]: string;
+  Key: string;
+  Value: string | number;
+  Description: string;
 }

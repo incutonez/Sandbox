@@ -1,6 +1,6 @@
 input {
   outline: none;
-  border: $field-input-border-width solid $field-input-border-color;
+  border: $field-input-border;
 }
 
 input:not(.field-required):not(:invalid):focus {

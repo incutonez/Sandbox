@@ -1,7 +1,6 @@
 import ICompany from '@/interfaces/ICompany';
 import Model, {IAssociations} from '@/classes/Model';
 import Contact from '@/models/Contact';
-import Store from '@/classes/Store';
 import Application from '@/models/Application';
 
 interface Company extends ICompany {
@@ -11,10 +10,7 @@ interface Company extends ICompany {
 class Company extends Model {
   static proxy = {
     url: 'api/companies',
-    type: 'ajax',
-    methods: {
-      get: 'post'
-    }
+    type: 'ajax'
   };
 
   get associations(): IAssociations | null {

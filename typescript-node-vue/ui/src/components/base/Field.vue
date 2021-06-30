@@ -4,7 +4,7 @@
                  :class="fieldContainerCls">
     <span v-if="showLabel"
           class="field-label"
-          :style="`min-width: ${labelWidthFm};`">
+          :style="labelStyle">
       {{ label }}{{ labelSeparator }}
     </span>
     <input v-model="value"
@@ -28,9 +28,7 @@ import {FlexDirections} from '@/statics/Flex';
 import RegisterInjector, {IRegisterInjector} from '@/mixins/RegisterInjector';
 import EventsInjector, {IEventsInjector} from '@/mixins/EventsInjector';
 import utilities from '@/utilities';
-
-type ElementAttribute = boolean | null;
-type ValueAttribute = string | number | boolean | null;
+import {IElementAttribute, IValueAttribute} from '@/interfaces/Components';
 
 interface IData extends IEventsInjector, IRegisterInjector {
   isField: boolean;
@@ -121,27 +119,28 @@ export default defineComponent({
     };
   },
   computed: {
-    labelWidthFm(): string {
-      const labelWidth = this.isVerticalLayout ? '100%' : this.labelWidth;
-      return utilities.convertToPx(labelWidth);
+    labelStyle(): string {
+      let labelWidth = this.isVerticalLayout ? '100%' : this.labelWidth;
+      labelWidth = utilities.convertToPx(labelWidth);
+      return `min-width: ${labelWidth}; max-width: ${labelWidth};`;
     },
     // Taken from https://v3.vuejs.org/guide/component-basics.html#using-v-model-on-components
     value: {
-      get(): ValueAttribute {
+      get(): IValueAttribute {
         return this.modelValue;
       },
-      set(value: ValueAttribute) {
+      set(value: IValueAttribute) {
         this.isValid();
-        this.$emit('update:modelValue', value ? value : this.emptyValueAsNull ? null : value);
+        this.$emit('update:modelValue', utilities.isEmpty(value) && this.emptyValueAsNull ? null : value);
       }
     },
-    isReadOnly(): ElementAttribute {
+    isReadOnly(): IElementAttribute {
       return this.readOnly || null;
     },
-    isRequired(): ElementAttribute {
+    isRequired(): IElementAttribute {
       return this.required || null;
     },
-    isDisabled(): ElementAttribute {
+    isDisabled(): IElementAttribute {
       return this.disabled || null;
     },
     fieldInputStyle(): string {

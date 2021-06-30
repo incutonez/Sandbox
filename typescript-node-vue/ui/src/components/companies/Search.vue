@@ -150,6 +150,7 @@ export default defineComponent({
       try {
         await this.viewStore.load({
           url: 'api/companies/search',
+          method: 'post',
           params: this.search
         });
       }

@@ -4,15 +4,21 @@ import globals from '@/globals';
 import {createRouter, createWebHashHistory} from 'vue-router';
 import routes from '@/routes';
 
-const router = createRouter({
-  // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
-  history: createWebHashHistory(),
-  routes // short for `routes: routes`
-});
+async function loadMain() {
+  await globals.loadAppSettings();
 
-const app = createApp(App);
-for (const key in globals) {
-  app.config.globalProperties[key] = globals[key];
+  const router = createRouter({
+    // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
+    history: createWebHashHistory(),
+    routes // short for `routes: routes`
+  });
+
+  const app = createApp(App);
+  for (const key in globals.Constants) {
+    app.config.globalProperties[key] = globals.Constants[key];
+  }
+  app.use(router);
+  app.mount('#app');
 }
-app.use(router);
-app.mount('#app');
+
+loadMain();

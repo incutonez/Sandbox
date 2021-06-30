@@ -44,10 +44,8 @@
 <script lang="ts">
 import {defineComponent} from 'vue';
 import Store from '@/classes/Store';
-import ColumnTypes from '@/statics/ColumnTypes';
 import {TableCls} from '@/statics/TableCls';
 import ITableCls from '@/interfaces/ITableCls';
-import IEnum from '@/interfaces/IEnum';
 import IColumn from '@/interfaces/IColumn';
 import Model from '@/classes/Model';
 import JefGridCell from '@/components/grid/Cell.vue';
@@ -59,7 +57,6 @@ import JefTitle from '@/components/base/Title.vue';
 import GridColumn from '@/classes/GridColumn';
 
 interface IData {
-  ColumnTypes: IEnum;
   TableCls: ITableCls;
   selectedRow: HTMLElement | null;
   columnsCfg: IColumn[];
@@ -107,7 +104,6 @@ export default defineComponent({
   },
   data() {
     return {
-      ColumnTypes: ColumnTypes,
       TableCls: TableCls,
       selectedRow: null,
       columnsCfg: []

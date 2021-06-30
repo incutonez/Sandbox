@@ -30,6 +30,9 @@ class Store<T> extends Collection<T> {
     // TODO: Problem is here... when you initially add the sorter, it's not linked to the column
     this.addSorter(config.sorters);
     this.add(config.data);
+    if (config.autoLoad) {
+      this.load();
+    }
   }
 
   async load(config?: any): Promise<void> {
