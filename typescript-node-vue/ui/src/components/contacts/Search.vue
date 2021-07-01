@@ -124,7 +124,7 @@ export default defineComponent({
           field: 'Application.Position'
         }, {
           text: 'Position Type',
-          field: 'Application.PositionType'
+          field: 'Application.positionTypeDisplay'
         }, {
           text: 'Link',
           field: 'Application.Link'

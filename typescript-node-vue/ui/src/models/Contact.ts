@@ -23,7 +23,7 @@ class Contact extends Model {
         model: Company,
         key: 'Company'
       },
-      Applications: {
+      Application: {
         type: 'model',
         model: Application,
         key: 'Application'

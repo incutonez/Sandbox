@@ -1,6 +1,5 @@
 import Proxy from '@/classes/Proxy';
 import IModel from '@/interfaces/IModel';
-import _ from 'lodash';
 import IAssociation from '@/interfaces/IAssociation';
 import Store from '@/classes/Store';
 import utilities from '@/utilities';
@@ -22,7 +21,7 @@ class Model {
 
   // TODO: How to codify this instead of using any?  It's like I'm using the fields I set... Interface?
   constructor(config: any = {}) {
-    this.proxy = new Proxy(_.merge({}, Reflect.get(this.constructor, 'proxy'), config.proxy));
+    this.proxy = new Proxy(utilities.merge({}, Reflect.get(this.constructor, 'proxy'), config.proxy));
     this.set(config);
   }
 
@@ -67,7 +66,8 @@ class Model {
           if (model) {
             model.set(value);
           }
-          else {
+          // We don't create an empty association if there's no data
+          else if (value) {
             Reflect.set(this, field, new association.model(value));
           }
         }

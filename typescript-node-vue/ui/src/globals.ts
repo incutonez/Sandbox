@@ -36,6 +36,9 @@ export default {
         data: result[key]
       });
     }
+    /* Don't necessarily like that I have to set both here... I need access to the enums in Formatters.ts,
+     * and I don't have access to the App at that point */
+    window.Enums = enums;
     this.Constants.Enums = enums;
   }
 } as IKeyValue;

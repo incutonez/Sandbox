@@ -21,6 +21,8 @@ function boolIcon(value: boolean): IBoolIcon {
   };
 }
 
+// Accessing this is only made possible by logic done in main.ts
+const Enums = window.Enums;
 const Formatters: IKeyValue = {
   dashIfNull(value: any, record: any, nextFormatter?: string): string {
     if (utilities.isEmpty(value)) {
@@ -37,6 +39,10 @@ const Formatters: IKeyValue = {
       value = new Date(value);
     }
     return `${(value.getMonth() + 1).toString().padStart(2, '0')}/${value.getDate().toString().padStart(2, '0')}/${value.getFullYear()}`;
+  },
+  positionType(value: number): string {
+    const found = Enums.PositionTypes.findRecord('Value', value);
+    return found && found.get('Description');
   }
 };
 

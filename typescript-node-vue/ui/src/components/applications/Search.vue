@@ -129,7 +129,7 @@ export default defineComponent({
         field: 'Position'
       }, {
         text: 'Position Type',
-        field: 'PositionType'
+        field: 'positionTypeDisplay'
       }, {
         text: 'Link',
         field: 'Link'

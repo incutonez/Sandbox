@@ -3,6 +3,7 @@ import Model, {IAssociations} from '@/classes/Model';
 import Company from '@/models/Company';
 import Contact from '@/models/Contact';
 import utilities from '@/utilities';
+import Formatters from '@/statics/Formatters';
 
 interface Application extends IApplication {
 
@@ -30,6 +31,10 @@ class Application extends Model {
         key: 'Company'
       }
     };
+  }
+
+  get positionTypeDisplay(): string {
+    return Formatters.positionType(this.PositionType);
   }
 
   canEdit(): boolean {

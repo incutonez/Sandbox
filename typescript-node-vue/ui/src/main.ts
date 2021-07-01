@@ -1,24 +1,32 @@
 import {createApp} from 'vue';
-import App from './App.vue';
 import globals from '@/globals';
 import {createRouter, createWebHashHistory} from 'vue-router';
-import routes from '@/routes';
+
+declare global {
+  interface Window {
+    Enums: any;
+    App: any;
+  }
+}
 
 async function loadMain() {
+  // Let's make sure all of our global vars are available before we go importing
   await globals.loadAppSettings();
-
-  const router = createRouter({
-    // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
-    history: createWebHashHistory(),
-    routes // short for `routes: routes`
-  });
-
-  const app = createApp(App);
+  const App = await import('./App.vue');
+  const app = createApp(App.default);
   for (const key in globals.Constants) {
     app.config.globalProperties[key] = globals.Constants[key];
   }
+  const routes = await import('./routes');
+  const router = createRouter({
+    // Use WebHash, so we don't reload the entire app on entering a new URL in the address bar
+    history: createWebHashHistory(),
+    routes: routes.default
+  });
   app.use(router);
   app.mount('#app');
+  // TODO: Only allow in debug mode
+  window.App = app;
 }
 
 loadMain();
