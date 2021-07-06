@@ -3,6 +3,7 @@ import {AxiosResponse} from 'axios';
 import Collection from '@/classes/Collection';
 import IStore from '@/interfaces/IStore';
 import utilities from '@/utilities';
+import IKeyValue from '@/interfaces/IKeyValue';
 
 /**
  * This is a little tricky... we extend our IStore as an interface, and then we can use a class to extend
@@ -47,6 +48,14 @@ class Store<T> extends Collection<T> {
       this.logException(ex);
     }
     this.loading = false;
+  }
+
+  getData(excluded: IKeyValue = {}): any[] {
+    const data: any[] = [];
+    this.forEach((record) => {
+      data.push(record.getData(excluded));
+    });
+    return data;
   }
 
   get url(): string {

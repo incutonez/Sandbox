@@ -4,6 +4,7 @@ import IAssociation from '@/interfaces/IAssociation';
 import Store from '@/classes/Store';
 import utilities from '@/utilities';
 import {IValueAttribute} from '@/interfaces/Components';
+import IKeyValue from '@/interfaces/IKeyValue';
 
 export interface IAssociations {
   [key: string]: IAssociation;
@@ -17,6 +18,7 @@ class Model {
     type: 'memory'
   };
 
+  idKey = 'Id';
   isModel = true;
 
   // TODO: How to codify this instead of using any?  It's like I'm using the fields I set... Interface?
@@ -36,8 +38,33 @@ class Model {
     }
   }
 
+  async save(config: any = {}): Promise<void> {
+    try {
+      let url = config.url;
+      if (!url) {
+        const reqType = this.proxy.type;
+        url = this.url;
+        if (reqType === 'rest') {
+          url = `${url}/${this.get(this.idKey)}`;
+        }
+      }
+      const Response = await this.proxy?.save({
+        url: url,
+        params: this.getData(this.saveExclude)
+      });
+      const data = Response?.data;
+      if (data) {
+        this.set(data);
+      }
+    }
+    catch (ex) {
+      console.error(ex);
+    }
+  }
+
   set(field: any, data?: any): void {
     const associations = this.associations;
+    const protectedFields = this.protectedFields;
     if (utilities.isObject(field)) {
       data = field;
     }
@@ -47,6 +74,14 @@ class Model {
       };
     }
     for (const field in data) {
+      // Make sure we're only setting fields
+      /* TODO: There doesn't seem to be a great way of determining the properties unless they're actually
+       * created... JavaScript requires that a field has an initialized value in order for it to exist...
+       * maybe should come up with a separate "fields" object or something, as it's possible some interface
+       * properties won't exist when the class is created, which would make getFields kind of useless? */
+      if (protectedFields.indexOf(field) !== -1) {
+        continue;
+      }
       const value = data[field];
       const association = associations && associations[field];
       if (association) {
@@ -80,6 +115,36 @@ class Model {
 
   get(field: string): IValueAttribute {
     return Reflect.get(this, field);
+  }
+
+  getData(excluded?: IKeyValue): any {
+    const data: IKeyValue = {};
+    const fields = this.fields;
+    for (let i = 0; i < fields.length; i++) {
+      const field = fields[i];
+      const exclude = excluded && excluded[field];
+      // If we have an object, then that means we're wanting to exclude association properties
+      if (!exclude || utilities.isObject(exclude)) {
+        let item = Reflect.get(this, field);
+        if (item && (item.isModel || item.isStore)) {
+          item = item.getData(exclude);
+        }
+        data[field] = item;
+      }
+    }
+    return data;
+  }
+
+  get fields(): string[] {
+    const protectedFields = this.protectedFields;
+    const fields = Object.getOwnPropertyNames(this);
+    return fields.filter((field) => {
+      return protectedFields.indexOf(field) === -1;
+    });
+  }
+
+  get protectedFields(): string[] {
+    return ['proxy', 'isModel', 'idKey', 'saveExclude'];
   }
 
   get associations(): IAssociations | null {

@@ -1,14 +1,15 @@
 import {Request, Response, Router} from 'express';
-import {getManager} from 'typeorm';
+import {getManager, getRepository} from 'typeorm';
 import {Application} from '../db/entity/Application.js';
 import utilities from '../utilities.js';
 import GetRequest from '../classes/GetRequest.js';
 import {StatusCodes} from 'http-status-codes';
+import {constants as Statuses} from 'http2';
 
-const RoutePrefix = '/applications/';
+const RoutePrefix = '/applications';
 
 export default (router: Router) => {
-  router.post(`${RoutePrefix}search`, async (req: Request, res: Response) => {
+  router.post(`${RoutePrefix}/search`, async (req: Request, res: Response) => {
     try {
       const manager = getManager();
       const results = await manager.createQueryBuilder(Application, 'application')
@@ -23,7 +24,7 @@ export default (router: Router) => {
       return res.send(ex);
     }
   });
-  router.get(`${RoutePrefix}:Id`, async (req: Request, res: Response) => {
+  router.get(`${RoutePrefix}/:Id`, async (req: Request, res: Response) => {
     try {
       const manager = getManager();
       const params = new GetRequest(req.params);
@@ -35,6 +36,16 @@ export default (router: Router) => {
         return res.send(results);
       }
       return res.sendStatus(StatusCodes.NOT_FOUND);
+    }
+    catch (ex) {
+      return res.send(ex);
+    }
+  });
+  router.put(`${RoutePrefix}/:Id`, async (req: Request, res: Response) => {
+    try {
+      const manager = getRepository(Application);
+      await manager.save(req.body);
+      return res.send(Statuses.HTTP_STATUS_NO_CONTENT);
     }
     catch (ex) {
       return res.send(ex);

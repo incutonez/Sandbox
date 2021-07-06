@@ -124,8 +124,10 @@ export default defineComponent({
       });
     },
 
-    onClickSaveButton() {
+    async onClickSaveButton() {
       this.loading = true;
+      await this.viewRecord.save();
+      this.loading = false;
     }
   },
 

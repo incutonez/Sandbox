@@ -12,9 +12,21 @@ interface Application extends IApplication {
 class Application extends Model {
   static proxy = {
     url: 'api/applications',
-    type: 'ajax',
+    type: 'rest',
     methods: {
       get: 'post'
+    }
+  };
+
+  saveExclude = {
+    Company: {
+      Name: true,
+      IsRecruitment: true
+    },
+    Contacts: {
+      Email: true,
+      IsRecruiter: true,
+      Name: true
     }
   };
 
