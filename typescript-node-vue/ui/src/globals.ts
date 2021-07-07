@@ -57,6 +57,7 @@ export default {
   },
 
   async loadAppSettings() {
+    // TODO: Is this necessary?  I could potentially load all the enums in an index file
     const response = await Proxy.load({
       url: 'api/appsettings'
     });
