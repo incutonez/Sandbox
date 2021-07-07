@@ -2,6 +2,7 @@ import Icons from '@/statics/Icons';
 import Styles from '@/statics/Styles';
 import utilities from '@/utilities';
 import IKeyValue from '@/interfaces/IKeyValue';
+import {IFieldValue} from '@/interfaces/Components';
 
 interface IProps {
   iconName: string;
@@ -40,7 +41,7 @@ const Formatters: IKeyValue = {
     }
     return `${(value.getMonth() + 1).toString().padStart(2, '0')}/${value.getDate().toString().padStart(2, '0')}/${value.getFullYear()}`;
   },
-  positionType(value: number): string {
+  positionType(value: number): IFieldValue {
     const found = Enums.PositionTypes.findRecord('Value', value);
     return found && found.get('Description');
   }
