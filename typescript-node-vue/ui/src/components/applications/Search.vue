@@ -58,7 +58,7 @@ import Application from '@/models/Application';
 import IApplication from '@/interfaces/IApplication';
 import Formatters from '@/statics/Formatters';
 import Icons from '@/statics/Icons';
-import {IButton} from '@/interfaces/Components';
+import {IFieldValue} from '@/interfaces/Components';
 
 export default defineComponent({
   name: 'ApplicationsSearch',
@@ -92,12 +92,12 @@ export default defineComponent({
       }, {
         type: ColumnTypes.Action,
         width: 65,
-        formatter: (value: any, record: IApplication) => {
+        formatter: (value: IFieldValue, record: IApplication) => {
           const editAction = Icons.getActionIcon({
             icon: Icons.EDIT,
             disabled: record.canEdit(),
             handlers: {
-              click: (button: IButton, event: Event) => {
+              click: () => {
                 this.$router.push({
                   name: 'applicationDetails',
                   params: {
@@ -111,7 +111,7 @@ export default defineComponent({
             icon: Icons.DELETE,
             disabled: record.canDelete(),
             handlers: {
-              click: (button: IButton, event: EventTarget) => {
+              click: () => {
                 // TODO: impl
               }
             }
@@ -160,7 +160,7 @@ export default defineComponent({
           type: ColumnTypes.Boolean,
           align: TextAlignments.CENTER,
           width: 80,
-          formatter(value: any, record: IApplication) {
+          formatter(value: IFieldValue, record: IApplication) {
             return Formatters.dashIfNull(value, record, 'boolIcon');
           }
         }, {
@@ -185,6 +185,13 @@ export default defineComponent({
       return this.hasChildRoute ? 'route-enabled' : '';
     }
   },
+
+  async created() {
+    if (!this.hasChildRoute) {
+      await this.loadViewStore();
+    }
+  },
+
   methods: {
     async loadViewStore() {
       try {
@@ -202,12 +209,6 @@ export default defineComponent({
     },
     onClickSearchBtn() {
       this.loadViewStore();
-    }
-  },
-
-  async created() {
-    if (!this.hasChildRoute) {
-      await this.loadViewStore();
     }
   }
 });

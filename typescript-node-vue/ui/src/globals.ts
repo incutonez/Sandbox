@@ -7,11 +7,38 @@ import {
   TextAlignments
 } from '@/statics/Flex';
 import IKeyValue from '@/interfaces/IKeyValue';
-import Icons from '@/statics/Icons';
+import Icons, {IIcons} from '@/statics/Icons';
 import utilities from '@/utilities';
 import Proxy from '@/classes/Proxy';
 import Store from '@/classes/Store';
 import Enum from '@/models/Enum';
+import {PositionTypes} from '../../shared/enums/PositionTypes';
+import {ApplicationStatuses} from '../../shared/enums/ApplicationStatuses';
+
+declare global {
+  interface Window {
+    Enums: any;
+    App: any;
+  }
+}
+
+// For global props, taken from https://stackoverflow.com/a/64189003/1253609
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    Icons: IIcons;
+    FlexAlignments: typeof FlexAlignments;
+    FlexContentAlignments: typeof FlexContentAlignments;
+    FlexDirections: typeof FlexDirections;
+    FlexJustifications: typeof FlexJustifications;
+    FlexWraps: typeof FlexWraps;
+    TextAlignments: typeof TextAlignments;
+    Utilities: typeof utilities;
+    Enums: {
+      ApplicationStatuses: typeof ApplicationStatuses,
+      PositionTypes: typeof PositionTypes
+    };
+  }
+}
 
 export default {
   Constants: {

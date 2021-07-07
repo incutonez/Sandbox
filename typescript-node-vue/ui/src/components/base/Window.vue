@@ -8,8 +8,8 @@
               :title-flex="titleFlex"
               :closable="closable"
               @close="onClickCloseButton">
-      <template #tools
-                v-if="showTools">
+      <template v-if="showTools"
+                #tools>
         <slot name="tools" />
       </template>
     </JefTitle>
@@ -98,6 +98,15 @@ export default defineComponent({
       return this.closable || !!this.$slots.tools;
     }
   },
+
+  mounted() {
+    document.addEventListener('keyup', this.onEscapeKey);
+  },
+
+  unmounted() {
+    document.removeEventListener('keyup', this.onEscapeKey);
+  },
+
   methods: {
     center() {
       let result = '';
@@ -124,14 +133,6 @@ export default defineComponent({
         this.$emit('close', this, event);
       }
     }
-  },
-
-  mounted() {
-    document.addEventListener('keyup', this.onEscapeKey);
-  },
-
-  unmounted() {
-    document.removeEventListener('keyup', this.onEscapeKey);
   }
 });
 </script>

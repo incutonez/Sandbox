@@ -2,13 +2,6 @@ import {createApp} from 'vue';
 import globals from '@/globals';
 import {createRouter, createWebHashHistory} from 'vue-router';
 
-declare global {
-  interface Window {
-    Enums: any;
-    App: any;
-  }
-}
-
 async function loadMain() {
   // Let's make sure all of our global vars are available before we go importing
   await globals.loadAppSettings();

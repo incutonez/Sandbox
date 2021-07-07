@@ -1,8 +1,8 @@
 <template>
-  <FlexContainer v-bind="$props"
+  <FlexContainer v-if="showTitle || showTools"
+                 v-bind="$props"
                  class="jef-title"
                  :align="FlexAlignments.CENTER"
-                 v-if="showTitle || showTools"
                  :background-color="false">
     <template v-if="showTitle">
       <span class="jef-title-text">
@@ -36,10 +36,10 @@ export default defineComponent({
     JefButton,
     FlexContainer
   },
+  extends: FlexContainer,
   mixins: [
     Hideable
   ],
-  extends: FlexContainer,
   props: {
     title: {
       type: String,

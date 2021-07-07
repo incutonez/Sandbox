@@ -132,6 +132,11 @@ export default defineComponent({
       }]
     };
   },
+
+  async created() {
+    await this.loadViewStore();
+  },
+
   methods: {
     async loadViewStore() {
       try {
@@ -151,10 +156,6 @@ export default defineComponent({
     onClickSearchBtn() {
       this.loadViewStore();
     }
-  },
-
-  async created() {
-    await this.loadViewStore();
   }
 });
 </script>

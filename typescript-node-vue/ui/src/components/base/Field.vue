@@ -7,8 +7,8 @@
           :style="labelStyle">
       {{ label }}{{ labelSeparator }}
     </span>
-    <input v-model="value"
-           ref="input"
+    <input ref="input"
+           v-model="value"
            :class="fieldInputCls"
            :type="type"
            :required="isRequired"
@@ -177,6 +177,11 @@ export default defineComponent({
       return !!this.label;
     }
   },
+
+  mounted() {
+    this.isValid();
+  },
+
   methods: {
     reset() {
       this.value = this.originalValue;
@@ -198,9 +203,6 @@ export default defineComponent({
         this.$emit('press:enter', this);
       }
     }
-  },
-  mounted() {
-    this.isValid();
   }
 });
 </script>

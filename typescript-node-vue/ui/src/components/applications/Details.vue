@@ -11,16 +11,16 @@
                        :align="FlexAlignments.AUTO"
                        :width="300"
                        margin="0 20px 0 0">
-          <JefField label="Id"
-                    :disabled="true"
-                    v-model="viewRecord.Id" />
-          <JefField label="Position"
-                    v-model="viewRecord.Position" />
+          <JefField v-model="viewRecord.Id"
+                    label="Id"
+                    :disabled="true" />
+          <JefField v-model="viewRecord.Position"
+                    label="Position" />
           <ComboBox v-model="viewRecord.PositionType"
                     label="Position Type"
                     :store="Enums.PositionTypes" />
-          <JefField label="Link"
-                    v-model="viewRecord.Link" />
+          <JefField v-model="viewRecord.Link"
+                    label="Link" />
           <ComboBox v-model="selectedCompany"
                     label="Company"
                     value-key="Id"
@@ -81,6 +81,15 @@ export default defineComponent({
     JefButton,
     JefWindow
   },
+
+  /* We use this hook instead of watching the params because there was an issue when we close the
+   * dialog... we actually push a new route onto the history, which triggered the watch to run, but
+   * it didn't have the proper params.  Could've put in a safer check, but this hook only fires when
+   * the route is changed in the URL */
+  beforeRouteUpdate(currentRoute: IRouteArg): void {
+    this.loadViewRecord(currentRoute.params);
+  },
+
   data(): {
     viewRecord: IApplication;
     contactsColumns: IColumn[];
@@ -114,36 +123,6 @@ export default defineComponent({
       }] as IColumn[]
     };
   },
-  methods: {
-    async loadViewRecord(params: IRouteParams) {
-      try {
-        this.loading = true;
-        const viewRecord = new Application();
-        await viewRecord.load({
-          url: `${viewRecord.url}/${params.Id}`,
-          method: 'get'
-        });
-        this.viewRecord = viewRecord;
-        console.log(viewRecord);
-      }
-      catch (ex) {
-        console.exception(ex);
-      }
-      this.loading = false;
-    },
-
-    onCloseWindow() {
-      this.$router.push({
-        name: 'applicationSearch'
-      });
-    },
-
-    async onClickSaveButton() {
-      this.loading = true;
-      await this.viewRecord.save();
-      this.loading = false;
-    }
-  },
 
   computed: {
     viewLoading(): boolean {
@@ -163,18 +142,40 @@ export default defineComponent({
     }
   },
 
-  /* We use this hook instead of watching the params because there was an issue when we close the
-   * dialog... we actually push a new route onto the history, which triggered the watch to run, but
-   * it didn't have the proper params.  Could've put in a safer check, but this hook only fires when
-   * the route is changed in the URL */
-  beforeRouteUpdate(currentRoute: IRouteArg): void {
-    this.loadViewRecord(currentRoute.params);
-  },
-
   created() {
     /* Because beforeRouteUpdate only fires when the route is updated after the view's been created,
      * we have to call this method manually */
     this.loadViewRecord(this.$route.params);
+  },
+
+  methods: {
+    async loadViewRecord(params: IRouteParams) {
+      try {
+        this.loading = true;
+        const viewRecord = new Application();
+        await viewRecord.load({
+          url: `${viewRecord.url}/${params.Id}`,
+          method: 'get'
+        });
+        this.viewRecord = viewRecord;
+      }
+      catch (ex) {
+        console.exception(ex);
+      }
+      this.loading = false;
+    },
+
+    onCloseWindow() {
+      this.$router.push({
+        name: 'applicationSearch'
+      });
+    },
+
+    async onClickSaveButton() {
+      this.loading = true;
+      await this.viewRecord.save();
+      this.loading = false;
+    }
   }
 });
 </script>

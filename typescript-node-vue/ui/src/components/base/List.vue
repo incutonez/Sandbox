@@ -1,7 +1,7 @@
 <template>
-  <ul class="list-box"
-      :style="styleFm"
-      v-if="expanded">
+  <ul v-if="expanded"
+      class="list-box"
+      :style="styleFm">
     <li v-for="(record, index) in store"
         :key="index"
         :class="getItemCls(record)"
@@ -21,10 +21,6 @@ import utilities from '@/utilities';
 
 export default defineComponent({
   name: 'JefList',
-  emits: [
-    'select',
-    'collapse'
-  ],
   props: {
     align: {
       type: String,
@@ -55,6 +51,11 @@ export default defineComponent({
       default: null
     }
   },
+
+  emits: [
+    'select',
+    'collapse'
+  ],
 
   computed: {
     styleFm(): string {

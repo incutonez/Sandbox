@@ -17,8 +17,7 @@
              :required="isRequired"
              :disabled="isDisabled"
              :readonly="isReadOnly">
-      <span :class="`field-checkbox ${fieldCls}`">
-      </span>
+      <span :class="`field-checkbox ${fieldCls}`" />
       <span class="field-checkbox-label">
         {{ boxLabel }}
       </span>

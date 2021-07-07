@@ -3,17 +3,17 @@
     // Taken from https://stackoverflow.com/a/67371788/1253609
     "target": "ESNext",
     "module": "ESNext",
+    "strict": true,
     "moduleResolution": "node",
-    "lib": [
-      "ES2020"
-    ],
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "esModuleInterop": true,
     "outDir": "./dist",
-    "strict": true
+    "lib": [
+      "ES2020"
+    ]
   },
   "exclude": [
     "node_modules",

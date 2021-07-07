@@ -52,6 +52,10 @@ import FlexContainer from '@/components/base/FlexContainer.vue';
 import JefButton from '@/components/base/Button.vue';
 import IColumn from '@/interfaces/IColumn';
 import IKeyValue from '@/interfaces/IKeyValue';
+import {IFieldValue} from '@/interfaces/Components';
+import IModel from '@/interfaces/IModel';
+
+type IFormatter = (value: IFieldValue, record: IModel) => {}
 
 export default defineComponent({
   name: 'JefGridCell',
@@ -81,7 +85,7 @@ export default defineComponent({
       }
     },
     record: {
-      type: Object,
+      type: Object as PropType<IModel>,
       default: () => {
         return {};
       }
@@ -94,7 +98,7 @@ export default defineComponent({
   },
   computed: {
     showExpander(): boolean {
-      return this.isExpander && this.values;
+      return this.isExpander && !!this.values;
     },
     isExpander(): boolean {
       return this.column.type === ColumnTypes.Expander;
@@ -103,22 +107,22 @@ export default defineComponent({
       return this.column.type === ColumnTypes.Action;
     },
     // TODO: Add formatter for dates and such?
-    values(): any {
+    values(): IFieldValue | IFieldValue[] {
       const column = this.column;
       const record = this.record;
       const formatter = column.formatter;
-      let formatterFn: (value: any, record?: any) => {} = utilities.identityFn;
+      let formatterFn: IFormatter = utilities.identityFn;
       if (utilities.isString(formatter)) {
-        formatterFn = Formatters[formatter];
+        formatterFn = Formatters[formatter] as IFormatter;
       }
       else {
-        formatterFn = formatter as (value: any) => {};
+        formatterFn = formatter as IFormatter;
       }
       if (this.isExpander || this.isAction) {
         return formatterFn(true, record);
       }
       const fields = column.field.split('.');
-      let values = record[fields[0]];
+      let values = record.get(fields[0]);
       if (!utilities.isDefined(values)) {
         return '';
       }
@@ -129,7 +133,7 @@ export default defineComponent({
         for (let i = 1; i < fields.length; i++) {
           const field = fields[i];
           if (Array.isArray(values)) {
-            const out: any[] = [];
+            const out: IKeyValue[] = [];
             values.forEach((item) => {
               // Can only have an object or just a plain ole array
               if (utilities.isObject(item)) {
@@ -142,12 +146,12 @@ export default defineComponent({
             values = out;
           }
           else {
-            values = values[field];
+            values = (values as IKeyValue)[field];
           }
         }
       }
       values = Array.isArray(values) ? values : [values];
-      return values.map((value: any) => {
+      return (values as IKeyValue[]).map((value: IKeyValue) => {
         return formatterFn(value, record);
       });
     },
@@ -162,7 +166,7 @@ export default defineComponent({
     }
   },
   methods: {
-    getCellCls(value: any, index: number) {
+    getCellCls(value: IKeyValue, index: number) {
       const cls = [];
       if (!this.column.isAction()) {
         cls.push('grid-cell');

@@ -7,8 +7,8 @@
               :title="title"
               border="b"
               :title-flex="titleFlex">
-      <template #tools
-                v-if="showTools">
+      <template v-if="showTools"
+                #tools>
         <slot name="tools" />
       </template>
     </JefTitle>
@@ -140,6 +140,14 @@ export default defineComponent({
       }
     }
   },
+
+  unmounted() {
+    const store = this.store;
+    if (store) {
+      store.off('sort', this.onSortStore);
+    }
+  },
+
   methods: {
     getColumnBorder(index: number, column: IColumn) {
       // If we're at the very last column, don't add the default border right
@@ -205,13 +213,6 @@ export default defineComponent({
       }
       this.selectedRow = target.parentElement;
       this.selectedRow?.classList.add(TableCls.ACTIVE);
-    }
-  },
-
-  unmounted() {
-    const store = this.store;
-    if (store) {
-      store.off('sort', this.onSortStore);
     }
   }
 });

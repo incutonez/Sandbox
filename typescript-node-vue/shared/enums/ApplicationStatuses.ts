@@ -1,4 +1,4 @@
-export default Object.freeze({
+export const ApplicationStatuses = Object.freeze({
   NOT_STARTED: 0,
   SUBMITTED: 1,
   INTERVIEWING: 2,
