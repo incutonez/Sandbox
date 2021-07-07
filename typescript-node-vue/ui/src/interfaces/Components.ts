@@ -15,4 +15,4 @@ export type IRouteParams = RouteParams;
 export type IEventKeyboard = KeyboardEvent;
 export type IEventMouse = MouseEvent;
 export type IElementAttribute = boolean | null;
-export type IValueAttribute = string | number | boolean | null;
+export type IFieldValue = string | number | boolean | unknown | null;

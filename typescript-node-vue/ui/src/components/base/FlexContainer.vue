@@ -164,19 +164,7 @@ export default defineComponent({
       direction = direction === FlexDirections.FIT ? FlexDirections.ROW : direction;
       // Horizontal layout
       // TODO: Rework so it's not so confusing?
-      if ([FlexDirections.ROW, FlexDirections.ROW_REVERSE].indexOf(direction) === -1) {
-        if (width) {
-          grow = 0;
-          shrink = 0;
-          basis = utilities.convertToPx(width);
-        }
-        if (height) {
-          opposite = `height: ${utilities.convertToPx(height)};`;
-          basis = basis || 'auto';
-        }
-      }
-      // Vertical layout
-      else {
+      if (utilities.contains([FlexDirections.ROW, FlexDirections.ROW_REVERSE], direction)) {
         if (height) {
           grow = 0;
           shrink = 0;
@@ -184,6 +172,18 @@ export default defineComponent({
         }
         if (width) {
           opposite = `width: ${utilities.convertToPx(width)};`;
+          basis = basis || 'auto';
+        }
+      }
+      // Vertical layout
+      else {
+        if (width) {
+          grow = 0;
+          shrink = 0;
+          basis = utilities.convertToPx(width);
+        }
+        if (height) {
+          opposite = `height: ${utilities.convertToPx(height)};`;
           basis = basis || 'auto';
         }
       }

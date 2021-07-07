@@ -48,6 +48,10 @@ export default defineComponent({
     iconOnly: {
       type: Boolean,
       default: false
+    },
+    height: {
+      type: [String, Number],
+      default: 25
     }
   },
   emits: [
@@ -63,7 +67,11 @@ export default defineComponent({
       if (margin) {
         margin = `margin: ${utilities.convertToPx(margin)};`;
       }
-      return `${margin}`;
+      let height = this.height;
+      if (height) {
+        height = `height: ${utilities.convertToPx(height)};`;
+      }
+      return `${margin} ${height}`;
     },
     cls() {
       const cls = ['jef-button'];
@@ -88,7 +96,6 @@ export default defineComponent({
        lang="scss">
 .jef-button {
   font-size: $button-font-size;
-  height: $button-height;
   padding: $button-padding;
 
   &:disabled {

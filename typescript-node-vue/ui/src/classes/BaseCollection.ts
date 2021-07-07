@@ -2,6 +2,7 @@ import utilities from '@/utilities';
 import IBaseCollection from '@/interfaces/IBaseCollection';
 import Base from '@/classes/Base';
 import IModel from '@/interfaces/IModel';
+import {IFieldValue} from '@/interfaces/Components';
 
 /**
  * For some reason, I can't get the module approach to work, so I hackily extend like this
@@ -70,13 +71,21 @@ class BaseCollection<T> extends Base(Array, ['Eventable']) {
     return this.length;
   }
 
-  findRecord(field: string, value: string | number | boolean): IModel | undefined {
+  findRecord(field: string, value: IFieldValue): IModel | undefined {
     for (let i = 0; i < this.count(); i++) {
       const record = this[i];
       if (record.get(field) === value) {
         return record;
       }
     }
+  }
+
+  collect(field: string): IFieldValue[] {
+    const data: IFieldValue[] = [];
+    this.forEach((record) => {
+      data.push(record.get(field));
+    });
+    return data;
   }
 }
 

@@ -28,11 +28,11 @@ import {FlexDirections} from '@/statics/Flex';
 import RegisterInjector, {IRegisterInjector} from '@/mixins/RegisterInjector';
 import EventsInjector, {IEventsInjector} from '@/mixins/EventsInjector';
 import utilities from '@/utilities';
-import {IElementAttribute, IValueAttribute} from '@/interfaces/Components';
+import {IElementAttribute, IFieldValue} from '@/interfaces/Components';
 
 interface IData extends IEventsInjector, IRegisterInjector {
   isField: boolean;
-  originalValue: string | number | boolean;
+  originalValue: IFieldValue;
   valid: boolean;
 }
 
@@ -67,7 +67,7 @@ export default defineComponent({
       default: true
     },
     modelValue: {
-      type: [String, Number, Boolean],
+      type: [String, Number, Boolean, Array],
       default: ''
     },
     label: {
@@ -126,10 +126,10 @@ export default defineComponent({
     },
     // Taken from https://v3.vuejs.org/guide/component-basics.html#using-v-model-on-components
     value: {
-      get(): IValueAttribute {
+      get(): IFieldValue {
         return this.modelValue;
       },
-      set(value: IValueAttribute) {
+      set(value: IFieldValue) {
         this.isValid();
         this.$emit('update:modelValue', utilities.isEmpty(value) && this.emptyValueAsNull ? null : value);
       }
@@ -167,7 +167,7 @@ export default defineComponent({
       return cls.join(' ');
     },
     isVerticalLayout(): boolean {
-      return [FlexDirections.ROW, FlexDirections.ROW_REVERSE].indexOf(this.layout) === -1;
+      return !utilities.contains([FlexDirections.ROW, FlexDirections.ROW_REVERSE], this.layout);
     },
     fieldContainerCls(): string {
       const cls = ['field-container', this.isVerticalLayout ? 'field-layout-vertical' : 'field-layout-horizontal'];

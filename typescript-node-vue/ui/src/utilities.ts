@@ -23,7 +23,7 @@ export default {
   isFunction: _.isFunction,
   isNumber: _.isNumber,
   isArray: _.isArray,
-  remove: _.remove,
+  remove: _.without,
   merge: _.merge,
   random: _.random,
   contains<T>(array: Array<T>, item: T) {

@@ -26,6 +26,13 @@
                     value-key="Id"
                     display-key="Name"
                     :store="companiesStore" />
+          <ComboBox v-model="viewRecord.Contacts"
+                    label="Contacts"
+                    value-key="Id"
+                    display-key="Name"
+                    association-key="Id"
+                    :multiselect="true"
+                    :store="contactsStore" />
         </FlexContainer>
         <JefGrid :store="viewRecord.Contacts"
                  :columns="contactsColumns"
@@ -61,6 +68,8 @@ import Store from '@/classes/Store';
 import Company from '@/models/Company';
 import IStore from '@/interfaces/IStore';
 import ICompany from '@/interfaces/ICompany';
+import IContact from '@/interfaces/IContact';
+import Contact from '@/models/Contact';
 
 export default defineComponent({
   name: 'ApplicationDetails',
@@ -78,7 +87,8 @@ export default defineComponent({
     height: string | number;
     width: string | number;
     loading: boolean;
-    companiesStore: IStore<ICompany>
+    companiesStore: IStore<ICompany>,
+    contactsStore: IStore<IContact>
   } {
     return {
       // Create a dummy record so binding is OK
@@ -87,6 +97,9 @@ export default defineComponent({
       width: '90%',
       loading: false,
       companiesStore: new Store(Company, {
+        autoLoad: true
+      }),
+      contactsStore: new Store(Contact, {
         autoLoad: true
       }),
       contactsColumns: [{
@@ -111,6 +124,7 @@ export default defineComponent({
           method: 'get'
         });
         this.viewRecord = viewRecord;
+        console.log(viewRecord);
       }
       catch (ex) {
         console.exception(ex);

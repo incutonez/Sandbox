@@ -137,6 +137,7 @@ export default defineComponent({
       try {
         await this.viewStore.load({
           url: 'api/contacts/search',
+          method: 'post',
           params: this.search
         });
       }

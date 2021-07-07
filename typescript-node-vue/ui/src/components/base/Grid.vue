@@ -55,6 +55,7 @@ import FlexContainer from '@/components/base/FlexContainer.vue';
 import LoadingMask from '@/components/base/LoadingMask.vue';
 import JefTitle from '@/components/base/Title.vue';
 import GridColumn from '@/classes/GridColumn';
+import utilities from '@/utilities';
 
 interface IData {
   TableCls: ITableCls;
@@ -151,7 +152,7 @@ export default defineComponent({
         // We have a sorter defined, so let's see if it exists in the store's sorters
         if (sorter) {
           // Column's sorter was removed, so let's update
-          column.isSorted = sorters.indexOf(sorter) !== -1;
+          column.isSorted = utilities.contains(sorters, sorter);
         }
         else if (column.columns) {
           this.syncColumnsSort(column.columns);

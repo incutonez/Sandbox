@@ -3,7 +3,7 @@ import IModel from '@/interfaces/IModel';
 import IAssociation from '@/interfaces/IAssociation';
 import Store from '@/classes/Store';
 import utilities from '@/utilities';
-import {IValueAttribute} from '@/interfaces/Components';
+import {IFieldValue} from '@/interfaces/Components';
 import IKeyValue from '@/interfaces/IKeyValue';
 
 export interface IAssociations {
@@ -79,7 +79,7 @@ class Model {
        * created... JavaScript requires that a field has an initialized value in order for it to exist...
        * maybe should come up with a separate "fields" object or something, as it's possible some interface
        * properties won't exist when the class is created, which would make getFields kind of useless? */
-      if (protectedFields.indexOf(field) !== -1) {
+      if (utilities.contains(protectedFields, field)) {
         continue;
       }
       const value = data[field];
@@ -113,7 +113,7 @@ class Model {
     }
   }
 
-  get(field: string): IValueAttribute {
+  get(field: string): IFieldValue {
     return Reflect.get(this, field);
   }
 
@@ -139,7 +139,7 @@ class Model {
     const protectedFields = this.protectedFields;
     const fields = Object.getOwnPropertyNames(this);
     return fields.filter((field) => {
-      return protectedFields.indexOf(field) === -1;
+      return !utilities.contains(protectedFields, field);
     });
   }
 
@@ -153,6 +153,11 @@ class Model {
 
   get url(): string {
     return this.proxy.url;
+  }
+
+  // Idea taken from https://stackoverflow.com/a/44782052/1253609
+  clone(): IModel {
+    return Object.assign(Object.create(Object.getPrototypeOf(this)), this);
   }
 
   // TODO: Potentially loop through associations and figure this out?

@@ -50,8 +50,8 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    selectedRecord: {
-      type: Object as PropType<IModel>,
+    selectedRecords: {
+      type: Object as PropType<IModel[]>,
       default: null
     }
   },
@@ -91,7 +91,7 @@ export default defineComponent({
   methods: {
     getItemCls(record: IModel): string {
       const cls = ['list-item'];
-      if (record === this.selectedRecord) {
+      if (utilities.contains(this.selectedRecords, record)) {
         cls.push('highlight');
       }
       return cls.join(' ');

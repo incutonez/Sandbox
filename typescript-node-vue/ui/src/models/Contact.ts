@@ -10,10 +10,7 @@ interface Contact extends IContact {
 class Contact extends Model {
   static proxy = {
     url: 'api/contacts',
-    type: 'ajax',
-    methods: {
-      get: 'post'
-    }
+    type: 'ajax'
   };
 
   get associations(): IAssociations | null {

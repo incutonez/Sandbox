@@ -1,5 +1,5 @@
 import Proxy from '@/classes/Proxy';
-import {IValueAttribute} from '@/interfaces/Components';
+import {IFieldValue} from '@/interfaces/Components';
 import IKeyValue from '@/interfaces/IKeyValue';
 
 export default interface IModel {
@@ -16,5 +16,7 @@ export default interface IModel {
 
   set(field: any, data?: any): void;
 
-  get(field: string): IValueAttribute;
+  get(field: string): IFieldValue;
+
+  clone(): IModel;
 }

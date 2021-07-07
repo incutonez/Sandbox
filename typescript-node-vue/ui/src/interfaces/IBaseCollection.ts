@@ -1,3 +1,5 @@
+import {IFieldValue} from '@/interfaces/Components';
+
 export default interface IBaseCollection<T> {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
   type: new (data: any) => T;
@@ -9,4 +11,6 @@ export default interface IBaseCollection<T> {
   first(): T;
 
   last(): T;
+
+  collect(field: string): IFieldValue[];
 }
