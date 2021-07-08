@@ -4,7 +4,7 @@ import IAssociation from '@/interfaces/IAssociation';
 import Store from '@/classes/Store';
 import utilities from '@/utilities';
 import {IFieldValue} from '@/interfaces/Components';
-import IKeyValue from '@/interfaces/IKeyValue';
+import IKeyValue from '@jef/shared/interfaces/IKeyValue';
 
 export interface IAssociations {
   [key: string]: IAssociation;

@@ -1,0 +1,21 @@
+{
+  "name": "@jef/shared",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "tsc -b -w"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 11,
+      "sourceType": "module"
+    }
+  },
+  "devDependencies": {
+    "typescript": "^4.3.5"
+  }
+}

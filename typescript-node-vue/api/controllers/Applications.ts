@@ -45,7 +45,7 @@ export default (router: Router) => {
     try {
       const manager = getRepository(Application);
       await manager.save(req.body);
-      return res.send(Statuses.HTTP_STATUS_NO_CONTENT);
+      return res.sendStatus(Statuses.HTTP_STATUS_NO_CONTENT);
     }
     catch (ex) {
       return res.send(ex);

@@ -3,7 +3,7 @@ import {AxiosResponse} from 'axios';
 import Collection from '@/classes/Collection';
 import IStore from '@/interfaces/IStore';
 import utilities from '@/utilities';
-import IKeyValue from '@/interfaces/IKeyValue';
+import IKeyValue from '@jef/shared/interfaces/IKeyValue';
 
 /**
  * This is a little tricky... we extend our IStore as an interface, and then we can use a class to extend

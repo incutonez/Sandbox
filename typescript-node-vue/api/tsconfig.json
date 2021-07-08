@@ -10,13 +10,20 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "emitDecoratorMetadata": true,
+    "rootDir": ".",
     "outDir": "./dist",
+    "baseUrl": ".",
     "lib": [
       "ES2020"
-    ]
+    ],
+    "paths": {
+      "@shared/*": [
+        "../node_modules/@jef/shared/dist/*"
+      ]
+    }
   },
   "exclude": [
     "node_modules",
-    "ui"
+    "dist"
   ]
 }

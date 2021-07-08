@@ -51,9 +51,9 @@ import Formatters from '@/statics/Formatters';
 import FlexContainer from '@/components/base/FlexContainer.vue';
 import JefButton from '@/components/base/Button.vue';
 import IColumn from '@/interfaces/IColumn';
-import IKeyValue from '@/interfaces/IKeyValue';
 import {IFieldValue} from '@/interfaces/Components';
 import IModel from '@/interfaces/IModel';
+import IKeyValue from '@jef/shared/interfaces/IKeyValue';
 
 type IFormatter = (value: IFieldValue, record: IModel) => {}
 

@@ -6,16 +6,16 @@ import {
   FlexWraps,
   TextAlignments
 } from '@/statics/Flex';
-import IKeyValue from '@/interfaces/IKeyValue';
 import Icons, {IIcons} from '@/statics/Icons';
 import utilities from '@/utilities';
 import Proxy from '@/classes/Proxy';
 import Store from '@/classes/Store';
 import Enum from '@/models/Enum';
-import {PositionTypes} from '../../shared/enums/PositionTypes';
-import {ApplicationStatuses} from '../../shared/enums/ApplicationStatuses';
+import {PositionTypes} from '@jef/shared/enums/PositionTypes';
+import {ApplicationStatuses} from '@jef/shared/enums/ApplicationStatuses';
 import IStore from '@/interfaces/IStore';
 import IEnum from '@/interfaces/IEnum';
+import IKeyValue from '@jef/shared/interfaces/IKeyValue';
 
 interface IEnums {
   ApplicationStatuses: IStore<IEnum> & typeof ApplicationStatuses;

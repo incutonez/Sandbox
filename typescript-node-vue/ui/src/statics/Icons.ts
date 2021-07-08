@@ -1,4 +1,4 @@
-import IKeyValue from '@/interfaces/IKeyValue';
+import IKeyValue from '@jef/shared/interfaces/IKeyValue';
 
 const FA = 'fa';
 const Icons = {

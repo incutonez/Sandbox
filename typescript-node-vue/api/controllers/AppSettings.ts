@@ -1,8 +1,8 @@
 import {Request, Response, Router} from 'express';
-import {PositionTypes} from '../shared/enums/PositionTypes.js';
-import {ApplicationStatuses} from '../shared/enums/ApplicationStatuses.js';
-import IKeyValue from '../ui/src/interfaces/IKeyValue.js';
-import IEnum from '../ui/src/interfaces/IEnum.js';
+import IKeyValue from '@jef/shared/dist/interfaces/IKeyValue.js';
+import {PositionTypes} from '@jef/shared/dist/enums/PositionTypes.js';
+import {ApplicationStatuses} from '@jef/shared/dist/enums/ApplicationStatuses.js';
+import IEnum from '@jef/shared/dist/interfaces/IEnum.js';
 
 const Enums: IKeyValue = {
   PositionTypes,

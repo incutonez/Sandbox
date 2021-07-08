@@ -1,8 +1,8 @@
 import Icons from '@/statics/Icons';
 import Styles from '@/statics/Styles';
 import utilities from '@/utilities';
-import IKeyValue from '@/interfaces/IKeyValue';
 import {IFieldValue} from '@/interfaces/Components';
+import IKeyValue from '@jef/shared/interfaces/IKeyValue';
 
 interface IProps {
   iconName: string;

@@ -1,4 +1,4 @@
-export const ApplicationStatuses = Object.freeze({
+export const ApplicationStatuses = {
   NOT_STARTED: 0,
   SUBMITTED: 1,
   INTERVIEWING: 2,
@@ -6,4 +6,4 @@ export const ApplicationStatuses = Object.freeze({
   GHOSTED: 4,
   NOT_ACCEPTED: 5,
   ACCEPTED: 6
-});
+};
