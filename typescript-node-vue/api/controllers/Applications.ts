@@ -9,6 +9,17 @@ import {constants as Statuses} from 'http2';
 const RoutePrefix = '/applications';
 
 export default (router: Router) => {
+  router.get(RoutePrefix, async (req: Request, res: Response) => {
+    try {
+      const manager = getManager();
+      const results = await manager.find(Application);
+      return res.send(results);
+    }
+    catch (ex) {
+      return res.send(ex);
+    }
+  });
+
   router.post(`${RoutePrefix}/search`, async (req: Request, res: Response) => {
     try {
       const manager = getManager();
@@ -24,6 +35,7 @@ export default (router: Router) => {
       return res.send(ex);
     }
   });
+
   router.get(`${RoutePrefix}/:Id`, async (req: Request, res: Response) => {
     try {
       const manager = getManager();
@@ -41,6 +53,7 @@ export default (router: Router) => {
       return res.send(ex);
     }
   });
+
   router.put(`${RoutePrefix}/:Id`, async (req: Request, res: Response) => {
     try {
       const manager = getRepository(Application);

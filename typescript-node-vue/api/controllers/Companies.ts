@@ -21,6 +21,18 @@ export default (router: Router) => {
       return res.send(ex);
     }
   });
+
+  router.post(RoutePrefix, async (req: Request, res: Response) => {
+    try {
+      const repo = getRepository(Company);
+      await repo.save(req.body);
+      return res.sendStatus(StatusCodes.CREATED);
+    }
+    catch (ex) {
+      res.send(ex);
+    }
+  });
+
   router.post(`${RoutePrefix}/search`, async (req: Request, res: Response) => {
     try {
       const connection = getRepository(Company);
@@ -41,17 +53,29 @@ export default (router: Router) => {
       return res.send(ex);
     }
   });
+
   router.get(`${RoutePrefix}/:Id`, async (req: Request, res: Response) => {
     try {
       const connection = getConnection();
       const params = new GetRequest(req.params);
       const found = await connection.manager.findOne(Company, params.Id, {
-        relations: ['Contacts']
+        relations: ['Contacts', 'Applications']
       });
       if (found) {
         return res.send(found);
       }
       return res.sendStatus(StatusCodes.NOT_FOUND);
+    }
+    catch (ex) {
+      return res.send(ex);
+    }
+  });
+
+  router.put(`${RoutePrefix}/:Id`, async (req: Request, res: Response) => {
+    try {
+      const table = getRepository(Company);
+      await table.save(req.body);
+      return res.sendStatus(StatusCodes.NO_CONTENT);
     }
     catch (ex) {
       return res.send(ex);

@@ -37,8 +37,8 @@
         </template>
       </JefGrid>
     </FlexContainer>
+    <RouterView />
   </FlexContainer>
-  <RouterView />
 </template>
 
 <script lang="ts">
@@ -59,6 +59,8 @@ import IApplication from '@/interfaces/IApplication';
 import Formatters from '@/statics/Formatters';
 import Icons from '@/statics/Icons';
 import {IFieldValue} from '@/interfaces/Components';
+import ChildRoute from '@/mixins/ChildRoute';
+import Company from '@/models/Company';
 
 export default defineComponent({
   name: 'ApplicationsSearch',
@@ -71,9 +73,16 @@ export default defineComponent({
     FlexContainer,
     JefGrid
   },
+  mixins: [
+    ChildRoute
+  ],
+
   data() {
     return {
       viewStore: new Store(Application),
+      baseRoutes: [
+        'applicationSearch'
+      ],
       search: {
         Position: null,
         PositionType: null,
@@ -86,7 +95,7 @@ export default defineComponent({
         type: ColumnTypes.Expander,
         width: 24,
         align: FlexAlignments.CENTER,
-        formatter(value: boolean, record: ICompany) {
+        formatter(value: boolean, record: Company) {
           return record.showExpander();
         }
       }, {
@@ -177,14 +186,6 @@ export default defineComponent({
       }]
     };
   },
-  computed: {
-    hasChildRoute(): boolean {
-      return this.$route.matched.some(({name}) => name === 'applicationDetails');
-    },
-    mainCls(): string {
-      return this.hasChildRoute ? 'route-enabled' : '';
-    }
-  },
 
   async created() {
     if (!this.hasChildRoute) {
@@ -197,6 +198,7 @@ export default defineComponent({
       try {
         await this.viewStore.load({
           url: `${this.viewStore.url}/search`,
+          method: 'post',
           params: this.search
         });
       }

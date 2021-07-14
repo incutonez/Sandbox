@@ -39,6 +39,7 @@ class Store<T> extends Collection<T> {
   async load(config?: any): Promise<void> {
     this.loading = true;
     try {
+      config = config || {};
       const Response: AxiosResponse | undefined = await this.proxy.load(config);
       this.clear();
       this.add(Response?.data);

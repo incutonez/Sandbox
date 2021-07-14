@@ -91,12 +91,12 @@ export default defineComponent({
   },
 
   data(): {
-    viewRecord: IApplication;
+    viewRecord: Application;
     contactsColumns: IColumn[];
     height: string | number;
     width: string | number;
     loading: boolean;
-    companiesStore: IStore<ICompany>,
+    companiesStore: Store<Company>,
     contactsStore: IStore<IContact>
   } {
     return {
@@ -129,7 +129,7 @@ export default defineComponent({
       return this.loading;
     },
     selectedCompany: {
-      get(): number | undefined {
+      get(): number | null {
         const company = this.viewRecord.Company;
         return company && company.Id;
       },

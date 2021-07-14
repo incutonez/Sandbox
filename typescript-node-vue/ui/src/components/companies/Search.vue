@@ -32,12 +32,21 @@
                title="Companies"
                :multi-sort="true">
         <template #tools>
+          <JefField label="Search"
+                    margin="0 5px 0 0"
+                    :labelWidth="65"
+                    :width="250" />
+          <JefButton :icon="Icons.PLUS"
+                     text="Company"
+                     margin="0 5px 0 0"
+                     @click="onClickAddCompany" />
           <JefButton :icon="Icons.REFRESH"
                      :icon-only="true"
                      @click="onClickRefreshButton" />
         </template>
       </JefGrid>
     </FlexContainer>
+    <RouterView />
   </FlexContainer>
 </template>
 
@@ -55,6 +64,9 @@ import SearchForm from '@/components/base/SearchForm.vue';
 import JefButton from '@/components/base/Button.vue';
 import Company from '@/models/Company';
 import ICompany from '@/interfaces/ICompany';
+import ChildRoute from '@/mixins/ChildRoute';
+import {IFieldValue} from '@/interfaces/Components';
+import Icons from '@/statics/Icons';
 
 export default defineComponent({
   name: 'CompaniesSearch',
@@ -67,9 +79,16 @@ export default defineComponent({
     FlexContainer,
     JefGrid
   },
+  mixins: [
+    ChildRoute
+  ],
+
   data() {
     return {
       viewStore: new Store(Company),
+      baseRoutes: [
+        'companySearch'
+      ],
       search: {
         Name: 'town',
         CreateDate: null,
@@ -83,8 +102,35 @@ export default defineComponent({
         type: ColumnTypes.Expander,
         width: 24,
         align: TextAlignments.CENTER,
-        formatter: function(value: boolean, record: ICompany) {
+        formatter: function(value: boolean, record: Company) {
           return record.showExpander();
+        }
+      }, {
+        type: ColumnTypes.Action,
+        width: 65,
+        formatter: (value: IFieldValue, record: Company) => {
+          const editAction = Icons.getActionIcon({
+            icon: Icons.EDIT,
+            handlers: {
+              click: () => {
+                this.$router.push({
+                  name: 'companyDetails',
+                  params: {
+                    Id: record.Id
+                  }
+                });
+              }
+            }
+          });
+          const deleteAction = Icons.getActionIcon({
+            icon: Icons.DELETE,
+            handlers: {
+              click: () => {
+                // TODO: impl
+              }
+            }
+          });
+          return [editAction, deleteAction];
         }
       }, {
         text: 'Id',
@@ -163,9 +209,17 @@ export default defineComponent({
         console.exception(ex);
       }
     },
+
+    onClickAddCompany() {
+      this.$router.push({
+        name: 'companyCreate'
+      });
+    },
+
     onClickRefreshButton() {
       this.loadViewStore();
     },
+
     onClickSearchBtn() {
       this.loadViewStore();
     }

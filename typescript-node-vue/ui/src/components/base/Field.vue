@@ -210,7 +210,10 @@ export default defineComponent({
 <style lang="scss">
 .field-container {
   margin: $field-margin-top $field-margin-right $field-margin-bottom $field-margin-left;
-  flex-basis: $field-height !important;
+
+  &.flex-container {
+    min-width: 200px;
+  }
 
   .field-input {
     height: $field-height;
@@ -226,6 +229,14 @@ export default defineComponent({
     font-weight: $field-label-font-weight;
     line-height: $field-height;
     @include ellipsize();
+  }
+
+  .jef-title & .field-label {
+    color: $color-blue-lightest;
+  }
+
+  .jef-title & {
+    background-color: transparent !important;
   }
 
   &.field-layout-horizontal {

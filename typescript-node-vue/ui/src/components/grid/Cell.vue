@@ -171,9 +171,8 @@ export default defineComponent({
       if (!this.column.isAction()) {
         cls.push('grid-cell');
       }
-      /* Right now, if we have an object, or we're at the first item, we don't consider this content to be expandable
-       * May want to extend this idea in the future to allow the value object to determine that */
-      if (!(utilities.isObject(value) || index === 0)) {
+      // If we have more than 1 item, this is considered to be an expanded row
+      if (index !== 0) {
         cls.push('expandable');
       }
       return cls.join(' ');

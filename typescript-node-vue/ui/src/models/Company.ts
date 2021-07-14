@@ -1,17 +1,45 @@
-import ICompany from '@/interfaces/ICompany';
-import Model, {IAssociations} from '@/classes/Model';
 import Contact from '@/models/Contact';
 import Application from '@/models/Application';
+import Store from '@/classes/Store';
+import Model from '@/classes/Model';
+import {IAssociations} from '@/interfaces/IAssociation';
+
+interface ICompany {
+  Id: number;
+  Name: string;
+  IsRecruitment: boolean;
+  CreateDate: Date;
+  Contacts: Store<Contact>;
+  Applications: Store<Application>;
+}
 
 interface Company extends ICompany {
-
 }
 
 class Company extends Model {
   static proxy = {
     url: 'api/companies',
-    type: 'ajax'
+    type: 'rest'
   };
+
+  saveExclude = {
+    Applications: {
+      Position: true,
+      PositionType: true,
+      Link: true,
+      CreateDate: true,
+      Contacts: true
+    },
+    Contacts: {
+      Email: true,
+      IsRecruiter: true,
+      Name: true
+    }
+  };
+
+  get fields() {
+    return ['Id', 'Name', 'IsRecruitment', 'CreateDate', 'Contacts', 'Applications'];
+  }
 
   get associations(): IAssociations | null {
     return {

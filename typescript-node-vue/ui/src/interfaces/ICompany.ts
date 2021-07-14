@@ -1,15 +1,5 @@
-import IContact from '@/interfaces/IContact';
-import IApplication from '@/interfaces/IApplication';
-import IStore from '@/interfaces/IStore';
-import IModel from '@/interfaces/IModel';
+import Company from '@/models/Company';
 
-interface ICompany extends IModel {
-  Id: number;
-  Name: string;
-  IsRecruitment: boolean;
-  CreateDate: Date;
-  Contacts: IStore<IContact>;
-  Applications: IStore<IApplication>;
-}
+type ICompany = keyof Company;
 
 export default ICompany;

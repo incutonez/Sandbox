@@ -47,7 +47,6 @@ import Store from '@/classes/Store';
 import {TableCls} from '@/statics/TableCls';
 import ITableCls from '@/interfaces/ITableCls';
 import IColumn from '@/interfaces/IColumn';
-import Model from '@/classes/Model';
 import JefGridCell from '@/components/grid/Cell.vue';
 import JefGridColumn from '@/components/grid/Column.vue';
 import Sorter from '@/classes/Sorter';
@@ -56,6 +55,7 @@ import LoadingMask from '@/components/base/LoadingMask.vue';
 import JefTitle from '@/components/base/Title.vue';
 import GridColumn from '@/classes/GridColumn';
 import utilities from '@/utilities';
+import Model from '@/classes/Model';
 
 interface IData {
   TableCls: ITableCls;

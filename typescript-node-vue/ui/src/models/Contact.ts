@@ -1,7 +1,8 @@
-import Model, {IAssociations} from '@/classes/Model';
 import IContact from '@/interfaces/IContact';
 import Company from '@/models/Company';
 import Application from '@/models/Application';
+import Model from '@/classes/Model';
+import {IAssociations} from '@/interfaces/IAssociation';
 
 interface Contact extends IContact {
 
@@ -13,7 +14,11 @@ class Contact extends Model {
     type: 'ajax'
   };
 
-  get associations(): IAssociations | null {
+  get fields() {
+    return ['Id', 'Name', 'IsRecruiter', 'Email', 'Company', 'Application'];
+  }
+
+  get associations(): IAssociations {
     return {
       Company: {
         type: 'model',

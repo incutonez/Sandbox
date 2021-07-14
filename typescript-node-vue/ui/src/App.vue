@@ -80,7 +80,7 @@ body {
     grid-area: b;
   }
 
-  .route-enabled {
+  .route-enabled > *:not(.jef-window) {
     opacity: 0.5;
 
     * {

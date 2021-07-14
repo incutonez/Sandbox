@@ -6,6 +6,7 @@ export default interface IModel {
   proxy: Proxy;
   isModel: boolean;
   idKey: string;
+  exists: boolean;
   saveExclude?: IKeyValue;
 
   showExpander(): boolean;
@@ -15,6 +16,8 @@ export default interface IModel {
   save(config?: any): Promise<void>;
 
   set(field: any, data?: any): void;
+
+  setAll(data: any): void;
 
   get(field: string): IFieldValue;
 

@@ -3,13 +3,11 @@
                  :direction="layout"
                  cmp="label"
                  :class="fieldContainerCls">
-    <FlexContainer v-if="showLabel"
-                   class="field-label"
-                   cmp="label"
-                   :width="labelWidth"
-                   :align="FlexAlignments.CENTER">
+    <span v-if="showLabel"
+          class="field-label"
+          :style="labelStyle">
       {{ label }}{{ labelSeparator }}
-    </FlexContainer>
+    </span>
     <label class="field-input-container">
       <input v-model="value"
              :class="`${fieldInputCls} field-input-checkbox`"
@@ -53,56 +51,62 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.field-input-container {
-  display: block;
-  cursor: pointer;
-  margin-top: $checkbox-margin-top;
-  height: $checkbox-height;
-  position: relative;
-
-  // Hiding browser's default checkbox, as it's impossible to style
-  .field-input-checkbox {
-    display: none;
+.field-container {
+  // TODO: Is there a cuter way of combining this with below?
+  &:not(.field-layout-vertical) .field-input-container {
+    margin-top: $checkbox-margin-top;
   }
 
-  // Creating a "shadow" checkbox through a span and ::before styling
-  .field-checkbox {
-    display: inline-block;
-    border: $field-input-border;
+  .field-input-container {
+    display: block;
+    cursor: pointer;
     height: $checkbox-height;
-    width: $checkbox-width;
-    padding: $checkbox-padding;
-  }
+    position: relative;
 
-  .field-required ~ .field-checkbox {
-    border-color: $field-input-border-color-required;
-  }
+    // Hiding browser's default checkbox, as it's impossible to style
+    .field-input-checkbox {
+      display: none;
+    }
 
-  .field-checkbox:hover {
-    background-color: lighten($field-input-border-color, 25%);
-  }
+    // Creating a "shadow" checkbox through a span and ::before styling
+    .field-checkbox {
+      display: inline-block;
+      border: $field-input-border;
+      height: $checkbox-height;
+      width: $checkbox-width;
+      padding: $checkbox-padding;
+    }
 
-  .field-input-checkbox:checked ~ .field-checkbox {
-    background-color: $checkbox-background-color-checked;
-    border-color: $checkbox-background-color-checked;
-  }
+    .field-required ~ .field-checkbox {
+      border-color: $field-input-border-color-required;
+    }
 
-  .field-input-checkbox:checked ~ .field-checkbox::before {
-    content: $checkbox-icon;
-    position: absolute;
-    line-height: 100%;
-    font-size: $checkbox-icon-size;
-    width: $checkbox-icon-size;
-    height: $checkbox-icon-size;
-    text-align: center;
-    font-weight: 600;
-    color: $checkbox-color-checked;
-  }
+    .field-checkbox:hover {
+      background-color: lighten($field-input-border-color, 25%);
+    }
 
-  .field-checkbox-label {
-    position: absolute;
-    margin-left: 5px;
-    font-size: $checkbox-icon-size;
+    .field-input-checkbox:checked ~ .field-checkbox {
+      background-color: $checkbox-background-color-checked;
+      border-color: $checkbox-background-color-checked;
+    }
+
+    .field-input-checkbox:checked ~ .field-checkbox::before {
+      content: $checkbox-icon;
+      position: absolute;
+      line-height: 100%;
+      font-size: $checkbox-icon-size;
+      width: $checkbox-icon-size;
+      height: $checkbox-icon-size;
+      text-align: center;
+      font-weight: 600;
+      color: $checkbox-color-checked;
+    }
+
+    .field-checkbox-label {
+      position: absolute;
+      margin-left: 5px;
+      font-size: $checkbox-icon-size;
+    }
   }
 }
 </style>
