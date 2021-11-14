@@ -10,7 +10,7 @@
     "@fontsource/open-sans": "^4.4.5",
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@jef/shared": "^1.0.0",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "bootstrap": "^5.0.1",
     "core-js": "^3.6.5",
     "lodash": "^4.17.21",
