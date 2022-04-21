@@ -1,0 +1,24 @@
+{
+  "name": "zeldaworldbuilder",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "api": "cd api && npm start",
+    "ui": "cd ui && npm start"
+  },
+  "author": "incutonez",
+  "license": "ISC",
+  "workspaces": [
+    "api",
+    "ui"
+  ],
+  "devDependencies": {
+    "eslint": "^8.13.0",
+    "eslint-plugin-import": "^2.26.0"
+  },
+  "dependencies": {
+    "@incutonez/core": "file:../../core"
+  }
+}

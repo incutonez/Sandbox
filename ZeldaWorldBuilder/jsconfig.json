@@ -1,0 +1,13 @@
+﻿{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "api/*": [
+        "./api/*"
+      ],
+      "ui/*": [
+        "./ui/src/*"
+      ]
+    }
+  }
+}
