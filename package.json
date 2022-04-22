@@ -23,7 +23,9 @@
     "eslint-plugin-import": "^2.26.0"
   },
   "workspaces": [
+    "ZeldaWorldBuilder/api",
     "ZeldaWorldBuilder/ui",
-    "ZeldaWorldBuilder/api"
+    "CompanyContacts/api",
+    "CompanyContacts/ui"
   ]
 }

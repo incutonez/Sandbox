@@ -8,25 +8,25 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@jef/shared": "^1.0.0",
-    "concurrently": "^6.1.0",
+    "@jef/shared": "file:../shared",
+    "concurrently": "^7.1.0",
     "cors": "^2.8.5",
-    "dotenv": "^9.0.2",
-    "express": "^4.17.1",
-    "http-status-codes": "^2.1.4",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "http-status-codes": "^2.2.0",
     "ip": "^1.1.5",
     "lodash": "^4.17.21",
-    "reflect-metadata": "^0.1.10",
-    "sqlite3": "^5.0.2",
-    "typeorm": "0.2.34"
+    "reflect-metadata": "^0.1.13",
+    "sqlite3": "^5.0.4",
+    "typeorm": "0.3.6"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.10",
+    "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/ip": "^1.1.0",
-    "@types/lodash": "^4.14.170",
-    "@types/node": "^16.0.1",
-    "nodemon": "^2.0.7",
-    "typescript": "^4.3.5"
+    "@types/lodash": "^4.14.182",
+    "@types/node": "^17.0.25",
+    "nodemon": "^2.0.15",
+    "typescript": "^4.6.3"
   }
 }

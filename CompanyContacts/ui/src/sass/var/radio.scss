@@ -1,4 +1,5 @@
-$radio-icon-size: $checkbox-width / 2 - $checkbox-padding;
-$radio-icon-left: $radio-icon-size / 2 + $checkbox-padding;
+@use "sass:math";
+$radio-icon-size: math.div($checkbox-width, 2) - $checkbox-padding;
+$radio-icon-left: math.div($radio-icon-size, 2) + $checkbox-padding;
 $radio-border-radius: 50%;
 $radio-border-radius-icon: $radio-border-radius;

@@ -81,3 +81,7 @@ function playlistGta($playlist) {
     }
   }
 }
+
+function upgradeApp() {
+  npx npm-check-updates -u
+}
