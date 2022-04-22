@@ -1,5 +1,5 @@
-import {Component, defineComponent} from 'vue';
-import utilities from '@/utilities';
+import { Component, defineComponent } from "vue";
+import utilities from "ui/utilities";
 
 /**
  * This class is used when you need to provide registering child components on this component.  The child
@@ -13,12 +13,12 @@ export default defineComponent({
       },
       unregister: (field: Component) => {
         utilities.remove(this.children, field);
-      }
+      },
     };
   },
   data() {
     return {
-      children: [] as Component[]
+      children: [] as Component[],
     };
-  }
+  },
 });

@@ -1,20 +1,26 @@
 <template>
-  <FlexContainer v-bind="$props"
-                 :direction="layout"
-                 cmp="label"
-                 :class="fieldContainerCls">
-    <span v-if="showLabel"
-          class="field-label"
-          :style="labelStyle">
+  <FlexContainer
+    v-bind="$props"
+    :direction="layout"
+    cmp="label"
+    :class="fieldContainerCls"
+  >
+    <span
+      v-if="showLabel"
+      class="field-label"
+      :style="labelStyle"
+    >
       {{ label }}{{ labelSeparator }}
     </span>
     <label class="field-input-container">
-      <input v-model="value"
-             :class="`${fieldInputCls} field-input-checkbox`"
-             :type="type"
-             :required="isRequired"
-             :disabled="isDisabled"
-             :readonly="isReadOnly">
+      <input
+        v-model="value"
+        :class="`${fieldInputCls} field-input-checkbox`"
+        :type="type"
+        :required="isRequired"
+        :disabled="isDisabled"
+        :readonly="isReadOnly"
+      >
       <span :class="`field-checkbox ${fieldCls}`" />
       <span class="field-checkbox-label">
         {{ boxLabel }}
@@ -27,26 +33,26 @@
 /**
  * @prototype https://jsfiddle.net/incutonez/xtfus12w/
  */
-import {defineComponent} from 'vue';
-import Field from './Field';
+import { defineComponent } from "vue";
+import Field from "./Field.vue";
 
 export default defineComponent({
-  name: 'JefCheckbox',
+  name: "JefCheckbox",
   extends: Field,
   props: {
     fieldCls: {
       type: String,
-      default: ''
+      default: "",
     },
     boxLabel: {
       type: String,
-      default: ''
+      default: "",
     },
     type: {
       type: String,
-      default: 'checkbox'
-    }
-  }
+      default: "checkbox",
+    },
+  },
 });
 </script>
 

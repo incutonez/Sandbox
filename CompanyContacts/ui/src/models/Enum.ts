@@ -1,5 +1,5 @@
-import IEnum from '@/interfaces/IEnum';
-import Model from '@/classes/Model';
+import IEnum from "ui/interfaces/IEnum";
+import Model from "ui/classes/Model";
 
 interface Enum extends IEnum {
 
@@ -7,7 +7,7 @@ interface Enum extends IEnum {
 
 class Enum extends Model {
   static proxy = {
-    type: 'memory'
+    type: "memory",
   };
 
   get fields() {

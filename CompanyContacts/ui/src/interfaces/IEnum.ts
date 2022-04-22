@@ -1,4 +1,4 @@
-import IModel from '@/interfaces/IModel';
+import IModel from "ui/interfaces/IModel";
 
 export default interface IEnum {
   Key: string;

@@ -1,62 +1,62 @@
 <template>
-  <button :type="type"
-          :disabled="isDisabled"
-          :class="cls"
-          :style="style"
-          @click="onClickButton">
-    <Icon class="jef-button-icon"
-          :icon-name="icon" />
+  <button
+    :type="type"
+    :disabled="isDisabled"
+    :class="cls"
+    :style="style"
+    @click="onClickButton"
+  >
+    <Icon
+      class="jef-button-icon"
+      :icon-name="icon"
+    />
     {{ text }}
   </button>
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
-import utilities from '@/utilities';
-import Icon from '@/components/Icon.vue';
-import Hideable from '@/mixins/Hideable';
+import { defineComponent } from "vue";
+import utilities from "ui/utilities";
+import Icon from "ui/components/Icon.vue";
+import Hideable from "ui/mixins/Hideable";
 
 export default defineComponent({
-  name: 'JefButton',
+  name: "JefButton",
   components: {
-    Icon
+    Icon,
   },
-  mixins: [
-    Hideable
-  ],
+  mixins: [Hideable],
   props: {
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     text: {
       type: String,
-      default: ''
+      default: "",
     },
     icon: {
       type: String,
-      default: null
+      default: null,
     },
     type: {
       type: String,
-      default: 'button'
+      default: "button",
     },
     margin: {
       type: [Number, String],
-      default: ''
+      default: "",
     },
     iconOnly: {
       type: Boolean,
-      default: false
+      default: false,
     },
     height: {
       type: [String, Number],
-      default: 25
-    }
+      default: 25,
+    },
   },
-  emits: [
-    'click'
-  ],
+  emits: ["click"],
   computed: {
     style(): string {
       const hidden = this.hiddenStyle;
@@ -74,21 +74,21 @@ export default defineComponent({
       return `${margin} ${height}`;
     },
     cls() {
-      const cls = ['jef-button'];
+      const cls = ["jef-button"];
       if (this.iconOnly) {
-        cls.push('jef-button-icon-only');
+        cls.push("jef-button-icon-only");
       }
-      return cls.join(' ');
+      return cls.join(" ");
     },
     isDisabled(): boolean | null {
       return this.disabled || null;
-    }
+    },
   },
   methods: {
     onClickButton(event: KeyboardEvent) {
-      this.$emit('click', this, event);
-    }
-  }
+      this.$emit("click", this, event);
+    },
+  },
 });
 </script>
 

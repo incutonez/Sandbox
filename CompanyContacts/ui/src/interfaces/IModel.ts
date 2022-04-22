@@ -1,6 +1,6 @@
-import Proxy from '@/classes/Proxy';
-import {IFieldValue} from '@/interfaces/Components';
-import IKeyValue from '@jef/shared/interfaces/IKeyValue';
+import Proxy from "ui/classes/Proxy";
+import { IFieldValue } from "ui/interfaces/Components";
+import IKeyValue from "@jef/shared/interfaces/IKeyValue";
 
 export default interface IModel {
   proxy: Proxy;

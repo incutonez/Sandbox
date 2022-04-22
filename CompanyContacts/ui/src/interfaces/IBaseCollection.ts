@@ -1,4 +1,4 @@
-import {IFieldValue} from '@/interfaces/Components';
+import { IFieldValue } from "ui/interfaces/Components";
 
 export default interface IBaseCollection<T> {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any

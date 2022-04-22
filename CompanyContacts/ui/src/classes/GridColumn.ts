@@ -1,8 +1,8 @@
-import ColumnTypes from '@/statics/ColumnTypes';
-import utilities from '@/utilities';
-import {FlexDirections, FlexJustifications, TextAlignments} from '@/statics/Flex';
-import IColumn from '@/interfaces/IColumn';
-import Sorter from '@/classes/Sorter';
+import ColumnTypes from "ui/statics/ColumnTypes";
+import utilities from "ui/utilities";
+import { FlexDirections, FlexJustifications, TextAlignments } from "ui/statics/Flex";
+import IColumn from "ui/interfaces/IColumn";
+import Sorter from "ui/classes/Sorter";
 
 interface GridColumn extends IColumn {
 
@@ -10,9 +10,9 @@ interface GridColumn extends IColumn {
 
 class GridColumn {
   type = ColumnTypes.String;
-  text = '';
+  text = "";
   cls = [];
-  field = '';
+  field = "";
   isAssociation = false;
   isParent = false;
   sortable = true;
@@ -24,8 +24,8 @@ class GridColumn {
   basis = 0;
   width = 0;
   hidden = false;
-  border = 'b r';
-  cellBorder = 'r';
+  border = "b r";
+  cellBorder = "r";
 
   constructor(config: IColumn = {} as IColumn, isNested: boolean, sorters: Sorter[]) {
     let children = config.columns;
@@ -34,7 +34,7 @@ class GridColumn {
       children = GridColumn.generateChildren(children, sorters, true);
     }
     if (isNested) {
-      config.border = utilities.isEmpty(config.border) ? 'r' : config.border;
+      config.border = utilities.isEmpty(config.border) ? "r" : config.border;
     }
     // Match column's sorter with any defined sorters in the store
     for (let i = 0; i < sorters.length; i++) {

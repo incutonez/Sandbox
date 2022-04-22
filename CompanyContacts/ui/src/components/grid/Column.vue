@@ -1,81 +1,87 @@
 <template>
-  <FlexContainer :direction="FlexDirections.COLUMN"
-                 :grow="column.width ? 0 : column.flex"
-                 :border="border"
-                 :class="extraCls"
-                 :background-color="false"
-                 :width="column.width"
-                 @click="onClickColumn">
-    <FlexContainer :pack="column.getTextAlignment()"
-                   :align="FlexAlignments.CENTER"
-                   :background-color="false"
-                   :grow="1"
-                   class="grid-header-child">
+  <FlexContainer
+    :direction="FlexDirections.COLUMN"
+    :grow="column.width ? 0 : column.flex"
+    :border="border"
+    :class="extraCls"
+    :background-color="false"
+    :width="column.width"
+    @click="onClickColumn"
+  >
+    <FlexContainer
+      :pack="column.getTextAlignment()"
+      :align="FlexAlignments.CENTER"
+      :background-color="false"
+      :grow="1"
+      class="grid-header-child"
+    >
       <span class="grid-cell">
         {{ columnText }}
       </span>
-      <Icon v-if="column.isSorted"
-            class="sort-icon"
-            :icon-name="sortIcon" />
+      <Icon
+        v-if="column.isSorted"
+        class="sort-icon"
+        :icon-name="sortIcon"
+      />
     </FlexContainer>
     <template v-if="column.columns">
       <FlexContainer border="t">
-        <JefGridColumn v-for="(col, index) in column.columns"
-                       :key="index"
-                       :border="getChildBorder(index, col, column)"
-                       :column="col"
-                       @sort="onSortChildColumn"
-                       @hide="onHideChildColumn"
-                       @show="onShowChildColumn" />
+        <JefGridColumn
+          v-for="(col, index) in column.columns"
+          :key="index"
+          :border="getChildBorder(index, col, column)"
+          :column="col"
+          @sort="onSortChildColumn"
+          @hide="onHideChildColumn"
+          @show="onShowChildColumn"
+        />
       </FlexContainer>
     </template>
   </FlexContainer>
 </template>
 
 <script lang="ts">
-import IColumn from '../../interfaces/IColumn';
-import {defineComponent, PropType} from 'vue';
-import ColumnTypes from '@/statics/ColumnTypes';
-import Icons from '@/statics/Icons';
-import Icon from '@/components/Icon.vue';
-import FlexContainer from '@/components/base/FlexContainer.vue';
+import IColumn from "ui/interfaces/IColumn";
+import { defineComponent, PropType } from "vue";
+import ColumnTypes from "ui/statics/ColumnTypes";
+import Icons from "ui/statics/Icons";
+import Icon from "ui/components/Icon.vue";
+import FlexContainer from "ui/components/base/FlexContainer.vue";
 
 export default defineComponent({
-  name: 'JefGridColumn',
+  name: "JefGridColumn",
   components: {
     FlexContainer,
-    Icon
+    Icon,
   },
   props: {
     column: {
       type: Object as PropType<IColumn>,
       default: () => {
         return {};
-      }
+      },
     },
     border: {
       type: [String, Boolean],
-      default: 'b r'
-    }
+      default: "b r",
+    },
   },
-  emits: [
-    'sort',
-    'hide',
-    'show'
-  ],
+  emits: ["sort",
+    "hide",
+    "show"],
   computed: {
     columnText(): string {
       const cfg = this.column;
       let text = cfg.text;
       if (!text) {
         if (cfg.type === ColumnTypes.Action) {
-          text = 'Actions';
+          text = "Actions";
         }
       }
       return text;
     },
     sortIcon() {
-      let icon = '';
+      let icon = "";
       const isAsc = this.column.sorter?.isAsc();
       switch (this.column.type) {
         case ColumnTypes.String:
@@ -92,15 +98,15 @@ export default defineComponent({
     },
     extraCls() {
       const cfg = this.column;
-      const cls = ['grid-header'];
+      const cls = ["grid-header"];
       if (cfg.canSort()) {
-        cls.push('grid-header-sortable');
+        cls.push("grid-header-sortable");
       }
       if (cfg.hidden) {
-        cls.push('grid-cell-hidden');
+        cls.push("grid-cell-hidden");
       }
-      return cls.join(' ');
-    }
+      return cls.join(" ");
+    },
   },
   methods: {
     getChildBorder(index: number, column: IColumn, parent: IColumn) {
@@ -113,13 +119,13 @@ export default defineComponent({
       this.emitShow(this.column);
     },
     emitHide(column: IColumn) {
-      this.$emit('hide', column);
+      this.$emit("hide", column);
     },
     emitShow(column: IColumn) {
-      this.$emit('show', column);
+      this.$emit("show", column);
     },
     emitSort(column: IColumn) {
-      this.$emit('sort', column);
+      this.$emit("sort", column);
     },
     onHideChildColumn(column: IColumn) {
       this.emitHide(column);
@@ -134,11 +140,7 @@ export default defineComponent({
       if (this.column.canSort()) {
         this.emitSort(this.column);
       }
-    }
-  }
+    },
+  },
 });
 </script>
-
-<style scoped>
-
-</style>

@@ -1,21 +1,21 @@
-import Ajax, {AxiosRequestConfig, AxiosResponse} from 'axios';
-import Server from './exceptions/Server';
-import IProxy from '@/interfaces/IProxy';
-import utilities from '@/utilities';
+import Ajax, { AxiosRequestConfig, AxiosResponse } from "axios";
+import Server from "./exceptions/Server";
+import IProxy from "ui/interfaces/IProxy";
+import utilities from "ui/utilities";
 
 interface Proxy extends IProxy {
 }
 
 class Proxy {
   static configs: IProxy = {
-    url: '',
-    type: 'memory',
+    url: "",
+    type: "memory",
     methods: {
-      get: 'get',
-      post: 'post',
-      put: 'put',
-      delete: 'delete'
-    }
+      get: "get",
+      post: "post",
+      put: "put",
+      delete: "delete",
+    },
   };
 
   constructor(config: any) {
@@ -26,22 +26,22 @@ class Proxy {
   }
 
   static async load(config: any = {}, scope: any = {
-    type: 'ajax',
+    type: "ajax",
     methods: {
-      get: 'get'
-    }
+      get: "get",
+    },
   }): Promise<AxiosResponse | undefined> {
     try {
       const reqType = config.type || scope.type;
-      if (reqType === 'ajax' || reqType === 'rest') {
-        Ajax.defaults.baseURL = 'http://localhost:1337';
+      if (reqType === "ajax" || reqType === "rest") {
+        Ajax.defaults.baseURL = "http://localhost:1337";
         const method = config.method || scope.methods.get;
         const request: AxiosRequestConfig = {
           url: config.url || scope.url,
-          method: method
+          method: method,
         };
         // Send as query params
-        if (method === 'get') {
+        if (method === "get") {
           request.params = config.params;
         }
         // Send as JSON data
@@ -57,29 +57,29 @@ class Proxy {
       throw new Server({
         status: Response.status,
         message: Response.statusText,
-        requestConfig: Response.config
+        requestConfig: Response.config,
       });
     }
   }
 
   // TODO: Combine with save... only real different is the method that's used
   static async save(config: any = {}, scope: any = {
-    type: 'ajax',
+    type: "ajax",
     methods: {
-      put: 'put'
-    }
+      put: "put",
+    },
   }): Promise<AxiosResponse | undefined> {
     try {
       const reqType = config.type || scope.type;
-      if (reqType === 'ajax' || reqType === 'rest') {
-        Ajax.defaults.baseURL = 'http://localhost:1337';
+      if (reqType === "ajax" || reqType === "rest") {
+        Ajax.defaults.baseURL = "http://localhost:1337";
         const method = config.method || scope.methods.put;
         const request: AxiosRequestConfig = {
           url: config.url || scope.url,
-          method: method
+          method: method,
         };
         // Send as query params
-        if (method === 'get') {
+        if (method === "get") {
           request.params = config.params;
         }
         // Send as JSON data
@@ -95,7 +95,7 @@ class Proxy {
       throw new Server({
         status: Response.status,
         message: Response.statusText,
-        requestConfig: Response.config
+        requestConfig: Response.config,
       });
     }
   }

@@ -1,61 +1,63 @@
 <template>
-  <ul v-if="expanded"
-      class="list-box"
-      :style="styleFm">
-    <li v-for="(record, index) in store"
-        :key="index"
-        :class="getItemCls(record)"
-        :data-record-index="index"
-        @click="onClickListItem">
+  <ul
+    v-if="expanded"
+    class="list-box"
+    :style="styleFm"
+  >
+    <li
+      v-for="(record, index) in store"
+      :key="index"
+      :class="getItemCls(record)"
+      :data-record-index="index"
+      @click="onClickListItem"
+    >
       {{ record[displayKey] }}
     </li>
   </ul>
 </template>
 
 <script lang="ts">
-import {defineComponent, PropType} from 'vue';
-import IStore from '@/interfaces/IStore';
-import IModel from '@/interfaces/IModel';
-import {IEventMouse} from '@/interfaces/Components';
-import utilities from '@/utilities';
+import { defineComponent, PropType } from "vue";
+import IStore from "ui/interfaces/IStore";
+import IModel from "ui/interfaces/IModel";
+import { IEventMouse } from "ui/interfaces/Components";
+import utilities from "ui/utilities";
 
 export default defineComponent({
-  name: 'JefList',
+  name: "JefList",
   props: {
     align: {
       type: String,
-      default: 'b'
+      default: "b",
     },
     alignTarget: {
       type: Object as PropType<HTMLElement>,
-      default: null
+      default: null,
     },
     displayKey: {
       type: String,
-      default: 'Description'
+      default: "Description",
     },
     valueKey: {
       type: String,
-      default: 'Value'
+      default: "Value",
     },
     store: {
       type: Object as PropType<IStore<IModel>>,
-      default: null
+      default: null,
     },
     expanded: {
       type: Boolean,
-      default: false
+      default: false,
     },
     selectedRecords: {
       type: Object as PropType<IModel[]>,
-      default: null
-    }
+      default: null,
+    },
   },
 
-  emits: [
-    'select',
-    'collapse'
-  ],
+  emits: ["select",
+    "collapse"],
 
   computed: {
     styleFm(): string {
@@ -64,19 +66,19 @@ export default defineComponent({
       if (target) {
         const height = target.clientHeight;
         const width = target.clientWidth;
-        const splits = this.align.split('');
+        const splits = this.align.split("");
         splits.forEach((alignment) => {
           switch (alignment) {
-            case 'b':
+            case "b":
               style.push(`top: ${utilities.convertToPx(height)}`);
               break;
-            case 't':
+            case "t":
               style.push(`bottom: ${utilities.convertToPx(height)}`);
               break;
-            case 'r':
+            case "r":
               style.push(`left: ${utilities.convertToPx(width)}`);
               break;
-            case 'l':
+            case "l":
               style.push(`right: ${utilities.convertToPx(width)}`);
               break;
             // Centered
@@ -85,27 +87,27 @@ export default defineComponent({
           }
         });
       }
-      return style.join('; ');
-    }
+      return style.join("; ");
+    },
   },
 
   methods: {
     getItemCls(record: IModel): string {
-      const cls = ['list-item'];
+      const cls = ["list-item"];
       if (utilities.contains(this.selectedRecords, record)) {
-        cls.push('highlight');
+        cls.push("highlight");
       }
-      return cls.join(' ');
+      return cls.join(" ");
     },
     onClickListItem(event: IEventMouse) {
       const el = event.target as HTMLElement;
-      const index = el && el.getAttribute('data-record-index');
+      const index = el && el.getAttribute("data-record-index");
       if (index) {
         const record = this.store[parseInt(index)];
-        this.$emit('select', this, record);
+        this.$emit("select", this, record);
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

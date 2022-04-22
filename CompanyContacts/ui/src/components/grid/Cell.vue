@@ -1,37 +1,49 @@
 <template>
-  <FlexContainer v-if="column.columns"
-                 :grow="column.width ? 0 : column.flex"
-                 :width="column.width"
-                 :background-color="false"
-                 :class="extraCls"
-                 :border="border">
-    <JefGridCell v-for="(cell, rowIdx) in column.columns"
-                 :key="rowIdx"
-                 :record="record"
-                 :border="getChildBorder(rowIdx, cell, column)"
-                 :column="cell" />
+  <FlexContainer
+    v-if="column.columns"
+    :grow="column.width ? 0 : column.flex"
+    :width="column.width"
+    :background-color="false"
+    :class="extraCls"
+    :border="border"
+  >
+    <JefGridCell
+      v-for="(cell, rowIdx) in column.columns"
+      :key="rowIdx"
+      :record="record"
+      :border="getChildBorder(rowIdx, cell, column)"
+      :column="cell"
+    />
   </FlexContainer>
-  <FlexContainer v-else
-                 :direction="column.getCellDirection()"
-                 :grow="column.width ? 0 : column.flex"
-                 :border="border"
-                 :pack="column.getCellPack()"
-                 :style="`text-align: ${column.getCellAlignment()};`"
-                 :background-color="false"
-                 :class="extraCls"
-                 :width="column.width"
-                 @click="onClickCell">
-    <Icon v-if="showExpander"
-          :icon-name="iconName"
-          class="grid-cell-icon" />
+  <FlexContainer
+    v-else
+    :direction="column.getCellDirection()"
+    :grow="column.width ? 0 : column.flex"
+    :border="border"
+    :pack="column.getCellPack()"
+    :style="`text-align: ${column.getCellAlignment()};`"
+    :background-color="false"
+    :class="extraCls"
+    :width="column.width"
+    @click="onClickCell"
+  >
+    <Icon
+      v-if="showExpander"
+      :icon-name="iconName"
+      class="grid-cell-icon"
+    />
     <template v-if="values">
-      <div v-for="(value, idx) in values"
-           :key="idx"
-           :class="getCellCls(value, idx)">
+      <div
+        v-for="(value, idx) in values"
+        :key="idx"
+        :class="getCellCls(value, idx)"
+      >
         <template v-if="Utilities.isObject(value)">
-          <component :is="value.cmp"
-                     v-bind="value.props"
-                     v-on="value.handlers || {}" />
+          <component
+            :is="value.cmp"
+            v-bind="value.props"
+            v-on="value.handlers || {}"
+          />
         </template>
         <template v-else>
           {{ value }}
@@ -42,27 +54,27 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, PropType} from 'vue';
-import ColumnTypes from '@/statics/ColumnTypes';
-import utilities from '@/utilities';
-import Icons from '@/statics/Icons';
-import Icon from '@/components/Icon.vue';
-import Formatters from '@/statics/Formatters';
-import FlexContainer from '@/components/base/FlexContainer.vue';
-import JefButton from '@/components/base/Button.vue';
-import IColumn from '@/interfaces/IColumn';
-import {IFieldValue} from '@/interfaces/Components';
-import IModel from '@/interfaces/IModel';
-import IKeyValue from '@jef/shared/interfaces/IKeyValue';
+import { defineComponent, PropType } from "vue";
+import ColumnTypes from "ui/statics/ColumnTypes";
+import utilities from "ui/utilities";
+import Icons from "ui/statics/Icons";
+import Icon from "ui/components/Icon.vue";
+import Formatters from "ui/statics/Formatters";
+import FlexContainer from "ui/components/base/FlexContainer.vue";
+import JefButton from "ui/components/base/Button.vue";
+import IColumn from "ui/interfaces/IColumn";
+import { IFieldValue } from "ui/interfaces/Components";
+import IModel from "ui/interfaces/IModel";
+import IKeyValue from "@jef/shared/interfaces/IKeyValue";
 
 type IFormatter = (value: IFieldValue, record: IModel) => {}
 
 export default defineComponent({
-  name: 'JefGridCell',
+  name: "JefGridCell",
   components: {
     FlexContainer,
     Icon,
-    JefButton
+    JefButton,
   },
   props: {
     /**
@@ -71,29 +83,29 @@ export default defineComponent({
      */
     cls: {
       type: String,
-      default: ''
+      default: "",
     },
     border: {
       type: [String, Boolean],
-      default: 'b r'
+      default: "b r",
     },
     // TODO: Rename to RowCfg
     column: {
       type: Object as PropType<IColumn>,
       default: () => {
         return {};
-      }
+      },
     },
     record: {
       type: Object as PropType<IModel>,
       default: () => {
         return {};
-      }
-    }
+      },
+    },
   },
   data: () => {
     return {
-      isExpanded: false
+      isExpanded: false,
     };
   },
   computed: {
@@ -121,10 +133,10 @@ export default defineComponent({
       if (this.isExpander || this.isAction) {
         return formatterFn(true, record);
       }
-      const fields = column.field.split('.');
+      const fields = column.field.split(".");
       let values = record.get(fields[0]);
       if (!utilities.isDefined(values)) {
-        return '';
+        return "";
       }
       else if (utilities.isEmpty(values)) {
         values = [null];
@@ -159,23 +171,23 @@ export default defineComponent({
       if (this.column.type === ColumnTypes.Expander) {
         return this.isExpanded ? Icons.MINUS : Icons.PLUS;
       }
-      return '';
+      return "";
     },
     extraCls(): string {
-      return this.column.hidden ? 'grid-cell-hidden' : '';
-    }
+      return this.column.hidden ? "grid-cell-hidden" : "";
+    },
   },
   methods: {
     getCellCls(value: IKeyValue, index: number) {
       const cls = [];
       if (!this.column.isAction()) {
-        cls.push('grid-cell');
+        cls.push("grid-cell");
       }
       // If we have more than 1 item, this is considered to be an expanded row
       if (index !== 0) {
-        cls.push('expandable');
+        cls.push("expandable");
       }
-      return cls.join(' ');
+      return cls.join(" ");
     },
     getChildBorder(index: number, column: IColumn, parent: IColumn) {
       return index + 1 === parent.columns?.length ? false : column.cellBorder;
@@ -188,15 +200,15 @@ export default defineComponent({
           if (parent) {
             this.isExpanded = !this.isExpanded;
             if (this.isExpanded) {
-              parent.classList.add('expand-row');
+              parent.classList.add("expand-row");
             }
             else {
-              parent.classList.remove('expand-row');
+              parent.classList.remove("expand-row");
             }
           }
         }
       }
-    }
-  }
+    },
+  },
 });
 </script>

@@ -1,9 +1,9 @@
-import Proxy from '@/classes/Proxy';
-import {AxiosResponse} from 'axios';
-import Collection from '@/classes/Collection';
-import IStore from '@/interfaces/IStore';
-import utilities from '@/utilities';
-import IKeyValue from '@jef/shared/interfaces/IKeyValue';
+import Proxy from "ui/classes/Proxy";
+import { AxiosResponse } from "axios";
+import Collection from "ui/classes/Collection";
+import IStore from "ui/interfaces/IStore";
+import utilities from "ui/utilities";
+import IKeyValue from "@jef/shared/interfaces/IKeyValue";
 
 /**
  * This is a little tricky... we extend our IStore as an interface, and then we can use a class to extend
@@ -26,7 +26,11 @@ class Store<T> extends Collection<T> {
     /* Order of importance... if model has a proxy, then let's start with that, and then if the store
      * has a proxy, let's override what's in the model, and finally if the instance has a proxy config
      * let's use that over all of the others */
-    config = utilities.merge({}, {proxy: Reflect.get(type, 'proxy')}, {proxy: Reflect.get(this.constructor, 'proxy')}, config);
+    config = utilities.merge({}, {
+      proxy: Reflect.get(type, "proxy"),
+    }, {
+      proxy: Reflect.get(this.constructor, "proxy"),
+    }, config);
     this.proxy = new Proxy(config.proxy);
     // TODO: Problem is here... when you initially add the sorter, it's not linked to the column
     this.addSorter(config.sorters);

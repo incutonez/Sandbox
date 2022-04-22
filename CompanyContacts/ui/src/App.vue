@@ -1,45 +1,47 @@
 <template>
   <div class="app-main">
     <Navigation />
-    <FlexContainer class="main-content"
-                   :border="false"
-                   :margin="10"
-                   :direction="FlexDirections.FIT">
+    <FlexContainer
+      class="main-content"
+      :border="false"
+      :margin="10"
+      :direction="FlexDirections.FIT"
+    >
       <RouterView />
     </FlexContainer>
-    <div class="footer"
-         style="text-align: center;">Footer
+    <div
+      class="footer"
+      style="text-align: center;"
+    >
+      Footer
     </div>
   </div>
 </template>
 
 <script lang="ts">
 // Shadowing this Fiddle https://fiddle.sencha.com/#view/editor&fiddle/3e5m
-import '@fontsource/open-sans';
-import {defineComponent} from 'vue';
-import Navigation from '@/components/Navigation.vue';
-import {RouterView} from 'vue-router';
-import FlexContainer from '@/components/base/FlexContainer.vue';
+import "@fontsource/open-sans";
+import { defineComponent } from "vue";
+import Navigation from "ui/components/Navigation.vue";
+import { RouterView } from "vue-router";
+import FlexContainer from "ui/components/base/FlexContainer.vue";
 
 export default defineComponent({
-  name: 'App',
+  name: "App",
   components: {
     FlexContainer,
     Navigation,
-    RouterView
-  }
+    RouterView,
+  },
 });
 </script>
 
 <style lang="scss">
-// Had to set path https://github.com/vuejs-templates/webpack/issues/1313
-$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
-
-@import "~bootstrap/scss/bootstrap";
-@import "~@fortawesome/fontawesome-free/scss/fontawesome";
-@import "~@fortawesome/fontawesome-free/scss/solid";
-@import "~@fortawesome/fontawesome-free/scss/regular";
-@import "~@fortawesome/fontawesome-free/scss/brands";
+$fa-font-path: "@fortawesome/fontawesome-free/webfonts";
+@import "@fortawesome/fontawesome-free/scss/fontawesome";
+@import "@fortawesome/fontawesome-free/scss/solid";
+@import "@fortawesome/fontawesome-free/scss/regular";
+@import "@fortawesome/fontawesome-free/scss/brands";
 
 #app {
   font-family: "Open Sans", Avenir, Helvetica, Arial, sans-serif;

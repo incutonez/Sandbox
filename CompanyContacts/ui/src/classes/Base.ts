@@ -4,7 +4,7 @@
  * on the Alternative Pattern, but I have yet to get a response.
  * To circumvent this from throwing an eslint error, I turned the rule off for {} in estlintrc.js
  */
-import {ClassEvents, EventableMixin} from '@/mixins/ClassEvents';
+import { ClassEvents, EventableMixin } from "ui/mixins/ClassEvents";
 
 type GConstructor<T = {}> = new (...args: any[]) => T;
 
@@ -29,7 +29,7 @@ export default function <T extends GConstructor>(base: T, mixins?: string[]) {
 
   if (mixins) {
     mixins.forEach((mixin) => {
-      if (mixin === 'Eventable') {
+      if (mixin === "Eventable") {
         EventableMixin(Base);
       }
     });

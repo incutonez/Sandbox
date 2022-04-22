@@ -1,16 +1,18 @@
 <template>
-  <component :is="cmp"
-             :class="cls"
-             :style="style">
+  <component
+    :is="cmp"
+    :class="cls"
+    :style="style"
+  >
     <slot :parent-align="align" />
   </component>
 </template>
 
 <script lang="ts">
-import {defineComponent, PropType} from 'vue';
-import {FlexAlignments, FlexContentAlignments, FlexDirections, FlexJustifications, FlexWraps} from '@/statics/Flex';
-import utilities from '@/utilities';
-import Hideable from '@/mixins/Hideable';
+import { defineComponent, PropType } from "vue";
+import { FlexAlignments, FlexContentAlignments, FlexDirections, FlexJustifications, FlexWraps } from "ui/statics/Flex";
+import utilities from "ui/utilities";
+import Hideable from "ui/mixins/Hideable";
 
 /**
  * This component acts as both a container and layout for nested items.  It essentially wraps the CSS Flexbox properties
@@ -18,29 +20,27 @@ import Hideable from '@/mixins/Hideable';
  * component by default, so we could specify layouts and such that way.
  */
 export default defineComponent({
-  name: 'FlexContainer',
-  mixins: [
-    Hideable
-  ],
+  name: "FlexContainer",
+  mixins: [Hideable],
   props: {
     cmp: {
       type: String,
-      default: 'div'
+      default: "div",
     },
     /**
      * The string version of this can look like "t r b l" or "t b" to mean only top and bottom get the border
      */
     border: {
       type: [Boolean, String],
-      default: false
+      default: false,
     },
     height: {
       type: [String, Number],
-      default: 0
+      default: 0,
     },
     width: {
       type: [String, Number],
-      default: 0
+      default: 0,
     },
     /**
      * @property
@@ -48,11 +48,11 @@ export default defineComponent({
      */
     direction: {
       type: String as PropType<FlexDirections>,
-      default: FlexDirections.ROW
+      default: FlexDirections.ROW,
     },
     wrap: {
       type: String as PropType<FlexWraps>,
-      default: FlexWraps.NO_WRAP
+      default: FlexWraps.NO_WRAP,
     },
     /**
      * If direction = horizontal, then items will be packed horizontally.
@@ -60,7 +60,7 @@ export default defineComponent({
      */
     pack: {
       type: String as PropType<FlexJustifications>,
-      default: FlexJustifications.NORMAL
+      default: FlexJustifications.NORMAL,
     },
     /**
      * If direction = horizontal, then items will be aligned vertically.
@@ -68,86 +68,86 @@ export default defineComponent({
      */
     align: {
       type: String as PropType<FlexAlignments>,
-      default: FlexAlignments.STRETCH
+      default: FlexAlignments.STRETCH,
     },
     contentAlign: {
       type: String as PropType<FlexContentAlignments>,
-      default: FlexContentAlignments.NORMAL
+      default: FlexContentAlignments.NORMAL,
     },
     grow: {
       type: Number,
-      default: 0
+      default: 0,
     },
     shrink: {
       type: Number,
-      default: 0
+      default: 0,
     },
     basis: {
       type: [String, Number],
-      default: 0
+      default: 0,
     },
     extraCls: {
       type: String,
-      default: ''
+      default: "",
     },
     extraStyle: {
       type: String,
-      default: ''
+      default: "",
     },
     margin: {
       type: [Number, String],
-      default: null
+      default: null,
     },
     backgroundColor: {
       type: [String, Boolean],
-      default: '#FFFFFF'
+      default: "#FFFFFF",
     },
     alignSelf: {
       type: String as PropType<FlexAlignments>,
-      default: FlexAlignments.AUTO
+      default: FlexAlignments.AUTO,
     },
     padding: {
       type: [Number, String],
-      default: 0
-    }
+      default: 0,
+    },
   },
   computed: {
     cls(): string {
-      const cls = ['flex-container'];
+      const cls = ["flex-container"];
       const border = this.border;
       if (this.direction === FlexDirections.FIT) {
-        cls.push('flex-container-fit');
+        cls.push("flex-container-fit");
       }
       if (this.align === FlexAlignments.STRETCH) {
-        cls.push('flex-container-stretch-children');
+        cls.push("flex-container-stretch-children");
       }
       if (this.extraCls) {
         cls.push(this.extraCls);
       }
       if (border) {
         if (border === true) {
-          cls.push('panel-border');
+          cls.push("panel-border");
         }
         else if (utilities.isString(border)) {
-          border.split('').forEach((split) => {
+          border.split("").forEach((split) => {
             switch (split) {
-              case 't':
-                cls.push('panel-border-top');
+              case "t":
+                cls.push("panel-border-top");
                 break;
-              case 'r':
-                cls.push('panel-border-right');
+              case "r":
+                cls.push("panel-border-right");
                 break;
-              case 'b':
-                cls.push('panel-border-bottom');
+              case "b":
+                cls.push("panel-border-bottom");
                 break;
-              case 'l':
-                cls.push('panel-border-left');
+              case "l":
+                cls.push("panel-border-left");
                 break;
             }
           });
         }
       }
-      return cls.join(' ');
+      return cls.join(" ");
     },
     style(): string {
       const hidden = this.hiddenStyle;
@@ -158,7 +158,7 @@ export default defineComponent({
       let grow = this.grow;
       let shrink = this.shrink;
       let basis = this.basis;
-      let opposite = '';
+      let opposite = "";
       const width = this.width;
       const height = this.height;
       direction = direction === FlexDirections.FIT ? FlexDirections.ROW : direction;
@@ -172,7 +172,7 @@ export default defineComponent({
         }
         if (width) {
           opposite = `width: ${utilities.convertToPx(width)};`;
-          basis = basis || 'auto';
+          basis = basis || "auto";
         }
       }
       // Vertical layout
@@ -184,13 +184,13 @@ export default defineComponent({
         }
         if (height) {
           opposite = `height: ${utilities.convertToPx(height)};`;
-          basis = basis || 'auto';
+          basis = basis || "auto";
         }
       }
-      const extraStyle = this.extraStyle ? `${this.extraStyle}; ` : '';
-      let margin = '';
-      let bgColor = '';
-      let padding = '';
+      const extraStyle = this.extraStyle ? `${this.extraStyle}; ` : "";
+      let margin = "";
+      let bgColor = "";
+      let padding = "";
       if (this.margin !== null) {
         margin = `margin: ${utilities.convertToPx(this.margin)};`;
       }
@@ -201,8 +201,8 @@ export default defineComponent({
         bgColor = `background-color: ${this.backgroundColor};`;
       }
       return `${padding}${opposite}${bgColor}${margin}${extraStyle}flex: ${grow} ${shrink} ${basis}; display: flex; flex-flow: ${direction} ${this.wrap}; justify-content: ${this.pack}; align-items: ${this.align}; align-self: ${this.alignSelf}; align-content: ${this.contentAlign};`;
-    }
-  }
+    },
+  },
 });
 </script>
 

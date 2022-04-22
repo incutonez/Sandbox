@@ -3,23 +3,25 @@
 </template>
 
 <script>
-import {defineComponent} from 'vue';
-import JefCheckbox from './Checkbox';
+import { defineComponent } from "vue";
+import JefCheckbox from "./Checkbox.vue";
 
 export default defineComponent({
-  name: 'JefRadio',
-  components: {JefCheckbox},
+  name: "JefRadio",
+  components: {
+    JefCheckbox,
+  },
   extends: JefCheckbox,
   props: {
     fieldCls: {
       type: String,
-      default: 'field-radio'
+      default: "field-radio",
     },
     type: {
       type: String,
-      default: 'radio'
-    }
-  }
+      default: "radio",
+    },
+  },
 });
 </script>
 

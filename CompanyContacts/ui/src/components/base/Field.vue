@@ -1,34 +1,40 @@
 <template>
-  <FlexContainer v-bind="$props"
-                 :direction="layout"
-                 :class="fieldContainerCls">
-    <span v-if="showLabel"
-          class="field-label"
-          :style="labelStyle">
+  <FlexContainer
+    v-bind="$props"
+    :direction="layout"
+    :class="fieldContainerCls"
+  >
+    <span
+      v-if="showLabel"
+      class="field-label"
+      :style="labelStyle"
+    >
       {{ label }}{{ labelSeparator }}
     </span>
-    <input ref="input"
-           v-model="value"
-           :class="fieldInputCls"
-           :type="type"
-           :required="isRequired"
-           :disabled="isDisabled"
-           :readonly="isReadOnly"
-           :style="fieldInputStyle"
-           :min="min"
-           :max="max"
-           @keyup.enter="onKeyUpField">
+    <input
+      ref="input"
+      v-model="value"
+      :class="fieldInputCls"
+      :type="type"
+      :required="isRequired"
+      :disabled="isDisabled"
+      :readonly="isReadOnly"
+      :style="fieldInputStyle"
+      :min="min"
+      :max="max"
+      @keyup.enter="onKeyUpField"
+    >
   </FlexContainer>
 </template>
 
 <script lang="ts">
-import {defineComponent, PropType} from 'vue';
-import FlexContainer from '@/components/base/FlexContainer.vue';
-import {FlexDirections} from '@/statics/Flex';
-import RegisterInjector, {IRegisterInjector} from '@/mixins/RegisterInjector';
-import EventsInjector, {IEventsInjector} from '@/mixins/EventsInjector';
-import utilities from '@/utilities';
-import {IElementAttribute, IFieldValue} from '@/interfaces/Components';
+import { defineComponent, PropType } from "vue";
+import FlexContainer from "ui/components/base/FlexContainer.vue";
+import { FlexDirections } from "ui/statics/Flex";
+import RegisterInjector, { IRegisterInjector } from "ui/mixins/RegisterInjector";
+import EventsInjector, { IEventsInjector } from "ui/mixins/EventsInjector";
+import utilities from "ui/utilities";
+import { IElementAttribute, IFieldValue } from "ui/interfaces/Components";
 
 interface IData extends IEventsInjector, IRegisterInjector {
   isField: boolean;
@@ -37,23 +43,21 @@ interface IData extends IEventsInjector, IRegisterInjector {
 }
 
 export default defineComponent({
-  name: 'JefField',
+  name: "JefField",
   components: {
-    FlexContainer
+    FlexContainer,
   },
   extends: FlexContainer,
-  mixins: [
-    RegisterInjector,
-    EventsInjector
-  ],
+  mixins: [RegisterInjector,
+    EventsInjector],
   props: {
     layout: {
       type: String as PropType<FlexDirections>,
-      default: FlexDirections.ROW
+      default: FlexDirections.ROW,
     },
     type: {
       type: String,
-      default: 'text'
+      default: "text",
     },
     /**
      * @property
@@ -64,63 +68,61 @@ export default defineComponent({
      */
     emptyValueAsNull: {
       type: Boolean,
-      default: true
+      default: true,
     },
     modelValue: {
       type: [String, Number, Boolean, Array],
-      default: ''
+      default: "",
     },
     label: {
       type: [String, Boolean],
-      default: false
+      default: false,
     },
     labelSeparator: {
       type: String,
-      default: ':'
+      default: ":",
     },
     required: {
       type: Boolean,
-      default: false
+      default: false,
     },
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     readOnly: {
       type: Boolean,
-      default: false
+      default: false,
     },
     labelWidth: {
       type: [Number, String],
-      default: 100
+      default: 100,
     },
     inputWidth: {
       type: [Number, String],
-      default: '100%'
+      default: "100%",
     },
     min: {
       type: [Number, String],
-      default: null
+      default: null,
     },
     max: {
       type: [Number, String],
-      default: null
-    }
+      default: null,
+    },
   },
-  emits: [
-    'update:modelValue',
-    'press:enter'
-  ],
+  emits: ["update:modelValue",
+    "press:enter"],
   data(): IData {
     return {
       isField: true,
       originalValue: this.modelValue,
-      valid: true
+      valid: true,
     };
   },
   computed: {
     labelStyle(): string {
-      let labelWidth = this.isVerticalLayout ? '100%' : this.labelWidth;
+      let labelWidth = this.isVerticalLayout ? "100%" : this.labelWidth;
       labelWidth = utilities.convertToPx(labelWidth);
       return `min-width: ${labelWidth}; max-width: ${labelWidth};`;
     },
@@ -131,8 +133,8 @@ export default defineComponent({
       },
       set(value: IFieldValue) {
         this.isValid();
-        this.$emit('update:modelValue', utilities.isEmpty(value) && this.emptyValueAsNull ? null : value);
-      }
+        this.$emit("update:modelValue", utilities.isEmpty(value) && this.emptyValueAsNull ? null : value);
+      },
     },
     isReadOnly(): IElementAttribute {
       return this.readOnly || null;
@@ -151,31 +153,31 @@ export default defineComponent({
       return `${width}`;
     },
     fieldInputCls() {
-      const cls = ['field-input'];
+      const cls = ["field-input"];
       if (this.required && !this.value) {
-        cls.push('field-required');
+        cls.push("field-required");
       }
       if (this.readOnly) {
-        cls.push('field-read-only');
+        cls.push("field-read-only");
       }
       if (this.disabled) {
-        cls.push('field-disabled');
+        cls.push("field-disabled");
       }
       if (!this.valid) {
-        cls.push('field-invalid');
+        cls.push("field-invalid");
       }
-      return cls.join(' ');
+      return cls.join(" ");
     },
     isVerticalLayout(): boolean {
       return !utilities.contains([FlexDirections.ROW, FlexDirections.ROW_REVERSE], this.layout);
     },
     fieldContainerCls(): string {
-      const cls = ['field-container', this.isVerticalLayout ? 'field-layout-vertical' : 'field-layout-horizontal'];
-      return cls.join(' ');
+      const cls = ["field-container", this.isVerticalLayout ? "field-layout-vertical" : "field-layout-horizontal"];
+      return cls.join(" ");
     },
     showLabel(): boolean {
       return !!this.label;
-    }
+    },
   },
 
   mounted() {
@@ -197,13 +199,13 @@ export default defineComponent({
     onKeyUpField() {
       // If we have an eventBus, then we're in a form, so let's use that instead
       if (this.eventBus) {
-        this.eventBus.emit('press:enter', this);
+        this.eventBus.emit("press:enter", this);
       }
       else {
-        this.$emit('press:enter', this);
+        this.$emit("press:enter", this);
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

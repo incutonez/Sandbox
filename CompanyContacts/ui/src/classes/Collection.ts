@@ -1,7 +1,7 @@
-import BaseCollection from '@/classes/BaseCollection';
-import Sorter from '@/classes/Sorter';
-import {ICollection} from '@/interfaces/ICollection';
-import utilities from '@/utilities';
+import BaseCollection from "ui/classes/BaseCollection";
+import Sorter from "ui/classes/Sorter";
+import { ICollection } from "ui/interfaces/ICollection";
+import utilities from "ui/utilities";
 
 interface Collection<T> extends ICollection<T> {
 
@@ -21,8 +21,8 @@ class Collection<T> extends BaseCollection<T> {
         let result = 0;
         for (let i = 0; i < sorters.length; i++) {
           const sorter = sorters[i];
-          const direction = sorter.direction === 'ASC' ? 1 : -1;
-          const fields = sorter.field && sorter.field.split('.');
+          const direction = sorter.direction === "ASC" ? 1 : -1;
+          const fields = sorter.field && sorter.field.split(".");
           if (fields) {
             let field = fields[0];
             let lhsValue = Reflect.get(lhs, field);
@@ -46,7 +46,7 @@ class Collection<T> extends BaseCollection<T> {
         return result;
       });
     }
-    this.emit('sort');
+    this.emit("sort");
   }
 
   addSorter(sorter: Sorter | Sorter[], clear?: boolean): void {

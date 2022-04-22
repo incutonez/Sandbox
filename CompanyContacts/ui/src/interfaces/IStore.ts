@@ -1,5 +1,5 @@
-import Proxy from '@/classes/Proxy';
-import {ICollection} from '@/interfaces/ICollection';
+import Proxy from "ui/classes/Proxy";
+import { ICollection } from "ui/interfaces/ICollection";
 
 interface IStore<T> extends ICollection<T> {
   proxy: Proxy;

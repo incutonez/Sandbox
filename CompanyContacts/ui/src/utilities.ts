@@ -1,5 +1,5 @@
 // TODO: Potentially wrap underscore methods in here
-import _ from 'lodash';
+import _ from "lodash";
 
 export default {
   identityFn: _.identity,
@@ -34,9 +34,9 @@ export default {
   },
   isIconTag(event: Event): boolean {
     const Target: HTMLElement = event.target as HTMLElement;
-    return Target && Target.tagName === 'I';
+    return Target && Target.tagName === "I";
   },
   convertToPx(value: string | number): string {
     return _.isNumber(value) ? `${value}px` : value;
-  }
+  },
 };

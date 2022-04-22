@@ -1,52 +1,60 @@
 <template>
-  <FlexContainer v-bind="$props"
-                 class="loading-mask"
-                 :align="FlexAlignments.CENTER"
-                 :pack="FlexJustifications.CENTER"
-                 :background-color="false"
-                 :direction="FlexDirections.COLUMN">
-    <FlexContainer :align="FlexAlignments.AUTO"
-                   basis="auto"
-                   :background-color="false">
-      <Icon v-for="index in iconCount"
-            :key="index"
-            :icon-name="icon"
-            class="loading-mask-icon" />
+  <FlexContainer
+    v-bind="$props"
+    class="loading-mask"
+    :align="FlexAlignments.CENTER"
+    :pack="FlexJustifications.CENTER"
+    :background-color="false"
+    :direction="FlexDirections.COLUMN"
+  >
+    <FlexContainer
+      :align="FlexAlignments.AUTO"
+      basis="auto"
+      :background-color="false"
+    >
+      <Icon
+        v-for="index in iconCount"
+        :key="index"
+        :icon-name="icon"
+        class="loading-mask-icon"
+      />
     </FlexContainer>
-    <div v-if="message"
-         class="loading-mask-message">
+    <div
+      v-if="message"
+      class="loading-mask-message"
+    >
       {{ message }}
     </div>
   </FlexContainer>
 </template>
 
 <script>
-import Icon from '../Icon';
-import {defineComponent} from 'vue';
-import Icons from '../../statics/Icons';
-import FlexContainer from '@/components/base/FlexContainer';
+import Icon from "ui/components/Icon.vue";
+import { defineComponent } from "vue";
+import Icons from "ui/statics/Icons";
+import FlexContainer from "ui/components/base/FlexContainer.vue";
 
 export default defineComponent({
-  name: 'LoadingMask',
+  name: "LoadingMask",
   components: {
     FlexContainer,
-    Icon
+    Icon,
   },
   extends: FlexContainer,
   props: {
     message: {
       type: String,
-      default: 'Loading...'
+      default: "Loading...",
     },
     icon: {
       type: String,
-      default: Icons.SQUARE
+      default: Icons.SQUARE,
     },
     iconCount: {
       type: Number,
-      default: 6
-    }
-  }
+      default: 6,
+    },
+  },
 });
 </script>
 

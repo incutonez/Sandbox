@@ -1,21 +1,29 @@
 <template>
-  <FlexContainer :direction="FlexDirections.COLUMN"
-                 background-color="#FFFFFF"
-                 :class="cls"
-                 :style="mainStyle"
-                 @keyup.esc="onEscapeKey">
-    <JefTitle :title="title"
-              :title-flex="titleFlex"
-              :closable="closable"
-              @close="onClickCloseButton">
-      <template v-if="showTools"
-                #tools>
+  <FlexContainer
+    :direction="FlexDirections.COLUMN"
+    background-color="#FFFFFF"
+    :class="cls"
+    :style="mainStyle"
+    @keyup.esc="onEscapeKey"
+  >
+    <JefTitle
+      :title="title"
+      :title-flex="titleFlex"
+      :closable="closable"
+      @close="onClickCloseButton"
+    >
+      <template
+        v-if="showTools"
+        #tools
+      >
         <slot name="tools" />
       </template>
     </JefTitle>
-    <FlexContainer :grow="1"
-                   :align="FlexAlignments.STRETCH"
-                   :padding="bodyPadding">
+    <FlexContainer
+      :grow="1"
+      :align="FlexAlignments.STRETCH"
+      :padding="bodyPadding"
+    >
       <slot name="body" />
     </FlexContainer>
     <slot name="toolbar" />
@@ -24,69 +32,65 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
-import utilities from '@/utilities';
-import FlexContainer from '@/components/base/FlexContainer.vue';
-import JefTitle from '@/components/base/Title.vue';
-import {IEventKeyboard, ITitle} from '@/interfaces/Components';
-import LoadingMask from '@/components/base/LoadingMask.vue';
-import Draggable from '@/mixins/Draggable';
+import { defineComponent } from "vue";
+import utilities from "ui/utilities";
+import FlexContainer from "ui/components/base/FlexContainer.vue";
+import JefTitle from "ui/components/base/Title.vue";
+import { IEventKeyboard, ITitle } from "ui/interfaces/Components";
+import LoadingMask from "ui/components/base/LoadingMask.vue";
+import Draggable from "ui/mixins/Draggable";
 
 export default defineComponent({
-  name: 'JefWindow',
+  name: "JefWindow",
   components: {
     LoadingMask,
     JefTitle,
-    FlexContainer
+    FlexContainer,
   },
-  mixins: [
-    Draggable
-  ],
+  mixins: [Draggable],
   props: {
     draggable: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // TODO: Use composition API, so we don't have to dupe this?
     title: {
       type: [String, Boolean],
-      default: ''
+      default: "",
     },
     titleFlex: {
       type: Number,
-      default: 1
+      default: 1,
     },
     closable: {
       type: Boolean,
-      default: true
+      default: true,
     },
     bodyPadding: {
       type: [String, Number],
-      default: 10
+      default: 10,
     },
     width: {
       type: [String, Number],
-      default: '80%'
+      default: "80%",
     },
     height: {
       type: [String, Number],
-      default: '80%'
+      default: "80%",
     },
     viewLoading: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
-  emits: [
-    'close'
-  ],
+  emits: ["close"],
   computed: {
     cls(): string {
-      const cls = ['jef-window'];
+      const cls = ["jef-window"];
       if (this.draggable) {
-        cls.push('jef-window-draggable');
+        cls.push("jef-window-draggable");
       }
-      return cls.join(' ');
+      return cls.join(" ");
     },
     mainStyle(): string {
       const height = utilities.convertToPx(this.height);
@@ -96,20 +100,20 @@ export default defineComponent({
     },
     showTools(): boolean {
       return this.closable || !!this.$slots.tools;
-    }
+    },
   },
 
   mounted() {
-    document.addEventListener('keyup', this.onEscapeKey);
+    document.addEventListener("keyup", this.onEscapeKey);
   },
 
   unmounted() {
-    document.removeEventListener('keyup', this.onEscapeKey);
+    document.removeEventListener("keyup", this.onEscapeKey);
   },
 
   methods: {
     center() {
-      let result = '';
+      let result = "";
       const top = `calc((${innerHeight}px - ${utilities.convertToPx(this.height)}) / 2 + ${pageYOffset}px)`;
       const left = `calc((${innerWidth}px - ${utilities.convertToPx(this.width)}) / 2 + ${pageXOffset}px)`;
       const el = this.$el;
@@ -126,14 +130,14 @@ export default defineComponent({
       return result;
     },
     onClickCloseButton(title: ITitle, event: IEventKeyboard) {
-      this.$emit('close', this, event);
+      this.$emit("close", this, event);
     },
     onEscapeKey(event: IEventKeyboard) {
-      if (event.key === 'Escape' || event.key === 'Esc') {
-        this.$emit('close', this, event);
+      if (event.key === "Escape" || event.key === "Esc") {
+        this.$emit("close", this, event);
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

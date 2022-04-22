@@ -4,18 +4,18 @@ import {
   FlexDirections,
   FlexJustifications,
   FlexWraps,
-  TextAlignments
-} from '@/statics/Flex';
-import Icons, {IIcons} from '@/statics/Icons';
-import utilities from '@/utilities';
-import Proxy from '@/classes/Proxy';
-import Store from '@/classes/Store';
-import Enum from '@/models/Enum';
-import {PositionTypes} from '@jef/shared/enums/PositionTypes';
-import {ApplicationStatuses} from '@jef/shared/enums/ApplicationStatuses';
-import IStore from '@/interfaces/IStore';
-import IEnum from '@/interfaces/IEnum';
-import IKeyValue from '@jef/shared/interfaces/IKeyValue';
+  TextAlignments,
+} from "ui/statics/Flex";
+import Icons, { IIcons } from "ui/statics/Icons";
+import utilities from "ui/utilities";
+import Proxy from "ui/classes/Proxy";
+import Store from "ui/classes/Store";
+import Enum from "ui/models/Enum";
+import { PositionTypes } from "@jef/shared/enums/PositionTypes";
+import { ApplicationStatuses } from "@jef/shared/enums/ApplicationStatuses";
+import IStore from "ui/interfaces/IStore";
+import IEnum from "ui/interfaces/IEnum";
+import IKeyValue from "@jef/shared/interfaces/IKeyValue";
 
 interface IEnums {
   ApplicationStatuses: IStore<IEnum> & typeof ApplicationStatuses;
@@ -30,7 +30,7 @@ declare global {
 }
 
 // For global props, taken from https://stackoverflow.com/a/64189003/1253609
-declare module '@vue/runtime-core' {
+declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
     Icons: IIcons;
     FlexAlignments: typeof FlexAlignments;
@@ -53,13 +53,13 @@ export default {
     FlexContentAlignments,
     TextAlignments,
     Icons,
-    Utilities: utilities
+    Utilities: utilities,
   },
 
   async loadAppSettings() {
     // TODO: Is this necessary?  I could potentially load all the enums in an index file
     const response = await Proxy.load({
-      url: 'api/appsettings'
+      url: "api/appsettings",
     });
     const enums: IKeyValue = {};
     const result = response?.data.Constants;
@@ -67,7 +67,7 @@ export default {
     if (keys) {
       keys.forEach((key: string) => {
         enums[key] = new Store(Enum, {
-          data: result[key]
+          data: result[key],
         });
       });
     }
@@ -75,5 +75,5 @@ export default {
      * and I don't have access to the App at that point */
     window.Enums = enums as IEnums;
     this.Constants.Enums = enums;
-  }
+  },
 } as IKeyValue;

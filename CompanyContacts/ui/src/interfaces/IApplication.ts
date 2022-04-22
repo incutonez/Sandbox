@@ -1,7 +1,7 @@
-import ICompany from '@/interfaces/ICompany';
-import IContact from '@/interfaces/IContact';
-import IStore from '@/interfaces/IStore';
-import IModel from '@/interfaces/IModel';
+import ICompany from "ui/interfaces/ICompany";
+import IContact from "ui/interfaces/IContact";
+import IStore from "ui/interfaces/IStore";
+import IModel from "ui/interfaces/IModel";
 
 export default interface IApplication extends IModel {
   Id: number;

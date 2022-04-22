@@ -1,8 +1,8 @@
-import utilities from '@/utilities';
-import IBaseCollection from '@/interfaces/IBaseCollection';
-import Base from '@/classes/Base';
-import IModel from '@/interfaces/IModel';
-import {IFieldValue} from '@/interfaces/Components';
+import utilities from "ui/utilities";
+import IBaseCollection from "ui/interfaces/IBaseCollection";
+import Base from "ui/classes/Base";
+import IModel from "ui/interfaces/IModel";
+import { IFieldValue } from "ui/interfaces/Components";
 
 /**
  * For some reason, I can't get the module approach to work, so I hackily extend like this
@@ -12,7 +12,7 @@ interface BaseCollection<T> extends IBaseCollection<T> {
 
 }
 
-class BaseCollection<T> extends Base(Array, ['Eventable']) {
+class BaseCollection<T> extends Base(Array, ["Eventable"]) {
   constructor(type: new (data: T) => T) {
     super();
     this.type = type;

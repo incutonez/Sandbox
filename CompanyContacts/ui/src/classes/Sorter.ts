@@ -1,11 +1,11 @@
-import ISorter from '@/interfaces/ISorter';
-import utilities from '@/utilities';
+import ISorter from "ui/interfaces/ISorter";
+import utilities from "ui/utilities";
 
 interface Sorter extends ISorter {
 }
 
-const ASC = 'ASC';
-const DESC = 'DESC';
+const ASC = "ASC";
+const DESC = "DESC";
 
 class Sorter {
   clearCount = 1;

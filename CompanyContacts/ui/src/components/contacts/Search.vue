@@ -1,37 +1,55 @@
 <template>
   <FlexContainer>
-    <SearchForm :direction="FlexDirections.COLUMN"
-                :width="300"
-                :margin="'0 10px 0 0'"
-                :hide-clear-btn="false"
-                :hide-search-btn="false"
-                :hide-reset-btn="false"
-                title="Search"
-                @search="onClickSearchBtn">
-      <JefField v-model="search.Name"
-                label="Name" />
-      <JefField v-model="search.Email"
-                label="Email" />
-      <JefField v-model="search.CompanyId"
-                label="Company" />
-      <JefField v-model="search.ApplicationId"
-                label="Application" />
-      <JefCheckbox v-model="search.IsRecruiter"
-                   label="Recruiter" />
+    <SearchForm
+      :direction="FlexDirections.COLUMN"
+      :width="300"
+      :margin="'0 10px 0 0'"
+      :hide-clear-btn="false"
+      :hide-search-btn="false"
+      :hide-reset-btn="false"
+      title="Search"
+      @search="onClickSearchBtn"
+    >
+      <JefField
+        v-model="search.Name"
+        label="Name"
+      />
+      <JefField
+        v-model="search.Email"
+        label="Email"
+      />
+      <JefField
+        v-model="search.CompanyId"
+        label="Company"
+      />
+      <JefField
+        v-model="search.ApplicationId"
+        label="Application"
+      />
+      <JefCheckbox
+        v-model="search.IsRecruiter"
+        label="Recruiter"
+      />
       <JefSpacer />
     </SearchForm>
-    <FlexContainer extra-cls="right"
-                   :grow="2"
-                   :direction="FlexDirections.COLUMN">
-      <JefGrid :columns="columns"
-               :store="viewStore"
-               :grow="1"
-               title="Contacts"
-               :multi-sort="true">
+    <FlexContainer
+      extra-cls="right"
+      :grow="2"
+      :direction="FlexDirections.COLUMN"
+    >
+      <JefGrid
+        :columns="columns"
+        :store="viewStore"
+        :grow="1"
+        title="Contacts"
+        :multi-sort="true"
+      >
         <template #tools>
-          <JefButton :icon="Icons.REFRESH"
-                     :icon-only="true"
-                     @click="onClickRefreshButton" />
+          <JefButton
+            :icon="Icons.REFRESH"
+            :icon-only="true"
+            @click="onClickRefreshButton"
+          />
         </template>
       </JefGrid>
     </FlexContainer>
@@ -39,21 +57,21 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
-import {TextAlignments} from '@/statics/Flex';
-import Store from '@/classes/Store';
-import ColumnTypes from '@/statics/ColumnTypes';
-import JefGrid from '@/components/base/Grid.vue';
-import Contact from '@/models/Contact';
-import FlexContainer from '@/components/base/FlexContainer.vue';
-import JefField from '@/components/base/Field.vue';
-import JefCheckbox from '@/components/base/Checkbox.vue';
-import JefSpacer from '@/components/base/Spacer.vue';
-import SearchForm from '@/components/base/SearchForm.vue';
-import JefButton from '@/components/base/Button.vue';
+import { defineComponent } from "vue";
+import { TextAlignments } from "ui/statics/Flex";
+import Store from "ui/classes/Store";
+import ColumnTypes from "ui/statics/ColumnTypes";
+import JefGrid from "ui/components/base/Grid.vue";
+import Contact from "ui/models/Contact";
+import FlexContainer from "ui/components/base/FlexContainer.vue";
+import JefField from "ui/components/base/Field.vue";
+import JefCheckbox from "ui/components/base/Checkbox.vue";
+import JefSpacer from "ui/components/base/Spacer.vue";
+import SearchForm from "ui/components/base/SearchForm.vue";
+import JefButton from "ui/components/base/Button.vue";
 
 export default defineComponent({
-  name: 'ContactsSearch',
+  name: "ContactsSearch",
   components: {
     JefButton,
     SearchForm,
@@ -61,75 +79,75 @@ export default defineComponent({
     JefCheckbox,
     JefField,
     FlexContainer,
-    JefGrid
+    JefGrid,
   },
   data() {
     return {
       viewStore: new Store(Contact, {
         sorters: [{
-          field: 'Name',
-          direction: 'DESC'
-        }]
+          field: "Name",
+          direction: "DESC",
+        }],
       }),
       search: {
-        Name: 'kev',
+        Name: "kev",
         Email: null,
         CompanyId: null,
         ApplicationId: null,
-        IsRecruiter: null
+        IsRecruiter: null,
       },
       columns: [{
-        text: 'Id',
-        field: 'Id',
+        text: "Id",
+        field: "Id",
         type: ColumnTypes.Number,
         align: TextAlignments.RIGHT,
-        width: 50
+        width: 50,
       }, {
-        text: 'Name',
-        field: 'Name'
+        text: "Name",
+        field: "Name",
       }, {
-        text: 'Recruiter',
-        field: 'IsRecruiter',
+        text: "Recruiter",
+        field: "IsRecruiter",
         type: ColumnTypes.Boolean,
-        formatter: 'boolIconTrue',
+        formatter: "boolIconTrue",
         align: TextAlignments.CENTER,
-        width: 80
+        width: 80,
       }, {
-        text: 'Email',
-        field: 'Email'
+        text: "Email",
+        field: "Email",
       }, {
-        text: 'Company',
+        text: "Company",
         width: 200,
         columns: [{
-          text: 'Name',
-          field: 'Company.Name'
+          text: "Name",
+          field: "Company.Name",
         }, {
-          text: 'Recruitment',
-          field: 'Company.IsRecruitment',
+          text: "Recruitment",
+          field: "Company.IsRecruitment",
           type: ColumnTypes.Boolean,
-          formatter: 'boolIcon',
+          formatter: "boolIcon",
           align: TextAlignments.CENTER,
-          width: 100
-        }]
+          width: 100,
+        }],
       }, {
-        text: 'Application',
+        text: "Application",
         flex: 2,
         columns: [{
-          text: 'Id',
-          field: 'Application.Id',
+          text: "Id",
+          field: "Application.Id",
           type: ColumnTypes.Number,
-          align: TextAlignments.RIGHT
+          align: TextAlignments.RIGHT,
         }, {
-          text: 'Position',
-          field: 'Application.Position'
+          text: "Position",
+          field: "Application.Position",
         }, {
-          text: 'Position Type',
-          field: 'Application.positionTypeDisplay'
+          text: "Position Type",
+          field: "Application.positionTypeDisplay",
         }, {
-          text: 'Link',
-          field: 'Application.Link'
-        }]
-      }]
+          text: "Link",
+          field: "Application.Link",
+        }],
+      }],
     };
   },
 
@@ -141,13 +159,13 @@ export default defineComponent({
     async loadViewStore() {
       try {
         await this.viewStore.load({
-          url: 'api/contacts/search',
-          method: 'post',
-          params: this.search
+          url: "api/contacts/search",
+          method: "post",
+          params: this.search,
         });
       }
       catch (ex) {
-        console.exception(ex);
+        console.error(ex);
       }
     },
     onClickRefreshButton() {
@@ -155,8 +173,8 @@ export default defineComponent({
     },
     onClickSearchBtn() {
       this.loadViewStore();
-    }
-  }
+    },
+  },
 });
 </script>
 

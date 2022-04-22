@@ -1,5 +1,5 @@
-import Sorter from '@/classes/Sorter';
-import BaseCollection from '@/classes/BaseCollection';
+import Sorter from "ui/classes/Sorter";
+import BaseCollection from "ui/classes/BaseCollection";
 
 export interface ICollection<T> extends BaseCollection<T> {
   sorters: BaseCollection<Sorter>;

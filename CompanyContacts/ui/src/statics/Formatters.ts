@@ -1,8 +1,8 @@
-import Icons from '@/statics/Icons';
-import Styles from '@/statics/Styles';
-import utilities from '@/utilities';
-import {IFieldValue} from '@/interfaces/Components';
-import IKeyValue from '@jef/shared/interfaces/IKeyValue';
+import Icons from "ui/statics/Icons";
+import Styles from "ui/statics/Styles";
+import utilities from "ui/utilities";
+import { IFieldValue } from "ui/interfaces/Components";
+import IKeyValue from "@jef/shared/interfaces/IKeyValue";
 
 interface IProps {
   iconName: string;
@@ -15,10 +15,10 @@ interface IBoolIcon {
 
 function boolIcon(value: boolean): IBoolIcon {
   return {
-    cmp: 'Icon',
+    cmp: "Icon",
     props: {
-      iconName: value ? `${Icons.CHECK} ${Styles.FONT_GREEN}` : `${Icons.CROSS} ${Styles.FONT_RED}`
-    }
+      iconName: value ? `${Icons.CHECK} ${Styles.FONT_GREEN}` : `${Icons.CROSS} ${Styles.FONT_RED}`,
+    },
   };
 }
 
@@ -27,24 +27,24 @@ const Enums = window.Enums;
 const Formatters: IKeyValue = {
   dashIfNull(value: any, record: any, nextFormatter?: string): string {
     if (utilities.isEmpty(value)) {
-      return '-';
+      return "-";
     }
     return nextFormatter ? Formatters[nextFormatter](value) : value;
   },
   boolIcon: boolIcon,
   boolIconTrue(value: boolean): IBoolIcon | string {
-    return value ? boolIcon(value) : '';
+    return value ? boolIcon(value) : "";
   },
   mmddyyyy(value: string | Date): string {
     if (!(value instanceof Date)) {
       value = new Date(value);
     }
-    return `${(value.getMonth() + 1).toString().padStart(2, '0')}/${value.getDate().toString().padStart(2, '0')}/${value.getFullYear()}`;
+    return `${(value.getMonth() + 1).toString().padStart(2, "0")}/${value.getDate().toString().padStart(2, "0")}/${value.getFullYear()}`;
   },
   positionType(value: number): IFieldValue {
-    const found = Enums.PositionTypes.findRecord('Value', value);
-    return found && found.get('Description');
-  }
+    const found = Enums.PositionTypes.findRecord("Value", value);
+    return found && found.get("Description");
+  },
 };
 
 export default Formatters;

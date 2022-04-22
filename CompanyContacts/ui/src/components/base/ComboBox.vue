@@ -1,109 +1,125 @@
 <template>
-  <FlexContainer v-bind="$props"
-                 :direction="layout"
-                 :class="fieldContainerCls">
-    <span v-if="showLabel"
-          class="field-label"
-          :style="labelStyle">
+  <FlexContainer
+    v-bind="$props"
+    :direction="layout"
+    :class="fieldContainerCls"
+  >
+    <span
+      v-if="showLabel"
+      class="field-label"
+      :style="labelStyle"
+    >
       {{ label }}{{ labelSeparator }}
     </span>
-    <FlexContainer :direction="FlexDirections.COLUMN"
-                   :grow="1"
-                   class="field-input-container">
+    <FlexContainer
+      :direction="FlexDirections.COLUMN"
+      :grow="1"
+      class="field-input-container"
+    >
       <ul class="field-combo-tags">
         <template v-if="multiselect">
-          <li v-for="(record, index) in records"
-              :key="index"
-              class="field-combo-tag">
+          <li
+            v-for="(record, index) in records"
+            :key="index"
+            class="field-combo-tag"
+          >
             <span class="field-combo-tag-text">
               {{ record[displayKey] }}
             </span>
-            <JefButton :icon="Icons.CROSS"
-                       :icon-only="true"
-                       :data-record-index="index"
-                       height="100%"
-                       @click="onClickRemoveTag" />
+            <JefButton
+              :icon="Icons.CROSS"
+              :icon-only="true"
+              :data-record-index="index"
+              height="100%"
+              @click="onClickRemoveTag"
+            />
           </li>
         </template>
         <li>
-          <input ref="input"
-                 v-model="displayValue"
-                 :class="fieldInputCls"
-                 :type="type"
-                 :required="isRequired"
-                 :disabled="isDisabled"
-                 :readonly="isReadOnly"
-                 :style="fieldInputStyle"
-                 :min="min"
-                 :max="max"
-                 @keyup.enter="onKeyUpField">
+          <input
+            ref="input"
+            v-model="displayValue"
+            :class="fieldInputCls"
+            :type="type"
+            :required="isRequired"
+            :disabled="isDisabled"
+            :readonly="isReadOnly"
+            :style="fieldInputStyle"
+            :min="min"
+            :max="max"
+            @keyup.enter="onKeyUpField"
+          >
         </li>
       </ul>
-      <Icon class="field-picker"
-            :icon-name="Icons.CHEVRON_DOWN"
-            @click="onClickPicker" />
-      <JefList :store="store"
-               :display-key="displayKey"
-               :value-key="valueKey"
-               :expanded="isExpanded"
-               :align-target="alignTarget"
-               :selected-records="records"
-               @select="onSelectRecord" />
+      <Icon
+        class="field-picker"
+        :icon-name="Icons.CHEVRON_DOWN"
+        @click="onClickPicker"
+      />
+      <JefList
+        :store="store"
+        :display-key="displayKey"
+        :value-key="valueKey"
+        :expanded="isExpanded"
+        :align-target="alignTarget"
+        :selected-records="records"
+        @select="onSelectRecord"
+      />
     </FlexContainer>
   </FlexContainer>
 </template>
 
 <script lang="ts">
-import {defineComponent, PropType} from 'vue';
-import FlexContainer from '@/components/base/FlexContainer.vue';
-import Field from '@/components/base/Field.vue';
-import IStore from '@/interfaces/IStore';
-import IModel from '@/interfaces/IModel';
-import Icon from '@/components/Icon.vue';
-import JefList from '@/components/base/List.vue';
-import {IButton, IFieldValue, IJefList} from '@/interfaces/Components';
-import utilities from '@/utilities';
-import JefButton from '@/components/base/Button.vue';
+import { defineComponent, PropType } from "vue";
+import FlexContainer from "ui/components/base/FlexContainer.vue";
+import Field from "ui/components/base/Field.vue";
+import IStore from "ui/interfaces/IStore";
+import IModel from "ui/interfaces/IModel";
+import Icon from "ui/components/Icon.vue";
+import JefList from "ui/components/base/List.vue";
+import { IButton, IFieldValue, IJefList } from "ui/interfaces/Components";
+import utilities from "ui/utilities";
+import JefButton from "ui/components/base/Button.vue";
 
 export default defineComponent({
-  name: 'ComboBox',
+  name: "ComboBox",
   components: {
     JefButton,
     JefList,
     Icon,
-    FlexContainer
+    FlexContainer,
   },
   extends: Field,
   props: {
     multiselect: {
       type: Boolean,
-      default: false
+      default: false,
     },
     associationKey: {
       type: String,
-      default: ''
+      default: "",
     },
     displayKey: {
       type: String,
-      default: 'Description'
+      default: "Description",
     },
     valueKey: {
       type: String,
-      default: 'Value'
+      default: "Value",
     },
     store: {
       type: Object as PropType<IStore<IModel>>,
-      default: null
-    }
+      default: null,
+    },
   },
 
   data(): {
     isExpanded: boolean;
     alignTarget: HTMLElement | null;
-  } {
+    } {
     return {
       isExpanded: false,
-      alignTarget: null
+      alignTarget: null,
     };
   },
 
@@ -132,7 +148,7 @@ export default defineComponent({
     displayValue(): IFieldValue {
       const records = this.records;
       const firstRecord = records && records[0];
-      return this.multiselect ? '' : firstRecord && firstRecord.get(this.displayKey);
+      return this.multiselect ? "" : firstRecord && firstRecord.get(this.displayKey);
     },
     value: {
       get(): IFieldValue | IFieldValue[] {
@@ -157,7 +173,7 @@ export default defineComponent({
            * maybe allow for other properties to be set as a config in the combo? */
           (value as IFieldValue[]).forEach((item) => {
             valueStore.add(new valueStore.type({
-              [idKey]: item
+              [idKey]: item,
             }));
           });
           value = valueStore;
@@ -170,20 +186,20 @@ export default defineComponent({
             value = [value];
           }
         }
-        this.$emit('update:modelValue', value);
-      }
-    }
+        this.$emit("update:modelValue", value);
+      },
+    },
   },
 
   mounted() {
     this.alignTarget = this.$refs.input as HTMLElement;
     /* Let's listen for any document clicks, as we'll need to collapse if user clicks on something
      * outside of this class */
-    document.addEventListener('click', this.onClickDocument);
+    document.addEventListener("click", this.onClickDocument);
   },
 
   unmounted() {
-    document.removeEventListener('click', this.onClickDocument);
+    document.removeEventListener("click", this.onClickDocument);
   },
 
   methods: {
@@ -213,7 +229,7 @@ export default defineComponent({
     onClickRemoveTag(button: IButton) {
       const records = this.records;
       const el = button.$el;
-      const index = el && el.getAttribute('data-record-index');
+      const index = el && el.getAttribute("data-record-index");
       if (index) {
         this.updateValue(records[parseInt(index)]);
       }
@@ -226,8 +242,8 @@ export default defineComponent({
       if (this.isExpanded && !this.$el.contains(event.target)) {
         this.isExpanded = false;
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

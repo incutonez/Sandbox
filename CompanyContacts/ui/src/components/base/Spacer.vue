@@ -3,23 +3,25 @@
 </template>
 
 <script>
-import {defineComponent} from 'vue';
-import FlexContainer from './FlexContainer';
+import { defineComponent } from "vue";
+import FlexContainer from "./FlexContainer.vue";
 
 export default defineComponent({
-  name: 'JefSpacer',
-  components: {FlexContainer},
+  name: "JefSpacer",
+  components: {
+    FlexContainer,
+  },
   extends: FlexContainer,
   props: {
     grow: {
       type: Number,
-      default: 1
+      default: 1,
     },
     border: {
       type: [Boolean, String],
-      default: false
-    }
-  }
+      default: false,
+    },
+  },
 });
 </script>
 

@@ -1,5 +1,5 @@
-import {defineComponent} from 'vue';
-import {IEventMouse} from '@/interfaces/Components';
+import { defineComponent } from "vue";
+import { IEventMouse } from "ui/interfaces/Components";
 
 // General idea taken from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_draggable
 export default defineComponent({
@@ -7,12 +7,12 @@ export default defineComponent({
     dragTarget: {
       type: String,
       // Idea taken from https://stackoverflow.com/a/17206138/1253609
-      default: ':scope > .jef-title'
+      default: ":scope > .jef-title",
     },
     dragConstrain: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data(): {
@@ -25,7 +25,7 @@ export default defineComponent({
       yMax: number;
       targetEl?: HTMLElement;
     }
-  } {
+    } {
     return {
       position: {
         x: 0,
@@ -33,8 +33,8 @@ export default defineComponent({
         xMin: 0,
         xMax: 0,
         yMin: 0,
-        yMax: 0
-      }
+        yMax: 0,
+      },
     };
   },
 
@@ -42,8 +42,8 @@ export default defineComponent({
     dragTarget: {
       handler(value) {
         this.changeTargetEl(value);
-      }
-    }
+      },
+    },
   },
 
   mounted() {
@@ -63,7 +63,7 @@ export default defineComponent({
         const parentRect = this.$el.getBoundingClientRect();
         const rect = newTarget.getBoundingClientRect();
         newTarget.onmousedown = this._dragStart;
-        newTarget.style.cursor = 'move';
+        newTarget.style.cursor = "move";
         position.targetEl = newTarget;
         position.xMin = parentRect.left - rect.left;
         position.xMax = innerWidth + parentRect.right - rect.right - parentRect.width;
@@ -72,7 +72,7 @@ export default defineComponent({
       }
       if (oldTarget) {
         oldTarget.onmousedown = null;
-        oldTarget.style.cursor = '';
+        oldTarget.style.cursor = "";
       }
     },
 
@@ -141,6 +141,6 @@ export default defineComponent({
     _dragEnd() {
       document.onmouseup = null;
       document.onmousemove = null;
-    }
-  }
+    },
+  },
 });

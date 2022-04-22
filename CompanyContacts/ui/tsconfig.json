@@ -1,43 +1,36 @@
 {
   "compilerOptions": {
     "target": "esnext",
+    "useDefineForClassFields": true,
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
+    "lib": ["esnext", "dom"],
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
     "outDir": "./dist",
-    // https://github.com/TypeStrong/ts-loader/issues/1138
-    "importsNotUsedAsValues": "preserve",
-    "types": [
-      "webpack-env"
-    ],
     "paths": {
-      "@/*": [
+      "ui/*": [
         "src/*"
       ]
-    },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+    }
   },
   "include": [
     "src/**/*.ts",
+    "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "src/**/*.vue"
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

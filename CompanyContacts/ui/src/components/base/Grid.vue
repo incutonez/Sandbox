@@ -1,40 +1,54 @@
 <template>
-  <FlexContainer v-bind="$props"
-                 :border="border"
-                 extra-cls="grid-container"
-                 :direction="FlexDirections.COLUMN">
-    <JefTitle v-if="title || showTools"
-              :title="title"
-              border="b"
-              :title-flex="titleFlex">
-      <template v-if="showTools"
-                #tools>
+  <FlexContainer
+    v-bind="$props"
+    :border="border"
+    extra-cls="grid-container"
+    :direction="FlexDirections.COLUMN"
+  >
+    <JefTitle
+      v-if="title || showTools"
+      :title="title"
+      border="b"
+      :title-flex="titleFlex"
+    >
+      <template
+        v-if="showTools"
+        #tools
+      >
         <slot name="tools" />
       </template>
     </JefTitle>
     <FlexContainer class="grid-row grid-header">
-      <JefGridColumn v-for="(column, colIdx) in columnsCfg"
-                     :key="colIdx"
-                     :column="column"
-                     :border="getColumnBorder(colIdx, column)"
-                     @sort="onSortColumn"
-                     @hide="onHideColumn"
-                     @show="onShowColumn" />
+      <JefGridColumn
+        v-for="(column, colIdx) in columnsCfg"
+        :key="colIdx"
+        :column="column"
+        :border="getColumnBorder(colIdx, column)"
+        @sort="onSortColumn"
+        @hide="onHideColumn"
+        @show="onShowColumn"
+      />
     </FlexContainer>
-    <FlexContainer :grow="1"
-                   :align="FlexAlignments.AUTO"
-                   :direction="FlexDirections.COLUMN"
-                   :class="gridBodyCls">
-      <FlexContainer v-for="(record, index) in store"
-                     :key="index"
-                     class="grid-row grid-row-data"
-                     :record="record"
-                     @click="onClickRow">
-        <JefGridCell v-for="(cell, rowIdx) in columnsCfg"
-                     :key="rowIdx"
-                     :record="record"
-                     :border="getColumnBorder(rowIdx, cell)"
-                     :column="cell" />
+    <FlexContainer
+      :grow="1"
+      :align="FlexAlignments.AUTO"
+      :direction="FlexDirections.COLUMN"
+      :class="gridBodyCls"
+    >
+      <FlexContainer
+        v-for="(record, index) in store"
+        :key="index"
+        class="grid-row grid-row-data"
+        :record="record"
+        @click="onClickRow"
+      >
+        <JefGridCell
+          v-for="(cell, rowIdx) in columnsCfg"
+          :key="rowIdx"
+          :record="record"
+          :border="getColumnBorder(rowIdx, cell)"
+          :column="cell"
+        />
       </FlexContainer>
       <LoadingMask :hidden="!viewLoading" />
     </FlexContainer>
@@ -42,20 +56,20 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
-import Store from '@/classes/Store';
-import {TableCls} from '@/statics/TableCls';
-import ITableCls from '@/interfaces/ITableCls';
-import IColumn from '@/interfaces/IColumn';
-import JefGridCell from '@/components/grid/Cell.vue';
-import JefGridColumn from '@/components/grid/Column.vue';
-import Sorter from '@/classes/Sorter';
-import FlexContainer from '@/components/base/FlexContainer.vue';
-import LoadingMask from '@/components/base/LoadingMask.vue';
-import JefTitle from '@/components/base/Title.vue';
-import GridColumn from '@/classes/GridColumn';
-import utilities from '@/utilities';
-import Model from '@/classes/Model';
+import { defineComponent } from "vue";
+import Store from "ui/classes/Store";
+import { TableCls } from "ui/statics/TableCls";
+import ITableCls from "ui/interfaces/ITableCls";
+import IColumn from "ui/interfaces/IColumn";
+import JefGridCell from "ui/components/grid/Cell.vue";
+import JefGridColumn from "ui/components/grid/Column.vue";
+import Sorter from "ui/classes/Sorter";
+import FlexContainer from "ui/components/base/FlexContainer.vue";
+import LoadingMask from "ui/components/base/LoadingMask.vue";
+import JefTitle from "ui/components/base/Title.vue";
+import GridColumn from "ui/classes/GridColumn";
+import utilities from "ui/utilities";
+import Model from "ui/classes/Model";
 
 interface IData {
   TableCls: ITableCls;
@@ -64,50 +78,50 @@ interface IData {
 }
 
 export default defineComponent({
-  name: 'JefGrid',
+  name: "JefGrid",
   components: {
     JefTitle,
     LoadingMask,
     FlexContainer,
     JefGridColumn,
-    JefGridCell
+    JefGridCell,
   },
   extends: FlexContainer,
   props: {
     border: {
       type: [String, Boolean],
-      default: 'r b l'
+      default: "r b l",
     },
     columns: {
       type: Array as () => IColumn[],
       default: () => {
         return [];
-      }
+      },
     },
     store: {
       type: Store,
       default: () => {
         return new Store(Model);
-      }
+      },
     },
     multiSort: {
       type: Boolean,
-      default: false
+      default: false,
     },
     title: {
       type: [Boolean, String],
-      default: false
+      default: false,
     },
     titleFlex: {
       type: Number,
-      default: 1
-    }
+      default: 1,
+    },
   },
   data() {
     return {
       TableCls: TableCls,
       selectedRow: null,
-      columnsCfg: []
+      columnsCfg: [],
     } as IData;
   },
   computed: {
@@ -115,43 +129,43 @@ export default defineComponent({
       return this.store.loading;
     },
     gridBodyCls(): string {
-      return this.viewLoading ? 'loading-mask' : '';
+      return this.viewLoading ? "loading-mask" : "";
     },
     showTools(): boolean {
       return !!this.$slots.tools;
-    }
+    },
   },
   watch: {
     columns: {
       immediate: true,
       handler(columns) {
         this.columnsCfg = GridColumn.generateChildren(columns, this.store.sorters);
-      }
+      },
     },
     store: {
       immediate: true,
       handler(newStore, oldStore) {
         if (oldStore) {
-          oldStore.off('sort', this.onSortStore);
+          oldStore.off("sort", this.onSortStore);
         }
         if (newStore) {
-          newStore.on('sort', this.onSortStore);
+          newStore.on("sort", this.onSortStore);
         }
-      }
-    }
+      },
+    },
   },
 
   unmounted() {
     const store = this.store;
     if (store) {
-      store.off('sort', this.onSortStore);
+      store.off("sort", this.onSortStore);
     }
   },
 
   methods: {
     getColumnBorder(index: number, column: IColumn) {
       // If we're at the very last column, don't add the default border right
-      return index + 1 === this.columnsCfg.length ? 'b' : column.border;
+      return index + 1 === this.columnsCfg.length ? "b" : column.border;
     },
     syncColumnsSort(columns: IColumn[]) {
       const sorters = this.store.sorters;
@@ -181,7 +195,7 @@ export default defineComponent({
       column.hidden = false;
     },
     onSortColumn(column: IColumn) {
-      let sorter = column.sorter;
+      const sorter = column.sorter;
       if (sorter) {
         const shouldClear = sorter.changeDirection();
         if (shouldClear) {
@@ -193,7 +207,7 @@ export default defineComponent({
       else {
         column.sorter = new Sorter({
           field: column.field,
-          direction: 'ASC'
+          direction: "ASC",
         });
       }
       if (column.isSorted) {
@@ -213,8 +227,8 @@ export default defineComponent({
       }
       this.selectedRow = target.parentElement;
       this.selectedRow?.classList.add(TableCls.ACTIVE);
-    }
-  }
+    },
+  },
 });
 </script>
 

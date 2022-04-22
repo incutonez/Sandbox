@@ -1,6 +1,6 @@
-import ITableCls from '@/interfaces/ITableCls';
+import ITableCls from "ui/interfaces/ITableCls";
 
-const Root = 'table';
+const Root = "table";
 
 export const TableCls: ITableCls = {
   ACTIVE: `${Root}-active`,
@@ -9,5 +9,5 @@ export const TableCls: ITableCls = {
   ROOT: Root,
   DARK: `${Root}-dark`,
   HOVER: `${Root}-hover`,
-  STRIPED: `${Root}-striped`
+  STRIPED: `${Root}-striped`,
 };

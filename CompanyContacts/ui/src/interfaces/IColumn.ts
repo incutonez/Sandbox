@@ -1,5 +1,5 @@
-import Sorter from '@/classes/Sorter';
-import {FlexDirections, FlexJustifications, TextAlignments} from '@/statics/Flex';
+import Sorter from "ui/classes/Sorter";
+import { FlexDirections, FlexJustifications, TextAlignments } from "ui/statics/Flex";
 
 export default interface IColumn {
   cls: Array<string>;

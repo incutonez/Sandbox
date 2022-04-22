@@ -1,5 +1,5 @@
-import ICompany from '@/interfaces/ICompany';
-import IApplication from '@/interfaces/IApplication';
+import ICompany from "ui/interfaces/ICompany";
+import IApplication from "ui/interfaces/IApplication";
 
 export default interface IContact {
   Id: number;

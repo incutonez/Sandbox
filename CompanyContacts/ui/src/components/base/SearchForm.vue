@@ -1,86 +1,96 @@
 <template>
-  <FlexContainer v-bind="$props"
-                 :border="true"
-                 :direction="FlexDirections.COLUMN"
-                 cmp="form">
-    <JefTitle v-if="title"
-              :title="title" />
-    <FlexContainer v-if="showDefaultSlot"
-                   :padding="bodyPadding"
-                   :grow="1"
-                   :direction="FlexDirections.COLUMN">
+  <FlexContainer
+    v-bind="$props"
+    :border="true"
+    :direction="FlexDirections.COLUMN"
+    cmp="form"
+  >
+    <JefTitle
+      v-if="title"
+      :title="title"
+    />
+    <FlexContainer
+      v-if="showDefaultSlot"
+      :padding="bodyPadding"
+      :grow="1"
+      :direction="FlexDirections.COLUMN"
+    >
       <slot name="default" />
     </FlexContainer>
-    <FlexContainer border="t"
-                   :padding="5"
-                   :pack="FlexAlignments.END"
-                   :hidden="hideBottomToolbar">
-      <JefButton text="Reset"
-                 :hidden="hideResetBtn"
-                 :margin="hideSearchBtn && hideClearBtn ? 0 : '0 5px 0 0'"
-                 @click="onClickResetButton" />
-      <JefButton text="Clear"
-                 :hidden="hideClearBtn"
-                 :margin="hideSearchBtn ? 0 : '0 5px 0 0'"
-                 @click="onClickClearButton" />
-      <JefButton text="Search"
-                 :hidden="hideSearchBtn"
-                 @click="onClickSearchButton" />
+    <FlexContainer
+      border="t"
+      :padding="5"
+      :pack="FlexAlignments.END"
+      :hidden="hideBottomToolbar"
+    >
+      <JefButton
+        text="Reset"
+        :hidden="hideResetBtn"
+        :margin="hideSearchBtn && hideClearBtn ? 0 : '0 5px 0 0'"
+        @click="onClickResetButton"
+      />
+      <JefButton
+        text="Clear"
+        :hidden="hideClearBtn"
+        :margin="hideSearchBtn ? 0 : '0 5px 0 0'"
+        @click="onClickClearButton"
+      />
+      <JefButton
+        text="Search"
+        :hidden="hideSearchBtn"
+        @click="onClickSearchButton"
+      />
     </FlexContainer>
   </FlexContainer>
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
-import FlexContainer from '@/components/base/FlexContainer.vue';
-import {FlexAlignments, FlexDirections} from '@/statics/Flex';
-import JefButton from '@/components/base/Button.vue';
-import EventsProvider from '@/mixins/EventsProvider';
-import RegisterProvider from '@/mixins/RegisterProvider';
-import JefTitle from '@/components/base/Title.vue';
-import {IField} from '@/interfaces/Components';
+import { defineComponent } from "vue";
+import FlexContainer from "ui/components/base/FlexContainer.vue";
+import { FlexAlignments, FlexDirections } from "ui/statics/Flex";
+import JefButton from "ui/components/base/Button.vue";
+import EventsProvider from "ui/mixins/EventsProvider";
+import RegisterProvider from "ui/mixins/RegisterProvider";
+import JefTitle from "ui/components/base/Title.vue";
+import { IField } from "ui/interfaces/Components";
 
 export default defineComponent({
-  name: 'SearchForm',
+  name: "SearchForm",
   components: {
     JefTitle,
     JefButton,
-    FlexContainer
+    FlexContainer,
   },
   extends: FlexContainer,
-  mixins: [
-    EventsProvider,
-    RegisterProvider
-  ],
+  mixins: [EventsProvider,
+    RegisterProvider],
   props: {
     bodyPadding: {
       type: [Number, String],
-      default: '5px 10px 0'
+      default: "5px 10px 0",
     },
     title: {
       type: [Boolean, String],
-      default: false
+      default: false,
     },
     hideSearchBtn: {
       type: Boolean,
-      default: true
+      default: true,
     },
     hideClearBtn: {
       type: Boolean,
-      default: true
+      default: true,
     },
     hideResetBtn: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
-  emits: [
-    'search'
-  ],
+  emits: ["search"],
   data() {
     return {
       FlexAlignments: FlexAlignments,
-      FlexDirections: FlexDirections
+      FlexDirections: FlexDirections,
     };
   },
   computed: {
@@ -89,13 +99,13 @@ export default defineComponent({
     },
     hideBottomToolbar(): boolean {
       return this.hideSearchBtn && this.hideClearBtn && this.hideResetBtn;
-    }
+    },
   },
   mounted() {
-    this.on('press:enter', this.onKeyUpSearchField);
+    this.on("press:enter", this.onKeyUpSearchField);
   },
   unmounted() {
-    this.off('press:enter', this.onKeyUpSearchField);
+    this.off("press:enter", this.onKeyUpSearchField);
   },
   methods: {
     onClickClearButton() {
@@ -111,12 +121,12 @@ export default defineComponent({
       });
     },
     onKeyUpSearchField() {
-      this.$emit('search');
+      this.$emit("search");
     },
     onClickSearchButton() {
-      this.$emit('search');
-    }
-  }
+      this.$emit("search");
+    },
+  },
 });
 </script>
 
