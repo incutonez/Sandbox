@@ -6,5 +6,5 @@ apps.forEach((app) => {
   const out = execSync("npx npm-check-updates -u", {
     cwd: app,
   });
-  console.log(out.toString());
+  console.info(out.toString());
 });
