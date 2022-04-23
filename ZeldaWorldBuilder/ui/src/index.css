@@ -3,20 +3,14 @@
 @tailwind utilities;
 
 @layer utilities {
-  @variants hover {
-    .item-highlight {
-      @apply bg-blue-100 !important;
-    }
+  .item-highlight {
+    @apply bg-blue-100 !important;
   }
 }
 
 @layer components {
   .base-grid {
-    @apply p-4 grid grid-cols-16 grid-rows-10;
-    grid-template-columns: 48px;
-    grid-template-rows: 48px;
-    grid-auto-columns: 48px;
-    grid-auto-rows: 48px;
+    @apply p-4 grid flex-1 grid-rows-11 grid-cols-16;
   }
 
   .grid-cell {

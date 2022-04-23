@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-full w-full">
+  <div class="flex">
     <BaseGrid
       ref="grid"
       v-model:selected-cell="selectedCell"
@@ -12,7 +12,7 @@
     />
     <div class="p-4">
       <div class="flex">
-        <BaseCheckbox
+        <FieldCheckBox
           v-model="showGridLines"
           label="Grid Lines"
         />
@@ -23,28 +23,28 @@
         />
       </div>
       <div class="flex space-x-2">
-        <BaseNumberField
+        <FieldInteger
           v-model="record.X"
           label="Overworld X"
           width="w-28"
         />
-        <BaseNumberField
+        <FieldInteger
           v-model="record.Y"
           label="Overworld Y"
           width="w-28"
         />
       </div>
       <div class="flex space-x-2">
-        <BaseComboBox
+        <FieldComboBox
           v-model="record.GroundColor"
           label="Ground Color"
-          :store="groundColorsStore"
+          :options="groundColorsStore"
           width="w-28"
         />
-        <BaseComboBox
+        <FieldComboBox
           v-model="record.AccentColor"
           label="World Color"
-          :store="accentColorsStore"
+          :options="accentColorsStore"
           width="w-28"
         />
       </div>
@@ -54,10 +54,10 @@
         class="mt-8"
       >
         <div class="flex space-x-2">
-          <BaseComboBox
+          <FieldComboBox
             v-model="selectedCell.Tile"
             label="Cell Tile"
-            :store="tilesStore"
+            :options="tilesStore"
           />
           <div class="w-16 h-16 bg-blue-100">
             <img
@@ -67,37 +67,37 @@
             >
           </div>
         </div>
-        <BaseComboBox
+        <FieldComboBox
           v-for="targetColor in selectedCell.TargetColors"
           :key="targetColor.id"
           v-model="targetColor.Value"
           :label="`Replace ${WorldColors.getKey(targetColor.Target)}`"
-          :store="accentColorsStore"
+          :options="accentColorsStore"
         />
         <div v-if="selectedCell.isTransition()">
           <div class="flex space-x-2">
-            <BaseNumberField
+            <FieldInteger
               v-model="selectedCell.Transition.X"
               label="X Change"
               width="w-24"
             />
-            <BaseNumberField
+            <FieldInteger
               v-model="selectedCell.Transition.Y"
               label="Y Change"
               width="w-24"
             />
           </div>
-          <BaseComboBox
+          <FieldComboBox
             v-model="selectedCell.Transition.TileType"
             label="Tile"
-            :store="tilesStore"
+            :options="tilesStore"
           />
-          <BaseComboBox
+          <FieldComboBox
             v-model="selectedCell.Transition.Template"
             label="Template"
-            :store="screenTemplatesStore"
+            :options="screenTemplatesStore"
           />
-          <BaseCheckbox
+          <FieldCheckBox
             v-model="selectedCell.Transition.IsFloating"
             label="Floating"
           />
@@ -108,9 +108,8 @@
 </template>
 
 <script>
-import BaseComboBox from "@/components/BaseComboBox.vue";
-import { WorldColors } from "@/classes/enums/WorldColors.js";
-import { Tiles } from "@/classes/enums/Tiles.js";
+import { WorldColors } from "ui/classes/enums/WorldColors.js";
+import { Tiles } from "ui/classes/enums/Tiles.js";
 import {
   computed,
   provide,
@@ -118,15 +117,12 @@ import {
   ref,
   toRefs,
 } from "vue";
-import { Grid } from "@/classes/models/Grid.js";
-import BaseCheckbox from "@/components/BaseCheckbox.vue";
-import BaseGrid from "@/components/BaseGrid.vue";
-import BaseButton from "@/components/BaseButton.vue";
-import { isArray } from "@/utilities.js";
-import { useKeyboardMouseProvider } from "@/composables/useKeyboardMouseProvider.js";
-import BaseField from "@/components/BaseField.vue";
-import { ScreenTemplates } from "@/classes/enums/ScreenTemplates.js";
-import BaseNumberField from "@/components/BaseNumberField.vue";
+import { Grid } from "ui/classes/models/Grid.js";
+import BaseGrid from "ui/components/BaseGrid.vue";
+import { isArray } from "ui/utilities.js";
+import { useKeyboardMouseProvider } from "ui/composables/useKeyboardMouseProvider.js";
+import { ScreenTemplates } from "ui/classes/enums/ScreenTemplates.js";
+import { FieldCheckBox, FieldInteger, BaseButton, FieldComboBox } from "@incutonez/core-ui";
 
 /**
  * TODOJEF:
@@ -142,41 +138,44 @@ import BaseNumberField from "@/components/BaseNumberField.vue";
 export default {
   name: "App",
   components: {
-    BaseNumberField,
-    BaseField,
+    FieldInteger,
     BaseButton,
     BaseGrid,
-    BaseCheckbox,
-    BaseComboBox
+    FieldComboBox,
+    FieldCheckBox,
   },
   setup() {
     const contextMenu = ref(null);
     const theDialog = ref(null);
     const selectedCell = ref(null);
     const grid = ref(null);
+    console.log(WorldColors);
     const state = reactive({
-      groundColorsStore: WorldColors,
+      groundColorsStore: [{
+        id: "000000",
+        value: "Black",
+      }, {
+        id: "FFEFA6",
+        value: "Tan",
+      }],
       accentColorsStore: WorldColors,
       screenTemplatesStore: ScreenTemplates,
       tilesStore: Tiles,
       showGridLines: true,
       record: Grid.initialize(11, 16),
     });
-    const selectedGround = computed(() => state.groundColorsStore.findRecord(state.record.GroundColor)?.backgroundStyle);
+    console.log(state.groundColorsStore);
     provide("pressedKeys", useKeyboardMouseProvider());
 
     function getCellColor() {
+      console.log("changing", state.record.GroundColor);
       return state.accentColorsStore.findRecord(state.record.GroundColor)?.backgroundStyle;
     }
 
     // We have to have this because we do cell replacements, which requires us doing some deep copying here
     // TODOJEF: Is there a better way of doing this?
     // TODOJEF: Make this an actual store?
-    const store = computed(() => {
-      return [...state.record.cells];
-    }, {
-      immediate: true
-    });
+    const store = computed(() => [...state.record.cells]);
 
     function onReplaceCell({ indices, replacement }) {
       if (!isArray(indices)) {
@@ -199,7 +198,6 @@ export default {
 
     return {
       ...toRefs(state),
-      selectedGround,
       contextMenu,
       theDialog,
       grid,
@@ -208,14 +206,8 @@ export default {
       getCellColor,
       WorldColors,
       onReplaceCell,
-      onClickSaveBtn
+      onClickSaveBtn,
     };
   },
 };
 </script>
-
-<style>
-html, body, #app {
-  @apply h-full w-full;
-}
-</style>

@@ -1,4 +1,4 @@
-﻿import tailwindConfig from "@incutonez/core/ui/tailwind.config.js";
+﻿import tailwindConfig from "@incutonez/core-ui/dist/tailwind.config.js";
 
 const { extend } = tailwindConfig.theme;
 extend.colors = {
@@ -6,11 +6,10 @@ extend.colors = {
   "zGreen": "#00a800",
 };
 extend.gridTemplateColumns = {
-  "16": "repeat(16, minmax(0, 1fr))",
+  "16": "repeat(16, 48px)",
 };
 extend.gridTemplateRows = {
-  "10": "repeat(10, minmax(0, 1fr))",
-  "11": "repeat(11, minmax(0, 1fr))",
+  "11": "repeat(11, 48px)",
 };
 extend.gridRowStart = {
   "11": "11",
@@ -18,6 +17,9 @@ extend.gridRowStart = {
   "9": "9",
   "8": "8",
 };
+tailwindConfig.safelist.push({
+  pattern: /^row-start-.*/,
+});
 
 export default {
   ...tailwindConfig,

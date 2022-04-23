@@ -2,17 +2,19 @@
 import { Enum } from "../classes/Enum.js";
 
 class EnumStore extends Store {
-  constructor(data, model = Enum, sorters = [{ property: "value" }]) {
+  constructor(data, model = Enum, sorters = [{
+    property: "value",
+  }]) {
     super(data, model, sorters);
   }
 
   initialize(items) {
     super.initialize(items);
-    const self = {};
+    const keys = {};
     this.forEach((item) => {
-      self[item[this.valueKey]] = item[this.idKey];
+      keys[item[this.valueKey]] = item[this.idKey];
     });
-    Object.assign(this, self);
+    Object.assign(this, keys);
   }
 
   getKey(value) {
@@ -21,7 +23,7 @@ class EnumStore extends Store {
   }
 
   createKey(item, alter = false) {
-    // We split on uppercase 
+    // We split on uppercase
     return alter ? item.split(/([A-Z][a-z]+)/g).filter(Boolean).join("_").toUpperCase() : item;
   }
 
@@ -41,5 +43,5 @@ class EnumStore extends Store {
 }
 
 export {
-  EnumStore
+  EnumStore,
 };

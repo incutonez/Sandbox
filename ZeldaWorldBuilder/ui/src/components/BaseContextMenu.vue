@@ -1,7 +1,7 @@
 ﻿<template>
   <div
     ref="self"
-    class="context-menu hidden"
+    class="hidden context-menu"
   >
     <slot />
   </div>
@@ -29,8 +29,8 @@ export default {
     return {
       self,
       show,
-      hide
+      hide,
     };
-  }
+  },
 };
 </script>

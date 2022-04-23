@@ -1,11 +1,11 @@
-﻿import { Tiles } from "@/classes/enums/Tiles.js";
-import { Model } from "@/classes/models/Model.js";
-import { WorldColors } from "@/classes/enums/WorldColors.js";
+﻿import { Tiles } from "ui/classes/enums/Tiles.js";
+import { Model } from "ui/classes/models/Model.js";
+import { WorldColors } from "ui/classes/enums/WorldColors.js";
 import {
   collect,
   isEmpty,
-  toQueryString
-} from "@/utilities.js";
+  toQueryString,
+} from "ui/utilities.js";
 import { v4 as uuidv4 } from "uuid";
 
 class Tile extends Model {
@@ -119,7 +119,7 @@ class Tile extends Model {
         }
         return {
           Target: target,
-          Value: value
+          Value: value,
         };
       });
     }
@@ -228,7 +228,7 @@ class Tile extends Model {
       targetColors = colors.map((color) => {
         return {
           Target: color,
-          id: uuidv4()
+          id: uuidv4(),
         };
       });
     }
@@ -244,7 +244,7 @@ class Tile extends Model {
     const params = {
       tile: key,
       targetColors: collect(targetColors, "Target"),
-      replaceColors: collect(targetColors, "Value")
+      replaceColors: collect(targetColors, "Value"),
     };
     return `http://localhost:3001/image?${toQueryString(params)}`;
   }
@@ -252,17 +252,15 @@ class Tile extends Model {
   getConfig() {
     return {
       Type: Tiles.getKey(this.Type),
-      Children: [
-        {
-          Transition: this.Transition,
-          Coordinates: this.Coordinates,
-          ReplaceColors: this.getTargetColors(true),
-        }
-      ]
+      Children: [{
+        Transition: this.Transition,
+        Coordinates: this.Coordinates,
+        ReplaceColors: this.getTargetColors(true),
+      }],
     };
   }
 }
 
 export {
-  Tile
+  Tile,
 };

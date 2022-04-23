@@ -1,4 +1,4 @@
-import { EnumStore } from "@/classes/EnumStore.js";
+import { EnumStore } from "ui/classes/EnumStore.js";
 
 /**
  * @property Fairy
@@ -16,7 +16,7 @@ export const Characters = new EnumStore({
   OldMan: 4,
   OldMan2: 5,
   OldWoman: 6,
-  Zelda: 7
+  Zelda: 7,
 });
 
 /**
@@ -115,7 +115,7 @@ export const Enemies = new EnumStore({
   Zol: 41,
   ZolGray: 410,
   ZolGreen: 411,
-  Zora: 42
+  Zora: 42,
 });
 
 /**
@@ -128,13 +128,11 @@ export const Enemies = new EnumStore({
  * @property GohmaBlue
  * @property Manhandla
  */
-export const Bosses = new EnumStore([
-  "Aquamentus",
+export const Bosses = new EnumStore(["Aquamentus",
   "Digdogger",
   "Dodongo",
   "Ganon",
   "Gleeok",
   "Gohma",
   "GohmaBlue",
-  "Manhandla"
-]);
+  "Manhandla"]);

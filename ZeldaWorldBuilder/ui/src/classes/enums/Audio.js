@@ -1,4 +1,4 @@
-import { EnumStore } from "@/classes/EnumStore.js";
+import { EnumStore } from "ui/classes/EnumStore.js";
 
 /**
  * @property ArrowBoomerang
@@ -28,8 +28,7 @@ import { EnumStore } from "@/classes/EnumStore.js";
  * @property SwordSlash
  * @property Text
  */
-export const FX = new EnumStore([
-  "ArrowBoomerang",
+export const FX = new EnumStore(["ArrowBoomerang",
   "BombBlow",
   "BombDrop",
   "BossManhandlaDigdoggerPatra",
@@ -54,8 +53,7 @@ export const FX = new EnumStore([
   "Stairs",
   "SwordShoot",
   "SwordSlash",
-  "Text"
-]);
+  "Text"]);
 
 /**
  * @property Castle
@@ -66,12 +64,10 @@ export const FX = new EnumStore([
  * @property Intro
  * @property Overworld
  */
-export const Music = new EnumStore([
-  "Castle",
+export const Music = new EnumStore(["Castle",
   "Ending",
   "FinalCastle",
   "GameOver",
   "GanonAppear",
   "Intro",
-  "Overworld"
-]);
+  "Overworld"]);

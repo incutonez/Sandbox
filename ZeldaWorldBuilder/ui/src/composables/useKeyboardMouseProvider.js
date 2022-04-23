@@ -1,6 +1,6 @@
 ﻿import {
   onUnmounted,
-  reactive
+  reactive,
 } from "vue";
 
 const pressedKeys = reactive({
@@ -33,7 +33,7 @@ function onDocumentKeyDown(event) {
   if (event.shiftKey) {
     /* We need to make sure the text selection doesn't occur, as it causes weird visual issues with cells
      * when we copy/paste using shift click */
-    document.onselectstart = function () {
+    document.onselectstart = function() {
       return false;
     };
   }

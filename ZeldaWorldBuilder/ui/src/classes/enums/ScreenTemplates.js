@@ -1,4 +1,4 @@
-import { EnumStore } from "@/classes/EnumStore.js";
+import { EnumStore } from "ui/classes/EnumStore.js";
 
 /**
  * @property Base
@@ -98,5 +98,5 @@ export const ScreenTemplates = new EnumStore({
   WaterHAlt: 43,
   KeepItem: 44,
   KeepPath: 45,
-  Shop: 46
+  Shop: 46,
 });

@@ -1,4 +1,4 @@
-import { EnumStore } from "@/classes/EnumStore.js";
+import { EnumStore } from "ui/classes/EnumStore.js";
 
 /**
  * @property ActionDown
@@ -17,8 +17,7 @@ import { EnumStore } from "@/classes/EnumStore.js";
  * @property WalkRight
  * @property WalkUp
  */
-export const Animations = new EnumStore([
-  "Default",
+export const Animations = new EnumStore(["Default",
   "ActionUp",
   "ActionDown",
   "ActionRight",
@@ -32,5 +31,4 @@ export const Animations = new EnumStore([
   "WalkUp",
   "WalkDown",
   "WalkRight",
-  "WalkLeft"
-]);
+  "WalkLeft"]);

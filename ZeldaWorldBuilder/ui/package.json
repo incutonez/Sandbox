@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "@heroicons/vue": "^1.0.6",
+    "@incutonez/core-ui": "file:../../../core/ui",
     "glob": "^8.0.1",
     "uuid": "^8.3.2",
-    "vue": "^3.2.33",
-    "@incutonez/core": "file:../../../core"
+    "vue": "^3.2.33"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.1",

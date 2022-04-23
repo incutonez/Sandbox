@@ -1,5 +1,5 @@
-import { EnumStore } from "@/classes/EnumStore.js";
-import { Color } from "@/classes/models/Color.js";
+import { EnumStore } from "ui/classes/EnumStore.js";
+import { Color } from "ui/classes/models/Color.js";
 
 /**
  * @property Black
@@ -39,5 +39,5 @@ export const WorldColors = new EnumStore({
   PureGreen: "00FF00",
   FireOuter: "F83800",
   FireInner: "FFA044",
-  PureWhite: "FFFFFF"
+  PureWhite: "FFFFFF",
 }, Color);

@@ -33,10 +33,13 @@
     </template>
   </BaseContextMenu>
   <BaseDialog
+    v-show="showTestDialog"
     ref="testDialog"
+    v-model:open="showTestDialog"
     title="Hello World"
+    class="view-dialog header-blue"
   >
-    <template #default>
+    <template #body>
       <BaseField
         v-model="testValue"
         label="Hello"
@@ -50,24 +53,23 @@ import {
   inject,
   onMounted,
   ref,
-  watch
+  watch,
 } from "vue";
-import BaseContextMenu from "@/components/BaseContextMenu.vue";
-import BaseDialog from "@/components/BaseDialog.vue";
-import BaseField from "@/components/BaseField.vue";
+import BaseContextMenu from "ui/components/BaseContextMenu.vue";
+import { BaseField, BaseDialog } from "@incutonez/core-ui";
 
 export default {
   name: "BaseGrid",
   components: {
     BaseField,
     BaseContextMenu,
-    BaseDialog
+    BaseDialog,
   },
   inheritAttrs: false,
   props: {
     cells: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     totalRows: {
       type: Number,
@@ -79,16 +81,16 @@ export default {
     },
     selectedCell: {
       type: Object,
-      default: () => null
+      default: () => null,
     },
     getCellColor: {
       type: Function,
-      default: () => null
+      default: () => null,
     },
     showGridLines: {
       type: Boolean,
       default: true,
-    }
+    },
   },
   emits: ["update:selectedCell", "replaceCell"],
   setup(props, { emit }) {
@@ -102,6 +104,7 @@ export default {
     const hoverCell = ref(null);
     const hoverRow = ref(null);
     const hoverColumn = ref(null);
+    const showTestDialog = ref(false);
 
     watch(() => {
       return pressedKeys.shift || pressedKeys.ctrl;
@@ -130,7 +133,7 @@ export default {
         const indices = props.cells.indexOf(selectedCell);
         emit("replaceCell", {
           indices,
-          replacement: replacement
+          replacement: replacement,
         });
       }
     });
@@ -138,8 +141,8 @@ export default {
     function getCellCls(cell) {
       let hoverCls = false;
       if (props.selectedCell && pressedKeys.shift) {
-        let y = cell.y;
-        let x = cell.x;
+        const y = cell.y;
+        const x = cell.x;
         let fromX = props.selectedCell.x;
         let fromY = props.selectedCell.y;
         let toX = hoverCell.value.x;
@@ -204,7 +207,7 @@ export default {
       if (pressedKeys.ctrl && pressedKeys.mouseDown && selectedCell) {
         emit("replaceCell", {
           indices: cell.getIndex(),
-          replacement: selectedCell
+          replacement: selectedCell,
         });
         return;
       }
@@ -213,7 +216,7 @@ export default {
         emit("replaceCell", {
           indices,
           // TODOJEF: More performant to call set instead of cloning all the time?
-          replacement: selectedCell
+          replacement: selectedCell,
         });
         document.getSelection().removeAllRanges();
         return;
@@ -258,6 +261,7 @@ export default {
     return {
       contextMenu,
       self,
+      showTestDialog,
       testDialog,
       testValue,
       activeCursor,
@@ -267,10 +271,10 @@ export default {
       onContextMenuCell,
       onMouseOverCell,
       onClickTilesMenu() {
-        testDialog.value.show();
+        showTestDialog.value = true;
         hideContextMenu();
       },
     };
-  }
+  },
 };
 </script>

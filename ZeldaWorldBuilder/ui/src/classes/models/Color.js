@@ -1,5 +1,5 @@
-﻿import { WorldColors } from "@/classes/enums/WorldColors.js";
-import { Model } from "@/classes/models/Model.js";
+﻿import { WorldColors } from "ui/classes/enums/WorldColors.js";
+import { Model } from "ui/classes/models/Model.js";
 
 class Color extends Model {
   constructor(args) {
@@ -16,5 +16,5 @@ class Color extends Model {
 }
 
 export {
-  Color
+  Color,
 };

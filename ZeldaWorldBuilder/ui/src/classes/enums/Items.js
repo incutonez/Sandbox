@@ -1,4 +1,4 @@
-import { EnumStore } from "@/classes/EnumStore.js";
+import { EnumStore } from "ui/classes/EnumStore.js";
 
 /**
  * @property Arrow
@@ -84,5 +84,5 @@ export const Items = new EnumStore({
   SwordMagical: 34,
   TriforceShard: 35,
   TriforceShardAlt: 355,
-  Wand: 36
+  Wand: 36,
 });

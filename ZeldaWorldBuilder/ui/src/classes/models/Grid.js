@@ -1,7 +1,7 @@
-﻿import { Model } from "@/classes/models/Model.js";
-import { WorldColors } from "@/classes/enums/WorldColors.js";
-import { Tile } from "@/classes/models/Tile.js";
-import { Tiles } from "@/classes/enums/Tiles.js";
+﻿import { Model } from "ui/classes/models/Model.js";
+import { WorldColors } from "ui/classes/enums/WorldColors.js";
+import { Tile } from "ui/classes/models/Tile.js";
+import { Tiles } from "ui/classes/enums/Tiles.js";
 
 class Grid extends Model {
   Name = "";
@@ -40,10 +40,10 @@ class Grid extends Model {
   static initialize(rows, columns) {
     const config = [];
     const self = new this();
-    for (let y = 0; y < rows; y++) {
-      for (let x = 0; x < columns; x++) {
+    for (let row = 0; row < rows; row++) {
+      for (let column = 0; column < columns; column++) {
         config.push(new Tile({
-          Coordinates: [x, y],
+          Coordinates: [column, row],
           grid: self,
         }));
       }
@@ -72,11 +72,11 @@ class Grid extends Model {
       Name: this.Name,
       GroundColor: WorldColors.getKey(this.GroundColor),
       AccentColor: WorldColors.getKey(this.AccentColor),
-      Tiles: data
+      Tiles: data,
     };
   }
 }
 
 export {
-  Grid
+  Grid,
 };
