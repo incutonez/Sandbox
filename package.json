@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "zelda:ui": "cd ZeldaWorldBuilder/ui && npm start",
     "zelda:api": "cd ZeldaWorldBuilder/api && npm start",
     "companyContacts": "cd CompanyContacts && npm start",
     "rpan": "cd RPAN && npm start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "updateDeps": "node ./updateDependencies.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +23,7 @@
   },
   "homepage": "https://github.com/incutonez/applications#readme",
   "devDependencies": {
-    "eslint": "^8.13.0",
+    "eslint": "^8.14.0",
     "eslint-plugin-import": "^2.26.0"
   },
   "workspaces": [
