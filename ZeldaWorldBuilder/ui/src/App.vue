@@ -149,26 +149,17 @@ export default {
     const theDialog = ref(null);
     const selectedCell = ref(null);
     const grid = ref(null);
-    console.log(WorldColors);
     const state = reactive({
-      groundColorsStore: [{
-        id: "000000",
-        value: "Black",
-      }, {
-        id: "FFEFA6",
-        value: "Tan",
-      }],
+      groundColorsStore: WorldColors,
       accentColorsStore: WorldColors,
       screenTemplatesStore: ScreenTemplates,
       tilesStore: Tiles,
       showGridLines: true,
       record: Grid.initialize(11, 16),
     });
-    console.log(state.groundColorsStore);
     provide("pressedKeys", useKeyboardMouseProvider());
 
     function getCellColor() {
-      console.log("changing", state.record.GroundColor);
       return state.accentColorsStore.findRecord(state.record.GroundColor)?.backgroundStyle;
     }
 
