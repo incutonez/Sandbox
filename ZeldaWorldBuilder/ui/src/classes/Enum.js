@@ -12,5 +12,5 @@ class Enum extends Model {
 }
 
 export {
-  Enum
+  Enum,
 };

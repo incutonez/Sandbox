@@ -4,7 +4,7 @@ module.exports = (colors) => {
   if (!colors) {
     return {
       code: "PARAMETER_REQUIRED",
-      field: "options.colors"
+      field: "options.colors",
     };
   }
 
@@ -15,7 +15,7 @@ module.exports = (colors) => {
   if (!["hex", "rgb"].includes(colors.type)) {
     return {
       code: "PARAMETER_INVALID",
-      field: "options.colors.type"
+      field: "options.colors.type",
     };
   }
 
@@ -23,8 +23,12 @@ module.exports = (colors) => {
   let isReplaceColorValid;
 
   if (colors.type === "hex") {
-    isTargetColorValid = typeof colors.targetColor === "string" && colors.targetColor.length === 7 && hexColorRegex({ strict: true }).test(colors.targetColor);
-    isReplaceColorValid = typeof colors.replaceColor === "string" && (colors.targetColor.length === 7 || colors.targetColor.length === 9) && hexColorRegex({ strict: true }).test(colors.replaceColor);
+    isTargetColorValid = typeof colors.targetColor === "string" && colors.targetColor.length === 7 && hexColorRegex({
+      strict: true,
+    }).test(colors.targetColor);
+    isReplaceColorValid = typeof colors.replaceColor === "string" && (colors.targetColor.length === 7 || colors.targetColor.length === 9) && hexColorRegex({
+      strict: true,
+    }).test(colors.replaceColor);
   }
 
   if (colors.type === "rgb") {
@@ -49,14 +53,14 @@ module.exports = (colors) => {
   if (!isTargetColorValid) {
     return {
       code: "PARAMETER_INVALID",
-      field: "options.colors.targetColor"
+      field: "options.colors.targetColor",
     };
   }
 
   if (!isReplaceColorValid) {
     return {
       code: "PARAMETER_INVALID",
-      field: "options.colors.replaceColor"
+      field: "options.colors.replaceColor",
     };
   }
 

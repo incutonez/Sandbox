@@ -1,7 +1,7 @@
 ﻿// We use the relative pathing here, so our copyEnums script can make use of this class
 import {
   isArray,
-  isObject
+  isObject,
 } from "../utilities.js";
 import { Model } from "../classes/models/Model.js";
 
@@ -25,7 +25,7 @@ class Store extends Array {
         for (let i = 0; i < items.length; i++) {
           result.push(new this.model({
             [this.idKey]: i,
-            [this.valueKey]: items[i]
+            [this.valueKey]: items[i],
           }));
         }
         Object.assign(this, result);
@@ -36,7 +36,7 @@ class Store extends Array {
       for (const item in items) {
         result.push(new this.model({
           [this.idKey]: items[item],
-          [this.valueKey]: item
+          [this.valueKey]: item,
         }));
       }
       Object.assign(this, result);
@@ -87,5 +87,5 @@ class Store extends Array {
 }
 
 export {
-  Store
+  Store,
 };

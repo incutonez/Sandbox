@@ -1,6 +1,6 @@
 ﻿import {
   clone,
-  isObject
+  isObject,
 } from "../../utilities.js";
 
 class Model {
@@ -8,7 +8,7 @@ class Model {
     // Turn single instances into object syntax, so we can normalize the processing
     if (!isObject(field)) {
       field = {
-        [field]: value
+        [field]: value,
       };
     }
     for (const key in field) {
@@ -36,10 +36,13 @@ class Model {
   }
 
   clone(options = {}) {
-    return new this.constructor(this.getData({ options, excluded: this.excluded }));
+    return new this.constructor(this.getData({
+      options,
+      excluded: this.excluded,
+    }));
   }
 }
 
 export {
-  Model
+  Model,
 };

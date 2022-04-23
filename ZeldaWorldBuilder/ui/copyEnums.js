@@ -8,7 +8,7 @@ import { EnumStore } from "./src/classes/EnumStore.js";
 
 const inPath = "../Assets/Scripts/Enums/";
 const classesPath = "@/classes/";
-const outPath = `src/classes/enums/`;
+const outPath = "src/classes/enums/";
 
 /**
  * This takes a C# enum and turns it into a JSON string
@@ -26,8 +26,8 @@ function toEnum(data) {
     // Remove any special descriptions
     // Change = to :
     // Remove any comments
-    .replace(/\/\/\/?[^\n]+\n/g, "")
-    .replace(/=/g, ":");
+      .replace(/\/\/\/?[^\n]+\n/g, "")
+      .replace(/=/g, ":");
     if (match.indexOf("Color(") !== -1) {
       const matches = match.match(/(.*Color\([^)]+.*\r\n)?.*[\w]+[^\r\n]+/g);
       matches.forEach((item) => {
@@ -39,7 +39,7 @@ function toEnum(data) {
       });
     }
     match = match.replace(/\[[^\]]+\]\r\n/g, "")
-    .replace(/\r\n/g, "");
+      .replace(/\r\n/g, "");
     // If there are no default values, let's create them
     if (match.indexOf(":") === -1) {
       match = "['" + match.replace(/\s+/g, "").replace(/\{|\}/g, "").split(/([^,]+),/).filter((item) => item).join("','") + "']";
@@ -52,18 +52,20 @@ function toEnum(data) {
 }
 
 if (fs.existsSync(outPath)) {
-  fs.rmSync(outPath, { recursive: true });
+  fs.rmSync(outPath, {
+    recursive: true,
+  });
 }
 fs.mkdirSync(outPath);
 glob(`${inPath}*.cs`, {
-  ignore: [`${inPath}EnumExtensions.cs`]
+  ignore: [`${inPath}EnumExtensions.cs`],
 }, (err, files) => {
   for (const file of files) {
     const data = toEnum(fs.readFileSync(file, "utf8"));
     const ext = path.extname(file);
     const baseName = path.basename(file, ext);
     fs.writeFileSync(`${outPath}${baseName}.js`, data, {
-      flag: "w+"
+      flag: "w+",
     });
   }
 });

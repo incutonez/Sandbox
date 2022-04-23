@@ -5,12 +5,10 @@ const Jimp = require("jimp");
 const ReplaceColorError = require("./utils/replace-color-error");
 const validateColors = require("./utils/validate-colors");
 
-module.exports = ({
-                    image,
-                    colors,
-                    formula = "E00",
-                    deltaE = 2.3
-                  } = {}, callback) => {
+module.exports = ({ image,
+  colors,
+  formula = "E00",
+  deltaE = 2.3 } = {}, callback) => {
   if (callback) {
     if (typeof callback !== "function") {
       throw new ReplaceColorError("PARAMETER_INVALID", "callback");
@@ -43,41 +41,39 @@ module.exports = ({
     }
 
     Jimp.read(image)
-    .then((jimpObject) => {
-      let targetLABColors = [];
-      let replaceRGBColors = [];
-      if (!Array.isArray(colors)) {
-        colors = [colors];
-      }
-      colors.forEach((color) => {
-        targetLABColors.push(convertColor(color.type, "lab", color.targetColor));
-        replaceRGBColors.push(convertColor(color.type, "rgb", color.replaceColor));
-      });
-
-      jimpObject.scan(0, 0, jimpObject.bitmap.width, jimpObject.bitmap.height, (x, y, idx) => {
-        const currentLABColor = convertColor("rgb", "lab", [
-          jimpObject.bitmap.data[idx],
-          jimpObject.bitmap.data[idx + 1],
-          jimpObject.bitmap.data[idx + 2]
-        ]);
-
-        for (let i = 0; i < targetLABColors.length; i++) {
-          const targetLABColor = targetLABColors[i];
-          const replaceRGBColor = replaceRGBColors[i];
-          if (getDelta(currentLABColor, targetLABColor, formula) <= deltaE) {
-            jimpObject.bitmap.data[idx] = replaceRGBColor[0];
-            jimpObject.bitmap.data[idx + 1] = replaceRGBColor[1];
-            jimpObject.bitmap.data[idx + 2] = replaceRGBColor[2];
-            if (replaceRGBColor[3] !== null) {
-              jimpObject.bitmap.data[idx + 3] = replaceRGBColor[3];
-            }
-            break;
-          }
+      .then((jimpObject) => {
+        const targetLABColors = [];
+        const replaceRGBColors = [];
+        if (!Array.isArray(colors)) {
+          colors = [colors];
         }
-      });
+        colors.forEach((color) => {
+          targetLABColors.push(convertColor(color.type, "lab", color.targetColor));
+          replaceRGBColors.push(convertColor(color.type, "rgb", color.replaceColor));
+        });
 
-      callback(null, jimpObject);
-    })
-    .catch(callback);
+        jimpObject.scan(0, 0, jimpObject.bitmap.width, jimpObject.bitmap.height, (x, y, idx) => {
+          const currentLABColor = convertColor("rgb", "lab", [jimpObject.bitmap.data[idx],
+            jimpObject.bitmap.data[idx + 1],
+            jimpObject.bitmap.data[idx + 2]]);
+
+          for (let i = 0; i < targetLABColors.length; i++) {
+            const targetLABColor = targetLABColors[i];
+            const replaceRGBColor = replaceRGBColors[i];
+            if (getDelta(currentLABColor, targetLABColor, formula) <= deltaE) {
+              jimpObject.bitmap.data[idx] = replaceRGBColor[0];
+              jimpObject.bitmap.data[idx + 1] = replaceRGBColor[1];
+              jimpObject.bitmap.data[idx + 2] = replaceRGBColor[2];
+              if (replaceRGBColor[3] !== null) {
+                jimpObject.bitmap.data[idx + 3] = replaceRGBColor[3];
+              }
+              break;
+            }
+          }
+        });
+
+        callback(null, jimpObject);
+      })
+      .catch(callback);
   });
 };
