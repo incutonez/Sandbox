@@ -1,6 +1,11 @@
 {
-  "name": "rpan",
+  "name": "@incutonez/rpan",
   "version": "0.0.0",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/incutonez/Sandbox.git"
+  },
   "scripts": {
     "start": "vite",
     "build": "vite build",
