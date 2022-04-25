@@ -9,6 +9,7 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
+      - run: npm set @incutonez:registry=https://npm.pkg.github.com
       - run: npm ci
       - run: npm run build:zelda
       - name: Deploy 🚀
