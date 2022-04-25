@@ -7,8 +7,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.2.33",
-    "@incutonez/core": "file:../../core"
+    "vue": "^3.2.33"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.1",

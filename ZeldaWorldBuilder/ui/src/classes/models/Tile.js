@@ -4,9 +4,12 @@ import { WorldColors } from "ui/classes/enums/WorldColors.js";
 import {
   collect,
   isEmpty,
-  toQueryString,
 } from "ui/utilities.js";
 import { v4 as uuidv4 } from "uuid";
+import {
+  getImage,
+  replaceColor,
+} from "ui/Image.js";
 
 class Tile extends Model {
   /**
@@ -36,6 +39,7 @@ class Tile extends Model {
    * @type {Grid}
    */
   grid = null;
+  tileImage = "";
 
   constructor(args) {
     super(args);
@@ -75,7 +79,7 @@ class Tile extends Model {
     return key;
   }
 
-  updateType(targetColors) {
+  async updateType(targetColors) {
     const key = this.getTileKey();
     if (this.isTransition()) {
       this.Transition = this.Transition || {
@@ -87,7 +91,7 @@ class Tile extends Model {
         IsFloating: false,
       };
     }
-    this.tileSrc = key ? `/Tiles/${key}.png` : "";
+    this.tileSrc = await getImage(key, true);
     this.setTargetColors(targetColors);
   }
 
@@ -233,20 +237,21 @@ class Tile extends Model {
       });
     }
     this.TargetColors = targetColors;
+    // TODO: Potentially add Proxy and monitor when TargetColors changes?
+    this.getTileImage();
   }
 
-  get tileImage() {
+  async getTileImage() {
     const key = this.getTileKey();
     if (isEmpty(key)) {
       return "";
     }
     const targetColors = this.getTargetColors();
-    const params = {
-      tile: key,
+    this.tileImage = await replaceColor({
+      image: key,
       targetColors: collect(targetColors, "Target"),
       replaceColors: collect(targetColors, "Value"),
-    };
-    return `http://localhost:3001/image?${toQueryString(params)}`;
+    });
   }
 
   getConfig() {

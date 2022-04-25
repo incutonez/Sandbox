@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "@heroicons/vue": "^1.0.6",
-    "@incutonez/core-ui": "^0.0.2",
+    "@incutonez/core-ui": "^0.0.3",
+    "color-convert": "^1.9.3",
+    "delta-e": "^0.0.8",
     "glob": "^8.0.1",
+    "jimp": "^0.16.1",
     "uuid": "^8.3.2",
     "vue": "^3.2.33"
   },

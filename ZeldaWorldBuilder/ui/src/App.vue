@@ -73,6 +73,7 @@
           v-model="targetColor.Value"
           :label="`Replace ${WorldColors.getKey(targetColor.Target)}`"
           :options="accentColorsStore"
+          @update:modelValue="onUpdateTargetValue"
         />
         <div v-if="selectedCell.isTransition()">
           <div class="flex space-x-2">
@@ -163,6 +164,10 @@ export default {
       return state.accentColorsStore.findRecord(state.record.GroundColor)?.backgroundStyle;
     }
 
+    function onUpdateTargetValue() {
+      selectedCell.value.getTileImage();
+    }
+
     // We have to have this because we do cell replacements, which requires us doing some deep copying here
     // TODOJEF: Is there a better way of doing this?
     // TODOJEF: Make this an actual store?
@@ -198,6 +203,7 @@ export default {
       WorldColors,
       onReplaceCell,
       onClickSaveBtn,
+      onUpdateTargetValue,
     };
   },
 };
