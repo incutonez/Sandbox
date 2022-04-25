@@ -1,7 +1,11 @@
 {
-  "name": "ui",
-  "version": "0.0.0",
+  "name": "@incutonez/zelda-world-builder",
+  "version": "1.0.0",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/incutonez/Sandbox.git"
+  },
   "scripts": {
     "start": "vite",
     "build": "vite build",

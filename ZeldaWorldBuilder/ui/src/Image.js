@@ -118,7 +118,7 @@ export async function getImage(name, base64 = false) {
   let found = imageCache[name];
   if (!found) {
     found = await read({
-      url: `/Tiles/${name}.png`,
+      url: `Tiles/${name}.png`,
     });
     imageCache[name] = found;
   }

@@ -6,6 +6,7 @@ import postcss from "ui/postcss.config.js";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
+  base: "/Sandbox/",
   css: {
     postcss,
   },
@@ -13,5 +14,10 @@ export default defineConfig({
     alias: {
       "ui": path.resolve(path.resolve(), "./src"),
     },
+  },
+  build: {
+    cssCodeSplit: false,
+    assetsInlineLimit: 100000,
+    assetsDir: ".",
   },
 });
