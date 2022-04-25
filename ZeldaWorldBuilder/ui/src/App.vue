@@ -10,56 +10,67 @@
       :get-cell-color="getCellColor"
       @replace-cell="onReplaceCell"
     />
-    <div class="p-4">
-      <div class="flex">
+    <div class="p-4 space-y-2">
+      <div class="flex justify-between">
         <FieldCheckBox
           v-model="showGridLines"
           label="Grid Lines"
         />
         <BaseButton
           text="Save"
-          class="self-end"
+          class="justify-self-end rounded default"
           @click="onClickSaveBtn"
         />
       </div>
-      <div class="flex space-x-2">
+      <BaseCard title="Screen Coordinates">
         <FieldInteger
           v-model="record.X"
-          label="Overworld X"
+          label="X"
+          label-width="auto"
+          input-width="w-12"
           width="w-28"
         />
         <FieldInteger
           v-model="record.Y"
-          label="Overworld Y"
+          label="Y"
+          label-width="auto"
+          input-width="w-12"
           width="w-28"
         />
-      </div>
-      <div class="flex space-x-2">
+      </BaseCard>
+      <BaseCard title="Colors">
         <FieldComboBox
           v-model="record.GroundColor"
-          label="Ground Color"
+          label="Ground"
+          label-width="auto"
           :options="groundColorsStore"
           width="w-28"
         />
         <FieldComboBox
           v-model="record.AccentColor"
-          label="World Color"
+          label="Accent"
+          label-width="auto"
           :options="accentColorsStore"
           width="w-28"
         />
-      </div>
-      <div
+      </BaseCard>
+      <BaseCard
         v-if="selectedCell"
         :key="selectedCell.id"
-        class="mt-8"
+        title="Cell"
+        layout="vertical"
       >
-        <div class="flex space-x-2">
+        <div class="flex justify-between space-x-4">
           <FieldComboBox
             v-model="selectedCell.Tile"
-            label="Cell Tile"
+            label="Tile"
+            label-width="auto"
             :options="tilesStore"
           />
-          <div class="w-16 h-16 bg-blue-100">
+          <div
+            v-show="showReplaceColors"
+            class="w-16 h-16 bg-blue-100"
+          >
             <img
               v-if="selectedCell.tileSrc"
               :src="selectedCell.tileSrc"
@@ -67,27 +78,35 @@
             >
           </div>
         </div>
-        <FieldComboBox
-          v-for="targetColor in selectedCell.TargetColors"
-          :key="targetColor.id"
-          v-model="targetColor.Value"
-          :label="`Replace ${WorldColors.getKey(targetColor.Target)}`"
-          :options="accentColorsStore"
-          @update:modelValue="onUpdateTargetValue"
-        />
-        <div v-if="selectedCell.isTransition()">
-          <div class="flex space-x-2">
-            <FieldInteger
-              v-model="selectedCell.Transition.X"
-              label="X Change"
-              width="w-24"
-            />
-            <FieldInteger
-              v-model="selectedCell.Transition.Y"
-              label="Y Change"
-              width="w-24"
-            />
-          </div>
+        <BaseCard
+          v-show="showReplaceColors"
+          title="Replace Colors"
+          layout="vertical"
+        >
+          <FieldComboBox
+            v-for="targetColor in selectedCell.TargetColors"
+            :key="targetColor.id"
+            v-model="targetColor.Value"
+            :label="WorldColors.getKey(targetColor.Target)"
+            :options="accentColorsStore"
+            @update:model-value="onUpdateTargetValue"
+          />
+        </BaseCard>
+        <BaseCard
+          v-if="isTransition"
+          title="Transition Properties"
+          layout="vertical"
+        >
+          <FieldInteger
+            v-model="selectedCell.Transition.X"
+            label="X Change"
+            width="w-24"
+          />
+          <FieldInteger
+            v-model="selectedCell.Transition.Y"
+            label="Y Change"
+            width="w-24"
+          />
           <FieldComboBox
             v-model="selectedCell.Transition.TileType"
             label="Tile"
@@ -102,8 +121,8 @@
             v-model="selectedCell.Transition.IsFloating"
             label="Floating"
           />
-        </div>
-      </div>
+        </BaseCard>
+      </BaseCard>
     </div>
   </div>
 </template>
@@ -120,10 +139,16 @@ import {
 } from "vue";
 import { Grid } from "ui/classes/models/Grid.js";
 import BaseGrid from "ui/components/BaseGrid.vue";
-import { isArray } from "ui/utilities.js";
 import { useKeyboardMouseProvider } from "ui/composables/useKeyboardMouseProvider.js";
 import { ScreenTemplates } from "ui/classes/enums/ScreenTemplates.js";
-import { FieldCheckBox, FieldInteger, BaseButton, FieldComboBox } from "@incutonez/core-ui";
+import { isArray } from "@incutonez/shared";
+import {
+  BaseButton,
+  FieldCheckBox,
+  FieldComboBox,
+  FieldInteger,
+} from "@incutonez/core-ui";
+import BaseCard from "ui/components/BaseCard.vue";
 
 /**
  * TODOJEF:
@@ -139,6 +164,7 @@ import { FieldCheckBox, FieldInteger, BaseButton, FieldComboBox } from "@incuton
 export default {
   name: "App",
   components: {
+    BaseCard,
     FieldInteger,
     BaseButton,
     BaseGrid,
@@ -150,6 +176,8 @@ export default {
     const theDialog = ref(null);
     const selectedCell = ref(null);
     const grid = ref(null);
+    const isTransition = computed(() => selectedCell.value?.isTransition());
+    const showReplaceColors = computed(() => !isTransition.value && selectedCell.value.Tile !== Tiles.None);
     const state = reactive({
       groundColorsStore: WorldColors,
       accentColorsStore: WorldColors,
@@ -194,11 +222,13 @@ export default {
 
     return {
       ...toRefs(state),
+      isTransition,
       contextMenu,
       theDialog,
       grid,
       store,
       selectedCell,
+      showReplaceColors,
       getCellColor,
       WorldColors,
       onReplaceCell,
