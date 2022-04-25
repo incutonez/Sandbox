@@ -10,7 +10,6 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - run: npm set @incutonez:registry=https://npm.pkg.github.com
-      - run: echo ${{secrets.GITHUB_TOKEN}} ${{secrets.TOKEN}}
       - run: npm set //npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}
       - run: npm ci
       - run: npm run build:zelda
