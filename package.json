@@ -31,8 +31,6 @@
   "workspaces": [
     "ZeldaWorldBuilder/api",
     "ZeldaWorldBuilder/ui",
-    "CompanyContacts/api",
-    "CompanyContacts/ui",
     "RPAN"
   ]
 }
