@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "private": false,
   "scripts": {
     "zelda:ui": "cd ZeldaWorldBuilder/ui && npm start",
     "companyContacts": "cd CompanyContacts && npm start",
