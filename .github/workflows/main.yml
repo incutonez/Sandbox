@@ -6,13 +6,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
       - run: echo $GITHUB_TOKEN 
       - run: npm ci
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - run: npm run build:zelda
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.3.0
