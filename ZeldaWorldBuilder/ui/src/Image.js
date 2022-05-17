@@ -6,6 +6,7 @@ import {
   Enum,
   isString,
 } from "@incutonez/shared";
+import { Tiles } from "ui/classes/enums/Tiles.js";
 
 const imageCache = {};
 /**
@@ -110,6 +111,17 @@ export async function replaceColor({ image, replaceColors, targetColors, formula
   return image.getBase64Async(MIME_PNG);
 }
 
+export async function loadImages() {
+  const promises = [];
+  const noLoad = [Tiles.None, Tiles.SolidColor, Tiles.Transition, Tiles.Castle];
+  Tiles.forEach(({ value, id }) => {
+    if (noLoad.indexOf(id) === -1) {
+      promises.push(getImage(value));
+    }
+  });
+  return Promise.all(promises);
+}
+
 export async function getImage(name, base64 = false) {
   if (isEmpty(name)) {
     return "";
@@ -117,9 +129,11 @@ export async function getImage(name, base64 = false) {
 
   let found = imageCache[name];
   if (!found) {
-    found = await read({
-      url: `Tiles/${name}.png`,
-    });
+    const response = await fetch(`Tiles/${name}.png`);
+    const image = await response.blob();
+    found = await image.arrayBuffer();
+    found = await read(found);
+    // It seems more efficient to cache the Jimp Object and clone it than read it each time
     imageCache[name] = found;
   }
   return base64 ? found.getBase64Async(MIME_PNG) : found.clone();

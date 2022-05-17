@@ -11,15 +11,21 @@ class EnumStore extends Store {
   initialize(items) {
     super.initialize(items);
     const keys = {};
-    this.forEach((item) => {
-      keys[item[this.valueKey]] = item[this.idKey];
-    });
+    const { valueKey, idKey } = this;
+    this.forEach((item) => keys[item[valueKey]] = item[idKey]);
     Object.assign(this, keys);
   }
 
   getKey(value) {
-    const index = this.values.indexOf(value);
-    return this.keys[index];
+    const { idKey } = this;
+    const found = this.values.find((record) => record[idKey] === value);
+    return found?.[this.valueKey];
+  }
+
+  getValue(value) {
+    const { valueKey } = this;
+    const found = this.values.find((record) => record[valueKey] === value);
+    return found?.[this.idKey];
   }
 
   createKey(item, alter = false) {

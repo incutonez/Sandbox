@@ -17,7 +17,11 @@ class Tile extends Model {
    */
   Type = Tiles.None;
   /**
-   * @type {WorldColors[]}
+   * @type {Object[]} TargetColors
+   * @property {WorldColors} TargetColors.Target
+   * This is the value that we're wanting to replace
+   * @property {WorldColors} TargetColors.Value
+   * This is the value that we'll be using to replace with
    */
   TargetColors = null;
   /**
@@ -39,7 +43,16 @@ class Tile extends Model {
    * @type {Grid}
    */
   grid = null;
-  tileImage = "";
+  /**
+   * @type {String}
+   * This is the actual image that shows in the grid... it contains all the appropriate colors
+   */
+  tileImage = null;
+  /**
+   * @type {String}
+   * This is the raw image without any colors applied to it... it's used in the cell editor
+   */
+  tileSrc = null;
 
   constructor(args) {
     super(args);
@@ -50,6 +63,10 @@ class Tile extends Model {
 
   get excluded() {
     return ["grid", "tileSrc"];
+  }
+
+  reset() {
+    this.Tile = Tiles.None;
   }
 
   get Tile() {
@@ -66,21 +83,20 @@ class Tile extends Model {
   }
 
   getTileKey() {
-    let key;
-    const value = this.Type;
-    if (value !== Tiles.None) {
-      if (this.isTransition()) {
-        key = "Transparent";
-      }
-      else {
-        key = Tiles.getKey(value);
-      }
-    }
-    return key;
+    return Tiles.getKey(this.Type);
+  }
+
+  /**
+   * The image key is slightly different when we're dealing with a Transition, as we need to use the
+   * Transparent image instead.
+   * @returns {String}
+   */
+  getImageKey() {
+    return this.isTransition() ? "Transparent" : this.getTileKey();
   }
 
   async updateType(targetColors) {
-    const key = this.getTileKey();
+    const key = this.getImageKey();
     if (this.isTransition()) {
       this.Transition = this.Transition || {
         X: 0,
@@ -91,7 +107,11 @@ class Tile extends Model {
         IsFloating: false,
       };
     }
-    this.tileSrc = await getImage(key, true);
+    let tileSrc = null;
+    if (this.hasImage()) {
+      tileSrc = await getImage(key, true);
+    }
+    this.tileSrc = tileSrc;
     this.setTargetColors(targetColors);
   }
 
@@ -130,7 +150,7 @@ class Tile extends Model {
   }
 
   getIndex() {
-    return this.x + this.y * this.grid.totalColumns;
+    return this.grid.cells.indexOf(this);
   }
 
   setTargetColors(targetColors) {
@@ -238,31 +258,38 @@ class Tile extends Model {
     }
     this.TargetColors = targetColors;
     // TODO: Potentially add Proxy and monitor when TargetColors changes?
-    this.getTileImage();
+    this.updateTileImage();
   }
 
-  async getTileImage() {
-    const key = this.getTileKey();
-    if (isEmpty(key)) {
-      return "";
+  hasImage() {
+    return this.Type !== Tiles.None;
+  }
+
+  async updateTileImage() {
+    let tileImage = "";
+    if (this.hasImage()) {
+      const key = this.getImageKey();
+      const targetColors = this.getTargetColors();
+      tileImage = await replaceColor({
+        image: key,
+        targetColors: collect(targetColors, "Target"),
+        replaceColors: collect(targetColors, "Value"),
+      });
     }
-    const targetColors = this.getTargetColors();
-    this.tileImage = await replaceColor({
-      image: key,
-      targetColors: collect(targetColors, "Target"),
-      replaceColors: collect(targetColors, "Value"),
-    });
+    this.tileImage = tileImage;
   }
 
+  // TODOJEF: Pick up here... the Transition needs to have its x and y coordinates/other properties
   getConfig() {
-    return {
-      Type: Tiles.getKey(this.Type),
-      Children: [{
-        Transition: this.Transition,
-        Coordinates: this.Coordinates,
-        ReplaceColors: this.getTargetColors(true),
-      }],
+    const config = {
+      X: this.x,
+      Y: this.y,
     };
+    const colors = this.getTargetColors(true);
+    if (!isEmpty(colors)) {
+      config.ReplaceColors = colors;
+    }
+    return config;
   }
 }
 

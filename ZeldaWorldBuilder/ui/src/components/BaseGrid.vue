@@ -94,7 +94,7 @@ export default {
   },
   emits: ["update:selectedCell", "replaceCell"],
   setup(props, { emit }) {
-    const self = ref(null);
+    const rootEl = ref(null);
     const contextMenu = ref(null);
     const testDialog = ref(null);
     const testValue = ref("Hello");
@@ -245,22 +245,23 @@ export default {
       toggleGridLines(props.showGridLines);
     });
 
+    // We don't use watchEffect here because this fires before onMounted, which means rootEl is undefined
     watch(() => props.showGridLines, (value) => {
       toggleGridLines(value);
     });
 
     function toggleGridLines(value) {
       if (value) {
-        self.value.classList.add("grid-show-lines");
+        rootEl.value.classList.add("grid-show-lines");
       }
       else {
-        self.value.classList.remove("grid-show-lines");
+        rootEl.value.classList.remove("grid-show-lines");
       }
     }
 
     return {
       contextMenu,
-      self,
+      self: rootEl,
       showTestDialog,
       testDialog,
       testValue,

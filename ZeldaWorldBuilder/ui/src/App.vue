@@ -16,11 +16,24 @@
           v-model="showGridLines"
           label="Grid Lines"
         />
-        <BaseButton
-          text="Save"
-          class="justify-self-end rounded default"
-          @click="onClickSaveBtn"
-        />
+        <div>
+          <BaseButton
+            text="Save"
+            class="mr-2 rounded default"
+            @click="onClickSaveBtn"
+          />
+          <BaseButton
+            text="Load"
+            class="rounded default"
+            @click="onClickLoadBtn"
+          />
+          <input
+            v-show="false"
+            ref="fileInputEl"
+            type="file"
+            @change="onChangeLoadFile"
+          >
+        </div>
       </div>
       <BaseCard title="Screen Coordinates">
         <FieldInteger
@@ -149,13 +162,11 @@ import {
   FieldInteger,
 } from "@incutonez/core-ui";
 import BaseCard from "ui/components/BaseCard.vue";
-
 /**
  * TODOJEF:
  * - Add special properties for Transitions
  * - Should rename Door to ShopDoor, as it's a little special
  * - Optimize the export... right now, it does all individual cells... should be able to group by type
- * - Actually save to file system
  * - Load into Unity game to see it working
  * - Finish other TODOJEFs
  * - Add special properties to Tiles... will need to wire this up in Unity code
@@ -172,6 +183,7 @@ export default {
     FieldCheckBox,
   },
   setup() {
+    const fileInputEl = ref(null);
     const contextMenu = ref(null);
     const theDialog = ref(null);
     const selectedCell = ref(null);
@@ -193,7 +205,7 @@ export default {
     }
 
     function onUpdateTargetValue() {
-      selectedCell.value.getTileImage();
+      selectedCell.value.updateTileImage();
     }
 
     // We have to have this because we do cell replacements, which requires us doing some deep copying here
@@ -216,12 +228,35 @@ export default {
       });
     }
 
+    function onClickLoadBtn() {
+      fileInputEl.value.click();
+    }
+
+    function onChangeLoadFile() {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        state.record.loadFileData(JSON.parse(reader.result));
+      });
+      const [file] = fileInputEl.value.files;
+      if (file) {
+        reader.readAsText(file);
+      }
+    }
+
     function onClickSaveBtn() {
-      console.log(state.record.getConfig());
+      // TODOJEF: Move this logic to a utility function
+      const contents = new Blob([JSON.stringify(state.record.getConfig())], {
+        type: "application/json",
+      });
+      const tempEl = document.createElement("a");
+      tempEl.download = `${state.record.X}${state.record.Y}.json`;
+      tempEl.href = window.URL.createObjectURL(contents);
+      tempEl.click();
     }
 
     return {
       ...toRefs(state),
+      fileInputEl,
       isTransition,
       contextMenu,
       theDialog,
@@ -233,6 +268,8 @@ export default {
       WorldColors,
       onReplaceCell,
       onClickSaveBtn,
+      onClickLoadBtn,
+      onChangeLoadFile,
       onUpdateTargetValue,
     };
   },
