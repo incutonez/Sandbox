@@ -3,7 +3,7 @@ import { WorldColors } from "ui/classes/enums/WorldColors.js";
 import { Tile } from "ui/classes/models/Tile.js";
 import { Tiles } from "ui/classes/enums/Tiles.js";
 import { isEmpty } from "@incutonez/shared";
-import { v4 as uuidv4 } from "uuid";
+import { TargetColor } from "ui/classes/models/TargetColor.js";
 
 class Grid extends Model {
   Name = "";
@@ -85,13 +85,7 @@ class Grid extends Model {
           if (Colors) {
             const targetColors = [];
             for (let i = 0; i < Colors.length; i += 2) {
-              // TODOJEF: Clean this up... should be a way of putting this in the Tile class...
-              // this should probably be a class itself, so we can create the ID when it's created
-              targetColors.push({
-                Target: WorldColors.getValue(Colors[i]),
-                Value: WorldColors.getValue(Colors[i + 1]),
-                id: uuidv4(),
-              });
+              targetColors.push(new TargetColor(Colors[i], Colors[i + 1]));
             }
             cell.updateType(targetColors);
           }

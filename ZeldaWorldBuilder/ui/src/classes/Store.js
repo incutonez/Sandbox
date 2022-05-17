@@ -6,13 +6,14 @@ import {
 import { Model } from "../classes/models/Model.js";
 
 class Store extends Array {
+  isStore = true;
   idKey = "id";
   valueKey = "value";
   sorters;
   model;
 
   constructor(data, model = Model, sorters = []) {
-    super(data);
+    super();
     this.model = model;
     this.sorters = sorters;
     this.initialize(data);
@@ -20,16 +21,16 @@ class Store extends Array {
 
   initialize(items) {
     if (isArray(items)) {
-      if (!isObject(items[0], false)) {
-        const result = [];
-        for (let i = 0; i < items.length; i++) {
-          result.push(new this.model({
-            [this.idKey]: i,
-            [this.valueKey]: items[i],
-          }));
+      const result = [];
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        if (item.isModel) {
+          result.push(item);
+          continue;
         }
-        Object.assign(this, result);
+        result.push(new this.model(item));
       }
+      Object.assign(this, result);
     }
     else if (isObject(items, false)) {
       const result = [];
@@ -83,6 +84,10 @@ class Store extends Array {
 
   get last() {
     return [this.length - 1];
+  }
+
+  getData(options) {
+    return this.map((record) => record.getData(options));
   }
 }
 

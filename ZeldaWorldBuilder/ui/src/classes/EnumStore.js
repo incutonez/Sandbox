@@ -1,5 +1,9 @@
 ﻿import { Store } from "../classes/Store.js";
 import { Enum } from "../classes/Enum.js";
+import {
+  isArray,
+  isObject,
+} from "@incutonez/shared";
 
 class EnumStore extends Store {
   constructor(data, model = Enum, sorters = [{
@@ -9,9 +13,20 @@ class EnumStore extends Store {
   }
 
   initialize(items) {
+    const { valueKey, idKey } = this;
+    if (isArray(items)) {
+      items = items.map((item, index) => {
+        if (!isObject(item)) {
+          item = {
+            [valueKey]: item,
+          };
+        }
+        item[idKey] ??= index;
+        return item;
+      });
+    }
     super.initialize(items);
     const keys = {};
-    const { valueKey, idKey } = this;
     this.forEach((item) => keys[item[valueKey]] = item[idKey]);
     Object.assign(this, keys);
   }

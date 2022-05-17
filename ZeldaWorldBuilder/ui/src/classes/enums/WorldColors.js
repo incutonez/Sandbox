@@ -22,7 +22,7 @@ import { Color } from "ui/classes/models/Color.js";
  * @property White
  */
 export const WorldColors = new EnumStore({
-  None: "Transparent",
+  None: "00000000",
   Tan: "FFEFA6",
   Green: "00a800",
   Brown: "c84c0c",

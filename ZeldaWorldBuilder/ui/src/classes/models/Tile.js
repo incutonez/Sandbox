@@ -5,12 +5,12 @@ import {
   collect,
   isEmpty,
 } from "ui/utilities.js";
-import { v4 as uuidv4 } from "uuid";
 import {
   getImage,
   replaceColor,
 } from "ui/Image.js";
-import { isObject } from "@incutonez/shared";
+import { TargetColor } from "ui/classes/models/TargetColor.js";
+import { Store } from "ui/classes/Store.js";
 
 const TransitionTypes = [Tiles.Transition, Tiles.Door];
 export class Tile extends Model {
@@ -126,30 +126,9 @@ export class Tile extends Model {
     return this.Coordinates[1];
   }
 
-  getTargetColors(useKey) {
-    const targetColors = this.TargetColors.filter((color) => !!color.Value);
-    if (useKey) {
-      return targetColors.reduce((value, item) => {
-        value.push(WorldColors.getKey(item.Target), WorldColors.getKey(item.Value));
-        return value;
-      }, []);
-    }
-    else {
-      return targetColors.map((color) => {
-        let value = color.Value;
-        let target = color.Target;
-        if (target === WorldColors.None) {
-          target = "00000000";
-        }
-        if (value === WorldColors.None) {
-          value = "00000000";
-        }
-        return {
-          Target: target,
-          Value: value,
-        };
-      });
-    }
+  getColors(flatten) {
+    const colors = this.TargetColors.filter((color) => !!color.Value);
+    return flatten ? colors.reduce((value, color) => value.concat(color.getConfig()), []) : colors;
   }
 
   getIndex() {
@@ -158,7 +137,7 @@ export class Tile extends Model {
 
   setTargetColors(targetColors) {
     if (!targetColors) {
-      let colors;
+      let colors = [];
       /**
        * TODOJEF: I really should standardize these colors
        * - 1 color => White
@@ -172,7 +151,6 @@ export class Tile extends Model {
         case Tiles.WallKeep:
         case Tiles.Transition:
         case Tiles.None:
-          colors = [];
           break;
         case Tiles.Block:
         case Tiles.CastleSand:
@@ -227,10 +205,7 @@ export class Tile extends Model {
           colors = [WorldColors.PureWhite, WorldColors.PureRed, WorldColors.Black];
           break;
         case Tiles.Door:
-          colors = [{
-            Target: WorldColors.White,
-            Value: WorldColors.Black,
-          }];
+          colors = [new TargetColor(WorldColors.White, WorldColors.Black)];
           break;
         case Tiles.SandBottom:
         case Tiles.SandCenter:
@@ -251,22 +226,9 @@ export class Tile extends Model {
         default:
           colors = [WorldColors.PureWhite, WorldColors.Black];
       }
-
-      targetColors = colors.map((color) => {
-        if (isObject(color)) {
-          return {
-            ...color,
-            id: uuidv4(),
-          };
-        }
-        return {
-          Target: color,
-          id: uuidv4(),
-        };
-      });
+      targetColors = colors;
     }
-    this.TargetColors = targetColors;
-    // TODO: Potentially add Proxy and monitor when TargetColors changes?
+    this.TargetColors = targetColors.isStore ? targetColors : new Store(targetColors, TargetColor);
     this.updateTileImage();
   }
 
@@ -278,7 +240,7 @@ export class Tile extends Model {
     let tileImage = "";
     if (this.hasImage()) {
       const key = this.getImageKey();
-      const targetColors = this.getTargetColors();
+      const targetColors = this.getColors();
       tileImage = await replaceColor({
         image: key,
         targetColors: collect(targetColors, "Target"),
@@ -297,7 +259,7 @@ export class Tile extends Model {
     if (Name) {
       config.Name = Name;
     }
-    const colors = this.getTargetColors(true);
+    const colors = this.getColors(true);
     if (!isEmpty(colors)) {
       config.Colors = colors;
     }

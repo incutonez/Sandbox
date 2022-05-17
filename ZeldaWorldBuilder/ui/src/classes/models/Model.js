@@ -26,13 +26,26 @@ class Model {
     return [];
   }
 
+  get isModel() {
+    return true;
+  }
+
   getData({ exclude, options } = {}) {
     const data = {};
     for (const key in this) {
       if (exclude?.indexOf(key) !== -1) {
         continue;
       }
-      data[key] = this[key];
+      const entry = this[key];
+      if (entry?.isModel || entry?.isStore) {
+        data[key] = entry.getData({
+          exclude,
+          options,
+        });
+      }
+      else {
+        data[key] = entry;
+      }
     }
     for (const key in options) {
       data[key] = options[key];
