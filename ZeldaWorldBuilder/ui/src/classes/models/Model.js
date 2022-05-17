@@ -2,8 +2,10 @@
   clone,
   isObject,
 } from "../../utilities.js";
+import { v4 as uuidv4 } from "uuid";
 
 class Model {
+  id = uuidv4();
   set(field, value) {
     // Turn single instances into object syntax, so we can normalize the processing
     if (!isObject(field)) {
@@ -20,25 +22,28 @@ class Model {
    * If this is set, then we exclude any properties within the array when cloning or getting data
    * @returns {String[]}
    */
-  get excluded() {
+  get exclude() {
     return [];
   }
 
-  getData({ excluded, options }) {
-    const output = {};
+  getData({ exclude, options } = {}) {
+    const data = {};
     for (const key in this) {
-      if (excluded?.indexOf(key) !== -1) {
+      if (exclude?.indexOf(key) !== -1) {
         continue;
       }
-      output[key] = options[key] || this[key];
+      data[key] = this[key];
     }
-    return clone(output);
+    for (const key in options) {
+      data[key] = options[key];
+    }
+    return clone(data);
   }
 
   clone(options = {}) {
     return new this.constructor(this.getData({
       options,
-      excluded: this.excluded,
+      exclude: this.exclude,
     }));
   }
 }

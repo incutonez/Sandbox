@@ -10,12 +10,10 @@ import {
   getImage,
   replaceColor,
 } from "ui/Image.js";
+import { isObject } from "@incutonez/shared";
 
-class Tile extends Model {
-  /**
-   * @type {Tiles}
-   */
-  Type = Tiles.None;
+const TransitionTypes = [Tiles.Transition, Tiles.Door];
+export class Tile extends Model {
   /**
    * @type {Object[]} TargetColors
    * @property {WorldColors} TargetColors.Target
@@ -35,6 +33,7 @@ class Tile extends Model {
   Rotation = 0;
   FlipX = false;
   FlipY = false;
+  Name = null;
   /**
    * @type {Tile[]}
    */
@@ -53,33 +52,40 @@ class Tile extends Model {
    * This is the raw image without any colors applied to it... it's used in the cell editor
    */
   tileSrc = null;
+  /**
+   * @type {Tiles}
+   */
+  type = Tiles.None;
 
   constructor(args) {
-    super(args);
+    super();
     this.set(args);
-    this.id = uuidv4();
-    this.updateType(this.TargetColors);
   }
 
-  get excluded() {
+  get exclude() {
     return ["grid", "tileSrc"];
   }
 
   reset() {
-    this.Tile = Tiles.None;
+    this.Type = Tiles.None;
+    this.Transition = null;
   }
 
-  get Tile() {
-    return this.Type;
+  get Type() {
+    return this.type;
   }
 
-  set Tile(value) {
-    this.Type = value;
+  set Type(value) {
+    this.type = value;
     this.updateType();
   }
 
+  isDoor() {
+    return this.Type === Tiles.Door;
+  }
+
   isTransition() {
-    return this.Type === Tiles.Transition;
+    return TransitionTypes.indexOf(this.Type) !== -1;
   }
 
   getTileKey() {
@@ -95,15 +101,12 @@ class Tile extends Model {
     return this.isTransition() ? "Transparent" : this.getTileKey();
   }
 
-  async updateType(targetColors) {
+  async updateType(targetColors = this.TargetColors) {
     const key = this.getImageKey();
     if (this.isTransition()) {
       this.Transition = this.Transition || {
         X: 0,
         Y: 0,
-        TileType: Tiles.Transition,
-        Name: null,
-        Template: null,
         IsFloating: false,
       };
     }
@@ -223,11 +226,11 @@ class Tile extends Model {
         case Tiles.GroundTile:
           colors = [WorldColors.PureWhite, WorldColors.PureRed, WorldColors.Black];
           break;
-        case Tiles.CastleWater:
-          colors = [WorldColors.PureBlue];
-          break;
         case Tiles.Door:
-          colors = [WorldColors.Black];
+          colors = [{
+            Target: WorldColors.White,
+            Value: WorldColors.Black,
+          }];
           break;
         case Tiles.SandBottom:
         case Tiles.SandCenter:
@@ -250,6 +253,12 @@ class Tile extends Model {
       }
 
       targetColors = colors.map((color) => {
+        if (isObject(color)) {
+          return {
+            ...color,
+            id: uuidv4(),
+          };
+        }
         return {
           Target: color,
           id: uuidv4(),
@@ -279,20 +288,26 @@ class Tile extends Model {
     this.tileImage = tileImage;
   }
 
-  // TODOJEF: Pick up here... the Transition needs to have its x and y coordinates/other properties
   getConfig() {
     const config = {
       X: this.x,
       Y: this.y,
     };
+    const { Name } = this;
+    if (Name) {
+      config.Name = Name;
+    }
     const colors = this.getTargetColors(true);
     if (!isEmpty(colors)) {
-      config.ReplaceColors = colors;
+      config.Colors = colors;
+    }
+    if (this.isTransition()) {
+      const { Transition } = this;
+      if (this.isDoor()) {
+        Transition.Name ??= `${Transition.Template}${Transition.X}${Transition.Y}`;
+      }
+      config.Transition = Transition;
     }
     return config;
   }
 }
-
-export {
-  Tile,
-};

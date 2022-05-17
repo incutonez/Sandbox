@@ -50,6 +50,10 @@
           input-width="w-12"
           width="w-28"
         />
+        <BaseField
+          v-model="record.Name"
+          label="Name"
+        />
       </BaseCard>
       <BaseCard title="Colors">
         <FieldComboBox
@@ -75,13 +79,13 @@
       >
         <div class="flex justify-between space-x-4">
           <FieldComboBox
-            v-model="selectedCell.Tile"
+            v-model="selectedCell.Type"
             label="Tile"
             label-width="auto"
             :options="tilesStore"
           />
           <div
-            v-show="showReplaceColors"
+            v-show="showColors"
             class="w-16 h-16 bg-blue-100"
           >
             <img
@@ -92,7 +96,7 @@
           </div>
         </div>
         <BaseCard
-          v-show="showReplaceColors"
+          v-show="showColors"
           title="Replace Colors"
           layout="vertical"
         >
@@ -112,22 +116,25 @@
         >
           <FieldInteger
             v-model="selectedCell.Transition.X"
-            label="X Change"
+            label="X Offset"
             width="w-24"
           />
           <FieldInteger
             v-model="selectedCell.Transition.Y"
-            label="Y Change"
+            label="Y Offset"
             width="w-24"
           />
-          <FieldComboBox
-            v-model="selectedCell.Transition.TileType"
-            label="Tile"
-            :options="tilesStore"
+          <BaseField
+            v-if="selectedCell.isDoor()"
+            v-model="selectedCell.Transition.Name"
+            label="Name"
           />
           <FieldComboBox
+            v-if="selectedCell.isDoor()"
             v-model="selectedCell.Transition.Template"
             label="Template"
+            required
+            id-field="value"
             :options="screenTemplatesStore"
           />
           <FieldCheckBox
@@ -157,6 +164,7 @@ import { ScreenTemplates } from "ui/classes/enums/ScreenTemplates.js";
 import { isArray } from "@incutonez/shared";
 import {
   BaseButton,
+  BaseField,
   FieldCheckBox,
   FieldComboBox,
   FieldInteger,
@@ -180,6 +188,7 @@ export default {
     BaseButton,
     BaseGrid,
     FieldComboBox,
+    BaseField,
     FieldCheckBox,
   },
   setup() {
@@ -189,7 +198,7 @@ export default {
     const selectedCell = ref(null);
     const grid = ref(null);
     const isTransition = computed(() => selectedCell.value?.isTransition());
-    const showReplaceColors = computed(() => !isTransition.value && selectedCell.value.Tile !== Tiles.None);
+    const showColors = computed(() => !isTransition.value && selectedCell.value.Tile !== Tiles.None);
     const state = reactive({
       groundColorsStore: WorldColors,
       accentColorsStore: WorldColors,
@@ -223,6 +232,8 @@ export default {
         let record = state.record.cells[idx];
         record = state.record.cells[idx] = replacement.clone({
           Coordinates: record.Coordinates,
+          id: record.id,
+          Type: replacement.Type,
         });
         record.grid = replacement.grid;
       });
@@ -263,7 +274,7 @@ export default {
       grid,
       store,
       selectedCell,
-      showReplaceColors,
+      showColors,
       getCellColor,
       WorldColors,
       onReplaceCell,

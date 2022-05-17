@@ -17,14 +17,11 @@ class Grid extends Model {
    * @type {WorldColors}
    */
   GroundColor = WorldColors.Tan;
-  /**
-   * @type {Tile[]}
-   */
-  Tiles = [];
-  Enemies = [];
-  Characters = [];
-  Items = [];
   IsCastle = false;
+  /**
+   * This is used for when we have something that's not part of the Overworld, like a shop or castle
+   * @type {boolean}
+   */
   IsFloating = false;
   /**
    * @type {ScreenTemplates}
@@ -73,10 +70,8 @@ class Grid extends Model {
         for (const tile of tiles) {
           for (const child of tile.Children) {
             if (child.X === x && child.Y === y) {
-              found = {
-                colors: child.ReplaceColors,
-                tile: tile.Tile,
-              };
+              child.Type = tile.Type;
+              found = child;
               break;
             }
           }
@@ -85,19 +80,22 @@ class Grid extends Model {
           }
         }
         if (found) {
-          cell.Tile = Tiles.getValue(found.tile);
-          if (found.colors) {
+          cell.Type = Tiles.getValue(found.Type);
+          const { Colors } = found;
+          if (Colors) {
             const targetColors = [];
-            for (let i = 0; i < found.colors.length; i += 2) {
-              // TODOJEF: Clean this up... should be a way of putting this in the Tile class
+            for (let i = 0; i < Colors.length; i += 2) {
+              // TODOJEF: Clean this up... should be a way of putting this in the Tile class...
+              // this should probably be a class itself, so we can create the ID when it's created
               targetColors.push({
-                Target: WorldColors.getValue(found.colors[i]),
-                Value: WorldColors.getValue(found.colors[i + 1]),
+                Target: WorldColors.getValue(Colors[i]),
+                Value: WorldColors.getValue(Colors[i + 1]),
                 id: uuidv4(),
               });
             }
             cell.updateType(targetColors);
           }
+          cell.Transition = found.Transition;
         }
         else {
           cell.reset();
@@ -152,7 +150,7 @@ class Grid extends Model {
         data = data.concat(nodes.map((node) => node.getConfig()));
       });
       output.push({
-        Tile: tileType,
+        Type: tileType,
         Children: data,
       });
     }
