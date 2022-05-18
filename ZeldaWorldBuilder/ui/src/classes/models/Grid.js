@@ -1,9 +1,9 @@
 ﻿import { Model } from "ui/classes/models/Model.js";
 import { WorldColors } from "ui/classes/enums/WorldColors.js";
-import { Tile } from "ui/classes/models/Tile.js";
 import { Tiles } from "ui/classes/enums/Tiles.js";
 import { isEmpty } from "@incutonez/shared";
 import { TargetColor } from "ui/classes/models/TargetColor.js";
+import { Cell } from "ui/classes/models/Cell.js";
 
 class Grid extends Model {
   Name = "";
@@ -27,7 +27,10 @@ class Grid extends Model {
    * @type {ScreenTemplates}
    */
   Template = null;
-  cells = null;
+  /**
+   * @type {Cell[]}
+   */
+  cells = [];
   totalRows = 0;
   totalColumns = 0;
 
@@ -41,7 +44,7 @@ class Grid extends Model {
     const record = new this();
     for (let row = 0; row < rows; row++) {
       for (let column = 0; column < columns; column++) {
-        config.push(new Tile({
+        config.push(new Cell({
           Coordinates: [column, row],
           grid: record,
         }));
@@ -64,14 +67,24 @@ class Grid extends Model {
   async loadFileData(data = {}) {
     const { Tiles: tiles } = data;
     if (!isEmpty(tiles)) {
+      // Loop through the entire grid to find and update any children in the data
       for (const cell of this.cells) {
+        let found = false;
         const { x, y } = cell;
-        let found;
         for (const tile of tiles) {
           for (const child of tile.Children) {
             if (child.X === x && child.Y === y) {
-              child.Type = tile.Type;
-              found = child;
+              found = true;
+              cell.TileType = Tiles.getValue(tile.Type);
+              const { Colors } = child;
+              if (Colors) {
+                const tileColors = [];
+                for (let i = 0; i < Colors.length; i += 2) {
+                  tileColors.push(new TargetColor(Colors[i], Colors[i + 1]));
+                }
+                cell.TileColors = tileColors;
+              }
+              cell.Transition = child.Transition;
               break;
             }
           }
@@ -79,19 +92,7 @@ class Grid extends Model {
             break;
           }
         }
-        if (found) {
-          cell.Type = Tiles.getValue(found.Type);
-          const { Colors } = found;
-          if (Colors) {
-            const targetColors = [];
-            for (let i = 0; i < Colors.length; i += 2) {
-              targetColors.push(new TargetColor(Colors[i], Colors[i + 1]));
-            }
-            cell.updateType(targetColors);
-          }
-          cell.Transition = found.Transition;
-        }
-        else {
+        if (!found) {
           cell.reset();
         }
       }
@@ -103,20 +104,20 @@ class Grid extends Model {
   }
 
   getAdjacentNodes(node) {
-    const { x, y, Type: type } = node;
+    const { x, y, TileType: type } = node;
     const nodes = [this.getCell(x - 1, y),
       this.getCell(x + 1, y),
       this.getCell(x, y - 1),
       this.getCell(x, y + 1)];
     // Some of the nodes from above might be undefined or not have the same type, so let's filter those out
-    return nodes.filter((record) => record?.Type === type);
+    return nodes.filter((record) => record?.TileType === type);
   }
 
   getTileConfigs() {
     const tiles = {};
     const traversed = [];
     for (const cell of this.cells) {
-      const { Type: cellType } = cell;
+      const { TileType: cellType } = cell;
       if (cellType === Tiles.None) {
         continue;
       }
@@ -153,9 +154,9 @@ class Grid extends Model {
 
   /**
    * Algorithm is a modification of depth-first search
-   * @param {Tile} startNode
-   * @param {Tile[]} traversedNodes
-   * @returns {Tile[]} nodes
+   * @param {Cell} startNode
+   * @param {Cell[]} traversedNodes
+   * @returns {Cell[]} nodes
    */
   findAdjacentNodes(startNode = this.cells[0], traversedNodes = []) {
     let nodes = [];

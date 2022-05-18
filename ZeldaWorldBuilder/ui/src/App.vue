@@ -79,7 +79,7 @@
       >
         <div class="flex justify-between space-x-4">
           <FieldComboBox
-            v-model="selectedCell.Type"
+            v-model="selectedCell.TileType"
             label="Tile"
             label-width="auto"
             :options="tilesStore"
@@ -92,6 +92,7 @@
               v-if="selectedCell.tileSrc"
               :src="selectedCell.tileSrc"
               class="w-full h-full"
+              alt="Tile Image"
             >
           </div>
         </div>
@@ -101,10 +102,10 @@
           layout="vertical"
         >
           <FieldComboBox
-            v-for="targetColor in selectedCell.TargetColors"
-            :key="targetColor.id"
-            v-model="targetColor.Value"
-            :label="WorldColors.getKey(targetColor.Target)"
+            v-for="tileColor in selectedCell.TileColors"
+            :key="tileColor.id"
+            v-model="tileColor.Value"
+            :label="WorldColors.getKey(tileColor.Target)"
             :options="accentColorsStore"
             @update:model-value="onUpdateTargetValue"
           />
@@ -125,12 +126,12 @@
             width="w-24"
           />
           <BaseField
-            v-if="selectedCell.isDoor()"
+            v-if="selectedCell.isTileDoor"
             v-model="selectedCell.Transition.Name"
             label="Name"
           />
           <FieldComboBox
-            v-if="selectedCell.isDoor()"
+            v-if="selectedCell.isTileDoor"
             v-model="selectedCell.Transition.Template"
             label="Template"
             required
@@ -197,8 +198,8 @@ export default {
     const theDialog = ref(null);
     const selectedCell = ref(null);
     const grid = ref(null);
-    const isTransition = computed(() => selectedCell.value?.isTransition());
-    const showColors = computed(() => !isTransition.value && selectedCell.value.Tile !== Tiles.None);
+    const isTransition = computed(() => selectedCell.value?.isTileTransition);
+    const showColors = computed(() => !isTransition.value && selectedCell.value.TileType !== Tiles.None);
     const state = reactive({
       groundColorsStore: WorldColors,
       accentColorsStore: WorldColors,
@@ -233,7 +234,8 @@ export default {
         record = state.record.cells[idx] = replacement.clone({
           Coordinates: record.Coordinates,
           id: record.id,
-          Type: replacement.Type,
+          TileType: replacement.TileType,
+          TileColors: replacement.TileColors,
         });
         record.grid = replacement.grid;
       });
