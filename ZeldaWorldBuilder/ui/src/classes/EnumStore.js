@@ -1,69 +1,71 @@
-﻿import { Store } from "../classes/Store.js";
-import { Enum } from "../classes/Enum.js";
+﻿import { Enum } from "../classes/Enum.js";
 import {
+  Collection,
   isArray,
   isObject,
 } from "@incutonez/shared";
 
-// TODOJEF: Extend Collection here instead
-class EnumStore extends Store {
-  constructor(data, model = Enum, sorters = [{
-    property: "value",
-  }]) {
-    super(data, model, sorters);
-  }
-
-  initialize(items) {
-    const { valueKey, idKey } = this;
+export class EnumStore extends Collection {
+  constructor(data = [], model = Enum) {
+    let items;
+    const records = [];
+    if (isObject(data)) {
+      items = data.records || [];
+      delete data.records;
+      data.model ??= model;
+      data.sorters ??= [{
+        property: "value",
+      }];
+    }
+    else {
+      items = data;
+    }
+    super(data);
+    const { displayField, idField } = this;
     if (isArray(items)) {
-      items = items.map((item, index) => {
+      items.forEach((item, index) => {
         if (!isObject(item)) {
           item = {
-            [valueKey]: item,
+            [displayField]: item,
           };
         }
-        item[idKey] ??= index;
-        return item;
+        item[idField] ??= index;
+        records.push(item);
       });
     }
-    super.initialize(items);
+    else {
+      for (const item in items) {
+        records.push({
+          [displayField]: item,
+          [idField]: items[item],
+        });
+      }
+    }
+    this.records = records;
     const keys = {};
-    this.forEach((item) => keys[item[valueKey]] = item[idKey]);
+    this.forEach((item) => keys[item[displayField]] = item[idField]);
     Object.assign(this, keys);
   }
 
   getKey(value) {
-    const { idKey } = this;
-    const found = this.values.find((record) => record[idKey] === value);
-    return found?.[this.valueKey];
+    const { idField } = this;
+    const found = this.find((record) => record[idField] === value);
+    return found?.[this.displayField];
   }
 
   getValue(value) {
-    const { valueKey } = this;
-    const found = this.values.find((record) => record[valueKey] === value);
-    return found?.[this.idKey];
+    const { displayField } = this;
+    const found = this.find((record) => record[displayField] === value);
+    return found?.[this.idField];
   }
 
-  createKey(item, alter = false) {
-    // We split on uppercase
-    return alter ? item.split(/([A-Z][a-z]+)/g).filter(Boolean).join("_").toUpperCase() : item;
-  }
-
-  get keys() {
-    return Object.keys(this);
-  }
-
-  get values() {
-    return Object.values(this);
+  findRecord(id) {
+    const { idField } = this;
+    return this.find((record) => record[idField] === id);
   }
 
   toClassDescription() {
-    return "/**\n" + this.map((item) => {
-      return ` * @property ${item[this.valueKey]}`;
-    }).join("\n") + "\n */";
+    const props = this.map((item) => ` * @property ${item[this.displayField]}`);
+    return `/**\n${props.join("\n")}\n */`;
   }
 }
-
-export {
-  EnumStore,
-};

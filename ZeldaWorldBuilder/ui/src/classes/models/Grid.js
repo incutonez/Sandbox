@@ -39,8 +39,7 @@ class Grid extends Model {
     }, {
       // This value refers to an enum in ScreenTemplates
       name: "Template",
-      type: Number,
-      defaultValue: null,
+      type: String,
     }, {
       name: "cells",
       type: FieldType.Collection,

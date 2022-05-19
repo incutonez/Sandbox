@@ -60,14 +60,14 @@
           v-model="record.GroundColor"
           label="Ground"
           label-width="auto"
-          :options="groundColorsStore"
+          :options="WorldColors"
           width="w-28"
         />
         <FieldComboBox
           v-model="record.AccentColor"
           label="Accent"
           label-width="auto"
-          :options="accentColorsStore"
+          :options="WorldColors"
           width="w-28"
         />
       </BaseCard>
@@ -106,7 +106,7 @@
             :key="tileColor.id"
             v-model="tileColor.Value"
             :label="WorldColors.getKey(tileColor.Target)"
-            :options="accentColorsStore"
+            :options="WorldColors"
             @update:model-value="onUpdateTargetValue"
           />
         </BaseCard>
@@ -136,7 +136,7 @@
             label="Template"
             required
             id-field="value"
-            :options="screenTemplatesStore"
+            :options="ScreenTemplates"
           />
           <FieldCheckBox
             v-model="selectedCell.tile.Transition.IsFloating"
@@ -201,9 +201,6 @@ export default {
     const isTransition = computed(() => selectedCell.value?.tile.isTransition);
     const showColors = computed(() => !isTransition.value && selectedCell.value.tile.hasImage());
     const state = reactive({
-      groundColorsStore: WorldColors,
-      accentColorsStore: WorldColors,
-      screenTemplatesStore: ScreenTemplates,
       tilesStore: Tiles,
       showGridLines: true,
       record: Grid.initialize(11, 16),
@@ -211,7 +208,7 @@ export default {
     provide("pressedKeys", useKeyboardMouseProvider());
 
     function getCellColor() {
-      return state.accentColorsStore.findRecord(state.record.GroundColor)?.backgroundStyle;
+      return WorldColors.findRecord(state.record.GroundColor)?.backgroundStyle;
     }
 
     function onUpdateTargetValue() {
@@ -269,6 +266,7 @@ export default {
       tempEl.click();
     }
 
+    console.log(ScreenTemplates);
     return {
       ...toRefs(state),
       fileInputEl,
@@ -281,6 +279,7 @@ export default {
       showColors,
       getCellColor,
       WorldColors,
+      ScreenTemplates,
       onReplaceCell,
       onClickSaveBtn,
       onClickLoadBtn,
