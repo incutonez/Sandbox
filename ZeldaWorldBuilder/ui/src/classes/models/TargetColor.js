@@ -7,7 +7,7 @@ import {
 
 const IsHex = /^[0-9a-f]+$/i;
 export class TargetColor extends Model {
-  get fields() {
+  getDefaultFields() {
     return [{
       // This is actually the value from WorldColors (it's a hex value)
       name: "Target",

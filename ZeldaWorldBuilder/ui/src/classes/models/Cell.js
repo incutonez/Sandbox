@@ -3,7 +3,7 @@ import { Model } from "@incutonez/shared";
 import { Grid } from "ui/classes/models/Grid.js";
 
 export class Cell extends Model {
-  get fields() {
+  getDefaultFields() {
     return [{
       name: "Coordinates",
       type: Array,

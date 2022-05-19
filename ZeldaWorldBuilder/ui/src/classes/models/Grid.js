@@ -9,7 +9,7 @@ import { Cell } from "ui/classes/models/Cell.js";
 import { getDefaultColors } from "ui/classes/models/Tile.js";
 
 class Grid extends Model {
-  get fields() {
+  getDefaultFields() {
     return [{
       name: "Name",
       type: String,

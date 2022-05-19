@@ -15,14 +15,14 @@
   },
   "dependencies": {
     "@heroicons/vue": "^1.0.6",
-    "@incutonez/core-ui": "^0.0.12",
-    "@incutonez/shared": "^1.0.14",
+    "@incutonez/core-ui": "^0.1.0",
+    "@incutonez/shared": "^1.1.0",
     "color-convert": "^2.0.1",
     "delta-e": "^0.0.8",
     "glob": "^8.0.3",
     "jimp": "^0.16.1",
     "uuid": "^8.3.2",
-    "vue": "^3.2.33"
+    "vue": "^3.2.34"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",

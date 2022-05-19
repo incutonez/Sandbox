@@ -128,7 +128,7 @@ export function getDefaultColors(type) {
   return colors;
 }
 export class Tile extends Model {
-  get fields() {
+  getDefaultFields() {
     return [{
       name: "image",
       type: String,
