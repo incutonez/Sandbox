@@ -4,7 +4,7 @@ export class Enum extends Model {
   get fields() {
     return [{
       name: "id",
-      type: String,
+      type: Number,
     }, {
       name: "value",
       type: String,
