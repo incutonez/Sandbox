@@ -87,7 +87,9 @@ class Store extends Array {
   }
 
   getData(options) {
-    return this.map((record) => record.getData(options));
+    const data = [];
+    this.forEach((record) => data.push(record.getData(options)));
+    return data;
   }
 }
 

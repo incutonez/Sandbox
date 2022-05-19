@@ -79,7 +79,7 @@
       >
         <div class="flex justify-between space-x-4">
           <FieldComboBox
-            v-model="selectedCell.TileType"
+            v-model="selectedCell.tile.Type"
             label="Tile"
             label-width="auto"
             :options="tilesStore"
@@ -89,8 +89,8 @@
             class="w-16 h-16 bg-blue-100"
           >
             <img
-              v-if="selectedCell.tileSrc"
-              :src="selectedCell.tileSrc"
+              v-if="selectedCell.tile.src"
+              :src="selectedCell.tile.src"
               class="w-full h-full"
               alt="Tile Image"
             >
@@ -102,7 +102,7 @@
           layout="vertical"
         >
           <FieldComboBox
-            v-for="tileColor in selectedCell.TileColors"
+            v-for="tileColor in selectedCell.tile.Colors"
             :key="tileColor.id"
             v-model="tileColor.Value"
             :label="WorldColors.getKey(tileColor.Target)"
@@ -116,30 +116,30 @@
           layout="vertical"
         >
           <FieldInteger
-            v-model="selectedCell.Transition.X"
+            v-model="selectedCell.tile.Transition.X"
             label="X Offset"
             width="w-24"
           />
           <FieldInteger
-            v-model="selectedCell.Transition.Y"
+            v-model="selectedCell.tile.Transition.Y"
             label="Y Offset"
             width="w-24"
           />
           <BaseField
-            v-if="selectedCell.isTileDoor"
-            v-model="selectedCell.Transition.Name"
+            v-if="selectedCell.tile.isDoor"
+            v-model="selectedCell.tile.Transition.Name"
             label="Name"
           />
           <FieldComboBox
-            v-if="selectedCell.isTileDoor"
-            v-model="selectedCell.Transition.Template"
+            v-if="selectedCell.tile.isDoor"
+            v-model="selectedCell.tile.Transition.Template"
             label="Template"
             required
             id-field="value"
             :options="screenTemplatesStore"
           />
           <FieldCheckBox
-            v-model="selectedCell.Transition.IsFloating"
+            v-model="selectedCell.tile.Transition.IsFloating"
             label="Floating"
           />
         </BaseCard>
@@ -198,8 +198,8 @@ export default {
     const theDialog = ref(null);
     const selectedCell = ref(null);
     const grid = ref(null);
-    const isTransition = computed(() => selectedCell.value?.isTileTransition);
-    const showColors = computed(() => !isTransition.value && selectedCell.value.TileType !== Tiles.None);
+    const isTransition = computed(() => selectedCell.value?.tile.isTransition);
+    const showColors = computed(() => !isTransition.value && selectedCell.value.tile.hasImage());
     const state = reactive({
       groundColorsStore: WorldColors,
       accentColorsStore: WorldColors,
@@ -215,7 +215,7 @@ export default {
     }
 
     function onUpdateTargetValue() {
-      selectedCell.value.updateTileImage();
+      selectedCell.value.tile.updateImage();
     }
 
     // We have to have this because we do cell replacements, which requires us doing some deep copying here
@@ -230,14 +230,16 @@ export default {
         selectedCell.value = replacement;
       }
       indices.forEach((idx) => {
-        let record = state.record.cells[idx];
-        record = state.record.cells[idx] = replacement.clone({
-          Coordinates: record.Coordinates,
-          id: record.id,
-          TileType: replacement.TileType,
-          TileColors: replacement.TileColors,
+        const record = state.record.cells[idx];
+        const clone = replacement.clone({
+          exclude: ["grid", "Coordinates"],
         });
-        record.grid = replacement.grid;
+        clone.set({
+          Coordinates: record.Coordinates,
+          grid: record.grid,
+        });
+        clone.tile.cell = clone;
+        state.record.cells[idx] = clone;
       });
     }
 

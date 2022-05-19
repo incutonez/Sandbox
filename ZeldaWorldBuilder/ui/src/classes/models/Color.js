@@ -1,12 +1,7 @@
 ﻿import { WorldColors } from "ui/classes/enums/WorldColors.js";
-import { Model } from "ui/classes/models/Model.js";
+import { Model } from "@incutonez/shared";
 
-class Color extends Model {
-  constructor(args) {
-    super(args);
-    this.set(args);
-  }
-
+export class Color extends Model {
   get backgroundStyle() {
     if (this.id === WorldColors.None) {
       return "";
@@ -14,7 +9,3 @@ class Color extends Model {
     return `background-color: #${this.id};`;
   }
 }
-
-export {
-  Color,
-};

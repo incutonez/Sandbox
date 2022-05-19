@@ -1,44 +1,64 @@
-﻿import { Model } from "ui/classes/models/Model.js";
-import { WorldColors } from "ui/classes/enums/WorldColors.js";
+﻿import { WorldColors } from "ui/classes/enums/WorldColors.js";
 import { Tiles } from "ui/classes/enums/Tiles.js";
-import { isEmpty } from "@incutonez/shared";
-import { TargetColor } from "ui/classes/models/TargetColor.js";
+import {
+  FieldType,
+  isEmpty,
+  Model,
+} from "@incutonez/shared";
 import { Cell } from "ui/classes/models/Cell.js";
+import { getDefaultColors } from "ui/classes/models/Tile.js";
 
 class Grid extends Model {
-  Name = "";
-  X = 0;
-  Y = 0;
-  /**
-   * @type {WorldColors}
-   */
-  AccentColor = WorldColors.Brown;
-  /**
-   * @type {WorldColors}
-   */
-  GroundColor = WorldColors.Tan;
-  IsCastle = false;
-  /**
-   * This is used for when we have something that's not part of the Overworld, like a shop or castle
-   * @type {boolean}
-   */
-  IsFloating = false;
-  /**
-   * @type {ScreenTemplates}
-   */
-  Template = null;
-  /**
-   * @type {Cell[]}
-   */
-  cells = [];
-  totalRows = 0;
-  totalColumns = 0;
-
-  constructor(args) {
-    super(args);
-    this.set(args);
+  get fields() {
+    return [{
+      name: "Name",
+      type: String,
+    }, {
+      name: "X",
+      type: Number,
+    }, {
+      name: "Y",
+      type: Number,
+    }, {
+      // This value refers to an enum in WorldColors
+      name: "AccentColor",
+      type: String,
+      defaultValue: WorldColors.Brown,
+    }, {
+      // This value refers to an enum in WorldColors
+      name: "GroundColor",
+      type: String,
+      defaultValue: WorldColors.Tan,
+    }, {
+      name: "IsCastle",
+      type: Boolean,
+    }, {
+      // This is used for when we have something that's not part of the Overworld, like a shop or castle
+      name: "IsFloating",
+      type: Boolean,
+    }, {
+      // This value refers to an enum in ScreenTemplates
+      name: "Template",
+      type: Number,
+      defaultValue: null,
+    }, {
+      name: "cells",
+      type: FieldType.Collection,
+      model: Cell,
+    }, {
+      name: "totalRows",
+      type: Number,
+    }, {
+      name: "totalColumns",
+      type: Number,
+    }];
   }
 
+  /**
+   * @param {Number} rows
+   * @param {Number} columns
+   * @returns {Grid} record
+   */
   static initialize(rows, columns) {
     const config = [];
     const record = new this();
@@ -75,16 +95,23 @@ class Grid extends Model {
           for (const child of tile.Children) {
             if (child.X === x && child.Y === y) {
               found = true;
-              cell.TileType = Tiles.getValue(tile.Type);
+              const type = Tiles.getValue(tile.Type);
+              const tileColors = getDefaultColors(type);
               const { Colors } = child;
               if (Colors) {
-                const tileColors = [];
                 for (let i = 0; i < Colors.length; i += 2) {
-                  tileColors.push(new TargetColor(Colors[i], Colors[i + 1]));
+                  const target = WorldColors.getValue(Colors[i]);
+                  const found = tileColors.find((color) => color.Target === target);
+                  if (found) {
+                    found.Value = WorldColors.getValue(Colors[i + 1]);
+                  }
                 }
-                cell.TileColors = tileColors;
               }
-              cell.Transition = child.Transition;
+              cell.tile.set({
+                Type: type,
+                Transition: child.Transition,
+                Colors: tileColors,
+              });
               break;
             }
           }
@@ -104,45 +131,46 @@ class Grid extends Model {
   }
 
   getAdjacentNodes(node) {
-    const { x, y, TileType: type } = node;
+    const { x, y } = node;
     const nodes = [this.getCell(x - 1, y),
       this.getCell(x + 1, y),
       this.getCell(x, y - 1),
       this.getCell(x, y + 1)];
+    const tileType = node.tile.Type;
     // Some of the nodes from above might be undefined or not have the same type, so let's filter those out
-    return nodes.filter((record) => record?.TileType === type);
+    return nodes.filter((record) => record?.tile.TileType === tileType);
   }
 
   getTileConfigs() {
     const tiles = {};
     const traversed = [];
     for (const cell of this.cells) {
-      const { TileType: cellType } = cell;
-      if (cellType === Tiles.None) {
+      if (!cell.tile.hasImage()) {
         continue;
       }
+      const { Type: tileType } = cell.tile;
       const nodes = this.findAdjacentNodes(cell, traversed);
       if (isEmpty(nodes)) {
         continue;
       }
-      const found = tiles[cellType];
+      const found = tiles[tileType];
       if (found) {
         found.push(nodes);
       }
       else {
-        tiles[cellType] = [nodes];
+        tiles[tileType] = [nodes];
       }
     }
     const output = [];
     // TODOJEF: Might be able to optimize this by combining it in the loop above
     for (const tilesKey in tiles) {
       let tileType;
-      let data = [];
+      const data = [];
       tiles[tilesKey].forEach((nodes, index) => {
         if (index === 0) {
-          tileType = nodes[0].getTileKey();
+          tileType = nodes[0].tile.getTypeKey();
         }
-        data = data.concat(nodes.map((node) => node.getConfig()));
+        data.push(...nodes.map((node) => node.tile.getConfig()));
       });
       output.push({
         Type: tileType,
@@ -159,7 +187,7 @@ class Grid extends Model {
    * @returns {Cell[]} nodes
    */
   findAdjacentNodes(startNode = this.cells[0], traversedNodes = []) {
-    let nodes = [];
+    const nodes = [];
     const adjacentNodes = this.getAdjacentNodes(startNode);
     if (traversedNodes.indexOf(startNode) === -1) {
       traversedNodes.push(startNode);
@@ -171,7 +199,7 @@ class Grid extends Model {
         if (isEmpty(subNodes)) {
           continue;
         }
-        nodes = nodes.concat(subNodes);
+        nodes.push(...subNodes);
       }
     }
     return nodes;

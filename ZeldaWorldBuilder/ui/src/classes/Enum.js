@@ -1,12 +1,13 @@
-﻿// We use the relative pathing here, so our copyEnums script can make use of this class
-import { Model } from "../classes/models/Model.js";
+﻿import { Model } from "@incutonez/shared";
 
 export class Enum extends Model {
-  id = "";
-  value = "";
-
-  constructor(data) {
-    super();
-    this.set(data);
+  get fields() {
+    return [{
+      name: "id",
+      type: String,
+    }, {
+      name: "value",
+      type: String,
+    }];
   }
 }

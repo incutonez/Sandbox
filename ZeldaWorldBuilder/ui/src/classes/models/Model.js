@@ -3,7 +3,9 @@
   isObject,
 } from "../../utilities.js";
 import { v4 as uuidv4 } from "uuid";
+import { isArray } from "@incutonez/shared";
 
+// TODOJEF: Remove when we remove the Store class
 class Model {
   id = uuidv4();
   set(field, value) {
@@ -30,7 +32,7 @@ class Model {
     return true;
   }
 
-  getData({ exclude, options } = {}) {
+  getData({ exclude = this.exclude, options } = {}) {
     const data = {};
     for (const key in this) {
       if (exclude?.indexOf(key) !== -1) {
@@ -38,10 +40,14 @@ class Model {
       }
       const entry = this[key];
       if (entry?.isModel || entry?.isStore) {
+        console.log(entry);
         data[key] = entry.getData({
-          exclude,
           options,
         });
+        console.log("yup!", data[key]);
+      }
+      else if (isObject(entry) || isArray(entry)) {
+        data[key] = clone(entry);
       }
       else {
         data[key] = entry;
@@ -50,7 +56,8 @@ class Model {
     for (const key in options) {
       data[key] = options[key];
     }
-    return clone(data);
+    console.log(data);
+    return data;
   }
 
   clone(options = {}) {

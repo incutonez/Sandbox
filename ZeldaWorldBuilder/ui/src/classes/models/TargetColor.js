@@ -1,17 +1,25 @@
-﻿import { Model } from "ui/classes/models/Model.js";
-import { WorldColors } from "ui/classes/enums/WorldColors.js";
+﻿import { WorldColors } from "ui/classes/enums/WorldColors.js";
 import {
   isArray,
   isObject,
+  Model,
 } from "@incutonez/shared";
 
 const IsHex = /^[0-9a-f]+$/i;
 export class TargetColor extends Model {
-  Target = null;
-  Value = null;
+  get fields() {
+    return [{
+      // This is actually the value from WorldColors (it's a hex value)
+      name: "Target",
+      type: String,
+    }, {
+      // This is actually the value from WorldColors (it's a hex value)
+      name: "Value",
+      type: String,
+    }];
+  }
 
   constructor(Target, Value) {
-    super();
     if (isObject(Target)) {
       ({ Target, Value } = Target);
     }
@@ -25,11 +33,17 @@ export class TargetColor extends Model {
     if (Value && !IsHex.test(Value)) {
       Value = WorldColors.getValue(Value);
     }
-    this.Target = Target;
-    this.Value = Value;
+    super({
+      Target,
+      Value,
+    });
   }
 
   getConfig() {
-    return [WorldColors.getKey(this.Target), WorldColors.getKey(this.Value)];
+    const { Target, Value } = this;
+    if (Target === Value || !Value) {
+      return;
+    }
+    return [WorldColors.getKey(Target), WorldColors.getKey(Value)];
   }
 }

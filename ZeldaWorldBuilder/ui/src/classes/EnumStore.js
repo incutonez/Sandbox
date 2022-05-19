@@ -5,6 +5,7 @@ import {
   isObject,
 } from "@incutonez/shared";
 
+// TODOJEF: Extend Collection here instead
 class EnumStore extends Store {
   constructor(data, model = Enum, sorters = [{
     property: "value",
