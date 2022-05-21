@@ -35,7 +35,10 @@
           >
         </div>
       </div>
-      <BaseCard title="Screen Coordinates">
+      <BaseCard
+        title="Screen Coordinates"
+        class="bp-2 horizontal"
+      >
         <FieldInteger
           v-model="record.X"
           label="X"
@@ -55,11 +58,15 @@
           label="Name"
         />
       </BaseCard>
-      <BaseCard title="Colors">
+      <BaseCard
+        title="Colors"
+        class="bp-2 horizontal"
+      >
         <FieldComboBox
           v-model="record.GroundColor"
           label="Ground"
           label-width="auto"
+          class="bp-2"
           :options="WorldColors"
           width="w-28"
         />
@@ -75,73 +82,78 @@
         v-if="selectedCell"
         :key="selectedCell.id"
         title="Cell"
-        layout="vertical"
+        class="vertical"
       >
-        <div class="flex justify-between space-x-4">
-          <FieldComboBox
-            v-model="selectedCell.tile.Type"
-            label="Tile"
-            label-width="auto"
-            :options="tilesStore"
-          />
-          <div
-            v-show="showColors"
-            class="w-16 h-16 bg-blue-100"
-          >
-            <img
-              v-if="selectedCell.tile.src"
-              :src="selectedCell.tile.src"
-              class="w-full h-full"
-              alt="Tile Image"
+        <BaseCard
+          class="vertical bp-2"
+          title="Tile"
+        >
+          <div class="flex justify-between">
+            <FieldComboBox
+              v-model="selectedCell.tile.Type"
+              :options="tilesStore"
+              label="Type"
+              label-width="auto"
+            />
+            <div
+              v-show="showColors"
+              class="w-16 h-16 bg-blue-100"
             >
+              <img
+                v-if="selectedCell.tile.src"
+                :src="selectedCell.tile.src"
+                class="w-full h-full"
+                alt="Tile Image"
+              >
+            </div>
           </div>
-        </div>
-        <BaseCard
-          v-show="showColors"
-          title="Replace Colors"
-          layout="vertical"
-        >
-          <FieldComboBox
-            v-for="tileColor in selectedCell.tile.Colors"
-            :key="tileColor.id"
-            v-model="tileColor.Value"
-            :label="WorldColors.getKey(tileColor.Target)"
-            :options="WorldColors"
-            @update:model-value="onUpdateTargetValue"
-          />
-        </BaseCard>
-        <BaseCard
-          v-if="isTransition"
-          title="Transition Properties"
-          layout="vertical"
-        >
-          <FieldInteger
-            v-model="selectedCell.tile.Transition.X"
-            label="X Offset"
-            width="w-24"
-          />
-          <FieldInteger
-            v-model="selectedCell.tile.Transition.Y"
-            label="Y Offset"
-            width="w-24"
-          />
-          <BaseField
-            v-if="selectedCell.tile.isDoor"
-            v-model="selectedCell.tile.Transition.Name"
-            label="Name"
-          />
-          <FieldComboBox
-            v-if="selectedCell.tile.isDoor"
-            v-model="selectedCell.tile.Transition.Template"
-            label="Template"
-            required
-            id-field="value"
-            :options="ScreenTemplates"
-          />
-          <FieldCheckBox
-            v-model="selectedCell.tile.Transition.IsFloating"
-            label="Floating"
-          />
+          <BaseCard
+            v-show="showColors"
+            title="Replace Colors"
+            class="vertical bp-2"
+          >
+            <FieldComboBox
+              v-for="tileColor in selectedCell.tile.Colors"
+              :key="tileColor.id"
+              v-model="tileColor.Value"
+              :label="WorldColors.getKey(tileColor.Target)"
+              :options="WorldColors"
+              @update:model-value="onUpdateTargetValue"
+            />
+          </BaseCard>
+          <BaseCard
+            v-if="isTransition"
+            title="Transition Properties"
+            class="vertical bp-2"
+          >
+            <FieldInteger
+              v-model="selectedCell.tile.Transition.X"
+              label="X Offset"
+              width="w-24"
+            />
+            <FieldInteger
+              v-model="selectedCell.tile.Transition.Y"
+              label="Y Offset"
+              width="w-24"
+            />
+            <BaseField
+              v-if="selectedCell.tile.isDoor"
+              v-model="selectedCell.tile.Transition.Name"
+              label="Name"
+            />
+            <FieldComboBox
+              v-if="selectedCell.tile.isDoor"
+              v-model="selectedCell.tile.Transition.Template"
+              label="Template"
+              required
+              id-field="value"
+              :options="ScreenTemplates"
+            />
+            <FieldCheckBox
+              v-model="selectedCell.tile.Transition.IsFloating"
+              label="Floating"
+            />
+          </BaseCard>
         </BaseCard>
       </BaseCard>
     </div>
@@ -169,6 +181,7 @@ import {
   FieldCheckBox,
   FieldComboBox,
   FieldInteger,
+  BaseLabel,
 } from "@incutonez/core-ui";
 import BaseCard from "ui/components/BaseCard.vue";
 /**
@@ -191,6 +204,7 @@ export default {
     FieldComboBox,
     BaseField,
     FieldCheckBox,
+    BaseLabel,
   },
   setup() {
     const fileInputEl = ref(null);
@@ -266,7 +280,6 @@ export default {
       tempEl.click();
     }
 
-    console.log(ScreenTemplates);
     return {
       ...toRefs(state),
       fileInputEl,

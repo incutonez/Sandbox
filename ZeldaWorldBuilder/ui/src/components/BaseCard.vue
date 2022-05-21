@@ -1,11 +1,14 @@
 ﻿<template>
   <section
+    ref="rootEl"
     class="base-card"
-    :class="layout"
   >
-    <div class="base-card-title-wrapper">
+    <div
+      ref="titleRoot"
+      class="base-card-title-wrapper"
+    >
       <slot
-        v-if="!!title"
+        v-if="hasTitle"
         name="title"
       >
         <BaseLabel
@@ -16,7 +19,7 @@
       </slot>
       <BaseIcon
         :icon="Icon.PickerDown"
-        class="cursor-pointer"
+        class="picker-icon"
         @click="onClickCollapse"
       />
     </div>
@@ -31,7 +34,12 @@
 
 <script>
 import { BaseLabel, BaseIcon } from "@incutonez/core-ui";
-import { ref } from "vue";
+import {
+  ref,
+  computed,
+  watch,
+  onMounted,
+} from "vue";
 
 export default {
   name: "BaseCard",
@@ -44,24 +52,36 @@ export default {
       type: String,
       default: "",
     },
-    layout: {
-      type: String,
-      default: "horizontal",
-    },
     collapsible: {
       type: Boolean,
       default: false,
     },
   },
-  setup() {
+  setup(props, { slots }) {
+    const rootEl = ref(null);
+    const titleRoot = ref(null);
     const isExpanded = ref(true);
+    const hasTitle = computed(() => !!props.title || !!slots.title);
     function onClickCollapse() {
       isExpanded.value = !isExpanded.value;
     }
+    function updateExpanded(value) {
+      if (value) {
+        rootEl.value.classList.add("expanded");
+      }
+      else {
+        rootEl.value.classList.remove("expanded");
+      }
+    }
+    onMounted(() => updateExpanded(isExpanded.value));
+    watch(isExpanded, (value) => updateExpanded(value));
 
     return {
       onClickCollapse,
       isExpanded,
+      hasTitle,
+      rootEl,
+      titleRoot,
     };
   },
 };
@@ -69,11 +89,23 @@ export default {
 
 <style lang="scss" scoped>
 .base-card {
-  @apply flex flex-col border ;
+  @apply flex flex-col border;
+}
+
+.picker-icon {
+  @apply cursor-pointer;
+}
+
+.expanded > .base-card-title-wrapper > .picker-icon  {
+  @apply rotate-180;
+}
+
+.bp-2 > .base-card-body {
+  @apply p-2;
 }
 
 .base-card-body {
-  @apply flex border-t border-gray-300 p-2;
+  @apply flex border-t border-gray-300;
 }
 
 .horizontal > .base-card-body {
@@ -84,11 +116,11 @@ export default {
   @apply flex-col space-y-2;
 }
 
-.base-card-title {
-  @apply text-gray-900 flex-1 leading-6;
-}
-
 .base-card-title-wrapper {
   @apply flex bg-gray-100 p-2;
+}
+
+.base-card-title {
+  @apply flex-1;
 }
 </style>
