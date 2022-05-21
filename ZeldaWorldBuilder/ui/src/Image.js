@@ -5,10 +5,21 @@ import deltaE from "delta-e";
 import {
   Enum,
   isString,
+  makeArray,
 } from "@incutonez/shared";
 import { Tiles } from "ui/classes/enums/Tiles.js";
+import { Items } from "ui/classes/enums/Items.js";
 
-const imageCache = {};
+/**
+ * @property {String} Tiles
+ * @property {String} Enemies
+ * @property {String} Items
+ */
+export const ImageType = new Enum(["tiles", "enemies", "items"], false);
+const imageCache = ImageType.values.reduce((current, imageType) => {
+  current[imageType] = {};
+  return current;
+}, {});
 /**
 * @property {String} E00
 * @property {String} E94
@@ -60,24 +71,24 @@ function convertColor(from, to, color) {
  * The replace-color package only works for Node, and I needed a browser version as well as
  * something that did multiple color replacement.
  * @param {JimpObject} image
+ * @param {String} type
  * @param {String[]} replaceColors
  * @param {String[]} targetColors
  * @param {String} formula
  * @param deltaE
  * @returns {Promise<string>}
  */
-export async function replaceColor({ image, replaceColors, targetColors, formula = DeltaFormula.E00, deltaE = 2.3 }) {
+export async function replaceColor({ image, type = ImageType.Tiles, replaceColors, targetColors, formula = DeltaFormula.E00, deltaE = 2.3 }) {
   if (isString(image)) {
     // We need to be working with a Jimp object
-    image = await getImage(image);
+    image = await getImage({
+      name: image,
+      type,
+    });
   }
   if (!(isEmpty(replaceColors) || isEmpty(targetColors))) {
-    if (!Array.isArray(replaceColors)) {
-      replaceColors = [replaceColors];
-    }
-    if (!Array.isArray(targetColors)) {
-      targetColors = [targetColors];
-    }
+    replaceColors = makeArray(replaceColors);
+    targetColors = makeArray(targetColors);
     const targetLABColors = [];
     const replaceRGBColors = [];
     const { bitmap } = image;
@@ -113,28 +124,36 @@ export async function replaceColor({ image, replaceColors, targetColors, formula
 
 export async function loadImages() {
   const promises = [];
-  const noLoad = [Tiles.None, Tiles.SolidColor, Tiles.Transition, Tiles.Castle];
+  const noTileImage = [Tiles.None, Tiles.SolidColor, Tiles.Transition, Tiles.Castle];
   Tiles.forEach(({ value, id }) => {
-    if (noLoad.indexOf(id) === -1) {
-      promises.push(getImage(value));
+    if (noTileImage.indexOf(id) === -1) {
+      promises.push(getImage({
+        name: value,
+      }));
     }
+  });
+  Items.forEach(({ value, id }) => {
+    promises.push(getImage({
+      name: value,
+      type: ImageType.Items,
+    }));
   });
   return Promise.all(promises);
 }
 
-export async function getImage(name, base64 = false) {
+export async function getImage({ name, type = ImageType.Tiles, encode = false }) {
   if (isEmpty(name)) {
     return "";
   }
 
-  let found = imageCache[name];
+  let found = imageCache[type][name];
   if (!found) {
-    const response = await fetch(`Tiles/${name}.png`);
+    const response = await fetch(`${type}/${name}.png`);
     const image = await response.blob();
     found = await image.arrayBuffer();
     found = await read(found);
     // It seems more efficient to cache the Jimp Object and clone it than read it each time
-    imageCache[name] = found;
+    imageCache[type][name] = found;
   }
-  return base64 ? found.getBase64Async(MIME_PNG) : found.clone();
+  return encode ? found.getBase64Async(MIME_PNG) : found.clone();
 }

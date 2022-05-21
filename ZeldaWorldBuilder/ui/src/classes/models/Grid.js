@@ -6,9 +6,22 @@ import {
   Model,
 } from "@incutonez/shared";
 import { Cell } from "ui/classes/models/Cell.js";
-import { getDefaultColors } from "ui/classes/models/Tile.js";
+import { getDefaultTileColors } from "ui/classes/models/Tile.js";
 
-class Grid extends Model {
+/**
+ * @property {String} Name
+ * @property {Number} X
+ * @property {Number} Y
+ * @property {String} AccentColor
+ * @property {String} GroundColor
+ * @property {Boolean} IsCastle
+ * @property {Boolean} IsFloating
+ * @property {String} Template
+ * @property {Collection<Cell>} cells
+ * @property {Number} totalRows
+ * @property {Number} totalColumns
+ */
+export class Grid extends Model {
   getDefaultFields() {
     return [{
       name: "Name",
@@ -95,7 +108,7 @@ class Grid extends Model {
             if (child.X === x && child.Y === y) {
               found = true;
               const type = Tiles.getValue(tile.Type);
-              const tileColors = getDefaultColors(type);
+              const tileColors = getDefaultTileColors(type);
               const { Colors } = child;
               if (Colors) {
                 for (let i = 0; i < Colors.length; i += 2) {
@@ -144,21 +157,10 @@ class Grid extends Model {
     const tiles = {};
     const traversed = [];
     for (const cell of this.cells) {
-      if (!cell.tile.hasImage()) {
-        continue;
-      }
-      const { Type: tileType } = cell.tile;
-      const nodes = this.findAdjacentNodes(cell, traversed);
-      if (isEmpty(nodes)) {
-        continue;
-      }
-      const found = tiles[tileType];
-      if (found) {
-        found.push(nodes);
-      }
-      else {
-        tiles[tileType] = [nodes];
-      }
+      cell.getConfig({
+        tiles,
+        traversed,
+      });
     }
     const output = [];
     // TODOJEF: Might be able to optimize this by combining it in the loop above
@@ -216,7 +218,3 @@ class Grid extends Model {
     };
   }
 }
-
-export {
-  Grid,
-};

@@ -1,7 +1,17 @@
 ﻿import { Tile } from "ui/classes/models/Tile.js";
-import { Model } from "@incutonez/shared";
+import {
+  isEmpty,
+  Model,
+} from "@incutonez/shared";
 import { Grid } from "ui/classes/models/Grid.js";
+import { Item } from "ui/classes/models/Item.js";
 
+/**
+ * @property {Array} Coordinates
+ * @property {String} Name
+ * @property {Grid} grid
+ * @property {Tile} tile
+ */
 export class Cell extends Model {
   getDefaultFields() {
     return [{
@@ -16,6 +26,12 @@ export class Cell extends Model {
     }, {
       name: "tile",
       type: Tile,
+      defaultValue: {
+        cell: this,
+      },
+    }, {
+      name: "item",
+      type: Item,
       defaultValue: {
         cell: this,
       },
@@ -40,5 +56,21 @@ export class Cell extends Model {
 
   get y() {
     return this.Coordinates[1];
+  }
+
+  getConfig({ tiles, traversed }) {
+    if (this.tile.hasImage()) {
+      const { Type: tileType } = this.tile;
+      const nodes = this.grid.findAdjacentNodes(this, traversed);
+      if (!isEmpty(nodes)) {
+        const found = tiles[tileType];
+        if (found) {
+          found.push(nodes);
+        }
+        else {
+          tiles[tileType] = [nodes];
+        }
+      }
+    }
   }
 }

@@ -56,11 +56,15 @@ export default {
       type: Boolean,
       default: false,
     },
+    expanded: {
+      type: Boolean,
+      default: true,
+    },
   },
   setup(props, { slots }) {
     const rootEl = ref(null);
     const titleRoot = ref(null);
-    const isExpanded = ref(true);
+    const isExpanded = ref(props.expanded);
     const hasTitle = computed(() => !!props.title || !!slots.title);
     function onClickCollapse() {
       isExpanded.value = !isExpanded.value;

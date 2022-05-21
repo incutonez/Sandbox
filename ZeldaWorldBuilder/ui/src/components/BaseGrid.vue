@@ -7,6 +7,7 @@
     <div
       v-for="cell in cells"
       :key="cell.id"
+      class="relative"
       :class="getCellCls(cell)"
       :style="getCellColor()"
       @mouseup="onMouseUpCell($event, cell)"
@@ -16,8 +17,15 @@
       <img
         v-if="cell.tile.image"
         :src="cell.tile.image"
-        class="w-full h-full"
+        class="absolute w-full h-full"
       >
+      <div class="flex absolute justify-center w-full h-full">
+        <img
+          v-if="cell.item.image"
+          :src="cell.item.image"
+          class="h-full"
+        >
+      </div>
     </div>
   </div>
   <BaseContextMenu ref="contextMenu">

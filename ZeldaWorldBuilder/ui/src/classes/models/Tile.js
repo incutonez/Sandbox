@@ -3,6 +3,7 @@ import { WorldColors } from "ui/classes/enums/WorldColors.js";
 import { TargetColor } from "ui/classes/models/TargetColor.js";
 import {
   getImage,
+  ImageType,
   replaceColor,
 } from "ui/Image.js";
 import {
@@ -41,7 +42,7 @@ const DoorColor = [{
 const White = [WorldColors.PureWhite].map(makeTargets);
 const WhiteBlue = [WorldColors.PureWhite, WorldColors.PureBlue].map(makeTargets);
 const WhiteBlack = [WorldColors.PureWhite, WorldColors.Black].map(makeTargets);
-export function getDefaultColors(type) {
+export function getDefaultTileColors(type) {
   let colors = [];
   switch (type) {
     // TODOJEF: Add color change for these?
@@ -185,7 +186,7 @@ export class Tile extends Model {
   set Type(value) {
     this.set({
       type: value,
-      Colors: getDefaultColors(value),
+      Colors: getDefaultTileColors(value),
     });
     this.updateSrc();
     if (this.isTransition) {
@@ -211,10 +212,13 @@ export class Tile extends Model {
   }
 
   async updateSrc() {
-    const key = this.getImageKey();
+    const name = this.getImageKey();
     let src = null;
     if (this.hasImage()) {
-      src = await getImage(key, true);
+      src = await getImage({
+        name,
+        encode: true,
+      });
     }
     this.set({
       src,

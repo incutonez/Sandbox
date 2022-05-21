@@ -91,7 +91,7 @@
           <div class="flex justify-between">
             <FieldComboBox
               v-model="selectedCell.tile.Type"
-              :options="tilesStore"
+              :options="Tiles"
               label="Type"
               label-width="auto"
             />
@@ -155,6 +155,32 @@
             />
           </BaseCard>
         </BaseCard>
+        <BaseCard
+          title="Item"
+          :expanded="false"
+          class="vertical bp-2"
+        >
+          <div class="flex justify-between">
+            <FieldComboBox
+              v-model="selectedCell.item.Type"
+              :options="Items"
+              label="Type"
+              label-width="auto"
+            />
+            <div class="flex justify-center w-16 h-16 bg-blue-100">
+              <img
+                v-if="selectedCell.item.src"
+                :src="selectedCell.item.src"
+                class="h-full"
+                alt="Item Image"
+              >
+            </div>
+          </div>
+        </BaseCard>
+        <BaseCard
+          title="Enemy"
+          :expanded="false"
+        />
       </BaseCard>
     </div>
   </div>
@@ -184,6 +210,7 @@ import {
   BaseLabel,
 } from "@incutonez/core-ui";
 import BaseCard from "ui/components/BaseCard.vue";
+import { Items } from "ui/classes/enums/Items.js";
 /**
  * TODOJEF:
  * - Add special properties for Transitions
@@ -215,7 +242,6 @@ export default {
     const isTransition = computed(() => selectedCell.value?.tile.isTransition);
     const showColors = computed(() => !isTransition.value && selectedCell.value.tile.hasImage());
     const state = reactive({
-      tilesStore: Tiles,
       showGridLines: true,
       record: Grid.initialize(11, 16),
     });
@@ -293,6 +319,8 @@ export default {
       getCellColor,
       WorldColors,
       ScreenTemplates,
+      Tiles,
+      Items,
       onReplaceCell,
       onClickSaveBtn,
       onClickLoadBtn,

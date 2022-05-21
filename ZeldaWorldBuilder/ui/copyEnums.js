@@ -1,4 +1,8 @@
 ﻿/**
+ * TODOJEF: To generate the images, we have to manually go into Unity and use the Export Sub-Sprites option that was added through a script
+ * // Ref: https://stackoverflow.com/a/69829938/1253609
+ */
+/**
  * TODOJEF: Move this to the API... it should be what it does whenever the UI hits enums
  */
 import fs from "fs";
