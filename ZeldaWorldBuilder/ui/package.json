@@ -15,8 +15,8 @@
   },
   "dependencies": {
     "@heroicons/vue": "^1.0.6",
-    "@incutonez/core-ui": "^0.1.5",
-    "@incutonez/shared": "^1.1.4",
+    "@incutonez/core-ui": "^0.1.7",
+    "@incutonez/shared": "^1.1.5",
     "color-convert": "^2.0.1",
     "delta-e": "^0.0.8",
     "glob": "^8.0.3",

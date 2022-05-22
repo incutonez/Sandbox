@@ -276,6 +276,7 @@ export default {
           grid: record.grid,
         });
         clone.tile.cell = clone;
+        clone.item.cell = clone;
         state.record.cells[idx] = clone;
       });
     }

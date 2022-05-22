@@ -153,34 +153,6 @@ export class Grid extends Model {
     return nodes.filter((record) => record?.tile.TileType === tileType);
   }
 
-  getTileConfigs() {
-    const tiles = {};
-    const traversed = [];
-    for (const cell of this.cells) {
-      cell.getConfig({
-        tiles,
-        traversed,
-      });
-    }
-    const output = [];
-    // TODOJEF: Might be able to optimize this by combining it in the loop above
-    for (const tilesKey in tiles) {
-      let tileType;
-      const data = [];
-      tiles[tilesKey].forEach((nodes, index) => {
-        if (index === 0) {
-          tileType = nodes[0].tile.getTypeKey();
-        }
-        data.push(...nodes.map((node) => node.tile.getConfig()));
-      });
-      output.push({
-        Type: tileType,
-        Children: data,
-      });
-    }
-    return output;
-  }
-
   /**
    * Algorithm is a modification of depth-first search
    * @param {Cell} startNode
@@ -208,13 +180,22 @@ export class Grid extends Model {
 
   // In my case, adjacent depends on the coordinates... e.g. 0,0 has 0,1 and 1,0
   getConfig() {
+    const Tiles = [];
+    const Items = [];
+    for (const cell of this.cells) {
+      cell.getConfig({
+        Tiles,
+        Items,
+      });
+    }
     return {
       X: this.X,
       Y: this.Y,
       Name: this.Name,
       GroundColor: WorldColors.getKey(this.GroundColor),
       AccentColor: WorldColors.getKey(this.AccentColor),
-      Tiles: this.getTileConfigs(),
+      Tiles,
+      Items,
     };
   }
 }

@@ -96,14 +96,12 @@ export class Item extends Model {
   }
 
   getConfig() {
-    // TODOJEF: Impl
-    const item = {
-      Type: this.Type,
-    };
-    const config = {
+    return {
       X: this.cell.x,
       Y: this.cell.y,
+      Config: {
+        Type: this.getTypeKey(),
+      },
     };
-    return config;
   }
 }

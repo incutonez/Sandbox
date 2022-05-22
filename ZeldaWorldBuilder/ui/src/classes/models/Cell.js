@@ -1,8 +1,5 @@
 ﻿import { Tile } from "ui/classes/models/Tile.js";
-import {
-  isEmpty,
-  Model,
-} from "@incutonez/shared";
+import { Model } from "@incutonez/shared";
 import { Grid } from "ui/classes/models/Grid.js";
 import { Item } from "ui/classes/models/Item.js";
 
@@ -58,19 +55,24 @@ export class Cell extends Model {
     return this.Coordinates[1];
   }
 
-  getConfig({ tiles, traversed }) {
-    if (this.tile.hasImage()) {
-      const { Type: tileType } = this.tile;
-      const nodes = this.grid.findAdjacentNodes(this, traversed);
-      if (!isEmpty(nodes)) {
-        const found = tiles[tileType];
-        if (found) {
-          found.push(nodes);
-        }
-        else {
-          tiles[tileType] = [nodes];
-        }
+  getConfig({ Tiles, Items }) {
+    const { tile, item } = this;
+    if (tile.hasImage()) {
+      const tileType = tile.getTypeKey();
+      const config = tile.getConfig();
+      const found = Tiles.find(({ Type }) => Type === tileType);
+      if (found) {
+        found.Children.push(config);
       }
+      else {
+        Tiles.push({
+          Type: tileType,
+          Children: [config],
+        });
+      }
+    }
+    if (item.hasImage()) {
+      Items.push(item.getConfig());
     }
   }
 }
