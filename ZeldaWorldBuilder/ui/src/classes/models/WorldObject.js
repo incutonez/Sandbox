@@ -126,7 +126,6 @@ export class WorldObject extends Model {
    * @returns {String}
    * We have this method in here, so it can be overridden in sub-classes, like in Cell
    */
-  // TODO: Common method, but Tile has a minor difference
   getImageKey() {
     return this.getTypeKey();
   }
