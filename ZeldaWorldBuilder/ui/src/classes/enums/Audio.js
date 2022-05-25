@@ -1,32 +1,31 @@
 import { EnumStore } from "ui/classes/EnumStore.js";
-
 /**
- * @property ArrowBoomerang
- * @property BombBlow
- * @property BombDrop
- * @property BossDodongoGohma
- * @property BossDragonGanon
- * @property BossHurt
- * @property BossManhandlaDigdoggerPatra
- * @property DoorUnlock
- * @property EnemyDie
- * @property EnemyHurt
- * @property Fire
- * @property Flute
- * @property HealthLow
- * @property HeartPickup
- * @property ItemAppear
- * @property ItemFanfare
- * @property ItemPickup
- * @property Magic
- * @property Rupee
- * @property SecretAppear
- * @property Shield
- * @property Shore
- * @property Stairs
- * @property SwordShoot
- * @property SwordSlash
- * @property Text
+ * @property {Number} ArrowBoomerang
+ * @property {Number} BombBlow
+ * @property {Number} BombDrop
+ * @property {Number} BossDodongoGohma
+ * @property {Number} BossDragonGanon
+ * @property {Number} BossHurt
+ * @property {Number} BossManhandlaDigdoggerPatra
+ * @property {Number} DoorUnlock
+ * @property {Number} EnemyDie
+ * @property {Number} EnemyHurt
+ * @property {Number} Fire
+ * @property {Number} Flute
+ * @property {Number} HealthLow
+ * @property {Number} HeartPickup
+ * @property {Number} ItemAppear
+ * @property {Number} ItemFanfare
+ * @property {Number} ItemPickup
+ * @property {Number} Magic
+ * @property {Number} Rupee
+ * @property {Number} SecretAppear
+ * @property {Number} Shield
+ * @property {Number} Shore
+ * @property {Number} Stairs
+ * @property {Number} SwordShoot
+ * @property {Number} SwordSlash
+ * @property {Number} Text
  */
 export const FX = new EnumStore(["ArrowBoomerang",
   "BombBlow",
@@ -54,15 +53,14 @@ export const FX = new EnumStore(["ArrowBoomerang",
   "SwordShoot",
   "SwordSlash",
   "Text"]);
-
 /**
- * @property Castle
- * @property Ending
- * @property FinalCastle
- * @property GameOver
- * @property GanonAppear
- * @property Intro
- * @property Overworld
+ * @property {Number} Castle
+ * @property {Number} Ending
+ * @property {Number} FinalCastle
+ * @property {Number} GameOver
+ * @property {Number} GanonAppear
+ * @property {Number} Intro
+ * @property {Number} Overworld
  */
 export const Music = new EnumStore(["Castle",
   "Ending",

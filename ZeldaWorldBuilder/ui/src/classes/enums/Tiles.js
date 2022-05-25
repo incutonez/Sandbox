@@ -1,85 +1,84 @@
 import { EnumStore } from "ui/classes/EnumStore.js";
-
 /**
- * @property Block
- * @property Bush
- * @property Castle
- * @property CastleBottomLeft
- * @property CastleBottomRight
- * @property CastleSand
- * @property CastleTop
- * @property CastleTopAlt
- * @property CastleTopLeft
- * @property CastleTopLeftAlt
- * @property CastleTopRight
- * @property CastleTopRightAlt
- * @property Dock
- * @property Door
- * @property DoorClosedX
- * @property DoorClosedY
- * @property DoorLockedX
- * @property DoorLockedY
- * @property DoorUnlockedX
- * @property DoorUnlockedY
- * @property Fire
- * @property FireAlt
- * @property Grave
- * @property GroundTile
- * @property None
- * @property PondBottom
- * @property PondBottomLeft
- * @property PondBottomRight
- * @property PondCenter
- * @property PondCenterLeft
- * @property PondCenterRight
- * @property PondTop
- * @property PondTopLeft
- * @property PondTopRight
- * @property Rock
- * @property SandBottom
- * @property SandBottomLeft
- * @property SandBottomRight
- * @property SandCenter
- * @property SandCenterLeft
- * @property SandCenterRight
- * @property SandTop
- * @property SandTopLeft
- * @property SandTopRight
- * @property SolidColor
- * @property StairsDown
- * @property StairsKeep
- * @property StairsUp
- * @property Statue
- * @property Statue1
- * @property Statue2
- * @property Transition
- * @property TreeBottomLeft
- * @property TreeBottomRight
- * @property TreeTop
- * @property TreeTopLeft
- * @property TreeTopRight
- * @property WallBottom
- * @property WallBottomLeft
- * @property WallBottomRight
- * @property WallHoleX
- * @property WallHoleY
- * @property WallKeep
- * @property WallLeftX
- * @property WallLeftY
- * @property WallLeftYFlip
- * @property WallRightX
- * @property WallRightY
- * @property WallRightYFlip
- * @property WallTop
- * @property WallTopLeft
- * @property WallTopRight
- * @property WallX
- * @property WallY
- * @property Water
- * @property WaterBottomLeft
- * @property WaterBottomRight
- * @property WaterTopLeft
- * @property WaterTopRight
+ * @property {Number} Block
+ * @property {Number} Bush
+ * @property {Number} Castle
+ * @property {Number} CastleBottomLeft
+ * @property {Number} CastleBottomRight
+ * @property {Number} CastleSand
+ * @property {Number} CastleTop
+ * @property {Number} CastleTopAlt
+ * @property {Number} CastleTopLeft
+ * @property {Number} CastleTopLeftAlt
+ * @property {Number} CastleTopRight
+ * @property {Number} CastleTopRightAlt
+ * @property {Number} Dock
+ * @property {Number} Door
+ * @property {Number} DoorClosedX
+ * @property {Number} DoorClosedY
+ * @property {Number} DoorLockedX
+ * @property {Number} DoorLockedY
+ * @property {Number} DoorUnlockedX
+ * @property {Number} DoorUnlockedY
+ * @property {Number} Fire
+ * @property {Number} FireAlt
+ * @property {Number} Grave
+ * @property {Number} GroundTile
+ * @property {Number} None
+ * @property {Number} PondBottom
+ * @property {Number} PondBottomLeft
+ * @property {Number} PondBottomRight
+ * @property {Number} PondCenter
+ * @property {Number} PondCenterLeft
+ * @property {Number} PondCenterRight
+ * @property {Number} PondTop
+ * @property {Number} PondTopLeft
+ * @property {Number} PondTopRight
+ * @property {Number} Rock
+ * @property {Number} SandBottom
+ * @property {Number} SandBottomLeft
+ * @property {Number} SandBottomRight
+ * @property {Number} SandCenter
+ * @property {Number} SandCenterLeft
+ * @property {Number} SandCenterRight
+ * @property {Number} SandTop
+ * @property {Number} SandTopLeft
+ * @property {Number} SandTopRight
+ * @property {Number} SolidColor
+ * @property {Number} StairsDown
+ * @property {Number} StairsKeep
+ * @property {Number} StairsUp
+ * @property {Number} Statue
+ * @property {Number} Statue1
+ * @property {Number} Statue2
+ * @property {Number} Transition
+ * @property {Number} TreeBottomLeft
+ * @property {Number} TreeBottomRight
+ * @property {Number} TreeTop
+ * @property {Number} TreeTopLeft
+ * @property {Number} TreeTopRight
+ * @property {Number} WallBottom
+ * @property {Number} WallBottomLeft
+ * @property {Number} WallBottomRight
+ * @property {Number} WallHoleX
+ * @property {Number} WallHoleY
+ * @property {Number} WallKeep
+ * @property {Number} WallLeftX
+ * @property {Number} WallLeftY
+ * @property {Number} WallLeftYFlip
+ * @property {Number} WallRightX
+ * @property {Number} WallRightY
+ * @property {Number} WallRightYFlip
+ * @property {Number} WallTop
+ * @property {Number} WallTopLeft
+ * @property {Number} WallTopRight
+ * @property {Number} WallX
+ * @property {Number} WallY
+ * @property {Number} Water
+ * @property {Number} WaterBottomLeft
+ * @property {Number} WaterBottomRight
+ * @property {Number} WaterTopLeft
+ * @property {Number} WaterTopRight
  */
 export const Tiles = new EnumStore(["Block",
   "Bush",
@@ -133,7 +132,6 @@ export const Tiles = new EnumStore(["Block",
   "Statue1",
   "Statue2",
   "Transition",
-  "Transparent",
   "TreeBottomLeft",
   "TreeBottomRight",
   "TreeTop",

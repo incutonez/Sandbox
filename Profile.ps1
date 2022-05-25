@@ -23,6 +23,10 @@ function branchRename($branch) {
   git branch -m $branch
 }
 
+function branchResetHard() {
+  git reset --hard
+}
+
 function SenchaCmdProps() {
   sencha ant .props
 }

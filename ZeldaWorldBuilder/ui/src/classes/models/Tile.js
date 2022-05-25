@@ -3,7 +3,6 @@ import { WorldColors } from "ui/classes/enums/WorldColors.js";
 import { TargetColor } from "ui/classes/models/TargetColor.js";
 import {
   getImage,
-  ImageType,
   replaceColor,
 } from "ui/Image.js";
 import {
@@ -30,18 +29,18 @@ function makeTargets(item) {
  * - 3 colors => White, Black, Blue
  * - 4 colors => White, Black, Blue, Red
  */
-const WhiteBlueRed = [WorldColors.PureWhite, WorldColors.PureBlue, WorldColors.PureRed].map(makeTargets);
-const WhiteBlackBlueRed = [WorldColors.PureWhite, WorldColors.Black, WorldColors.PureBlue, WorldColors.PureRed].map(makeTargets);
-const FireOuterFireInnerWhite = [WorldColors.FireOuter, WorldColors.FireInner, WorldColors.PureWhite].map(makeTargets);
-const WhiteBlueBlack = [WorldColors.PureWhite, WorldColors.PureBlue, WorldColors.Black].map(makeTargets);
-const WhiteRedBlack = [WorldColors.PureWhite, WorldColors.PureRed, WorldColors.Black].map(makeTargets);
+const WhiteBlueRed = [WorldColors.WhitePure, WorldColors.BluePure, WorldColors.RedPure].map(makeTargets);
+const WhiteBlackBlueRed = [WorldColors.WhitePure, WorldColors.Black, WorldColors.BluePure, WorldColors.RedPure].map(makeTargets);
+const FireOuterFireInnerWhite = [WorldColors.FireOuter, WorldColors.FireInner, WorldColors.WhitePure].map(makeTargets);
+const WhiteBlueBlack = [WorldColors.WhitePure, WorldColors.BluePure, WorldColors.Black].map(makeTargets);
+const WhiteRedBlack = [WorldColors.WhitePure, WorldColors.RedPure, WorldColors.Black].map(makeTargets);
 const DoorColor = [{
   Target: WorldColors.White,
   Value: WorldColors.Black,
 }];
-const White = [WorldColors.PureWhite].map(makeTargets);
-const WhiteBlue = [WorldColors.PureWhite, WorldColors.PureBlue].map(makeTargets);
-const WhiteBlack = [WorldColors.PureWhite, WorldColors.Black].map(makeTargets);
+const White = [WorldColors.WhitePure].map(makeTargets);
+const WhiteBlue = [WorldColors.WhitePure, WorldColors.BluePure].map(makeTargets);
+const WhiteBlack = [WorldColors.WhitePure, WorldColors.Black].map(makeTargets);
 export function getDefaultTileColors(type) {
   let colors = [];
   switch (type) {
@@ -128,6 +127,14 @@ export function getDefaultTileColors(type) {
   }
   return colors;
 }
+/**
+ * @property {String} image
+ * @property {String} src
+ * @property {Cell} cell
+ * @property {Number} type
+ * @property {Collection<TargetColor>} colors
+ * @property {Grid} Transition
+ */
 export class Tile extends Model {
   getDefaultFields() {
     return [{

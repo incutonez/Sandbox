@@ -2,12 +2,15 @@
 import { Model } from "@incutonez/shared";
 import { Grid } from "ui/classes/models/Grid.js";
 import { Item } from "ui/classes/models/Item.js";
+import { Enemy } from "ui/classes/models/Enemy.js";
 
 /**
  * @property {Array} Coordinates
  * @property {String} Name
  * @property {Grid} grid
  * @property {Tile} tile
+ * @property {Item} item
+ * @property {Enemy} enemy
  */
 export class Cell extends Model {
   getDefaultFields() {
@@ -29,6 +32,12 @@ export class Cell extends Model {
     }, {
       name: "item",
       type: Item,
+      defaultValue: {
+        cell: this,
+      },
+    }, {
+      name: "enemy",
+      type: Enemy,
       defaultValue: {
         cell: this,
       },
@@ -55,8 +64,8 @@ export class Cell extends Model {
     return this.Coordinates[1];
   }
 
-  getConfig({ Tiles, Items }) {
-    const { tile, item } = this;
+  getConfig({ Tiles, Items, Enemies }) {
+    const { tile, item, enemy } = this;
     if (tile.hasImage()) {
       const tileType = tile.getTypeKey();
       const config = tile.getConfig();
@@ -73,6 +82,9 @@ export class Cell extends Model {
     }
     if (item.hasImage()) {
       Items.push(item.getConfig());
+    }
+    if (enemy.hasImage()) {
+      Enemies.push(enemy.getConfig());
     }
   }
 }

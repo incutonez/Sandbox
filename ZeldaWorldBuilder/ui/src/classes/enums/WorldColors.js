@@ -1,46 +1,69 @@
 import { EnumStore } from "ui/classes/EnumStore.js";
 import { Color } from "ui/classes/models/Color.js";
-
 /**
- * @property Black
- * @property Blue
- * @property Brown
- * @property FireInner
- * @property FireOuter
- * @property Gray
- * @property Green
- * @property None
- * @property PureBlue
- * @property PureGreen
- * @property PureRed
- * @property PureWhite
- * @property Q1C1Accent
- * @property Q1C1Body
- * @property Q1C1Door
- * @property Red
- * @property Tan
- * @property White
+ * @property {String} Black
+ * @property {String} Blue
+ * @property {String} BlueLight
+ * @property {String} BluePure
+ * @property {String} BlueWater
+ * @property {String} Brown
+ * @property {String} BrownButter
+ * @property {String} BrownDark
+ * @property {String} BrownLight
+ * @property {String} Gray
+ * @property {String} Green
+ * @property {String} GreenDark
+ * @property {String} GreenLight
+ * @property {String} GreenPure
+ * @property {String} Lime
+ * @property {String} None
+ * @property {String} Orange
+ * @property {String} OrangeDark
+ * @property {String} Peach
+ * @property {String} PurpleLight
+ * @property {String} Q1C1Accent
+ * @property {String} Q1C1Door
+ * @property {String} Red
+ * @property {String} RedPure
+ * @property {String} Tan
+ * @property {String} Teal
+ * @property {String} TealDark
+ * @property {String} TealLight
+ * @property {String} White
+ * @property {String} WhitePure
  */
 export const WorldColors = new EnumStore({
   model: Color,
   records: {
-    None: "00000000",
-    Tan: "FFEFA6",
-    Green: "00a800",
-    Brown: "c84c0c",
-    Blue: "2038ec",
-    Gray: "747474",
-    White: "fcfcfc",
-    Red: "7c0800",
+    None: "Transparent",
     Black: "000000",
+    Blue: "0000bc",
+    BlueLight: "6888ff",
+    BluePure: "0000FF",
+    BlueWater: "2038ec",
+    Brown: "c84c0c",
+    BrownButter: "ac7c00",
+    BrownDark: "503000",
+    BrownLight: "f8b800",
+    Gray: "7c7c7c",
+    Green: "00a800",
+    GreenDark: "005800",
+    GreenLight: "58f898",
+    GreenPure: "00FF00",
+    Lime: "b8f818",
+    Orange: "FFA044",
+    OrangeDark: "e45c10",
+    Peach: "fcd8a8",
+    PurpleLight: "b8b8f8",
     Q1C1Accent: "008088",
     Q1C1Door: "183c5c",
-    Q1C1Body: "00e8d8",
-    PureBlue: "0000FF",
-    PureRed: "FF0000",
-    PureGreen: "00FF00",
-    FireOuter: "F83800",
-    FireInner: "FFA044",
-    PureWhite: "FFFFFF",
+    Red: "F83800",
+    RedPure: "FF0000",
+    Tan: "FFEFA6",
+    Teal: "008888",
+    TealLight: "00e8d8",
+    TealDark: "004058",
+    White: "fcfcfc",
+    WhitePure: "FFFFFF",
   },
 });

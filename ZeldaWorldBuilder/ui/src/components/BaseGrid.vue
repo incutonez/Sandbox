@@ -26,6 +26,13 @@
           class="h-full"
         >
       </div>
+      <div class="flex absolute justify-center w-full h-full">
+        <img
+          v-if="cell.enemy.image"
+          :src="cell.enemy.image"
+          class="h-full"
+        >
+      </div>
     </div>
   </div>
   <BaseContextMenu ref="contextMenu">

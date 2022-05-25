@@ -65,7 +65,10 @@ export class EnumStore extends Collection {
   }
 
   toClassDescription() {
-    const props = this.map((item) => ` * @property ${item[this.displayField]}`);
+    this.sort([{
+      property: this.displayField,
+    }], false);
+    const props = this.map((item) => ` * @property {${(typeof item[this.idField]).capitalize()}} ${item[this.displayField]}`);
     return `/**\n${props.join("\n")}\n */`;
   }
 }

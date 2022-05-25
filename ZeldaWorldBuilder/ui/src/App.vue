@@ -118,7 +118,7 @@
               v-model="tileColor.Value"
               :label="WorldColors.getKey(tileColor.Target)"
               :options="WorldColors"
-              @update:model-value="onUpdateTargetValue"
+              @update:model-value="onUpdateTileColor"
             />
           </BaseCard>
           <BaseCard
@@ -180,7 +180,39 @@
         <BaseCard
           title="Enemy"
           :expanded="false"
-        />
+          class="vertical bp-2"
+        >
+          <div class="flex justify-between">
+            <FieldComboBox
+              v-model="selectedCell.enemy.Type"
+              :options="Enemies"
+              label="Type"
+              label-width="auto"
+            />
+            <div class="flex justify-center w-16 h-16 bg-blue-100">
+              <img
+                v-if="selectedCell.enemy.src"
+                :src="selectedCell.enemy.src"
+                class="h-full"
+                alt="Item Image"
+              >
+            </div>
+          </div>
+          <BaseCard
+            v-show="selectedCell.enemy.hasImage()"
+            title="Replace Colors"
+            class="vertical bp-2"
+          >
+            <FieldComboBox
+              v-for="tileColor in selectedCell.enemy.Colors"
+              :key="tileColor.id"
+              v-model="tileColor.Value"
+              :label="WorldColors.getKey(tileColor.Target)"
+              :options="WorldColors"
+              @update:model-value="onUpdateEnemyColor"
+            />
+          </BaseCard>
+        </BaseCard>
       </BaseCard>
     </div>
   </div>
@@ -211,6 +243,8 @@ import {
 } from "@incutonez/core-ui";
 import BaseCard from "ui/components/BaseCard.vue";
 import { Items } from "ui/classes/enums/Items.js";
+import { Enemies } from "ui/classes/enums/NPCs.js";
+
 /**
  * TODOJEF:
  * - Add special properties for Transitions
@@ -251,13 +285,17 @@ export default {
       return WorldColors.findRecord(state.record.GroundColor)?.backgroundStyle;
     }
 
-    function onUpdateTargetValue() {
+    function onUpdateTileColor() {
       selectedCell.value.tile.updateImage();
     }
 
+    function onUpdateEnemyColor() {
+      selectedCell.value.enemy.updateImage();
+    }
+
     // We have to have this because we do cell replacements, which requires us doing some deep copying here
-    // TODOJEF: Is there a better way of doing this?
-    // TODOJEF: Make this an actual store?
+    // TODO: Is there a better way of doing this?
+    // TODO: Make this an actual store?
     const store = computed(() => [...state.record.cells]);
 
     function onReplaceCell({ indices, replacement }) {
@@ -275,8 +313,10 @@ export default {
           Coordinates: record.Coordinates,
           grid: record.grid,
         });
+        // TODO: Consider figuring out how the clone be added to the cell property without having to manually set it
         clone.tile.cell = clone;
         clone.item.cell = clone;
+        clone.enemy.cell = clone;
         state.record.cells[idx] = clone;
       });
     }
@@ -322,11 +362,13 @@ export default {
       ScreenTemplates,
       Tiles,
       Items,
+      Enemies,
       onReplaceCell,
       onClickSaveBtn,
       onClickLoadBtn,
       onChangeLoadFile,
-      onUpdateTargetValue,
+      onUpdateTileColor,
+      onUpdateEnemyColor,
     };
   },
 };

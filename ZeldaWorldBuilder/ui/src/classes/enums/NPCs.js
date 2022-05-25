@@ -1,13 +1,12 @@
 import { EnumStore } from "ui/classes/EnumStore.js";
-
 /**
- * @property Fairy
- * @property Link
- * @property Merchant
- * @property OldMan
- * @property OldMan2
- * @property OldWoman
- * @property Zelda
+ * @property {Number} Fairy
+ * @property {Number} Link
+ * @property {Number} Merchant
+ * @property {Number} OldMan
+ * @property {Number} OldMan2
+ * @property {Number} OldWoman
+ * @property {Number} Zelda
  */
 export const Characters = new EnumStore({
   records: {
@@ -18,57 +17,56 @@ export const Characters = new EnumStore({
     OldMan2: 5,
     OldWoman: 6,
     Zelda: 7,
-  }
+  },
 });
-
 /**
- * @property Armos
- * @property Bubble
- * @property BubbleBlue
- * @property BubbleRed
- * @property Darknut
- * @property DarknutBlue
- * @property Gel
- * @property GelBlue
- * @property Ghini
- * @property Gibdo
- * @property GleeokHead
- * @property Goriya
- * @property GoriyaBlue
- * @property Keese
- * @property KeeseBlue
- * @property KeeseRed
- * @property Lanmola
- * @property LanmolaBlue
- * @property Leever
- * @property LeeverBlue
- * @property LikeLike
- * @property Lynel
- * @property LynelBlue
- * @property Moblin
- * @property MoblinBlue
- * @property Moldorm
- * @property Octorok
- * @property OctorokBlue
- * @property Patra
- * @property PatraHead
- * @property Peahat
- * @property PolsVoice
- * @property Rock
- * @property Rope
- * @property RopeBlue
- * @property Stalfos
- * @property Tektite
- * @property TektiteBlue
- * @property Trap
- * @property Vire
- * @property Wallmaster
- * @property Wizzrobe
- * @property WizzrobeBlue
- * @property Zol
- * @property ZolGray
- * @property ZolGreen
- * @property Zora
+ * @property {Number} Armos
+ * @property {Number} Bubble
+ * @property {Number} BubbleBlue
+ * @property {Number} BubbleRed
+ * @property {Number} Darknut
+ * @property {Number} DarknutBlue
+ * @property {Number} Gel
+ * @property {Number} GelBlue
+ * @property {Number} Ghini
+ * @property {Number} Gibdo
+ * @property {Number} GleeokHead
+ * @property {Number} Goriya
+ * @property {Number} GoriyaBlue
+ * @property {Number} Keese
+ * @property {Number} KeeseBlue
+ * @property {Number} KeeseRed
+ * @property {Number} Lanmola
+ * @property {Number} LanmolaBlue
+ * @property {Number} Leever
+ * @property {Number} LeeverBlue
+ * @property {Number} LikeLike
+ * @property {Number} Lynel
+ * @property {Number} LynelBlue
+ * @property {Number} Moblin
+ * @property {Number} MoblinBlue
+ * @property {Number} Moldorm
+ * @property {Number} Octorok
+ * @property {Number} OctorokBlue
+ * @property {Number} Patra
+ * @property {Number} PatraHead
+ * @property {Number} Peahat
+ * @property {Number} PolsVoice
+ * @property {Number} Rock
+ * @property {Number} Rope
+ * @property {Number} RopeBlue
+ * @property {Number} Stalfos
+ * @property {Number} Tektite
+ * @property {Number} TektiteBlue
+ * @property {Number} Trap
+ * @property {Number} Vire
+ * @property {Number} Wallmaster
+ * @property {Number} Wizzrobe
+ * @property {Number} WizzrobeBlue
+ * @property {Number} Zol
+ * @property {Number} ZolGray
+ * @property {Number} ZolGreen
+ * @property {Number} Zora
  */
 export const Enemies = new EnumStore({
   records: {
@@ -119,18 +117,17 @@ export const Enemies = new EnumStore({
     ZolGray: 410,
     ZolGreen: 411,
     Zora: 42,
-  }
+  },
 });
-
 /**
- * @property Aquamentus
- * @property Digdogger
- * @property Dodongo
- * @property Ganon
- * @property Gleeok
- * @property Gohma
- * @property GohmaBlue
- * @property Manhandla
+ * @property {Number} Aquamentus
+ * @property {Number} Digdogger
+ * @property {Number} Dodongo
+ * @property {Number} Ganon
+ * @property {Number} Gleeok
+ * @property {Number} Gohma
+ * @property {Number} GohmaBlue
+ * @property {Number} Manhandla
  */
 export const Bosses = new EnumStore(["Aquamentus",
   "Digdogger",

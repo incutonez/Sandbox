@@ -1,54 +1,53 @@
 import { EnumStore } from "ui/classes/EnumStore.js";
-
 /**
- * @property Base
- * @property Black
- * @property Blocks1
- * @property Blocks2
- * @property Blocks2Vertical
- * @property Blocks2X3Column
- * @property Blocks2X3Columns
- * @property Blocks3Horizontal
- * @property Blocks3Rows
- * @property Blocks4
- * @property Blocks4Alt
- * @property Blocks4Statues
- * @property Blocks4Way
- * @property Blocks6Alt
- * @property Blocks6Vertical
- * @property BlocksAquamentus
- * @property BlocksArrow
- * @property BlocksC
- * @property BlocksDiagonal
- * @property BlocksGleeok
- * @property BlocksHorizontal
- * @property BlocksMaze
- * @property BlocksRectangle
- * @property BlocksSpiral
- * @property BlocksStairsCenter
- * @property BlocksStairsEnd
- * @property BlocksX
- * @property Ending
- * @property Entrance
- * @property Exit
- * @property Ganon
- * @property KeepItem
- * @property KeepPath
- * @property Plain
- * @property PlainStatues
- * @property PlainStatues2
- * @property Sand
- * @property Shop
- * @property WaterBrackets
- * @property WaterH
- * @property WaterHAlt
- * @property WaterHorizontal
- * @property WaterHorizontal2
- * @property WaterLadder
- * @property WaterMaze
- * @property WaterRectangle
- * @property WaterT
- * @property WaterVertical
+ * @property {Number} Base
+ * @property {Number} Black
+ * @property {Number} Blocks1
+ * @property {Number} Blocks2
+ * @property {Number} Blocks2Vertical
+ * @property {Number} Blocks2X3Column
+ * @property {Number} Blocks2X3Columns
+ * @property {Number} Blocks3Horizontal
+ * @property {Number} Blocks3Rows
+ * @property {Number} Blocks4
+ * @property {Number} Blocks4Alt
+ * @property {Number} Blocks4Statues
+ * @property {Number} Blocks4Way
+ * @property {Number} Blocks6Alt
+ * @property {Number} Blocks6Vertical
+ * @property {Number} BlocksAquamentus
+ * @property {Number} BlocksArrow
+ * @property {Number} BlocksC
+ * @property {Number} BlocksDiagonal
+ * @property {Number} BlocksGleeok
+ * @property {Number} BlocksHorizontal
+ * @property {Number} BlocksMaze
+ * @property {Number} BlocksRectangle
+ * @property {Number} BlocksSpiral
+ * @property {Number} BlocksStairsCenter
+ * @property {Number} BlocksStairsEnd
+ * @property {Number} BlocksX
+ * @property {Number} Ending
+ * @property {Number} Entrance
+ * @property {Number} Exit
+ * @property {Number} Ganon
+ * @property {Number} KeepItem
+ * @property {Number} KeepPath
+ * @property {Number} Plain
+ * @property {Number} PlainStatues
+ * @property {Number} PlainStatues2
+ * @property {Number} Sand
+ * @property {Number} Shop
+ * @property {Number} WaterBrackets
+ * @property {Number} WaterH
+ * @property {Number} WaterHAlt
+ * @property {Number} WaterHorizontal
+ * @property {Number} WaterHorizontal2
+ * @property {Number} WaterLadder
+ * @property {Number} WaterMaze
+ * @property {Number} WaterRectangle
+ * @property {Number} WaterT
+ * @property {Number} WaterVertical
  */
 export const ScreenTemplates = new EnumStore({
   records: {

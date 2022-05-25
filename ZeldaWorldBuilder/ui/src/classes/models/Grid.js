@@ -7,6 +7,7 @@ import {
 } from "@incutonez/shared";
 import { Cell } from "ui/classes/models/Cell.js";
 import { getDefaultTileColors } from "ui/classes/models/Tile.js";
+import { Items } from "ui/classes/enums/Items.js";
 
 /**
  * @property {String} Name
@@ -97,44 +98,75 @@ export class Grid extends Model {
    * TODO: Should probably create a UI model for that
    */
   async loadFileData(data = {}) {
-    const { Tiles: tiles } = data;
-    if (!isEmpty(tiles)) {
-      // Loop through the entire grid to find and update any children in the data
-      for (const cell of this.cells) {
-        let found = false;
-        const { x, y } = cell;
-        for (const tile of tiles) {
-          for (const child of tile.Children) {
-            if (child.X === x && child.Y === y) {
-              found = true;
-              const type = Tiles.getValue(tile.Type);
-              const tileColors = getDefaultTileColors(type);
-              const { Colors } = child;
-              if (Colors) {
-                for (let i = 0; i < Colors.length; i += 2) {
-                  const target = WorldColors.getValue(Colors[i]);
-                  const found = tileColors.find((color) => color.Target === target);
-                  if (found) {
-                    found.Value = WorldColors.getValue(Colors[i + 1]);
-                  }
+    const { Tiles: tiles = [], Items: items = [], Enemies: enemies = [] } = data;
+    // Loop through the entire grid to find and update any children in the data
+    for (const cell of this.cells) {
+      let found = false;
+      const { x, y } = cell;
+      for (const tile of tiles) {
+        for (const child of tile.Children) {
+          if (child.X === x && child.Y === y) {
+            found = true;
+            const type = Tiles.getValue(tile.Type);
+            const tileColors = getDefaultTileColors(type);
+            const { Colors } = child;
+            if (Colors) {
+              for (let i = 0; i < Colors.length; i += 2) {
+                const target = WorldColors.getValue(Colors[i]);
+                const found = tileColors.find((color) => color.Target === target);
+                if (found) {
+                  found.Value = WorldColors.getValue(Colors[i + 1]);
                 }
               }
-              cell.tile.set({
-                Type: type,
-                Transition: child.Transition,
-                Colors: tileColors,
-              });
-              break;
             }
-          }
-          if (found) {
+            cell.tile.set({
+              Type: type,
+              Transition: child.Transition,
+              Colors: tileColors,
+            });
+            tile.Children.remove(child);
             break;
           }
         }
-        if (!found) {
-          cell.reset();
+        if (found) {
+          break;
         }
       }
+      if (!found) {
+        cell.tile.reset();
+      }
+      // Unset, as we're using for next loop
+      found = false;
+      for (const item of items) {
+        if (item.X === x && item.Y === y) {
+          found = true;
+          items.remove(item);
+          cell.item.set({
+            Type: Items.getValue(item.Config.Type),
+          });
+          break;
+        }
+      }
+      if (!found) {
+        cell.item.reset();
+      }
+      // Unset, as we're using for next loop
+      found = false;
+      for (const value of enemies) {
+        if (value.X === x && value.Y === y) {
+          found = true;
+          enemies.remove(value);
+          cell.enemy.set({
+            Type: Items.getValue(value.Type),
+          });
+          break;
+        }
+      }
+      if (!found) {
+        cell.enemy.reset();
+      }
+      // Unset, as we're using for next loop
+      found = false;
     }
   }
 
@@ -182,10 +214,12 @@ export class Grid extends Model {
   getConfig() {
     const Tiles = [];
     const Items = [];
+    const Enemies = [];
     for (const cell of this.cells) {
       cell.getConfig({
         Tiles,
         Items,
+        Enemies,
       });
     }
     return {
@@ -196,6 +230,7 @@ export class Grid extends Model {
       AccentColor: WorldColors.getKey(this.AccentColor),
       Tiles,
       Items,
+      Enemies,
     };
   }
 }

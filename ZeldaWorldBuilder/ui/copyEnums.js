@@ -10,8 +10,8 @@ import path from "path";
 import glob from "glob";
 import { EnumStore } from "./src/classes/EnumStore.js";
 
-const inPath = "../Assets/Scripts/Enums/";
-const classesPath = "@/classes/";
+const inPath = "../../../ZeldaU/Assets/Scripts/Enums/";
+const classesPath = "ui/classes/";
 const outPath = "src/classes/enums/";
 
 /**
@@ -21,8 +21,7 @@ const outPath = "src/classes/enums/";
  */
 function toEnum(data) {
   let output = "";
-  const matches = data.trim().match(/public enum [^}]+}/g);
-  matches.forEach((match) => {
+  data.trim().match(/public enum [^}]+}/g).forEach((match) => {
     // Get the name of the enum
     const matchName = match.match(/public enum ([^\r{]+)/)[1];
     // Need the trim because there's some sort of zwnbsp character that'll show up
@@ -34,11 +33,13 @@ function toEnum(data) {
       .replace(/=/g, ":");
     if (match.indexOf("Color(") !== -1) {
       const matches = match.match(/(.*Color\([^)]+.*\r\n)?.*[\w]+[^\r\n]+/g);
-      matches.forEach((item) => {
+      const lastMatch = matches.length - 1;
+      matches.forEach((item, index) => {
         const color = item.match(/(?:Color\()([^)]+)/)?.[1];
         if (color) {
-          const [, prop, propName] = item.match(/\r\n\s*(([^:]+\s*:)\s*\d+)/);
-          match = match.replace(prop, `${propName}${color}`);
+          const temp = item.replace(",", `: ${color}`);
+          const [, prop] = temp.match(/\r\n\s*(([^:]+\s*:)\s*[^\r\n]+)/);
+          match = match.replace(item, prop + (lastMatch === index ? "" : ","));
         }
       });
     }
@@ -47,6 +48,9 @@ function toEnum(data) {
     // If there are no default values, let's create them
     if (match.indexOf(":") === -1) {
       match = "['" + match.replace(/\s+/g, "").replace(/\{|\}/g, "").split(/([^,]+),/).filter((item) => item).join("','") + "']";
+    }
+    if (match.indexOf("{") === 0) {
+      match = `{records: ${match}}`;
     }
     const parse = match.replace(/'/g, "\"").replace(/[\r\n\s]*/g, "").replace(/(\w+):/g, "\"$1\":");
     const description = new EnumStore(JSON.parse(parse.trim())).toClassDescription();

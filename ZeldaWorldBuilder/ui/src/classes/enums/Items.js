@@ -1,47 +1,46 @@
 import { EnumStore } from "ui/classes/EnumStore.js";
-
 /**
- * @property Arrow
- * @property ArrowSilver
- * @property Bomb
- * @property Boomerang
- * @property BoomerangMagical
- * @property Bow
- * @property Candle
- * @property CandleRed
- * @property Clock
- * @property Compass
- * @property Flute
- * @property Food
- * @property Heart
- * @property HeartAlt
- * @property HeartContainer
- * @property HeartEmpty
- * @property HeartHalf
- * @property Key
- * @property KeySkeleton
- * @property Ladder
- * @property Letter
- * @property MagicBook
- * @property Map
- * @property None
- * @property PotionBlue
- * @property PotionRed
- * @property PowerBracelet
- * @property Raft
- * @property RingBlue
- * @property RingGreen
- * @property RingRed
- * @property RupeeFive
- * @property RupeeOne
- * @property Shield
- * @property ShieldMagical
- * @property Sword
- * @property SwordMagical
- * @property SwordWhite
- * @property TriforceShard
- * @property TriforceShardAlt
- * @property Wand
+ * @property {Number} Arrow
+ * @property {Number} ArrowSilver
+ * @property {Number} Bomb
+ * @property {Number} Boomerang
+ * @property {Number} BoomerangMagical
+ * @property {Number} Bow
+ * @property {Number} Candle
+ * @property {Number} CandleRed
+ * @property {Number} Clock
+ * @property {Number} Compass
+ * @property {Number} Flute
+ * @property {Number} Food
+ * @property {Number} Heart
+ * @property {Number} HeartAlt
+ * @property {Number} HeartContainer
+ * @property {Number} HeartEmpty
+ * @property {Number} HeartHalf
+ * @property {Number} Key
+ * @property {Number} KeySkeleton
+ * @property {Number} Ladder
+ * @property {Number} Letter
+ * @property {Number} MagicBook
+ * @property {Number} Map
+ * @property {Number} None
+ * @property {Number} PotionBlue
+ * @property {Number} PotionRed
+ * @property {Number} PowerBracelet
+ * @property {Number} Raft
+ * @property {Number} RingBlue
+ * @property {Number} RingGreen
+ * @property {Number} RingRed
+ * @property {Number} RupeeFive
+ * @property {Number} RupeeOne
+ * @property {Number} Shield
+ * @property {Number} ShieldMagical
+ * @property {Number} Sword
+ * @property {Number} SwordMagical
+ * @property {Number} SwordWhite
+ * @property {Number} TriforceShard
+ * @property {Number} TriforceShardAlt
+ * @property {Number} Wand
  */
 export const Items = new EnumStore({
   records: {

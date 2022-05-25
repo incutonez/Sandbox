@@ -9,6 +9,7 @@ import {
 } from "@incutonez/shared";
 import { Tiles } from "ui/classes/enums/Tiles.js";
 import { Items } from "ui/classes/enums/Items.js";
+import { Enemies } from "ui/classes/enums/NPCs.js";
 
 /**
  * @property {String} Tiles
@@ -16,10 +17,6 @@ import { Items } from "ui/classes/enums/Items.js";
  * @property {String} Items
  */
 export const ImageType = new Enum(["tiles", "enemies", "items"], false);
-const imageCache = ImageType.values.reduce((current, imageType) => {
-  current[imageType] = {};
-  return current;
-}, {});
 /**
 * @property {String} E00
 * @property {String} E94
@@ -27,6 +24,7 @@ const imageCache = ImageType.values.reduce((current, imageType) => {
 */
 export const DeltaFormula = new Enum(["E00", "E94", "E76"], false);
 
+const ImageCache = {};
 // Taken from https://github.com/turakvlad/replace-color
 function getDelta(current, target, formula) {
   return deltaE[`getDelta${formula}`]({
@@ -125,35 +123,59 @@ export async function replaceColor({ image, type = ImageType.Tiles, replaceColor
 export async function loadImages() {
   const promises = [];
   const noTileImage = [Tiles.None, Tiles.SolidColor, Tiles.Transition, Tiles.Castle];
+  const noEnemyImage = [Enemies.BubbleBlue, Enemies.BubbleRed, Enemies.DarknutBlue, Enemies.GelBlue, Enemies.GoriyaBlue, Enemies.KeeseBlue, Enemies.KeeseRed, Enemies.LeeverBlue, Enemies.LynelBlue, Enemies.MoblinBlue, Enemies.OctorokBlue, Enemies.RopeBlue, Enemies.WizzrobeBlue, Enemies.ZolGreen, Enemies.ZolGray, Enemies.TektiteBlue, Enemies.LanmolaBlue];
   Tiles.forEach(({ value, id }) => {
     if (noTileImage.indexOf(id) === -1) {
       promises.push(getImage({
         name: value,
+        type: ImageType.Tiles,
       }));
     }
   });
-  Items.forEach(({ value, id }) => {
+  Items.forEach(({ value }) => {
     promises.push(getImage({
       name: value,
       type: ImageType.Items,
     }));
   });
+  Enemies.forEach(({ value, id }) => {
+    if (noEnemyImage.indexOf(id) === -1) {
+      promises.push(getImage({
+        name: value,
+        type: ImageType.Enemies,
+      }));
+    }
+  });
   return Promise.all(promises);
+}
+
+// Taken from https://stackoverflow.com/a/49273187/1253609
+async function base64ToBuffer(value) {
+  return await (await fetch(value)).arrayBuffer();
 }
 
 export async function getImage({ name, type = ImageType.Tiles, encode = false }) {
   if (isEmpty(name)) {
     return "";
   }
-
-  let found = imageCache[type][name];
+  const key = `${type}.${name}`;
+  let found = localStorage.getItem(key);
   if (!found) {
-    const response = await fetch(`${type}/${name}.png`);
-    const image = await response.blob();
-    found = await image.arrayBuffer();
-    found = await read(found);
+    found = await read({
+      url: `${type}/${name}.png`,
+    });
+    ImageCache[key] = found;
+    found = await found.getBase64Async(MIME_PNG);
     // It seems more efficient to cache the Jimp Object and clone it than read it each time
-    imageCache[type][name] = found;
+    localStorage.setItem(key, found);
   }
-  return encode ? found.getBase64Async(MIME_PNG) : found.clone();
+  if (encode) {
+    return found;
+  }
+  found = ImageCache[key];
+  // We're probably at a page refresh, and it's been saved in localStorage, but not our Jimp Object cache
+  if (!found) {
+    found = ImageCache[key] = await read(await base64ToBuffer(localStorage.getItem(key)));
+  }
+  return found.clone();
 }
