@@ -6,18 +6,6 @@ import { WorldColors } from "ui/classes/enums/WorldColors.js";
 
 let WhiteBlack = [WorldColors.WhitePure, WorldColors.Black];
 const WhiteBlackRed = [WorldColors.WhitePure, WorldColors.Black, WorldColors.RedPure];
-const RedOrange = WhiteBlackRed.map((color) => {
-  const config = {
-    Target: color,
-  };
-  if (color === WorldColors.RedPure) {
-    config.Value = WorldColors.Orange;
-  }
-  else if (color === WorldColors.Black) {
-    config.Value = WorldColors.Red;
-  }
-  return config;
-});
 const OrangeRed = WhiteBlackRed.map((color) => {
   const config = {
     Target: color,
@@ -42,33 +30,6 @@ const BlueBlueLight = WhiteBlackRed.map((color) => {
   }
   return config;
 });
-const BlueLightBlue = WhiteBlackRed.map((color) => {
-  const config = {
-    Target: color,
-  };
-  if (color === WorldColors.RedPure) {
-    config.Value = WorldColors.BlueLight;
-  }
-  else if (color === WorldColors.Black) {
-    config.Value = WorldColors.Blue;
-  }
-  return config;
-});
-const MoblinRed = WhiteBlackRed.map((color) => {
-  const config = {
-    Target: color,
-  };
-  if (color === WorldColors.Black) {
-    config.Value = WorldColors.Red;
-  }
-  else if (color === WorldColors.WhitePure) {
-    config.Value = WorldColors.Orange;
-  }
-  else if (color === WorldColors.RedPure) {
-    config.Value = WorldColors.WhitePure;
-  }
-  return config;
-});
 const PolsVoice = WhiteBlackRed.map((color) => {
   const config = {
     Target: color,
@@ -89,18 +50,21 @@ const MoblinBlue = WhiteBlackRed.map((color) => {
     Target: color,
   };
   if (color === WorldColors.RedPure) {
-    config.Value = WorldColors.Red;
+    config.Value = WorldColors.Black;
+  }
+  else if (color === WorldColors.Black) {
+    config.Value = WorldColors.Teal;
   }
   else if (color === WorldColors.WhitePure) {
-    config.Value = WorldColors.Teal;
+    config.Value = WorldColors.Red;
   }
   return config;
 });
-const Zora = WhiteBlackRed.map((color) => {
+const Zora = WhiteBlack.map((color) => {
   const config = {
     Target: color,
   };
-  if (color === WorldColors.RedPure) {
+  if (color === WorldColors.WhitePure) {
     config.Value = WorldColors.Red;
   }
   else if (color === WorldColors.Black) {
@@ -210,9 +174,6 @@ export class Enemy extends WorldObject {
       case Enemies.ZolGray:
         colors = ZolGray;
         break;
-      case Enemies.Moblin:
-        colors = MoblinRed;
-        break;
       case Enemies.MoblinBlue:
         colors = MoblinBlue;
         break;
@@ -220,45 +181,43 @@ export class Enemy extends WorldObject {
         colors = Zora;
         break;
       case Enemies.Armos:
-      case Enemies.Rock:
+      case Enemies.BubbleRed:
       case Enemies.Darknut:
       case Enemies.Goriya:
+      case Enemies.Lanmola:
+      case Enemies.Leever:
       case Enemies.LikeLike:
+      case Enemies.Lynel:
+      case Enemies.Moblin:
+      case Enemies.Moldorm:
+      case Enemies.Octorok:
       case Enemies.PatraHead:
       case Enemies.Peahat:
+      case Enemies.Rock:
       case Enemies.Rope:
       case Enemies.Stalfos:
       case Enemies.Tektite:
       case Enemies.Wizzrobe:
         colors = OrangeRed;
         break;
-      case Enemies.Octorok:
-      case Enemies.BubbleRed:
-      case Enemies.Lanmola:
-      case Enemies.Leever:
-      case Enemies.Lynel:
-      case Enemies.Moldorm:
-        colors = RedOrange;
-        break;
+      case Enemies.BubbleBlue:
       case Enemies.DarknutBlue:
+      case Enemies.Ghini:
       case Enemies.Gibdo:
       case Enemies.GoriyaBlue:
+      case Enemies.LanmolaBlue:
+      case Enemies.LeeverBlue:
+      case Enemies.LynelBlue:
+      case Enemies.MoldormBlue:
+      case Enemies.OctorokBlue:
       case Enemies.Patra:
       case Enemies.RopeBlue:
       case Enemies.TektiteBlue:
+      case Enemies.Trap:
       case Enemies.Vire:
       case Enemies.Wallmaster:
       case Enemies.WizzrobeBlue:
         colors = BlueBlueLight;
-        break;
-      case Enemies.BubbleBlue:
-      case Enemies.Ghini:
-      case Enemies.OctorokBlue:
-      case Enemies.LanmolaBlue:
-      case Enemies.LeeverBlue:
-      case Enemies.LynelBlue:
-      case Enemies.Trap:
-        colors = BlueLightBlue;
         break;
       case Enemies.GelBlue:
         colors = GelBlue;
@@ -315,6 +274,9 @@ export class Enemy extends WorldObject {
         break;
       case Enemies.MoblinBlue:
         value = enums.Moblin;
+        break;
+      case Enemies.MoldormBlue:
+        value = enums.Moldorm;
         break;
       case Enemies.RopeBlue:
         value = enums.Rope;

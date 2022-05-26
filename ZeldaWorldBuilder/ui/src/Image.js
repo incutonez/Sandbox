@@ -68,7 +68,7 @@ function convertColor(from, to, color) {
  * This function is a modified version of https://github.com/turakvlad/replace-color
  * The replace-color package only works for Node, and I needed a browser version as well as
  * something that did multiple color replacement.
- * @param {JimpObject} image
+ * @param {Jimp} image
  * @param {String} type
  * @param {String[]} replaceColors
  * @param {String[]} targetColors
@@ -123,7 +123,24 @@ export async function replaceColor({ image, type = ImageType.Tiles, replaceColor
 export async function loadImages() {
   const promises = [];
   const noTileImage = [Tiles.None, Tiles.SolidColor, Tiles.Transition, Tiles.Castle];
-  const noEnemyImage = [Enemies.BubbleBlue, Enemies.BubbleRed, Enemies.DarknutBlue, Enemies.GelBlue, Enemies.GoriyaBlue, Enemies.KeeseBlue, Enemies.KeeseRed, Enemies.LeeverBlue, Enemies.LynelBlue, Enemies.MoblinBlue, Enemies.OctorokBlue, Enemies.RopeBlue, Enemies.WizzrobeBlue, Enemies.ZolGreen, Enemies.ZolGray, Enemies.TektiteBlue, Enemies.LanmolaBlue];
+  const noEnemyImage = [Enemies.BubbleBlue,
+    Enemies.BubbleRed,
+    Enemies.DarknutBlue,
+    Enemies.GelBlue,
+    Enemies.GoriyaBlue,
+    Enemies.KeeseBlue,
+    Enemies.KeeseRed,
+    Enemies.LeeverBlue,
+    Enemies.LynelBlue,
+    Enemies.MoblinBlue,
+    Enemies.MoldormBlue,
+    Enemies.OctorokBlue,
+    Enemies.RopeBlue,
+    Enemies.WizzrobeBlue,
+    Enemies.ZolGreen,
+    Enemies.ZolGray,
+    Enemies.TektiteBlue,
+    Enemies.LanmolaBlue];
   Tiles.forEach(({ value, id }) => {
     if (noTileImage.indexOf(id) === -1) {
       promises.push(getImage({
