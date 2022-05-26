@@ -90,7 +90,7 @@
         >
           <div class="flex justify-between">
             <FieldComboBox
-              v-model="selectedCell.tile.Type"
+              v-model="selectedTile.Type"
               :options="Tiles"
               label="Type"
               label-width="auto"
@@ -100,8 +100,8 @@
               class="w-16 h-16 bg-blue-100"
             >
               <img
-                v-if="selectedCell.tile.src"
-                :src="selectedCell.tile.src"
+                v-if="selectedTile.src"
+                :src="selectedTile.src"
                 class="w-full h-full"
                 alt="Tile Image"
               >
@@ -113,7 +113,7 @@
             class="vertical bp-2"
           >
             <FieldComboBox
-              v-for="tileColor in selectedCell.tile.Colors"
+              v-for="tileColor in selectedTile.Colors"
               :key="tileColor.id"
               v-model="tileColor.Value"
               :label="WorldColors.getKey(tileColor.Target)"
@@ -127,30 +127,30 @@
             class="vertical bp-2"
           >
             <FieldInteger
-              v-model="selectedCell.tile.Transition.X"
+              v-model="selectedTile.Transition.X"
               label="X Offset"
               width="w-24"
             />
             <FieldInteger
-              v-model="selectedCell.tile.Transition.Y"
+              v-model="selectedTile.Transition.Y"
               label="Y Offset"
               width="w-24"
             />
             <BaseField
-              v-if="selectedCell.tile.isDoor"
-              v-model="selectedCell.tile.Transition.Name"
+              v-if="selectedTile.isDoor"
+              v-model="selectedTile.Transition.Name"
               label="Name"
             />
             <FieldComboBox
-              v-if="selectedCell.tile.isDoor"
-              v-model="selectedCell.tile.Transition.Template"
+              v-if="selectedTile.isDoor"
+              v-model="selectedTile.Transition.Template"
               label="Template"
               required
               id-field="value"
               :options="ScreenTemplates"
             />
             <FieldCheckBox
-              v-model="selectedCell.tile.Transition.IsFloating"
+              v-model="selectedTile.Transition.IsFloating"
               label="Floating"
             />
           </BaseCard>
@@ -162,15 +162,15 @@
         >
           <div class="flex justify-between">
             <FieldComboBox
-              v-model="selectedCell.item.Type"
+              v-model="selectedItem.Type"
               :options="Items"
               label="Type"
               label-width="auto"
             />
             <div class="flex justify-center w-16 h-16 bg-blue-100">
               <img
-                v-if="selectedCell.item.src"
-                :src="selectedCell.item.src"
+                v-if="selectedItem.src"
+                :src="selectedItem.src"
                 class="h-full"
                 alt="Item Image"
               >
@@ -183,33 +183,66 @@
           class="vertical bp-2"
         >
           <div class="flex justify-between">
-            <FieldComboBox
-              v-model="selectedCell.enemy.Type"
-              :options="Enemies"
-              label="Type"
-              label-width="auto"
-            />
+            <div class="flex flex-col justify-between">
+              <FieldComboBox
+                v-model="selectedEnemy.Type"
+                :options="Enemies"
+                label="Type"
+                label-width="w-12"
+              />
+              <FieldNumber
+                v-model="selectedEnemy.Speed"
+                label="Speed"
+                label-width="w-12"
+              />
+            </div>
             <div class="flex justify-center w-16 h-16 bg-blue-100">
               <img
-                v-if="selectedCell.enemy.src"
-                :src="selectedCell.enemy.src"
+                v-if="selectedEnemy.src"
+                :src="selectedEnemy.src"
                 class="h-full"
                 alt="Item Image"
               >
             </div>
           </div>
           <BaseCard
-            v-show="selectedCell.enemy.hasImage()"
+            v-show="selectedEnemy.hasImage()"
             title="Replace Colors"
             class="vertical bp-2"
           >
             <FieldComboBox
-              v-for="tileColor in selectedCell.enemy.Colors"
+              v-for="tileColor in selectedEnemy.Colors"
               :key="tileColor.id"
               v-model="tileColor.Value"
               :label="WorldColors.getKey(tileColor.Target)"
               :options="WorldColors"
               @update:model-value="onUpdateEnemyColor"
+            />
+          </BaseCard>
+          <BaseCard
+            title="Health"
+            class="horizontal bp-2"
+          >
+            <FieldNumber
+              v-model="selectedEnemy.Health"
+              label="Health"
+            />
+            <FieldNumber
+              v-model="selectedEnemy.HealthModifier"
+              label="Modifier"
+            />
+          </BaseCard>
+          <BaseCard
+            title="Damage"
+            class="horizontal bp-2"
+          >
+            <FieldNumber
+              v-model="selectedEnemy.TouchDamage"
+              label="Touch"
+            />
+            <FieldNumber
+              v-model="selectedEnemy.WeaponDamage"
+              label="Weapon"
             />
           </BaseCard>
         </BaseCard>
@@ -239,6 +272,7 @@ import {
   FieldCheckBox,
   FieldComboBox,
   FieldInteger,
+  FieldNumber,
   BaseLabel,
 } from "@incutonez/core-ui";
 import BaseCard from "ui/components/BaseCard.vue";
@@ -266,6 +300,7 @@ export default {
     BaseField,
     FieldCheckBox,
     BaseLabel,
+    FieldNumber,
   },
   setup() {
     const fileInputEl = ref(null);
@@ -274,6 +309,9 @@ export default {
     const selectedCell = ref(null);
     const grid = ref(null);
     const isTransition = computed(() => selectedCell.value?.tile.isTransition);
+    const selectedTile = computed(() => selectedCell.value?.tile);
+    const selectedItem = computed(() => selectedCell.value?.item);
+    const selectedEnemy = computed(() => selectedCell.value?.enemy);
     const showColors = computed(() => !isTransition.value && selectedCell.value.tile.hasImage());
     const state = reactive({
       showGridLines: true,
@@ -286,11 +324,11 @@ export default {
     }
 
     function onUpdateTileColor() {
-      selectedCell.value.tile.updateImage();
+      selectedTile.value.updateImage();
     }
 
     function onUpdateEnemyColor() {
-      selectedCell.value.enemy.updateImage();
+      selectedEnemy.value.updateImage();
     }
 
     // We have to have this because we do cell replacements, which requires us doing some deep copying here
@@ -337,7 +375,7 @@ export default {
     }
 
     function onClickSaveBtn() {
-      // TODOJEF: Move this logic to a utility function
+      // TODO: Move this logic to a utility function
       const contents = new Blob([JSON.stringify(state.record.getConfig())], {
         type: "application/json",
       });
@@ -354,6 +392,9 @@ export default {
       contextMenu,
       theDialog,
       grid,
+      selectedTile,
+      selectedItem,
+      selectedEnemy,
       store,
       selectedCell,
       showColors,

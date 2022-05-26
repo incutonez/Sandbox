@@ -44,9 +44,10 @@ export class WorldObject extends Model {
     return ImageType.Tiles;
   }
 
-  getDefaultColors() {
-    return [];
-  }
+  /**
+   * @abstract
+   */
+  setDefaultValues() { }
 
   /**
    * This is intentionally not a true getter because of https://stackoverflow.com/q/28950760/1253609
@@ -66,8 +67,8 @@ export class WorldObject extends Model {
   set Type(value) {
     this.set({
       type: value,
-      Colors: this.getDefaultColors(value),
     });
+    this.setDefaultValues();
     this.updateSrc();
   }
 

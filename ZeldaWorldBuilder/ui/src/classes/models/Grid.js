@@ -8,6 +8,7 @@ import {
 import { Cell } from "ui/classes/models/Cell.js";
 import { getDefaultTileColors } from "ui/classes/models/Tile.js";
 import { Items } from "ui/classes/enums/Items.js";
+import { Enemies } from "ui/classes/enums/NPCs.js";
 
 /**
  * @property {String} Name
@@ -113,9 +114,9 @@ export class Grid extends Model {
             if (Colors) {
               for (let i = 0; i < Colors.length; i += 2) {
                 const target = WorldColors.getValue(Colors[i]);
-                const found = tileColors.find((color) => color.Target === target);
-                if (found) {
-                  found.Value = WorldColors.getValue(Colors[i + 1]);
+                const foundColor = tileColors.find((color) => color.Target === target);
+                if (foundColor) {
+                  foundColor.Value = WorldColors.getValue(Colors[i + 1]);
                 }
               }
             }
@@ -157,7 +158,12 @@ export class Grid extends Model {
           found = true;
           enemies.remove(value);
           cell.enemy.set({
-            Type: Items.getValue(value.Type),
+            Health: value.Health,
+            HealthModifier: value.HealthModifier,
+            Speed: value.Speed,
+            TouchDamage: value.TouchDamage,
+            WeaponDamage: value.WeaponDamage,
+            Type: Enemies.getValue(value.Type),
           });
           break;
         }

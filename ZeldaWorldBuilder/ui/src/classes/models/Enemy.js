@@ -6,7 +6,11 @@ import { WorldColors } from "ui/classes/enums/WorldColors.js";
 
 let WhiteBlack = [WorldColors.WhitePure, WorldColors.Black];
 const WhiteBlackRed = [WorldColors.WhitePure, WorldColors.Black, WorldColors.RedPure];
-const OrangeRed = WhiteBlackRed.map((color) => {
+/**
+ * For the most part, the coloring is by having 2 different color palettes...
+ * a red/orange for the standard version, and blue/light blue for the harder version of the enemy.
+ */
+const EnemyNormal = WhiteBlackRed.map((color) => {
   const config = {
     Target: color,
   };
@@ -18,7 +22,7 @@ const OrangeRed = WhiteBlackRed.map((color) => {
   }
   return config;
 });
-const BlueBlueLight = WhiteBlackRed.map((color) => {
+const EnemyHard = WhiteBlackRed.map((color) => {
   const config = {
     Target: color,
   };
@@ -30,6 +34,11 @@ const BlueBlueLight = WhiteBlackRed.map((color) => {
   }
   return config;
 });
+/* PolsVoice is a little more unique, as its RedPure color actually changes based on the suit that
+ * Link is wearing... e.g.
+ * Green Ring = Lime (default)
+ * Blue Ring = PurpleLight
+ * Red Ring = Red */
 const PolsVoice = WhiteBlackRed.map((color) => {
   const config = {
     Target: color,
@@ -45,7 +54,8 @@ const PolsVoice = WhiteBlackRed.map((color) => {
   }
   return config;
 });
-const MoblinBlue = WhiteBlackRed.map((color) => {
+// The harder version of the moblin has all 3 different colors instead of the standard 2 changes
+const MoblinHarder = WhiteBlackRed.map((color) => {
   const config = {
     Target: color,
   };
@@ -149,6 +159,22 @@ export class Enemy extends WorldObject {
       name: "Speed",
       type: Number,
       defaultValue: null,
+    }, {
+      name: "Health",
+      type: Number,
+      defaultValue: null,
+    }, {
+      name: "TouchDamage",
+      type: Number,
+      defaultValue: null,
+    }, {
+      name: "HealthModifier",
+      type: Number,
+      defaultValue: null,
+    }, {
+      name: "WeaponDamage",
+      type: Number,
+      defaultValue: null,
     }]);
   }
 
@@ -160,83 +186,327 @@ export class Enemy extends WorldObject {
     return Enemies;
   }
 
-  // TODO: Should standardize the colors even further, so we don't have the dupe case statements
-  getDefaultColors(type) {
-    let colors = WhiteBlackRed;
-    // TODO: Need to get colors for regular Bubble
-    switch (type) {
-      case Enemies.PolsVoice:
-        colors = PolsVoice;
-        break;
-      case Enemies.ZolGreen:
-        colors = ZolGreen;
-        break;
-      case Enemies.ZolGray:
-        colors = ZolGray;
-        break;
-      case Enemies.MoblinBlue:
-        colors = MoblinBlue;
-        break;
-      case Enemies.Zora:
-        colors = Zora;
-        break;
+  setDefaultValues() {
+    let Health;
+    let Speed;
+    let TouchDamage;
+    let HealthModifier;
+    let WeaponDamage;
+    let Colors = WhiteBlackRed;
+    switch (this.Type) {
       case Enemies.Armos:
+        Colors = EnemyNormal;
+        Health = 6;
+        TouchDamage = 1;
+        Speed = 3;
+        break;
+      case Enemies.Bubble:
+        // TODO: Need to get proper colors for regular Bubble
+        Colors = EnemyNormal;
+        Health = 0;
+        TouchDamage = 0;
+        Speed = 3;
+        break;
       case Enemies.BubbleRed:
-      case Enemies.Darknut:
-      case Enemies.Goriya:
-      case Enemies.Lanmola:
-      case Enemies.Leever:
-      case Enemies.LikeLike:
-      case Enemies.Lynel:
-      case Enemies.Moblin:
-      case Enemies.Moldorm:
-      case Enemies.Octorok:
-      case Enemies.PatraHead:
-      case Enemies.Peahat:
-      case Enemies.Rock:
-      case Enemies.Rope:
-      case Enemies.Stalfos:
-      case Enemies.Tektite:
-      case Enemies.Wizzrobe:
-        colors = OrangeRed;
+        Colors = EnemyNormal;
+        Health = 0;
+        TouchDamage = 0;
+        Speed = 3;
         break;
       case Enemies.BubbleBlue:
+        Colors = EnemyHard;
+        Health = 0;
+        TouchDamage = 0;
+        Speed = 3;
+        break;
+      case Enemies.Darknut:
+        Colors = EnemyNormal;
+        Health = 8;
+        TouchDamage = 2;
+        Speed = 3;
+        break;
       case Enemies.DarknutBlue:
-      case Enemies.Ghini:
-      case Enemies.Gibdo:
-      case Enemies.GoriyaBlue:
-      case Enemies.LanmolaBlue:
-      case Enemies.LeeverBlue:
-      case Enemies.LynelBlue:
-      case Enemies.MoldormBlue:
-      case Enemies.OctorokBlue:
-      case Enemies.Patra:
-      case Enemies.RopeBlue:
-      case Enemies.TektiteBlue:
-      case Enemies.Trap:
-      case Enemies.Vire:
-      case Enemies.Wallmaster:
-      case Enemies.WizzrobeBlue:
-        colors = BlueBlueLight;
-        break;
-      case Enemies.GelBlue:
-        colors = GelBlue;
-        break;
-      case Enemies.KeeseBlue:
-        colors = KeeseBlue;
-        break;
-      case Enemies.KeeseRed:
-        colors = KeeseRed;
+        Colors = EnemyHard;
+        Health = 16;
+        TouchDamage = 4;
+        Speed = 5;
         break;
       case Enemies.Gel:
+        Colors = WhiteBlack;
+        Health = 2;
+        TouchDamage = 1;
+        Speed = 1;
+        break;
+      case Enemies.GelBlue:
+        Colors = GelBlue;
+        Health = 2;
+        TouchDamage = 1;
+        Speed = 1;
+        break;
+      case Enemies.Ghini:
+        Colors = EnemyHard;
+        Health = 22;
+        TouchDamage = 1;
+        Speed = 2;
+        break;
+      case Enemies.Gibdo:
+        Colors = EnemyHard;
+        Health = 12;
+        TouchDamage = 4;
+        Speed = 3;
+        HealthModifier = 0.75;
+        break;
+      case Enemies.Goriya:
+        Colors = EnemyNormal;
+        Health = 6;
+        TouchDamage = 1;
+        Speed = 3;
+        WeaponDamage = 2;
+        break;
+      case Enemies.GoriyaBlue:
+        Colors = EnemyHard;
+        Health = 10;
+        TouchDamage = 2;
+        Speed = 3;
+        WeaponDamage = 2;
+        break;
       case Enemies.Keese:
+        Colors = WhiteBlack;
+        Health = 2;
+        TouchDamage = 1;
+        Speed = 4;
+        break;
+      case Enemies.KeeseBlue:
+        Colors = KeeseBlue;
+        Health = 2;
+        TouchDamage = 1;
+        Speed = 4;
+        break;
+      case Enemies.KeeseRed:
+        Colors = KeeseRed;
+        Health = 2;
+        TouchDamage = 1;
+        Speed = 4;
+        break;
+      case Enemies.Lanmola:
+        Colors = EnemyNormal;
+        Health = 8;
+        HealthModifier = 0;
+        TouchDamage = 4;
+        Speed = 4;
+        break;
+      case Enemies.LanmolaBlue:
+        Colors = EnemyHard;
+        Health = 8;
+        HealthModifier = 0;
+        TouchDamage = 4;
+        Speed = 6;
+        break;
+      case Enemies.Leever:
+        Colors = EnemyNormal;
+        Health = 4;
+        TouchDamage = 1;
+        Speed = 4;
+        break;
+      case Enemies.LeeverBlue:
+        Colors = EnemyHard;
+        Health = 8;
+        TouchDamage = 2;
+        Speed = 4;
+        break;
+      case Enemies.LikeLike:
+        Colors = EnemyNormal;
+        Health = 20;
+        TouchDamage = 2;
+        Speed = 3;
+        break;
+      case Enemies.Lynel:
+        Colors = EnemyNormal;
+        Health = 8;
+        TouchDamage = 2;
+        Speed = 3;
+        WeaponDamage = 2;
+        break;
+      case Enemies.LynelBlue:
+        Colors = EnemyHard;
+        Health = 12;
+        TouchDamage = 4;
+        Speed = 3;
+        WeaponDamage = 4;
+        break;
+      case Enemies.Moblin:
+        Colors = EnemyNormal;
+        Health = 4;
+        TouchDamage = 1;
+        Speed = 3;
+        WeaponDamage = 1;
+        break;
+      case Enemies.MoblinBlue:
+        Colors = MoblinHarder;
+        Health = 6;
+        TouchDamage = 1;
+        Speed = 3;
+        WeaponDamage = 1;
+        break;
+      case Enemies.Moldorm:
+        Colors = EnemyNormal;
+        Health = 10;
+        HealthModifier = 0;
+        TouchDamage = 1;
+        Speed = 1;
+        break;
+      // TODO: Is there a blue Moldorm?
+      case Enemies.MoldormBlue:
+        Colors = EnemyHard;
+        break;
+      case Enemies.Octorok:
+        Colors = EnemyNormal;
+        Health = 2;
+        TouchDamage = 1;
+        WeaponDamage = 1;
+        Speed = 3;
+        break;
+      case Enemies.OctorokBlue:
+        Colors = EnemyHard;
+        Health = 4;
+        TouchDamage = 1;
+        WeaponDamage = 1;
+        Speed = 3;
+        break;
+      case Enemies.Patra:
+        Colors = EnemyHard;
+        Health = 20;
+        TouchDamage = 4;
+        Speed = 3;
+        break;
+      case Enemies.PatraHead:
+        Colors = EnemyNormal;
+        Health = 20;
+        TouchDamage = 4;
+        Speed = 3;
+        break;
+      case Enemies.Peahat:
+        Colors = EnemyNormal;
+        Health = 4;
+        TouchDamage = 1;
+        Speed = 3;
+        break;
+      case Enemies.PolsVoice:
+        Colors = PolsVoice;
+        Health = 20;
+        TouchDamage = 4;
+        Speed = 3;
+        break;
+      case Enemies.Rock:
+        Colors = EnemyNormal;
+        Health = 0;
+        TouchDamage = 1;
+        Speed = 3;
+        break;
+      case Enemies.Rope:
+        Colors = EnemyNormal;
+        Health = 2;
+        TouchDamage = 1;
+        Speed = 3;
+        break;
+      case Enemies.RopeBlue:
+        Colors = EnemyHard;
+        Health = 8;
+        TouchDamage = 1;
+        Speed = 3;
+        break;
+      case Enemies.Stalfos:
+        Colors = EnemyNormal;
+        Health = 4;
+        TouchDamage = 0.25;
+        WeaponDamage = 0.25;
+        Speed = 3;
+        break;
+      case Enemies.Tektite:
+        Colors = EnemyNormal;
+        Health = 2;
+        TouchDamage = 1;
+        Speed = 3;
+        break;
+      case Enemies.TektiteBlue:
+        Colors = EnemyHard;
+        Health = 2;
+        TouchDamage = 1;
+        Speed = 3;
+        break;
+      case Enemies.Trap:
+        Colors = EnemyHard;
+        Health = 0;
+        TouchDamage = 1;
+        Speed = 3;
+        break;
+      case Enemies.Vire:
+        Colors = EnemyHard;
+        Health = 2;
+        TouchDamage = 2;
+        Speed = 3;
+        break;
+      case Enemies.Wallmaster:
+        Colors = EnemyHard;
+        Health = 6;
+        TouchDamage = 1;
+        Speed = 1;
+        break;
+      case Enemies.Wizzrobe:
+        Colors = EnemyNormal;
+        Health = 6;
+        TouchDamage = 2;
+        WeaponDamage = 8;
+        Speed = 0;
+        break;
+      case Enemies.WizzrobeBlue:
+        Colors = EnemyHard;
+        Health = 10;
+        TouchDamage = 4;
+        WeaponDamage = 4;
+        Speed = 5;
+        break;
       case Enemies.Zol:
-        colors = WhiteBlack;
+        Colors = WhiteBlack;
+        Health = 2;
+        TouchDamage = 2;
+        Speed = 1;
+        break;
+      case Enemies.ZolGray:
+        Colors = ZolGray;
+        Health = 2;
+        TouchDamage = 2;
+        Speed = 1;
+        break;
+      case Enemies.ZolGreen:
+        Colors = ZolGreen;
+        Health = 2;
+        TouchDamage = 2;
+        Speed = 1;
+        break;
+      case Enemies.Zora:
+        Colors = Zora;
+        Health = 4;
+        TouchDamage = 1;
+        WeaponDamage = 1;
+        Speed = 0;
         break;
       default:
         break;
     }
-    return colors;
+    Health = this.Health ?? Health;
+    HealthModifier = this.HealthModifier ?? HealthModifier;
+    Speed = this.Speed ?? Speed;
+    TouchDamage = this.TouchDamage ?? TouchDamage;
+    WeaponDamage = this.WeaponDamage ?? WeaponDamage;
+    this.set({
+      Colors,
+      Health,
+      TouchDamage,
+      Speed,
+      HealthModifier,
+      WeaponDamage,
+    });
   }
 
   getTypeKey() {
@@ -297,12 +567,10 @@ export class Enemy extends WorldObject {
     return enums.getKey(value);
   }
 
-  // TODOJEF: Can certain enemies based on the selection... e.g. if a Blue Octorok is selected,
+  // TODOJEF: Generate enemies based on the selection... e.g. if a Blue Octorok is selected,
   // the health and colors are pre-generated and that's what's used when showing the selection, but
   // the user can change the values
 
-  // TODOJEF: Need to not output things like OctorokBlue... it should just be Octorok... moving to
-  // a more generic system, but the health and strength is determined by the configuration
   getConfig() {
     const config = {
       Type: this.getTypeKey(),
@@ -313,9 +581,21 @@ export class Enemy extends WorldObject {
     if (!isEmpty(colors)) {
       config.Colors = colors;
     }
-    const { Speed } = this;
+    const { Speed, Health, TouchDamage, HealthModifier, WeaponDamage } = this;
     if (!isEmpty(Speed)) {
       config.Speed = Speed;
+    }
+    if (!isEmpty(Health)) {
+      config.Health = Health;
+    }
+    if (!isEmpty(TouchDamage)) {
+      config.TouchDamage = TouchDamage;
+    }
+    if (!isEmpty(HealthModifier)) {
+      config.HealthModifier = HealthModifier;
+    }
+    if (!isEmpty(WeaponDamage)) {
+      config.WeaponDamage = WeaponDamage;
     }
     return config;
   }

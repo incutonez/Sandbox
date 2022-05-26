@@ -29,18 +29,14 @@ function makeTargets(item) {
  * - 3 colors => White, Black, Blue
  * - 4 colors => White, Black, Blue, Red
  */
-const WhiteBlueRed = [WorldColors.WhitePure, WorldColors.BluePure, WorldColors.RedPure].map(makeTargets);
-const WhiteBlackBlueRed = [WorldColors.WhitePure, WorldColors.Black, WorldColors.BluePure, WorldColors.RedPure].map(makeTargets);
-const FireOuterFireInnerWhite = [WorldColors.FireOuter, WorldColors.FireInner, WorldColors.WhitePure].map(makeTargets);
-const WhiteBlueBlack = [WorldColors.WhitePure, WorldColors.BluePure, WorldColors.Black].map(makeTargets);
-const WhiteRedBlack = [WorldColors.WhitePure, WorldColors.RedPure, WorldColors.Black].map(makeTargets);
-const DoorColor = [{
-  Target: WorldColors.White,
-  Value: WorldColors.Black,
-}];
-const White = [WorldColors.WhitePure].map(makeTargets);
-const WhiteBlue = [WorldColors.WhitePure, WorldColors.BluePure].map(makeTargets);
-const WhiteBlack = [WorldColors.WhitePure, WorldColors.Black].map(makeTargets);
+const WhiteBlueRed = [WorldColors.WhitePure, WorldColors.BluePure, WorldColors.RedPure];
+const WhiteBlackBlueRed = [WorldColors.WhitePure, WorldColors.Black, WorldColors.BluePure, WorldColors.RedPure];
+const FireOuterFireInnerWhite = [WorldColors.FireOuter, WorldColors.FireInner, WorldColors.WhitePure];
+const WhiteBlueBlack = [WorldColors.WhitePure, WorldColors.BluePure, WorldColors.Black];
+const WhiteRedBlack = [WorldColors.WhitePure, WorldColors.RedPure, WorldColors.Black];
+const White = [WorldColors.WhitePure];
+const WhiteBlue = [WorldColors.WhitePure, WorldColors.BluePure];
+const WhiteBlack = [WorldColors.WhitePure, WorldColors.Black];
 export function getDefaultTileColors(type) {
   let colors = [];
   switch (type) {
@@ -68,15 +64,15 @@ export function getDefaultTileColors(type) {
     case Tiles.WallRightYFlip:
     case Tiles.WallX:
     case Tiles.WallY:
-      colors = WhiteBlueRed;
+      colors = WhiteBlueRed.map(makeTargets);
       break;
     case Tiles.WallHoleX:
     case Tiles.WallHoleY:
-      colors = WhiteBlackBlueRed;
+      colors = WhiteBlackBlueRed.map(makeTargets);
       break;
     case Tiles.Fire:
     case Tiles.FireAlt:
-      colors = FireOuterFireInnerWhite;
+      colors = FireOuterFireInnerWhite.map(makeTargets);
       break;
     case Tiles.CastleBottomLeft:
     case Tiles.CastleBottomRight:
@@ -97,17 +93,20 @@ export function getDefaultTileColors(type) {
     case Tiles.WaterTopRight:
     case Tiles.WaterBottomLeft:
     case Tiles.WaterBottomRight:
-      colors = WhiteBlueBlack;
+      colors = WhiteBlueBlack.map(makeTargets);
       break;
     case Tiles.GroundTile:
-      colors = WhiteRedBlack;
+      colors = WhiteRedBlack.map(makeTargets);
       break;
     case Tiles.Door:
-      colors = DoorColor;
+      colors = [{
+        Target: WorldColors.White,
+        Value: WorldColors.Black,
+      }];
       break;
     case Tiles.SandBottom:
     case Tiles.SandCenter:
-      colors = White;
+      colors = White.map(makeTargets);
       break;
     case Tiles.PondBottom:
     case Tiles.PondBottomLeft:
@@ -118,15 +117,16 @@ export function getDefaultTileColors(type) {
     case Tiles.PondCenter:
     case Tiles.PondCenterLeft:
     case Tiles.PondCenterRight:
-      colors = WhiteBlue;
+      colors = WhiteBlue.map(makeTargets);
       break;
     case Tiles.Bush:
     default:
-      colors = WhiteBlack;
+      colors = WhiteBlack.map(makeTargets);
       break;
   }
   return colors;
 }
+// TODOJEF: Use WorldObject class
 /**
  * @property {String} image
  * @property {String} src
