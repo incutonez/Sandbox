@@ -24,4 +24,8 @@ export class Item extends WorldObject {
       },
     };
   }
+
+  setDefaultValues() {
+    this.Colors = [];
+  }
 }
