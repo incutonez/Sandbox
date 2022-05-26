@@ -24,6 +24,11 @@ import { Enemies } from "ui/classes/enums/NPCs.js";
  * @property {Number} totalColumns
  */
 export class Grid extends Model {
+  constructor(data) {
+    super(data);
+    this.initialize();
+  }
+
   getDefaultFields() {
     return [{
       name: "Name",
@@ -68,28 +73,31 @@ export class Grid extends Model {
     }];
   }
 
-  /**
-   * @param {Number} rows
-   * @param {Number} columns
-   * @returns {Grid} record
-   */
-  static initialize(rows, columns) {
+  set Name(value) {
+    this._name = value;
+  }
+
+  get Name() {
+    let { _name } = this;
+    if (!_name) {
+      _name = `${this.X}${this.Y}`;
+    }
+    return _name;
+  }
+
+  initialize() {
     const config = [];
-    const record = new this();
-    for (let row = 0; row < rows; row++) {
-      for (let column = 0; column < columns; column++) {
+    for (let row = 0; row < this.totalRows; row++) {
+      for (let column = 0; column < this.totalColumns; column++) {
         config.push(new Cell({
           Coordinates: [column, row],
-          grid: record,
+          grid: this,
         }));
       }
     }
-    record.set({
+    this.set({
       cells: config,
-      totalRows: rows,
-      totalColumns: columns,
     });
-    return record;
   }
 
   /**

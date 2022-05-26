@@ -1,11 +1,26 @@
 <template>
   <div class="flex">
+    <div class="flex flex-col">
+      <FieldComboBox
+        v-model="selectedId"
+        v-model:selected="selectedScreen"
+        :options="overworldRecords"
+        label-align="top"
+        label="Screens"
+        id-field="Name"
+        display-field="Name"
+      />
+      <BaseButton
+        text="New"
+        class="self-start mt-1 rounded default"
+        @click="onClickNewButton"
+      />
+    </div>
     <BaseGrid
-      ref="grid"
       v-model:selected-cell="selectedCell"
-      :cells="store"
-      :total-columns="record.totalColumns"
-      :total-rows="record.totalRows"
+      :cells="selectedScreen?.cells"
+      :total-columns="gridRecord.totalColumns"
+      :total-rows="gridRecord.totalRows"
       :show-grid-lines="showGridLines"
       :get-cell-color="getCellColor"
       @replace-cell="onReplaceCell"
@@ -40,21 +55,21 @@
         class="bp-2 horizontal"
       >
         <FieldInteger
-          v-model="record.X"
+          v-model="gridRecord.X"
           label="X"
           label-width="auto"
           input-width="w-12"
           width="w-28"
         />
         <FieldInteger
-          v-model="record.Y"
+          v-model="gridRecord.Y"
           label="Y"
           label-width="auto"
           input-width="w-12"
           width="w-28"
         />
         <BaseField
-          v-model="record.Name"
+          v-model="gridRecord.Name"
           label="Name"
         />
       </BaseCard>
@@ -63,7 +78,7 @@
         class="bp-2 horizontal"
       >
         <FieldComboBox
-          v-model="record.GroundColor"
+          v-model="gridRecord.GroundColor"
           label="Ground"
           label-width="auto"
           class="bp-2"
@@ -71,7 +86,7 @@
           width="w-28"
         />
         <FieldComboBox
-          v-model="record.AccentColor"
+          v-model="gridRecord.AccentColor"
           label="Accent"
           label-width="auto"
           :options="WorldColors"
@@ -259,7 +274,7 @@ import {
   provide,
   reactive,
   ref,
-  toRefs,
+  watch,
 } from "vue";
 import { Grid } from "ui/classes/models/Grid.js";
 import BaseGrid from "ui/components/BaseGrid.vue";
@@ -281,6 +296,8 @@ import { Enemies } from "ui/classes/enums/NPCs.js";
 
 /**
  * TODOJEF:
+ * - I think I need to rework the JSON output... it should output the entire world in a single JSON, and load it that way...
+ * -- This is because I think it'll eventually get shoved into a DB
  * - Add special properties for Transitions
  * - Should rename Door to ShopDoor, as it's a little special
  * - Optimize the export... right now, it does all individual cells... should be able to group by type
@@ -305,22 +322,36 @@ export default {
   setup() {
     const fileInputEl = ref(null);
     const contextMenu = ref(null);
-    const theDialog = ref(null);
     const selectedCell = ref(null);
-    const grid = ref(null);
+    const selectedScreen = ref(null);
+    const showGridLines = ref(true);
+    const overworldRecords = reactive([]);
+    const gridRecord = ref(addGridRecord());
+    const selectedId = ref(gridRecord.value.Name);
     const isTransition = computed(() => selectedCell.value?.tile.isTransition);
     const selectedTile = computed(() => selectedCell.value?.tile);
     const selectedItem = computed(() => selectedCell.value?.item);
     const selectedEnemy = computed(() => selectedCell.value?.enemy);
-    const showColors = computed(() => !isTransition.value && selectedCell.value.tile.hasImage());
-    const state = reactive({
-      showGridLines: true,
-      record: Grid.initialize(11, 16),
-    });
+    const showColors = computed(() => !isTransition.value && selectedTile.value.hasImage());
     provide("pressedKeys", useKeyboardMouseProvider());
 
+    watch(selectedId, () => {
+      selectedCell.value = null;
+      gridRecord.value = overworldRecords.find(({ Name }) => Name === selectedId.value);
+    });
+
+    function addGridRecord(config = {}) {
+      const record = new Grid({
+        totalRows: 11,
+        totalColumns: 16,
+        ...config,
+      });
+      overworldRecords.push(record);
+      return record;
+    }
+
     function getCellColor() {
-      return WorldColors.findRecord(state.record.GroundColor)?.backgroundStyle;
+      return WorldColors.findRecord(gridRecord.value.GroundColor)?.backgroundStyle;
     }
 
     function onUpdateTileColor() {
@@ -331,11 +362,6 @@ export default {
       selectedEnemy.value.updateImage();
     }
 
-    // We have to have this because we do cell replacements, which requires us doing some deep copying here
-    // TODO: Is there a better way of doing this?
-    // TODO: Make this an actual store?
-    const store = computed(() => [...state.record.cells]);
-
     function onReplaceCell({ indices, replacement }) {
       if (!isArray(indices)) {
         indices = [indices];
@@ -343,7 +369,7 @@ export default {
         selectedCell.value = replacement;
       }
       indices.forEach((idx) => {
-        const record = state.record.cells[idx];
+        const record = gridRecord.value.cells[idx];
         const clone = replacement.clone({
           exclude: ["grid", "Coordinates"],
         });
@@ -355,7 +381,7 @@ export default {
         clone.tile.cell = clone;
         clone.item.cell = clone;
         clone.enemy.cell = clone;
-        state.record.cells[idx] = clone;
+        gridRecord.value.cells[idx] = clone;
       });
     }
 
@@ -366,7 +392,7 @@ export default {
     function onChangeLoadFile() {
       const reader = new FileReader();
       reader.addEventListener("load", () => {
-        state.record.loadFileData(JSON.parse(reader.result));
+        gridRecord.value.loadFileData(JSON.parse(reader.result));
       });
       const [file] = fileInputEl.value.files;
       if (file) {
@@ -376,26 +402,33 @@ export default {
 
     function onClickSaveBtn() {
       // TODO: Move this logic to a utility function
-      const contents = new Blob([JSON.stringify(state.record.getConfig())], {
+      const contents = new Blob([JSON.stringify(gridRecord.value.getConfig())], {
         type: "application/json",
       });
       const tempEl = document.createElement("a");
-      tempEl.download = `${state.record.X}${state.record.Y}.json`;
+      tempEl.download = `${gridRecord.value.X}${gridRecord.value.Y}.json`;
       tempEl.href = window.URL.createObjectURL(contents);
       tempEl.click();
     }
 
+    function onClickNewButton() {
+      addGridRecord({
+        Name: "TEMPORARY NAME",
+      });
+    }
+
     return {
-      ...toRefs(state),
+      gridRecord,
+      overworldRecords,
+      showGridLines,
+      selectedId,
+      selectedScreen,
       fileInputEl,
       isTransition,
       contextMenu,
-      theDialog,
-      grid,
       selectedTile,
       selectedItem,
       selectedEnemy,
-      store,
       selectedCell,
       showColors,
       getCellColor,
@@ -404,6 +437,7 @@ export default {
       Tiles,
       Items,
       Enemies,
+      onClickNewButton,
       onReplaceCell,
       onClickSaveBtn,
       onClickLoadBtn,

@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@jef/shared": "file:../shared",
-    "concurrently": "^7.2.0",
+    "concurrently": "^7.2.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
@@ -27,6 +27,6 @@
     "@types/lodash": "^4.14.182",
     "@types/node": "^17.0.35",
     "nodemon": "^2.0.16",
-    "typescript": "^4.6.4"
+    "typescript": "^4.7.2"
   }
 }
