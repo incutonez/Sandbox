@@ -16,7 +16,7 @@ import { Enemies } from "ui/classes/enums/NPCs.js";
  * @property {String} Enemies
  * @property {String} Items
  */
-export const ImageType = new Enum(["tiles", "enemies", "items"], false);
+export const ImageType = new Enum(["Tiles", "Enemies", "Items"], false);
 /**
 * @property {String} E00
 * @property {String} E94
