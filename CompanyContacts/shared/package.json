@@ -1,5 +1,5 @@
 {
-  "name": "@jef/shared",
+  "name": "@incutonez/companycontactsshared",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -16,6 +16,6 @@
     }
   },
   "devDependencies": {
-    "typescript": "^4.7.2"
+    "typescript": "^4.7.3"
   }
 }

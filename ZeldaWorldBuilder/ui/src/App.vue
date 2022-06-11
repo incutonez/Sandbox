@@ -340,6 +340,7 @@ export default {
       gridRecord.value = overworldRecords.find(({ Name }) => Name === selectedId.value);
     });
 
+    // TODOJEF: Pick up with adding the export to the new JSON format with Overworld output
     function addGridRecord(config = {}) {
       const record = new Grid({
         totalRows: 11,

@@ -65,7 +65,7 @@ import JefButton from "ui/components/base/Button.vue";
 import IColumn from "ui/interfaces/IColumn";
 import { IFieldValue } from "ui/interfaces/Components";
 import IModel from "ui/interfaces/IModel";
-import IKeyValue from "@jef/shared/interfaces/IKeyValue";
+import IKeyValue from "@incutonez/companycontactsshared/interfaces/IKeyValue";
 
 type IFormatter = (value: IFieldValue, record: IModel) => {}
 

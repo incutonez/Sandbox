@@ -2,7 +2,7 @@ import Icons from "ui/statics/Icons";
 import Styles from "ui/statics/Styles";
 import utilities from "ui/utilities";
 import { IFieldValue } from "ui/interfaces/Components";
-import IKeyValue from "@jef/shared/interfaces/IKeyValue";
+import IKeyValue from "@incutonez/companycontactsshared/interfaces/IKeyValue";
 
 interface IProps {
   iconName: string;

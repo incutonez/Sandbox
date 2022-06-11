@@ -11,11 +11,11 @@ import utilities from "ui/utilities";
 import Proxy from "ui/classes/Proxy";
 import Store from "ui/classes/Store";
 import Enum from "ui/models/Enum";
-import { PositionTypes } from "@jef/shared/enums/PositionTypes";
-import { ApplicationStatuses } from "@jef/shared/enums/ApplicationStatuses";
+import { PositionTypes } from "@incutonez/companycontactsshared/enums/PositionTypes";
+import { ApplicationStatuses } from "@incutonez/companycontactsshared/enums/ApplicationStatuses";
 import IStore from "ui/interfaces/IStore";
 import IEnum from "ui/interfaces/IEnum";
-import IKeyValue from "@jef/shared/interfaces/IKeyValue";
+import IKeyValue from "@incutonez/companycontactsshared/interfaces/IKeyValue";
 
 interface IEnums {
   ApplicationStatuses: IStore<IEnum> & typeof ApplicationStatuses;

@@ -2,7 +2,7 @@ import Proxy from "ui/classes/Proxy";
 import Store from "ui/classes/Store";
 import utilities from "ui/utilities";
 import { IFieldValue } from "ui/interfaces/Components";
-import IKeyValue from "@jef/shared/interfaces/IKeyValue";
+import IKeyValue from "@incutonez/companycontactsshared/interfaces/IKeyValue";
 import IModel from "ui/interfaces/IModel";
 import { IAssociations } from "ui/interfaces/IAssociation";
 

@@ -1,5 +1,5 @@
 // TODO: How to share between UI and API?
-import {AxiosRequestConfig} from 'axios';
+import { AxiosRequestConfig } from "axios";
 
 export default class Server {
   status: number;

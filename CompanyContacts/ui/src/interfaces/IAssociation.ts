@@ -1,6 +1,6 @@
 export interface IAssociation {
   model: any;
-  type: 'model' | 'store';
+  type: "model" | "store";
   key: string;
 }
 

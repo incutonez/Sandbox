@@ -1,5 +1,5 @@
-import {TinyEmitter} from 'tiny-emitter';
-import {defineComponent} from 'vue';
+import { TinyEmitter } from "tiny-emitter";
+import { defineComponent } from "vue";
 
 // Just use defineComponent for mixins https://stackoverflow.com/a/67229107/1253609
 export default defineComponent({
@@ -15,16 +15,16 @@ export default defineComponent({
     },
     emit(event: string, params: any) {
       this.eventBus.emit(event, ...params);
-    }
+    },
   },
   provide() {
     return {
-      eventBus: this.eventBus
+      eventBus: this.eventBus,
     };
   },
   data() {
     return {
-      eventBus: new TinyEmitter()
+      eventBus: new TinyEmitter(),
     };
-  }
+  },
 });

@@ -1,15 +1,15 @@
-import {defineComponent} from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
     hidden: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     hiddenStyle(): string {
-      return this.hidden ? 'display: none;' : '';
-    }
-  }
+      return this.hidden ? "display: none;" : "";
+    },
+  },
 });

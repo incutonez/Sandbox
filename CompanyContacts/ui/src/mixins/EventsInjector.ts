@@ -1,5 +1,5 @@
-import {defineComponent} from 'vue';
-import {TinyEmitter} from 'tiny-emitter';
+import { defineComponent } from "vue";
+import { TinyEmitter } from "tiny-emitter";
 
 export interface IEventsInjector {
   eventBus?: TinyEmitter;
@@ -8,10 +8,10 @@ export interface IEventsInjector {
 export default defineComponent({
   inject: {
     eventBus: {
-      default: null
-    }
+      default: null,
+    },
   },
   data(): IEventsInjector {
     return {};
-  }
+  },
 });

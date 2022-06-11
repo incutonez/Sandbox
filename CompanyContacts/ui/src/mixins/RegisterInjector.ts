@@ -1,4 +1,4 @@
-import {Component, defineComponent} from 'vue';
+import { Component, defineComponent } from "vue";
 
 export interface IRegisterInjector {
   register?(child: Component): void;
@@ -13,11 +13,11 @@ export interface IRegisterInjector {
 export default defineComponent({
   inject: {
     register: {
-      default: null
+      default: null,
     },
     unregister: {
-      default: null
-    }
+      default: null,
+    },
   },
   data(): IRegisterInjector {
     return {};
@@ -31,5 +31,5 @@ export default defineComponent({
     if (this.unregister) {
       this.unregister(this);
     }
-  }
+  },
 });
