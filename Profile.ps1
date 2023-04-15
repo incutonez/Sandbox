@@ -89,3 +89,7 @@ function playlistGta($playlist) {
 function upgradeApp() {
   npx npm-check-updates -u
 }
+
+function createApp() {
+  npm create vite@latest
+}
