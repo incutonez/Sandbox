@@ -1,10 +1,12 @@
 ﻿import { faker } from "@faker-js/faker";
 import { ChangeStatus, getChanges } from "./diff.utilities";
+import { isObject } from "lodash";
 
 describe("Differ", () => {
   const FieldStr = "fieldString";
   const FieldInt = "fieldInteger";
   const FieldBool = "fieldBoolean";
+  const FieldDate = "fieldDate";
   const FieldObj = "fieldObject";
   const FieldArr = "fieldArray";
   it("Shallow Diffs", () => {
@@ -53,6 +55,7 @@ describe("Differ", () => {
               [FieldStr]: "John",
               [FieldInt]: faker.number.int(),
               [FieldBool]: false,
+              [FieldDate]: faker.date.anytime(),
             }, {
               [FieldStr]: "John",
               [FieldInt]: faker.number.int(),
@@ -142,6 +145,10 @@ describe("Differ", () => {
                 value: data.current[FieldArr][0][FieldObj][FieldArr][0][FieldBool],
                 previous: data.previous[FieldArr][0][FieldObj][FieldArr][0][FieldBool],
                 status: ChangeStatus.Updated,
+              }, {
+                field: FieldDate,
+                value: data.current[FieldArr][0][FieldObj][FieldArr][0][FieldDate],
+                status: ChangeStatus.Created,
               }],
             }, {
               field: 1,

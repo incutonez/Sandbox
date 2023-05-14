@@ -1,5 +1,5 @@
 ﻿import { faker } from "@faker-js/faker";
-import { get, isArray, isObject, set } from "lodash";
+import { get, isArray, isObject, set, isDate } from "lodash";
 import { diff } from "just-diff";
 
 const PropertyTypes = ["string", "number", "date", "boolean", "object", "array"] as const;
@@ -147,7 +147,7 @@ export function treeDiff({ value, previous, status, field }: ITreeDiff) {
     }
     return result;
   }
-  else if (isObject(value)) {
+  else if (isObject(value) && !isDate(value)) {
     const result = [];
     for (const key in value) {
       result.push(treeDiff({
