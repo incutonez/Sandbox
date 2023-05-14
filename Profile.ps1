@@ -1,6 +1,5 @@
 $workspace = "$home\workspace"
 $sandbox = "$workspace\Sandbox"
-$vueApp = "$sandbox\typescript-node-vue"
 $zeldaU = "$workspace\ZeldaU"
 $jefbox = "$workspace\applications\web\jefbox"
 
