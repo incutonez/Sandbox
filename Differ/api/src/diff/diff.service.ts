@@ -1,8 +1,6 @@
 ﻿import { Injectable } from "@nestjs/common";
-import { diff } from "just-diff";
 import { faker } from "@faker-js/faker";
-import { get, set } from "lodash";
-import { ChangeStatus, generateData, getChanges, treeDiff } from "./diff.utilities";
+import { getChanges } from "./diff.utilities";
 
 @Injectable()
 export class DiffService {
@@ -10,7 +8,7 @@ export class DiffService {
     const records = [];
     for (let i = 0; i < faker.number.int({
       min: 1,
-      max: 1,
+      max: 50,
     }); i++) {
       records.push(getChanges());
     }

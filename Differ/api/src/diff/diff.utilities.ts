@@ -91,38 +91,36 @@ interface ITreeDiff {
   [Converted]?: boolean;
 }
 
-export function getChanges() {
-  const response = generateData();
-  const state = response.current;
-  const changes = diff(response.previous, response.current);
+export function getChanges({ current, previous } = generateData()) {
+  const changes = diff(previous, current);
   changes.forEach(({ op, path }) => {
     let status;
-    let current;
-    let previous;
+    let value;
+    let old;
     switch (op) {
       case "add":
         status = ChangeStatus.Created;
-        current = get(response.current, path);
+        value = get(current, path);
         break;
       case "replace":
         status = ChangeStatus.Updated;
-        current = get(response.current, path);
-        previous = get(response.previous, path);
+        value = get(current, path);
+        old = get(previous, path);
         break;
       case "remove":
         status = ChangeStatus.Deleted;
-        previous = get(response.previous, path);
+        value = get(previous, path);
         break;
     }
-    set(state, path, treeDiff({
-      value: current,
-      previous,
+    set(current, path, treeDiff({
+      value,
+      previous: old,
       status,
       field: path[path.length - 1],
     }));
   });
   return treeDiff({
-    value: state,
+    value: current,
   });
 }
 
@@ -133,18 +131,16 @@ export function treeDiff({ value, previous, status, field }: ITreeDiff) {
   else if (isArray(value)) {
     const items = [];
     value.forEach((record, index) => {
-      items.push({
+      items.push(treeDiff({
+        status,
+        value: record,
         field: index,
-        value: treeDiff({
-          status,
-          value: record,
-          field: index,
-        }),
-      });
+      }));
     });
     const result: ITreeDiff = {
       field,
       value: items,
+      [Converted]: true,
     };
     if (value.length === 0) {
       result.status = ChangeStatus.Unchanged;
@@ -155,6 +151,7 @@ export function treeDiff({ value, previous, status, field }: ITreeDiff) {
     const result = [];
     for (const key in value) {
       result.push(treeDiff({
+        status,
         value: value[key],
         field: key,
       }));
@@ -165,6 +162,7 @@ export function treeDiff({ value, previous, status, field }: ITreeDiff) {
     return {
       field,
       value: result,
+      [Converted]: true,
     };
   }
   const result: ITreeDiff = {
