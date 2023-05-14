@@ -9,6 +9,7 @@ describe("Differ", () => {
   const FieldDate = "fieldDate";
   const FieldObj = "fieldObject";
   const FieldArr = "fieldArray";
+  const FieldDelete = "fieldDelete";
   it("Shallow Diffs", () => {
     const data = {
       current: {
@@ -88,6 +89,7 @@ describe("Differ", () => {
               [FieldStr]: "John",
               [FieldInt]: faker.number.int(),
               [FieldBool]: true,
+              [FieldDelete]: true,
             }],
           },
         }],
@@ -149,6 +151,10 @@ describe("Differ", () => {
                 field: FieldDate,
                 value: data.current[FieldArr][0][FieldObj][FieldArr][0][FieldDate],
                 status: ChangeStatus.Created,
+              }, {
+                field: FieldDelete,
+                value: data.previous[FieldArr][0][FieldObj][FieldArr][0][FieldDelete],
+                status: ChangeStatus.Deleted,
               }],
             }, {
               field: 1,
