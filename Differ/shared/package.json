@@ -1,0 +1,18 @@
+{
+  "name": "shared-differ",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "generate": "npx rimraf dist && npx openapi-generator-cli generate -g typescript-axios -i /local/openapi.yml -o /local/temp/ -p withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models,supportsES6=true,withInterfaces=true && npx tsc --project tsconfig.json && npx rimraf temp"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@openapitools/openapi-generator-cli": "^2.6.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  }
+}

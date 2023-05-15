@@ -1,0 +1,48 @@
+openapi: 3.0.3
+info:
+  version: 0.1.0
+  title: Differ API Reference
+  description: API Endpoints for Differ Application
+paths:
+  /diff:
+    get:
+      description: Returns a list of stuff
+      responses:
+        '200':
+          $ref: '#/components/responses/200ResponseDiff'
+components:
+  schemas:
+    ChangeStatus:
+      enum: [0, 1, 2, 3]
+      x-enum-varnames: [Unchanged, Created, Updated, Deleted]
+    DiffModel:
+      properties: 
+        field:
+          oneOf:
+            - type: number
+            - type: string
+        value:
+          oneOf:
+            - type: integer
+            - type: string
+            - type: boolean
+            - $ref: '#/components/schemas/DiffModel'
+            - type: array
+              items:
+                $ref: '#/components/schemas/DiffModel'
+        previous:
+          anyOf:
+            - type: integer
+            - type: string
+            - type: boolean
+        status:
+          $ref: '#/components/schemas/ChangeStatus'
+  responses: 
+    200ResponseDiff:
+      description: OK
+      content: 
+        application/json:
+          schema: 
+            type: array
+            items:
+              $ref: '#/components/schemas/DiffModel'

@@ -1,6 +1,6 @@
 ﻿import { faker } from "@faker-js/faker";
-import { ChangeStatus, getChanges } from "./diff.utilities";
-import { isObject } from "lodash";
+import { getChanges } from "./diff.utilities";
+import { ChangeStatus } from "shared-differ/dist/models";
 
 describe("Differ", () => {
   const FieldStr = "fieldString";

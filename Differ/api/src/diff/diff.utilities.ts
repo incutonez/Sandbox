@@ -1,6 +1,7 @@
 ﻿import { faker } from "@faker-js/faker";
-import { get, isArray, isObject, set, isDate } from "lodash";
+import { get, isArray, set, isDate } from "lodash";
 import { diff } from "just-diff";
+import { ChangeStatus, DiffModel } from "shared-differ/dist/models";
 
 const PropertyTypes = ["string", "number", "date", "boolean", "object", "array"] as const;
 type TPropertyTypes = typeof PropertyTypes[number];
@@ -74,20 +75,9 @@ export function generateData(depth = 2) {
   };
 }
 
-export const ChangeStatus = {
-  Unchanged: 0,
-  Created: 1,
-  Updated: 2,
-  Deleted: 3,
-};
-
 const Converted = Symbol("converted");
 
-interface ITreeDiff {
-  value: any;
-  field?: string | number;
-  previous?: any;
-  status?: typeof ChangeStatus[keyof typeof ChangeStatus];
+interface ITreeDiff extends DiffModel {
   [Converted]?: boolean;
 }
 
@@ -124,11 +114,15 @@ export function getChanges({ current, previous } = generateData()) {
   });
 }
 
+function isArrayCheck(value: any): value is Array<any> {
+  return isArray(value);
+}
+
 export function treeDiff({ value, previous, status, field }: ITreeDiff) {
   if (value?.[Converted]) {
     return value;
   }
-  else if (isArray(value)) {
+  else if (isArrayCheck(value)) {
     const items = [];
     value.forEach((record, index) => {
       items.push(treeDiff({
@@ -147,7 +141,7 @@ export function treeDiff({ value, previous, status, field }: ITreeDiff) {
     }
     return result;
   }
-  else if (isObject(value) && !isDate(value)) {
+  else if (value instanceof Object && !isDate(value)) {
     const result = [];
     for (const key in value) {
       result.push(treeDiff({
