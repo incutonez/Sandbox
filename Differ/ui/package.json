@@ -6,10 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "explode": "npx rimraf node_modules package-lock.json && npm i"
   },
   "dependencies": {
-    "shared": "file:../shared",
     "shared-differ": "file:../shared",
     "vue": "^3.3.2"
   },

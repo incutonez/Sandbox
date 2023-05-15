@@ -5,5 +5,5 @@
 </template>
 
 <script setup lang="ts">
-import {ChangeStatus} from "shared-differ/dist/models/change-status";
+import {ChangeStatus} from "shared-differ";
 </script>
