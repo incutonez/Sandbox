@@ -78,7 +78,7 @@ export function generateData(depth = 2) {
 const Converted = Symbol("converted");
 
 interface ITreeDiff extends DiffModel {
-  value?: DiffModelValue | any;
+  value: DiffModelValue | any;
   [Converted]?: boolean;
 }
 
@@ -112,6 +112,7 @@ export function getChanges({ current, previous } = generateData()) {
   });
   return treeDiff({
     value: current,
+    field: undefined,
   });
 }
 

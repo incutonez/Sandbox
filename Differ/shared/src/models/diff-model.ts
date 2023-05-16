@@ -37,13 +37,13 @@ export interface DiffModel {
      * @type {DiffModelField}
      * @memberof DiffModel
      */
-    'field'?: DiffModelField;
+    'field': DiffModelField;
     /**
      * 
      * @type {DiffModelValue}
      * @memberof DiffModel
      */
-    'value'?: DiffModelValue;
+    'value': DiffModelValue;
     /**
      * 
      * @type {DiffModelPrevious}

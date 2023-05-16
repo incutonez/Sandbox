@@ -10,8 +10,9 @@
     "explode": "npx rimraf node_modules package-lock.json && npm i"
   },
   "dependencies": {
-    "@ag-grid-community/vue3": "^29.3.5",
     "ag-grid-community": "^29.3.5",
+    "ag-grid-enterprise": "^29.3.5",
+    "ag-grid-vue3": "^29.3.5",
     "shared-differ": "file:../shared",
     "vue": "^3.3.2"
   },

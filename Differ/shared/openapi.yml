@@ -21,6 +21,9 @@ components:
       enum: [0, 1, 2, 3]
       x-enum-varnames: [Unchanged, Created, Updated, Deleted]
     DiffModel:
+      required:
+        - field
+        - value
       properties: 
         field:
           oneOf:
