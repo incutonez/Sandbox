@@ -3,10 +3,15 @@ info:
   version: 0.1.0
   title: Differ API Reference
   description: API Endpoints for Differ Application
+tags:
+  - name: diff
 paths:
   /diff:
     get:
-      description: Returns a list of stuff
+      tags:
+        - diff
+      description: Returns a list of changes
+      operationId: diff-get
       responses:
         '200':
           $ref: '#/components/responses/200ResponseDiff'
@@ -26,7 +31,6 @@ components:
             - type: integer
             - type: string
             - type: boolean
-            - $ref: '#/components/schemas/DiffModel'
             - type: array
               items:
                 $ref: '#/components/schemas/DiffModel'
@@ -45,4 +49,13 @@ components:
           schema: 
             type: array
             items:
-              $ref: '#/components/schemas/DiffModel'
+              type: object
+              properties:
+                username:
+                  type: string
+                date:
+                  type: number
+                items:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/DiffModel'

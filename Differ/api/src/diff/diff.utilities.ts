@@ -1,7 +1,7 @@
 ﻿import { faker } from "@faker-js/faker";
 import { get, isArray, set, isDate } from "lodash";
 import { diff } from "just-diff";
-import { ChangeStatus, DiffModel } from "shared-differ/dist/models";
+import { ChangeStatus, DiffModel, DiffModelValue } from "shared-differ/dist/models";
 
 const PropertyTypes = ["string", "number", "date", "boolean", "object", "array"] as const;
 type TPropertyTypes = typeof PropertyTypes[number];
@@ -13,8 +13,8 @@ const PropertyTypesTotal = PropertyTypes.length - 1;
  * at most give you an object that has 2 levels of nested data.
  */
 export function generateData(depth = 2) {
-  const previous = {};
-  const current = {};
+  const previous: any = {};
+  const current: any = {};
   const totalProperties = faker.number.int({
     min: 4,
     max: 10,
@@ -78,6 +78,7 @@ export function generateData(depth = 2) {
 const Converted = Symbol("converted");
 
 interface ITreeDiff extends DiffModel {
+  value?: DiffModelValue | any;
   [Converted]?: boolean;
 }
 

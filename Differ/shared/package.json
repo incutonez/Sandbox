@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "module": "src/index.ts",
   "scripts": {
-    "generate": "npx rimraf dist && npx openapi-generator-cli generate -g typescript-axios -i /local/openapi.yml -o /local/temp/ -p withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models,supportsES6=true,withInterfaces=true && npx tsc --project tsconfig.json && npx rimraf temp"
+    "generate": "npx rimraf dist src && npx openapi-generator-cli generate -g typescript-axios -i /local/openapi.yml -o /local/src/ -p withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models,supportsES6=true,withInterfaces=true && npx tsc --project tsconfig.json"
   },
   "author": "",
   "license": "ISC",

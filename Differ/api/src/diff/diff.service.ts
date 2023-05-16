@@ -10,7 +10,11 @@ export class DiffService {
       min: 1,
       max: 50,
     }); i++) {
-      records.push(getChanges());
+      records.push({
+        username: faker.internet.userName(),
+        date: faker.date.anytime().getTime(),
+        items: getChanges(),
+      });
     }
     return records;
   }
