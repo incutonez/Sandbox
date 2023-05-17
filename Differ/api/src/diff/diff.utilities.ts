@@ -1,4 +1,4 @@
-﻿import { faker } from "@faker-js/faker";
+﻿import { faker, fi } from "@faker-js/faker";
 import { get, isArray, set, isDate } from "lodash";
 import { diff } from "just-diff";
 import { ChangeStatus, DiffModel, DiffModelValue } from "shared-differ/dist/models";
@@ -54,6 +54,11 @@ export function generateData(depth = 2) {
         value = generateData(depth - 1);
         previous[fieldName] = value.previous;
         current[fieldName] = value.current;
+        // Randomize the update to current, which will most likely create deletions and additions
+        if (faker.datatype.boolean()) {
+          value = generateData(depth - 1);
+          current[fieldName] = value.current;
+        }
         break;
       case "array":
         previous[fieldName] = [];
@@ -65,6 +70,24 @@ export function generateData(depth = 2) {
           value = generateData(depth - 1);
           previous[fieldName].push(value.previous);
           current[fieldName].push(value.current);
+        }
+        if (current[fieldName].length) {
+          // Should increase current
+          if (faker.datatype.boolean()) {
+            for (let j = current[fieldName].length - 1; j < faker.number.int({
+              min: current[fieldName].length - 1,
+              max: 10,
+            }); j++) {
+              value = generateData(depth - 1);
+              current[fieldName].push(value.current);
+            }
+          }
+          // Should decrease current
+          else if (faker.datatype.boolean()) {
+            current[fieldName].splice(0, faker.number.int({
+              max: current[fieldName].length - 1,
+            }));
+          }
         }
         break;
     }
