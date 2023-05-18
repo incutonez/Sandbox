@@ -9,4 +9,9 @@ export interface ITreeRowMeta {
     index: number;
     date: number;
     username: string;
+    changes: {
+        create: number;
+        update: number;
+        delete: number;
+    }
 }

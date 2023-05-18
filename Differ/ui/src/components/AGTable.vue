@@ -14,7 +14,6 @@
       :auto-group-column-def="autoGroupColumnDef"
       :column-defs="columnDefs"
       :default-col-def="defaultColDef"
-      :get-row-height="getRowHeight"
       :get-row-class="getRowClass"
       :is-external-filter-present="isExternalFilterPresent"
       :does-external-filter-pass="doesExternalFilterPass"
@@ -30,11 +29,11 @@ import AGTableField from "@/components/AGTableField.vue";
 import { ref, watch, watchEffect } from "vue";
 import { ChangeStatus, DiffGet200ResponseInner } from "shared-differ";
 import {
+  ColSpanParams,
   GridApi,
   GridReadyEvent,
   ICellRendererParams, IRowNode,
   RowClassParams,
-  RowHeightParams,
 } from "ag-grid-community";
 import { AgGridVue } from "ag-grid-vue3";
 import { ITreeRow, ITreeRowMeta } from "@/types/components";
@@ -57,7 +56,10 @@ const autoGroupColumnDef = {
   headerName: "Field",
   field: "field",
   width: 300,
-  cellClass: "[&>*]:h-full [&>*]:flex [&>*]:!items-center",
+  autoHeight: true,
+  colSpan({ node }: ColSpanParams) {
+    return node?.level === 0 ? 3 : 1;
+  },
   cellRendererParams: {
     suppressCount: true,
     innerRendererSelector({ value }: ICellRendererParams) {
@@ -71,12 +73,9 @@ const autoGroupColumnDef = {
   },
 };
 
+// TODOJEF: Put status circle icon on left, remove row color and status column, replace => with arrow icon
 function getDataPath(row: ITreeRow) {
   return row.path;
-}
-
-function getRowHeight({ node }: RowHeightParams) {
-  return node.level === 0 ? 50 : 42;
 }
 
 function getRowClass({ data }: RowClassParams<ITreeRow>) {
@@ -108,49 +107,57 @@ function doesExternalFilterPass({ data }: IRowNode<ITreeRow>) {
   }
 }
 
-function flatten({ value, previous, status, field }: ITreeRow, path: (string | number)[], output: ITreeRow[]) {
+function flatten({ value, previous, status, field }: ITreeRow, path: (string | number)[], output: ITreeRow[], meta: ITreeRowMeta) {
   if (Array.isArray(value) && value.length) {
-    value.forEach((cell) => flatten(cell, [...path, field], output));
+    value.forEach((cell) => flatten(cell, [...path, field], output, meta));
+    return;
   }
-  else {
-    if (previous !== undefined) {
-      value = `${value} => ${previous}`;
-    }
-    let statusDisplay;
-    switch (status) {
-      case ChangeStatus.Created:
-        statusDisplay = "Created";
-        break;
-      case ChangeStatus.Updated:
-        statusDisplay = "Updated";
-        break;
-      case ChangeStatus.Deleted:
-        statusDisplay = "Deleted";
-        break;
-      case ChangeStatus.Unchanged:
-        statusDisplay = "Unchanged";
-        break;
-    }
-    output.push({
-      field,
-      status,
-      statusDisplay,
-      value,
-      path: [...path, field],
-    });
+  if (previous !== undefined) {
+    value = `${value} => ${previous}`;
   }
+  let statusDisplay;
+  switch (status) {
+    case ChangeStatus.Created:
+      statusDisplay = "Created";
+      meta.changes.create++;
+      break;
+    case ChangeStatus.Updated:
+      statusDisplay = "Updated";
+      meta.changes.update++;
+      break;
+    case ChangeStatus.Deleted:
+      statusDisplay = "Deleted";
+      meta.changes.delete++;
+      break;
+    case ChangeStatus.Unchanged:
+      statusDisplay = "Unchanged";
+      break;
+  }
+  output.push({
+    field,
+    status,
+    statusDisplay,
+    value,
+    path: [...path, field],
+  });
 }
 
 function processData(items?: DiffGet200ResponseInner[]) {
   const output: ITreeRow[] = [];
   const meta: ITreeRowMeta[] = [];
   items?.forEach(({ items, date = Date.now(), username = "" }, index) => {
-    meta.push({
+    const metaItem = {
       index,
       date,
       username,
-    });
-    items?.forEach((row) => flatten(row, [index], output));
+      changes: {
+        create: 0,
+        update: 0,
+        delete: 0,
+      },
+    };
+    meta.push(metaItem);
+    items?.forEach((row) => flatten(row, [index], output, metaItem));
   });
   records.value = output;
   metadata.value = meta;

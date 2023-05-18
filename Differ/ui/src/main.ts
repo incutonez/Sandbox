@@ -3,6 +3,7 @@ import "ag-grid-enterprise";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import "./style.css";
+import "@material-design-icons/font";
 import App from "./App.vue";
 
 createApp(App).mount("#app");
