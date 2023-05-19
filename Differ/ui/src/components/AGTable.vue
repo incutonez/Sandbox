@@ -14,9 +14,11 @@
       :auto-group-column-def="autoGroupColumnDef"
       :column-defs="columnDefs"
       :default-col-def="defaultColDef"
-      :get-row-class="getRowClass"
       :is-external-filter-present="isExternalFilterPresent"
       :does-external-filter-pass="doesExternalFilterPass"
+      :get-row-class="getRowClass"
+      suppress-row-hover-highlight
+      suppress-cell-selection
       tree-data
       @grid-ready="onGridReady"
     />
@@ -26,6 +28,8 @@
 <script setup lang="ts">
 import { diffRecords } from "@/api/diff";
 import AGTableField from "@/components/AGTableField.vue";
+import AGTableStatus from "@/components/AGTableStatus.vue";
+import AGTableValue from "@/components/AGTableValue.vue";
 import { ref, watch, watchEffect } from "vue";
 import { ChangeStatus, DiffGet200ResponseInner } from "shared-differ";
 import {
@@ -33,7 +37,6 @@ import {
   GridApi,
   GridReadyEvent,
   ICellRendererParams, IRowNode,
-  RowClassParams,
 } from "ag-grid-community";
 import { AgGridVue } from "ag-grid-vue3";
 import { ITreeRow, ITreeRowMeta } from "@/types/components";
@@ -48,15 +51,42 @@ const defaultColDef = {
 const columnDefs = [{
   headerName: "Value",
   field: "value",
+  cellClass: "p-0 pl-2 [&>*]:!p-0 [&>*]:!m-0 flex",
+  cellRenderer: "agGroupCellRenderer",
+  cellRendererParams: {
+    innerRendererSelector({ data }: ICellRendererParams<ITreeRow>) {
+      return {
+        component: AGTableValue,
+        params: {
+          data: data,
+        },
+      };
+    },
+  },
 }, {
-  headerName: "Status",
-  field: "statusDisplay",
+  headerName: "",
+  field: "status",
+  pinned: "right",
+  maxWidth: 40,
+  cellClass: "p-0 [&>*]:!p-0 [&>*]:!m-0 flex justify-center",
+  cellRenderer: "agGroupCellRenderer",
+  cellRendererParams: {
+    innerRendererSelector({ data }: ICellRendererParams<ITreeRow>) {
+      return {
+        component: AGTableStatus,
+        params: {
+          status: data?.status,
+        },
+      };
+    },
+  },
 }];
 const autoGroupColumnDef = {
   headerName: "Field",
   field: "field",
-  width: 300,
+  maxWidth: 400,
   autoHeight: true,
+  resizable: true,
   colSpan({ node }: ColSpanParams) {
     return node?.level === 0 ? 3 : 1;
   },
@@ -73,12 +103,15 @@ const autoGroupColumnDef = {
   },
 };
 
-// TODOJEF: Put status circle icon on left, remove row color and status column, replace => with arrow icon
 function getDataPath(row: ITreeRow) {
   return row.path;
 }
 
-function getRowClass({ data }: RowClassParams<ITreeRow>) {
+function isExternalFilterPresent() {
+  return !showUnchanged.value;
+}
+
+function getRowClass({ data }: IRowNode<ITreeRow>) {
   switch (data?.status) {
     case ChangeStatus.Created:
       return "bg-blue-50";
@@ -86,14 +119,7 @@ function getRowClass({ data }: RowClassParams<ITreeRow>) {
       return "bg-orange-50";
     case ChangeStatus.Deleted:
       return "bg-red-50";
-    case ChangeStatus.Unchanged:
-    default:
-      return "";
   }
-}
-
-function isExternalFilterPresent() {
-  return !showUnchanged.value;
 }
 
 function doesExternalFilterPass({ data }: IRowNode<ITreeRow>) {
@@ -112,32 +138,24 @@ function flatten({ value, previous, status, field }: ITreeRow, path: (string | n
     value.forEach((cell) => flatten(cell, [...path, field], output, meta));
     return;
   }
-  if (previous !== undefined) {
-    value = `${value} => ${previous}`;
-  }
-  let statusDisplay;
   switch (status) {
     case ChangeStatus.Created:
-      statusDisplay = "Created";
       meta.changes.create++;
       break;
     case ChangeStatus.Updated:
-      statusDisplay = "Updated";
       meta.changes.update++;
       break;
     case ChangeStatus.Deleted:
-      statusDisplay = "Deleted";
       meta.changes.delete++;
       break;
     case ChangeStatus.Unchanged:
-      statusDisplay = "Unchanged";
       break;
   }
   output.push({
     field,
     status,
-    statusDisplay,
     value,
+    previous,
     path: [...path, field],
   });
 }
