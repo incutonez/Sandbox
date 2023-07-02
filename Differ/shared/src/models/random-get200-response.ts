@@ -14,6 +14,17 @@
 
 
 
-export * from './api/diff-api';
-export * from './api/random-api';
+/**
+ * 
+ * @export
+ * @interface RandomGet200Response
+ */
+export interface RandomGet200Response {
+    /**
+     * 
+     * @type {string}
+     * @memberof RandomGet200Response
+     */
+    'name'?: string;
+}
 

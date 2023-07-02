@@ -14,3 +14,8 @@ export interface ITreeRowMeta {
         delete: number;
     }
 }
+
+export interface IPropsAGTable {
+    serverPaging?: boolean;
+    items: any[];
+}

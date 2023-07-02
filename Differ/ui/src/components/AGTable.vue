@@ -9,7 +9,8 @@
     </label>
     <AgGridVue
       class="ag-theme-alpine flex-1"
-      :row-data="records"
+      :row-model-type="serverPaging ? 'serverSide' : 'clientSide'"
+      :row-data="serverPaging ? undefined : records"
       :get-data-path="getDataPath"
       :auto-group-column-def="autoGroupColumnDef"
       :column-defs="columnDefs"
@@ -19,28 +20,32 @@
       :get-row-class="getRowClass"
       suppress-row-hover-highlight
       suppress-cell-selection
-      tree-data
+      :tree-data="!serverPaging"
+      :pagination="serverPaging"
+      :pagination-page-size="20"
       @grid-ready="onGridReady"
+      @pagination-changed="onPaginationChanged"
     />
   </article>
 </template>
 
 <script setup lang="ts">
-import { diffRecords } from "@/api/diff";
 import AGTableField from "@/components/AGTableField.vue";
 import AGTableStatus from "@/components/AGTableStatus.vue";
 import AGTableValue from "@/components/AGTableValue.vue";
-import { ref, watch, watchEffect } from "vue";
+import { ref, watch } from "vue";
 import { ChangeStatus, DiffGet200ResponseInner } from "shared-differ";
 import {
   ColSpanParams,
   GridApi,
   GridReadyEvent,
-  ICellRendererParams, IRowNode,
+  ICellRendererParams, IRowNode, IServerSideGetRowsParams, PaginationChangedEvent,
 } from "ag-grid-community";
 import { AgGridVue } from "ag-grid-vue3";
-import { ITreeRow, ITreeRowMeta } from "@/types/components";
+import { IPropsAGTable, ITreeRow, ITreeRowMeta } from "@/types/components";
 
+const props = defineProps<IPropsAGTable>();
+const emit = defineEmits(["load"]);
 const records = ref<ITreeRow[]>();
 const metadata = ref<ITreeRowMeta[]>();
 const gridApi = ref<GridApi<ITreeRow>>();
@@ -48,39 +53,48 @@ const showUnchanged = ref(false);
 const defaultColDef = {
   flex: 1,
 };
-const columnDefs = [{
-  headerName: "Value",
-  field: "value",
-  cellClass: "p-0 pl-2 [&>*]:!p-0 [&>*]:!m-0 flex",
-  cellRenderer: "agGroupCellRenderer",
-  cellRendererParams: {
-    innerRendererSelector({ data }: ICellRendererParams<ITreeRow>) {
-      return {
-        component: AGTableValue,
-        params: {
-          data: data,
-        },
-      };
+const columnDefs = [];
+if (props.serverPaging) {
+  columnDefs.push({
+    headerName: "Name",
+    field: "name",
+  });
+}
+else {
+  columnDefs.push({
+    headerName: "Value",
+    field: "value",
+    cellClass: "p-0 pl-2 [&>*]:!p-0 [&>*]:!m-0 flex",
+    cellRenderer: "agGroupCellRenderer",
+    cellRendererParams: {
+      innerRendererSelector({ data }: ICellRendererParams<ITreeRow>) {
+        return {
+          component: AGTableValue,
+          params: {
+            data: data,
+          },
+        };
+      },
     },
-  },
-}, {
-  headerName: "",
-  field: "status",
-  pinned: "right",
-  maxWidth: 40,
-  cellClass: "p-0 [&>*]:!p-0 [&>*]:!m-0 flex justify-center",
-  cellRenderer: "agGroupCellRenderer",
-  cellRendererParams: {
-    innerRendererSelector({ data }: ICellRendererParams<ITreeRow>) {
-      return {
-        component: AGTableStatus,
-        params: {
-          status: data?.status,
-        },
-      };
+  }, {
+    headerName: "",
+    field: "status",
+    pinned: "right",
+    maxWidth: 40,
+    cellClass: "p-0 [&>*]:!p-0 [&>*]:!m-0 flex justify-center",
+    cellRenderer: "agGroupCellRenderer",
+    cellRendererParams: {
+      innerRendererSelector({ data }: ICellRendererParams<ITreeRow>) {
+        return {
+          component: AGTableStatus,
+          params: {
+            status: data?.status,
+          },
+        };
+      },
     },
-  },
-}];
+  });
+}
 const autoGroupColumnDef = {
   headerName: "Field",
   field: "field",
@@ -181,11 +195,38 @@ function processData(items?: DiffGet200ResponseInner[]) {
   metadata.value = meta;
 }
 
-function onGridReady(event: GridReadyEvent) {
-  gridApi.value = event.api;
+function onGridReady({ api }: GridReadyEvent) {
+  gridApi.value = api;
+  if (props.serverPaging) {
+    api.setServerSideDatasource({
+      getRows(params: IServerSideGetRowsParams) {
+        // TODOJEF: This is where we need to fire the event and use params.success
+        console.log("getRows", params.request.startRow, params.request.endRow);
+        emit("load", params);
+      },
+    });
+  }
 }
 
-watchEffect(() => processData(diffRecords.value));
+function onPaginationChanged(event: PaginationChangedEvent) {
+  // TODOJEF: I don't think we need this?
+}
+
+watch(() => props.items, (items) => {
+  if (props.serverPaging) {
+    console.log("changed", items);
+    gridApi.value?.refreshServerSide({
+      route: undefined,
+      purge: true,
+    });
+  }
+  else {
+    console.log(items);
+    processData(items);
+  }
+}, {
+  immediate: true,
+});
 watch(showUnchanged, () => gridApi.value?.onFilterChanged());
 </script>
 

@@ -4,3 +4,4 @@ export * from './diff-model';
 export * from './diff-model-field';
 export * from './diff-model-previous';
 export * from './diff-model-value';
+export * from './random-get200-response';

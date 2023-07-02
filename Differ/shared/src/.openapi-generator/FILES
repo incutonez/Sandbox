@@ -3,6 +3,7 @@
 .openapi-generator-ignore
 api.ts
 api/diff-api.ts
+api/random-api.ts
 base.ts
 common.ts
 configuration.ts
@@ -15,3 +16,4 @@ models/diff-model-previous.ts
 models/diff-model-value.ts
 models/diff-model.ts
 models/index.ts
+models/random-get200-response.ts

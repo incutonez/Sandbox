@@ -5,7 +5,29 @@ info:
   description: API Endpoints for Differ Application
 tags:
   - name: diff
+  - name: random
 paths:
+  /random:
+    get:
+      tags:
+        - random
+      description: Returns a list of random names, paginated
+      operationId: random-get
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
   /diff:
     get:
       tags:
@@ -24,7 +46,7 @@ components:
       required:
         - field
         - value
-      properties: 
+      properties:
         field:
           oneOf:
             - type: number
@@ -44,12 +66,12 @@ components:
             - type: boolean
         status:
           $ref: '#/components/schemas/ChangeStatus'
-  responses: 
+  responses:
     200ResponseDiff:
       description: OK
-      content: 
+      content:
         application/json:
-          schema: 
+          schema:
             type: array
             items:
               type: object
