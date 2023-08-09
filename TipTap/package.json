@@ -22,8 +22,8 @@
     "@vitejs/plugin-vue": "^4.2.3",
     "eslint": "^8.46.0",
     "eslint-plugin-import": "^2.28.0",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5",
-    "vue-tsc": "^1.8.5"
+    "typescript": "^5.1.6",
+    "vite": "^4.4.9",
+    "vue-tsc": "^1.8.8"
   }
 }

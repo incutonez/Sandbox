@@ -10,27 +10,27 @@
     "explode": "npx rimraf node_modules package-lock.json && npm i"
   },
   "dependencies": {
-    "@material-design-icons/font": "^0.14.7",
-    "ag-grid-community": "^29.3.5",
-    "ag-grid-enterprise": "^29.3.5",
-    "ag-grid-vue3": "^29.3.5",
+    "@material-design-icons/font": "^0.14.10",
+    "ag-grid-community": "^30.0.6",
+    "ag-grid-enterprise": "^30.0.6",
+    "ag-grid-vue3": "^30.0.6",
     "shared-differ": "file:../shared",
-    "vue": "^3.3.2"
+    "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@types/node": "^20.1.4",
-    "@typescript-eslint/parser": "^5.59.6",
-    "@vitejs/plugin-vue": "^4.1.0",
+    "@types/node": "^20.4.9",
+    "@typescript-eslint/parser": "^6.3.0",
+    "@vitejs/plugin-vue": "^4.2.3",
     "autoprefixer": "^10.4.14",
-    "eslint": "^8.40.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-tailwindcss": "^3.11.0",
-    "eslint-plugin-vue": "^9.12.0",
-    "postcss": "^8.4.23",
-    "tailwindcss": "^3.3.2",
-    "typescript": "^5.0.2",
-    "vite": "^4.3.2",
-    "vue-eslint-parser": "^9.3.0",
-    "vue-tsc": "^1.4.2"
+    "eslint": "^8.46.0",
+    "eslint-plugin-import": "^2.28.0",
+    "eslint-plugin-tailwindcss": "^3.13.0",
+    "eslint-plugin-vue": "^9.16.1",
+    "postcss": "^8.4.27",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.9",
+    "vue-eslint-parser": "^9.3.1",
+    "vue-tsc": "^1.8.8"
   }
 }

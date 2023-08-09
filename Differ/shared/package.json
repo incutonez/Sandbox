@@ -10,9 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@openapitools/openapi-generator-cli": "^2.6.0"
+    "@openapitools/openapi-generator-cli": "^2.7.0"
   },
   "devDependencies": {
-    "typescript": "^5.0.4"
+    "typescript": "^5.1.6"
   }
 }

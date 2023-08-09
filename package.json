@@ -33,6 +33,10 @@
     "CompanyContacts/api",
     "CompanyContacts/shared",
     "CompanyContacts/ui",
-    "RPAN"
+    "RPAN",
+    "Differ/api",
+    "Differ/shared",
+    "Differ/ui",
+    "TipTap"
   ]
 }
