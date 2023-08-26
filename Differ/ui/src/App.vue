@@ -16,11 +16,11 @@
 </template>
 
 <script setup lang="ts">
-import AGTable from "@/components/AGTable.vue";
-import { diffRecords, getDiff } from "@/api/diff";
 import { ref } from "vue";
-import { getRandomData } from "@/api/random";
 import type { IServerSideGetRowsParams } from "ag-grid-community";
+import { diffRecords, getDiff } from "@/api/diff";
+import { getRandomData } from "@/api/random";
+import AGTable from "@/components/AGTable.vue";
 
 const differ = false;
 const items = ref<any>([]);
