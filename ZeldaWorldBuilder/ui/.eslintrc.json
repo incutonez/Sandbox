@@ -1,4 +1,6 @@
 ﻿{
+  "root": true,
+  "parser": "vue-eslint-parser",
   "extends": [
     "eslint:recommended",
     "plugin:vue/vue3-strongly-recommended"
@@ -9,12 +11,20 @@
     "node": true
   },
   "parserOptions": {
+    // This parser means it parses script tags only, per https://www.npmjs.com/package/vue-eslint-parser
+    "parser": "@typescript-eslint/parser",
     "sourceType": "module",
     "ecmaVersion": "latest"
   },
-  "plugins": ["eslint-plugin-tailwindcss"],
+  "plugins": ["eslint-plugin-tailwindcss", "eslint-plugin-import", "simple-import-sort"],
   "rules": {
     "vue/attributes-order": "error",
-    "tailwindcss/classnames-order": "error"
+    "tailwindcss/classnames-order": "error",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [["^\\u0000", "^vue", "^@?\\w", "^[^.]", "^\\."]]
+      }
+    ]
   }
 }

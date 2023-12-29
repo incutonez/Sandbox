@@ -1,21 +1,21 @@
-import type { DiffModel } from "shared-differ";
+import type { DiffModel } from "@incutonez/differ-shared";
 
 export interface ITreeRow extends DiffModel {
-    path?: (string | number)[];
+	path?: (string | number)[];
 }
 
 export interface ITreeRowMeta {
-    index: number;
-    date: number;
-    username: string;
-    changes: {
-        create: number;
-        update: number;
-        delete: number;
-    }
+	index: number;
+	date: number;
+	username: string;
+	changes: {
+		create: number;
+		update: number;
+		delete: number;
+	};
 }
 
 export interface IPropsAGTable {
-    serverPaging?: boolean;
-    items: any[];
+	serverPaging?: boolean;
+	items: any[];
 }

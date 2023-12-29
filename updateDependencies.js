@@ -1,10 +1,10 @@
 ﻿import { execSync } from "child_process";
 
-const apps = ["CompanyContacts/api", "CompanyContacts/shared", "CompanyContacts/ui", "RPAN", "ZeldaWorldBuilder/ui", "Differ/api", "Differ/ui", "Differ/shared", "TipTap"];
+const apps = ["CompanyContacts/api", "CompanyContacts/shared", "CompanyContacts/ui", "RPAN", "ZeldaWorldBuilder/ui", "Differ/api", "Differ/ui", "Differ/shared", "TipTap", "Modeling"];
 apps.forEach((app) => {
-  console.info(`Updating: ${app}`);
-  const out = execSync("npx npm-check-updates -u", {
-    cwd: app,
-  });
-  console.info(out.toString());
+	console.info(`Updating: ${app}`);
+	const out = execSync("npx npm-check-updates -u", {
+		cwd: app,
+	});
+	console.info(out.toString());
 });

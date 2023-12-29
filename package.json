@@ -1,8 +1,6 @@
 {
   "name": "@incutonez/sandbox",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "type": "module",
   "private": false,
   "scripts": {
@@ -12,21 +10,25 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "updateDeps": "node ./updateDependencies.js",
     "lint": "npx eslint . --ext .js --fix",
-    "build:zelda": "cd ZeldaWorldBuilder/ui && npm run build"
+    "lint:fix": "prettier --write && npx eslint --fix",
+    "build:zelda": "cd ZeldaWorldBuilder/ui && npm run build",
+    "explode": "npm cache clean --force && npx rimraf package-lock.json node_modules && npm i"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/incutonez/Sandbox.git"
   },
-  "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/incutonez/applications/issues"
   },
-  "homepage": "https://github.com/incutonez/applications#readme",
+  "homepage": "https://github.com/incutonez/Sandbox#readme",
   "devDependencies": {
     "eslint": "^8.17.0",
-    "eslint-plugin-import": "^2.26.0"
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.1.1"
   },
   "workspaces": [
     "ZeldaWorldBuilder/ui",
@@ -37,6 +39,17 @@
     "Differ/api",
     "Differ/shared",
     "Differ/ui",
-    "TipTap"
-  ]
+    "TipTap",
+    "Modeling"
+  ],
+  "engines": {
+    "node": ">=18",
+    "npm": ">=9"
+  },
+  "lint-staged": {
+    "*.{js,mjs,cjs,jsx,ts,tsx,vue}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  }
 }

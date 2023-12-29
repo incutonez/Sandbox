@@ -1,5 +1,9 @@
 {
-  "extends": "eslint:recommended",
+  "root": true,
+  "parser": "vue-eslint-parser",
+  "extends": [
+    "eslint:recommended"
+  ],
   "env": {
     "browser": true,
     "es2022": true,
@@ -7,23 +11,29 @@
     "jest": true
   },
   "parserOptions": {
-    "sourceType": "module"
+    // This parser means it parses script tags only, per https://www.npmjs.com/package/vue-eslint-parser
+    "parser": "@typescript-eslint/parser",
+    "sourceType": "module",
+    "ecmaVersion": "latest"
   },
-  "plugins": ["eslint-plugin-import", "simple-import-sort"],
-  "ignorePatterns": [
-    "dist"
-  ],
+  "plugins": ["eslint-plugin-import", "@typescript-eslint", "simple-import-sort"],
   "rules": {
-    "brace-style": ["error", "stroustrup"],
-    "curly": ["error", "all"],
-    "space-before-function-paren": ["error", {
-      "anonymous": "never",
-      "named": "never",
-      "asyncArrow": "always"
-    }],
+    "space-before-function-paren": ["error",
+      {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+      }],
+    "function-call-argument-newline": ["error", "never"],
+    "function-paren-newline": ["error", "never"],
+    "no-mixed-spaces-and-tabs": "off",
+    "no-var": "error",
+    "@typescript-eslint/no-unused-vars": "error",
     "semi": [2, "always"],
     "quotes": ["error", "double"],
-    "no-mixed-spaces-and-tabs": "off",
+    "curly": "error",
+    "multiline-ternary": ["error", "never"],
+    "brace-style": ["error", "stroustrup"],
     "comma-dangle": [
       "error",
       "always-multiline"
@@ -48,7 +58,6 @@
     ],
     "object-property-newline": "error",
     "no-trailing-spaces": ["error"],
-    "no-var": "error",
     "arrow-spacing": "error",
     "no-duplicate-imports": "error",
     "arrow-parens": "error",
@@ -69,22 +78,7 @@
     "simple-import-sort/imports": [
       "error",
       {
-        "groups": [
-          // Side effect imports.
-          ["^\\u0000"],
-          // Node.js builtins prefixed with `node:`.
-          ["^node:"],
-          ["^vue"],
-          // Packages.
-          // Things that start with a letter (or digit or underscore), or `@` followed by a letter.
-          ["^@?\\w"],
-          // Absolute imports and other imports such as Vue-style `@/foo`.
-          // Anything not matched in another group.
-          ["^"],
-          // Relative imports.
-          // Anything that starts with a dot.
-          ["^\\."]
-        ]
+        "groups": [["^\\u0000", "^vue", "^@?\\w", "^[^.]", "^\\."]]
       }
     ]
   }

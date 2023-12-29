@@ -24,7 +24,6 @@
     "brace-style": ["error", "stroustrup"],
     "curly": ["error", "all"],
     "space-before-function-paren": ["error", "never"],
-    "indent": ["error", 2, {"SwitchCase": 1}],
     "semi": [2, "always"],
     "quotes": ["error", "double"],
     "simple-import-sort/imports": ["error", {
@@ -69,7 +68,6 @@
     "computed-property-spacing": ["error", "never"],
     "func-call-spacing": ["error", "never"],
     "new-parens": "error",
-    "no-tabs": "error",
     "prefer-const": "error",
     "array-bracket-spacing": ["error", "never"],
     "comma-spacing": ["error", { "before": false, "after": true }],

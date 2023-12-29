@@ -12,7 +12,7 @@
       />
       <BaseButton
         text="New"
-        class="self-start mt-1 rounded default"
+        class="default mt-1 self-start rounded"
         @click="onClickNewButton"
       />
     </div>
@@ -25,7 +25,7 @@
       :get-cell-color="getCellColor"
       @replace-cell="onReplaceCell"
     />
-    <div class="p-4 space-y-2">
+    <div class="space-y-2 p-4">
       <div class="flex justify-between">
         <FieldCheckBox
           v-model="showGridLines"
@@ -34,12 +34,12 @@
         <div>
           <BaseButton
             text="Save"
-            class="mr-2 rounded default"
+            class="default mr-2 rounded"
             @click="onClickSaveBtn"
           />
           <BaseButton
             text="Load"
-            class="rounded default"
+            class="default rounded"
             @click="onClickLoadBtn"
           />
           <input
@@ -112,12 +112,12 @@
             />
             <div
               v-show="showColors"
-              class="w-16 h-16 bg-blue-100"
+              class="h-16 w-16 bg-blue-100"
             >
               <img
                 v-if="selectedTile.src"
                 :src="selectedTile.src"
-                class="w-full h-full"
+                class="h-full w-full"
                 alt="Tile Image"
               >
             </div>
@@ -182,7 +182,7 @@
               label="Type"
               label-width="auto"
             />
-            <div class="flex justify-center w-16 h-16 bg-blue-100">
+            <div class="flex h-16 w-16 justify-center bg-blue-100">
               <img
                 v-if="selectedItem.src"
                 :src="selectedItem.src"
@@ -211,7 +211,7 @@
                 label-width="w-12"
               />
             </div>
-            <div class="flex justify-center w-16 h-16 bg-blue-100">
+            <div class="flex h-16 w-16 justify-center bg-blue-100">
               <img
                 v-if="selectedEnemy.src"
                 :src="selectedEnemy.src"
@@ -267,32 +267,18 @@
 </template>
 
 <script>
-import { WorldColors } from "ui/classes/enums/WorldColors.js";
-import { Tiles } from "ui/classes/enums/Tiles.js";
-import {
-  computed,
-  provide,
-  reactive,
-  ref,
-  watch,
-} from "vue";
-import { Grid } from "ui/classes/models/Grid.js";
-import BaseGrid from "ui/components/BaseGrid.vue";
-import { useKeyboardMouseProvider } from "ui/composables/useKeyboardMouseProvider.js";
-import { ScreenTemplates } from "ui/classes/enums/ScreenTemplates.js";
+import { computed, provide, reactive, ref, watch } from "vue";
+import { BaseButton, BaseField, FieldCheckBox, FieldComboBox, FieldInteger, FieldNumber } from "@incutonez/core-ui";
 import { isArray } from "@incutonez/shared";
-import {
-  BaseButton,
-  BaseField,
-  FieldCheckBox,
-  FieldComboBox,
-  FieldInteger,
-  FieldNumber,
-  BaseLabel,
-} from "@incutonez/core-ui";
-import BaseCard from "ui/components/BaseCard.vue";
 import { Items } from "ui/classes/enums/Items.js";
 import { Enemies } from "ui/classes/enums/NPCs.js";
+import { ScreenTemplates } from "ui/classes/enums/ScreenTemplates.js";
+import { Tiles } from "ui/classes/enums/Tiles.js";
+import { WorldColors } from "ui/classes/enums/WorldColors.js";
+import { Grid } from "ui/classes/models/Grid.js";
+import BaseCard from "ui/components/BaseCard.vue";
+import BaseGrid from "ui/components/BaseGrid.vue";
+import { useKeyboardMouseProvider } from "ui/composables/useKeyboardMouseProvider.js";
 
 /**
  * TODOJEF:
@@ -307,145 +293,144 @@ import { Enemies } from "ui/classes/enums/NPCs.js";
  * -- Like CanBreak, CanBurn, CanBomb
  */
 export default {
-  name: "App",
-  components: {
-    BaseCard,
-    FieldInteger,
-    BaseButton,
-    BaseGrid,
-    FieldComboBox,
-    BaseField,
-    FieldCheckBox,
-    BaseLabel,
-    FieldNumber,
-  },
-  setup() {
-    const fileInputEl = ref(null);
-    const contextMenu = ref(null);
-    const selectedCell = ref(null);
-    const selectedScreen = ref(null);
-    const showGridLines = ref(true);
-    const overworldRecords = reactive([]);
-    const gridRecord = ref(addGridRecord());
-    const selectedId = ref(gridRecord.value.Name);
-    const isTransition = computed(() => selectedCell.value?.tile.isTransition);
-    const selectedTile = computed(() => selectedCell.value?.tile);
-    const selectedItem = computed(() => selectedCell.value?.item);
-    const selectedEnemy = computed(() => selectedCell.value?.enemy);
-    const showColors = computed(() => !isTransition.value && selectedTile.value.hasImage());
-    provide("pressedKeys", useKeyboardMouseProvider());
+	name: "App",
+	components: {
+		BaseCard,
+		FieldInteger,
+		BaseButton,
+		BaseGrid,
+		FieldComboBox,
+		BaseField,
+		FieldCheckBox,
+		FieldNumber,
+	},
+	setup() {
+		const fileInputEl = ref(null);
+		const contextMenu = ref(null);
+		const selectedCell = ref(null);
+		const selectedScreen = ref(null);
+		const showGridLines = ref(true);
+		const overworldRecords = reactive([]);
+		const gridRecord = ref(addGridRecord());
+		const selectedId = ref(gridRecord.value.Name);
+		const isTransition = computed(() => selectedCell.value?.tile.isTransition);
+		const selectedTile = computed(() => selectedCell.value?.tile);
+		const selectedItem = computed(() => selectedCell.value?.item);
+		const selectedEnemy = computed(() => selectedCell.value?.enemy);
+		const showColors = computed(() => !isTransition.value && selectedTile.value.hasImage());
+		provide("pressedKeys", useKeyboardMouseProvider());
 
-    watch(selectedId, () => {
-      selectedCell.value = null;
-      gridRecord.value = overworldRecords.find(({ Name }) => Name === selectedId.value);
-    });
+		watch(selectedId, () => {
+			selectedCell.value = null;
+			gridRecord.value = overworldRecords.find(({ Name }) => Name === selectedId.value);
+		});
 
-    // TODOJEF: Pick up with adding the export to the new JSON format with Overworld output
-    function addGridRecord(config = {}) {
-      const record = new Grid({
-        totalRows: 11,
-        totalColumns: 16,
-        ...config,
-      });
-      overworldRecords.push(record);
-      return record;
-    }
+		// TODOJEF: Pick up with adding the export to the new JSON format with Overworld output
+		function addGridRecord(config = {}) {
+			const record = new Grid({
+				totalRows: 11,
+				totalColumns: 16,
+				...config,
+			});
+			overworldRecords.push(record);
+			return record;
+		}
 
-    function getCellColor() {
-      return WorldColors.findRecord(gridRecord.value.GroundColor)?.backgroundStyle;
-    }
+		function getCellColor() {
+			return WorldColors.findRecord(gridRecord.value.GroundColor)?.backgroundStyle;
+		}
 
-    function onUpdateTileColor() {
-      selectedTile.value.updateImage();
-    }
+		function onUpdateTileColor() {
+			selectedTile.value.updateImage();
+		}
 
-    function onUpdateEnemyColor() {
-      selectedEnemy.value.updateImage();
-    }
+		function onUpdateEnemyColor() {
+			selectedEnemy.value.updateImage();
+		}
 
-    function onReplaceCell({ indices, replacement }) {
-      if (!isArray(indices)) {
-        indices = [indices];
-        // Make sure we update the selection with the replacement
-        selectedCell.value = replacement;
-      }
-      indices.forEach((idx) => {
-        const record = gridRecord.value.cells[idx];
-        const clone = replacement.clone({
-          exclude: ["grid", "Coordinates"],
-        });
-        clone.set({
-          Coordinates: record.Coordinates,
-          grid: record.grid,
-        });
-        // TODO: Consider figuring out how the clone be added to the cell property without having to manually set it
-        clone.tile.cell = clone;
-        clone.item.cell = clone;
-        clone.enemy.cell = clone;
-        gridRecord.value.cells[idx] = clone;
-      });
-    }
+		function onReplaceCell({ indices, replacement }) {
+			if (!isArray(indices)) {
+				indices = [indices];
+				// Make sure we update the selection with the replacement
+				selectedCell.value = replacement;
+			}
+			indices.forEach((idx) => {
+				const record = gridRecord.value.cells[idx];
+				const clone = replacement.clone({
+					exclude: ["grid", "Coordinates"],
+				});
+				clone.set({
+					Coordinates: record.Coordinates,
+					grid: record.grid,
+				});
+				// TODO: Consider figuring out how the clone be added to the cell property without having to manually set it
+				clone.tile.cell = clone;
+				clone.item.cell = clone;
+				clone.enemy.cell = clone;
+				gridRecord.value.cells[idx] = clone;
+			});
+		}
 
-    function onClickLoadBtn() {
-      fileInputEl.value.click();
-    }
+		function onClickLoadBtn() {
+			fileInputEl.value.click();
+		}
 
-    function onChangeLoadFile() {
-      const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        gridRecord.value.loadFileData(JSON.parse(reader.result));
-      });
-      const [file] = fileInputEl.value.files;
-      if (file) {
-        reader.readAsText(file);
-      }
-    }
+		function onChangeLoadFile() {
+			const reader = new FileReader();
+			reader.addEventListener("load", () => {
+				gridRecord.value.loadFileData(JSON.parse(reader.result));
+			});
+			const [file] = fileInputEl.value.files;
+			if (file) {
+				reader.readAsText(file);
+			}
+		}
 
-    function onClickSaveBtn() {
-      // TODO: Move this logic to a utility function
-      const contents = new Blob([JSON.stringify(gridRecord.value.getConfig())], {
-        type: "application/json",
-      });
-      const tempEl = document.createElement("a");
-      tempEl.download = `${gridRecord.value.X}${gridRecord.value.Y}.json`;
-      tempEl.href = window.URL.createObjectURL(contents);
-      tempEl.click();
-    }
+		function onClickSaveBtn() {
+			// TODO: Move this logic to a utility function
+			const contents = new Blob([JSON.stringify(gridRecord.value.getConfig())], {
+				type: "application/json",
+			});
+			const tempEl = document.createElement("a");
+			tempEl.download = `${gridRecord.value.X}${gridRecord.value.Y}.json`;
+			tempEl.href = window.URL.createObjectURL(contents);
+			tempEl.click();
+		}
 
-    function onClickNewButton() {
-      addGridRecord({
-        Name: "TEMPORARY NAME",
-      });
-    }
+		function onClickNewButton() {
+			addGridRecord({
+				Name: "TEMPORARY NAME",
+			});
+		}
 
-    return {
-      gridRecord,
-      overworldRecords,
-      showGridLines,
-      selectedId,
-      selectedScreen,
-      fileInputEl,
-      isTransition,
-      contextMenu,
-      selectedTile,
-      selectedItem,
-      selectedEnemy,
-      selectedCell,
-      showColors,
-      getCellColor,
-      WorldColors,
-      ScreenTemplates,
-      Tiles,
-      Items,
-      Enemies,
-      onClickNewButton,
-      onReplaceCell,
-      onClickSaveBtn,
-      onClickLoadBtn,
-      onChangeLoadFile,
-      onUpdateTileColor,
-      onUpdateEnemyColor,
-    };
-  },
+		return {
+			gridRecord,
+			overworldRecords,
+			showGridLines,
+			selectedId,
+			selectedScreen,
+			fileInputEl,
+			isTransition,
+			contextMenu,
+			selectedTile,
+			selectedItem,
+			selectedEnemy,
+			selectedCell,
+			showColors,
+			getCellColor,
+			WorldColors,
+			ScreenTemplates,
+			Tiles,
+			Items,
+			Enemies,
+			onClickNewButton,
+			onReplaceCell,
+			onClickSaveBtn,
+			onClickLoadBtn,
+			onChangeLoadFile,
+			onUpdateTileColor,
+			onUpdateEnemyColor,
+		};
+	},
 };
 </script>

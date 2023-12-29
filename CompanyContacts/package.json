@@ -9,10 +9,5 @@
     "ui": "cd ui && npm start",
     "add": "npm i %npm_config_first% --workspace=%npm_config_last%",
     "del": "npm uninstall %npm_config_first% --workspace=%npm_config_last%"
-  },
-  "workspaces": [
-    "api",
-    "shared",
-    "ui"
-  ]
+  }
 }
