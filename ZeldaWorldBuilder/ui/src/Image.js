@@ -1,7 +1,7 @@
 ﻿import { Enum, isString, makeArray } from "@incutonez/shared";
 import colorConvert from "color-convert";
 import deltaE from "delta-e";
-import { MIME_PNG, read } from "jimp/es";
+import Jimp from "jimp/es";
 import { Items } from "ui/classes/enums/Items.js";
 import { Enemies } from "ui/classes/enums/NPCs.js";
 import { Tiles } from "ui/classes/enums/Tiles.js";
@@ -112,7 +112,7 @@ export async function replaceColor({ image, type = ImageType.Tiles, replaceColor
 			}
 		});
 	}
-	return image.getBase64Async(MIME_PNG);
+	return image.getBase64Async(Jimp.MIME_PNG);
 }
 
 export async function loadImages() {
@@ -162,11 +162,11 @@ export async function getImage({ name, type = ImageType.Tiles, encode = false })
 	const key = `${type}.${name}`;
 	let found = localStorage.getItem(key);
 	if (!found) {
-		found = await read({
+		found = await Jimp.read({
 			url: `${type}/${name}.png`,
 		});
 		ImageCache[key] = found;
-		found = await found.getBase64Async(MIME_PNG);
+		found = await found.getBase64Async(Jimp.MIME_PNG);
 		// It seems more efficient to cache the Jimp Object and clone it than read it each time
 		localStorage.setItem(key, found);
 	}
@@ -176,7 +176,7 @@ export async function getImage({ name, type = ImageType.Tiles, encode = false })
 	found = ImageCache[key];
 	// We're probably at a page refresh, and it's been saved in localStorage, but not our Jimp Object cache
 	if (!found) {
-		found = ImageCache[key] = await read(await base64ToBuffer(localStorage.getItem(key)));
+		found = ImageCache[key] = await Jimp.read(await base64ToBuffer(localStorage.getItem(key)));
 	}
 	return found.clone();
 }
