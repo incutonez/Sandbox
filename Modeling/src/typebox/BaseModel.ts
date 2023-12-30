@@ -1,22 +1,25 @@
 import { TSchema } from "@sinclair/typebox";
 import { Value } from "@sinclair/typebox/value";
 
-export class BaseModel {
-	static schema: TSchema;
+export interface IModel {
+	isValid(): Boolean;
+	getData: () => Record<string, any>;
+}
 
-	static create() {
-		return Object.assign(new this(), Value.Create(this.schema));
-	}
+export function useModel<T extends TSchema>(schema: T) {
+	const record = Value.Create(schema) as T & IModel;
 
-	isValid() {
-		return Value.Check(Object.getPrototypeOf(this).constructor.schema, this.getData());
-	}
+	record.isValid = () => {
+		return Value.Check(schema, record.getData());
+	};
 
-	getData() {
-		const data: Record<any, any> = {};
-		for (const key in this) {
-			data[key as keyof typeof this] = Reflect.get(this, key);
+	record.getData = () => {
+		const data: Record<string, any> = {};
+		for (const key in record) {
+			data[key] = record[key];
 		}
 		return data;
-	}
+	};
+
+	return record;
 }

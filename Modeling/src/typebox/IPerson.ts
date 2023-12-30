@@ -17,4 +17,9 @@ export const IPerson = Type.Object({
 		state: Type.String(),
 		zipCode: Type.String(),
 	}),
+	name: Type.Function([], Type.String(), {
+		default() {
+			return `${this.firstName} ${this.lastName}`;
+		},
+	}),
 });
