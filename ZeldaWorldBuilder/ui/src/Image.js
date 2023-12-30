@@ -162,6 +162,7 @@ export async function getImage({ name, type = ImageType.Tiles, encode = false })
 	const key = `${type}.${name}`;
 	let found = localStorage.getItem(key);
 	if (!found) {
+		// TODOJEF: This is broken... potentially figure out another way of reading an image?
 		found = await Jimp.read({
 			url: `${type}/${name}.png`,
 		});
