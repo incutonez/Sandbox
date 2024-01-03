@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import FieldBase from "@/FieldBase.vue";
+import FieldBase from "@/components/FieldBase.vue";
 
 interface IProps {
 	value: string | boolean | number | undefined;

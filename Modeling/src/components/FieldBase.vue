@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import FieldLabel from "@/FieldLabel.vue";
+import FieldLabel from "@/components/FieldLabel.vue";
 
 interface IProps {
 	label?: string;
@@ -37,6 +37,7 @@ const props = withDefaults(defineProps<IProps>(), {
 	wrapperCls: undefined,
 	label: undefined,
 });
+// Not sure what I'm missing... but this seems like an issue?  https://github.com/vuejs/core/issues/8276
 // eslint-disable-next-line no-undef
 const modelValue = defineModel("modelValue");
 
