@@ -2,7 +2,8 @@
   "root": true,
   "parser": "vue-eslint-parser",
   "extends": [
-    "eslint:recommended"
+    "eslint:recommended",
+    "plugin:vue/vue3-strongly-recommended"
   ],
   "env": {
     "browser": true,
@@ -18,6 +19,7 @@
   },
   "plugins": ["eslint-plugin-import", "@typescript-eslint", "simple-import-sort"],
   "rules": {
+    "vue/html-indent": ["error", "tab"],
     "space-before-function-paren": ["error",
       {
         "anonymous": "never",

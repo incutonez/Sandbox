@@ -1,0 +1,56 @@
+openapi: 3.0.3
+info:
+  version: 0.1.0
+  title: Modeling API Reference
+  description: API Modeling
+tags:
+  - name: person
+paths:
+  /person:
+    get:
+      operationId: list-people
+      description: Returns all people in the system
+      tags:
+        - person
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IPerson'
+components:
+  schemas:
+    IAddress:
+      type: object
+      required:
+        - lineOne
+        - city
+        - state
+        - zipCode
+      properties:
+        lineOne:
+          type: string
+        lineTwo:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zipCode:
+          type: string
+    IPerson:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - address
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        address:
+          $ref: '#/components/schemas/IAddress'
