@@ -1,9 +1,9 @@
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
 import { BaseModel } from "@/classValidator/BaseModel.ts";
 import { IAddress } from "@/generated";
 
 export class AddressModel extends BaseModel implements IAddress {
-	@IsNotEmpty()
+	@MinLength(1)
 	@IsString()
 	lineOne: string;
 

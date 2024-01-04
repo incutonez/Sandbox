@@ -1,11 +1,10 @@
-import { TSchema } from "@sinclair/typebox";
-import { Value } from "@sinclair/typebox/value";
+import { AnyZodObject } from "zod";
 import { ModelField } from "@/types";
 
 export const SymSchema = Symbol("schema");
 
 export class BaseModel {
-	[SymSchema]: TSchema;
+	[SymSchema]: AnyZodObject;
 
 	static create<T extends BaseModel>(this: new () => T, data = {} as Partial<ModelField<T>>) {
 		const record = new this();
@@ -14,7 +13,8 @@ export class BaseModel {
 	}
 
 	async isValid() {
-		return Value.Check(this[SymSchema], this.getData());
+		const response = this[SymSchema].safeParse(this);
+		return response.success;
 	}
 
 	getData() {

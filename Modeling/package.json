@@ -25,6 +25,7 @@
   "dependencies": {
     "@geut/openapi-box": "^2.2.0",
     "class-transformer": "^0.5.1",
-    "class-validator": "^0.14.0"
+    "class-validator": "^0.14.0",
+    "zod": "^3.22.4"
   }
 }

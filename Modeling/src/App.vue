@@ -11,6 +11,7 @@
 		</article>
 		<ClassValidatorView v-show="activeSection === 'Class Validator'" />
 		<TypeBoxView v-show="activeSection === 'TypeBox'" />
+		<ZodView v-show="activeSection === 'Zod'" />
 	</main>
 </template>
 
@@ -18,6 +19,7 @@
 import { ref } from "vue";
 import ClassValidatorView from "@/classValidator/ClassValidatorView.vue";
 import TypeBoxView from "@/typebox/TypeBoxView.vue";
+import ZodView from "@/zod/ZodView.vue";
 
 const sections = ["Class Validator", "TypeBox", "Zod", "Vee Validate"];
 const activeSection = ref(sections[0]);

@@ -1,15 +1,15 @@
 import { Type } from "class-transformer";
-import { IsNotEmpty, IsNotEmptyObject, IsString, ValidateNested } from "class-validator";
+import { IsNotEmptyObject, IsString, MinLength, ValidateNested } from "class-validator";
 import { AddressModel } from "@/classValidator/AddressModel.ts";
 import { BaseModel } from "@/classValidator/BaseModel.ts";
 import { IPerson } from "@/generated";
 
 export class PersonModel extends BaseModel implements IPerson {
-	@IsNotEmpty()
+	@MinLength(1)
 	@IsString()
 	firstName: string;
 
-	@IsNotEmpty()
+	@MinLength(1)
 	@IsString()
 	lastName: string;
 
