@@ -14,7 +14,7 @@
 					User Panel
 				</article>
 			</section>
-			<section class="flex flex-1 h-full w-full">
+			<section class="flex flex-1 w-full overflow-hidden">
 				<nav class="h-full w-64 border-r border-red-700 bg-red-200 p-4">
 					Nav
 				</nav>
