@@ -40,7 +40,8 @@
     "Differ/shared",
     "Differ/ui",
     "TipTap",
-    "Modeling"
+    "Modeling",
+    "PrimeVue"
   ],
   "engines": {
     "node": ">=18",

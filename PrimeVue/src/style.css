@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .writing-mode-vertical {
+        writing-mode: vertical-lr;
+    }
+}
+
+html, body, #app {
+    @apply h-full w-full;
+}

@@ -1,0 +1,88 @@
+﻿{
+  "root": true,
+  "parser": "vue-eslint-parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:vue/vue3-strongly-recommended"
+  ],
+  "env": {
+    "browser": true,
+    "es2022": true,
+    "node": true,
+    "jest": true
+  },
+  "parserOptions": {
+    // This parser means it parses script tags only, per https://www.npmjs.com/package/vue-eslint-parser
+    "parser": "@typescript-eslint/parser",
+    "sourceType": "module",
+    "ecmaVersion": "latest"
+  },
+  "plugins": ["eslint-plugin-import", "@typescript-eslint", "simple-import-sort"],
+  "rules": {
+    "vue/html-indent": ["error", "tab"],
+    "space-before-function-paren": ["error",
+      {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+      }],
+    "function-call-argument-newline": ["error", "never"],
+    "function-paren-newline": ["error", "never"],
+    "no-mixed-spaces-and-tabs": "off",
+    "no-var": "error",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/indent": ["error", "tab"],
+    "semi": [2, "always"],
+    "quotes": ["error", "double"],
+    "curly": "error",
+    "multiline-ternary": ["error", "never"],
+    "brace-style": ["error", "stroustrup"],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "eol-last": [
+      "error",
+      "always"
+    ],
+    "object-curly-newline": [
+      "error",
+      {
+        "ObjectExpression": {
+          "multiline": true,
+          "minProperties": 1
+        },
+        "ObjectPattern": "never"
+      }
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "object-property-newline": "error",
+    "no-trailing-spaces": ["error"],
+    "arrow-spacing": "error",
+    "no-duplicate-imports": "error",
+    "arrow-parens": "error",
+    "computed-property-spacing": ["error", "never"],
+    "func-call-spacing": ["error", "never"],
+    "new-parens": "error",
+    "prefer-const": "error",
+    "array-bracket-spacing": ["error", "never"],
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "array-element-newline": ["error", "consistent"],
+    "key-spacing": "error",
+    "import/newline-after-import": ["error", { "count": 1 }],
+    "space-infix-ops": "error",
+    "no-multi-spaces": "error",
+    "space-before-blocks": "error",
+    "keyword-spacing": "error",
+    "space-in-parens": "error",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [["^\\u0000", "^vue", "^@?\\w", "^[^.]", "^\\."]]
+      }
+    ]
+  }
+}
