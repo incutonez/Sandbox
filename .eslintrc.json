@@ -14,6 +14,7 @@
     "dist"
   ],
   "rules": {
+    "indent": ["error", "tab"],
     "brace-style": ["error", "stroustrup"],
     "curly": ["error", "all"],
     "space-before-function-paren": ["error", {
