@@ -20,40 +20,40 @@
 				</nav>
 				<main class="h-full w-full overflow-hidden">
 					<section class="h-full w-full">
-						<BaseDataTable :records="Data">
-							<Column
+						<GridTable :records="Data">
+							<GridColumn
 								field="first_name"
 								header="First Name"
 							/>
-							<Column
+							<GridColumn
 								field="last_name"
 								header="Last Name"
 							/>
-							<Column
+							<GridColumn
 								field="email"
 								header="Email"
 							/>
-							<Column
+							<GridColumn
 								field="gender"
 								header="Gender"
 							/>
-							<Column
+							<GridColumn
 								field="ip_address"
 								header="IP Address"
 							/>
-							<Column
+							<GridColumn
 								field="ip_address"
 								header="IP Address"
 							/>
-							<Column
+							<GridColumn
 								field="ip_address"
 								header="IP Address"
 							/>
-							<Column
+							<GridColumn
 								field="ip_address"
 								header="IP Address"
 							/>
-						</BaseDataTable>
+						</GridTable>
 					</section>
 				</main>
 			</section>
@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import Column from "primevue/column";
-import BaseDataTable from "@/components/BaseDataTable.vue";
+import GridColumn from "primevue/column";
+import GridTable from "@/components/GridTable.vue";
 import Data from "./MOCK_DATA.json";
 </script>

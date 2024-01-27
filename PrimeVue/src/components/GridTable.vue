@@ -10,7 +10,7 @@
 			#[slot]="scope"
 		>
 			<slot
-				:name="slot"
+				:name="slot as keyof typeof slots"
 				v-bind="scope ?? {}"
 			/>
 		</template>
@@ -19,10 +19,12 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import DataTable, { DataTableProps } from "primevue/datatable";
-import { IBaseDataTable } from "@/types/dataTable";
+import DataTable, { DataTableProps, DataTableSlots } from "primevue/datatable";
+import { IGridTable } from "@/types/dataTable";
 
-const props = withDefaults(defineProps<IBaseDataTable>(), {
+// Can't redefine emits, due to https://github.com/vuejs/core/issues/8457
+const slots = defineSlots<DataTableSlots>();
+const props = withDefaults(defineProps<IGridTable>(), {
 	showLinesColumn: true,
 	showLinesRow: true,
 	showHoverRow: true,
@@ -47,5 +49,3 @@ const propsComponent = computed(() => {
 	return tableProps;
 });
 </script>
-
-<style scoped lang="scss"></style>
