@@ -32,6 +32,9 @@
     "no-var": "error",
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/indent": ["error", "tab"],
+    "@typescript-eslint/ban-ts-comment": ["error", {
+      "ts-expect-error": "allow-with-description"
+    }],
     "semi": [2, "always"],
     "quotes": ["error", "double"],
     "curly": "error",

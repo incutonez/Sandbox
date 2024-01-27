@@ -20,14 +20,7 @@
 				</nav>
 				<main class="h-full w-full overflow-hidden">
 					<section class="h-full w-full">
-						<DataTable
-							show-gridlines
-							:value="Data"
-							row-hover
-							scrollable
-							scroll-height="flex"
-							class="w-full"
-						>
+						<BaseDataTable :records="Data">
 							<Column
 								field="first_name"
 								header="First Name"
@@ -60,7 +53,7 @@
 								field="ip_address"
 								header="IP Address"
 							/>
-						</DataTable>
+						</BaseDataTable>
 					</section>
 				</main>
 			</section>
@@ -70,6 +63,6 @@
 
 <script setup lang="ts">
 import Column from "primevue/column";
-import DataTable from "primevue/datatable";
+import BaseDataTable from "@/components/BaseDataTable.vue";
 import Data from "./MOCK_DATA.json";
 </script>
