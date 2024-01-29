@@ -4,10 +4,14 @@ export default {
 			"relative",
 
 			// Flex & Alignment
-			{ "flex flex-col": props.scrollable && props.scrollHeight === "flex" },
+			{
+				"flex flex-col": props.scrollable && props.scrollHeight === "flex",
+			},
 
 			// Size
-			{ "h-full": props.scrollable && props.scrollHeight === "flex" },
+			{
+				"h-full": props.scrollable && props.scrollHeight === "flex",
+			},
 
 			// Shape
 			"border-spacing-0 border-separate",
@@ -38,10 +42,15 @@ export default {
 	},
 	wrapper: ({ props }) => ({
 		class: [
-			{ relative: props.scrollable, "flex flex-col grow": props.scrollable && props.scrollHeight === "flex" },
+			{
+				relative: props.scrollable,
+				"flex flex-col grow": props.scrollable && props.scrollHeight === "flex",
+			},
 
 			// Size
-			{ "h-full": props.scrollable && props.scrollHeight === "flex" },
+			{
+				"h-full": props.scrollable && props.scrollHeight === "flex",
+			},
 		],
 	}),
 	header: ({ props }) => ({
@@ -109,30 +118,35 @@ export default {
 				"uppercase",
 
 				// Position
-				{ "sticky z-20 border-b": props.frozen || props.frozen === "" },
-				{ relative: context.resizable },
+				{
+					"sticky z-20 border-b": props.frozen || props.frozen === "",
+				},
+				{
+					relative: context.resizable,
+				},
 
 				// Alignment
 				"text-left",
 
 				// Shape
-				{ "border-r last:border-r-0": context?.showGridlines },
+				{
+					"border-r last:border-r-0": context?.showGridlines,
+				},
 				"border-0 border-b border-solid",
 				"border-slate-400",
 
 				// Spacing
 				context?.size === "small" ? "py-1.5 px-2" : context?.size === "large" ? "py-5 px-4" : "py-3.5 px-3",
 				// Color
-				(props.sortable === "" || props.sortable) && context.sorted ? "text-gray-800 bg-sky-100" : "text-gray-700 bg-slate-300",
+				(props.sortable === "" || props.sortable) && context.sorted ? "text-sky-900 bg-sky-200" : "text-gray-700 bg-slate-300",
 
 				// States
 				"focus-visible:outline-none focus-visible:outline-offset-0 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400",
 
-				// Transition
-				{ "transition duration-200": props.sortable === "" || props.sortable },
-
 				// Misc
-				{ "cursor-pointer": props.sortable === "" || props.sortable },
+				{
+					"cursor-pointer": props.sortable === "" || props.sortable,
+				},
 				{
 					"overflow-hidden space-nowrap bg-clip-padding": context.resizable,
 				},
@@ -142,14 +156,18 @@ export default {
 			class: "flex items-center",
 		},
 		sort: ({ context }) => ({
-			class: [context.sorted ? "text-sky-500" : "text-gray-700"],
+			class: [context.sorted ? "text-sky-900" : "text-gray-700"],
 		}),
 		bodycell: ({ props, context, state, parent }) => {
 			return {
 				class: [
 					//Position
-					{ "sticky box-border border-b": parent.instance.frozenRow },
-					{ "sticky box-border border-b": props.frozen || props.frozen === "" },
+					{
+						"sticky box-border border-b": parent.instance.frozenRow,
+					},
+					{
+						"sticky box-border border-b": props.frozen || props.frozen === "",
+					},
 					"text-sm",
 					"text-slate-800",
 
@@ -157,14 +175,26 @@ export default {
 					"text-left",
 
 					"border-0 border-b border-solid",
-					{ "last:border-r-0 border-r border-b": context?.showGridlines },
-					{ "bg-surface-0 dark:bg-surface-800": parent.instance.frozenRow || props.frozen || props.frozen === "" },
+					{
+						"last:border-r-0 border-r border-b": context?.showGridlines,
+					},
+					{
+						"bg-surface-0 dark:bg-surface-800": parent.instance.frozenRow || props.frozen || props.frozen === "",
+					},
 
 					// Spacing
-					{ "py-1.5 px-2": context?.size === "small" && !state["d_editing"] },
-					{ "py-5 px-4": context?.size === "large" && !state["d_editing"] },
-					{ "py-3.5 px-3": context?.size !== "large" && context?.size !== "small" && !state["d_editing"] },
-					{ "py-[0.6rem] px-2": state["d_editing"] },
+					{
+						"py-1.5 px-2": context?.size === "small" && !state["d_editing"],
+					},
+					{
+						"py-5 px-4": context?.size === "large" && !state["d_editing"],
+					},
+					{
+						"py-3.5 px-3": context?.size !== "large" && context?.size !== "small" && !state["d_editing"],
+					},
+					{
+						"py-[0.6rem] px-2": state["d_editing"],
+					},
 
 					// Color
 					"border-slate-400",
@@ -183,7 +213,9 @@ export default {
 				"text-left",
 
 				// Shape
-				{ "border-r last:border-r-0": context?.showGridlines },
+				{
+					"border-r last:border-r-0": context?.showGridlines,
+				},
 				"border-0 border-t border-solid",
 
 				// Spacing
@@ -257,14 +289,18 @@ export default {
 
 					// Color and Background
 					"bg-surface-0 dark:bg-surface-900",
-					{ "ring-1 ring-inset ring-surface-300 dark:ring-surface-700": !state.focused },
+					{
+						"ring-1 ring-inset ring-surface-300 dark:ring-surface-700": !state.focused,
+					},
 
 					// Transitions
 					"transition-all",
 					"duration-200",
 
 					// States
-					{ "outline-none outline-offset-0 ring-2 ring-primary-500 dark:ring-primary-400": state.focused },
+					{
+						"outline-none outline-offset-0 ring-2 ring-primary-500 dark:ring-primary-400": state.focused,
+					},
 
 					// Misc
 					"cursor-default",
@@ -285,7 +321,10 @@ export default {
 					// Color and Background
 					"bg-transparent",
 					"border-0",
-					{ "text-surface-800 dark:text-white/80": props.modelValue, "text-surface-400 dark:text-surface-500": !props.modelValue },
+					{
+						"text-surface-800 dark:text-white/80": props.modelValue,
+						"text-surface-400 dark:text-surface-500": !props.modelValue,
+					},
 					"placeholder:text-surface-400 dark:placeholder:text-surface-500",
 
 					"py-1.5 px-3",
@@ -317,7 +356,10 @@ export default {
 				// Font
 				"sm:text-sm",
 				"leading-none",
-				{ "font-normal": !context?.highlighted, "font-bold": context?.highlighted },
+				{
+					"font-normal": !context?.highlighted,
+					"font-bold": context?.highlighted,
+				},
 
 				// Position
 				"relative",
@@ -331,9 +373,15 @@ export default {
 				"py-2 px-4",
 
 				// Color
-				{ "text-surface-700 dark:text-white/80": !context?.highlighted },
-				{ "bg-surface-0 dark:bg-surface-800 text-surface-700 dark:text-white/80": !context?.highlighted },
-				{ "bg-primary-500 dark:bg-primary-400 text-white dark:text-surface-700": context?.highlighted },
+				{
+					"text-surface-700 dark:text-white/80": !context?.highlighted,
+				},
+				{
+					"bg-surface-0 dark:bg-surface-800 text-surface-700 dark:text-white/80": !context?.highlighted,
+				},
+				{
+					"bg-primary-500 dark:bg-primary-400 text-white dark:text-surface-700": context?.highlighted,
+				},
 
 				//States
 				"hover:bg-primary-500 dark:hover:bg-primary-400 hover:text-white dark:hover:text-surface-700",
@@ -379,14 +427,18 @@ export default {
 					"text-surface-800 dark:text-white/80",
 					"placeholder:text-surface-400 dark:placeholder:text-surface-500",
 					"bg-surface-0 dark:bg-surface-900",
-					{ "ring-1 ring-inset ring-surface-300 dark:ring-surface-700": !state.focused },
+					{
+						"ring-1 ring-inset ring-surface-300 dark:ring-surface-700": !state.focused,
+					},
 
 					// Transitions
 					"transition-all",
 					"duration-200",
 
 					// States
-					{ "outline-none outline-offset-0 ring-2 ring-primary-500 dark:ring-primary-400": state.focused },
+					{
+						"outline-none outline-offset-0 ring-2 ring-primary-500 dark:ring-primary-400": state.focused,
+					},
 
 					// Misc
 					"cursor-default",
@@ -476,7 +528,10 @@ export default {
 					// Font
 					"sm:text-sm",
 					"leading-none",
-					{ "font-normal": !context?.highlighted, "font-bold": context?.highlighted },
+					{
+						"font-normal": !context?.highlighted,
+						"font-bold": context?.highlighted,
+					},
 
 					// Position
 					"relative",
@@ -490,9 +545,15 @@ export default {
 					"py-2 px-4",
 
 					// Color
-					{ "text-surface-700 dark:text-white/80": !context?.highlighted },
-					{ "bg-surface-0 dark:bg-surface-800 text-surface-700 dark:text-white/80": !context?.highlighted },
-					{ "bg-primary-500 dark:bg-primary-400 text-white dark:text-surface-700": context?.highlighted },
+					{
+						"text-surface-700 dark:text-white/80": !context?.highlighted,
+					},
+					{
+						"bg-surface-0 dark:bg-surface-800 text-surface-700 dark:text-white/80": !context?.highlighted,
+					},
+					{
+						"bg-primary-500 dark:bg-primary-400 text-white dark:text-surface-700": context?.highlighted,
+					},
 
 					//States
 					"hover:bg-primary-500 dark:hover:bg-primary-400 hover:text-white dark:hover:text-surface-700",
@@ -670,7 +731,9 @@ export default {
 				"rounded-full",
 
 				// Color
-				{ "bg-primary-50 text-primary-700": context.active },
+				{
+					"bg-primary-50 text-primary-700": context.active,
+				},
 				"dark:text-white/70 dark:hover:text-white/80 dark:bg-surface-800",
 
 				// States
@@ -881,20 +944,34 @@ export default {
 				"rounded-full",
 
 				// Color
-				{ "text-surface-700 dark:text-white/80": !context.checked },
-				{ "bg-surface-0 dark:bg-surface-900": !context.checked },
-				{ "border-surface-300 dark:border-surface-700": !context.checked },
-				{ "border-primary-500 dark:border-primary-400": context.checked },
+				{
+					"text-surface-700 dark:text-white/80": !context.checked,
+				},
+				{
+					"bg-surface-0 dark:bg-surface-900": !context.checked,
+				},
+				{
+					"border-surface-300 dark:border-surface-700": !context.checked,
+				},
+				{
+					"border-primary-500 dark:border-primary-400": context.checked,
+				},
 
 				// States
-				{ "hover:border-primary-500 dark:hover:border-primary-400": !context.disabled },
-				{ "ring-2 ring-offset-2 ring-offset-surface-0 dark:ring-offset-surface-800 ring-primary-500 dark:ring-primary-400": context.focused },
+				{
+					"hover:border-primary-500 dark:hover:border-primary-400": !context.disabled,
+				},
+				{
+					"ring-2 ring-offset-2 ring-offset-surface-0 dark:ring-offset-surface-800 ring-primary-500 dark:ring-primary-400": context.focused,
+				},
 
 				// Transition
 				"transition duration-200 ease-in-out",
 
 				// Misc
-				{ "cursor-default opacity-60": context.disabled },
+				{
+					"cursor-default opacity-60": context.disabled,
+				},
 			],
 		}),
 		radiobuttonicon: {
@@ -945,7 +1022,9 @@ export default {
 				"transition-colors duration-200",
 
 				// Misc
-				{ "cursor-default opacity-60": context.disabled },
+				{
+					"cursor-default opacity-60": context.disabled,
+				},
 			],
 		}),
 		headercheckboxicon: {
@@ -1009,7 +1088,9 @@ export default {
 				"transition-colors duration-200",
 
 				// Misc
-				{ "cursor-default opacity-60": context.disabled },
+				{
+					"cursor-default opacity-60": context.disabled,
+				},
 			],
 		}),
 		checkboxicon: {
@@ -1041,16 +1122,28 @@ export default {
 				"data-table-row",
 				// Color
 				"dark:text-white/80",
-				{ "bg-surface-0 dark:bg-surface-800": props.frozenRow },
-				{ "even:bg-slate-200 even:text-slate-900": context.stripedRows && !context.selected },
-				{ "bg-sky-200": context.selected },
+				{
+					"bg-surface-0 dark:bg-surface-800": props.frozenRow,
+				},
+				{
+					"even:bg-slate-200 even:text-slate-900": context.stripedRows && !context.selected,
+				},
+				{
+					"bg-sky-200": context.selected,
+				},
 
 				// State
-				{ "focus:bg-sky-200 focus-visible:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-600 [&>td]:focus:border-b-transparent": props.selectionMode },
-				{ "hover:bg-sky-100 hover:text-slate-900": props.selectionMode && !context.selected },
+				{
+					"focus:bg-sky-200 focus-visible:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-600 [&>td]:focus:border-b-transparent": props.selectionMode,
+				},
+				{
+					"hover:bg-sky-100 hover:text-slate-900": props.selectionMode && !context.selected,
+				},
 
 				// Misc
-				{ "cursor-pointer": props.selectionMode },
+				{
+					"cursor-pointer": props.selectionMode,
+				},
 			],
 		};
 	},
@@ -1098,6 +1191,6 @@ export default {
 		class: "inline-block w-4 h-4",
 	},
 	resizehelper: {
-		class: "absolute hidden w-[2px] z-20 bg-primary-500 dark:bg-primary-400",
+		class: "absolute hidden w-[2px] z-20 bg-sky-500",
 	},
 };

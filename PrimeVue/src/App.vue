@@ -20,40 +20,10 @@
 				</nav>
 				<main class="h-full w-full overflow-hidden">
 					<section class="h-full w-full">
-						<GridTable :records="Data">
-							<GridColumn
-								field="first_name"
-								header="First Name"
-							/>
-							<GridColumn
-								field="last_name"
-								header="Last Name"
-							/>
-							<GridColumn
-								field="email"
-								header="Email"
-							/>
-							<GridColumn
-								field="gender"
-								header="Gender"
-							/>
-							<GridColumn
-								field="ip_address"
-								header="IP Address"
-							/>
-							<GridColumn
-								field="ip_address"
-								header="IP Address"
-							/>
-							<GridColumn
-								field="ip_address"
-								header="IP Address"
-							/>
-							<GridColumn
-								field="ip_address"
-								header="IP Address"
-							/>
-						</GridTable>
+						<GridTable
+							:records="Data"
+							:columns="columns"
+						/>
 					</section>
 				</main>
 			</section>
@@ -62,7 +32,30 @@
 </template>
 
 <script setup lang="ts">
-import GridColumn from "primevue/column";
 import GridTable from "@/components/GridTable.vue";
+import { IGridColumn } from "@/types/dataTable.ts";
 import Data from "./MOCK_DATA.json";
+
+const columns: IGridColumn[] = [
+	{
+		field: "first_name",
+		title: "First Name",
+	},
+	{
+		field: "last_name",
+		title: "Last Name",
+	},
+	{
+		field: "email",
+		title: "Email",
+	},
+	{
+		field: "gender",
+		title: "Gender",
+	},
+	{
+		field: "ip_address",
+		title: "IP Address",
+	},
+];
 </script>
