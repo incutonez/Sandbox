@@ -18,15 +18,15 @@
     "vue": "^3.4.15"
   },
   "devDependencies": {
-    "@types/node": "^20.11.7",
-    "@typescript-eslint/parser": "^6.19.1",
+    "@types/node": "^20.11.13",
+    "@typescript-eslint/parser": "^6.20.0",
     "@vitejs/plugin-vue": "^5.0.3",
     "autoprefixer": "^10.4.17",
     "eslint": "^8.56.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-tailwindcss": "^3.14.1",
-    "eslint-plugin-vue": "^9.20.1",
+    "eslint-plugin-vue": "^9.21.0",
     "postcss": "^8.4.33",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.3.3",

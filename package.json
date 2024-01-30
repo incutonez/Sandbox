@@ -41,7 +41,9 @@
     "Differ/ui",
     "TipTap",
     "Modeling",
-    "PrimeVue"
+    "PrimeVue",
+    "API",
+    "APISpec"
   ],
   "engines": {
     "node": ">=18",

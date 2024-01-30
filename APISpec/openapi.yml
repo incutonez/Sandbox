@@ -1,0 +1,128 @@
+openapi: 3.0.3
+info:
+  version: 0.1.0
+  title: Differ API Reference
+  description: API Endpoints for Differ Application
+tags:
+  - name: diff
+  - name: users
+paths:
+  /users:
+    get:
+      tags:
+        - users
+      description: Returns a list of user details, paginated
+      operationId: getUsers
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: start
+          schema:
+            type: integer
+      responses:
+        200:
+          $ref: '#/components/responses/200GetUsers'
+  /diff:
+    get:
+      tags:
+        - diff
+      description: Returns a list of changes
+      operationId: diff-get
+      responses:
+        '200':
+          $ref: '#/components/responses/200ResponseDiff'
+components:
+  schemas:
+    IUserDetail:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        gender:
+          type: string
+        birthDate:
+          type: number
+        address:
+          type: object
+          properties:
+            lineOne:
+              type: string
+            lineTwo:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zipCode:
+              type: string
+    ChangeStatus:
+      enum: [0, 1, 2, 3]
+      x-enum-varnames: [Unchanged, Created, Updated, Deleted]
+    DiffModel:
+      required:
+        - field
+        - value
+      properties:
+        field:
+          oneOf:
+            - type: number
+            - type: string
+        value:
+          oneOf:
+            - type: integer
+            - type: string
+            - type: boolean
+            - type: array
+              items:
+                $ref: '#/components/schemas/DiffModel'
+        previous:
+          anyOf:
+            - type: integer
+            - type: string
+            - type: boolean
+        status:
+          $ref: '#/components/schemas/ChangeStatus'
+  responses:
+    200ResponseDiff:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                username:
+                  type: string
+                date:
+                  type: number
+                items:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/DiffModel'
+    200GetUsers:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - data
+              - total
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IUserDetail'
+              total:
+                type: number
+
