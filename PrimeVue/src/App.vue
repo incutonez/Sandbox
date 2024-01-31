@@ -1,8 +1,13 @@
 <template>
 	<article class="flex h-full w-full">
-		<nav class="w-16 border-r border-r-emerald-700 bg-emerald-200 p-4">
-			<div class="writing-mode-vertical">
-				Side Panel!
+		<nav class="min-w-16 border-r border-r-emerald-700 bg-emerald-200 p-4">
+			<div class="flex flex-col">
+				<BaseIcon
+					icon="group"
+					class="cursor-pointer hover:bg-yellow-100 text-center rounded-full p-2"
+					title="Users"
+					@click="onClickViewUsers"
+				/>
 			</div>
 		</nav>
 		<section class="flex flex-1 flex-col overflow-hidden w-full h-full">
@@ -19,12 +24,7 @@
 					Nav
 				</nav>
 				<main class="h-full w-full overflow-hidden">
-					<section class="h-full w-full">
-						<GridTable
-							:records="Data"
-							:columns="columns"
-						/>
-					</section>
+					<RouterView />
 				</main>
 			</section>
 		</section>
@@ -32,30 +32,10 @@
 </template>
 
 <script setup lang="ts">
-import GridTable from "@/components/GridTable.vue";
-import { IGridColumn } from "@/types/dataTable.ts";
-import Data from "./MOCK_DATA.json";
+import BaseIcon from "@/components/BaseIcon.vue";
+import { viewUsers } from "@/router.ts";
 
-const columns: IGridColumn[] = [
-	{
-		field: "first_name",
-		title: "First Name",
-	},
-	{
-		field: "last_name",
-		title: "Last Name",
-	},
-	{
-		field: "email",
-		title: "Email",
-	},
-	{
-		field: "gender",
-		title: "Gender",
-	},
-	{
-		field: "ip_address",
-		title: "IP Address",
-	},
-];
+function onClickViewUsers() {
+	viewUsers();
+}
 </script>
