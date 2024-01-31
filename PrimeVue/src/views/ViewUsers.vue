@@ -6,6 +6,7 @@
 </template>
 
 <script setup lang="ts">
+import { getUsers } from "@/api/users.ts";
 import GridTable from "@/components/GridTable.vue";
 import Data from "@/MOCK_DATA.json";
 import { IGridColumn } from "@/types/dataTable.ts";
@@ -36,4 +37,6 @@ const columns: IGridColumn[] = [
 		title: "Birth Date",
 	},
 ];
+
+getUsers();
 </script>

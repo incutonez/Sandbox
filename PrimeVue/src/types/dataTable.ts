@@ -18,6 +18,11 @@ export interface IGridTable<TData = any> {
 	columns?: IGridColumn[];
 	columnsResize?: boolean;
 	columnsReorder?: boolean;
+	/**
+	 * Sometimes the API endpoint can only have a certain max number, which is what this represents.
+	 * If it's not set, then the default is the rows per page value.
+	 */
+	remoteMax?: number;
 }
 
 export function getColumnProps({ field, title, sortable }: IGridColumn) {

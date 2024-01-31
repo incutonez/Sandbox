@@ -99,10 +99,10 @@ export default {
 			"font-semibold",
 
 			// Shape
-			"border-t-0 border-t border-x-0",
+			"border-t border-t-gray-b border-x-0",
 
 			// Spacing
-			"p-4",
+			"p-2.5",
 
 			// Color
 			"bg-surface-0 dark:bg-surface-800",

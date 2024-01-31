@@ -17,9 +17,10 @@
     "sourceType": "module",
     "ecmaVersion": "latest"
   },
-  "plugins": ["eslint-plugin-import", "@typescript-eslint", "simple-import-sort"],
+  "plugins": ["eslint-plugin-tailwindcss", "eslint-plugin-import", "@typescript-eslint", "simple-import-sort"],
   "rules": {
     "vue/html-indent": ["error", "tab"],
+    "tailwindcss/classnames-order": "error",
     "space-before-function-paren": ["error",
       {
         "anonymous": "never",
