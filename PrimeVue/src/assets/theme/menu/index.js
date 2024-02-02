@@ -2,14 +2,13 @@ export default {
 	root: {
 		class: [
 			// Sizing and Shape
-			"min-w-[12rem]",
 			"rounded-md",
-			// Spacing
-			"p-1.5",
 			// Colors
-			"bg-surface-0 dark:bg-surface-700",
+			"bg-white shadow-lg dark:bg-surface-700",
 			"text-surface-700 dark:text-white/80",
 			"ring-1 ring-surface-200 dark:ring-surface-700",
+			// Hides the selection rectangle from overflowing the overall rounded corners
+			"overflow-hidden",
 		],
 	},
 	menu: {
@@ -22,20 +21,14 @@ export default {
 		],
 	},
 	menuitem: {
-		class: [
-			// Space
-			"first:mt-0 mt-1",
-		],
+		class: ["first:border-t-0 border-t border-gray-b"],
 	},
 	content: ({ context }) => ({
 		class: [
-			//Shape
-			"rounded-md",
-
 			// Colors
 			{
-				"text-surface-700 dark:text-surface-0": !context.focused,
-				"bg-surface-100 text-primary-500 dark:bg-surface-300/10 dark:text-primary-400": context.focused,
+				"text-black dark:text-surface-0": !context.focused,
+				"bg-gray-200 text-black dark:bg-surface-300/10 dark:text-primary-400": context.focused,
 			},
 
 			// Transitions
@@ -43,8 +36,8 @@ export default {
 			"duration-200",
 
 			// States
-			"hover:text-primary-600 dark:hover:text-primary-400",
-			"hover:bg-surface-100 dark:hover:bg-surface-400/10",
+			"hover:text-black dark:hover:text-primary-400",
+			"hover:bg-sky-200 dark:hover:bg-surface-400/10",
 		],
 	}),
 	action: {
@@ -52,15 +45,14 @@ export default {
 			"relative",
 
 			// Font
-			"font-semibold",
+			"font-medium",
 
 			// Flexbox
 			"flex",
 			"items-center",
 
 			// Spacing
-			"py-2",
-			"px-3",
+			"px-2 py-1.5",
 
 			// Misc
 			"no-underline",
@@ -73,12 +65,11 @@ export default {
 		class: [
 			// Spacing
 			"mr-2",
-			"leading-6",
-			"text-sm",
+			"text-xs",
 		],
 	},
 	label: {
-		class: ["leading-6", "text-sm"],
+		class: ["text-xs"],
 	},
 	submenuheader: {
 		class: [

@@ -3,14 +3,33 @@
 		v-bind="propsComponent"
 		:value="records"
 		class="w-full"
-		paginator
-		paginator-template=""
+		:first="0"
 	>
 		<Column
 			v-for="(column, index) in columns"
 			:key="getColumnKey(column, index)"
 			v-bind="getColumnProps(column)"
-		/>
+		>
+			<template #sorticon="slotProps">
+				<template v-if="slotProps.sorted">
+					<BaseIcon
+						icon="sort"
+						class="ml-1.5 !text-base !leading-none"
+						:class="slotProps.sortOrder === 1 ? 'rotate-180 -scale-x-100' : ''"
+					/>
+				</template>
+			</template>
+			<template #body="slotProps">
+				<Component
+					v-if="column.cellComponent"
+					:is="column.cellComponent"
+					v-bind="getCellParams(column, slotProps.data)"
+				/>
+				<span v-else>
+					{{ slotProps.data[slotProps.field] }}
+				</span>
+			</template>
+		</Column>
 		<!-- Expose all slots from parent component -->
 		<template
 			v-for="(_, slot) of $slots"
@@ -49,7 +68,8 @@ import { computed } from "vue";
 import Column from "primevue/column";
 import DataTable, { DataTableProps, DataTableSlots } from "primevue/datatable";
 import BaseButton from "@/components/BaseButton.vue";
-import { getColumnKey, getColumnProps, IGridTable } from "@/types/dataTable";
+import BaseIcon from "@/components/BaseIcon.vue";
+import { getColumnKey, getColumnProps, IGridColumn, IGridTable } from "@/types/dataTable";
 
 const slots = defineSlots<DataTableSlots>();
 const props = withDefaults(defineProps<IGridTable>(), {
@@ -73,7 +93,7 @@ const propsComponent = computed(() => {
 		size: "small",
 		stripedRows: props.showStripedRows,
 		resizableColumns: props.columnsResize,
-		columnResizeMode: "fit",
+		columnResizeMode: "expand",
 		reorderableColumns: props.columnsReorder,
 		removableSort: true,
 	};
@@ -94,11 +114,22 @@ function onPageNext() {
 	currentPage.value++;
 }
 
+function getCellParams({ cellParams }: IGridColumn, data: any) {
+	if (typeof cellParams === "function") {
+		return cellParams(data);
+	}
+	return cellParams;
+}
+
 /**
  * TODOJEF:
  * - Rows per page selector (use remoteMax prop, if it exists)
  * - Wire up previous and next
  * - Add a load method for server pagination
  * - Add sorting and filtering to the load method
+ * - Have remote and local filtering/sorting/paging
+ * - Add my own pagination toolbar
+ * - Add a search field that does global searching
+ * - Add a custom column menu, which allows to dynamically hide, pin, reset columns
  */
 </script>

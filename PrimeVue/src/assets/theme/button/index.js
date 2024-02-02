@@ -10,11 +10,8 @@ export default {
 			"text-sm",
 			{
 				"px-2.5 py-1.5 min-w-[2rem]": props.size === null && props.label !== null,
-				"px-2 py-1": props.size === "small",
+				"px-2 py-0.5 h-6": props.size === "small",
 				"px-3 py-2": props.size === "large",
-			},
-			{
-				"h-8 w-8 p-0": props.label == null,
 			},
 
 			// Shapes
@@ -273,13 +270,13 @@ export default {
 	label: ({ props }) => ({
 		class: [
 			"duration-200",
-			"font-semibold",
+			"font-medium",
 			{
 				"hover:underline": props.link,
 			},
 			{
 				"flex-1": props.label !== null,
-				"invisible w-0": props.label == null,
+				hidden: props.label == null,
 			},
 		],
 	}),

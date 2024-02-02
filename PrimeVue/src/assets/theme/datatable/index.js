@@ -156,7 +156,7 @@ export default {
 			class: "flex items-center",
 		},
 		sort: ({ context }) => ({
-			class: [context.sorted ? "text-sky-900" : "text-gray-700"],
+			class: [context.sorted ? "text-sky-900" : "text-gray-700", "h-4"],
 		}),
 		bodycell: ({ props, context, state, parent }) => {
 			return {
