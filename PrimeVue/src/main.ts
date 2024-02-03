@@ -1,6 +1,4 @@
 import "./style.css";
-import "primevue/resources/themes/aura-light-green/theme.css";
-import "material-symbols";
 import { createApp } from "vue";
 import PrimeVue from "primevue/config";
 import { TailwindTheme } from "@/assets/theme";

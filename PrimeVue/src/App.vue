@@ -2,9 +2,8 @@
 	<article class="flex h-full w-full">
 		<nav class="min-w-16 border-r border-r-emerald-700 bg-emerald-200 p-4">
 			<div class="flex flex-col">
-				<BaseIcon
-					icon="group"
-					class="cursor-pointer rounded-full p-2 text-center hover:bg-yellow-100"
+				<IconUsers
+					class="h-10 w-10 cursor-pointer rounded-full p-2 text-center hover:bg-yellow-100"
 					title="Users"
 					@click="onClickViewUsers"
 				/>
@@ -32,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import BaseIcon from "@/components/BaseIcon.vue";
+import IconUsers from "@/assets/IconUsers.vue";
 import { viewUsers } from "@/router.ts";
 
 function onClickViewUsers() {

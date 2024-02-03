@@ -3,7 +3,6 @@
 		v-bind="propsComponent"
 		:value="records"
 		class="w-full"
-		:first="0"
 	>
 		<Column
 			v-for="(column, index) in columns"
@@ -28,6 +27,15 @@
 				<span v-else>
 					{{ slotProps.data[slotProps.field] }}
 				</span>
+			</template>
+			<template
+				#header
+				v-if="column.showMenu ?? true"
+			>
+				<GridCellMenu
+					:menu-config="columnMenuItems"
+					class="absolute right-0 hidden group-hover:block"
+				/>
 			</template>
 		</Column>
 		<!-- Expose all slots from parent component -->
@@ -67,8 +75,13 @@
 import { computed } from "vue";
 import Column from "primevue/column";
 import DataTable, { DataTableProps, DataTableSlots } from "primevue/datatable";
+import IconPin from "@/assets/IconPin.vue";
+import IconResetColumn from "@/assets/IconResetColumn.vue";
+import IconResetColumns from "@/assets/IconResetColumns.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseIcon from "@/components/BaseIcon.vue";
+import { IBaseMenu } from "@/components/BaseMenu.vue";
+import GridCellMenu from "@/components/GridCellMenu.vue";
 import { getColumnKey, getColumnProps, IGridColumn, IGridTable } from "@/types/dataTable";
 
 const slots = defineSlots<DataTableSlots>();
@@ -96,6 +109,10 @@ const propsComponent = computed(() => {
 		columnResizeMode: "expand",
 		reorderableColumns: props.columnsReorder,
 		removableSort: true,
+		paginator: true,
+		paginatorTemplate: "",
+		// TODOJEF: Need to be configurable
+		rows: 20,
 	};
 	if (props.multiSelect) {
 		tableProps.selectionMode = "multiple";
@@ -105,6 +122,22 @@ const propsComponent = computed(() => {
 	}
 	return tableProps;
 });
+const columnMenuItems: IBaseMenu = {
+	items: [
+		{
+			text: "Lock Column",
+			icon: IconPin,
+		},
+		{
+			text: "Reset Column",
+			icon: IconResetColumn,
+		},
+		{
+			text: "Reset All Columns",
+			icon: IconResetColumns,
+		},
+	],
+};
 
 function onPagePrevious() {
 	currentPage.value--;

@@ -6,7 +6,7 @@
 		<template #itemicon="slotProps">
 			<Component
 				v-if="showItemIcon(slotProps.item.icon)"
-				class="!text-1 mr-1"
+				class="mr-1 h-4 w-4"
 				:is="slotProps.item.icon"
 			/>
 		</template>
@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import PrimeMenu from "primevue/menu";
-import { MenuItem } from "primevue/menuitem";
+import type { MenuItem } from "primevue/menuitem";
 
 export interface IMenuItem {
 	text?: string;

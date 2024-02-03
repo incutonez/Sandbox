@@ -1,12 +1,10 @@
 <template>
-	<span class="material-symbols-outlined">{{ icon }}</span>
+	<Component :is="icon" />
 </template>
 
 <script setup lang="ts">
-import { MaterialSymbol } from "material-symbols";
-
 export interface IBaseIcon {
-	icon: MaterialSymbol;
+	icon: InstanceType<any>;
 }
 
 defineProps<IBaseIcon>();

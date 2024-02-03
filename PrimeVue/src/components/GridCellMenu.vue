@@ -2,10 +2,10 @@
 	<article>
 		<BaseButton
 			v-bind="buttonConfig"
-			@click="clickToggleMenu"
+			@click.stop="clickToggleMenu"
 		>
 			<template #icon>
-				<IconMenu class="!text-1" />
+				<IconMenu class="h-4 w-4" />
 			</template>
 		</BaseButton>
 		<BaseMenu

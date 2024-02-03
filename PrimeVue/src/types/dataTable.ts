@@ -9,6 +9,8 @@ export interface IGridColumn {
 	cellComponent?: InstanceType<any>;
 	cellParams?: any;
 	lock?: "left" | "right";
+	cls?: string;
+	showMenu?: boolean;
 }
 
 export interface IGridTable<TData = any> {
@@ -28,13 +30,14 @@ export interface IGridTable<TData = any> {
 	remoteMax?: number;
 }
 
-export function getColumnProps({ field, title, sortable, lock }: IGridColumn) {
+export function getColumnProps({ field, title, sortable, lock, cls }: IGridColumn) {
 	const columnProps: ColumnProps = {
 		field,
 		header: title,
 		sortable: sortable ?? true,
 		frozen: !!lock,
 		alignFrozen: lock,
+		class: cls,
 	};
 	return columnProps;
 }

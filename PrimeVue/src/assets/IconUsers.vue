@@ -3,6 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import SVGIcon from "@material-symbols/svg-400/outlined/menu.svg";
+import SVGIcon from "@material-symbols/svg-400/outlined/group.svg";
 import BaseIcon from "@/components/BaseIcon.vue";
 </script>

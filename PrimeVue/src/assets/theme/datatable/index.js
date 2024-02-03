@@ -64,8 +64,6 @@ export default {
 			"py-3.5 px-3",
 
 			// Color
-			"bg-surface-0 dark:bg-surface-800",
-			"border-surface-300 dark:border-surface-600",
 			"text-surface-700 dark:text-white/80",
 		],
 	}),
@@ -116,6 +114,7 @@ export default {
 				"font-semibold",
 				"text-xs",
 				"uppercase",
+				"group",
 
 				// Position
 				{
@@ -163,10 +162,7 @@ export default {
 				class: [
 					//Position
 					{
-						"sticky box-border border-b": parent.instance.frozenRow,
-					},
-					{
-						"sticky box-border border-b": props.frozen || props.frozen === "",
+						"sticky bg-inherit border-b": parent.instance.frozenRow || props.frozen || props.frozen === "",
 					},
 					"text-sm",
 					"text-slate-800",
@@ -177,9 +173,6 @@ export default {
 					"border-0 border-b border-solid",
 					{
 						"last:border-r-0 border-r border-b": context?.showGridlines,
-					},
-					{
-						"bg-surface-0 dark:bg-surface-800": parent.instance.frozenRow || props.frozen || props.frozen === "",
 					},
 
 					// Spacing
@@ -1123,10 +1116,7 @@ export default {
 				// Color
 				"dark:text-white/80",
 				{
-					"bg-surface-0 dark:bg-surface-800": props.frozenRow,
-				},
-				{
-					"even:bg-slate-200 even:text-slate-900": context.stripedRows && !context.selected,
+					"even:bg-slate-200 even:text-slate-900 odd:bg-white": context.stripedRows && !context.selected,
 				},
 				{
 					"bg-sky-200": context.selected,
