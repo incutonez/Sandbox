@@ -1124,7 +1124,7 @@ export default {
 
 				// State
 				{
-					"focus:bg-sky-200 focus-visible:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-600 [&>td]:focus:border-b-transparent": props.selectionMode,
+					"focus:bg-sky-200": props.selectionMode,
 				},
 				{
 					"hover:bg-sky-100 hover:text-slate-900": props.selectionMode && !context.selected,

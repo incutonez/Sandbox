@@ -30,7 +30,7 @@ export default {
 
 			// Plain Button
 			{
-				"text-gray-800 bg-gray-500": props.plain && !props.outlined && !props.text,
+				"text-gray-800 bg-inherit": props.plain && !props.outlined && !props.text,
 			},
 			// Plain Text Button
 			{

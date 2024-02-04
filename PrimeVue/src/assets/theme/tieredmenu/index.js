@@ -1,15 +1,11 @@
 export default {
 	root: {
 		class: [
-			// Shape
+			// Sizing and Shape
 			"rounded-md",
-
-			// Size
-			"min-w-[12rem]",
-			"p-1.5",
-
 			// Colors
-			"bg-surface-0 dark:bg-surface-700",
+			"bg-white shadow-lg dark:bg-surface-700",
+			"text-surface-700 dark:text-white/80",
 			"ring-1 ring-surface-200 dark:ring-surface-700",
 		],
 	},
@@ -23,30 +19,28 @@ export default {
 		],
 	},
 	menuitem: {
-		class: ["relative first:mt-0 mt-1"],
+		class: [
+			"first:border-t-0 border-t border-gray-b",
+			"first:rounded-tr-md first:rounded-tl-md last:rounded-br-md last:rounded-bl-md",
+			// Hides the selection rectangle corner overflow for first/last
+			"overflow-hidden",
+		],
 	},
 	content: ({ context }) => ({
 		class: [
-			//Shape
-			"rounded-md",
-
-			//  Colors
+			// Colors
 			{
-				"text-surface-500 dark:text-white/70": !context.focused && !context.active,
-				"text-surface-500 dark:text-white/70 bg-surface-200 dark:bg-black/70": context.focused && !context.active,
-				"text-surface-900 dark:text-surface-0/80 bg-surface-50 dark:bg-black/70": context.focused && context.active,
-				"text-surface-900 dark:text-surface-0/80 bg-surface-50 dark:bg-black/70": !context.focused && context.active,
-			},
-
-			// Hover States
-			{
-				"hover:bg-surface-50 dark:hover:bg-surface-800": !context.active,
-				"hover:bg-surface-100 dark:hover:bg-black/40 text-surface-900 dark:text-surface-0/80": context.active,
+				"text-black dark:text-surface-0": !context.focused,
+				"bg-gray-200 text-black dark:bg-surface-300/10 dark:text-primary-400": context.focused,
 			},
 
 			// Transitions
 			"transition-shadow",
 			"duration-200",
+
+			// States
+			"hover:text-black dark:hover:text-primary-400",
+			"hover:bg-sky-200 dark:hover:bg-surface-400/10",
 		],
 	}),
 	action: {
@@ -54,15 +48,14 @@ export default {
 			"relative",
 
 			// Font
-			"font-semibold",
+			"font-medium",
 
 			// Flexbox
 			"flex",
 			"items-center",
 
 			// Spacing
-			"py-2",
-			"px-3",
+			"px-2 py-1.5",
 
 			// Misc
 			"no-underline",
@@ -75,12 +68,11 @@ export default {
 		class: [
 			// Spacing
 			"mr-2",
-			"leading-6",
-			"text-sm",
+			"text-xs",
 		],
 	},
 	label: {
-		class: ["leading-none", "text-sm"],
+		class: ["text-xs"],
 	},
 	submenuicon: {
 		class: [
@@ -90,12 +82,11 @@ export default {
 	},
 	submenu: {
 		class: [
-			// Size
-			"w-full sm:w-48",
+			"rounded-md",
 
 			// Spacing
-			"p-1.5",
-			"m-0 mx-1.5",
+			"p-0",
+			"ml-1",
 			"list-none",
 
 			// Shape
@@ -107,7 +98,7 @@ export default {
 			"z-10",
 
 			// Color
-			"bg-surface-0 dark:bg-surface-700",
+			"bg-white dark:bg-surface-700",
 		],
 	},
 	separator: {

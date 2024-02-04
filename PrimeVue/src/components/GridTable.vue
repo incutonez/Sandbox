@@ -5,15 +5,14 @@
 		class="w-full"
 	>
 		<Column
-			v-for="(column, index) in columns"
-			:key="getColumnKey(column, index)"
-			v-bind="getColumnProps(column)"
+			v-for="column in columnsConfig"
+			:key="column.id"
+			v-bind="column.props"
 		>
 			<template #sorticon="slotProps">
 				<template v-if="slotProps.sorted">
-					<BaseIcon
-						icon="sort"
-						class="ml-1.5 !text-base !leading-none"
+					<IconSort
+						class="ml-1.5 h-4 w-4"
 						:class="slotProps.sortOrder === 1 ? 'rotate-180 -scale-x-100' : ''"
 					/>
 				</template>
@@ -33,8 +32,9 @@
 				v-if="column.showMenu ?? true"
 			>
 				<GridCellMenu
-					:menu-config="columnMenuItems"
-					class="absolute right-0 hidden group-hover:block"
+					:button-config="{ unstyled: true }"
+					:menu-config="getColumnMenuConfig(column)"
+					class="absolute right-1"
 				/>
 			</template>
 		</Column>
@@ -72,17 +72,19 @@
  * - Column Resizing: https://github.com/primefaces/primevue/issues/5104
  * - Can't redefine emits: https://github.com/vuejs/core/issues/8457
  */
-import { computed } from "vue";
+import { computed, markRaw, ref, watch } from "vue";
 import Column from "primevue/column";
 import DataTable, { DataTableProps, DataTableSlots } from "primevue/datatable";
+import IconLock from "@/assets/IconLock.vue";
+import IconNotAllowed from "@/assets/IconNotAllowed.vue";
 import IconPin from "@/assets/IconPin.vue";
 import IconResetColumn from "@/assets/IconResetColumn.vue";
 import IconResetColumns from "@/assets/IconResetColumns.vue";
+import IconSort from "@/assets/IconSort.vue";
 import BaseButton from "@/components/BaseButton.vue";
-import BaseIcon from "@/components/BaseIcon.vue";
-import { IBaseMenu } from "@/components/BaseMenu.vue";
+import { IBaseMenu, IMenuItem } from "@/components/BaseMenu.vue";
 import GridCellMenu from "@/components/GridCellMenu.vue";
-import { getColumnKey, getColumnProps, IGridColumn, IGridTable } from "@/types/dataTable";
+import { getColumnProps, IGridColumn, IGridTable, setColumnLock } from "@/types/dataTable";
 
 const slots = defineSlots<DataTableSlots>();
 const props = withDefaults(defineProps<IGridTable>(), {
@@ -97,6 +99,7 @@ const props = withDefaults(defineProps<IGridTable>(), {
 const currentPage = defineModel<number>("currentPage", {
 	default: 1,
 });
+const columnsConfig = ref<IGridColumn[]>([]);
 const propsComponent = computed(() => {
 	const tableProps: DataTableProps = {
 		showGridlines: props.showLinesRow,
@@ -122,22 +125,6 @@ const propsComponent = computed(() => {
 	}
 	return tableProps;
 });
-const columnMenuItems: IBaseMenu = {
-	items: [
-		{
-			text: "Lock Column",
-			icon: IconPin,
-		},
-		{
-			text: "Reset Column",
-			icon: IconResetColumn,
-		},
-		{
-			text: "Reset All Columns",
-			icon: IconResetColumns,
-		},
-	],
-};
 
 function onPagePrevious() {
 	currentPage.value--;
@@ -154,6 +141,50 @@ function getCellParams({ cellParams }: IGridColumn, data: any) {
 	return cellParams;
 }
 
+function getColumnMenuConfig(column: IGridColumn): IBaseMenu {
+	const items: IMenuItem[] = [];
+	if (column.stateful) {
+		items.push({
+			text: "Lock Column",
+			icon: IconLock,
+			items: [
+				{
+					text: "Left",
+					icon: IconPin,
+					iconCls: "rotate-90",
+					click() {
+						setColumnLock("left", column);
+					},
+				},
+				{
+					text: "Right",
+					icon: IconPin,
+					iconCls: "-rotate-90",
+					click() {
+						setColumnLock("right", column);
+					},
+				},
+				{
+					text: "None",
+					icon: IconNotAllowed,
+					click() {
+						setColumnLock(false, column);
+					},
+				},
+			],
+		}, {
+			text: "Reset Column",
+			icon: IconResetColumn,
+		}, {
+			text: "Reset All Columns",
+			icon: IconResetColumns,
+		});
+	}
+	return {
+		items,
+	};
+}
+
 /**
  * TODOJEF:
  * - Rows per page selector (use remoteMax prop, if it exists)
@@ -165,4 +196,18 @@ function getCellParams({ cellParams }: IGridColumn, data: any) {
  * - Add a search field that does global searching
  * - Add a custom column menu, which allows to dynamically hide, pin, reset columns
  */
+
+watch(() => props.columns, (columns = []) => {
+	columnsConfig.value = columns.map(({ ...initialConfig }, index) => {
+		const column: IGridColumn = markRaw(initialConfig);
+		column.id ??= column.field || `col_${index}`;
+		column.indexOriginal = index;
+		column.stateful ??= true;
+		column.props = getColumnProps(column);
+		return column;
+	});
+	// TODO: eventually need to sort the columns based on state index
+}, {
+	immediate: true,
+});
 </script>

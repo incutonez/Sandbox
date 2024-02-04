@@ -1,4 +1,7 @@
-import { ColumnProps } from "primevue/column";
+import { reactive } from "vue";
+import { ColumnPassThroughOptions, ColumnProps } from "primevue/column";
+
+export type TColumnLock = "left" | "right" | false;
 
 export interface IGridColumn {
 	field?: string;
@@ -8,9 +11,13 @@ export interface IGridColumn {
 	sortable?: boolean;
 	cellComponent?: InstanceType<any>;
 	cellParams?: any;
-	lock?: "left" | "right";
+	lock?: TColumnLock;
 	cls?: string;
 	showMenu?: boolean;
+	state?: IColumnState;
+	indexOriginal?: number;
+	props?: ColumnProps;
+	stateful?: boolean;
 }
 
 export interface IGridTable<TData = any> {
@@ -30,18 +37,38 @@ export interface IGridTable<TData = any> {
 	remoteMax?: number;
 }
 
-export function getColumnProps({ field, title, sortable, lock, cls }: IGridColumn) {
+export interface IColumnState {
+	lock?: TColumnLock;
+	width?: number;
+	index?: number;
+}
+
+export function getColumnProps({ field, title, sortable, lock, cls = "", showMenu = true }: IGridColumn) {
+	const pt: ColumnPassThroughOptions = {};
+	if (showMenu) {
+		pt.headerContent = {
+			class: ["pr-10"],
+		};
+	}
+	if (lock === false) {
+		lock = undefined;
+	}
 	const columnProps: ColumnProps = {
 		field,
+		pt,
 		header: title,
 		sortable: sortable ?? true,
 		frozen: !!lock,
 		alignFrozen: lock,
 		class: cls,
 	};
-	return columnProps;
+	return reactive(columnProps);
 }
 
-export function getColumnKey({ field, id, key }: IGridColumn, index: number) {
-	return field || id || key || `col_${index}`;
+export function setColumnLock(lock: TColumnLock, column: IGridColumn) {
+	column.lock = lock;
+	if (column.props) {
+		column.props.frozen = !!column.lock;
+		column.props.alignFrozen = column.lock === false ? undefined : column.lock;
+	}
 }

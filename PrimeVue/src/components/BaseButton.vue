@@ -3,6 +3,7 @@
 		:label="text"
 		:disabled="disabled"
 		:size="size ?? 'small'"
+		:plain="unstyled"
 	>
 		<!-- Expose all slots from parent component -->
 		<template
@@ -24,6 +25,7 @@ export interface IButton {
 	text?: string;
 	disabled?: boolean;
 	size?: "small" | "large";
+	unstyled?: boolean;
 }
 
 defineProps<IButton>();

@@ -7,6 +7,7 @@
 			<Component
 				v-if="showItemIcon(slotProps.item.icon)"
 				class="mr-1 h-4 w-4"
+				:class="slotProps.item.iconCls"
 				:is="slotProps.item.icon"
 			/>
 		</template>
@@ -25,13 +26,16 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import PrimeMenu from "primevue/menu";
 import type { MenuItem } from "primevue/menuitem";
+import PrimeMenu from "primevue/tieredmenu";
 
 export interface IMenuItem {
 	text?: string;
 	icon?: string | InstanceType<any>;
+	iconCls?: string;
 	visible?: boolean;
+	click?: () => void;
+	items?: IMenuItem[];
 }
 
 export interface IBaseMenu {
@@ -41,18 +45,21 @@ export interface IBaseMenu {
 const props = defineProps<IBaseMenu>();
 // const slots = defineSlots<MenuSlots>;
 const componentEl = ref<InstanceType<typeof PrimeMenu>>();
-const menuItems = computed<MenuItem>(() => {
-	return props.items.map(({ text, icon, visible }) => {
-		return {
-			icon,
-			visible,
-			label: text,
-		};
-	});
-});
+const menuItems = computed<MenuItem>(() => props.items.map((item) => getMenuItemProps(item)));
 
 function showItemIcon(item: string | InstanceType<any>) {
 	return typeof item !== "string";
+}
+
+function getMenuItemProps({ text, icon, visible, click, items, iconCls }: IMenuItem): MenuItem {
+	return {
+		icon,
+		iconCls,
+		visible,
+		label: text,
+		command: click,
+		items: items?.map((item) => getMenuItemProps(item)),
+	};
 }
 
 function toggle(event: Event) {
