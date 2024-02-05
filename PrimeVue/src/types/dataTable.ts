@@ -43,7 +43,7 @@ export interface IColumnState {
 	index?: number;
 }
 
-export function getColumnProps({ field, title, sortable, lock, cls = "", showMenu = true }: IGridColumn) {
+export function getColumnProps({ field, title, sortable, lock, cls = "", showMenu = true, id }: IGridColumn) {
 	const pt: ColumnPassThroughOptions = {};
 	if (showMenu) {
 		pt.headerContent = {
@@ -61,6 +61,7 @@ export function getColumnProps({ field, title, sortable, lock, cls = "", showMen
 		frozen: !!lock,
 		alignFrozen: lock,
 		class: cls,
+		columnKey: id,
 	};
 	return reactive(columnProps);
 }

@@ -3,6 +3,7 @@
 		v-bind="propsComponent"
 		:value="records"
 		class="w-full"
+		@column-reorder="onReorder"
 	>
 		<Column
 			v-for="column in columnsConfig"
@@ -74,7 +75,7 @@
  */
 import { computed, markRaw, ref, watch } from "vue";
 import Column from "primevue/column";
-import DataTable, { DataTableProps, DataTableSlots } from "primevue/datatable";
+import DataTable, { DataTableColumnReorderEvent, DataTableProps, DataTableSlots } from "primevue/datatable";
 import IconLock from "@/assets/IconLock.vue";
 import IconNotAllowed from "@/assets/IconNotAllowed.vue";
 import IconPin from "@/assets/IconPin.vue";
@@ -154,6 +155,7 @@ function getColumnMenuConfig(column: IGridColumn): IBaseMenu {
 					iconCls: "rotate-90",
 					click() {
 						setColumnLock("left", column);
+						reorderColumns();
 					},
 				},
 				{
@@ -162,6 +164,7 @@ function getColumnMenuConfig(column: IGridColumn): IBaseMenu {
 					iconCls: "-rotate-90",
 					click() {
 						setColumnLock("right", column);
+						reorderColumns();
 					},
 				},
 				{
@@ -169,6 +172,7 @@ function getColumnMenuConfig(column: IGridColumn): IBaseMenu {
 					icon: IconNotAllowed,
 					click() {
 						setColumnLock(false, column);
+						reorderColumns();
 					},
 				},
 			],
@@ -203,6 +207,7 @@ watch(() => props.columns, (columns = []) => {
 		column.id ??= column.field || `col_${index}`;
 		column.indexOriginal = index;
 		column.stateful ??= true;
+		column.lock ??= false;
 		column.props = getColumnProps(column);
 		return column;
 	});
@@ -210,4 +215,37 @@ watch(() => props.columns, (columns = []) => {
 }, {
 	immediate: true,
 });
+
+function reorderColumns() {
+	// TODOJEF: There's an issue here where we drag a column to change its order, and then try to lock it... this
+	// columnsConfig is sorted correctly, but it's not respected in the UI
+	columnsConfig.value.sort(({ lock: lhs }, { lock: rhs }) => {
+		if (lhs === "left") {
+			return -1;
+		}
+		else if (rhs === "left") {
+			return 1;
+		}
+		else if (lhs === false) {
+			return -1;
+		}
+		else if (rhs === false) {
+			return 1;
+		}
+		else if (lhs === "right") {
+			return 1;
+		}
+		else if (rhs === "right") {
+			return -1;
+		}
+		return 0;
+	});
+}
+
+// TODO: Is this actually necessary?
+function onReorder({ dragIndex, dropIndex }: DataTableColumnReorderEvent) {
+	const element = columnsConfig.value[dragIndex];
+	columnsConfig.value.splice(dragIndex, 1);
+	columnsConfig.value.splice(dropIndex, 0, element);
+}
 </script>
