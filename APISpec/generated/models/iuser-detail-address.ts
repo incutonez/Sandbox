@@ -20,6 +20,12 @@
 export interface IUserDetailAddress {
 	/**
 	 *
+	 * @type {number}
+	 * @memberof IUserDetailAddress
+	 */
+	id?: number;
+	/**
+	 *
 	 * @type {string}
 	 * @memberof IUserDetailAddress
 	 */

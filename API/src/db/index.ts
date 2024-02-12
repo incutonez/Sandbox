@@ -4,7 +4,7 @@ import { User } from "src/db/models/User";
 
 export const DBConfig: SequelizeModuleOptions = {
 	dialect: "sqlite",
-	storage: "db/data.db",
+	storage: "src/db/data.db",
 	host: "localhost",
 	models: [User, Address],
 };

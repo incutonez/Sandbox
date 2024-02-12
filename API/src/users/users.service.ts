@@ -23,6 +23,6 @@ export class UsersService {
 				},
 			],
 		});
-		return response.map((item) => this.mapper.modelToViewModel(item));
+		return response.map((item) => this.mapper.userToViewModel(item));
 	}
 }

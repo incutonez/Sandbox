@@ -3,6 +3,7 @@ import { Address } from "src/db/models/Address";
 
 @Table({
 	tableName: "users",
+	timestamps: false,
 })
 export class User extends Model {
 	@Column({

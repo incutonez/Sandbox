@@ -1,9 +1,9 @@
-import { IUserDetail } from "@incutonez/api-spec/dist";
+import { IUserDetail, IUserDetailAddress } from "@incutonez/api-spec/dist";
+import { Address } from "src/db/models/Address";
 import { User } from "src/db/models/User";
 
 export class UsersMapper {
-	modelToViewModel(user: User): IUserDetail {
-		console.log(user);
+	userToViewModel(user: User): IUserDetail {
 		return {
 			id: user.id,
 			firstName: user.first_name,
@@ -12,6 +12,18 @@ export class UsersMapper {
 			phone: user.phone,
 			birthDate: user.birth_date,
 			gender: user.gender,
+			address: this.addressToViewModel(user.address),
+		};
+	}
+
+	addressToViewModel({ line_one, line_two, city, state, zip_code, id }: Address): IUserDetailAddress {
+		return {
+			id,
+			lineOne: line_one,
+			lineTwo: line_two,
+			city,
+			state,
+			zipCode: zip_code,
 		};
 	}
 }
