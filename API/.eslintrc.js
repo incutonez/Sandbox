@@ -4,9 +4,10 @@ module.exports = {
 		project: "tsconfig.json",
 		tsconfigRootDir: __dirname,
 		sourceType: "module",
+		ecmaVersion: "latest",
 	},
 	plugins: ["@typescript-eslint/eslint-plugin", "eslint-plugin-import", "simple-import-sort"],
-	extends: ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
+	extends: ["plugin:@typescript-eslint/recommended"],
 	root: true,
 	env: {
 		node: true,

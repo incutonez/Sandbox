@@ -24,6 +24,12 @@ import { IUserDetailAddress } from "./iuser-detail-address";
 export interface IUserDetail {
 	/**
 	 *
+	 * @type {number}
+	 * @memberof IUserDetail
+	 */
+	id?: number;
+	/**
+	 *
 	 * @type {string}
 	 * @memberof IUserDetail
 	 */

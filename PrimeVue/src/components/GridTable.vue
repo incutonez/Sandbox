@@ -199,6 +199,7 @@ function getColumnMenuConfig(column: IGridColumn): IBaseMenu {
  * - Add my own pagination toolbar
  * - Add a search field that does global searching
  * - Add a custom column menu, which allows to dynamically hide, pin, reset columns
+ * - Add global error handling
  */
 
 watch(() => props.columns, (columns = []) => {

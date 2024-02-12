@@ -1,6 +1,6 @@
 import { GetUsers200Response } from "@incutonez/api-spec/dist";
 import { Controller, Get, ParseIntPipe, Query } from "@nestjs/common";
-import { UsersService } from "src/users.service";
+import { UsersService } from "src/users/users.service";
 
 @Controller("users")
 export class UsersController {
@@ -8,7 +8,7 @@ export class UsersController {
 
 	@Get()
 	async getUsers(@Query("start", ParseIntPipe) start: number): Promise<GetUsers200Response> {
-		const data = this.service.getUsers(start);
+		const data = await this.service.getUsers(start);
 		return {
 			data,
 			total: 500,
