@@ -17,14 +17,28 @@ module.exports = {
 	ignorePatterns: [".eslintrc.js"],
 	rules: {
 		"@typescript-eslint/no-unused-vars": "error",
-		"@typescript-eslint/indent": ["error", "tab"],
+		"@typescript-eslint/indent": [
+			"error",
+			"tab",
+			{
+				SwitchCase: 1,
+				ignoredNodes: ["PropertyDefinition"],
+			},
+		],
 		"@typescript-eslint/ban-ts-comment": [
 			"error",
 			{
 				"ts-expect-error": "allow-with-description",
 			},
 		],
-		indent: ["error", "tab"],
+		indent: [
+			"error",
+			"tab",
+			{
+				SwitchCase: 1,
+				ignoredNodes: ["PropertyDefinition"],
+			},
+		],
 		"brace-style": ["error", "stroustrup"],
 		curly: ["error", "all"],
 		"space-before-function-paren": [

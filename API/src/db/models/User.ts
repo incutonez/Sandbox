@@ -8,30 +8,30 @@ export class User extends Model {
 	@Column({
 		primaryKey: true,
 	})
-		id: number;
+	id: number;
 
 	@Column
-		first_name: string;
+	first_name: string;
 
 	@Column
-		last_name: string;
+	last_name: string;
 
 	@Column
-		phone: string;
+	phone: string;
 
 	@Column
-		email: string;
+	email: string;
 
 	@Column
-		gender: string;
+	gender: string;
 
 	@Column
-		birth_date: number;
+	birth_date: number;
 
 	@ForeignKey(() => Address)
 	@Column
-		address_id: number;
+	address_id: number;
 
 	@BelongsTo(() => Address)
-		address: Address;
+	address: Address;
 }

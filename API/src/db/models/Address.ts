@@ -7,20 +7,20 @@ export class Address extends Model {
 	@Column({
 		primaryKey: true,
 	})
-		id: number;
+	id: number;
 
 	@Column
-		line_one: string;
+	line_one: string;
 
 	@Column
-		line_two: string;
+	line_two: string;
 
 	@Column
-		city: string;
+	city: string;
 
 	@Column
-		state: string;
+	state: string;
 
 	@Column
-		zip_code: string;
+	zip_code: string;
 }
