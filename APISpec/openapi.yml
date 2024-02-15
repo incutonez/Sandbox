@@ -25,6 +25,7 @@ paths:
       responses:
         200:
           $ref: '#/components/responses/200GetUsers'
+  # TODOJEF: Add this endpoint to API project, so it can be generated
   /diff:
     get:
       tags:

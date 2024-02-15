@@ -12,5 +12,22 @@
  * Do not edit the class manually.
  */
 
-export * from "./api/default-api";
-export * from "./api/users-api";
+/**
+ *
+ * @export
+ * @interface ResponseListEntity
+ */
+export interface ResponseListEntity {
+	/**
+	 *
+	 * @type {Array<string>}
+	 * @memberof ResponseListEntity
+	 */
+	data: Array<string>;
+	/**
+	 *
+	 * @type {number}
+	 * @memberof ResponseListEntity
+	 */
+	total?: number;
+}

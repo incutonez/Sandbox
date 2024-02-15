@@ -1,9 +1,10 @@
-import { IUserDetail, IUserDetailAddress } from "@incutonez/api-spec/dist";
 import { Address } from "src/db/models/Address";
 import { User } from "src/db/models/User";
+import { AddressEntity } from "src/models/address.entity";
+import { UserEntity } from "src/models/user.entity";
 
 export class UsersMapper {
-	userToViewModel(user: User): IUserDetail {
+	userToViewModel(user: User): UserEntity {
 		return {
 			id: user.id,
 			firstName: user.first_name,
@@ -16,7 +17,7 @@ export class UsersMapper {
 		};
 	}
 
-	addressToViewModel({ line_one, line_two, city, state, zip_code, id }: Address): IUserDetailAddress {
+	addressToViewModel({ line_one, line_two, city, state, zip_code, id }: Address): AddressEntity {
 		return {
 			id,
 			lineOne: line_one,

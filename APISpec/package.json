@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "generate": "npx rimraf generated dist && npx openapi-generator-cli generate -g typescript-axios -i /local/openapi.yml -o /local/generated/ -p withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models,supportsES6=true,withInterfaces=true && npx tsc --project tsconfig.json"
+    "generate": "npx rimraf generated dist && npx openapi-generator-cli generate -g typescript-axios -i /local/swagger.json -o /local/generated/ -p withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models,supportsES6=true,withInterfaces=true && npx tsc --project tsconfig.json"
   },
   "author": "",
   "license": "ISC",
