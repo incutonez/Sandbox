@@ -10,7 +10,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Create npmrc
-        run: echo '//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN  }}' > ${{ github.workspace }}/.npmrc
+        run: echo '//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN  }}' >> ${{ github.workspace }}/.npmrc
       - run: npm ci
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
