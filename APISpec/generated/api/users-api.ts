@@ -31,12 +31,18 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
 		/**
 		 *
 		 * @param {number} start
+		 * @param {number} limit
+		 * @param {number} page
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
 		 */
-		getUsers: async (start: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+		getUsers: async (start: number, limit: number, page: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
 			// verify required parameter 'start' is not null or undefined
 			assertParamExists("getUsers", "start", start);
+			// verify required parameter 'limit' is not null or undefined
+			assertParamExists("getUsers", "limit", limit);
+			// verify required parameter 'page' is not null or undefined
+			assertParamExists("getUsers", "page", page);
 			const localVarPath = `/users`;
 			// use dummy base URL string because the URL constructor only accepts absolute URLs.
 			const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -51,6 +57,14 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
 
 			if (start !== undefined) {
 				localVarQueryParameter["start"] = start;
+			}
+
+			if (limit !== undefined) {
+				localVarQueryParameter["limit"] = limit;
+			}
+
+			if (page !== undefined) {
+				localVarQueryParameter["page"] = page;
 			}
 
 			setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -75,11 +89,13 @@ export const UsersApiFp = function (configuration?: Configuration) {
 		/**
 		 *
 		 * @param {number} start
+		 * @param {number} limit
+		 * @param {number} page
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
 		 */
-		async getUsers(start: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetUsers200Response>> {
-			const localVarAxiosArgs = await localVarAxiosParamCreator.getUsers(start, options);
+		async getUsers(start: number, limit: number, page: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetUsers200Response>> {
+			const localVarAxiosArgs = await localVarAxiosParamCreator.getUsers(start, limit, page, options);
 			return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
 		},
 	};
@@ -95,11 +111,13 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
 		/**
 		 *
 		 * @param {number} start
+		 * @param {number} limit
+		 * @param {number} page
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
 		 */
-		getUsers(start: number, options?: any): AxiosPromise<GetUsers200Response> {
-			return localVarFp.getUsers(start, options).then((request) => request(axios, basePath));
+		getUsers(start: number, limit: number, page: number, options?: any): AxiosPromise<GetUsers200Response> {
+			return localVarFp.getUsers(start, limit, page, options).then((request) => request(axios, basePath));
 		},
 	};
 };
@@ -113,11 +131,13 @@ export interface UsersApiInterface {
 	/**
 	 *
 	 * @param {number} start
+	 * @param {number} limit
+	 * @param {number} page
 	 * @param {*} [options] Override http request option.
 	 * @throws {RequiredError}
 	 * @memberof UsersApiInterface
 	 */
-	getUsers(start: number, options?: AxiosRequestConfig): AxiosPromise<GetUsers200Response>;
+	getUsers(start: number, limit: number, page: number, options?: AxiosRequestConfig): AxiosPromise<GetUsers200Response>;
 }
 
 /**
@@ -130,13 +150,15 @@ export class UsersApi extends BaseAPI implements UsersApiInterface {
 	/**
 	 *
 	 * @param {number} start
+	 * @param {number} limit
+	 * @param {number} page
 	 * @param {*} [options] Override http request option.
 	 * @throws {RequiredError}
 	 * @memberof UsersApi
 	 */
-	public getUsers(start: number, options?: AxiosRequestConfig) {
+	public getUsers(start: number, limit: number, page: number, options?: AxiosRequestConfig) {
 		return UsersApiFp(this.configuration)
-			.getUsers(start, options)
+			.getUsers(start, limit, page, options)
 			.then((request) => request(this.axios, this.basePath));
 	}
 }

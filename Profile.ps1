@@ -92,3 +92,8 @@ function upgradeApp() {
 function createApp() {
   npm create vite@latest
 }
+
+function startAPI() {
+  cd "$sandbox\API"
+  npm run start:dev
+}

@@ -1,7 +1,9 @@
 <template>
 	<DataTable
 		v-bind="propsComponent"
-		:value="records"
+		:value="recordsCached"
+		:first="startRow"
+		:loading="loading"
 		class="w-full"
 		@column-reorder="onReorder"
 	>
@@ -25,7 +27,7 @@
 					v-bind="getCellParams(column, slotProps.data)"
 				/>
 				<span v-else>
-					{{ slotProps.data[slotProps.field] }}
+					{{ getCellDisplay(column, slotProps) }}
 				</span>
 			</template>
 			<template
@@ -54,10 +56,12 @@
 				<section class="ml-auto flex gap-x-2">
 					<BaseButton
 						label="Previous"
+						:disabled="isPageFirst"
 						@click="onPagePrevious"
 					/>
 					<BaseButton
 						label="Next"
+						:disabled="isPageLast"
 						@click="onPageNext"
 					/>
 				</section>
@@ -73,7 +77,8 @@
  * - Column Resizing: https://github.com/primefaces/primevue/issues/5104
  * - Can't redefine emits: https://github.com/vuejs/core/issues/8457
  */
-import { computed, markRaw, ref, watch } from "vue";
+import { computed, markRaw, ref, unref, watch } from "vue";
+import get from "just-safe-get";
 import Column from "primevue/column";
 import DataTable, { DataTableColumnReorderEvent, DataTableProps, DataTableSlots } from "primevue/datatable";
 import IconLock from "@/assets/IconLock.vue";
@@ -96,11 +101,23 @@ const props = withDefaults(defineProps<IGridTable>(), {
 	showStripedRows: true,
 	columnsResize: true,
 	columnsReorder: true,
+	rowsPerPage: 20,
 });
+const emit = defineEmits<{
+	load: [];
+}>();
 const currentPage = defineModel<number>("currentPage", {
 	default: 1,
 });
+const recordsCached = ref<unknown[]>([]);
+const recordsTotal = ref(0);
+const loading = ref(false);
 const columnsConfig = ref<IGridColumn[]>([]);
+const max = computed(() => props.remoteMax ?? props.rowsPerPage);
+const start = computed(() => (currentPage.value - 1) * max.value);
+const startRow = computed(() => (currentPage.value - 1) * props.rowsPerPage);
+const isPageFirst = computed(() => currentPage.value === 1);
+const isPageLast = computed(() => start.value + max.value >= recordsTotal.value);
 const propsComponent = computed(() => {
 	const tableProps: DataTableProps = {
 		showGridlines: props.showLinesRow,
@@ -115,8 +132,7 @@ const propsComponent = computed(() => {
 		removableSort: true,
 		paginator: true,
 		paginatorTemplate: "",
-		// TODOJEF: Need to be configurable
-		rows: 20,
+		rows: props.rowsPerPage,
 	};
 	if (props.multiSelect) {
 		tableProps.selectionMode = "multiple";
@@ -129,15 +145,24 @@ const propsComponent = computed(() => {
 
 function onPagePrevious() {
 	currentPage.value--;
+	loadRecords();
 }
 
 function onPageNext() {
 	currentPage.value++;
+	loadRecords();
+}
+
+function getCellDisplay({ cellDisplay }: IGridColumn, slotProps: any) {
+	if (cellDisplay) {
+		return cellDisplay(slotProps.data, recordsCached.value);
+	}
+	return get(slotProps.data, slotProps.field);
 }
 
 function getCellParams({ cellParams }: IGridColumn, data: any) {
 	if (typeof cellParams === "function") {
-		return cellParams(data);
+		return cellParams(data, recordsCached.value);
 	}
 	return cellParams;
 }
@@ -189,33 +214,57 @@ function getColumnMenuConfig(column: IGridColumn): IBaseMenu {
 	};
 }
 
-/**
- * TODOJEF:
- * - Rows per page selector (use remoteMax prop, if it exists)
- * - Wire up previous and next
- * - Add a load method for server pagination
- * - Add sorting and filtering to the load method
- * - Have remote and local filtering/sorting/paging
- * - Add my own pagination toolbar
- * - Add a search field that does global searching
- * - Add a custom column menu, which allows to dynamically hide, pin, reset columns
- * - Add global error handling
- */
+function getLoadIndex(startIndex = startRow.value) {
+	let load = false;
+	const $recordsCached = unref(recordsCached);
+	for (let i = startIndex; i < startIndex + props.rowsPerPage; i++) {
+		if ($recordsCached[i] === undefined) {
+			startIndex = i;
+			load = true;
+			break;
+		}
+	}
+	return load ? startIndex : undefined;
+}
 
-watch(() => props.columns, (columns = []) => {
-	columnsConfig.value = columns.map(({ ...initialConfig }, index) => {
-		const column: IGridColumn = markRaw(initialConfig);
-		column.id ??= column.field || `col_${index}`;
-		column.indexOriginal = index;
-		column.stateful ??= true;
-		column.lock ??= false;
-		column.props = getColumnProps(column);
-		return column;
-	});
-	// TODO: eventually need to sort the columns based on state index
-}, {
-	immediate: true,
-});
+async function loadRecords(totalLoaded = 0) {
+	const { load } = props;
+	if (load) {
+		let i = getLoadIndex();
+		if (i === undefined) {
+			return;
+		}
+		const page = currentPage.value;
+		const $max = unref(max);
+		// 0-based index
+		loading.value = true;
+		try {
+			const response = await load({
+				start: i,
+				page,
+				max: $max,
+			});
+			const $recordsCached = unref(recordsCached);
+			const data = Array.isArray(response) ? response : response.data ?? [];
+			if (response.total) {
+				recordsTotal.value = response.total;
+			}
+			totalLoaded += data.length;
+			for (const item of data) {
+				$recordsCached[i++] = item;
+			}
+			if (totalLoaded !== 0 && totalLoaded < props.rowsPerPage) {
+				loadRecords(totalLoaded);
+			}
+		}
+		finally {
+			loading.value = false;
+		}
+	}
+	else {
+		emit("load");
+	}
+}
 
 function reorderColumns() {
 	// TODOJEF: There's an issue here where we drag a column to change its order, and then try to lock it... this
@@ -249,4 +298,29 @@ function onReorder({ dragIndex, dropIndex }: DataTableColumnReorderEvent) {
 	columnsConfig.value.splice(dragIndex, 1);
 	columnsConfig.value.splice(dropIndex, 0, element);
 }
+
+watch(() => props.records, ($records = []) => (recordsCached.value = $records), {
+	immediate: true,
+});
+
+watch(() => props.columns, (columns = []) => {
+	columnsConfig.value = columns.map(({ ...initialConfig }, index) => {
+		const column: IGridColumn = markRaw(initialConfig);
+		column.id ??= column.field || `col_${index}`;
+		column.indexOriginal = index;
+		column.stateful ??= true;
+		column.lock ??= false;
+		column.props = getColumnProps(column);
+		return column;
+	});
+	// TODO: eventually need to sort the columns based on state index
+}, {
+	immediate: true,
+});
+
+loadRecords();
+
+defineExpose({
+	loadRecords,
+});
 </script>

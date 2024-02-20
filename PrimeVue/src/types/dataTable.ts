@@ -11,6 +11,7 @@ export interface IGridColumn {
 	sortable?: boolean;
 	cellComponent?: InstanceType<any>;
 	cellParams?: any;
+	cellDisplay?: (data: unknown, records: unknown) => any;
 	lock?: TColumnLock;
 	cls?: string;
 	showMenu?: boolean;
@@ -18,6 +19,12 @@ export interface IGridColumn {
 	indexOriginal?: number;
 	props?: ColumnProps;
 	stateful?: boolean;
+}
+
+export interface IGridLoad {
+	start: number;
+	page: number;
+	max: number;
 }
 
 export interface IGridTable<TData = any> {
@@ -30,6 +37,8 @@ export interface IGridTable<TData = any> {
 	columns?: IGridColumn[];
 	columnsResize?: boolean;
 	columnsReorder?: boolean;
+	rowsPerPage?: number;
+	load?: (params: IGridLoad) => Promise<any>;
 	/**
 	 * Sometimes the API endpoint can only have a certain max number, which is what this represents.
 	 * If it's not set, then the default is the rows per page value.

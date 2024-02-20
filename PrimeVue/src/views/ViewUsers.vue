@@ -1,7 +1,8 @@
 <template>
 	<GridTable
-		:records="Data"
 		:columns="columns"
+		:load="getUsers"
+		:remote-max="15"
 	/>
 </template>
 
@@ -13,10 +14,11 @@ import IconEdit from "@/assets/IconEdit.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import GridCellMenu, { IGridCellMenu } from "@/components/GridCellMenu.vue";
 import GridTable from "@/components/GridTable.vue";
-import Data from "@/MOCK_DATA.json";
 import { IGridColumn } from "@/types/dataTable.ts";
+import { useColumnIndex } from "@/views/shared/columns.ts";
 
 const columns: IGridColumn[] = [
+	useColumnIndex(),
 	{
 		lock: "left",
 		showMenu: false,
@@ -77,6 +79,4 @@ const columns: IGridColumn[] = [
 		},
 	},
 ];
-
-getUsers();
 </script>

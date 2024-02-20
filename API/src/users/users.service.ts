@@ -1,9 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { User } from "src/db/models/User";
+import { ApiPaginatedRequest } from "src/models/base.list.entity";
 import { UsersMapper } from "src/users/users.mapper";
-
-const Max = 20;
 
 @Injectable()
 export class UsersService {
@@ -13,9 +12,9 @@ export class UsersService {
 		private readonly mapper: UsersMapper,
 	) {}
 
-	async getUsers(start = 0) {
+	async getUsers({ start = 0, limit = 20 }: ApiPaginatedRequest) {
 		const response = await this.usersDB.findAll({
-			limit: Max,
+			limit,
 			offset: start,
 			include: [
 				{

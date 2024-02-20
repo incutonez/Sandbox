@@ -5,8 +5,6 @@
   "private": false,
   "scripts": {
     "zelda:ui": "cd ZeldaWorldBuilder/ui && npm start",
-    "companyContacts": "cd CompanyContacts && npm start",
-    "rpan": "cd RPAN && npm start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "updateDeps": "node ./updateDependencies.js",
     "lint": "npx eslint . --ext .js --fix",

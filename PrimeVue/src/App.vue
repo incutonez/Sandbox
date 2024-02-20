@@ -31,6 +31,26 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * TODOJEF:
+ * - Rows per page selector (use remoteMax prop, if it exists)
+ * - Wire up previous and next
+ * - Add a load method for server pagination
+ * - Add sorting and filtering to the load method
+ * - Have remote and local filtering/sorting/paging
+ * - Add my own pagination toolbar
+ * - Add a search field that does global searching
+ * - Add a custom column menu, which allows to dynamically hide, pin, reset columns
+ * - Add global error handling
+ * - CSV upload that shows grids and errors from API
+ * - Add saving of scrollbar for routes (using __name with dynamic caching)
+ * - Add vue-tsc-files for TS linting on commit
+ * - Migrate any individual API dirs to API dir, so we have a centralized API
+ * - Add class validator
+ * - Add CRUD operations to grids with cell editors
+ * - Potentially add provide/inject with GridTable
+ * - Potentially use provide/inject for users.ts data loading
+ */
 import IconUsers from "@/assets/IconUsers.vue";
 import { viewUsers } from "@/router.ts";
 

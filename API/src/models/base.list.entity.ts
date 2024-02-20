@@ -9,6 +9,12 @@ export class ResponseListEntity<T = unknown> {
 	total?: number;
 }
 
+export class ApiPaginatedRequest {
+	start: number;
+	limit: number;
+	page: number;
+}
+
 export const ApiPaginatedResponse = <TModel extends Type<unknown>>(model: TModel) => {
 	return applyDecorators(
 		ApiExtraModels(ResponseListEntity, model),
