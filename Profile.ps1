@@ -97,3 +97,9 @@ function startAPI() {
   cd "$sandbox\API"
   npm run start:dev
 }
+
+
+function startUI() {
+  cd "$sandbox\PrimeVue"
+  npm run dev
+}
