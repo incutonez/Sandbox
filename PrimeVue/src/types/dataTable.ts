@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 import { ColumnPassThroughOptions, ColumnProps } from "primevue/column";
+import { IOption } from "@/components/FieldComboBox.vue";
 
 export type TColumnLock = "left" | "right" | false;
 
@@ -33,6 +34,7 @@ export interface IGridTable<TData = any> {
 	showLinesColumn?: boolean;
 	showLinesRow?: boolean;
 	showStripedRows?: boolean;
+	showRowsPerPage?: boolean;
 	multiSelect?: boolean | undefined;
 	columns?: IGridColumn[];
 	columnsResize?: boolean;
@@ -51,6 +53,25 @@ export interface IColumnState {
 	width?: number;
 	index?: number;
 }
+
+export const RowsPerPageOptions: IOption[] = [
+	{
+		id: 10,
+		name: "10",
+	},
+	{
+		id: 20,
+		name: "20",
+	},
+	{
+		id: 50,
+		name: "50",
+	},
+	{
+		id: 100,
+		name: "100",
+	},
+];
 
 export function getColumnProps({ field, title, sortable, lock, cls = "", showMenu = true, id }: IGridColumn) {
 	const pt: ColumnPassThroughOptions = {};

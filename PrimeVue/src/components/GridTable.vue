@@ -1,9 +1,10 @@
 <template>
 	<DataTable
 		v-bind="propsComponent"
-		:value="recordsCached"
-		:first="startRow"
+		:value="loading ? [] : recordsCached"
+		:first="start"
 		:loading="loading"
+		:rows="rowsPerPage"
 		class="w-full"
 		@column-reorder="onReorder"
 	>
@@ -53,6 +54,12 @@
 		</template>
 		<template #footer>
 			<article class="flex">
+				<FieldComboBox
+					v-if="showRowsPerPage"
+					v-model="rowsPerPage"
+					class="w-24"
+					:options="RowsPerPageOptions"
+				/>
 				<section class="ml-auto flex gap-x-2">
 					<BaseButton
 						label="Previous"
@@ -89,19 +96,23 @@ import IconResetColumns from "@/assets/IconResetColumns.vue";
 import IconSort from "@/assets/IconSort.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import { IBaseMenu, IMenuItem } from "@/components/BaseMenu.vue";
+import FieldComboBox from "@/components/FieldComboBox.vue";
 import GridCellMenu from "@/components/GridCellMenu.vue";
-import { getColumnProps, IGridColumn, IGridTable, setColumnLock } from "@/types/dataTable";
+import { getColumnProps, IGridColumn, IGridTable, RowsPerPageOptions, setColumnLock } from "@/types/dataTable";
 
 const slots = defineSlots<DataTableSlots>();
 const props = withDefaults(defineProps<IGridTable>(), {
 	showLinesColumn: true,
 	showLinesRow: true,
 	showHoverRow: true,
-	multiSelect: false,
 	showStripedRows: true,
+	showRowsPerPage: true,
+	multiSelect: false,
 	columnsResize: true,
 	columnsReorder: true,
-	rowsPerPage: 20,
+});
+const rowsPerPage = defineModel<number>("rowsPerPage", {
+	default: 20,
 });
 const emit = defineEmits<{
 	load: [];
@@ -113,11 +124,10 @@ const recordsCached = ref<unknown[]>([]);
 const recordsTotal = ref(0);
 const loading = ref(false);
 const columnsConfig = ref<IGridColumn[]>([]);
-const max = computed(() => props.remoteMax ?? props.rowsPerPage);
-const start = computed(() => (currentPage.value - 1) * max.value);
-const startRow = computed(() => (currentPage.value - 1) * props.rowsPerPage);
+const max = computed(() => props.remoteMax ?? rowsPerPage.value);
+const start = computed(() => (currentPage.value - 1) * rowsPerPage.value);
 const isPageFirst = computed(() => currentPage.value === 1);
-const isPageLast = computed(() => start.value + max.value >= recordsTotal.value);
+const isPageLast = computed(() => start.value + rowsPerPage.value >= recordsTotal.value);
 const propsComponent = computed(() => {
 	const tableProps: DataTableProps = {
 		showGridlines: props.showLinesRow,
@@ -132,7 +142,6 @@ const propsComponent = computed(() => {
 		removableSort: true,
 		paginator: true,
 		paginatorTemplate: "",
-		rows: props.rowsPerPage,
 	};
 	if (props.multiSelect) {
 		tableProps.selectionMode = "multiple";
@@ -214,29 +223,25 @@ function getColumnMenuConfig(column: IGridColumn): IBaseMenu {
 	};
 }
 
-function getLoadIndex(startIndex = startRow.value) {
-	let load = false;
-	const $recordsCached = unref(recordsCached);
-	for (let i = startIndex; i < startIndex + props.rowsPerPage; i++) {
-		if ($recordsCached[i] === undefined) {
-			startIndex = i;
-			load = true;
-			break;
-		}
-	}
-	return load ? startIndex : undefined;
-}
-
-async function loadRecords(totalLoaded = 0) {
+async function loadRecords(loadCount?: number) {
 	const { load } = props;
 	if (load) {
-		let i = getLoadIndex();
-		if (i === undefined) {
+		const $recordsCached = unref(recordsCached);
+		const $start = unref(start);
+		let i = $start;
+		let isCached = true;
+		for (i; i < $start + rowsPerPage.value; i++) {
+			if ($recordsCached[i] === undefined) {
+				isCached = false;
+				break;
+			}
+		}
+		if (isCached || loadCount === 0 || (loadCount && loadCount >= rowsPerPage.value)) {
+			loading.value = false;
 			return;
 		}
 		const page = currentPage.value;
 		const $max = unref(max);
-		// 0-based index
 		loading.value = true;
 		try {
 			const response = await load({
@@ -244,21 +249,21 @@ async function loadRecords(totalLoaded = 0) {
 				page,
 				max: $max,
 			});
-			const $recordsCached = unref(recordsCached);
 			const data = Array.isArray(response) ? response : response.data ?? [];
+			loadCount ??= 0;
+			loadCount += data.length;
 			if (response.total) {
 				recordsTotal.value = response.total;
 			}
-			totalLoaded += data.length;
 			for (const item of data) {
 				$recordsCached[i++] = item;
 			}
-			if (totalLoaded !== 0 && totalLoaded < props.rowsPerPage) {
-				loadRecords(totalLoaded);
-			}
+			// Fire off the next load, in case we need to get the next page of records
+			loadRecords(loadCount);
 		}
-		finally {
+		catch (ex) {
 			loading.value = false;
+			throw ex;
 		}
 	}
 	else {
@@ -302,6 +307,8 @@ function onReorder({ dragIndex, dropIndex }: DataTableColumnReorderEvent) {
 watch(() => props.records, ($records = []) => (recordsCached.value = $records), {
 	immediate: true,
 });
+
+watch(rowsPerPage, () => loadRecords());
 
 watch(() => props.columns, (columns = []) => {
 	columnsConfig.value = columns.map(({ ...initialConfig }, index) => {
