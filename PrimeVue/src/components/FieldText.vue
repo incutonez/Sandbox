@@ -1,9 +1,6 @@
 <template>
 	<article class="relative w-max">
-		<label
-			v-if="label"
-			class="mr-2"
-		>{{ label }}:</label>
+		<FieldLabel :text="label" />
 		<PrimeInputText
 			v-model="modelValue"
 			:class="inputCls"
@@ -29,6 +26,7 @@ import { computed, InputTypeHTMLAttribute } from "vue";
 import PrimeInputText from "primevue/inputtext";
 import IconClear from "@/assets/IconClear.vue";
 import BaseButton from "@/components/BaseButton.vue";
+import FieldLabel from "@/components/FieldLabel.vue";
 
 interface IFieldText {
 	label?: string;
@@ -39,6 +37,7 @@ interface IFieldText {
 	 * Number of ms to delay before firing inputEnd event
 	 */
 	delay?: number;
+	inputWidth?: string;
 }
 
 const props = withDefaults(defineProps<IFieldText>(), {
@@ -46,6 +45,7 @@ const props = withDefaults(defineProps<IFieldText>(), {
 	showClear: true,
 	type: "text",
 	delay: 300,
+	inputWidth: "w-44",
 });
 const emit = defineEmits(["inputEnd", "inputClear"]);
 const modelValue = defineModel<string>();
@@ -54,6 +54,7 @@ const clearVisible = computed(() => props.showClear && !!modelValue.value);
 const inputCls = computed(() => {
 	return {
 		"pr-6": props.showClear,
+		[props.inputWidth]: true,
 	};
 });
 

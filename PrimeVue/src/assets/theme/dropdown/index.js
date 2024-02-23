@@ -49,7 +49,7 @@ export default {
 
 			// Sizing and Spacing
 			"w-[1%]",
-			"py-1.5 px-3",
+			"py-1.5 px-2",
 			{
 				"pr-7": props.showClear,
 			},
@@ -86,11 +86,12 @@ export default {
 			"text-surface-500",
 
 			// Size
-			"w-12",
+			"w-6",
 
 			// Shape
 			"rounded-tr-md",
 			"rounded-br-md",
+			"cursor-pointer",
 		],
 	},
 	panel: {

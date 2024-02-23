@@ -59,25 +59,51 @@
 			</section>
 		</template>
 		<template #footer>
-			<article class="flex">
+			<article class="flex items-center justify-between">
 				<FieldComboBox
 					v-if="showRowsPerPage"
-					v-model="rowsPerPage"
-					class="w-24"
+					:model-value="rowsPerPage"
+					class="w-auto"
+					label-cls="text-sm"
+					label="Rows"
 					:options="RowsPerPageOptions"
+					@update:model-value="onChangeRows"
 				/>
-				<section class="ml-auto flex gap-x-2">
+				<section class="flex items-center gap-x-2">
 					<BaseButton
-						label="Previous"
+						title="Previous"
 						:disabled="isPageFirst"
+						plain
+						class="!p-0"
 						@click="onPagePrevious"
+					>
+						<template #icon>
+							<IconPageLeft class="h-8 w-8" />
+						</template>
+					</BaseButton>
+					<FieldNumber
+						label="Page"
+						input-width="w-10"
+						input-cls="text-center !px-2 !py-1"
+						label-cls="text-sm"
+						:min="1"
+						:model-value="currentPage"
+						@update:model-value="onChangePage"
 					/>
+					<span class="text-sm">of {{ totalPages }}</span>
 					<BaseButton
-						label="Next"
+						title="Next"
 						:disabled="isPageLast"
+						plain
+						class="!p-0"
 						@click="onPageNext"
-					/>
+					>
+						<template #icon>
+							<IconPageRight class="h-8 w-8" />
+						</template>
+					</BaseButton>
 				</section>
+				<span class="text-sm">{{ startDisplay }} - {{ endDisplay }} of {{ recordsTotal }}</span>
 			</article>
 		</template>
 	</DataTable>
@@ -98,6 +124,8 @@ import Column from "primevue/column";
 import DataTable, { DataTableColumnReorderEvent, DataTableProps } from "primevue/datatable";
 import IconLock from "@/assets/IconLock.vue";
 import IconNotAllowed from "@/assets/IconNotAllowed.vue";
+import IconPageLeft from "@/assets/IconPageLeft.vue";
+import IconPageRight from "@/assets/IconPageRight.vue";
 import IconPin from "@/assets/IconPin.vue";
 import IconResetColumn from "@/assets/IconResetColumn.vue";
 import IconResetColumns from "@/assets/IconResetColumns.vue";
@@ -105,6 +133,7 @@ import IconSort from "@/assets/IconSort.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import { IBaseMenu, IMenuItem } from "@/components/BaseMenu.vue";
 import FieldComboBox from "@/components/FieldComboBox.vue";
+import FieldNumber from "@/components/FieldNumber.vue";
 import FieldText from "@/components/FieldText.vue";
 import GridCellMenu from "@/components/GridCellMenu.vue";
 import { getColumnProps, IGridColumn, IGridTable, RowsPerPageOptions, setColumnLock } from "@/types/dataTable";
@@ -142,8 +171,14 @@ const loading = ref(false);
 const columnsConfig = ref<IGridColumn[]>([]);
 const max = computed(() => props.remoteMax ?? rowsPerPage.value);
 const start = computed(() => (currentPage.value - 1) * rowsPerPage.value);
+const startDisplay = computed(() => (recordsTotal.value === 0 ? 0 : start.value + 1));
+const endDisplay = computed(() => {
+	const end = start.value + rowsPerPage.value;
+	return end > recordsTotal.value ? recordsTotal.value : end;
+});
 const isPageFirst = computed(() => currentPage.value === 1);
 const isPageLast = computed(() => start.value + rowsPerPage.value >= recordsTotal.value);
+const totalPages = computed(() => Math.ceil(recordsTotal.value / rowsPerPage.value));
 const propsComponent = computed(() => {
 	const tableProps: DataTableProps = {
 		showGridlines: props.showLinesRow,
@@ -175,6 +210,12 @@ function onPagePrevious() {
 
 function onPageNext() {
 	currentPage.value++;
+	loadRecords();
+}
+
+function onChangeRows(value: number) {
+	currentPage.value = Math.floor((start.value + 1) / value) + 1;
+	rowsPerPage.value = value;
 	loadRecords();
 }
 
@@ -356,11 +397,20 @@ function onSearch() {
 	}
 }
 
+function onChangePage(value: number) {
+	if (!value) {
+		value = 1;
+	}
+	else if (value > totalPages.value) {
+		value = totalPages.value;
+	}
+	currentPage.value = value;
+	loadRecords();
+}
+
 watch(() => props.records, ($records = []) => (recordsCached.value = $records), {
 	immediate: true,
 });
-
-watch(rowsPerPage, () => loadRecords());
 
 watch(() => props.columns, (columns = []) => {
 	const { remote } = props;
