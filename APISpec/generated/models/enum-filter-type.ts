@@ -12,20 +12,16 @@
  * Do not edit the class manually.
  */
 
-// May contain unused imports in some cases
-// @ts-ignore
-import { UserEntity } from "./user-entity";
-
 /**
  *
  * @export
- * @interface GetUsers200ResponseAllOf
+ * @enum {string}
  */
-export interface GetUsers200ResponseAllOf {
-	/**
-	 *
-	 * @type {Array<UserEntity>}
-	 * @memberof GetUsers200ResponseAllOf
-	 */
-	data?: Array<UserEntity>;
-}
+
+export const EnumFilterType = {
+	Contains: "Contains",
+	GreaterThan: "GreaterThan",
+	Search: "Search",
+} as const;
+
+export type EnumFilterType = (typeof EnumFilterType)[keyof typeof EnumFilterType];

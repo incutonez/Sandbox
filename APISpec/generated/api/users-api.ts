@@ -21,7 +21,9 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "../base";
 // @ts-ignore
-import { GetUsers200Response } from "../models";
+import { ApiPaginatedRequest } from "../models";
+// @ts-ignore
+import { ListUsers200Response } from "../models";
 /**
  * UsersApi - axios parameter creator
  * @export
@@ -30,20 +32,14 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
 	return {
 		/**
 		 *
-		 * @param {number} start
-		 * @param {number} limit
-		 * @param {number} page
+		 * @param {ApiPaginatedRequest} apiPaginatedRequest
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
 		 */
-		getUsers: async (start: number, limit: number, page: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-			// verify required parameter 'start' is not null or undefined
-			assertParamExists("getUsers", "start", start);
-			// verify required parameter 'limit' is not null or undefined
-			assertParamExists("getUsers", "limit", limit);
-			// verify required parameter 'page' is not null or undefined
-			assertParamExists("getUsers", "page", page);
-			const localVarPath = `/users`;
+		listUsers: async (apiPaginatedRequest: ApiPaginatedRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+			// verify required parameter 'apiPaginatedRequest' is not null or undefined
+			assertParamExists("listUsers", "apiPaginatedRequest", apiPaginatedRequest);
+			const localVarPath = `/users/list`;
 			// use dummy base URL string because the URL constructor only accepts absolute URLs.
 			const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
 			let baseOptions;
@@ -51,25 +47,16 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
 				baseOptions = configuration.baseOptions;
 			}
 
-			const localVarRequestOptions = { method: "GET", ...baseOptions, ...options };
+			const localVarRequestOptions = { method: "POST", ...baseOptions, ...options };
 			const localVarHeaderParameter = {} as any;
 			const localVarQueryParameter = {} as any;
 
-			if (start !== undefined) {
-				localVarQueryParameter["start"] = start;
-			}
-
-			if (limit !== undefined) {
-				localVarQueryParameter["limit"] = limit;
-			}
-
-			if (page !== undefined) {
-				localVarQueryParameter["page"] = page;
-			}
+			localVarHeaderParameter["Content-Type"] = "application/json";
 
 			setSearchParams(localVarUrlObj, localVarQueryParameter);
 			let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
 			localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+			localVarRequestOptions.data = serializeDataIfNeeded(apiPaginatedRequest, localVarRequestOptions, configuration);
 
 			return {
 				url: toPathString(localVarUrlObj),
@@ -88,14 +75,12 @@ export const UsersApiFp = function (configuration?: Configuration) {
 	return {
 		/**
 		 *
-		 * @param {number} start
-		 * @param {number} limit
-		 * @param {number} page
+		 * @param {ApiPaginatedRequest} apiPaginatedRequest
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
 		 */
-		async getUsers(start: number, limit: number, page: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetUsers200Response>> {
-			const localVarAxiosArgs = await localVarAxiosParamCreator.getUsers(start, limit, page, options);
+		async listUsers(apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListUsers200Response>> {
+			const localVarAxiosArgs = await localVarAxiosParamCreator.listUsers(apiPaginatedRequest, options);
 			return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
 		},
 	};
@@ -110,14 +95,12 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
 	return {
 		/**
 		 *
-		 * @param {number} start
-		 * @param {number} limit
-		 * @param {number} page
+		 * @param {ApiPaginatedRequest} apiPaginatedRequest
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
 		 */
-		getUsers(start: number, limit: number, page: number, options?: any): AxiosPromise<GetUsers200Response> {
-			return localVarFp.getUsers(start, limit, page, options).then((request) => request(axios, basePath));
+		listUsers(apiPaginatedRequest: ApiPaginatedRequest, options?: any): AxiosPromise<ListUsers200Response> {
+			return localVarFp.listUsers(apiPaginatedRequest, options).then((request) => request(axios, basePath));
 		},
 	};
 };
@@ -130,14 +113,12 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
 export interface UsersApiInterface {
 	/**
 	 *
-	 * @param {number} start
-	 * @param {number} limit
-	 * @param {number} page
+	 * @param {ApiPaginatedRequest} apiPaginatedRequest
 	 * @param {*} [options] Override http request option.
 	 * @throws {RequiredError}
 	 * @memberof UsersApiInterface
 	 */
-	getUsers(start: number, limit: number, page: number, options?: AxiosRequestConfig): AxiosPromise<GetUsers200Response>;
+	listUsers(apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig): AxiosPromise<ListUsers200Response>;
 }
 
 /**
@@ -149,16 +130,14 @@ export interface UsersApiInterface {
 export class UsersApi extends BaseAPI implements UsersApiInterface {
 	/**
 	 *
-	 * @param {number} start
-	 * @param {number} limit
-	 * @param {number} page
+	 * @param {ApiPaginatedRequest} apiPaginatedRequest
 	 * @param {*} [options] Override http request option.
 	 * @throws {RequiredError}
 	 * @memberof UsersApi
 	 */
-	public getUsers(start: number, limit: number, page: number, options?: AxiosRequestConfig) {
+	public listUsers(apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig) {
 		return UsersApiFp(this.configuration)
-			.getUsers(start, limit, page, options)
+			.listUsers(apiPaginatedRequest, options)
 			.then((request) => request(this.axios, this.basePath));
 	}
 }

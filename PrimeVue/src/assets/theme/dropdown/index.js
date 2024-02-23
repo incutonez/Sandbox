@@ -14,8 +14,8 @@ export default {
 
 			// States
 			{
-				"ring-1 ring-inset ring-surface-300 dark:ring-surface-700": !state.focused,
-				"ring-2 ring-inset ring-primary-500 dark:ring-primary-400": state.focused,
+				"ring-1 ring-inset ring-gray-b dark:ring-surface-700": !state.focused,
+				"ring-1 ring-inset ring-sky-600 dark:ring-primary-400": state.focused,
 			},
 
 			// Misc
@@ -107,7 +107,7 @@ export default {
 			// Color
 			"bg-white dark:bg-surface-800",
 			"text-gray-800 dark:text-white/80",
-			"ring-1 ring-inset ring-blue-300 dark:ring-surface-700",
+			"ring-1 ring-inset ring-gray-b dark:ring-surface-700",
 		],
 	},
 	wrapper: {
@@ -129,7 +129,7 @@ export default {
 			"leading-none",
 			{
 				"font-normal": !context.selected,
-				"font-bold": context.selected,
+				"font-semibold": context.selected,
 			},
 
 			// Position

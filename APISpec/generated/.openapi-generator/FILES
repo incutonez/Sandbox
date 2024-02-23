@@ -10,8 +10,12 @@ configuration.ts
 git_push.sh
 index.ts
 models/address-entity.ts
-models/get-users200-response-all-of.ts
-models/get-users200-response.ts
+models/api-paginated-request.ts
+models/enum-filter-type.ts
+models/filter-type-value.ts
+models/filter-type.ts
 models/index.ts
+models/list-users200-response-all-of.ts
+models/list-users200-response.ts
 models/response-list-entity.ts
 models/user-entity.ts

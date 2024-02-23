@@ -1,6 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
+import { FindOptions } from "sequelize";
 import { User } from "src/db/models/User";
+import { whereSearch } from "src/db/query";
+import { EnumFilterType } from "src/enums.entity";
 import { ApiPaginatedRequest } from "src/models/base.list.entity";
 import { UsersMapper } from "src/users/users.mapper";
 
@@ -12,8 +15,8 @@ export class UsersService {
 		private readonly mapper: UsersMapper,
 	) {}
 
-	async getUsers({ start = 0, limit = 20 }: ApiPaginatedRequest) {
-		const response = await this.usersDB.findAll({
+	async listUsers({ start = 0, limit = 20, filters = [] }: ApiPaginatedRequest) {
+		const query: FindOptions<User> = {
 			limit,
 			offset: start,
 			include: [
@@ -21,7 +24,16 @@ export class UsersService {
 					all: true,
 				},
 			],
+		};
+		filters.forEach(({ type, value }) => {
+			if (type === EnumFilterType.Search) {
+				query.where = whereSearch<User>(["first_name", "last_name", "phone", "email", "gender", "birth_date"], value);
+			}
 		});
-		return response.map((item) => this.mapper.userToViewModel(item));
+		const { rows, count } = await this.usersDB.findAndCountAll(query);
+		return {
+			data: rows.map((item) => this.mapper.userToViewModel(item)),
+			total: count,
+		};
 	}
 }

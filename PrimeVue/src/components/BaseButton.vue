@@ -2,8 +2,9 @@
 	<PrimeButton
 		:label="text"
 		:disabled="disabled"
-		:size="size ?? 'small'"
-		:plain="unstyled"
+		:size="size"
+		:plain="plain"
+		:unstyled="unstyled"
 	>
 		<!-- Expose all slots from parent component -->
 		<template
@@ -25,9 +26,13 @@ export interface IButton {
 	text?: string;
 	disabled?: boolean;
 	size?: "small" | "large";
+	plain?: boolean;
 	unstyled?: boolean;
 }
 
-defineProps<IButton>();
+withDefaults(defineProps<IButton>(), {
+	size: "large",
+	text: undefined,
+});
 const slots = defineSlots<ButtonSlots>();
 </script>

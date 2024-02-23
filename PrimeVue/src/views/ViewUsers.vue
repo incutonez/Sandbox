@@ -2,7 +2,9 @@
 	<GridTable
 		:columns="columns"
 		:load="getUsers"
+		remote
 		:remote-max="15"
+		title="Users"
 	/>
 </template>
 

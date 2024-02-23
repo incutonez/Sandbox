@@ -58,13 +58,10 @@ export default {
 			"font-semibold",
 
 			// Shape
-			props.showGridlines ? "border-b" : "border-b border-x-0",
+			props.showGridlines ? "border border-gray-b" : "border-b border-x-0",
 
 			// Spacing
 			"py-3.5 px-3",
-
-			// Color
-			"text-surface-700 dark:text-white/80",
 		],
 	}),
 	table: {

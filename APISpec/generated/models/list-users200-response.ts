@@ -14,7 +14,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { GetUsers200ResponseAllOf } from "./get-users200-response-all-of";
+import { ListUsers200ResponseAllOf } from "./list-users200-response-all-of";
 // May contain unused imports in some cases
 // @ts-ignore
 import { ResponseListEntity } from "./response-list-entity";
@@ -23,7 +23,7 @@ import { ResponseListEntity } from "./response-list-entity";
 import { UserEntity } from "./user-entity";
 
 /**
- * @type GetUsers200Response
+ * @type ListUsers200Response
  * @export
  */
-export type GetUsers200Response = GetUsers200ResponseAllOf & ResponseListEntity;
+export type ListUsers200Response = ListUsers200ResponseAllOf & ResponseListEntity;

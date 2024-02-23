@@ -33,13 +33,9 @@
 <script setup lang="ts">
 /**
  * TODOJEF:
- * - Rows per page selector (use remoteMax prop, if it exists)
- * - Wire up previous and next
- * - Add a load method for server pagination
  * - Add sorting and filtering to the load method
  * - Have remote and local filtering/sorting/paging
  * - Add my own pagination toolbar
- * - Add a search field that does global searching
  * - Add a custom column menu, which allows to dynamically hide, pin, reset columns
  * - Add global error handling
  * - CSV upload that shows grids and errors from API

@@ -1,6 +1,8 @@
 <template>
 	<DataTable
 		v-bind="propsComponent"
+		v-model:filters="filters"
+		:global-filter-fields="filterFields"
 		:value="loading ? [] : recordsCached"
 		:first="start"
 		:loading="loading"
@@ -36,21 +38,25 @@
 				v-if="column.showMenu ?? true"
 			>
 				<GridCellMenu
-					:button-config="{ unstyled: true }"
+					:button-config="{ plain: true }"
 					:menu-config="getColumnMenuConfig(column)"
 					class="absolute right-1"
 				/>
 			</template>
 		</Column>
-		<!-- Expose all slots from parent component -->
-		<template
-			v-for="(_, slot) of $slots"
-			#[slot]="scope"
-		>
-			<slot
-				:name="slot as keyof typeof slots"
-				v-bind="scope ?? {}"
-			/>
+		<template #header>
+			<section class="flex">
+				<h2 v-if="title">
+					{{ title }}
+				</h2>
+				<FieldText
+					class="ml-auto"
+					label="Search"
+					v-model="search"
+					@input-clear="onSearch"
+					@input-end="onSearch"
+				/>
+			</section>
 		</template>
 		<template #footer>
 			<article class="flex">
@@ -84,10 +90,12 @@
  * - Column Resizing: https://github.com/primefaces/primevue/issues/5104
  * - Can't redefine emits: https://github.com/vuejs/core/issues/8457
  */
-import { computed, markRaw, ref, unref, watch } from "vue";
+import { computed, markRaw, reactive, ref, unref, watch } from "vue";
+import { type FilterType } from "@incutonez/api-spec/dist";
 import get from "just-safe-get";
+import { FilterMatchMode } from "primevue/api";
 import Column from "primevue/column";
-import DataTable, { DataTableColumnReorderEvent, DataTableProps, DataTableSlots } from "primevue/datatable";
+import DataTable, { DataTableColumnReorderEvent, DataTableProps } from "primevue/datatable";
 import IconLock from "@/assets/IconLock.vue";
 import IconNotAllowed from "@/assets/IconNotAllowed.vue";
 import IconPin from "@/assets/IconPin.vue";
@@ -97,10 +105,10 @@ import IconSort from "@/assets/IconSort.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import { IBaseMenu, IMenuItem } from "@/components/BaseMenu.vue";
 import FieldComboBox from "@/components/FieldComboBox.vue";
+import FieldText from "@/components/FieldText.vue";
 import GridCellMenu from "@/components/GridCellMenu.vue";
 import { getColumnProps, IGridColumn, IGridTable, RowsPerPageOptions, setColumnLock } from "@/types/dataTable";
 
-const slots = defineSlots<DataTableSlots>();
 const props = withDefaults(defineProps<IGridTable>(), {
 	showLinesColumn: true,
 	showLinesRow: true,
@@ -119,6 +127,14 @@ const emit = defineEmits<{
 }>();
 const currentPage = defineModel<number>("currentPage", {
 	default: 1,
+});
+const search = ref("");
+const filterFields = ref<string[]>([]);
+const filters = reactive<any>({
+	global: {
+		value: null,
+		matchMode: FilterMatchMode.CONTAINS,
+	},
 });
 const recordsCached = ref<unknown[]>([]);
 const recordsTotal = ref(0);
@@ -223,20 +239,38 @@ function getColumnMenuConfig(column: IGridColumn): IBaseMenu {
 	};
 }
 
+function clearCache() {
+	recordsCached.value = [];
+	currentPage.value = 1;
+}
+
 async function loadRecords(loadCount?: number) {
 	const { load } = props;
 	if (load) {
 		const $recordsCached = unref(recordsCached);
 		const $start = unref(start);
+		const $recordsTotal = unref(recordsTotal);
 		let i = $start;
 		let isCached = true;
-		for (i; i < $start + rowsPerPage.value; i++) {
+		let lastIndex = $start + rowsPerPage.value;
+		// We need to adjust the last index if we're out of bounds from the total
+		if ($recordsTotal) {
+			lastIndex = lastIndex > $recordsTotal - 1 ? $recordsTotal : lastIndex;
+		}
+		// Check to see if we've already cached all the records in the range we're about to load
+		for (i; i < lastIndex; i++) {
 			if ($recordsCached[i] === undefined) {
 				isCached = false;
 				break;
 			}
 		}
-		if (isCached || loadCount === 0 || (loadCount && loadCount >= rowsPerPage.value)) {
+		/**
+		 * If our loadCount is >= rowsPerPage, then that means we've loaded the range... we must check rowsPerPage because
+		 * the max isn't sufficient enough, as it could just be the remoteMax value instead of how many rows we want to
+		 * display.  We also check to see if we've loaded < the max, as that means we've most likely hit the last row of
+		 * results.
+		 */
+		if (isCached || loadCount === 0 || loadCount === $recordsTotal || (loadCount && (loadCount >= rowsPerPage.value || loadCount < max.value))) {
 			loading.value = false;
 			return;
 		}
@@ -244,10 +278,18 @@ async function loadRecords(loadCount?: number) {
 		const $max = unref(max);
 		loading.value = true;
 		try {
+			const filters: FilterType[] = [];
+			if (search.value) {
+				filters.push({
+					type: "Search",
+					value: search.value,
+				});
+			}
 			const response = await load({
-				start: i,
 				page,
-				max: $max,
+				filters,
+				start: i,
+				limit: $max,
 			});
 			const data = Array.isArray(response) ? response : response.data ?? [];
 			loadCount ??= 0;
@@ -304,6 +346,16 @@ function onReorder({ dragIndex, dropIndex }: DataTableColumnReorderEvent) {
 	columnsConfig.value.splice(dropIndex, 0, element);
 }
 
+function onSearch() {
+	if (props.remote) {
+		clearCache();
+		loadRecords();
+	}
+	else {
+		filters.global.value = search.value;
+	}
+}
+
 watch(() => props.records, ($records = []) => (recordsCached.value = $records), {
 	immediate: true,
 });
@@ -311,6 +363,8 @@ watch(() => props.records, ($records = []) => (recordsCached.value = $records), 
 watch(rowsPerPage, () => loadRecords());
 
 watch(() => props.columns, (columns = []) => {
+	const { remote } = props;
+	filterFields.value = [];
 	columnsConfig.value = columns.map(({ ...initialConfig }, index) => {
 		const column: IGridColumn = markRaw(initialConfig);
 		column.id ??= column.field || `col_${index}`;
@@ -318,6 +372,9 @@ watch(() => props.columns, (columns = []) => {
 		column.stateful ??= true;
 		column.lock ??= false;
 		column.props = getColumnProps(column);
+		if (column.field && !remote) {
+			filterFields.value.push(column.field);
+		}
 		return column;
 	});
 	// TODO: eventually need to sort the columns based on state index

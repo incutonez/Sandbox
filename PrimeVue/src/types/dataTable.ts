@@ -1,4 +1,5 @@
 import { reactive } from "vue";
+import { ApiPaginatedRequest } from "@incutonez/api-spec/dist";
 import { ColumnPassThroughOptions, ColumnProps } from "primevue/column";
 import { IOption } from "@/components/FieldComboBox.vue";
 
@@ -22,14 +23,9 @@ export interface IGridColumn {
 	stateful?: boolean;
 }
 
-export interface IGridLoad {
-	start: number;
-	page: number;
-	max: number;
-}
-
 export interface IGridTable<TData = any> {
 	records?: TData;
+	title?: string;
 	showHoverRow?: boolean;
 	showLinesColumn?: boolean;
 	showLinesRow?: boolean;
@@ -40,7 +36,8 @@ export interface IGridTable<TData = any> {
 	columnsResize?: boolean;
 	columnsReorder?: boolean;
 	rowsPerPage?: number;
-	load?: (params: IGridLoad) => Promise<any>;
+	load?: (params: ApiPaginatedRequest) => Promise<any>;
+	remote?: boolean;
 	/**
 	 * Sometimes the API endpoint can only have a certain max number, which is what this represents.
 	 * If it's not set, then the default is the rows per page value.
