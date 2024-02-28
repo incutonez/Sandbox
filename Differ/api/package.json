@@ -28,8 +28,8 @@
     "just-diff": "^6.0.2",
     "lodash": "^4.17.21",
     "rxjs": "^7.8.1",
-    "vite": "^5.1.2",
-    "vue": "^3.4.19"
+    "vite": "^5.1.4",
+    "vue": "^3.4.20"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
@@ -38,11 +38,11 @@
     "@nestjs/testing": "^10.3.3",
     "@types/express": "^4.17.21",
     "@types/jest": "29.5.12",
-    "@types/node": "20.11.17",
+    "@types/node": "20.11.21",
     "@types/supertest": "^6.0.2",
-    "@typescript-eslint/eslint-plugin": "^7.0.1",
-    "@typescript-eslint/parser": "^7.0.1",
-    "eslint": "^8.56.0",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^16.6.2",
