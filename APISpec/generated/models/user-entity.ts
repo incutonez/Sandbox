@@ -24,10 +24,10 @@ import { AddressEntity } from "./address-entity";
 export interface UserEntity {
 	/**
 	 *
-	 * @type {number}
+	 * @type {string}
 	 * @memberof UserEntity
 	 */
-	id?: number;
+	id?: string;
 	/**
 	 *
 	 * @type {string}

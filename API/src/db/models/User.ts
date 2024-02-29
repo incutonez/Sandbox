@@ -1,4 +1,5 @@
 import { BelongsTo, Column, ForeignKey, Model, Table } from "sequelize-typescript";
+import { PrimaryKeyGuid } from "src/db/decorators";
 import { Address } from "src/db/models/Address";
 
 @Table({
@@ -6,10 +7,8 @@ import { Address } from "src/db/models/Address";
 	timestamps: false,
 })
 export class User extends Model {
-	@Column({
-		primaryKey: true,
-	})
-	id: number;
+	@PrimaryKeyGuid()
+	id: string;
 
 	@Column
 	first_name: string;

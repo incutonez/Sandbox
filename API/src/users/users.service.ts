@@ -36,4 +36,18 @@ export class UsersService {
 			total: count,
 		};
 	}
+
+	async getUser(userId: string) {
+		const response = await this.usersDB.findOne({
+			where: {
+				id: userId,
+			},
+			include: [
+				{
+					all: true,
+				},
+			],
+		});
+		return this.mapper.userToViewModel(response);
+	}
 }

@@ -52,6 +52,7 @@
 				<FieldText
 					class="ml-auto"
 					label="Search"
+					label-position="left"
 					v-model="search"
 					@input-clear="onSearch"
 					@input-end="onSearch"

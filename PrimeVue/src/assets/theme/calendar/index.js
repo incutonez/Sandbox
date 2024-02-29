@@ -3,41 +3,51 @@ export default {
 		class: [
 			// Display and Position
 			"inline-flex",
-			"max-w-full",
 			"relative",
 			"shadow-sm",
 			"rounded-md",
 			// Misc
-			{ "opacity-40 select-none pointer-events-none cursor-default": props.disabled },
+			{
+				"opacity-40 select-none pointer-events-none cursor-default": props.disabled,
+			},
 		],
 	}),
 	input: ({ props }) => ({
 		class: [
 			// Font
-			"font-sans leading-none  sm:text-sm",
+			"font-sans leading-none sm:text-sm",
 
 			// Colors
 			"text-surface-900 dark:text-surface-0",
 			"placeholder:text-surface-400 dark:placeholder:text-surface-500",
 			"bg-surface-0 dark:bg-surface-900",
-			"ring-1 ring-inset ring-surface-300 dark:ring-surface-700 ring-offset-0",
+			"ring-1 ring-inset ring-gray-b dark:ring-surface-700 ring-offset-0",
 
 			// Spacing
 			"m-0 py-1.5 px-3",
 			"-ml-[1px]",
 
 			// Shape
-			"appearance-none",
-			{ "rounded-md": !props.showIcon || props.iconDisplay == "input" },
-			{ "rounded-l-md  flex-1 pr-9 ": props.showIcon && props.iconDisplay !== "input" },
-			{ "rounded-md flex-1 pr-9": props.showIcon && props.iconDisplay === "input" },
+			"appearance-none w-full",
+			{
+				"rounded-md": !props.showIcon || props.iconDisplay == "input",
+			},
+			{
+				"rounded-l-md  flex-1 pr-9 ": props.showIcon && props.iconDisplay !== "input",
+			},
+			{
+				"rounded-md flex-1 pr-9": props.showIcon && props.iconDisplay === "input",
+			},
 
 			// Transitions
 			"transition-colors",
 			"duration-200",
 
-			// States
-			"outline-none focus:ring-primary-500 dark:focus:ring-primary-400",
+			// Interactions
+			{
+				"outline-none focus:ring-sky-600 dark:focus:ring-primary-400": !props.disabled,
+				"opacity-60 select-none pointer-events-none cursor-default": props.disabled,
+			},
 		],
 	}),
 	inputicon: {
@@ -78,9 +88,15 @@ export default {
 			},
 
 			// Size
-			{ "w-auto p-2 ": !props.inline },
-			{ "min-w-[80vw] w-auto p-2 ": props.touchUI },
-			{ "p-2 min-w-full": props.inline },
+			{
+				"w-auto ": !props.inline,
+			},
+			{
+				"min-w-[80vw] w-auto ": props.touchUI,
+			},
+			{
+				"min-w-full": props.inline,
+			},
 
 			// Shape
 			"rounded-lg",
@@ -89,11 +105,13 @@ export default {
 			},
 
 			// Colors
-			"bg-surface-0 dark:bg-surface-800",
-			"ring-surface-200 dark:ring-surface-700",
+			"bg-white dark:bg-surface-800",
+			"ring-gray-b dark:ring-surface-700",
 
 			//misc
-			{ "overflow-x-auto": props.inline },
+			{
+				"overflow-x-auto": props.inline,
+			},
 		],
 	}),
 	datepickerMask: {
@@ -109,7 +127,10 @@ export default {
 
 			// Spacing
 			"m-0",
-			{ "py-2 pl-2 pb-4": !(props.numberOfMonths > 1), "py-2 pb-4": props.numberOfMonths > 1 },
+			{
+				"py-2 pl-2": !(props.numberOfMonths > 1),
+				"py-2": props.numberOfMonths > 1,
+			},
 
 			// Shape
 			"rounded-t-md",
@@ -125,7 +146,10 @@ export default {
 
 			// Flexbox and Alignment
 			"inline-flex items-center justify-center",
-			{ " order-2": !(props.numberOfMonths > 1), "order-1": props.numberOfMonths > 1 },
+			{
+				" order-2": !(props.numberOfMonths > 1),
+				"order-1": props.numberOfMonths > 1,
+			},
 			// Size
 			"p-1.5 m-0",
 
@@ -135,7 +159,7 @@ export default {
 			"bg-transparent",
 
 			// States
-			"hover:text-surface-700 dark:hover:text-white/80",
+			"hover:text-select-600 dark:hover:text-white/80",
 
 			// Misc
 			"cursor-pointer overflow-hidden",
@@ -147,7 +171,10 @@ export default {
 			"leading-6",
 			"my-0",
 			"order-1",
-			{ "mr-auto": !(props.numberOfMonths > 1), " mx-auto": props.numberOfMonths > 1 },
+			{
+				"mr-auto": !(props.numberOfMonths > 1),
+				" mx-auto": props.numberOfMonths > 1,
+			},
 		],
 	}),
 	monthTitle: {
@@ -166,7 +193,7 @@ export default {
 			"m-0 mr-2",
 
 			// States
-			"hover:text-primary-500 dark:hover:text-primary-400",
+			"hover:text-select-600 dark:hover:text-primary-400",
 
 			// Misc
 			"cursor-pointer",
@@ -188,7 +215,7 @@ export default {
 			"m-0",
 
 			// States
-			"hover:text-primary-500 dark:hover:text-primary-400",
+			"hover:text-select-600 dark:hover:text-primary-400",
 
 			// Misc
 			"cursor-pointer",
@@ -200,7 +227,10 @@ export default {
 
 			// Flexbox and Alignment
 			"inline-flex items-center justify-center order-3",
-			{ " order-3": !(props.numberOfMonths > 1), "order-1": props.numberOfMonths > 1 },
+			{
+				" order-3": !(props.numberOfMonths > 1),
+				"order-1": props.numberOfMonths > 1,
+			},
 
 			// Size
 			"p-1.5 m-0",
@@ -211,7 +241,7 @@ export default {
 			"bg-transparent",
 
 			// States
-			"hover:text-surface-700 dark:hover:text-white/80",
+			"hover:text-select-600 dark:hover:text-white/80",
 
 			// Misc
 			"cursor-pointer overflow-hidden",
@@ -223,20 +253,21 @@ export default {
 			"w-full",
 
 			// Spacing
-			"m-0 my-2",
+			"m-0",
 		],
 	},
 	tableheadercell: {
 		class: [
 			// Spacing
-			"p-0 md:p-2",
+			"p-0 md:p-1",
+			"text-sm",
 		],
 	},
 	tablebodyrow: {
 		class: ["border-b border-surface-200 dark:border-surface-700 last:border-b-0"],
 	},
 	weekheader: {
-		class: ["leading-6 text-sm font-normal", "text-surface-600 dark:text-white/70", "opacity-40 cursor-default", "mb-2"],
+		class: ["leading-6 text-sm font-semibold", "text-surface-600 dark:text-white/70", "opacity-40 cursor-default", "mb-2"],
 	},
 	weeknumber: {
 		class: ["text-surface-600 dark:text-white/70 font-normal", "opacity-40 cursor-default"],
@@ -244,13 +275,14 @@ export default {
 	weekday: {
 		class: [
 			// Colors
-			"text-surface-500 dark:text-white/60 font-normal",
+			"text-surface-500 dark:text-white/60 font-semibold",
 		],
 	},
 	day: {
 		class: [
 			// Spacing
-			"p-0 md:p-2",
+			"p-0 md:p-1",
+			"text-sm",
 		],
 	},
 	weeklabelcontainer: ({ context }) => ({
@@ -273,7 +305,7 @@ export default {
 			// States
 			"focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50",
 			{
-				"hover:bg-surface-100 dark:hover:bg-surface-800/80": !context.disabled,
+				"hover:bg-select-200 dark:hover:bg-surface-800/80": !context.disabled,
 			},
 			{
 				"opacity-40 cursor-default": context.disabled,
@@ -302,8 +334,8 @@ export default {
 			// States
 			"focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400",
 			{
-				"hover:bg-surface-100 dark:hover:bg-surface-600/80": !context.disabled,
-				"hover:bg-surface-700 dark:hover:bg-surface-200": !context.disabled && context.date.today,
+				"hover:bg-select-200 dark:hover:bg-surface-600/80": !context.disabled,
+				"hover:bg-select-200 dark:hover:bg-surface-200": !context.disabled && context.date.today,
 			},
 
 			{
@@ -340,7 +372,7 @@ export default {
 
 			// States
 			"focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400",
-			"hover:bg-surface-100 dark:hover:bg-surface-600/80",
+			"hover:bg-select-200 dark:hover:bg-surface-600/80",
 
 			// Misc
 			"cursor-pointer",
@@ -374,7 +406,7 @@ export default {
 
 			// States
 			"focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400",
-			"hover:bg-surface-100 dark:hover:bg-surface-600/80",
+			"hover:bg-select-200 dark:hover:bg-surface-600/80",
 
 			// Misc
 			"cursor-pointer",

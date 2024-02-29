@@ -7,8 +7,6 @@ export default {
 			"border-0",
 
 			// Size
-			"max-h-[90vh]",
-			{ "sm:w-full sm:max-w-lg": !state.maximized },
 			"m-0",
 
 			// Transitions
@@ -18,6 +16,7 @@ export default {
 			// Color
 			"dark:border",
 			"dark:border-surface-700",
+			"bg-white",
 
 			// Maximized State
 			{
@@ -31,23 +30,25 @@ export default {
 			},
 		],
 	}),
-	header: {
-		class: [
-			// Flexbox and Alignment
-			"flex items-center justify-between",
-			"shrink-0",
+	header: ({ props }) => {
+		return {
+			class: [
+				// Flexbox and Alignment
+				"flex items-center justify-between",
+				"shrink-0",
 
-			// Spacing
-			"p-6 pt-4",
+				// Spacing
+				"py-2 pr-2 pl-4",
 
-			// Shape
-			"rounded-tl-lg",
-			"rounded-tr-lg",
-
-			// Colors
-			"bg-surface-0 dark:bg-surface-800",
-			"text-surface-700 dark:text-surface-0/80",
-		],
+				// Shape
+				"rounded-tl-lg",
+				"rounded-tr-lg",
+				"border-b border-gray-300 text-lg",
+				{
+					"cursor-move": props.draggable,
+				},
+			],
+		};
 	},
 	title: {
 		class: ["font-semibold text-base leading-6"],
@@ -143,12 +144,8 @@ export default {
 	},
 	content: ({ state, instance }) => ({
 		class: [
-			// Font
-			"text-sm",
 			// Spacing
-			"px-6",
-			"pb-3",
-			"pt-0",
+			"p-4",
 
 			// Shape
 			{
@@ -156,10 +153,6 @@ export default {
 				"rounded-bl-lg": !instance.$slots.footer,
 				"rounded-br-lg": !instance.$slots.footer,
 			},
-
-			// Colors
-			"bg-surface-0 dark:bg-surface-800",
-			"text-surface-600 dark:text-surface-0/70",
 
 			// Misc
 			"overflow-y-auto",
@@ -174,16 +167,14 @@ export default {
 			"gap-3",
 
 			// Spacing
-			"px-6",
-			"py-3",
+			"p-2",
 
 			// Shape
-			"border-t-0",
+			"border-t border-gray-300",
 			"rounded-b-lg",
 
 			// Colors
-			"bg-surface-50 dark:bg-surface-700",
-			"text-surface-700 dark:text-surface-0/80",
+			"bg-gray-100 dark:bg-surface-700",
 		],
 	},
 	mask: ({ props, state }) => ({
@@ -191,10 +182,14 @@ export default {
 			// Transitions
 			"transition",
 			"duration-200",
-			{ "p-5": !state.maximized },
+			{
+				"p-5": !state.maximized,
+			},
 
 			// Background and Effects
-			{ "bg-surface-500/70 dark:bg-surface-700/70": props.modal, "backdrop-blur-sm": props.modal },
+			{
+				"bg-gray-300/60 dark:bg-surface-700/70": props.modal,
+			},
 		],
 	}),
 	transition: ({ props }) => {

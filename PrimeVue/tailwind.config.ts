@@ -15,6 +15,10 @@ export default {
 				gray: {
 					b: colors.gray["400"],
 				},
+				select: {
+					200: colors.sky["200"],
+					600: colors.sky["600"],
+				},
 			},
 		},
 	},

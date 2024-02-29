@@ -1,5 +1,6 @@
 <template>
 	<label
+		class="text-sm font-semibold text-gray-700"
 		:class="cls"
 		v-if="!!text"
 	>{{ text }}:</label>
@@ -8,18 +9,18 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-interface IProps {
+export interface IFieldLabel {
 	text: string;
 	position?: "top" | "left";
 }
 
-const props = withDefaults(defineProps<IProps>(), {
+const props = withDefaults(defineProps<IFieldLabel>(), {
 	position: "left",
 });
 const cls = computed(() => {
 	return {
-		"mr-2": props.position === "left",
-		"mb-2": props.position === "top",
+		"mr-2 leading-8": props.position === "left",
+		"mb-1": props.position === "top",
 	};
 });
 </script>

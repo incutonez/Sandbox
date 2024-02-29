@@ -24,12 +24,44 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 import { ApiPaginatedRequest } from "../models";
 // @ts-ignore
 import { ListUsers200Response } from "../models";
+// @ts-ignore
+import { UserEntity } from "../models";
 /**
  * UsersApi - axios parameter creator
  * @export
  */
 export const UsersApiAxiosParamCreator = function (configuration?: Configuration) {
 	return {
+		/**
+		 *
+		 * @param {string} userId
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		getUser: async (userId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+			// verify required parameter 'userId' is not null or undefined
+			assertParamExists("getUser", "userId", userId);
+			const localVarPath = `/users/{userId}`.replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
+			// use dummy base URL string because the URL constructor only accepts absolute URLs.
+			const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+			let baseOptions;
+			if (configuration) {
+				baseOptions = configuration.baseOptions;
+			}
+
+			const localVarRequestOptions = { method: "GET", ...baseOptions, ...options };
+			const localVarHeaderParameter = {} as any;
+			const localVarQueryParameter = {} as any;
+
+			setSearchParams(localVarUrlObj, localVarQueryParameter);
+			let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+			localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+			return {
+				url: toPathString(localVarUrlObj),
+				options: localVarRequestOptions,
+			};
+		},
 		/**
 		 *
 		 * @param {ApiPaginatedRequest} apiPaginatedRequest
@@ -75,6 +107,16 @@ export const UsersApiFp = function (configuration?: Configuration) {
 	return {
 		/**
 		 *
+		 * @param {string} userId
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		async getUser(userId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserEntity>> {
+			const localVarAxiosArgs = await localVarAxiosParamCreator.getUser(userId, options);
+			return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+		},
+		/**
+		 *
 		 * @param {ApiPaginatedRequest} apiPaginatedRequest
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
@@ -95,6 +137,15 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
 	return {
 		/**
 		 *
+		 * @param {string} userId
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		getUser(userId: string, options?: any): AxiosPromise<UserEntity> {
+			return localVarFp.getUser(userId, options).then((request) => request(axios, basePath));
+		},
+		/**
+		 *
 		 * @param {ApiPaginatedRequest} apiPaginatedRequest
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
@@ -113,6 +164,15 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
 export interface UsersApiInterface {
 	/**
 	 *
+	 * @param {string} userId
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof UsersApiInterface
+	 */
+	getUser(userId: string, options?: AxiosRequestConfig): AxiosPromise<UserEntity>;
+
+	/**
+	 *
 	 * @param {ApiPaginatedRequest} apiPaginatedRequest
 	 * @param {*} [options] Override http request option.
 	 * @throws {RequiredError}
@@ -128,6 +188,19 @@ export interface UsersApiInterface {
  * @extends {BaseAPI}
  */
 export class UsersApi extends BaseAPI implements UsersApiInterface {
+	/**
+	 *
+	 * @param {string} userId
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof UsersApi
+	 */
+	public getUser(userId: string, options?: AxiosRequestConfig) {
+		return UsersApiFp(this.configuration)
+			.getUser(userId, options)
+			.then((request) => request(this.axios, this.basePath));
+	}
+
 	/**
 	 *
 	 * @param {ApiPaginatedRequest} apiPaginatedRequest

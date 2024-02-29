@@ -1,7 +1,7 @@
 import { AddressEntity } from "src/models/address.entity";
 
 export class UserEntity {
-	id?: number;
+	id?: string;
 	firstName: string;
 	lastName: string;
 	email: string;

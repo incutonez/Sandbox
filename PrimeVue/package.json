@@ -11,6 +11,8 @@
   "dependencies": {
     "@material-symbols/svg-400": "^0.15.0",
     "@vueuse/core": "^10.9.0",
+    "class-validator": "^0.14.1",
+    "just-is-empty": "^3.4.1",
     "just-safe-get": "^4.2.0",
     "just-safe-set": "^4.2.1",
     "primevue": "^3.49.1",
