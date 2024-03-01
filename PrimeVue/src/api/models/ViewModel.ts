@@ -2,7 +2,8 @@ import { validate, ValidatorOptions } from "class-validator";
 
 export type ModelField<T> = {
 	// We need to map over the keys directly to preserve optionality. We filter with "as"
-	[K in keyof T as T[K] extends Function ? never : K]: Exclude<T[K], undefined> extends Array<infer E> ? Array<ModelField<E>> : Exclude<T[K], undefined> extends Record<string, any> ? ModelField<T[K]> : T[K]; // Exclude undefined from the check to properly handle optional properties
+	// Exclude undefined from the check to properly handle optional properties
+	[K in keyof T as T[K] extends Function ? never : K]: Exclude<T[K], undefined> extends Array<infer E> ? Array<ModelField<E>> : Exclude<T[K], undefined> extends Record<string, any> ? ModelField<T[K]> : T[K];
 };
 
 export const IsNew = Symbol("isNew");
@@ -25,10 +26,10 @@ export class ViewModel {
 		return response.length === 0;
 	}
 
-	get() {
-		const data: Record<string, any> = {};
+	get<T extends Object>() {
+		const data = {} as T;
 		for (const key in this) {
-			data[key] = this[key];
+			Reflect.set(data, key, this[key]);
 		}
 		return data;
 	}

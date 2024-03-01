@@ -2,8 +2,10 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import ViewUser from "@/views/ViewUser.vue";
 import ViewUsers from "@/views/ViewUsers.vue";
 
+const RouteNew = "create";
 export const RouteUsers = "users";
 export const RouteUsersView = "users-view";
+export const RouteUsersNew = "users-new";
 
 export const routes = [
 	{
@@ -16,6 +18,11 @@ export const routes = [
 				name: RouteUsersView,
 				component: ViewUser,
 				props: true,
+			},
+			{
+				path: RouteNew,
+				name: RouteUsersNew,
+				component: ViewUser,
 			},
 		],
 	},
@@ -32,9 +39,9 @@ export function viewUsers() {
 	});
 }
 
-export function viewUser(userId: number) {
+export function viewUser(userId?: string) {
 	return router.push({
-		name: RouteUsersView,
+		name: userId ? RouteUsersView : RouteUsersNew,
 		params: {
 			userId,
 		},

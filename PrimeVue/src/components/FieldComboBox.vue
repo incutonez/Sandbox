@@ -14,13 +14,7 @@
 <script setup lang="ts">
 import PrimeDropdown from "primevue/dropdown";
 import FieldLabel from "@/components/FieldLabel.vue";
-
-// TODOJEF: Add Symbol for disabled options, and then set it up to use that in the optionDisabled fn
-export interface IOption {
-	id?: string | number;
-	name?: string;
-	[key: string]: any;
-}
+import { IOption } from "@/types/components.ts";
 
 export interface IFieldComboBox {
 	options?: IOption[];

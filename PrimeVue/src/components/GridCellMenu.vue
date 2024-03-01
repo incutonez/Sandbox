@@ -19,11 +19,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import IconMenu from "@/assets/IconMenu.vue";
-import BaseButton, { IButton } from "@/components/BaseButton.vue";
+import BaseButton, { IBaseButton } from "@/components/BaseButton.vue";
 import BaseMenu, { IBaseMenu } from "@/components/BaseMenu.vue";
 
 export interface IGridCellMenu {
-	buttonConfig?: IButton;
+	buttonConfig?: IBaseButton;
 	menuConfig: IBaseMenu;
 }
 

@@ -1,6 +1,9 @@
 import { BelongsTo, Column, ForeignKey, Model, Table } from "sequelize-typescript";
 import { PrimaryKeyGuid } from "src/db/decorators";
 import { Address } from "src/db/models/Address";
+import { ModelInterface } from "src/types";
+
+export type IUser = ModelInterface<User>;
 
 @Table({
 	tableName: "users",
@@ -30,8 +33,8 @@ export class User extends Model {
 
 	@ForeignKey(() => Address)
 	@Column
-	address_id: number;
+	address_id?: number;
 
 	@BelongsTo(() => Address)
-	address: Address;
+	address?: Address;
 }

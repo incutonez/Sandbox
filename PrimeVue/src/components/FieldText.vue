@@ -17,6 +17,7 @@
 			/>
 			<BaseButton
 				v-if="clearVisible"
+				tabindex="-1"
 				class="absolute right-0 top-1.5"
 				unstyled
 				@click="onClickClear"

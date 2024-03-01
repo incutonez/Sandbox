@@ -44,12 +44,19 @@
 				/>
 			</article>
 		</template>
+		<template #afterCancel>
+			<BaseButton
+				text="Save"
+				@click="onClickSave"
+			/>
+		</template>
 	</BaseDialog>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { UserModel } from "@/api/models/UserModel.ts";
+import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
 import FieldDate from "@/components/FieldDate.vue";
 import FieldText from "@/components/FieldText.vue";
@@ -72,6 +79,13 @@ async function loadRecord() {
 	if (userId) {
 		await record.value.load(userId);
 	}
+	else {
+		record.value.clear();
+	}
+}
+
+async function onClickSave() {
+	await record.value.save();
 }
 
 watch(() => props.userId, () => loadRecord(), {

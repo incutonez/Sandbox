@@ -5,6 +5,7 @@
 		remote
 		:remote-max="15"
 		title="Users"
+		:add-entity-config="addUserConfig"
 	/>
 	<RouterView />
 </template>
@@ -19,9 +20,16 @@ import BaseButton from "@/components/BaseButton.vue";
 import GridCellMenu, { IGridCellMenu } from "@/components/GridCellMenu.vue";
 import GridTable from "@/components/GridTable.vue";
 import { viewUser } from "@/router.ts";
+import { IBaseButton } from "@/types/components.ts";
 import { IGridColumn } from "@/types/dataTable.ts";
 import { useColumnIndex } from "@/views/shared/columns.ts";
 
+const addUserConfig: IBaseButton = {
+	text: "User",
+	onClick() {
+		viewUser();
+	},
+};
 const columns: IGridColumn[] = [
 	useColumnIndex(),
 	{

@@ -34,6 +34,39 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
 	return {
 		/**
 		 *
+		 * @param {UserEntity} userEntity
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		createUser: async (userEntity: UserEntity, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+			// verify required parameter 'userEntity' is not null or undefined
+			assertParamExists("createUser", "userEntity", userEntity);
+			const localVarPath = `/users`;
+			// use dummy base URL string because the URL constructor only accepts absolute URLs.
+			const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+			let baseOptions;
+			if (configuration) {
+				baseOptions = configuration.baseOptions;
+			}
+
+			const localVarRequestOptions = { method: "POST", ...baseOptions, ...options };
+			const localVarHeaderParameter = {} as any;
+			const localVarQueryParameter = {} as any;
+
+			localVarHeaderParameter["Content-Type"] = "application/json";
+
+			setSearchParams(localVarUrlObj, localVarQueryParameter);
+			let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+			localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+			localVarRequestOptions.data = serializeDataIfNeeded(userEntity, localVarRequestOptions, configuration);
+
+			return {
+				url: toPathString(localVarUrlObj),
+				options: localVarRequestOptions,
+			};
+		},
+		/**
+		 *
 		 * @param {string} userId
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
@@ -107,6 +140,16 @@ export const UsersApiFp = function (configuration?: Configuration) {
 	return {
 		/**
 		 *
+		 * @param {UserEntity} userEntity
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		async createUser(userEntity: UserEntity, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserEntity>> {
+			const localVarAxiosArgs = await localVarAxiosParamCreator.createUser(userEntity, options);
+			return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+		},
+		/**
+		 *
 		 * @param {string} userId
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
@@ -137,6 +180,15 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
 	return {
 		/**
 		 *
+		 * @param {UserEntity} userEntity
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		createUser(userEntity: UserEntity, options?: any): AxiosPromise<UserEntity> {
+			return localVarFp.createUser(userEntity, options).then((request) => request(axios, basePath));
+		},
+		/**
+		 *
 		 * @param {string} userId
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
@@ -164,6 +216,15 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
 export interface UsersApiInterface {
 	/**
 	 *
+	 * @param {UserEntity} userEntity
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof UsersApiInterface
+	 */
+	createUser(userEntity: UserEntity, options?: AxiosRequestConfig): AxiosPromise<UserEntity>;
+
+	/**
+	 *
 	 * @param {string} userId
 	 * @param {*} [options] Override http request option.
 	 * @throws {RequiredError}
@@ -188,6 +249,19 @@ export interface UsersApiInterface {
  * @extends {BaseAPI}
  */
 export class UsersApi extends BaseAPI implements UsersApiInterface {
+	/**
+	 *
+	 * @param {UserEntity} userEntity
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof UsersApi
+	 */
+	public createUser(userEntity: UserEntity, options?: AxiosRequestConfig) {
+		return UsersApiFp(this.configuration)
+			.createUser(userEntity, options)
+			.then((request) => request(this.axios, this.basePath));
+	}
+
 	/**
 	 *
 	 * @param {string} userId

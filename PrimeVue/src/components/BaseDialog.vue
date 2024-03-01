@@ -20,6 +20,7 @@
 					text="Cancel"
 					@click="onCancel"
 				/>
+				<slot name="afterCancel" />
 			</slot>
 		</template>
 	</PrimeDialog>

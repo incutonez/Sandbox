@@ -49,14 +49,22 @@
 				<h2 v-if="title">
 					{{ title }}
 				</h2>
-				<FieldText
-					class="ml-auto"
-					label="Search"
-					label-position="left"
-					v-model="search"
-					@input-clear="onSearch"
-					@input-end="onSearch"
-				/>
+				<section class="ml-auto flex gap-x-2">
+					<FieldText
+						label="Search"
+						label-position="left"
+						v-model="search"
+						@input-clear="onSearch"
+						@input-end="onSearch"
+					/>
+					<slot name="addEntity">
+						<BaseButton v-bind="addEntityConfig">
+							<template #icon>
+								<IconAdd class="mr-0.5 h-4 w-4" />
+							</template>
+						</BaseButton>
+					</slot>
+				</section>
 			</section>
 		</template>
 		<template #footer>
@@ -123,6 +131,7 @@ import get from "just-safe-get";
 import { FilterMatchMode } from "primevue/api";
 import Column from "primevue/column";
 import DataTable, { DataTableColumnReorderEvent, DataTableProps } from "primevue/datatable";
+import IconAdd from "@/assets/IconAdd.vue";
 import IconLock from "@/assets/IconLock.vue";
 import IconNotAllowed from "@/assets/IconNotAllowed.vue";
 import IconPageLeft from "@/assets/IconPageLeft.vue";

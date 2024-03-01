@@ -33,4 +33,9 @@ export class UserModel extends ViewModel implements UserEntity {
 		const response = await UsersAPI.getUser(userId);
 		return response.data;
 	}
+
+	async create() {
+		const response = await UsersAPI.createUser(this.get());
+		return response.data;
+	}
 }

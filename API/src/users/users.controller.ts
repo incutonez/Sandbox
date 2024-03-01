@@ -21,8 +21,8 @@ export class UsersController {
 		return this.service.getUser(userId);
 	}
 
-	// @Post()
-	// async createUser(@Body() body: UserEntity) {
-	//
-	// }
+	@Post()
+	async createUser(@Body() body: UserEntity) {
+		return this.service.createUser(body);
+	}
 }

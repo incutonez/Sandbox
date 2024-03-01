@@ -1,7 +1,7 @@
 import { reactive } from "vue";
 import { ApiPaginatedRequest } from "@incutonez/api-spec/dist";
 import { ColumnPassThroughOptions, ColumnProps } from "primevue/column";
-import { IOption } from "@/components/FieldComboBox.vue";
+import { IBaseButton, IOption } from "@/types/components.ts";
 
 export type TColumnLock = "left" | "right" | false;
 
@@ -43,6 +43,7 @@ export interface IGridTable<TData = any> {
 	 * If it's not set, then the default is the rows per page value.
 	 */
 	remoteMax?: number;
+	addEntityConfig?: IBaseButton;
 }
 
 export interface IColumnState {

@@ -1,4 +1,7 @@
 import { Column, Model, Table } from "sequelize-typescript";
+import { ModelInterface } from "src/types";
+
+export type IAddress = ModelInterface<Address>;
 
 @Table({
 	tableName: "addresses",

@@ -21,16 +21,9 @@
 
 <script setup lang="ts">
 import PrimeButton, { ButtonSlots } from "primevue/button";
+import { IBaseButton } from "@/types/components.ts";
 
-export interface IButton {
-	text?: string;
-	disabled?: boolean;
-	size?: "small" | "large";
-	plain?: boolean;
-	unstyled?: boolean;
-}
-
-withDefaults(defineProps<IButton>(), {
+withDefaults(defineProps<IBaseButton>(), {
 	size: "large",
 	text: undefined,
 });
