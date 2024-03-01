@@ -5,10 +5,14 @@ export type ModelField<T> = {
 	[K in keyof T as T[K] extends Function ? never : K]: Exclude<T[K], undefined> extends Array<infer E> ? Array<ModelField<E>> : Exclude<T[K], undefined> extends Record<string, any> ? ModelField<T[K]> : T[K]; // Exclude undefined from the check to properly handle optional properties
 };
 
+export const IsNew = Symbol("isNew");
+
 export class ViewModel {
+	[IsNew] = true;
+
 	static create<T extends ViewModel>(this: new () => T, data = {} as Partial<ModelField<T>>) {
 		const record = new this();
-		record.setData(data);
+		record.set(data);
 		return record;
 	}
 
@@ -21,7 +25,7 @@ export class ViewModel {
 		return response.length === 0;
 	}
 
-	getData() {
+	get() {
 		const data: Record<string, any> = {};
 		for (const key in this) {
 			data[key] = this[key];
@@ -29,9 +33,47 @@ export class ViewModel {
 		return data;
 	}
 
-	setData(data: Partial<ModelField<this>>) {
+	set(data: Partial<ModelField<this>>) {
 		for (const key in data) {
 			Reflect.set(this, key, data[key]);
 		}
+	}
+
+	clear() {
+		for (const key in this) {
+			Reflect.set(this, key, null);
+		}
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
+	async create(_params?: unknown): Promise<any> {
+		throw Error("Method not implemented");
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
+	async read(_params?: unknown): Promise<any> {
+		throw Error("Method not implemented");
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
+	async update(_params?: unknown): Promise<any> {
+		throw Error("Method not implemented");
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
+	async delete(_params?: unknown): Promise<any> {
+		throw Error("Method not implemented");
+	}
+
+	async load(params?: unknown) {
+		const data = await this.read(params);
+		this[IsNew] = false;
+		this.set(data);
+	}
+
+	async save(params?: unknown) {
+		const data = this[IsNew] ? await this.create(params) : await this.update(params);
+		this[IsNew] = false;
+		this.set(data);
 	}
 }

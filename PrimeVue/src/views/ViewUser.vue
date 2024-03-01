@@ -50,7 +50,6 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { UserModel } from "@/api/models/UserModel.ts";
-import { getUser } from "@/api/users.ts";
 import BaseDialog from "@/components/BaseDialog.vue";
 import FieldDate from "@/components/FieldDate.vue";
 import FieldText from "@/components/FieldText.vue";
@@ -71,8 +70,7 @@ function onClose() {
 async function loadRecord() {
 	const { userId } = props;
 	if (userId) {
-		const response = await getUser(userId);
-		record.value = UserModel.create(response);
+		await record.value.load(userId);
 	}
 }
 
