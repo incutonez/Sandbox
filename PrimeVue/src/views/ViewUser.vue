@@ -47,6 +47,7 @@
 		<template #afterCancel>
 			<BaseButton
 				text="Save"
+				:loading="loading"
 				@click="onClickSave"
 			/>
 		</template>
@@ -67,8 +68,10 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
+const emit = defineEmits(["saved"]);
 const show = ref(true);
 const record = ref(UserModel.create());
+const loading = ref(false);
 
 function onClose() {
 	viewUsers();
@@ -85,7 +88,10 @@ async function loadRecord() {
 }
 
 async function onClickSave() {
+	loading.value = true;
 	await record.value.save();
+	loading.value = false;
+	emit("saved");
 }
 
 watch(() => props.userId, () => loadRecord(), {

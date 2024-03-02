@@ -33,11 +33,6 @@ export class UsersService {
 		};
 	}
 
-	async createUser(user: UserEntity) {
-		const response = await User.create(this.mapper.viewModelToUser(user));
-		return this.mapper.userToViewModel(response);
-	}
-
 	async getUser(userId: string) {
 		const response = await User.findOne({
 			where: {
@@ -50,5 +45,28 @@ export class UsersService {
 			],
 		});
 		return this.mapper.userToViewModel(response);
+	}
+
+	async createUser(user: UserEntity) {
+		const response = await User.create(this.mapper.viewModelToUser(user));
+		return this.mapper.userToViewModel(response);
+	}
+
+	async updateUser(user: UserEntity) {
+		await User.update(this.mapper.viewModelToUser(user), {
+			where: {
+				id: user.id,
+			},
+			returning: true,
+		});
+		return this.getUser(user.id);
+	}
+
+	async deleteUser(id: string) {
+		await User.destroy({
+			where: {
+				id,
+			},
+		});
 	}
 }

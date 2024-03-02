@@ -14,6 +14,7 @@ export interface IOption {
 export interface IBaseButton extends /** @vue-ignore */ HTMLAttributes {
 	text?: string;
 	disabled?: boolean;
+	loading?: boolean;
 	size?: "small" | "large";
 	plain?: boolean;
 	unstyled?: boolean;

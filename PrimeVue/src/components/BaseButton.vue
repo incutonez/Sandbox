@@ -5,6 +5,7 @@
 		:size="size"
 		:plain="plain"
 		:unstyled="unstyled"
+		:loading="loading"
 	>
 		<!-- Expose all slots from parent component -->
 		<template

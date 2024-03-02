@@ -292,7 +292,15 @@ function getColumnMenuConfig(column: IGridColumn): IBaseMenu {
 
 function clearCache() {
 	recordsCached.value = [];
+}
+
+function resetPage() {
 	currentPage.value = 1;
+}
+
+async function reloadRecords() {
+	clearCache();
+	return loadRecords();
 }
 
 async function loadRecords(loadCount?: number) {
@@ -399,8 +407,8 @@ function onReorder({ dragIndex, dropIndex }: DataTableColumnReorderEvent) {
 
 function onSearch() {
 	if (props.remote) {
-		clearCache();
-		loadRecords();
+		resetPage();
+		reloadRecords();
 	}
 	else {
 		filters.global.value = search.value;
@@ -446,5 +454,6 @@ loadRecords();
 
 defineExpose({
 	loadRecords,
+	reloadRecords,
 });
 </script>
