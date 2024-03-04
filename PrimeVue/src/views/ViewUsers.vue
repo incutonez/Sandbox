@@ -9,11 +9,19 @@
 		:add-entity-config="addUserConfig"
 	/>
 	<RouterView @saved="onSavedUser" />
-	<DialogDelete
+	<DialogConfirm
 		v-model="showDelete"
 		:entity-name="selectedRecord?.name"
+		action="Delete"
 		:loading="deleting"
-		@delete="onDeleteUser"
+		@confirm="onDeleteUser"
+	/>
+	<DialogConfirm
+		v-model="showCopy"
+		:entity-name="selectedRecord?.name"
+		action="Copy"
+		:loading="copying"
+		@confirm="onCopyUser"
 	/>
 </template>
 
@@ -25,8 +33,8 @@ import IconCopy from "@/assets/IconCopy.vue";
 import IconDelete from "@/assets/IconDelete.vue";
 import IconEdit from "@/assets/IconEdit.vue";
 import BaseButton from "@/components/BaseButton.vue";
-import DialogDelete from "@/components/DialogDelete.vue";
-import GridCellMenu, { IGridCellMenu } from "@/components/GridCellMenu.vue";
+import DialogConfirm from "@/components/DialogConfirm.vue";
+import GridCellActions, { IGridCellActions } from "@/components/GridCellActions.vue";
 import GridTable from "@/components/GridTable.vue";
 import { viewUser, viewUsers } from "@/router.ts";
 import { IBaseButton } from "@/types/components.ts";
@@ -34,7 +42,9 @@ import { IGridColumn } from "@/types/dataTable.ts";
 import { useColumnIndex } from "@/views/shared/columns.ts";
 
 const showDelete = ref(false);
+const showCopy = ref(false);
 const deleting = ref(false);
+const copying = ref(false);
 const usersGrid = ref<InstanceType<typeof GridTable>>();
 const selectedRecord = ref<UserModel>();
 const addUserConfig: IBaseButton = {
@@ -47,34 +57,38 @@ const columns: IGridColumn[] = [
 	useColumnIndex(),
 	{
 		lock: "left",
+		title: "Actions",
+		titleAlign: "center",
 		showMenu: false,
-		cellComponent: GridCellMenu,
+		cellComponent: GridCellActions,
 		cellParams(record: UserModel) {
 			return {
-				menuConfig: {
-					items: [
-						{
-							text: "Edit",
-							icon: IconEdit,
-							click() {
-								viewUser(record.id!);
-							},
+				actions: [
+					{
+						title: "Edit",
+						icon: IconEdit,
+						onClick() {
+							viewUser(record.id!);
 						},
-						{
-							text: "Copy",
-							icon: IconCopy,
+					},
+					{
+						title: "Copy",
+						icon: IconCopy,
+						async onClick() {
+							selectedRecord.value = record;
+							showCopy.value = true;
 						},
-						{
-							text: "Delete",
-							icon: IconDelete,
-							click() {
-								selectedRecord.value = record;
-								showDelete.value = true;
-							},
+					},
+					{
+						title: "Delete",
+						icon: IconDelete,
+						onClick() {
+							selectedRecord.value = record;
+							showDelete.value = true;
 						},
-					],
-				},
-			} as IGridCellMenu;
+					},
+				],
+			} as IGridCellActions;
 		},
 	},
 	{
@@ -127,6 +141,17 @@ async function onDeleteUser() {
 		deleting.value = false;
 		showDelete.value = false;
 		await usersGrid.value!.reloadRecords();
+	}
+}
+
+async function onCopyUser() {
+	const $selectedRecord = unref(selectedRecord);
+	if ($selectedRecord) {
+		copying.value = true;
+		const response = await $selectedRecord.copy();
+		copying.value = false;
+		showCopy.value = false;
+		await viewUser(response.id);
 	}
 }
 

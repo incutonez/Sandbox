@@ -34,6 +34,36 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
 	return {
 		/**
 		 *
+		 * @param {string} userId
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		copyUser: async (userId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+			// verify required parameter 'userId' is not null or undefined
+			assertParamExists("copyUser", "userId", userId);
+			const localVarPath = `/users/{userId}/copy`.replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
+			// use dummy base URL string because the URL constructor only accepts absolute URLs.
+			const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+			let baseOptions;
+			if (configuration) {
+				baseOptions = configuration.baseOptions;
+			}
+
+			const localVarRequestOptions = { method: "POST", ...baseOptions, ...options };
+			const localVarHeaderParameter = {} as any;
+			const localVarQueryParameter = {} as any;
+
+			setSearchParams(localVarUrlObj, localVarQueryParameter);
+			let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+			localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+			return {
+				url: toPathString(localVarUrlObj),
+				options: localVarRequestOptions,
+			};
+		},
+		/**
+		 *
 		 * @param {UserEntity} userEntity
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
@@ -206,6 +236,16 @@ export const UsersApiFp = function (configuration?: Configuration) {
 	return {
 		/**
 		 *
+		 * @param {string} userId
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		async copyUser(userId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserEntity>> {
+			const localVarAxiosArgs = await localVarAxiosParamCreator.copyUser(userId, options);
+			return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+		},
+		/**
+		 *
 		 * @param {UserEntity} userEntity
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
@@ -267,6 +307,15 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
 	return {
 		/**
 		 *
+		 * @param {string} userId
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		copyUser(userId: string, options?: any): AxiosPromise<UserEntity> {
+			return localVarFp.copyUser(userId, options).then((request) => request(axios, basePath));
+		},
+		/**
+		 *
 		 * @param {UserEntity} userEntity
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
@@ -322,6 +371,15 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
 export interface UsersApiInterface {
 	/**
 	 *
+	 * @param {string} userId
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof UsersApiInterface
+	 */
+	copyUser(userId: string, options?: AxiosRequestConfig): AxiosPromise<UserEntity>;
+
+	/**
+	 *
 	 * @param {UserEntity} userEntity
 	 * @param {*} [options] Override http request option.
 	 * @throws {RequiredError}
@@ -374,6 +432,19 @@ export interface UsersApiInterface {
  * @extends {BaseAPI}
  */
 export class UsersApi extends BaseAPI implements UsersApiInterface {
+	/**
+	 *
+	 * @param {string} userId
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof UsersApi
+	 */
+	public copyUser(userId: string, options?: AxiosRequestConfig) {
+		return UsersApiFp(this.configuration)
+			.copyUser(userId, options)
+			.then((request) => request(this.axios, this.basePath));
+	}
+
 	/**
 	 *
 	 * @param {UserEntity} userEntity

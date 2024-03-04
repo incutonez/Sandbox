@@ -59,4 +59,9 @@ export class UserModel extends ViewModel implements UserEntity {
 	async delete() {
 		await UsersAPI.deleteUser(this.id);
 	}
+
+	async copy() {
+		const response = await UsersAPI.copyUser(this.id);
+		return response.data;
+	}
 }

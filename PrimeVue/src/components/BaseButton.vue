@@ -7,26 +7,30 @@
 		:unstyled="unstyled"
 		:loading="loading"
 	>
-		<!-- Expose all slots from parent component -->
-		<template
-			v-for="(_, slot) of $slots"
-			#[slot]="scope"
-		>
-			<slot
-				:name="slot as keyof typeof slots"
-				v-bind="scope ?? {}"
-			/>
+		<template #icon>
+			<slot name="icon">
+				<Component
+					:is="icon"
+					class="h-4 w-4"
+					:class="iconCls"
+				/>
+			</slot>
 		</template>
 	</PrimeButton>
 </template>
 
 <script setup lang="ts">
-import PrimeButton, { ButtonSlots } from "primevue/button";
+import { VNode } from "vue";
+import PrimeButton from "primevue/button";
 import { IBaseButton } from "@/types/components.ts";
 
 withDefaults(defineProps<IBaseButton>(), {
 	size: "large",
 	text: undefined,
+	icon: undefined,
+	iconCls: undefined,
 });
-const slots = defineSlots<ButtonSlots>();
+defineSlots<{
+	icon(): VNode;
+}>();
 </script>

@@ -26,6 +26,11 @@ export class UsersController {
 		return this.service.createUser(body);
 	}
 
+	@Post(":userId/copy")
+	async copyUser(@Param("userId") userId: string) {
+		return this.service.copyUser(userId);
+	}
+
 	@Put(":userId")
 	async updateUser(@Param("userId") userId: string, @Body() body: UserEntity) {
 		return this.service.updateUser(body);

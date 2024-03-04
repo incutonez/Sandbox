@@ -58,11 +58,11 @@
 						@input-end="onSearch"
 					/>
 					<slot name="addEntity">
-						<BaseButton v-bind="addEntityConfig">
-							<template #icon>
-								<IconAdd class="mr-0.5 h-4 w-4" />
-							</template>
-						</BaseButton>
+						<BaseButton
+							v-bind="addEntityConfig"
+							:icon="IconAdd"
+							icon-cls="mr-0.5"
+						/>
 					</slot>
 				</section>
 			</section>
@@ -84,12 +84,10 @@
 						:disabled="isPageFirst"
 						plain
 						class="!p-0"
+						:icon="IconPageLeft"
+						icon-cls="h-8 w-8"
 						@click="onPagePrevious"
-					>
-						<template #icon>
-							<IconPageLeft class="h-8 w-8" />
-						</template>
-					</BaseButton>
+					/>
 					<FieldNumber
 						label="Page"
 						input-width="w-10"
@@ -105,12 +103,10 @@
 						:disabled="isPageLast"
 						plain
 						class="!p-0"
+						:icon="IconPageRight"
+						icon-cls="h-8 w-8"
 						@click="onPageNext"
-					>
-						<template #icon>
-							<IconPageRight class="h-8 w-8" />
-						</template>
-					</BaseButton>
+					/>
 				</section>
 				<span class="text-sm">{{ startDisplay }} - {{ endDisplay }} of {{ recordsTotal }}</span>
 			</article>

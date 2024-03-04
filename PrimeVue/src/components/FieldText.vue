@@ -20,12 +20,10 @@
 				tabindex="-1"
 				class="absolute right-0 top-1.5"
 				unstyled
+				:icon="IconClear"
+				icon-cls="h-5 w-6 fill-gray-600 hover:fill-red-700"
 				@click="onClickClear"
-			>
-				<template #icon>
-					<IconClear class="h-5 w-6 fill-gray-600 hover:fill-red-700" />
-				</template>
-			</BaseButton>
+			/>
 		</section>
 	</article>
 </template>

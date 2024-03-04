@@ -52,6 +52,13 @@ export class UsersService {
 		return this.mapper.userToViewModel(response);
 	}
 
+	async copyUser(userId: string) {
+		const user = await this.getUser(userId);
+		delete user.id;
+		user.lastName += " Copy";
+		return this.createUser(user);
+	}
+
 	async updateUser(user: UserEntity) {
 		await User.update(this.mapper.viewModelToUser(user), {
 			where: {

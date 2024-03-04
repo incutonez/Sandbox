@@ -1,6 +1,6 @@
 import { reactive } from "vue";
 import { ApiPaginatedRequest } from "@incutonez/api-spec/dist";
-import { ColumnPassThroughOptions, ColumnProps } from "primevue/column";
+import { ColumnProps } from "primevue/column";
 import { IBaseButton, IOption } from "@/types/components.ts";
 
 export type TColumnLock = "left" | "right" | false;
@@ -8,6 +8,8 @@ export type TColumnLock = "left" | "right" | false;
 export interface IGridColumn {
 	field?: string;
 	title?: string;
+	titleCls?: string;
+	titleAlign?: "left" | "center" | "right";
 	id?: string;
 	key?: string;
 	sortable?: boolean;
@@ -71,20 +73,29 @@ export const RowsPerPageOptions: IOption[] = [
 	},
 ];
 
-export function getColumnProps({ field, title, sortable, lock, cls = "", showMenu = true, id }: IGridColumn) {
-	const pt: ColumnPassThroughOptions = {};
+export function getColumnProps({ field, title, titleCls, titleAlign, sortable, lock, cls = "", showMenu = true, id }: IGridColumn) {
+	const headerContentCls = [];
 	if (showMenu) {
-		pt.headerContent = {
-			class: ["pr-10"],
-		};
+		headerContentCls.push("pr-10");
+	}
+	if (titleAlign === "center") {
+		headerContentCls.push("justify-center");
+	}
+	else if (titleAlign === "right") {
+		headerContentCls.push("justify-end");
 	}
 	if (lock === false) {
 		lock = undefined;
 	}
 	const columnProps: ColumnProps = {
 		field,
-		pt,
+		pt: {
+			headerContent: {
+				class: headerContentCls,
+			},
+		},
 		header: title,
+		headerClass: titleCls,
 		sortable: sortable ?? true,
 		frozen: !!lock,
 		alignFrozen: lock,
