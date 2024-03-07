@@ -54,7 +54,7 @@
  */
 import IconTriforce from "@/assets/IconTriforce.vue";
 import IconUsers from "@/assets/IconUsers.vue";
-import { viewUsers, viewZeldaWorldBuilder } from "@/router.ts";
+import { viewUsers, viewZeldaWorldBuilder } from "@/router";
 
 function onClickViewUsers() {
 	viewUsers();

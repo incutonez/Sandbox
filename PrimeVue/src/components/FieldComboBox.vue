@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import PrimeDropdown from "primevue/dropdown";
 import FieldLabel from "@/components/FieldLabel.vue";
-import { IOption } from "@/types/components.ts";
+import { IOption } from "@/types/components";
 
 export interface IFieldComboBox {
 	options?: IOption[];

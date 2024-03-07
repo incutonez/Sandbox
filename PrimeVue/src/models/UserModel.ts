@@ -1,9 +1,9 @@
 import { ApiPaginatedRequest, UserEntity } from "@incutonez/api-spec/dist";
 import { UsersApi } from "@incutonez/api-spec/generated/api/users-api";
 import { Allow, IsInt, IsString } from "class-validator";
-import { configuration } from "@/api/main.ts";
-import { IsRequired } from "@/api/models/decorators.ts";
-import { ViewModel } from "@/api/models/ViewModel.ts";
+import { configuration } from "@/apiConfig";
+import { IsRequired } from "@/models/decorators";
+import { ViewModel } from "@/models/ViewModel";
 
 export const UsersAPI = new UsersApi(configuration);
 

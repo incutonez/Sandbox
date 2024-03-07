@@ -19,7 +19,7 @@
  * Source: https://github.com/primefaces/primevue/issues/4940
  */
 import TableColumn, { ColumnSlots } from "primevue/column";
-import { getColumnProps, IGridColumn } from "@/types/dataTable.ts";
+import { getColumnProps, IGridColumn } from "@/types/dataTable";
 
 const props = defineProps<IGridColumn>();
 const slots = defineSlots<ColumnSlots>();

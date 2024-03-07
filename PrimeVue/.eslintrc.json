@@ -21,6 +21,7 @@
   "rules": {
     "vue/html-indent": ["error", "tab"],
     "tailwindcss/classnames-order": "error",
+    "quote-props": ["error", "as-needed"],
     "space-before-function-paren": ["error",
       {
         "anonymous": "never",

@@ -1,6 +1,6 @@
 import { ResponseListEntity } from "@incutonez/api-spec/dist";
 import { validate, ValidatorOptions } from "class-validator";
-import { isListResponse } from "@/utilities.ts";
+import { isListResponse } from "@/utilities";
 
 export type ModelField<T> = {
 	// We need to map over the keys directly to preserve optionality. We filter with "as"

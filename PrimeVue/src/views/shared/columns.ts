@@ -1,4 +1,4 @@
-import { IGridColumn } from "@/types/dataTable.ts";
+import { IGridColumn } from "@/types/dataTable";
 
 export function useColumnIndex(): IGridColumn {
 	return {

@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { VNode } from "vue";
 import PrimeButton from "primevue/button";
-import { IBaseButton } from "@/types/components.ts";
+import { IBaseButton } from "@/types/components";
 
 withDefaults(defineProps<IBaseButton>(), {
 	size: "large",

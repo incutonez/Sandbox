@@ -1,7 +1,7 @@
 import { reactive } from "vue";
 import { ApiPaginatedRequest } from "@incutonez/api-spec/dist";
 import { ColumnProps } from "primevue/column";
-import { IBaseButton, IOption } from "@/types/components.ts";
+import { IBaseButton, IOption } from "@/types/components";
 
 export type TColumnLock = "left" | "right" | false;
 

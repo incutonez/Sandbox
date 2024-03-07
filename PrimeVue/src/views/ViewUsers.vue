@@ -28,7 +28,6 @@
 <script setup lang="ts">
 import { ref, unref } from "vue";
 import { ApiPaginatedRequest } from "@incutonez/api-spec/dist";
-import { UserModel } from "@/api/models/UserModel.ts";
 import IconCopy from "@/assets/IconCopy.vue";
 import IconDelete from "@/assets/IconDelete.vue";
 import IconEdit from "@/assets/IconEdit.vue";
@@ -36,10 +35,11 @@ import BaseButton from "@/components/BaseButton.vue";
 import DialogConfirm from "@/components/DialogConfirm.vue";
 import GridCellActions, { IGridCellActions } from "@/components/GridCellActions.vue";
 import GridTable from "@/components/GridTable.vue";
-import { viewUser, viewUsers } from "@/router.ts";
-import { IBaseButton } from "@/types/components.ts";
-import { IGridColumn } from "@/types/dataTable.ts";
-import { useColumnIndex } from "@/views/shared/columns.ts";
+import { UserModel } from "@/models/UserModel";
+import { viewUser, viewUsers } from "@/router";
+import { IBaseButton } from "@/types/components";
+import { IGridColumn } from "@/types/dataTable";
+import { useColumnIndex } from "@/views/shared/columns";
 
 const showDelete = ref(false);
 const showCopy = ref(false);

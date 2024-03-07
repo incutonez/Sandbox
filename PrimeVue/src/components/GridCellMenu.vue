@@ -18,7 +18,7 @@ import { ref } from "vue";
 import IconMenu from "@/assets/IconMenu.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseMenu, { IBaseMenu } from "@/components/BaseMenu.vue";
-import { IBaseButton } from "@/types/components.ts";
+import { IBaseButton } from "@/types/components";
 
 export interface IGridCellMenu {
 	buttonConfig?: IBaseButton;

@@ -2,7 +2,7 @@ import "./style.css";
 import { createApp } from "vue";
 import PrimeVue from "primevue/config";
 import { TailwindTheme } from "@/assets/theme";
-import { router } from "@/router.ts";
+import { router } from "@/router";
 import App from "./App.vue";
 
 const app = createApp(App);

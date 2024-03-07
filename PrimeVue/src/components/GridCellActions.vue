@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import BaseButton from "@/components/BaseButton.vue";
-import { IBaseButton } from "@/types/components.ts";
+import { IBaseButton } from "@/types/components";
 
 export interface IGridCellActions {
 	actions: IBaseButton[];

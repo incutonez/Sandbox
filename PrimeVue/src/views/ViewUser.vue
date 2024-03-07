@@ -56,12 +56,12 @@
 
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import { UserModel } from "@/api/models/UserModel.ts";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
 import FieldDate from "@/components/FieldDate.vue";
 import FieldText from "@/components/FieldText.vue";
-import { viewUsers } from "@/router.ts";
+import { UserModel } from "@/models/UserModel";
+import { viewUsers } from "@/router";
 
 interface IProps {
 	userId?: string;
