@@ -1,11 +1,13 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import ViewUser from "@/views/ViewUser.vue";
 import ViewUsers from "@/views/ViewUsers.vue";
+import ViewZeldaWorldBuilder from "@/views/ViewZeldaWorldBuilder.vue";
 
 const RouteNew = "create";
 export const RouteUsers = "users";
 export const RouteUsersView = "users-view";
 export const RouteUsersNew = "users-new";
+export const RouteZeldaWorldBuilder = "zelda-world-builder";
 
 export const routes = [
 	{
@@ -26,6 +28,11 @@ export const routes = [
 			},
 		],
 	},
+	{
+		path: "/zelda",
+		name: RouteZeldaWorldBuilder,
+		component: ViewZeldaWorldBuilder,
+	},
 ];
 
 export const router = createRouter({
@@ -45,5 +52,11 @@ export function viewUser(userId?: string) {
 		params: {
 			userId,
 		},
+	});
+}
+
+export function viewZeldaWorldBuilder() {
+	return router.push({
+		name: RouteZeldaWorldBuilder,
 	});
 }

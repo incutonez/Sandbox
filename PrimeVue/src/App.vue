@@ -1,11 +1,16 @@
 <template>
 	<article class="flex h-full w-full">
-		<nav class="min-w-16 border-r border-r-emerald-700 bg-emerald-200 p-4">
+		<nav class="min-w-16 border-r border-r-slate-800 bg-slate-600 p-4">
 			<div class="flex flex-col">
 				<IconUsers
-					class="h-10 w-10 cursor-pointer rounded-full p-2 text-center hover:bg-yellow-100"
+					class="h-10 w-10 cursor-pointer rounded-full fill-green-500 p-2 text-center hover:bg-slate-500"
 					title="Users"
 					@click="onClickViewUsers"
+				/>
+				<IconTriforce
+					title="Zelda World Builder"
+					class="h-10 w-10 cursor-pointer rounded-full p-2 hover:bg-slate-500"
+					@click="onClickViewZelda"
 				/>
 			</div>
 		</nav>
@@ -47,10 +52,15 @@
  * - Potentially add provide/inject with GridTable
  * - Potentially use provide/inject for users.ts data loading
  */
+import IconTriforce from "@/assets/IconTriforce.vue";
 import IconUsers from "@/assets/IconUsers.vue";
-import { viewUsers } from "@/router.ts";
+import { viewUsers, viewZeldaWorldBuilder } from "@/router.ts";
 
 function onClickViewUsers() {
 	viewUsers();
+}
+
+function onClickViewZelda() {
+	viewZeldaWorldBuilder();
 }
 </script>
