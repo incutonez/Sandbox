@@ -1,60 +1,88 @@
 import { IOption } from "@/types/components";
 
+export const ZeldaAnimationsActionUp: IOption = {
+	name: "ZeldaAnimationsActionUp",
+	id: 0,
+};
+
+export const ZeldaAnimationsActionDown: IOption = {
+	name: "ZeldaAnimationsActionDown",
+	id: 1,
+};
+
+export const ZeldaAnimationsActionRight: IOption = {
+	name: "ZeldaAnimationsActionRight",
+	id: 2,
+};
+
+export const ZeldaAnimationsActionLeft: IOption = {
+	name: "ZeldaAnimationsActionLeft",
+	id: 3,
+};
+
+export const ZeldaAnimationsEntering: IOption = {
+	name: "ZeldaAnimationsEntering",
+	id: 4,
+};
+
+export const ZeldaAnimationsExiting: IOption = {
+	name: "ZeldaAnimationsExiting",
+	id: 5,
+};
+
+export const ZeldaAnimationsIdleUp: IOption = {
+	name: "ZeldaAnimationsIdleUp",
+	id: 6,
+};
+
+export const ZeldaAnimationsIdleDown: IOption = {
+	name: "ZeldaAnimationsIdleDown",
+	id: 7,
+};
+
+export const ZeldaAnimationsIdleRight: IOption = {
+	name: "ZeldaAnimationsIdleRight",
+	id: 8,
+};
+
+export const ZeldaAnimationsIdleLeft: IOption = {
+	name: "ZeldaAnimationsIdleLeft",
+	id: 9,
+};
+
+export const ZeldaAnimationsWalkUp: IOption = {
+	name: "ZeldaAnimationsWalkUp",
+	id: 10,
+};
+
+export const ZeldaAnimationsWalkDown: IOption = {
+	name: "ZeldaAnimationsWalkDown",
+	id: 11,
+};
+
+export const ZeldaAnimationsWalkRight: IOption = {
+	name: "ZeldaAnimationsWalkRight",
+	id: 12,
+};
+
+export const ZeldaAnimationsWalkLeft: IOption = {
+	name: "ZeldaAnimationsWalkLeft",
+	id: 13,
+};
+
 export const ZeldaAnimations: IOption[] = [
-	{
-		id: 0,
-		name: "ActionUp",
-	},
-	{
-		id: 1,
-		name: "ActionDown",
-	},
-	{
-		id: 2,
-		name: "ActionRight",
-	},
-	{
-		id: 3,
-		name: "ActionLeft",
-	},
-	{
-		id: 4,
-		name: "Entering",
-	},
-	{
-		id: 5,
-		name: "Exiting",
-	},
-	{
-		id: 6,
-		name: "IdleUp",
-	},
-	{
-		id: 7,
-		name: "IdleDown",
-	},
-	{
-		id: 8,
-		name: "IdleRight",
-	},
-	{
-		id: 9,
-		name: "IdleLeft",
-	},
-	{
-		id: 10,
-		name: "WalkUp",
-	},
-	{
-		id: 11,
-		name: "WalkDown",
-	},
-	{
-		id: 12,
-		name: "WalkRight",
-	},
-	{
-		id: 13,
-		name: "WalkLeft",
-	},
+	ZeldaAnimationsActionUp,
+	ZeldaAnimationsActionDown,
+	ZeldaAnimationsActionRight,
+	ZeldaAnimationsActionLeft,
+	ZeldaAnimationsEntering,
+	ZeldaAnimationsExiting,
+	ZeldaAnimationsIdleUp,
+	ZeldaAnimationsIdleDown,
+	ZeldaAnimationsIdleRight,
+	ZeldaAnimationsIdleLeft,
+	ZeldaAnimationsWalkUp,
+	ZeldaAnimationsWalkDown,
+	ZeldaAnimationsWalkRight,
+	ZeldaAnimationsWalkLeft,
 ];

@@ -57,6 +57,7 @@
     "func-call-spacing": ["error", "never"],
     "new-parens": "error",
     "prefer-const": "error",
+    "array-bracket-newline": "off",
     "array-bracket-spacing": ["error", "never"],
     "comma-spacing": ["error", { "before": false, "after": true }],
     "array-element-newline": ["error", "consistent"],

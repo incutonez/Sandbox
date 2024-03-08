@@ -1,138 +1,205 @@
 import { IOption } from "@/types/components";
 
+export const ZeldaFXArrowBoomerang: IOption = {
+	name: "ZeldaFXArrowBoomerang",
+	id: 0,
+};
+
+export const ZeldaFXBombBlow: IOption = {
+	name: "ZeldaFXBombBlow",
+	id: 1,
+};
+
+export const ZeldaFXBombDrop: IOption = {
+	name: "ZeldaFXBombDrop",
+	id: 2,
+};
+
+export const ZeldaFXBossManhandlaDigdoggerPatra: IOption = {
+	name: "ZeldaFXBossManhandlaDigdoggerPatra",
+	id: 3,
+};
+
+export const ZeldaFXBossDragonGanon: IOption = {
+	name: "ZeldaFXBossDragonGanon",
+	id: 4,
+};
+
+export const ZeldaFXBossDodongoGohma: IOption = {
+	name: "ZeldaFXBossDodongoGohma",
+	id: 5,
+};
+
+export const ZeldaFXBossHurt: IOption = {
+	name: "ZeldaFXBossHurt",
+	id: 6,
+};
+
+export const ZeldaFXDoorUnlock: IOption = {
+	name: "ZeldaFXDoorUnlock",
+	id: 7,
+};
+
+export const ZeldaFXEnemyDie: IOption = {
+	name: "ZeldaFXEnemyDie",
+	id: 8,
+};
+
+export const ZeldaFXEnemyHurt: IOption = {
+	name: "ZeldaFXEnemyHurt",
+	id: 9,
+};
+
+export const ZeldaFXFire: IOption = {
+	name: "ZeldaFXFire",
+	id: 10,
+};
+
+export const ZeldaFXFlute: IOption = {
+	name: "ZeldaFXFlute",
+	id: 11,
+};
+
+export const ZeldaFXHealthLow: IOption = {
+	name: "ZeldaFXHealthLow",
+	id: 12,
+};
+
+export const ZeldaFXHeartPickup: IOption = {
+	name: "ZeldaFXHeartPickup",
+	id: 13,
+};
+
+export const ZeldaFXItemAppear: IOption = {
+	name: "ZeldaFXItemAppear",
+	id: 14,
+};
+
+export const ZeldaFXItemFanfare: IOption = {
+	name: "ZeldaFXItemFanfare",
+	id: 15,
+};
+
+export const ZeldaFXItemPickup: IOption = {
+	name: "ZeldaFXItemPickup",
+	id: 16,
+};
+
+export const ZeldaFXMagic: IOption = {
+	name: "ZeldaFXMagic",
+	id: 17,
+};
+
+export const ZeldaFXRupee: IOption = {
+	name: "ZeldaFXRupee",
+	id: 18,
+};
+
+export const ZeldaFXSecretAppear: IOption = {
+	name: "ZeldaFXSecretAppear",
+	id: 19,
+};
+
+export const ZeldaFXShield: IOption = {
+	name: "ZeldaFXShield",
+	id: 20,
+};
+
+export const ZeldaFXShore: IOption = {
+	name: "ZeldaFXShore",
+	id: 21,
+};
+
+export const ZeldaFXStairs: IOption = {
+	name: "ZeldaFXStairs",
+	id: 22,
+};
+
+export const ZeldaFXSwordShoot: IOption = {
+	name: "ZeldaFXSwordShoot",
+	id: 23,
+};
+
+export const ZeldaFXSwordSlash: IOption = {
+	name: "ZeldaFXSwordSlash",
+	id: 24,
+};
+
+export const ZeldaFXText: IOption = {
+	name: "ZeldaFXText",
+	id: 25,
+};
+
 export const ZeldaFX: IOption[] = [
-	{
-		id: 0,
-		name: "ArrowBoomerang",
-	},
-	{
-		id: 1,
-		name: "BombBlow",
-	},
-	{
-		id: 2,
-		name: "BombDrop",
-	},
-	{
-		id: 3,
-		name: "BossManhandlaDigdoggerPatra",
-	},
-	{
-		id: 4,
-		name: "BossDragonGanon",
-	},
-	{
-		id: 5,
-		name: "BossDodongoGohma",
-	},
-	{
-		id: 6,
-		name: "BossHurt",
-	},
-	{
-		id: 7,
-		name: "DoorUnlock",
-	},
-	{
-		id: 8,
-		name: "EnemyDie",
-	},
-	{
-		id: 9,
-		name: "EnemyHurt",
-	},
-	{
-		id: 10,
-		name: "Fire",
-	},
-	{
-		id: 11,
-		name: "Flute",
-	},
-	{
-		id: 12,
-		name: "HealthLow",
-	},
-	{
-		id: 13,
-		name: "HeartPickup",
-	},
-	{
-		id: 14,
-		name: "ItemAppear",
-	},
-	{
-		id: 15,
-		name: "ItemFanfare",
-	},
-	{
-		id: 16,
-		name: "ItemPickup",
-	},
-	{
-		id: 17,
-		name: "Magic",
-	},
-	{
-		id: 18,
-		name: "Rupee",
-	},
-	{
-		id: 19,
-		name: "SecretAppear",
-	},
-	{
-		id: 20,
-		name: "Shield",
-	},
-	{
-		id: 21,
-		name: "Shore",
-	},
-	{
-		id: 22,
-		name: "Stairs",
-	},
-	{
-		id: 23,
-		name: "SwordShoot",
-	},
-	{
-		id: 24,
-		name: "SwordSlash",
-	},
-	{
-		id: 25,
-		name: "Text",
-	},
+	ZeldaFXArrowBoomerang,
+	ZeldaFXBombBlow,
+	ZeldaFXBombDrop,
+	ZeldaFXBossManhandlaDigdoggerPatra,
+	ZeldaFXBossDragonGanon,
+	ZeldaFXBossDodongoGohma,
+	ZeldaFXBossHurt,
+	ZeldaFXDoorUnlock,
+	ZeldaFXEnemyDie,
+	ZeldaFXEnemyHurt,
+	ZeldaFXFire,
+	ZeldaFXFlute,
+	ZeldaFXHealthLow,
+	ZeldaFXHeartPickup,
+	ZeldaFXItemAppear,
+	ZeldaFXItemFanfare,
+	ZeldaFXItemPickup,
+	ZeldaFXMagic,
+	ZeldaFXRupee,
+	ZeldaFXSecretAppear,
+	ZeldaFXShield,
+	ZeldaFXShore,
+	ZeldaFXStairs,
+	ZeldaFXSwordShoot,
+	ZeldaFXSwordSlash,
+	ZeldaFXText,
 ];
+
+export const ZeldaMusicCastle: IOption = {
+	name: "ZeldaMusicCastle",
+	id: 0,
+};
+
+export const ZeldaMusicEnding: IOption = {
+	name: "ZeldaMusicEnding",
+	id: 1,
+};
+
+export const ZeldaMusicFinalCastle: IOption = {
+	name: "ZeldaMusicFinalCastle",
+	id: 2,
+};
+
+export const ZeldaMusicGameOver: IOption = {
+	name: "ZeldaMusicGameOver",
+	id: 3,
+};
+
+export const ZeldaMusicGanonAppear: IOption = {
+	name: "ZeldaMusicGanonAppear",
+	id: 4,
+};
+
+export const ZeldaMusicIntro: IOption = {
+	name: "ZeldaMusicIntro",
+	id: 5,
+};
+
+export const ZeldaMusicOverworld: IOption = {
+	name: "ZeldaMusicOverworld",
+	id: 6,
+};
+
 export const ZeldaMusic: IOption[] = [
-	{
-		id: 0,
-		name: "Castle",
-	},
-	{
-		id: 1,
-		name: "Ending",
-	},
-	{
-		id: 2,
-		name: "FinalCastle",
-	},
-	{
-		id: 3,
-		name: "GameOver",
-	},
-	{
-		id: 4,
-		name: "GanonAppear",
-	},
-	{
-		id: 5,
-		name: "Intro",
-	},
-	{
-		id: 6,
-		name: "Overworld",
-	},
+	ZeldaMusicCastle,
+	ZeldaMusicEnding,
+	ZeldaMusicFinalCastle,
+	ZeldaMusicGameOver,
+	ZeldaMusicGanonAppear,
+	ZeldaMusicIntro,
+	ZeldaMusicOverworld,
 ];

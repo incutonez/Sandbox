@@ -1,124 +1,184 @@
 import { IOption } from "@/types/components";
 
+export const ZeldaWorldColorsNone: IOption = {
+	name: "ZeldaWorldColorsNone",
+	id: "Transparent",
+};
+
+export const ZeldaWorldColorsBlack: IOption = {
+	name: "ZeldaWorldColorsBlack",
+	id: "000000",
+};
+
+export const ZeldaWorldColorsBlue: IOption = {
+	name: "ZeldaWorldColorsBlue",
+	id: "0000bc",
+};
+
+export const ZeldaWorldColorsBlueLight: IOption = {
+	name: "ZeldaWorldColorsBlueLight",
+	id: "6888ff",
+};
+
+export const ZeldaWorldColorsBluePure: IOption = {
+	name: "ZeldaWorldColorsBluePure",
+	id: "0000FF",
+};
+
+export const ZeldaWorldColorsBlueWater: IOption = {
+	name: "ZeldaWorldColorsBlueWater",
+	id: "2038ec",
+};
+
+export const ZeldaWorldColorsBrown: IOption = {
+	name: "ZeldaWorldColorsBrown",
+	id: "c84c0c",
+};
+
+export const ZeldaWorldColorsBrownButter: IOption = {
+	name: "ZeldaWorldColorsBrownButter",
+	id: "ac7c00",
+};
+
+export const ZeldaWorldColorsBrownDark: IOption = {
+	name: "ZeldaWorldColorsBrownDark",
+	id: "503000",
+};
+
+export const ZeldaWorldColorsBrownLight: IOption = {
+	name: "ZeldaWorldColorsBrownLight",
+	id: "f8b800",
+};
+
+export const ZeldaWorldColorsGray: IOption = {
+	name: "ZeldaWorldColorsGray",
+	id: "7c7c7c",
+};
+
+export const ZeldaWorldColorsGreen: IOption = {
+	name: "ZeldaWorldColorsGreen",
+	id: "00a800",
+};
+
+export const ZeldaWorldColorsGreenDark: IOption = {
+	name: "ZeldaWorldColorsGreenDark",
+	id: "005800",
+};
+
+export const ZeldaWorldColorsGreenLight: IOption = {
+	name: "ZeldaWorldColorsGreenLight",
+	id: "58f898",
+};
+
+export const ZeldaWorldColorsGreenPure: IOption = {
+	name: "ZeldaWorldColorsGreenPure",
+	id: "00FF00",
+};
+
+export const ZeldaWorldColorsLime: IOption = {
+	name: "ZeldaWorldColorsLime",
+	id: "b8f818",
+};
+
+export const ZeldaWorldColorsOrange: IOption = {
+	name: "ZeldaWorldColorsOrange",
+	id: "FFA044",
+};
+
+export const ZeldaWorldColorsOrangeDark: IOption = {
+	name: "ZeldaWorldColorsOrangeDark",
+	id: "e45c10",
+};
+
+export const ZeldaWorldColorsPeach: IOption = {
+	name: "ZeldaWorldColorsPeach",
+	id: "fcd8a8",
+};
+
+export const ZeldaWorldColorsPurpleLight: IOption = {
+	name: "ZeldaWorldColorsPurpleLight",
+	id: "b8b8f8",
+};
+
+export const ZeldaWorldColorsQ1C1Accent: IOption = {
+	name: "ZeldaWorldColorsQ1C1Accent",
+	id: "008088",
+};
+
+export const ZeldaWorldColorsQ1C1Door: IOption = {
+	name: "ZeldaWorldColorsQ1C1Door",
+	id: "183c5c",
+};
+
+export const ZeldaWorldColorsRed: IOption = {
+	name: "ZeldaWorldColorsRed",
+	id: "F83800",
+};
+
+export const ZeldaWorldColorsRedPure: IOption = {
+	name: "ZeldaWorldColorsRedPure",
+	id: "FF0000",
+};
+
+export const ZeldaWorldColorsTan: IOption = {
+	name: "ZeldaWorldColorsTan",
+	id: "FFEFA6",
+};
+
+export const ZeldaWorldColorsTeal: IOption = {
+	name: "ZeldaWorldColorsTeal",
+	id: "008888",
+};
+
+export const ZeldaWorldColorsTealLight: IOption = {
+	name: "ZeldaWorldColorsTealLight",
+	id: "00e8d8",
+};
+
+export const ZeldaWorldColorsTealDark: IOption = {
+	name: "ZeldaWorldColorsTealDark",
+	id: "004058",
+};
+
+export const ZeldaWorldColorsWhite: IOption = {
+	name: "ZeldaWorldColorsWhite",
+	id: "fcfcfc",
+};
+
+export const ZeldaWorldColorsWhitePure: IOption = {
+	name: "ZeldaWorldColorsWhitePure",
+	id: "FFFFFF",
+};
+
 export const ZeldaWorldColors: IOption[] = [
-	{
-		id: "Transparent",
-		name: "None",
-	},
-	{
-		id: "000000",
-		name: "Black",
-	},
-	{
-		id: "0000bc",
-		name: "Blue",
-	},
-	{
-		id: "6888ff",
-		name: "BlueLight",
-	},
-	{
-		id: "0000FF",
-		name: "BluePure",
-	},
-	{
-		id: "2038ec",
-		name: "BlueWater",
-	},
-	{
-		id: "c84c0c",
-		name: "Brown",
-	},
-	{
-		id: "ac7c00",
-		name: "BrownButter",
-	},
-	{
-		id: "503000",
-		name: "BrownDark",
-	},
-	{
-		id: "f8b800",
-		name: "BrownLight",
-	},
-	{
-		id: "7c7c7c",
-		name: "Gray",
-	},
-	{
-		id: "00a800",
-		name: "Green",
-	},
-	{
-		id: "005800",
-		name: "GreenDark",
-	},
-	{
-		id: "58f898",
-		name: "GreenLight",
-	},
-	{
-		id: "00FF00",
-		name: "GreenPure",
-	},
-	{
-		id: "b8f818",
-		name: "Lime",
-	},
-	{
-		id: "FFA044",
-		name: "Orange",
-	},
-	{
-		id: "e45c10",
-		name: "OrangeDark",
-	},
-	{
-		id: "fcd8a8",
-		name: "Peach",
-	},
-	{
-		id: "b8b8f8",
-		name: "PurpleLight",
-	},
-	{
-		id: "008088",
-		name: "Q1C1Accent",
-	},
-	{
-		id: "183c5c",
-		name: "Q1C1Door",
-	},
-	{
-		id: "F83800",
-		name: "Red",
-	},
-	{
-		id: "FF0000",
-		name: "RedPure",
-	},
-	{
-		id: "FFEFA6",
-		name: "Tan",
-	},
-	{
-		id: "008888",
-		name: "Teal",
-	},
-	{
-		id: "00e8d8",
-		name: "TealLight",
-	},
-	{
-		id: "004058",
-		name: "TealDark",
-	},
-	{
-		id: "fcfcfc",
-		name: "White",
-	},
-	{
-		id: "FFFFFF",
-		name: "WhitePure",
-	},
+	ZeldaWorldColorsNone,
+	ZeldaWorldColorsBlack,
+	ZeldaWorldColorsBlue,
+	ZeldaWorldColorsBlueLight,
+	ZeldaWorldColorsBluePure,
+	ZeldaWorldColorsBlueWater,
+	ZeldaWorldColorsBrown,
+	ZeldaWorldColorsBrownButter,
+	ZeldaWorldColorsBrownDark,
+	ZeldaWorldColorsBrownLight,
+	ZeldaWorldColorsGray,
+	ZeldaWorldColorsGreen,
+	ZeldaWorldColorsGreenDark,
+	ZeldaWorldColorsGreenLight,
+	ZeldaWorldColorsGreenPure,
+	ZeldaWorldColorsLime,
+	ZeldaWorldColorsOrange,
+	ZeldaWorldColorsOrangeDark,
+	ZeldaWorldColorsPeach,
+	ZeldaWorldColorsPurpleLight,
+	ZeldaWorldColorsQ1C1Accent,
+	ZeldaWorldColorsQ1C1Door,
+	ZeldaWorldColorsRed,
+	ZeldaWorldColorsRedPure,
+	ZeldaWorldColorsTan,
+	ZeldaWorldColorsTeal,
+	ZeldaWorldColorsTealLight,
+	ZeldaWorldColorsTealDark,
+	ZeldaWorldColorsWhite,
+	ZeldaWorldColorsWhitePure,
 ];

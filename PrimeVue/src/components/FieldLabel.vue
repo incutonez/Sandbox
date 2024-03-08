@@ -3,7 +3,7 @@
 		class="text-sm font-semibold text-gray-700"
 		:class="cls"
 		v-if="!!text"
-	>{{ text }}:</label>
+	>{{ text }}{{ separator }}</label>
 </template>
 
 <script setup lang="ts">
@@ -12,10 +12,12 @@ import { computed } from "vue";
 export interface IFieldLabel {
 	text: string;
 	position?: "top" | "left";
+	separator?: string;
 }
 
 const props = withDefaults(defineProps<IFieldLabel>(), {
 	position: "left",
+	separator: ":",
 });
 const cls = computed(() => {
 	return {

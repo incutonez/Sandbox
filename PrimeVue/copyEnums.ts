@@ -9,7 +9,6 @@ import { execSync } from "child_process";
 import fs from "fs";
 import { glob } from "glob";
 import path from "path";
-import { IOption } from "./src/types/components";
 
 const inPath = "../../ZeldaU/Assets/Scripts/Enums/";
 const outPath = "src/enums/";
@@ -26,8 +25,8 @@ function toEnum(data) {
 		.match(/public enum [^}]+}/g)
 		.forEach((match) => {
 			// Get the name of the enum
-			const matchName = match.match(/public enum ([^\r{\s]+)/)[1];
-			const items: IOption[] = [];
+			const matchName = "Zelda" + match.match(/public enum ([^\r{\s]+)/)[1];
+			const items: string[] = [];
 			// Need the trim because there's some sort of zwnbsp character that'll show up
 			match = match
 				.trim()
@@ -52,29 +51,31 @@ function toEnum(data) {
 			match = match.replace(/\[[^\]]+\]\r\n/g, "").replace(/\r\n/g, "");
 			// If there are no default values, let's create them
 			if (match.indexOf(":") === -1) {
-				const parsed: string[] =
-					match
-						.replace(/\s+/g, "")
-						.replace(/\{|\}/g, "")
-						.split(/([^,]+),/)
-						.filter((item) => !!item) ?? [];
+				const parsed: string[] = match.replace(/\s+/g, "")
+					.replace(/\{|\}/g, "")
+					.split(/([^,]+),/)
+					.filter((item) => !!item) ?? [];
 				parsed.forEach((item, index) => {
-					items.push({
+					const name = `${matchName}${item}`;
+					output += `export ${`const ${name}: IOption = `} ${JSON.stringify({
+						name,
 						id: index,
-						name: item,
-					});
+					})};`;
+					items.push(name);
 				});
 			}
 			else if (match.indexOf("{") === 0) {
 				const parsed = JSON.parse(match.replace(/(\w+)\s*:/g, "\"$1\":"));
 				for (const key in parsed) {
-					items.push({
+					const name = `${matchName}${key}`;
+					output += `export ${`const ${name}: IOption = `} ${JSON.stringify({
+						name,
 						id: parsed[key],
-						name: key,
-					});
+					})};`;
+					items.push(name);
 				}
 			}
-			output += `export ${`const Zelda${matchName}: IOption[] =`} ${JSON.stringify(items)};`;
+			output += `export ${`const ${matchName}: IOption[] =`} [${items.join(", ").replace(/"/g, "")}];`;
 		});
 	return `import { IOption } from "@/types/components";\n${output}`;
 }

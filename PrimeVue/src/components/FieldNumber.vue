@@ -10,6 +10,7 @@
 			:disabled="disabled"
 			:min="min"
 			:max="max"
+			:min-fraction-digits="decimalPlaces"
 			@keyup="onKeyUp"
 		/>
 	</article>
@@ -33,6 +34,7 @@ interface IFieldNumber {
 	inputCls?: string;
 	min?: number;
 	max?: number;
+	decimalPlaces?: number;
 }
 const props = withDefaults(defineProps<IFieldNumber>(), {
 	label: undefined,
@@ -42,6 +44,7 @@ const props = withDefaults(defineProps<IFieldNumber>(), {
 	inputCls: "",
 	min: undefined,
 	max: undefined,
+	decimalPlaces: 0,
 });
 const emit = defineEmits(["inputEnd"]);
 const modelValue = defineModel<number>();
