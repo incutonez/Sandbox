@@ -22,7 +22,7 @@
     "eslint-plugin-import",
     "@typescript-eslint",
     "simple-import-sort",
-    "eslint-plugin-incutonez"
+    "@incutonez"
   ],
   "rules": {
     "vue/html-indent": [
@@ -144,7 +144,7 @@
         "after": true
       }
     ],
-    "incutonez/array-element-newline": [
+    "@incutonez/array-element-newline": [
       "error",
       {
         "multiline": true,
@@ -152,7 +152,7 @@
         "bracesSameLine": true
       }
     ],
-    "incutonez/array-bracket-newline": [
+    "@incutonez/array-bracket-newline": [
       "error",
       {
         "multiline": true,
