@@ -1,69 +1,59 @@
-﻿import { Type } from "class-transformer";
-import { IsArray, IsString } from "class-validator";
-import { Enemy } from "ui/classes/models/Enemy.js";
-import { Grid } from "ui/classes/models/Grid.js";
-import { Item } from "ui/classes/models/Item.js";
-import { Tile } from "ui/classes/models/Tile.js";
-import { IsRequired } from "@/models/decorators";
-import { ViewModel } from "@/models/ViewModel";
-import { ZeldaTileGrid } from "@/models/ZeldaTileGrid";
+﻿import { IsArray, IsString } from "class-validator";
+import { IsRequired, ModelTransform } from "@/models/decorators";
+import { DeepPartial, ViewModel } from "@/models/ViewModel";
+import { ZeldaEnemy } from "@/models/ZeldaEnemy";
+import { ZeldaItem } from "@/models/ZeldaItem";
+import { ZeldaTile } from "@/models/ZeldaTile";
+import { ILoadData, ZeldaTileGrid } from "@/models/ZeldaTileGrid";
 
 export class ZeldaTileCell extends ViewModel {
   @IsArray()
-  coordinates: number[] = [];
+  Coordinates: number[] = [];
 
   @IsRequired()
   @IsString()
-  name = "";
+  Name = "";
 
-  @Type(() => ZeldaTileGrid)
+  @ModelTransform(ZeldaTileGrid)
   grid = ZeldaTileGrid.create();
-  getDefaultFields() {
-  	return [{
-  		name: "grid",
-  		type: Grid,
-  	}, {
-  		name: "tile",
-  		type: Tile,
-  		defaultValue: {
-  			cell: this,
-  		},
-  	}, {
-  		name: "item",
-  		type: Item,
-  		defaultValue: {
-  			cell: this,
-  		},
-  	}, {
-  		name: "enemy",
-  		type: Enemy,
-  		defaultValue: {
-  			cell: this,
-  		},
-  	}];
-  }
 
-  reset() {
+	@ModelTransform(ZeldaTile)
+	tile = ZeldaTile.create();
+
+	@ModelTransform(ZeldaItem)
+	item = ZeldaItem.create();
+
+	@ModelTransform(ZeldaEnemy)
+	enemy = ZeldaEnemy.create();
+
+	set(data: DeepPartial<this>) {
+		super.set(data);
+		this.tile.cell = this;
+		this.item.cell = this;
+		this.enemy.cell = this;
+	}
+
+	reset() {
   	this.tile.reset();
-  }
+	}
 
-  getIndex() {
+	getIndex() {
   	return this.grid.cells.indexOf(this);
-  }
+	}
 
-  get id() {
+	get id() {
   	return `${this.x}_${this.y}`;
-  }
+	}
 
-  get x() {
+	get x() {
   	return this.Coordinates[0];
-  }
+	}
 
-  get y() {
+	get y() {
   	return this.Coordinates[1];
-  }
+	}
 
-  getConfig({ Tiles, Items, Enemies }) {
+	getConfig({ Tiles = [], Items = [], Enemies = [] }: ILoadData) {
   	const { tile, item, enemy } = this;
   	if (tile.hasImage()) {
   		const tileType = tile.getTypeKey();
@@ -74,7 +64,7 @@ export class ZeldaTileCell extends ViewModel {
   		}
   		else {
   			Tiles.push({
-  				Type: tileType,
+  				Type: tileType!,
   				Children: [config],
   			});
   		}
@@ -85,5 +75,5 @@ export class ZeldaTileCell extends ViewModel {
   	if (enemy.hasImage()) {
   		Enemies.push(enemy.getConfig());
   	}
-  }
+	}
 }
