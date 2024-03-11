@@ -1,5 +1,4 @@
 ﻿import { IsArray, IsObject, IsString } from "class-validator";
-import Jimp from "jimp";
 import { ZeldaTiles, ZeldaTilesNone } from "@/enums/ZeldaTiles";
 import { ModelTransform } from "@/models/decorators";
 import { ViewModel } from "@/models/ViewModel";
@@ -21,16 +20,16 @@ export class ZeldaWorldObject extends ViewModel {
   image? = "";
 
   @IsString()
-  src?: string | Jimp = "";
+  src?: string = "";
 
-  @ModelTransform(ZeldaTileCell)
+  @ModelTransform(() => ZeldaTileCell)
   cell = ZeldaTileCell.create();
 
   @IsObject()
   type?: IOption = {};
 
   @IsArray()
-  @ModelTransform(ZeldaTargetColor)
+  @ModelTransform(() => ZeldaTargetColor)
   colors: ZeldaTargetColor[] = [];
 
   get enumCollection() {
@@ -132,7 +131,7 @@ export class ZeldaWorldObject extends ViewModel {
   			name,
   			type: this.imageType,
   			encode: true,
-  		});
+  		}) as string;
   	}
   	this.src = src;
   }

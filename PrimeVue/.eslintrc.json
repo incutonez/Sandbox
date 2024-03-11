@@ -29,6 +29,7 @@
       "error",
       "tab"
     ],
+    "vue/attributes-order": "error",
     "tailwindcss/classnames-order": "error",
     "quote-props": [
       "error",

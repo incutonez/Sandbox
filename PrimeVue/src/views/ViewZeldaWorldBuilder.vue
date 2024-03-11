@@ -2,9 +2,9 @@
 	<div class="flex">
 		<div class="flex flex-col">
 			<FieldComboBox
-				v-model="selectedId"
-				v-model:selected="selectedScreen"
+				v-model="selectedScreen"
 				:options="overworldRecords"
+				:value-only="false"
 				label-align="top"
 				label="Screens"
 				id-field="Name"
@@ -16,7 +16,7 @@
 				@click="onClickNewButton"
 			/>
 		</div>
-		<BaseGrid
+		<TileGrid
 			v-model:selected-cell="selectedCell"
 			:cells="selectedScreen?.cells"
 			:total-columns="gridRecord.totalColumns"
@@ -27,7 +27,7 @@
 		/>
 		<div class="space-y-2 p-4">
 			<div class="flex justify-between">
-				<FieldCheckBox
+				<FieldCheckbox
 					v-model="showGridLines"
 					label="Grid Lines"
 				/>
@@ -94,7 +94,7 @@
 				/>
 			</BaseCard>
 			<BaseCard
-				v-if="selectedCell"
+				v-if="selectedCell && selectedTile"
 				:key="selectedCell.id"
 				title="Cell"
 				class="vertical"
@@ -107,6 +107,7 @@
 						<FieldComboBox
 							v-model="selectedTile.Type"
 							:options="ZeldaTiles"
+							:value-only="false"
 							label="Type"
 							label-width="auto"
 						/>
@@ -129,10 +130,11 @@
 					>
 						<FieldComboBox
 							v-for="tileColor in selectedTile.Colors"
-							:key="tileColor.id"
+							:key="tileColor.Target.id"
 							v-model="tileColor.Value"
-							:label="ZeldaWorldColors.getKey(tileColor.Target)"
+							:label="tileColor.Target.name"
 							:options="ZeldaWorldColors"
+							:value-only="false"
 							@update:model-value="onUpdateTileColor"
 						/>
 					</BaseCard>
@@ -151,9 +153,9 @@
 							label="Y Offset"
 							width="w-24"
 						/>
-						<BaseField
+						<FieldDisplay
 							v-if="selectedTile.isDoor"
-							v-model="selectedTile.Transition.Name"
+							:value="selectedTile.Transition.Name"
 							label="Name"
 						/>
 						<FieldComboBox
@@ -164,7 +166,7 @@
 							id-field="value"
 							:options="ZeldaScreenTemplates"
 						/>
-						<FieldCheckBox
+						<FieldCheckbox
 							v-model="selectedTile.Transition.IsFloating"
 							label="Floating"
 						/>
@@ -175,7 +177,10 @@
 					:expanded="false"
 					class="vertical bp-2"
 				>
-					<div class="flex justify-between">
+					<div
+						v-if="selectedItem"
+						class="flex justify-between"
+					>
 						<FieldComboBox
 							v-model="selectedItem.Type"
 							:options="ZeldaItems"
@@ -193,6 +198,7 @@
 					</div>
 				</BaseCard>
 				<BaseCard
+					v-if="selectedEnemy"
 					title="Enemy"
 					:expanded="false"
 					class="vertical bp-2"
@@ -227,9 +233,9 @@
 					>
 						<FieldComboBox
 							v-for="tileColor in selectedEnemy.Colors"
-							:key="tileColor.id"
+							:key="tileColor.Target.id"
 							v-model="tileColor.Value"
-							:label="ZeldaWorldColors.getKey(tileColor.Target)"
+							:label="tileColor.Target.name"
 							:options="ZeldaWorldColors"
 							@update:model-value="onUpdateEnemyColor"
 						/>
@@ -267,20 +273,24 @@
 </template>
 
 <script setup lang="ts">
-import { computed, provide, reactive, ref, watch } from "vue";
-import { Grid } from "ui/classes/models/Grid.js";
-import BaseGrid from "ui/components/BaseGrid.vue";
+import { computed, reactive, ref, watch } from "vue";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseCard from "@/components/BaseCard.vue";
+import FieldCheckbox from "@/components/FieldCheckbox.vue";
 import FieldComboBox from "@/components/FieldComboBox.vue";
 import FieldDisplay from "@/components/FieldDisplay.vue";
 import FieldNumber from "@/components/FieldNumber.vue";
+import { findRecordByName } from "@/enums/helper";
 import { ZeldaItems } from "@/enums/ZeldaItems";
 import { ZeldaEnemies } from "@/enums/ZeldaNPCs";
 import { ZeldaScreenTemplates } from "@/enums/ZeldaScreenTemplates";
 import { ZeldaTiles } from "@/enums/ZeldaTiles";
-import { ZeldaWorldColors } from "@/enums/ZeldaWorldColors";
-import { useCellCopy } from "@/views/zeldaWorldBuilder/cellCopy";
+import { ZeldaWorldColors, ZeldaWorldColorsNone } from "@/enums/ZeldaWorldColors";
+import { ZeldaScreen } from "@/models/ZeldaScreen";
+import { ZeldaTileCell } from "@/models/ZeldaTileCell";
+import { makeArray } from "@/utils/common";
+import { provideCellCopy } from "@/views/zeldaWorldBuilder/cellCopy";
+import TileGrid from "@/views/zeldaWorldBuilder/TileGrid.vue";
 
 /**
  * TODOJEF:
@@ -294,28 +304,27 @@ import { useCellCopy } from "@/views/zeldaWorldBuilder/cellCopy";
  * - Add special properties to ZeldaTiles... will need to wire this up in Unity code
  * -- Like CanBreak, CanBurn, CanBomb
  */
-const fileInputEl = ref(null);
-const selectedCell = ref(null);
-const selectedScreen = ref(null);
+const fileInputEl = ref<HTMLInputElement>();
+const selectedCell = ref<ZeldaTileCell>();
+const selectedScreen = ref<ZeldaScreen>();
 const showGridLines = ref(true);
-const overworldRecords = reactive([]);
+const overworldRecords = reactive<ZeldaScreen[]>([]);
 const gridRecord = ref(addGridRecord());
-const selectedId = ref(gridRecord.value.Name);
 const isTransition = computed(() => selectedCell.value?.tile.isTransition);
 const selectedTile = computed(() => selectedCell.value?.tile);
 const selectedItem = computed(() => selectedCell.value?.item);
 const selectedEnemy = computed(() => selectedCell.value?.enemy);
-const showColors = computed(() => !isTransition.value && selectedTile.value.hasImage());
-provide("pressedKeys", useCellCopy());
+const showColors = computed(() => !isTransition.value && selectedTile.value?.hasImage());
 
-watch(selectedId, () => {
-	selectedCell.value = null;
-	gridRecord.value = overworldRecords.find(({ Name }) => Name === selectedId.value);
+watch(selectedScreen, ($selectedScreen) => {
+	selectedCell.value = undefined;
+	const name = $selectedScreen?.Name;
+	gridRecord.value = overworldRecords.find((overworldRecord) => overworldRecord.Name === name)!;
 });
 
 // TODOJEF: Pick up with adding the export to the new JSON format with Overworld output
 function addGridRecord(config = {}) {
-	const record = new Grid({
+	const record = ZeldaScreen.create({
 		totalRows: 11,
 		totalColumns: 16,
 		...config,
@@ -325,23 +334,25 @@ function addGridRecord(config = {}) {
 }
 
 function getCellColor() {
-	return ZeldaWorldColors.findRecord(gridRecord.value.GroundColor)?.backgroundStyle;
+	const found = findRecordByName(ZeldaWorldColors, gridRecord.value.GroundColor);
+	if (found === ZeldaWorldColorsNone || !found) {
+		return "";
+	}
+	return `background-color: #${found.id};`;
 }
 
 function onUpdateTileColor() {
-	selectedTile.value.updateImage();
+	selectedTile.value?.updateImage();
 }
 
 function onUpdateEnemyColor() {
-	selectedEnemy.value.updateImage();
+	selectedEnemy.value?.updateImage();
 }
 
-function onReplaceCell({ indices, replacement }) {
-	if (!Array.isArray(indices)) {
-		indices = [indices];
-		// Make sure we update the selection with the replacement
-		selectedCell.value = replacement;
-	}
+function onReplaceCell({ indices, replacement }: { indices: number | number[], replacement: ZeldaTileCell }) {
+	indices = makeArray(indices);
+	// Make sure we update the selection with the replacement
+	selectedCell.value = replacement;
 	indices.forEach((idx) => {
 		const record = gridRecord.value.cells[idx];
 		const clone = replacement.clone({
@@ -360,15 +371,15 @@ function onReplaceCell({ indices, replacement }) {
 }
 
 function onClickLoadBtn() {
-	fileInputEl.value.click();
+	fileInputEl.value?.click();
 }
 
 function onChangeLoadFile() {
 	const reader = new FileReader();
 	reader.addEventListener("load", () => {
-		gridRecord.value.loadFileData(JSON.parse(reader.result));
+		gridRecord.value.loadFileData(JSON.parse(reader.result as string));
 	});
-	const [file] = fileInputEl.value.files;
+	const [file] = fileInputEl.value?.files ?? [];
 	if (file) {
 		reader.readAsText(file);
 	}
@@ -390,4 +401,6 @@ function onClickNewButton() {
 		Name: "TEMPORARY NAME",
 	});
 }
+
+provideCellCopy();
 </script>

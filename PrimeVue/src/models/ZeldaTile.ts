@@ -67,19 +67,20 @@ import {
 } from "@/enums/ZeldaWorldColors";
 import { ModelTransform } from "@/models/decorators";
 import { ModelInterface, ViewModel } from "@/models/ViewModel";
+import { ZeldaScreen } from "@/models/ZeldaScreen";
 import { ZeldaTargetColor } from "@/models/ZeldaTargetColor";
 import { ZeldaTileCell } from "@/models/ZeldaTileCell";
-import { ZeldaTileGrid } from "@/models/ZeldaTileGrid";
 import { IZeldaWorldObjectConfig } from "@/models/ZeldaWorldObject";
 import { type IOption } from "@/types/components";
 import { isEmpty, pluck } from "@/utils/common";
 import { getImage, replaceColor } from "@/utils/zelda";
 
 const TransitionTypes = [ZeldaTilesTransition, ZeldaTilesDoor];
-function makeTargets(item: IOption) {
-	return {
+function makeTargets(item: IOption, Value?: IOption) {
+	return ZeldaTargetColor.create({
+		Value,
 		Target: item,
-	};
+	});
 }
 /**
  * TODOJEF: I really should standardize these colors
@@ -124,15 +125,15 @@ export function getDefaultTileColors(type: IOption) {
 		case ZeldaTilesWallRightYFlip:
 		case ZeldaTilesWallX:
 		case ZeldaTilesWallY:
-			colors = WhiteBlueRed.map(makeTargets);
+			colors = WhiteBlueRed;
 			break;
 		case ZeldaTilesWallHoleX:
 		case ZeldaTilesWallHoleY:
-			colors = WhiteBlackBlueRed.map(makeTargets);
+			colors = WhiteBlackBlueRed;
 			break;
 		case ZeldaTilesFire:
 		case ZeldaTilesFireAlt:
-			colors = FireOuterFireInnerWhite.map(makeTargets);
+			colors = FireOuterFireInnerWhite;
 			break;
 		case ZeldaTilesCastleBottomLeft:
 		case ZeldaTilesCastleBottomRight:
@@ -153,20 +154,17 @@ export function getDefaultTileColors(type: IOption) {
 		case ZeldaTilesWaterTopRight:
 		case ZeldaTilesWaterBottomLeft:
 		case ZeldaTilesWaterBottomRight:
-			colors = WhiteBlueBlack.map(makeTargets);
+			colors = WhiteBlueBlack;
 			break;
 		case ZeldaTilesGroundTile:
-			colors = WhiteRedBlack.map(makeTargets);
+			colors = WhiteRedBlack;
 			break;
 		case ZeldaTilesDoor:
-			colors = [{
-				Target: ZeldaWorldColorsWhite,
-				Value: ZeldaWorldColorsBlack,
-			}];
+			colors = [[ZeldaWorldColorsWhite, ZeldaWorldColorsBlack]];
 			break;
 		case ZeldaTilesSandBottom:
 		case ZeldaTilesSandCenter:
-			colors = White.map(makeTargets);
+			colors = White;
 			break;
 		case ZeldaTilesPondBottom:
 		case ZeldaTilesPondBottomLeft:
@@ -177,19 +175,26 @@ export function getDefaultTileColors(type: IOption) {
 		case ZeldaTilesPondCenter:
 		case ZeldaTilesPondCenterLeft:
 		case ZeldaTilesPondCenterRight:
-			colors = WhiteBlue.map(makeTargets);
+			colors = WhiteBlue;
 			break;
 		case ZeldaTilesBush:
 		default:
-			colors = WhiteBlack.map(makeTargets);
+			colors = WhiteBlack;
 			break;
 	}
-	return colors;
+	return colors.map((target) => {
+		let value: IOption | undefined;
+		if (Array.isArray(target)) {
+			value = target[1];
+			target = target[0];
+		}
+		return makeTargets(target, value);
+	});
 }
 
 export interface IZeldaTileConfig extends IZeldaWorldObjectConfig {
 	Name?: string;
-	Transition?: ModelInterface<ZeldaTileGrid>;
+	Transition?: ModelInterface<ZeldaScreen>;
 }
 
 export interface IZeldaTileMeta {
@@ -205,7 +210,7 @@ export class ZeldaTile extends ViewModel {
 	@IsString()
 	src? = "";
 
-	@ModelTransform(ZeldaTileCell)
+	@ModelTransform(() => ZeldaTileCell)
 	cell = ZeldaTileCell.create();
 
 	// TODOJEF: Make this a proper enum?
@@ -213,18 +218,18 @@ export class ZeldaTile extends ViewModel {
 	type: IOption = ZeldaTilesNone;
 
 	@IsArray()
-	@ModelTransform(ZeldaTargetColor)
-	colors: IOption[] = [];
+	@ModelTransform(() => ZeldaTargetColor)
+	colors: ZeldaTargetColor[] = [];
 
-	@ModelTransform(ZeldaTileGrid)
-	Transition = ZeldaTileGrid.create();
+	@ModelTransform(() => ZeldaScreen)
+	Transition = ZeldaScreen.create();
 
 	@Allow()
 	TileType?: IOption;
 
 	reset() {
 		this.Type = ZeldaTilesNone;
-		this.Transition = ZeldaTileGrid.create();
+		this.Transition = ZeldaScreen.create();
 	}
 
 	get isDoor() {
@@ -253,7 +258,7 @@ export class ZeldaTile extends ViewModel {
 		this.Colors = getDefaultTileColors(value);
 		this.updateSrc();
 		if (this.isTransition) {
-			this.Transition = ZeldaTileGrid.create({
+			this.Transition = ZeldaScreen.create({
 				X: 0,
 				Y: 0,
 			});
@@ -341,7 +346,7 @@ export class ZeldaTile extends ViewModel {
 		}
 		if (this.isTransition) {
 			const removeFields = [];
-			const transition = this.Transition.get<ModelInterface<ZeldaTileGrid>>({
+			const transition = this.Transition.get<ModelInterface<ZeldaScreen>>({
 				exclude: [
 					"AccentColor",
 					"GroundColor",

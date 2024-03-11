@@ -1,5 +1,5 @@
 ﻿import { IsArray, IsBoolean, IsInt, IsNumber, IsString } from "class-validator";
-import { findRecordByName, getIdByName, getNameById } from "@/enums/helper";
+import { findRecordByName, getNameById } from "@/enums/helper";
 import { ZeldaItems } from "@/enums/ZeldaItems";
 import { ZeldaTiles } from "@/enums/ZeldaTiles";
 import { ZeldaWorldColors, ZeldaWorldColorsBrown, ZeldaWorldColorsTan } from "@/enums/ZeldaWorldColors";
@@ -17,7 +17,7 @@ export interface ILoadData {
 	Enemies?: IZeldaEnemyConfig[];
 }
 
-export class ZeldaTileGrid extends ViewModel {
+export class ZeldaScreen extends ViewModel {
   @IsNumber()
   X = 0;
 
@@ -42,7 +42,7 @@ export class ZeldaTileGrid extends ViewModel {
 	Template = "";
 
 	@IsArray()
-	@ModelTransform(ZeldaTileCell)
+	@ModelTransform(() => ZeldaTileCell)
 	cells: ZeldaTileCell[] = [];
 
 	@IsInt()
@@ -100,10 +100,10 @@ export class ZeldaTileGrid extends ViewModel {
   					const { Colors } = child;
   					if (Colors) {
   						for (let i = 0; i < Colors.length; i += 2) {
-  							const target = getIdByName(ZeldaWorldColors, Colors[i]);
+  							const target = findRecordByName(ZeldaWorldColors, Colors[i]);
   							const foundColor = tileColors.find((color) => color.Target === target);
   							if (foundColor) {
-  								foundColor.Value = getIdByName(ZeldaWorldColors, Colors[i + 1]);
+  								foundColor.Value = findRecordByName(ZeldaWorldColors, Colors[i + 1])!;
   							}
   						}
   					}

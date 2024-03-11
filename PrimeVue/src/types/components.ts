@@ -21,3 +21,12 @@ export interface IBaseButton extends /** @vue-ignore */ HTMLAttributes {
 	plain?: boolean;
 	unstyled?: boolean;
 }
+
+export interface IMenuItem {
+	text?: string;
+	icon?: string | InstanceType<any>;
+	iconCls?: string;
+	visible?: boolean;
+	click?: () => void;
+	items?: IMenuItem[];
+}

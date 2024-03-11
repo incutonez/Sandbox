@@ -26,7 +26,7 @@ export function IsRequired(validationOptions?: ValidationOptions) {
 }
 
 // Idea taken from https://github.com/typestack/class-transformer/issues/563#issue-788919461
-export function ModelTransform(cls: typeof ViewModel, options?: TypeOptions): PropertyDecorator {
+export function ModelTransform(cls: () => typeof ViewModel, options?: TypeOptions): PropertyDecorator {
 	return function(target: any, propertyName: string | Symbol): void {
 		defaultMetadataStorage.addTransformMetadata({
 			target: target.constructor,
@@ -34,13 +34,14 @@ export function ModelTransform(cls: typeof ViewModel, options?: TypeOptions): Pr
 			options,
 			transformFn({ value }: { value: any }) {
 				let output: ViewModel | ViewModel[] | undefined;
+				const model = cls();
 				if (value) {
 					if (Array.isArray(value)) {
 						output = [];
-						value.forEach((item) => (output as ViewModel[]).push(cls.create(item)));
+						value.forEach((item) => (output as ViewModel[]).push(model.create(item)));
 					}
 					else {
-						output = cls.create(value);
+						output = model.create(value);
 					}
 				}
 				return output;

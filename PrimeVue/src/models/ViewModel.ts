@@ -36,6 +36,7 @@ export const Parent = Symbol("parent");
 const LastKeyRegex = /\.(?=[^.]+$)/;
 
 export class ViewModel {
+	static [IsModel] = true;
 	[IsNew] = true;
 	[IsModel] = true;
 	[Parent]?: any;
@@ -122,6 +123,10 @@ export class ViewModel {
 			}
 			Reflect.set(this, key, values[key]);
 		}
+	}
+
+	clone(options: IModelGetOptions = {}) {
+		return (this.constructor as typeof ViewModel).create(this.get(options)) as typeof this;
 	}
 
 	clear() {

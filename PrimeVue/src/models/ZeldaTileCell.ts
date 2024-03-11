@@ -3,8 +3,8 @@ import { IsRequired, ModelTransform } from "@/models/decorators";
 import { DeepPartial, ViewModel } from "@/models/ViewModel";
 import { ZeldaEnemy } from "@/models/ZeldaEnemy";
 import { ZeldaItem } from "@/models/ZeldaItem";
+import { ILoadData, ZeldaScreen } from "@/models/ZeldaScreen";
 import { ZeldaTile } from "@/models/ZeldaTile";
-import { ILoadData, ZeldaTileGrid } from "@/models/ZeldaTileGrid";
 
 export class ZeldaTileCell extends ViewModel {
   @IsArray()
@@ -14,16 +14,16 @@ export class ZeldaTileCell extends ViewModel {
   @IsString()
   Name = "";
 
-  @ModelTransform(ZeldaTileGrid)
-  grid = ZeldaTileGrid.create();
+  @ModelTransform(() => ZeldaScreen)
+  grid = ZeldaScreen.create();
 
-	@ModelTransform(ZeldaTile)
+	@ModelTransform(() => ZeldaTile)
 	tile = ZeldaTile.create();
 
-	@ModelTransform(ZeldaItem)
+	@ModelTransform(() => ZeldaItem)
 	item = ZeldaItem.create();
 
-	@ModelTransform(ZeldaEnemy)
+	@ModelTransform(() => ZeldaEnemy)
 	enemy = ZeldaEnemy.create();
 
 	set(data: DeepPartial<this>) {

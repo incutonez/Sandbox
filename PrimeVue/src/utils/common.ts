@@ -1,4 +1,5 @@
 import get from "just-safe-get";
+import { isFunction as lodashIsFunction } from "lodash-es";
 
 export function isString(value: any): value is string {
 	return typeof value === "string";
@@ -14,6 +15,10 @@ export function makeArray(value: any) {
 
 export function isEmpty(value: any) {
 	return value === undefined || value === null || value === "" || Array.isArray(value) && value.length === 0;
+}
+
+export function isFunction(value: any): value is (...args: any[]) => any {
+	return lodashIsFunction(value);
 }
 
 export function pluck<T = any>(items: any[], keys: string | string[]) {
