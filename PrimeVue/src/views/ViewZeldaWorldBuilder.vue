@@ -1,14 +1,14 @@
 <template>
-	<div class="flex">
-		<div class="flex flex-col">
+	<div class="flex h-full space-x-4 p-4">
+		<div class="flex min-w-44 flex-col">
 			<FieldComboBox
 				v-model="selectedScreen"
 				:options="overworldRecords"
 				:value-only="false"
 				label-align="top"
 				label="Screens"
-				id-field="Name"
-				display-field="Name"
+				option-label="Name"
+				option-value="Name"
 			/>
 			<BaseButton
 				text="New"
@@ -25,7 +25,7 @@
 			:get-cell-color="getCellColor"
 			@replace-cell="onReplaceCell"
 		/>
-		<div class="space-y-2 p-4">
+		<div class="min-w-72 space-y-2 overflow-auto">
 			<div class="flex justify-between">
 				<FieldCheckbox
 					v-model="showGridLines"
@@ -52,36 +52,38 @@
 			</div>
 			<BaseCard
 				title="Screen Coordinates"
-				class="bp-2 horizontal"
+				class="bp-2 vertical"
 			>
-				<FieldNumber
-					v-model="gridRecord.X"
-					label="X"
-					label-width="auto"
-					input-width="w-12"
-					width="w-28"
-				/>
-				<FieldNumber
-					v-model="gridRecord.Y"
-					label="Y"
-					label-width="auto"
-					input-width="w-12"
-					width="w-28"
-				/>
 				<FieldDisplay
 					:value="gridRecord.Name"
+					label-position="left"
 					label="Name"
 				/>
+				<section class="flex space-x-2">
+					<FieldNumber
+						v-model="gridRecord.X"
+						label="X"
+						label-width="auto"
+						input-width="w-12"
+						width="w-28"
+					/>
+					<FieldNumber
+						v-model="gridRecord.Y"
+						label="Y"
+						label-width="auto"
+						input-width="w-12"
+						width="w-28"
+					/>
+				</section>
 			</BaseCard>
 			<BaseCard
 				title="Colors"
-				class="bp-2 horizontal"
+				class="bp-2 vertical"
 			>
 				<FieldComboBox
 					v-model="gridRecord.GroundColor"
 					label="Ground"
 					label-width="auto"
-					class="bp-2"
 					:options="ZeldaWorldColors"
 					width="w-28"
 				/>
@@ -139,7 +141,7 @@
 						/>
 					</BaseCard>
 					<BaseCard
-						v-if="isTransition"
+						v-if="isTransition && selectedTile.Transition"
 						title="Transition Properties"
 						class="vertical bp-2"
 					>
@@ -163,7 +165,7 @@
 							v-model="selectedTile.Transition.Template"
 							label="Template"
 							required
-							id-field="value"
+							option-value="value"
 							:options="ZeldaScreenTemplates"
 						/>
 						<FieldCheckbox
@@ -306,28 +308,23 @@ import TileGrid from "@/views/zeldaWorldBuilder/TileGrid.vue";
  */
 const fileInputEl = ref<HTMLInputElement>();
 const selectedCell = ref<ZeldaTileCell>();
-const selectedScreen = ref<ZeldaScreen>();
 const showGridLines = ref(true);
 const overworldRecords = reactive<ZeldaScreen[]>([]);
 const gridRecord = ref(addGridRecord());
+const selectedScreen = ref<ZeldaScreen>(gridRecord.value);
 const isTransition = computed(() => selectedCell.value?.tile.isTransition);
 const selectedTile = computed(() => selectedCell.value?.tile);
 const selectedItem = computed(() => selectedCell.value?.item);
 const selectedEnemy = computed(() => selectedCell.value?.enemy);
 const showColors = computed(() => !isTransition.value && selectedTile.value?.hasImage());
 
-watch(selectedScreen, ($selectedScreen) => {
-	selectedCell.value = undefined;
-	const name = $selectedScreen?.Name;
-	gridRecord.value = overworldRecords.find((overworldRecord) => overworldRecord.Name === name)!;
-});
-
-// TODOJEF: Pick up with adding the export to the new JSON format with Overworld output
 function addGridRecord(config = {}) {
 	const record = ZeldaScreen.create({
 		totalRows: 11,
 		totalColumns: 16,
 		...config,
+	}, {
+		init: true,
 	});
 	overworldRecords.push(record);
 	return record;
@@ -362,10 +359,7 @@ function onReplaceCell({ indices, replacement }: { indices: number | number[], r
 			Coordinates: record.Coordinates,
 			grid: record.grid,
 		});
-		// TODO: Consider figuring out how the clone be added to the cell property without having to manually set it
-		clone.tile.cell = clone;
-		clone.item.cell = clone;
-		clone.enemy.cell = clone;
+		clone.init();
 		gridRecord.value.cells[idx] = clone;
 	});
 }
@@ -401,6 +395,12 @@ function onClickNewButton() {
 		Name: "TEMPORARY NAME",
 	});
 }
+
+watch(selectedScreen, ($selectedScreen) => {
+	selectedCell.value = undefined;
+	const name = $selectedScreen?.Name;
+	gridRecord.value = overworldRecords.find((overworldRecord) => overworldRecord.Name === name)!;
+});
 
 provideCellCopy();
 </script>

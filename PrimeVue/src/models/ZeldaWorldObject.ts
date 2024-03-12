@@ -23,7 +23,7 @@ export class ZeldaWorldObject extends ViewModel {
   src?: string = "";
 
   @ModelTransform(() => ZeldaTileCell)
-  cell = ZeldaTileCell.create();
+  cell?: ZeldaTileCell;
 
   @IsObject()
   type?: IOption = {};

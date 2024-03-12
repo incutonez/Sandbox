@@ -4,36 +4,37 @@ import ViewUsers from "@/views/ViewUsers.vue";
 import ViewZeldaWorldBuilder from "@/views/ViewZeldaWorldBuilder.vue";
 
 const RouteNew = "create";
+
 export const RouteUsers = "users";
+
 export const RouteUsersView = "users-view";
+
 export const RouteUsersNew = "users-new";
+
 export const RouteZeldaWorldBuilder = "zelda-world-builder";
 
-export const routes = [
-	{
-		path: "/users",
-		name: RouteUsers,
-		component: ViewUsers,
-		children: [
-			{
-				path: ":userId",
-				name: RouteUsersView,
-				component: ViewUser,
-				props: true,
-			},
-			{
-				path: RouteNew,
-				name: RouteUsersNew,
-				component: ViewUser,
-			},
-		],
+export const routes = [{
+	path: "/users",
+	name: RouteUsers,
+	component: ViewUsers,
+	children: [{
+		path: ":userId",
+		name: RouteUsersView,
+		component: ViewUser,
+		props: true,
+	}, {
+		path: RouteNew,
+		name: RouteUsersNew,
+		component: ViewUser,
+	}],
+}, {
+	path: "/zelda",
+	name: RouteZeldaWorldBuilder,
+	component: ViewZeldaWorldBuilder,
+	meta: {
+		showNav: false,
 	},
-	{
-		path: "/zelda",
-		name: RouteZeldaWorldBuilder,
-		component: ViewZeldaWorldBuilder,
-	},
-];
+}];
 
 export const router = createRouter({
 	routes,

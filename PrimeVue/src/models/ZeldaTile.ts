@@ -1,4 +1,5 @@
 ﻿import { Allow, IsArray, IsObject, IsString } from "class-validator";
+import { getNameById } from "@/enums/helper";
 import {
 	ZeldaTiles,
 	ZeldaTilesBlock, ZeldaTilesBush,
@@ -211,7 +212,7 @@ export class ZeldaTile extends ViewModel {
 	src? = "";
 
 	@ModelTransform(() => ZeldaTileCell)
-	cell = ZeldaTileCell.create();
+	cell?: ZeldaTileCell;
 
 	// TODOJEF: Make this a proper enum?
 	@IsObject()
@@ -222,7 +223,7 @@ export class ZeldaTile extends ViewModel {
 	colors: ZeldaTargetColor[] = [];
 
 	@ModelTransform(() => ZeldaScreen)
-	Transition = ZeldaScreen.create();
+	Transition?: ZeldaScreen;
 
 	@Allow()
 	TileType?: IOption;
@@ -254,8 +255,10 @@ export class ZeldaTile extends ViewModel {
    * Ref: https://stackoverflow.com/q/28950760/1253609
    */
 	set Type(value: IOption) {
+		console.log("setting", value);
 		this.type = value;
 		this.Colors = getDefaultTileColors(value);
+		console.log(this.Colors);
 		this.updateSrc();
 		if (this.isTransition) {
 			this.Transition = ZeldaScreen.create({
@@ -287,7 +290,7 @@ export class ZeldaTile extends ViewModel {
 	}
 
 	getTypeKey() {
-		return ZeldaTiles.find((item) => item === this.Type)?.name;
+		return getNameById(ZeldaTiles, this.Type.id)?.replace("ZeldaTiles", "");
 	}
 
 	hasImage() {
@@ -299,6 +302,7 @@ export class ZeldaTile extends ViewModel {
 		if (this.hasImage()) {
 			const key = this.getImageKey();
 			const colors = this.getColors();
+			console.log("here", key, colors);
 			image = await replaceColor({
 				image: key,
 				targetColors: pluck(colors, "Target"),
@@ -332,11 +336,12 @@ export class ZeldaTile extends ViewModel {
 	}
 
 	getConfig() {
+		const { cell = ZeldaTileCell.create() } = this;
 		const config: IZeldaTileConfig = {
-			X: this.cell.x,
-			Y: this.cell.y,
+			X: cell.x,
+			Y: cell.y,
 		};
-		const { Name } = this.cell;
+		const { Name } = cell;
 		if (Name) {
 			config.Name = Name;
 		}
@@ -346,7 +351,7 @@ export class ZeldaTile extends ViewModel {
 		}
 		if (this.isTransition) {
 			const removeFields = [];
-			const transition = this.Transition.get<ModelInterface<ZeldaScreen>>({
+			const transition = this.Transition?.get<ModelInterface<ZeldaScreen>>({
 				exclude: [
 					"AccentColor",
 					"GroundColor",
@@ -354,7 +359,7 @@ export class ZeldaTile extends ViewModel {
 					"totalRows",
 					"totalColumns",
 				],
-			});
+			}) ?? ZeldaScreen.create();
 			if (isEmpty(transition.Template)) {
 				removeFields.push("Template");
 			}

@@ -1,5 +1,5 @@
 <template>
-	<article>
+	<article class="flex-start flex">
 		<FieldLabel
 			:text="label"
 			:class="labelCls"
@@ -7,6 +7,7 @@
 		<PrimeDropdown
 			v-bind="$props"
 			v-model="model"
+			class="flex-1 truncate"
 		/>
 	</article>
 </template>
@@ -16,6 +17,7 @@ import { computed, watch } from "vue";
 import PrimeDropdown from "primevue/dropdown";
 import FieldLabel from "@/components/FieldLabel.vue";
 import { IOption } from "@/types/components";
+import { isObject } from "@/utils/common";
 
 export interface IFieldComboBox {
 	options?: IOption[];
@@ -42,7 +44,10 @@ const emit = defineEmits(["update:modelValue"]);
 const model = computed({
 	get() {
 		const { modelValue } = props;
-		return props.valueOnly ? modelValue[props.optionValue as keyof typeof modelValue] : modelValue;
+		if (isObject(modelValue)) {
+			return modelValue[props.optionValue as keyof typeof modelValue];
+		}
+		return modelValue;
 	},
 	set(value) {
 		emit("update:modelValue", props.valueOnly ? value : getSelected(value));

@@ -66,14 +66,16 @@ export class ZeldaScreen extends ViewModel {
   	return _name;
 	}
 
-	initialize() {
+	init() {
   	const config: ZeldaTileCell[] = [];
   	for (let row = 0; row < this.totalRows; row++) {
   		for (let column = 0; column < this.totalColumns; column++) {
   			config.push(ZeldaTileCell.create({
   				Coordinates: [column, row],
   				grid: this,
-  			}));
+  			}, {
+					init: true,
+			  }));
   		}
   	}
 		this.cells = config;

@@ -20,17 +20,21 @@
 				class="absolute h-full w-full"
 				alt="Tile Image"
 			>
-			<div class="absolute flex h-full w-full justify-center">
+			<div
+				v-if="cell.item.image"
+				class="absolute flex h-full w-full justify-center"
+			>
 				<img
-					v-if="cell.item.image"
 					:src="cell.item.image"
 					class="h-full"
 					alt="Item Image"
 				>
 			</div>
-			<div class="absolute flex h-full w-full justify-center">
+			<div
+				v-if="cell.enemy.image"
+				class="absolute flex h-full w-full justify-center"
+			>
 				<img
-					v-if="cell.enemy.image"
 					:src="cell.enemy.image"
 					class="h-full"
 					alt="Enemy Image"
@@ -168,8 +172,8 @@ function getSelectedCells() {
  * We use mouseup instead of click because of the ctrl-copy flow... that monitors mousedown and up,
  * so we can't rely on click, as that'll change it back to false before we can look at the value
  */
-function onMouseUpCell(event: MouseEvent, cell: ZeldaTileCell) {
-	const selectedCell = props.selectedCell;
+function onMouseUpCell(_event: MouseEvent, cell: ZeldaTileCell) {
+	const { selectedCell } = props;
 	if (pressedKeys.ctrl && pressedKeys.mouseDown && selectedCell) {
 		emit("replaceCell", {
 			indices: cell.getIndex(),
@@ -190,6 +194,7 @@ function onMouseUpCell(event: MouseEvent, cell: ZeldaTileCell) {
 		}
 		return;
 	}
+	console.log("here", cell);
 	emit("update:selectedCell", cell === selectedCell ? undefined : cell);
 }
 

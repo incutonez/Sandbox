@@ -1,6 +1,6 @@
 ﻿import { IsArray, IsString } from "class-validator";
 import { IsRequired, ModelTransform } from "@/models/decorators";
-import { DeepPartial, ViewModel } from "@/models/ViewModel";
+import { ViewModel } from "@/models/ViewModel";
 import { ZeldaEnemy } from "@/models/ZeldaEnemy";
 import { ZeldaItem } from "@/models/ZeldaItem";
 import { ILoadData, ZeldaScreen } from "@/models/ZeldaScreen";
@@ -15,7 +15,7 @@ export class ZeldaTileCell extends ViewModel {
   Name = "";
 
   @ModelTransform(() => ZeldaScreen)
-  grid = ZeldaScreen.create();
+  grid?: ZeldaScreen;
 
 	@ModelTransform(() => ZeldaTile)
 	tile = ZeldaTile.create();
@@ -26,8 +26,7 @@ export class ZeldaTileCell extends ViewModel {
 	@ModelTransform(() => ZeldaEnemy)
 	enemy = ZeldaEnemy.create();
 
-	set(data: DeepPartial<this>) {
-		super.set(data);
+	init() {
 		this.tile.cell = this;
 		this.item.cell = this;
 		this.enemy.cell = this;
@@ -38,7 +37,7 @@ export class ZeldaTileCell extends ViewModel {
 	}
 
 	getIndex() {
-  	return this.grid.cells.indexOf(this);
+  	return this.grid?.cells.indexOf(this);
 	}
 
 	get id() {

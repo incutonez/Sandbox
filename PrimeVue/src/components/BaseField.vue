@@ -27,6 +27,7 @@ const props = withDefaults(defineProps<IBaseField>(), {
 const cls = computed(() => {
 	return {
 		"flex-col": props.labelPosition === "top",
+		"items-center": props.labelPosition === "left",
 	};
 });
 </script>

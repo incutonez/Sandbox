@@ -61,6 +61,7 @@ import {
 	ZeldaWorldColorsWhitePure,
 } from "@/enums/ZeldaWorldColors";
 import { ZeldaTargetColor } from "@/models/ZeldaTargetColor";
+import { ZeldaTileCell } from "@/models/ZeldaTileCell";
 import { IZeldaWorldObjectConfig, ZeldaWorldObject } from "@/models/ZeldaWorldObject";
 import { isEmpty } from "@/utils/common";
 
@@ -621,10 +622,11 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 	// the user can change the values
 
 	getConfig() {
+		const { cell = ZeldaTileCell.create() } = this;
 		const config: IZeldaEnemyConfig = {
 			Type: this.getTypeKey(),
-			X: this.cell.x,
-			Y: this.cell.y,
+			X: cell.x,
+			Y: cell.y,
 		};
 		const colors = this.getColors(true);
 		if (!isEmpty(colors)) {

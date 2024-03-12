@@ -1,5 +1,5 @@
 import get from "just-safe-get";
-import { isFunction as lodashIsFunction } from "lodash-es";
+import { isFunction as lodashIsFunction, isObject as lodashIsObject } from "lodash-es";
 
 export function isString(value: any): value is string {
 	return typeof value === "string";
@@ -19,6 +19,10 @@ export function isEmpty(value: any) {
 
 export function isFunction(value: any): value is (...args: any[]) => any {
 	return lodashIsFunction(value);
+}
+
+export function isObject(value?: any): value is object {
+	return lodashIsObject(value);
 }
 
 export function pluck<T = any>(items: any[], keys: string | string[]) {

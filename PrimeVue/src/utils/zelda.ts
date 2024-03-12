@@ -209,8 +209,8 @@ export async function getImage({ name = "", type = "Tiles", encode = false }) {
 	const key = `${type}.${name}`;
 	let cachedItem = localStorage.getItem(key);
 	if (!cachedItem) {
-		// TODOJEF: This is broken... potentially figure out another way of reading an image?
-		const image = await Jimp.read(`${type}/${name}.png`);
+		// TODOJEF: I think I either need to use canvas to load the image or send it to the API to replace
+		const image = await Jimp.read(`zelda/${type}/${name}.png`);
 		ImageCache[key] = image;
 		cachedItem = await image.getBase64Async(Jimp.MIME_PNG);
 		// It seems more efficient to cache the Jimp Object and clone it than read it each time

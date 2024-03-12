@@ -1,6 +1,9 @@
 <template>
 	<BaseField v-bind="$props">
-		<PrimeCheckbox v-model="modelValue" />
+		<PrimeCheckbox
+			v-model="modelValue"
+			:binary="binary"
+		/>
 	</BaseField>
 </template>
 
@@ -9,8 +12,11 @@ import PrimeCheckbox from "primevue/checkbox";
 import BaseField, { IBaseField } from "@/components/BaseField.vue";
 
 export interface IFieldCheckbox extends IBaseField {
+	binary?: boolean;
 }
 
-defineProps<IFieldCheckbox>();
+withDefaults(defineProps<IFieldCheckbox>(), {
+	binary: true,
+});
 const modelValue = defineModel<boolean>("modelValue");
 </script>

@@ -1,9 +1,9 @@
-import "./style.css";
+import "@/style.scss";
 import { createApp } from "vue";
 import PrimeVue from "primevue/config";
+import App from "@/App.vue";
 import { TailwindTheme } from "@/assets/theme";
 import { router } from "@/router";
-import App from "./App.vue";
 
 const app = createApp(App);
 app.use(PrimeVue, {

@@ -23,6 +23,7 @@ export interface IModelGetOptions extends ClassTransformOptions {
 }
 
 export interface IModelOptions {
+	init?: boolean;
 	[IsNew]?: boolean;
 	[Parent]?: any;
 }
@@ -44,6 +45,9 @@ export class ViewModel {
 	static create<T extends ViewModel>(this: new () => T, data = {} as DeepPartial<T>, options: IModelOptions = {}) {
 		const record = new this();
 		record.set(data);
+		if (options.init) {
+			record.init();
+		}
 		record[IsNew] = options[IsNew] ?? true;
 		record[Parent] = options[Parent];
 		return record;
@@ -62,6 +66,14 @@ export class ViewModel {
 			return response;
 		}
 		return records;
+	}
+
+	/**
+	 * @abstract
+	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
+	init(_data?: DeepPartial<this>) {
+
 	}
 
 	async isValid(options?: ValidatorOptions) {

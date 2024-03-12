@@ -1,4 +1,5 @@
 ﻿import { ZeldaItems } from "@/enums/ZeldaItems";
+import { ZeldaTileCell } from "@/models/ZeldaTileCell";
 import { IZeldaWorldObjectConfig, ZeldaWorldObject } from "@/models/ZeldaWorldObject";
 
 export interface IZeldaItemConfig extends IZeldaWorldObjectConfig {
@@ -20,9 +21,10 @@ export class ZeldaItem extends ZeldaWorldObject {
 	}
 
 	getConfig(): IZeldaItemConfig {
+		const { cell = ZeldaTileCell.create() } = this;
   	return {
-  		X: this.cell.x,
-  		Y: this.cell.y,
+  		X: cell.x,
+  		Y: cell.y,
   		Config: {
   			Type: this.getTypeKey(),
   		},

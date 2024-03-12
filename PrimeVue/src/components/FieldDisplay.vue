@@ -1,13 +1,13 @@
 <template>
-	<BaseField>
+	<BaseField v-bind="$props">
 		<span>{{ value }}</span>
 	</BaseField>
 </template>
 
 <script setup lang="ts">
-import BaseField from "@/components/BaseField.vue";
+import BaseField, { IBaseField } from "@/components/BaseField.vue";
 
-interface IProps {
+interface IProps extends IBaseField {
 	value?: string;
 }
 defineProps<IProps>();

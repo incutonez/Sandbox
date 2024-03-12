@@ -1,8 +1,8 @@
 <template>
 	<label
+		v-if="!!text"
 		class="text-sm font-semibold text-gray-700"
 		:class="cls"
-		v-if="!!text"
 	>{{ text }}{{ separator }}</label>
 </template>
 

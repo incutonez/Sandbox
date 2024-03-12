@@ -24,7 +24,10 @@
 				</article>
 			</section>
 			<section class="flex w-full flex-1 overflow-hidden">
-				<nav class="h-full w-64 border-r border-red-700 bg-red-200 p-4">
+				<nav
+					v-if="route.meta.showNav !== false"
+					class="h-full w-64 border-r border-red-700 bg-red-200 p-4"
+				>
 					Nav
 				</nav>
 				<main class="h-full w-full overflow-hidden">
@@ -52,9 +55,12 @@
  * - Potentially add provide/inject with GridTable
  * - Potentially use provide/inject for users.ts data loading
  */
+import { useRoute } from "vue-router";
 import IconTriforce from "@/assets/IconTriforce.vue";
 import IconUsers from "@/assets/IconUsers.vue";
 import { viewUsers, viewZeldaWorldBuilder } from "@/router";
+
+const route = useRoute();
 
 function onClickViewUsers() {
 	viewUsers();
