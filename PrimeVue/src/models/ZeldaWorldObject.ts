@@ -5,8 +5,8 @@ import { ViewModel } from "@/models/ViewModel";
 import { ZeldaTargetColor } from "@/models/ZeldaTargetColor";
 import { ZeldaTileCell } from "@/models/ZeldaTileCell";
 import { type IOption } from "@/types/components";
-import { isEmpty, pluck } from "@/utils/common";
-import { getImage, replaceColor } from "@/utils/zelda";
+import { isEmpty } from "@/utils/common";
+import { getImageSrc, replaceColors } from "@/utils/zelda";
 
 export interface IZeldaWorldObjectConfig {
 	Type?: string;
@@ -16,8 +16,8 @@ export interface IZeldaWorldObjectConfig {
 }
 
 export class ZeldaWorldObject extends ViewModel {
-  @IsString()
-  image? = "";
+  @IsObject()
+  image = document.createElement("img");
 
   @IsString()
   src?: string = "";
@@ -73,19 +73,13 @@ export class ZeldaWorldObject extends ViewModel {
   	return this.colors;
   }
 
-  async updateImage() {
-  	let image: string | undefined;
+  updateImage() {
   	if (this.hasImage()) {
-  		const key = this.getImageKey();
-  		const colors = this.getColors();
-  		image = await replaceColor({
-  			image: key,
-  			type: this.imageType,
-  			targetColors: pluck(colors, "Target"),
-  			replaceColors: pluck(colors, "Value"),
+  		replaceColors({
+  			image: this.image,
+			  colors: this.Colors,
   		});
   	}
-  	this.image = image;
   }
 
   getColors(flatten = false) {
@@ -127,11 +121,10 @@ export class ZeldaWorldObject extends ViewModel {
   	const name = this.getImageKey();
   	let src;
   	if (this.hasImage()) {
-  		src = await getImage({
+  		src = getImageSrc({
   			name,
   			type: this.imageType,
-  			encode: true,
-  		}) as string;
+  		});
   	}
   	this.src = src;
   }

@@ -73,8 +73,8 @@ import { ZeldaTargetColor } from "@/models/ZeldaTargetColor";
 import { ZeldaTileCell } from "@/models/ZeldaTileCell";
 import { IZeldaWorldObjectConfig } from "@/models/ZeldaWorldObject";
 import { type IOption } from "@/types/components";
-import { isEmpty, pluck } from "@/utils/common";
-import { getImage, replaceColor } from "@/utils/zelda";
+import { isEmpty } from "@/utils/common";
+import { getImageSrc, replaceColors } from "@/utils/zelda";
 
 const TransitionTypes = [ZeldaTilesTransition, ZeldaTilesDoor];
 function makeTargets(item: IOption, Value?: IOption) {
@@ -205,8 +205,8 @@ export interface IZeldaTileMeta {
 
 // TODOJEF: This class shares a lot with ZeldaWorldObject, so we should consider refactoring to use that
 export class ZeldaTile extends ViewModel {
-	@IsString()
-	image? = "";
+	@IsObject()
+	image = document.createElement("img");
 
 	@IsString()
 	src? = "";
@@ -255,10 +255,7 @@ export class ZeldaTile extends ViewModel {
    * Ref: https://stackoverflow.com/q/28950760/1253609
    */
 	set Type(value: IOption) {
-		console.log("setting", value);
 		this.type = value;
-		this.Colors = getDefaultTileColors(value);
-		console.log(this.Colors);
 		this.updateSrc();
 		if (this.isTransition) {
 			this.Transition = ZeldaScreen.create({
@@ -277,16 +274,21 @@ export class ZeldaTile extends ViewModel {
 		return this.colors;
 	}
 
-	async updateSrc() {
+	updateSrc() {
 		const name = this.getImageKey();
-		let src;
+		let src = "";
 		if (this.hasImage()) {
-			src = await getImage({
+			src = getImageSrc({
 				name,
-				encode: true,
-			}) as string;
+			});
 		}
-		this.src = src;
+		this.image.onload = () => {
+			/* Make sure we unset this because we're about to be updating the image when colors change, and we don't want this
+			 * to be called infinitely */
+			this.image.onload = null;
+			this.Colors = getDefaultTileColors(this.type);
+		};
+		this.image.src = src;
 	}
 
 	getTypeKey() {
@@ -297,19 +299,13 @@ export class ZeldaTile extends ViewModel {
 		return this.Type !== ZeldaTilesNone;
 	}
 
-	async updateImage() {
-		let image: string | undefined;
+	updateImage() {
 		if (this.hasImage()) {
-			const key = this.getImageKey();
-			const colors = this.getColors();
-			console.log("here", key, colors);
-			image = await replaceColor({
-				image: key,
-				targetColors: pluck(colors, "Target"),
-				replaceColors: pluck(colors, "Value"),
+			replaceColors({
+				colors: this.Colors,
+				image: this.image,
 			});
 		}
-		this.image = image;
 	}
 
 	/**

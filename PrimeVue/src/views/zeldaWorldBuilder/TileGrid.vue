@@ -15,8 +15,8 @@
 			@mouseover="onMouseOverCell(cell)"
 		>
 			<img
-				v-if="cell.tile.image"
-				:src="cell.tile.image"
+				v-if="cell.tile.image.src"
+				:src="cell.tile.image.src"
 				class="absolute h-full w-full"
 				alt="Tile Image"
 			>
