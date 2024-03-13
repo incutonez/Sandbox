@@ -1,4 +1,4 @@
-﻿import { ZeldaItems } from "@/enums/ZeldaItems";
+﻿import { Items } from "@/enums/zelda/Items";
 import { ZeldaTileCell } from "@/models/ZeldaTileCell";
 import { IZeldaWorldObjectConfig, ZeldaWorldObject } from "@/models/ZeldaWorldObject";
 
@@ -13,7 +13,7 @@ export class ZeldaItem extends ZeldaWorldObject {
    * genericizing the items.png asset to have colors that are common */
 
 	get enumCollection() {
-  	return ZeldaItems;
+  	return Items;
 	}
 
 	get imageType() {

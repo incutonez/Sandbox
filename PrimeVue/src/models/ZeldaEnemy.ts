@@ -1,72 +1,72 @@
 ﻿import { IsNumber } from "class-validator";
 import {
-	ZeldaEnemies,
-	ZeldaEnemiesArmos,
-	ZeldaEnemiesBubble,
-	ZeldaEnemiesBubbleBlue,
-	ZeldaEnemiesBubbleRed,
-	ZeldaEnemiesDarknut,
-	ZeldaEnemiesDarknutBlue,
-	ZeldaEnemiesGel,
-	ZeldaEnemiesGelBlue,
-	ZeldaEnemiesGhini,
-	ZeldaEnemiesGibdo,
-	ZeldaEnemiesGoriya,
-	ZeldaEnemiesGoriyaBlue,
-	ZeldaEnemiesKeese,
-	ZeldaEnemiesKeeseBlue,
-	ZeldaEnemiesKeeseRed,
-	ZeldaEnemiesLanmola,
-	ZeldaEnemiesLanmolaBlue,
-	ZeldaEnemiesLeever,
-	ZeldaEnemiesLeeverBlue,
-	ZeldaEnemiesLikeLike,
-	ZeldaEnemiesLynel,
-	ZeldaEnemiesLynelBlue,
-	ZeldaEnemiesMoblin,
-	ZeldaEnemiesMoblinBlue,
-	ZeldaEnemiesMoldorm,
-	ZeldaEnemiesMoldormBlue,
-	ZeldaEnemiesOctorok,
-	ZeldaEnemiesOctorokBlue,
-	ZeldaEnemiesPatra,
-	ZeldaEnemiesPatraHead,
-	ZeldaEnemiesPeahat,
-	ZeldaEnemiesPolsVoice,
-	ZeldaEnemiesRock,
-	ZeldaEnemiesRope,
-	ZeldaEnemiesRopeBlue,
-	ZeldaEnemiesStalfos,
-	ZeldaEnemiesTektite,
-	ZeldaEnemiesTektiteBlue,
-	ZeldaEnemiesTrap,
-	ZeldaEnemiesVire,
-	ZeldaEnemiesWallmaster,
-	ZeldaEnemiesWizzrobe,
-	ZeldaEnemiesWizzrobeBlue,
-	ZeldaEnemiesZol, ZeldaEnemiesZolGray, ZeldaEnemiesZolGreen, ZeldaEnemiesZora,
-} from "@/enums/ZeldaNPCs";
+	Enemies,
+	EnemiesArmos,
+	EnemiesBubble,
+	EnemiesBubbleBlue,
+	EnemiesBubbleRed,
+	EnemiesDarknut,
+	EnemiesDarknutBlue,
+	EnemiesGel,
+	EnemiesGelBlue,
+	EnemiesGhini,
+	EnemiesGibdo,
+	EnemiesGoriya,
+	EnemiesGoriyaBlue,
+	EnemiesKeese,
+	EnemiesKeeseBlue,
+	EnemiesKeeseRed,
+	EnemiesLanmola,
+	EnemiesLanmolaBlue,
+	EnemiesLeever,
+	EnemiesLeeverBlue,
+	EnemiesLikeLike,
+	EnemiesLynel,
+	EnemiesLynelBlue,
+	EnemiesMoblin,
+	EnemiesMoblinBlue,
+	EnemiesMoldorm,
+	EnemiesMoldormBlue,
+	EnemiesOctorok,
+	EnemiesOctorokBlue,
+	EnemiesPatra,
+	EnemiesPatraHead,
+	EnemiesPeahat,
+	EnemiesPolsVoice,
+	EnemiesRock,
+	EnemiesRope,
+	EnemiesRopeBlue,
+	EnemiesStalfos,
+	EnemiesTektite,
+	EnemiesTektiteBlue,
+	EnemiesTrap,
+	EnemiesVire,
+	EnemiesWallmaster,
+	EnemiesWizzrobe,
+	EnemiesWizzrobeBlue,
+	EnemiesZol, EnemiesZolGray, EnemiesZolGreen, EnemiesZora,
+} from "@/enums/zelda/NPCs";
 import {
-	ZeldaWorldColorsBlack,
-	ZeldaWorldColorsBlue,
-	ZeldaWorldColorsBlueLight,
-	ZeldaWorldColorsGray, ZeldaWorldColorsGreenDark, ZeldaWorldColorsGreenLight,
-	ZeldaWorldColorsLime,
-	ZeldaWorldColorsOrange,
-	ZeldaWorldColorsRed,
-	ZeldaWorldColorsRedPure,
-	ZeldaWorldColorsTeal,
-	ZeldaWorldColorsTealDark,
-	ZeldaWorldColorsTealLight,
-	ZeldaWorldColorsWhitePure,
-} from "@/enums/ZeldaWorldColors";
+	WorldColorsBlack,
+	WorldColorsBlue,
+	WorldColorsBlueLight,
+	WorldColorsGray, WorldColorsGreenDark, WorldColorsGreenLight,
+	WorldColorsLime,
+	WorldColorsOrange,
+	WorldColorsRed,
+	WorldColorsRedPure,
+	WorldColorsTeal,
+	WorldColorsTealDark,
+	WorldColorsTealLight,
+	WorldColorsWhitePure,
+} from "@/enums/zelda/WorldColors";
 import { ZeldaTargetColor } from "@/models/ZeldaTargetColor";
 import { ZeldaTileCell } from "@/models/ZeldaTileCell";
 import { IZeldaWorldObjectConfig, ZeldaWorldObject } from "@/models/ZeldaWorldObject";
 import { isEmpty } from "@/utils/common";
 
-let WhiteBlack = [ZeldaWorldColorsWhitePure, ZeldaWorldColorsBlack];
-const WhiteBlackRed = [ZeldaWorldColorsWhitePure, ZeldaWorldColorsBlack, ZeldaWorldColorsRedPure];
+let WhiteBlack = [WorldColorsWhitePure, WorldColorsBlack];
+const WhiteBlackRed = [WorldColorsWhitePure, WorldColorsBlack, WorldColorsRedPure];
 /**
  * For the most part, the coloring is by having 2 different color palettes...
  * a red/orange for the standard version, and blue/light blue for the harder version of the enemy.
@@ -75,11 +75,11 @@ const EnemyNormal = WhiteBlackRed.map((color) => {
 	const config = ZeldaTargetColor.create({
 		Target: color,
 	});
-	if (color === ZeldaWorldColorsRedPure) {
-		config.Value = ZeldaWorldColorsRed;
+	if (color === WorldColorsRedPure) {
+		config.Value = WorldColorsRed;
 	}
-	else if (color === ZeldaWorldColorsBlack) {
-		config.Value = ZeldaWorldColorsOrange;
+	else if (color === WorldColorsBlack) {
+		config.Value = WorldColorsOrange;
 	}
 	return config;
 });
@@ -87,11 +87,11 @@ const EnemyHard = WhiteBlackRed.map((color) => {
 	const config = ZeldaTargetColor.create({
 		Target: color,
 	});
-	if (color === ZeldaWorldColorsRedPure) {
-		config.Value = ZeldaWorldColorsBlue;
+	if (color === WorldColorsRedPure) {
+		config.Value = WorldColorsBlue;
 	}
-	else if (color === ZeldaWorldColorsBlack) {
-		config.Value = ZeldaWorldColorsBlueLight;
+	else if (color === WorldColorsBlack) {
+		config.Value = WorldColorsBlueLight;
 	}
 	return config;
 });
@@ -104,14 +104,14 @@ const PolsVoice = WhiteBlackRed.map((color) => {
 	const config = ZeldaTargetColor.create({
 		Target: color,
 	});
-	if (color === ZeldaWorldColorsBlack) {
-		config.Value = ZeldaWorldColorsRed;
+	if (color === WorldColorsBlack) {
+		config.Value = WorldColorsRed;
 	}
-	else if (color === ZeldaWorldColorsWhitePure) {
-		config.Value = ZeldaWorldColorsOrange;
+	else if (color === WorldColorsWhitePure) {
+		config.Value = WorldColorsOrange;
 	}
-	else if (color === ZeldaWorldColorsRedPure) {
-		config.Value = ZeldaWorldColorsLime;
+	else if (color === WorldColorsRedPure) {
+		config.Value = WorldColorsLime;
 	}
 	return config;
 });
@@ -120,14 +120,14 @@ const MoblinHarder = WhiteBlackRed.map((color) => {
 	const config = ZeldaTargetColor.create({
 		Target: color,
 	});
-	if (color === ZeldaWorldColorsRedPure) {
-		config.Value = ZeldaWorldColorsBlack;
+	if (color === WorldColorsRedPure) {
+		config.Value = WorldColorsBlack;
 	}
-	else if (color === ZeldaWorldColorsBlack) {
-		config.Value = ZeldaWorldColorsTeal;
+	else if (color === WorldColorsBlack) {
+		config.Value = WorldColorsTeal;
 	}
-	else if (color === ZeldaWorldColorsWhitePure) {
-		config.Value = ZeldaWorldColorsRed;
+	else if (color === WorldColorsWhitePure) {
+		config.Value = WorldColorsRed;
 	}
 	return config;
 });
@@ -135,11 +135,11 @@ const Zora = WhiteBlack.map((color) => {
 	const config = ZeldaTargetColor.create({
 		Target: color,
 	});
-	if (color === ZeldaWorldColorsWhitePure) {
-		config.Value = ZeldaWorldColorsRed;
+	if (color === WorldColorsWhitePure) {
+		config.Value = WorldColorsRed;
 	}
-	else if (color === ZeldaWorldColorsBlack) {
-		config.Value = ZeldaWorldColorsTeal;
+	else if (color === WorldColorsBlack) {
+		config.Value = WorldColorsTeal;
 	}
 	return config;
 });
@@ -147,11 +147,11 @@ const GelBlue = WhiteBlack.map((color) => {
 	const config = ZeldaTargetColor.create({
 		Target: color,
 	});
-	if (color === ZeldaWorldColorsWhitePure) {
-		config.Value = ZeldaWorldColorsTealLight;
+	if (color === WorldColorsWhitePure) {
+		config.Value = WorldColorsTealLight;
 	}
-	else if (color === ZeldaWorldColorsBlack) {
-		config.Value = ZeldaWorldColorsTealDark;
+	else if (color === WorldColorsBlack) {
+		config.Value = WorldColorsTealDark;
 	}
 	return config;
 });
@@ -159,11 +159,11 @@ const KeeseBlue = WhiteBlack.map((color) => {
 	const config = ZeldaTargetColor.create({
 		Target: color,
 	});
-	if (color === ZeldaWorldColorsWhitePure) {
-		config.Value = ZeldaWorldColorsBlueLight;
+	if (color === WorldColorsWhitePure) {
+		config.Value = WorldColorsBlueLight;
 	}
-	else if (color === ZeldaWorldColorsBlack) {
-		config.Value = ZeldaWorldColorsBlue;
+	else if (color === WorldColorsBlack) {
+		config.Value = WorldColorsBlue;
 	}
 	return config;
 });
@@ -171,11 +171,11 @@ const KeeseRed = WhiteBlack.map((color) => {
 	const config = ZeldaTargetColor.create({
 		Target: color,
 	});
-	if (color === ZeldaWorldColorsWhitePure) {
-		config.Value = ZeldaWorldColorsOrange;
+	if (color === WorldColorsWhitePure) {
+		config.Value = WorldColorsOrange;
 	}
-	else if (color === ZeldaWorldColorsBlack) {
-		config.Value = ZeldaWorldColorsRed;
+	else if (color === WorldColorsBlack) {
+		config.Value = WorldColorsRed;
 	}
 	return config;
 });
@@ -183,8 +183,8 @@ const ZolGray = WhiteBlack.map((color) => {
 	const config = ZeldaTargetColor.create({
 		Target: color,
 	});
-	if (color === ZeldaWorldColorsBlack) {
-		config.Value = ZeldaWorldColorsGray;
+	if (color === WorldColorsBlack) {
+		config.Value = WorldColorsGray;
 	}
 	return config;
 });
@@ -192,11 +192,11 @@ const ZolGreen = WhiteBlack.map((color) => {
 	const config = ZeldaTargetColor.create({
 		Target: color,
 	});
-	if (color === ZeldaWorldColorsWhitePure) {
-		config.Value = ZeldaWorldColorsGreenLight;
+	if (color === WorldColorsWhitePure) {
+		config.Value = WorldColorsGreenLight;
 	}
-	else if (color === ZeldaWorldColorsBlack) {
-		config.Value = ZeldaWorldColorsGreenDark;
+	else if (color === WorldColorsBlack) {
+		config.Value = WorldColorsGreenDark;
 	}
 	return config;
 });
@@ -235,7 +235,7 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 	}
 
 	get enumCollection() {
-		return ZeldaEnemies;
+		return Enemies;
 	}
 
 	setDefaultValues() {
@@ -246,161 +246,161 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 		let WeaponDamage;
 		let Colors = WhiteBlackRed;
 		switch (this.Type) {
-			case ZeldaEnemiesArmos:
+			case EnemiesArmos:
 				Colors = EnemyNormal;
 				Health = 6;
 				TouchDamage = 1;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesBubble:
+			case EnemiesBubble:
 				// TODO: Need to get proper colors for regular Bubble
 				Colors = EnemyNormal;
 				Health = 0;
 				TouchDamage = 0;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesBubbleRed:
+			case EnemiesBubbleRed:
 				Colors = EnemyNormal;
 				Health = 0;
 				TouchDamage = 0;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesBubbleBlue:
+			case EnemiesBubbleBlue:
 				Colors = EnemyHard;
 				Health = 0;
 				TouchDamage = 0;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesDarknut:
+			case EnemiesDarknut:
 				Colors = EnemyNormal;
 				Health = 8;
 				TouchDamage = 2;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesDarknutBlue:
+			case EnemiesDarknutBlue:
 				Colors = EnemyHard;
 				Health = 16;
 				TouchDamage = 4;
 				Speed = 5;
 				break;
-			case ZeldaEnemiesGel:
+			case EnemiesGel:
 				Colors = WhiteBlack;
 				Health = 2;
 				TouchDamage = 1;
 				Speed = 1;
 				break;
-			case ZeldaEnemiesGelBlue:
+			case EnemiesGelBlue:
 				Colors = GelBlue;
 				Health = 2;
 				TouchDamage = 1;
 				Speed = 1;
 				break;
-			case ZeldaEnemiesGhini:
+			case EnemiesGhini:
 				Colors = EnemyHard;
 				Health = 22;
 				TouchDamage = 1;
 				Speed = 2;
 				break;
-			case ZeldaEnemiesGibdo:
+			case EnemiesGibdo:
 				Colors = EnemyHard;
 				Health = 12;
 				TouchDamage = 4;
 				Speed = 3;
 				HealthModifier = 0.75;
 				break;
-			case ZeldaEnemiesGoriya:
+			case EnemiesGoriya:
 				Colors = EnemyNormal;
 				Health = 6;
 				TouchDamage = 1;
 				Speed = 3;
 				WeaponDamage = 2;
 				break;
-			case ZeldaEnemiesGoriyaBlue:
+			case EnemiesGoriyaBlue:
 				Colors = EnemyHard;
 				Health = 10;
 				TouchDamage = 2;
 				Speed = 3;
 				WeaponDamage = 2;
 				break;
-			case ZeldaEnemiesKeese:
+			case EnemiesKeese:
 				Colors = WhiteBlack;
 				Health = 2;
 				TouchDamage = 1;
 				Speed = 4;
 				break;
-			case ZeldaEnemiesKeeseBlue:
+			case EnemiesKeeseBlue:
 				Colors = KeeseBlue;
 				Health = 2;
 				TouchDamage = 1;
 				Speed = 4;
 				break;
-			case ZeldaEnemiesKeeseRed:
+			case EnemiesKeeseRed:
 				Colors = KeeseRed;
 				Health = 2;
 				TouchDamage = 1;
 				Speed = 4;
 				break;
-			case ZeldaEnemiesLanmola:
+			case EnemiesLanmola:
 				Colors = EnemyNormal;
 				Health = 8;
 				HealthModifier = 0;
 				TouchDamage = 4;
 				Speed = 4;
 				break;
-			case ZeldaEnemiesLanmolaBlue:
+			case EnemiesLanmolaBlue:
 				Colors = EnemyHard;
 				Health = 8;
 				HealthModifier = 0;
 				TouchDamage = 4;
 				Speed = 6;
 				break;
-			case ZeldaEnemiesLeever:
+			case EnemiesLeever:
 				Colors = EnemyNormal;
 				Health = 4;
 				TouchDamage = 1;
 				Speed = 4;
 				break;
-			case ZeldaEnemiesLeeverBlue:
+			case EnemiesLeeverBlue:
 				Colors = EnemyHard;
 				Health = 8;
 				TouchDamage = 2;
 				Speed = 4;
 				break;
-			case ZeldaEnemiesLikeLike:
+			case EnemiesLikeLike:
 				Colors = EnemyNormal;
 				Health = 20;
 				TouchDamage = 2;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesLynel:
+			case EnemiesLynel:
 				Colors = EnemyNormal;
 				Health = 8;
 				TouchDamage = 2;
 				Speed = 3;
 				WeaponDamage = 2;
 				break;
-			case ZeldaEnemiesLynelBlue:
+			case EnemiesLynelBlue:
 				Colors = EnemyHard;
 				Health = 12;
 				TouchDamage = 4;
 				Speed = 3;
 				WeaponDamage = 4;
 				break;
-			case ZeldaEnemiesMoblin:
+			case EnemiesMoblin:
 				Colors = EnemyNormal;
 				Health = 4;
 				TouchDamage = 1;
 				Speed = 3;
 				WeaponDamage = 1;
 				break;
-			case ZeldaEnemiesMoblinBlue:
+			case EnemiesMoblinBlue:
 				Colors = MoblinHarder;
 				Health = 6;
 				TouchDamage = 1;
 				Speed = 3;
 				WeaponDamage = 1;
 				break;
-			case ZeldaEnemiesMoldorm:
+			case EnemiesMoldorm:
 				Colors = EnemyNormal;
 				Health = 10;
 				HealthModifier = 0;
@@ -408,135 +408,135 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 				Speed = 1;
 				break;
 				// TODO: Is there a blue Moldorm?
-			case ZeldaEnemiesMoldormBlue:
+			case EnemiesMoldormBlue:
 				Colors = EnemyHard;
 				break;
-			case ZeldaEnemiesOctorok:
+			case EnemiesOctorok:
 				Colors = EnemyNormal;
 				Health = 2;
 				TouchDamage = 1;
 				WeaponDamage = 1;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesOctorokBlue:
+			case EnemiesOctorokBlue:
 				Colors = EnemyHard;
 				Health = 4;
 				TouchDamage = 1;
 				WeaponDamage = 1;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesPatra:
+			case EnemiesPatra:
 				Colors = EnemyHard;
 				Health = 20;
 				TouchDamage = 4;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesPatraHead:
+			case EnemiesPatraHead:
 				Colors = EnemyNormal;
 				Health = 20;
 				TouchDamage = 4;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesPeahat:
+			case EnemiesPeahat:
 				Colors = EnemyNormal;
 				Health = 4;
 				TouchDamage = 1;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesPolsVoice:
+			case EnemiesPolsVoice:
 				Colors = PolsVoice;
 				Health = 20;
 				TouchDamage = 4;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesRock:
+			case EnemiesRock:
 				Colors = EnemyNormal;
 				Health = 0;
 				TouchDamage = 1;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesRope:
+			case EnemiesRope:
 				Colors = EnemyNormal;
 				Health = 2;
 				TouchDamage = 1;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesRopeBlue:
+			case EnemiesRopeBlue:
 				Colors = EnemyHard;
 				Health = 8;
 				TouchDamage = 1;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesStalfos:
+			case EnemiesStalfos:
 				Colors = EnemyNormal;
 				Health = 4;
 				TouchDamage = 0.25;
 				WeaponDamage = 0.25;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesTektite:
+			case EnemiesTektite:
 				Colors = EnemyNormal;
 				Health = 2;
 				TouchDamage = 1;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesTektiteBlue:
+			case EnemiesTektiteBlue:
 				Colors = EnemyHard;
 				Health = 2;
 				TouchDamage = 1;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesTrap:
+			case EnemiesTrap:
 				Colors = EnemyHard;
 				Health = 0;
 				TouchDamage = 1;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesVire:
+			case EnemiesVire:
 				Colors = EnemyHard;
 				Health = 2;
 				TouchDamage = 2;
 				Speed = 3;
 				break;
-			case ZeldaEnemiesWallmaster:
+			case EnemiesWallmaster:
 				Colors = EnemyHard;
 				Health = 6;
 				TouchDamage = 1;
 				Speed = 1;
 				break;
-			case ZeldaEnemiesWizzrobe:
+			case EnemiesWizzrobe:
 				Colors = EnemyNormal;
 				Health = 6;
 				TouchDamage = 2;
 				WeaponDamage = 8;
 				Speed = 0;
 				break;
-			case ZeldaEnemiesWizzrobeBlue:
+			case EnemiesWizzrobeBlue:
 				Colors = EnemyHard;
 				Health = 10;
 				TouchDamage = 4;
 				WeaponDamage = 4;
 				Speed = 5;
 				break;
-			case ZeldaEnemiesZol:
+			case EnemiesZol:
 				Colors = WhiteBlack;
 				Health = 2;
 				TouchDamage = 2;
 				Speed = 1;
 				break;
-			case ZeldaEnemiesZolGray:
+			case EnemiesZolGray:
 				Colors = ZolGray;
 				Health = 2;
 				TouchDamage = 2;
 				Speed = 1;
 				break;
-			case ZeldaEnemiesZolGreen:
+			case EnemiesZolGreen:
 				Colors = ZolGreen;
 				Health = 2;
 				TouchDamage = 2;
 				Speed = 1;
 				break;
-			case ZeldaEnemiesZora:
+			case EnemiesZora:
 				Colors = Zora;
 				Health = 4;
 				TouchDamage = 1;
@@ -563,53 +563,53 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 
 	getTypeKey(type = this.Type) {
 		switch (type) {
-			case ZeldaEnemiesOctorokBlue:
-				type = ZeldaEnemiesOctorok;
+			case EnemiesOctorokBlue:
+				type = EnemiesOctorok;
 				break;
-			case ZeldaEnemiesBubbleRed:
-			case ZeldaEnemiesBubbleBlue:
-				type = ZeldaEnemiesBubble;
+			case EnemiesBubbleRed:
+			case EnemiesBubbleBlue:
+				type = EnemiesBubble;
 				break;
-			case ZeldaEnemiesDarknutBlue:
-				type = ZeldaEnemiesDarknut;
+			case EnemiesDarknutBlue:
+				type = EnemiesDarknut;
 				break;
-			case ZeldaEnemiesGelBlue:
-				type = ZeldaEnemiesGel;
+			case EnemiesGelBlue:
+				type = EnemiesGel;
 				break;
-			case ZeldaEnemiesGoriyaBlue:
-				type = ZeldaEnemiesGoriya;
+			case EnemiesGoriyaBlue:
+				type = EnemiesGoriya;
 				break;
-			case ZeldaEnemiesKeeseBlue:
-			case ZeldaEnemiesKeeseRed:
-				type = ZeldaEnemiesKeese;
+			case EnemiesKeeseBlue:
+			case EnemiesKeeseRed:
+				type = EnemiesKeese;
 				break;
-			case ZeldaEnemiesLanmolaBlue:
-				type = ZeldaEnemiesLanmola;
+			case EnemiesLanmolaBlue:
+				type = EnemiesLanmola;
 				break;
-			case ZeldaEnemiesLeeverBlue:
-				type = ZeldaEnemiesLeever;
+			case EnemiesLeeverBlue:
+				type = EnemiesLeever;
 				break;
-			case ZeldaEnemiesLynelBlue:
-				type = ZeldaEnemiesLynel;
+			case EnemiesLynelBlue:
+				type = EnemiesLynel;
 				break;
-			case ZeldaEnemiesMoblinBlue:
-				type = ZeldaEnemiesMoblin;
+			case EnemiesMoblinBlue:
+				type = EnemiesMoblin;
 				break;
-			case ZeldaEnemiesMoldormBlue:
-				type = ZeldaEnemiesMoldorm;
+			case EnemiesMoldormBlue:
+				type = EnemiesMoldorm;
 				break;
-			case ZeldaEnemiesRopeBlue:
-				type = ZeldaEnemiesRope;
+			case EnemiesRopeBlue:
+				type = EnemiesRope;
 				break;
-			case ZeldaEnemiesTektiteBlue:
-				type = ZeldaEnemiesTektite;
+			case EnemiesTektiteBlue:
+				type = EnemiesTektite;
 				break;
-			case ZeldaEnemiesWizzrobeBlue:
-				type = ZeldaEnemiesWizzrobe;
+			case EnemiesWizzrobeBlue:
+				type = EnemiesWizzrobe;
 				break;
-			case ZeldaEnemiesZolGray:
-			case ZeldaEnemiesZolGreen:
-				type = ZeldaEnemiesZol;
+			case EnemiesZolGray:
+			case EnemiesZolGreen:
+				type = EnemiesZol;
 				break;
 			default:
 				break;

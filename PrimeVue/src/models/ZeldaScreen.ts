@@ -1,8 +1,6 @@
 ﻿import { IsArray, IsBoolean, IsInt, IsNumber, IsString } from "class-validator";
 import { findRecordByName, getNameById } from "@/enums/helper";
-import { ZeldaItems } from "@/enums/ZeldaItems";
-import { ZeldaTiles } from "@/enums/ZeldaTiles";
-import { ZeldaWorldColors, ZeldaWorldColorsBrown, ZeldaWorldColorsTan } from "@/enums/ZeldaWorldColors";
+import { WorldColors, WorldColorsBrown, WorldColorsTan } from "@/enums/zelda/WorldColors";
 import { ModelTransform } from "@/models/decorators";
 import { ViewModel } from "@/models/ViewModel";
 import { IZeldaEnemyConfig } from "@/models/ZeldaEnemy";
@@ -25,10 +23,10 @@ export class ZeldaScreen extends ViewModel {
   Y = 0;
 
 	@IsString()
-  AccentColor = ZeldaWorldColorsBrown.id;
+  AccentColor = WorldColorsBrown.id;
 
 	@IsString()
-	GroundColor = ZeldaWorldColorsTan.id;
+	GroundColor = WorldColorsTan.id;
 
 	@IsBoolean()
 	IsCastle = false;
@@ -97,15 +95,15 @@ export class ZeldaScreen extends ViewModel {
   			for (const child of tile.Children) {
   				if (child.X === x && child.Y === y) {
   					found = true;
-  					const Type = ZeldaTiles.find((item) => item.id === tile.Type);
+  					const Type = Tiles.find((item) => item.id === tile.Type);
   					const tileColors = getDefaultTileColors(Type!);
   					const { Colors } = child;
   					if (Colors) {
   						for (let i = 0; i < Colors.length; i += 2) {
-  							const target = findRecordByName(ZeldaWorldColors, Colors[i]);
+  							const target = findRecordByName(WorldColors, Colors[i]);
   							const foundColor = tileColors.find((color) => color.Target === target);
   							if (foundColor) {
-  								foundColor.Value = findRecordByName(ZeldaWorldColors, Colors[i + 1])!;
+  								foundColor.Value = findRecordByName(WorldColors, Colors[i + 1])!;
   							}
   						}
   					}
@@ -132,7 +130,7 @@ export class ZeldaScreen extends ViewModel {
   				found = true;
 					removeItem(Items, item);
   				cell.item.set({
-  					Type: findRecordByName(ZeldaItems, item.Config.Type),
+  					Type: findRecordByName(Items, item.Config.Type),
   				});
   				break;
   			}
@@ -212,8 +210,8 @@ export class ZeldaScreen extends ViewModel {
   		X: this.X,
   		Y: this.Y,
   		Name: this.Name,
-  		GroundColor: getNameById(ZeldaWorldColors, this.GroundColor),
-  		AccentColor: getNameById(ZeldaWorldColors, this.AccentColor),
+  		GroundColor: getNameById(WorldColors, this.GroundColor),
+  		AccentColor: getNameById(WorldColors, this.AccentColor),
   		Tiles,
   		Items,
   		Enemies,

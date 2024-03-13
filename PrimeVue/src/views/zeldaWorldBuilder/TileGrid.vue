@@ -15,27 +15,27 @@
 			@mouseover="onMouseOverCell(cell)"
 		>
 			<img
-				v-if="cell.tile.image.src"
-				:src="cell.tile.image.src"
+				v-if="cell.tile.src"
+				:src="cell.tile.src"
 				class="absolute h-full w-full"
 				alt="Tile Image"
 			>
 			<div
-				v-if="cell.item.image"
+				v-if="cell.item.src"
 				class="absolute flex h-full w-full justify-center"
 			>
 				<img
-					:src="cell.item.image"
+					:src="cell.item.src"
 					class="h-full"
 					alt="Item Image"
 				>
 			</div>
 			<div
-				v-if="cell.enemy.image"
+				v-if="cell.enemy.src"
 				class="absolute flex h-full w-full justify-center"
 			>
 				<img
-					:src="cell.enemy.image"
+					:src="cell.enemy.src"
 					class="h-full"
 					alt="Enemy Image"
 				>

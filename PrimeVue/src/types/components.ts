@@ -7,6 +7,10 @@ export interface IOption {
 	[key: string]: any;
 }
 
+export interface IZeldaEnum extends IOption {
+	imageSrc?: string;
+}
+
 /**
  * @patch https://github.com/vuejs/core/issues/8286
  * In order to use HTMLAttributes, we MUST specify the @vue-ignore comment, otherwise we get a vite error

@@ -84,14 +84,14 @@
 					v-model="gridRecord.GroundColor"
 					label="Ground"
 					label-width="auto"
-					:options="ZeldaWorldColors"
+					:options="WorldColors"
 					width="w-28"
 				/>
 				<FieldComboBox
 					v-model="gridRecord.AccentColor"
 					label="Accent"
 					label-width="auto"
-					:options="ZeldaWorldColors"
+					:options="WorldColors"
 					width="w-28"
 				/>
 			</BaseCard>
@@ -108,7 +108,7 @@
 					<div class="flex justify-between">
 						<FieldComboBox
 							v-model="selectedTile.Type"
-							:options="ZeldaTiles"
+							:options="Tiles"
 							:value-only="false"
 							label="Type"
 							label-width="auto"
@@ -135,7 +135,7 @@
 							:key="tileColor.Target.id"
 							v-model="tileColor.Value"
 							:label="tileColor.Target.name"
-							:options="ZeldaWorldColors"
+							:options="WorldColors"
 							:value-only="false"
 							@update:model-value="onUpdateTileColor"
 						/>
@@ -166,7 +166,7 @@
 							label="Template"
 							required
 							option-value="value"
-							:options="ZeldaScreenTemplates"
+							:options="ScreenTemplates"
 						/>
 						<FieldCheckbox
 							v-model="selectedTile.Transition.IsFloating"
@@ -185,7 +185,7 @@
 					>
 						<FieldComboBox
 							v-model="selectedItem.Type"
-							:options="ZeldaItems"
+							:options="Items"
 							label="Type"
 							label-width="auto"
 						/>
@@ -209,7 +209,7 @@
 						<div class="flex flex-col justify-between">
 							<FieldComboBox
 								v-model="selectedEnemy.Type"
-								:options="ZeldaEnemies"
+								:options="Enemies"
 								label="Type"
 								label-width="w-12"
 							/>
@@ -238,7 +238,7 @@
 							:key="tileColor.Target.id"
 							v-model="tileColor.Value"
 							:label="tileColor.Target.name"
-							:options="ZeldaWorldColors"
+							:options="WorldColors"
 							@update:model-value="onUpdateEnemyColor"
 						/>
 					</BaseCard>
@@ -283,11 +283,11 @@ import FieldComboBox from "@/components/FieldComboBox.vue";
 import FieldDisplay from "@/components/FieldDisplay.vue";
 import FieldNumber from "@/components/FieldNumber.vue";
 import { findRecordByName } from "@/enums/helper";
-import { ZeldaItems } from "@/enums/ZeldaItems";
-import { ZeldaEnemies } from "@/enums/ZeldaNPCs";
-import { ZeldaScreenTemplates } from "@/enums/ZeldaScreenTemplates";
-import { ZeldaTiles } from "@/enums/ZeldaTiles";
-import { ZeldaWorldColors, ZeldaWorldColorsNone } from "@/enums/ZeldaWorldColors";
+import { Items } from "@/enums/zelda/Items";
+import { Enemies } from "@/enums/zelda/NPCs";
+import { ScreenTemplates } from "@/enums/zelda/ScreenTemplates";
+import { Tiles } from "@/enums/zelda/Tiles";
+import { WorldColors, WorldColorsNone } from "@/enums/zelda/WorldColors";
 import { ZeldaScreen } from "@/models/ZeldaScreen";
 import { ZeldaTileCell } from "@/models/ZeldaTileCell";
 import { makeArray } from "@/utils/common";
@@ -303,7 +303,7 @@ import TileGrid from "@/views/zeldaWorldBuilder/TileGrid.vue";
  * - Optimize the export... right now, it does all individual cells... should be able to group by type
  * - Load into Unity game to see it working
  * - Finish other TODOJEFs
- * - Add special properties to ZeldaTiles... will need to wire this up in Unity code
+ * - Add special properties to Tiles... will need to wire this up in Unity code
  * -- Like CanBreak, CanBurn, CanBomb
  */
 const fileInputEl = ref<HTMLInputElement>();
@@ -331,8 +331,8 @@ function addGridRecord(config = {}) {
 }
 
 function getCellColor() {
-	const found = findRecordByName(ZeldaWorldColors, gridRecord.value.GroundColor);
-	if (found === ZeldaWorldColorsNone || !found) {
+	const found = findRecordByName(WorldColors, gridRecord.value.GroundColor);
+	if (found === WorldColorsNone || !found) {
 		return "";
 	}
 	return `background-color: #${found.id};`;

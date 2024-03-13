@@ -1,83 +1,83 @@
 ﻿import { Allow, IsArray, IsObject, IsString } from "class-validator";
 import { getNameById } from "@/enums/helper";
 import {
-	ZeldaTiles,
-	ZeldaTilesBlock, ZeldaTilesBush,
-	ZeldaTilesCastleBottomLeft,
-	ZeldaTilesCastleBottomRight,
-	ZeldaTilesCastleSand,
-	ZeldaTilesCastleTop,
-	ZeldaTilesCastleTopAlt,
-	ZeldaTilesCastleTopLeft,
-	ZeldaTilesCastleTopLeftAlt,
-	ZeldaTilesCastleTopRight,
-	ZeldaTilesCastleTopRightAlt,
-	ZeldaTilesDock,
-	ZeldaTilesDoor,
-	ZeldaTilesDoorClosedX,
-	ZeldaTilesDoorClosedY,
-	ZeldaTilesDoorLockedX,
-	ZeldaTilesDoorLockedY,
-	ZeldaTilesDoorUnlockedX,
-	ZeldaTilesDoorUnlockedY,
-	ZeldaTilesFire,
-	ZeldaTilesFireAlt,
-	ZeldaTilesGrave,
-	ZeldaTilesGroundTile,
-	ZeldaTilesNone,
-	ZeldaTilesPondBottom,
-	ZeldaTilesPondBottomLeft,
-	ZeldaTilesPondBottomRight,
-	ZeldaTilesPondCenter,
-	ZeldaTilesPondCenterLeft, ZeldaTilesPondCenterRight,
-	ZeldaTilesPondTop,
-	ZeldaTilesPondTopLeft,
-	ZeldaTilesPondTopRight,
-	ZeldaTilesSandBottom,
-	ZeldaTilesSandCenter,
-	ZeldaTilesStairsKeep,
-	ZeldaTilesStairsUp,
-	ZeldaTilesStatue,
-	ZeldaTilesStatue1,
-	ZeldaTilesStatue2,
-	ZeldaTilesTransition,
-	ZeldaTilesTreeBottomRight,
-	ZeldaTilesTreeTopLeft,
-	ZeldaTilesWallHoleX,
-	ZeldaTilesWallHoleY,
-	ZeldaTilesWallKeep,
-	ZeldaTilesWallLeftX,
-	ZeldaTilesWallLeftY,
-	ZeldaTilesWallLeftYFlip,
-	ZeldaTilesWallRightX,
-	ZeldaTilesWallRightY,
-	ZeldaTilesWallRightYFlip,
-	ZeldaTilesWallX,
-	ZeldaTilesWallY,
-	ZeldaTilesWater,
-	ZeldaTilesWaterBottomLeft,
-	ZeldaTilesWaterBottomRight,
-	ZeldaTilesWaterTopLeft,
-	ZeldaTilesWaterTopRight,
-} from "@/enums/ZeldaTiles";
+	Tiles,
+	TilesBlock, TilesBush,
+	TilesCastleBottomLeft,
+	TilesCastleBottomRight,
+	TilesCastleSand,
+	TilesCastleTop,
+	TilesCastleTopAlt,
+	TilesCastleTopLeft,
+	TilesCastleTopLeftAlt,
+	TilesCastleTopRight,
+	TilesCastleTopRightAlt,
+	TilesDock,
+	TilesDoor,
+	TilesDoorClosedX,
+	TilesDoorClosedY,
+	TilesDoorLockedX,
+	TilesDoorLockedY,
+	TilesDoorUnlockedX,
+	TilesDoorUnlockedY,
+	TilesFire,
+	TilesFireAlt,
+	TilesGrave,
+	TilesGroundTile,
+	TilesNone,
+	TilesPondBottom,
+	TilesPondBottomLeft,
+	TilesPondBottomRight,
+	TilesPondCenter,
+	TilesPondCenterLeft, TilesPondCenterRight,
+	TilesPondTop,
+	TilesPondTopLeft,
+	TilesPondTopRight,
+	TilesSandBottom,
+	TilesSandCenter,
+	TilesStairsKeep,
+	TilesStairsUp,
+	TilesStatue,
+	TilesStatue1,
+	TilesStatue2,
+	TilesTransition,
+	TilesTreeBottomRight,
+	TilesTreeTopLeft,
+	TilesWallHoleX,
+	TilesWallHoleY,
+	TilesWallKeep,
+	TilesWallLeftX,
+	TilesWallLeftY,
+	TilesWallLeftYFlip,
+	TilesWallRightX,
+	TilesWallRightY,
+	TilesWallRightYFlip,
+	TilesWallX,
+	TilesWallY,
+	TilesWater,
+	TilesWaterBottomLeft,
+	TilesWaterBottomRight,
+	TilesWaterTopLeft,
+	TilesWaterTopRight,
+} from "@/enums/zelda/Tiles";
 import {
-	ZeldaWorldColorsBlack,
-	ZeldaWorldColorsBluePure,
-	ZeldaWorldColorsRedPure, ZeldaWorldColorsWhite,
-	ZeldaWorldColorsWhitePure,
-} from "@/enums/ZeldaWorldColors";
+	WorldColorsBlack,
+	WorldColorsBluePure,
+	WorldColorsRedPure, WorldColorsWhite,
+	WorldColorsWhitePure,
+} from "@/enums/zelda/WorldColors";
 import { ModelTransform } from "@/models/decorators";
 import { ModelInterface, ViewModel } from "@/models/ViewModel";
 import { ZeldaScreen } from "@/models/ZeldaScreen";
 import { ZeldaTargetColor } from "@/models/ZeldaTargetColor";
 import { ZeldaTileCell } from "@/models/ZeldaTileCell";
 import { IZeldaWorldObjectConfig } from "@/models/ZeldaWorldObject";
-import { type IOption } from "@/types/components";
+import { type IZeldaEnum } from "@/types/components";
 import { isEmpty } from "@/utils/common";
-import { getImageSrc, replaceColors } from "@/utils/zelda";
+import { replaceColors } from "@/utils/zelda";
 
-const TransitionTypes = [ZeldaTilesTransition, ZeldaTilesDoor];
-function makeTargets(item: IOption, Value?: IOption) {
+const TransitionTypes = [TilesTransition, TilesDoor];
+function makeTargets(item: IZeldaEnum, Value?: IZeldaEnum) {
 	return ZeldaTargetColor.create({
 		Value,
 		Target: item,
@@ -90,101 +90,101 @@ function makeTargets(item: IOption, Value?: IOption) {
  * - 3 colors => White, Black, Blue
  * - 4 colors => White, Black, Blue, Red
  */
-const WhiteBlueRed = [ZeldaWorldColorsWhitePure, ZeldaWorldColorsBluePure, ZeldaWorldColorsRedPure];
-const WhiteBlackBlueRed = [ZeldaWorldColorsWhitePure, ZeldaWorldColorsBlack, ZeldaWorldColorsBluePure, ZeldaWorldColorsRedPure];
-const FireOuterFireInnerWhite = [ZeldaWorldColorsBlack, ZeldaWorldColorsBluePure, ZeldaWorldColorsWhitePure];
-const WhiteBlueBlack = [ZeldaWorldColorsWhitePure, ZeldaWorldColorsBluePure, ZeldaWorldColorsBlack];
-const WhiteRedBlack = [ZeldaWorldColorsWhitePure, ZeldaWorldColorsRedPure, ZeldaWorldColorsBlack];
-const White = [ZeldaWorldColorsWhitePure];
-const WhiteBlue = [ZeldaWorldColorsWhitePure, ZeldaWorldColorsBluePure];
-const WhiteBlack = [ZeldaWorldColorsWhitePure, ZeldaWorldColorsBlack];
+const WhiteBlueRed = [WorldColorsWhitePure, WorldColorsBluePure, WorldColorsRedPure];
+const WhiteBlackBlueRed = [WorldColorsWhitePure, WorldColorsBlack, WorldColorsBluePure, WorldColorsRedPure];
+const FireOuterFireInnerWhite = [WorldColorsBlack, WorldColorsBluePure, WorldColorsWhitePure];
+const WhiteBlueBlack = [WorldColorsWhitePure, WorldColorsBluePure, WorldColorsBlack];
+const WhiteRedBlack = [WorldColorsWhitePure, WorldColorsRedPure, WorldColorsBlack];
+const White = [WorldColorsWhitePure];
+const WhiteBlue = [WorldColorsWhitePure, WorldColorsBluePure];
+const WhiteBlack = [WorldColorsWhitePure, WorldColorsBlack];
 
-export function getDefaultTileColors(type: IOption) {
-	let colors: IOption[] = [];
+export function getDefaultTileColors(type: IZeldaEnum) {
+	let colors: IZeldaEnum[] = [];
 	switch (type) {
 		// TODOJEF: Add color change for these?
-		case ZeldaTilesStairsKeep:
-		case ZeldaTilesWallKeep:
-		case ZeldaTilesTransition:
-		case ZeldaTilesNone:
+		case TilesStairsKeep:
+		case TilesWallKeep:
+		case TilesTransition:
+		case TilesNone:
 			break;
-		case ZeldaTilesBlock:
-		case ZeldaTilesCastleSand:
-		case ZeldaTilesDoorClosedY:
-		case ZeldaTilesDoorClosedX:
-		case ZeldaTilesDoorUnlockedX:
-		case ZeldaTilesDoorUnlockedY:
-		case ZeldaTilesDoorLockedX:
-		case ZeldaTilesDoorLockedY:
-		case ZeldaTilesStatue1:
-		case ZeldaTilesStatue2:
-		case ZeldaTilesWallLeftX:
-		case ZeldaTilesWallLeftY:
-		case ZeldaTilesWallLeftYFlip:
-		case ZeldaTilesWallRightX:
-		case ZeldaTilesWallRightY:
-		case ZeldaTilesWallRightYFlip:
-		case ZeldaTilesWallX:
-		case ZeldaTilesWallY:
+		case TilesBlock:
+		case TilesCastleSand:
+		case TilesDoorClosedY:
+		case TilesDoorClosedX:
+		case TilesDoorUnlockedX:
+		case TilesDoorUnlockedY:
+		case TilesDoorLockedX:
+		case TilesDoorLockedY:
+		case TilesStatue1:
+		case TilesStatue2:
+		case TilesWallLeftX:
+		case TilesWallLeftY:
+		case TilesWallLeftYFlip:
+		case TilesWallRightX:
+		case TilesWallRightY:
+		case TilesWallRightYFlip:
+		case TilesWallX:
+		case TilesWallY:
 			colors = WhiteBlueRed;
 			break;
-		case ZeldaTilesWallHoleX:
-		case ZeldaTilesWallHoleY:
+		case TilesWallHoleX:
+		case TilesWallHoleY:
 			colors = WhiteBlackBlueRed;
 			break;
-		case ZeldaTilesFire:
-		case ZeldaTilesFireAlt:
+		case TilesFire:
+		case TilesFireAlt:
 			colors = FireOuterFireInnerWhite;
 			break;
-		case ZeldaTilesCastleBottomLeft:
-		case ZeldaTilesCastleBottomRight:
-		case ZeldaTilesCastleTop:
-		case ZeldaTilesCastleTopAlt:
-		case ZeldaTilesCastleTopLeftAlt:
-		case ZeldaTilesCastleTopRightAlt:
-		case ZeldaTilesCastleTopLeft:
-		case ZeldaTilesCastleTopRight:
-		case ZeldaTilesDock:
-		case ZeldaTilesGrave:
-		case ZeldaTilesStairsUp:
-		case ZeldaTilesStatue:
-		case ZeldaTilesTreeBottomRight:
-		case ZeldaTilesTreeTopLeft:
-		case ZeldaTilesWater:
-		case ZeldaTilesWaterTopLeft:
-		case ZeldaTilesWaterTopRight:
-		case ZeldaTilesWaterBottomLeft:
-		case ZeldaTilesWaterBottomRight:
+		case TilesCastleBottomLeft:
+		case TilesCastleBottomRight:
+		case TilesCastleTop:
+		case TilesCastleTopAlt:
+		case TilesCastleTopLeftAlt:
+		case TilesCastleTopRightAlt:
+		case TilesCastleTopLeft:
+		case TilesCastleTopRight:
+		case TilesDock:
+		case TilesGrave:
+		case TilesStairsUp:
+		case TilesStatue:
+		case TilesTreeBottomRight:
+		case TilesTreeTopLeft:
+		case TilesWater:
+		case TilesWaterTopLeft:
+		case TilesWaterTopRight:
+		case TilesWaterBottomLeft:
+		case TilesWaterBottomRight:
 			colors = WhiteBlueBlack;
 			break;
-		case ZeldaTilesGroundTile:
+		case TilesGroundTile:
 			colors = WhiteRedBlack;
 			break;
-		case ZeldaTilesDoor:
-			colors = [[ZeldaWorldColorsWhite, ZeldaWorldColorsBlack]];
+		case TilesDoor:
+			colors = [[WorldColorsWhite, WorldColorsBlack]];
 			break;
-		case ZeldaTilesSandBottom:
-		case ZeldaTilesSandCenter:
+		case TilesSandBottom:
+		case TilesSandCenter:
 			colors = White;
 			break;
-		case ZeldaTilesPondBottom:
-		case ZeldaTilesPondBottomLeft:
-		case ZeldaTilesPondBottomRight:
-		case ZeldaTilesPondTop:
-		case ZeldaTilesPondTopLeft:
-		case ZeldaTilesPondTopRight:
-		case ZeldaTilesPondCenter:
-		case ZeldaTilesPondCenterLeft:
-		case ZeldaTilesPondCenterRight:
+		case TilesPondBottom:
+		case TilesPondBottomLeft:
+		case TilesPondBottomRight:
+		case TilesPondTop:
+		case TilesPondTopLeft:
+		case TilesPondTopRight:
+		case TilesPondCenter:
+		case TilesPondCenterLeft:
+		case TilesPondCenterRight:
 			colors = WhiteBlue;
 			break;
-		case ZeldaTilesBush:
+		case TilesBush:
 		default:
 			colors = WhiteBlack;
 			break;
 	}
 	return colors.map((target) => {
-		let value: IOption | undefined;
+		let value: IZeldaEnum | undefined;
 		if (Array.isArray(target)) {
 			value = target[1];
 			target = target[0];
@@ -216,7 +216,7 @@ export class ZeldaTile extends ViewModel {
 
 	// TODOJEF: Make this a proper enum?
 	@IsObject()
-	type: IOption = ZeldaTilesNone;
+	type: IZeldaEnum = TilesNone;
 
 	@IsArray()
 	@ModelTransform(() => ZeldaTargetColor)
@@ -226,15 +226,15 @@ export class ZeldaTile extends ViewModel {
 	Transition?: ZeldaScreen;
 
 	@Allow()
-	TileType?: IOption;
+	TileType?: IZeldaEnum;
 
 	reset() {
-		this.Type = ZeldaTilesNone;
+		this.Type = TilesNone;
 		this.Transition = ZeldaScreen.create();
 	}
 
 	get isDoor() {
-		return this.Type === ZeldaTilesDoor;
+		return this.Type === TilesDoor;
 	}
 
 	get isTransition() {
@@ -254,9 +254,9 @@ export class ZeldaTile extends ViewModel {
    * is due to having to redefine both the set AND get if you change one or the other.
    * Ref: https://stackoverflow.com/q/28950760/1253609
    */
-	set Type(value: IOption) {
+	set Type(value: IZeldaEnum) {
 		this.type = value;
-		this.updateSrc();
+		this.Colors = getDefaultTileColors(value);
 		if (this.isTransition) {
 			this.Transition = ZeldaScreen.create({
 				X: 0,
@@ -274,36 +274,20 @@ export class ZeldaTile extends ViewModel {
 		return this.colors;
 	}
 
-	updateSrc() {
-		const name = this.getImageKey();
-		let src = "";
-		if (this.hasImage()) {
-			src = getImageSrc({
-				name,
-			});
-		}
-		this.image.onload = () => {
-			/* Make sure we unset this because we're about to be updating the image when colors change, and we don't want this
-			 * to be called infinitely */
-			this.image.onload = null;
-			this.Colors = getDefaultTileColors(this.type);
-		};
-		this.image.src = src;
-	}
-
 	getTypeKey() {
-		return getNameById(ZeldaTiles, this.Type.id)?.replace("ZeldaTiles", "");
+		return getNameById(Tiles, this.Type.id)?.replace("Tiles", "");
 	}
 
 	hasImage() {
-		return this.Type !== ZeldaTilesNone;
+		return this.Type !== TilesNone;
 	}
 
-	updateImage() {
+	async updateImage() {
 		if (this.hasImage()) {
-			replaceColors({
+			this.src = await replaceColors({
 				colors: this.Colors,
 				image: this.image,
+				imageEnum: this.Type,
 			});
 		}
 	}

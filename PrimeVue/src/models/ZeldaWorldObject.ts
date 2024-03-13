@@ -1,12 +1,12 @@
 ﻿import { IsArray, IsObject, IsString } from "class-validator";
-import { ZeldaTiles, ZeldaTilesNone } from "@/enums/ZeldaTiles";
+import { Tiles, TilesNone } from "@/enums/zelda/Tiles";
 import { ModelTransform } from "@/models/decorators";
 import { ViewModel } from "@/models/ViewModel";
 import { ZeldaTargetColor } from "@/models/ZeldaTargetColor";
 import { ZeldaTileCell } from "@/models/ZeldaTileCell";
-import { type IOption } from "@/types/components";
+import { type IZeldaEnum } from "@/types/components";
 import { isEmpty } from "@/utils/common";
-import { getImageSrc, replaceColors } from "@/utils/zelda";
+import { replaceColors } from "@/utils/zelda";
 
 export interface IZeldaWorldObjectConfig {
 	Type?: string;
@@ -26,14 +26,14 @@ export class ZeldaWorldObject extends ViewModel {
   cell?: ZeldaTileCell;
 
   @IsObject()
-  type?: IOption = {};
+  type?: IZeldaEnum = {};
 
   @IsArray()
   @ModelTransform(() => ZeldaTargetColor)
   colors: ZeldaTargetColor[] = [];
 
   get enumCollection() {
-  	return ZeldaTiles;
+  	return Tiles;
   }
 
   get imageType() {
@@ -114,18 +114,10 @@ export class ZeldaWorldObject extends ViewModel {
   }
 
   hasImage() {
-  	return !(isEmpty(this.Type) || this.Type === ZeldaTilesNone);
+  	return !(isEmpty(this.Type) || this.Type === TilesNone);
   }
 
-  async updateSrc() {
-  	const name = this.getImageKey();
-  	let src;
-  	if (this.hasImage()) {
-  		src = getImageSrc({
-  			name,
-  			type: this.imageType,
-  		});
-  	}
-  	this.src = src;
+  updateSrc() {
+  	this.src = this.Type?.imageSrc;
   }
 }
