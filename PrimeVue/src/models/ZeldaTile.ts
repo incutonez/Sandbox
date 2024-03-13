@@ -286,7 +286,6 @@ export class ZeldaTile extends ViewModel {
 		if (this.hasImage()) {
 			this.src = await replaceColors({
 				colors: this.Colors,
-				image: this.image,
 				imageEnum: this.Type,
 			});
 		}

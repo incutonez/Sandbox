@@ -60,21 +60,21 @@ import {
 	WorldColorsTealLight,
 	WorldColorsWhitePure,
 } from "@/enums/zelda/WorldColors";
-import { ZeldaTargetColor } from "@/models/ZeldaTargetColor";
+import { IZeldaTargetColor, ZeldaTargetColor } from "@/models/ZeldaTargetColor";
 import { ZeldaTileCell } from "@/models/ZeldaTileCell";
 import { IZeldaWorldObjectConfig, ZeldaWorldObject } from "@/models/ZeldaWorldObject";
 import { isEmpty } from "@/utils/common";
 
-let WhiteBlack = [WorldColorsWhitePure, WorldColorsBlack];
+const WhiteBlack = [WorldColorsWhitePure, WorldColorsBlack];
 const WhiteBlackRed = [WorldColorsWhitePure, WorldColorsBlack, WorldColorsRedPure];
 /**
  * For the most part, the coloring is by having 2 different color palettes...
  * a red/orange for the standard version, and blue/light blue for the harder version of the enemy.
  */
 const EnemyNormal = WhiteBlackRed.map((color) => {
-	const config = ZeldaTargetColor.create({
+	const config: IZeldaTargetColor = {
 		Target: color,
-	});
+	};
 	if (color === WorldColorsRedPure) {
 		config.Value = WorldColorsRed;
 	}
@@ -84,9 +84,9 @@ const EnemyNormal = WhiteBlackRed.map((color) => {
 	return config;
 });
 const EnemyHard = WhiteBlackRed.map((color) => {
-	const config = ZeldaTargetColor.create({
+	const config: IZeldaTargetColor = {
 		Target: color,
-	});
+	};
 	if (color === WorldColorsRedPure) {
 		config.Value = WorldColorsBlue;
 	}
@@ -101,9 +101,9 @@ const EnemyHard = WhiteBlackRed.map((color) => {
  * Blue Ring = PurpleLight
  * Red Ring = Red */
 const PolsVoice = WhiteBlackRed.map((color) => {
-	const config = ZeldaTargetColor.create({
+	const config: IZeldaTargetColor = {
 		Target: color,
-	});
+	};
 	if (color === WorldColorsBlack) {
 		config.Value = WorldColorsRed;
 	}
@@ -117,9 +117,9 @@ const PolsVoice = WhiteBlackRed.map((color) => {
 });
 // The harder version of the moblin has all 3 different colors instead of the standard 2 changes
 const MoblinHarder = WhiteBlackRed.map((color) => {
-	const config = ZeldaTargetColor.create({
+	const config: IZeldaTargetColor = {
 		Target: color,
-	});
+	};
 	if (color === WorldColorsRedPure) {
 		config.Value = WorldColorsBlack;
 	}
@@ -132,9 +132,9 @@ const MoblinHarder = WhiteBlackRed.map((color) => {
 	return config;
 });
 const Zora = WhiteBlack.map((color) => {
-	const config = ZeldaTargetColor.create({
+	const config: IZeldaTargetColor = {
 		Target: color,
-	});
+	};
 	if (color === WorldColorsWhitePure) {
 		config.Value = WorldColorsRed;
 	}
@@ -144,9 +144,9 @@ const Zora = WhiteBlack.map((color) => {
 	return config;
 });
 const GelBlue = WhiteBlack.map((color) => {
-	const config = ZeldaTargetColor.create({
+	const config: IZeldaTargetColor = {
 		Target: color,
-	});
+	};
 	if (color === WorldColorsWhitePure) {
 		config.Value = WorldColorsTealLight;
 	}
@@ -156,9 +156,9 @@ const GelBlue = WhiteBlack.map((color) => {
 	return config;
 });
 const KeeseBlue = WhiteBlack.map((color) => {
-	const config = ZeldaTargetColor.create({
+	const config: IZeldaTargetColor = {
 		Target: color,
-	});
+	};
 	if (color === WorldColorsWhitePure) {
 		config.Value = WorldColorsBlueLight;
 	}
@@ -168,9 +168,9 @@ const KeeseBlue = WhiteBlack.map((color) => {
 	return config;
 });
 const KeeseRed = WhiteBlack.map((color) => {
-	const config = ZeldaTargetColor.create({
+	const config: IZeldaTargetColor = {
 		Target: color,
-	});
+	};
 	if (color === WorldColorsWhitePure) {
 		config.Value = WorldColorsOrange;
 	}
@@ -180,18 +180,18 @@ const KeeseRed = WhiteBlack.map((color) => {
 	return config;
 });
 const ZolGray = WhiteBlack.map((color) => {
-	const config = ZeldaTargetColor.create({
+	const config: IZeldaTargetColor = {
 		Target: color,
-	});
+	};
 	if (color === WorldColorsBlack) {
 		config.Value = WorldColorsGray;
 	}
 	return config;
 });
 const ZolGreen = WhiteBlack.map((color) => {
-	const config = ZeldaTargetColor.create({
+	const config: IZeldaTargetColor = {
 		Target: color,
-	});
+	};
 	if (color === WorldColorsWhitePure) {
 		config.Value = WorldColorsGreenLight;
 	}
@@ -200,7 +200,7 @@ const ZolGreen = WhiteBlack.map((color) => {
 	}
 	return config;
 });
-WhiteBlack = WhiteBlack.map((color) => {
+const EnemyDefault = WhiteBlackRed.map((color) => {
 	return {
 		Target: color,
 	};
@@ -244,23 +244,20 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 		let TouchDamage;
 		let HealthModifier;
 		let WeaponDamage;
-		let Colors = WhiteBlackRed;
+		let Colors = EnemyNormal;
 		switch (this.Type) {
 			case EnemiesArmos:
-				Colors = EnemyNormal;
 				Health = 6;
 				TouchDamage = 1;
 				Speed = 3;
 				break;
 			case EnemiesBubble:
 				// TODO: Need to get proper colors for regular Bubble
-				Colors = EnemyNormal;
 				Health = 0;
 				TouchDamage = 0;
 				Speed = 3;
 				break;
 			case EnemiesBubbleRed:
-				Colors = EnemyNormal;
 				Health = 0;
 				TouchDamage = 0;
 				Speed = 3;
@@ -272,7 +269,6 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 				Speed = 3;
 				break;
 			case EnemiesDarknut:
-				Colors = EnemyNormal;
 				Health = 8;
 				TouchDamage = 2;
 				Speed = 3;
@@ -284,7 +280,6 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 				Speed = 5;
 				break;
 			case EnemiesGel:
-				Colors = WhiteBlack;
 				Health = 2;
 				TouchDamage = 1;
 				Speed = 1;
@@ -309,7 +304,6 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 				HealthModifier = 0.75;
 				break;
 			case EnemiesGoriya:
-				Colors = EnemyNormal;
 				Health = 6;
 				TouchDamage = 1;
 				Speed = 3;
@@ -323,7 +317,6 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 				WeaponDamage = 2;
 				break;
 			case EnemiesKeese:
-				Colors = WhiteBlack;
 				Health = 2;
 				TouchDamage = 1;
 				Speed = 4;
@@ -341,7 +334,6 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 				Speed = 4;
 				break;
 			case EnemiesLanmola:
-				Colors = EnemyNormal;
 				Health = 8;
 				HealthModifier = 0;
 				TouchDamage = 4;
@@ -355,7 +347,6 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 				Speed = 6;
 				break;
 			case EnemiesLeever:
-				Colors = EnemyNormal;
 				Health = 4;
 				TouchDamage = 1;
 				Speed = 4;
@@ -367,13 +358,11 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 				Speed = 4;
 				break;
 			case EnemiesLikeLike:
-				Colors = EnemyNormal;
 				Health = 20;
 				TouchDamage = 2;
 				Speed = 3;
 				break;
 			case EnemiesLynel:
-				Colors = EnemyNormal;
 				Health = 8;
 				TouchDamage = 2;
 				Speed = 3;
@@ -387,7 +376,6 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 				WeaponDamage = 4;
 				break;
 			case EnemiesMoblin:
-				Colors = EnemyNormal;
 				Health = 4;
 				TouchDamage = 1;
 				Speed = 3;
@@ -401,7 +389,6 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 				WeaponDamage = 1;
 				break;
 			case EnemiesMoldorm:
-				Colors = EnemyNormal;
 				Health = 10;
 				HealthModifier = 0;
 				TouchDamage = 1;
@@ -412,7 +399,6 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 				Colors = EnemyHard;
 				break;
 			case EnemiesOctorok:
-				Colors = EnemyNormal;
 				Health = 2;
 				TouchDamage = 1;
 				WeaponDamage = 1;
@@ -432,13 +418,11 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 				Speed = 3;
 				break;
 			case EnemiesPatraHead:
-				Colors = EnemyNormal;
 				Health = 20;
 				TouchDamage = 4;
 				Speed = 3;
 				break;
 			case EnemiesPeahat:
-				Colors = EnemyNormal;
 				Health = 4;
 				TouchDamage = 1;
 				Speed = 3;
@@ -450,13 +434,11 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 				Speed = 3;
 				break;
 			case EnemiesRock:
-				Colors = EnemyNormal;
 				Health = 0;
 				TouchDamage = 1;
 				Speed = 3;
 				break;
 			case EnemiesRope:
-				Colors = EnemyNormal;
 				Health = 2;
 				TouchDamage = 1;
 				Speed = 3;
@@ -468,14 +450,12 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 				Speed = 3;
 				break;
 			case EnemiesStalfos:
-				Colors = EnemyNormal;
 				Health = 4;
 				TouchDamage = 0.25;
 				WeaponDamage = 0.25;
 				Speed = 3;
 				break;
 			case EnemiesTektite:
-				Colors = EnemyNormal;
 				Health = 2;
 				TouchDamage = 1;
 				Speed = 3;
@@ -505,7 +485,6 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 				Speed = 1;
 				break;
 			case EnemiesWizzrobe:
-				Colors = EnemyNormal;
 				Health = 6;
 				TouchDamage = 2;
 				WeaponDamage = 8;
@@ -519,7 +498,6 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 				Speed = 5;
 				break;
 			case EnemiesZol:
-				Colors = WhiteBlack;
 				Health = 2;
 				TouchDamage = 2;
 				Speed = 1;
@@ -544,6 +522,7 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 				Speed = 0;
 				break;
 			default:
+				Colors = EnemyDefault;
 				break;
 		}
 		Health = this.Health ?? Health;
@@ -551,14 +530,12 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 		Speed = this.Speed ?? Speed;
 		TouchDamage = this.TouchDamage ?? TouchDamage;
 		WeaponDamage = this.WeaponDamage ?? WeaponDamage;
-		this.set({
-			Colors,
-			Health,
-			TouchDamage,
-			Speed,
-			HealthModifier,
-			WeaponDamage,
-		});
+		this.Colors = Colors.map((color) => ZeldaTargetColor.create(color));
+		this.Health = Health;
+		this.TouchDamage = TouchDamage;
+		this.Speed = Speed;
+		this.HealthModifier = HealthModifier;
+		this.WeaponDamage = WeaponDamage;
 	}
 
 	getTypeKey(type = this.Type) {

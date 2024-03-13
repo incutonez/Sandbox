@@ -26,7 +26,7 @@ export class ZeldaWorldObject extends ViewModel {
   cell?: ZeldaTileCell;
 
   @IsObject()
-  type?: IZeldaEnum = {};
+  type: IZeldaEnum = {};
 
   @IsArray()
   @ModelTransform(() => ZeldaTargetColor)
@@ -61,7 +61,6 @@ export class ZeldaWorldObject extends ViewModel {
   set Type(value) {
   	this.type = value;
   	this.setDefaultValues();
-  	this.updateSrc();
   }
 
   set Colors(colors) {
@@ -73,11 +72,11 @@ export class ZeldaWorldObject extends ViewModel {
   	return this.colors;
   }
 
-  updateImage() {
+  async updateImage() {
   	if (this.hasImage()) {
-  		replaceColors({
-  			image: this.image,
+  		this.src = await replaceColors({
 			  colors: this.Colors,
+			  imageEnum: this.Type,
   		});
   	}
   }
@@ -97,7 +96,7 @@ export class ZeldaWorldObject extends ViewModel {
   }
 
   reset() {
-  	this.Type = undefined;
+  	this.Type = {};
   }
 
   getTypeKey(type = this.Type) {

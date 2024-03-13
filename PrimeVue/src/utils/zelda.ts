@@ -5,7 +5,6 @@ import { toInt } from "@/utils/common";
 const ImageCache: Record<string, HTMLImageElement> = {};
 
 interface IReplaceColors {
-	image: HTMLImageElement;
 	imageEnum: IZeldaEnum;
 	colors: ZeldaTargetColor[];
 }
@@ -51,11 +50,8 @@ export async function replaceColors({ colors = [], imageEnum }: IReplaceColors) 
 					data[i + 2] = blue;
 				}
 			}
-			// We have to make sure we update our target, as it reflects the color we replaced the original with
-			// color.Target = color.Value;
 		}
 		ctx.putImageData(imageData, 0, 0);
-		// TODOJEF: THIS IS NOT CHANGING FOR SOME REASON???
 		return canvas.toDataURL("image/png");
 	}
 }

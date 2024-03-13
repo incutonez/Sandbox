@@ -194,7 +194,6 @@ function onMouseUpCell(_event: MouseEvent, cell: ZeldaTileCell) {
 		}
 		return;
 	}
-	console.log("here", cell);
 	emit("update:selectedCell", cell === selectedCell ? undefined : cell);
 }
 

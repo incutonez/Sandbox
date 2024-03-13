@@ -186,6 +186,7 @@
 						<FieldComboBox
 							v-model="selectedItem.Type"
 							:options="Items"
+							:value-only="false"
 							label="Type"
 							label-width="auto"
 						/>
@@ -210,6 +211,7 @@
 							<FieldComboBox
 								v-model="selectedEnemy.Type"
 								:options="Enemies"
+								:value-only="false"
 								label="Type"
 								label-width="w-12"
 							/>
@@ -237,6 +239,7 @@
 							v-for="tileColor in selectedEnemy.Colors"
 							:key="tileColor.Target.id"
 							v-model="tileColor.Value"
+							:value-only="false"
 							:label="tileColor.Target.name"
 							:options="WorldColors"
 							@update:model-value="onUpdateEnemyColor"
