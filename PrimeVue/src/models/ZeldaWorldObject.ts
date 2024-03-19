@@ -1,5 +1,5 @@
 ﻿import { IsArray, IsObject, IsString } from "class-validator";
-import { Tiles, TilesNone } from "@/enums/zelda/Tiles";
+import { Tiles } from "@/enums/zelda/Tiles";
 import { ModelTransform } from "@/models/decorators";
 import { ViewModel } from "@/models/ViewModel";
 import { ZeldaTargetColor } from "@/models/ZeldaTargetColor";
@@ -16,9 +16,6 @@ export interface IZeldaWorldObjectConfig {
 }
 
 export class ZeldaWorldObject extends ViewModel {
-  @IsObject()
-  image = document.createElement("img");
-
   @IsString()
   src?: string = "";
 
@@ -99,8 +96,8 @@ export class ZeldaWorldObject extends ViewModel {
   	this.Type = {};
   }
 
-  getTypeKey(type = this.Type) {
-  	return this.enumCollection.find((item) => item === type)?.name;
+  getTypeKey(type = this.Type.id) {
+  	return this.enumCollection.find((item) => item.id === type)?.name;
   }
 
   /**
@@ -113,7 +110,7 @@ export class ZeldaWorldObject extends ViewModel {
   }
 
   hasImage() {
-  	return !(isEmpty(this.Type) || this.Type === TilesNone);
+  	return !isEmpty(this.Type);
   }
 
   updateSrc() {

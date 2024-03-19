@@ -8,6 +8,7 @@
 import { execSync } from "child_process";
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "fs";
 import { glob } from "glob";
+import { startCase } from "lodash-es";
 import path from "path";
 import { IZeldaEnum } from "./src/types/components";
 
@@ -21,7 +22,8 @@ function createEnum({ matchName = "", item = "", index, items }) {
 	const imagePath = `${imageBasePath}${matchName}/${item}.png`;
 	let imageImport = "";
 	const config: IZeldaEnum = {
-		name,
+		displayName: startCase(item),
+		name: item,
 		id: index,
 	};
 	items.push(name);

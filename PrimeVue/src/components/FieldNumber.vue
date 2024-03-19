@@ -1,11 +1,8 @@
 <template>
-	<article class="relative w-max">
-		<FieldLabel
-			:text="label"
-			:class="labelCls"
-		/>
+	<BaseField v-bind="$props">
 		<PrimeInputNumber
 			v-model="modelValue"
+			class="flex-1"
 			:input-class="inputClasses"
 			:disabled="disabled"
 			:min="min"
@@ -13,18 +10,16 @@
 			:min-fraction-digits="decimalPlaces"
 			@keyup="onKeyUp"
 		/>
-	</article>
+	</BaseField>
 </template>
 
 <script setup lang="ts">
 import { computed } from "vue";
 import PrimeInputNumber from "primevue/inputnumber";
-import FieldLabel from "@/components/FieldLabel.vue";
+import BaseField, { IBaseField } from "@/components/BaseField.vue";
 
 // TODOJEF: Create a BaseField that has label and whatnot
-interface IFieldNumber {
-	label?: string;
-	labelCls?: string;
+interface IFieldNumber extends IBaseField {
 	disabled?: boolean;
 	/**
 	 * Number of ms to delay before firing inputEnd event
@@ -38,9 +33,8 @@ interface IFieldNumber {
 }
 const props = withDefaults(defineProps<IFieldNumber>(), {
 	label: undefined,
-	labelCls: undefined,
 	delay: 300,
-	inputWidth: "w-44",
+	inputWidth: "",
 	inputCls: "",
 	min: undefined,
 	max: undefined,

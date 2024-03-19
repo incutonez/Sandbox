@@ -9,7 +9,6 @@
 			:key="cell.id"
 			class="relative"
 			:class="getCellCls(cell)"
-			:style="getCellColor()"
 			@mouseup="onMouseUpCell($event, cell)"
 			@contextmenu="onContextMenuCell"
 			@mouseover="onMouseOverCell(cell)"
@@ -82,7 +81,6 @@ interface IProps {
 	totalRows: number;
 	totalColumns: number;
 	selectedCell?: ZeldaTileCell;
-	getCellColor: () => string;
 	showGridLines?: boolean;
 }
 

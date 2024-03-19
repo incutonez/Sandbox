@@ -9,6 +9,7 @@ export interface IOption {
 
 export interface IZeldaEnum extends IOption {
 	imageSrc?: string;
+	displayName?: string;
 }
 
 /**

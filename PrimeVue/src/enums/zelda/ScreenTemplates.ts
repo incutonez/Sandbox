@@ -1,242 +1,290 @@
 import { IZeldaEnum } from "@/types/components";
 
 export const ScreenTemplatesBase: IZeldaEnum = {
-	name: "ScreenTemplatesBase",
+	displayName: "Base",
+	name: "Base",
 	id: -1,
 };
 
 export const ScreenTemplatesPlain: IZeldaEnum = {
-	name: "ScreenTemplatesPlain",
+	displayName: "Plain",
+	name: "Plain",
 	id: 0,
 };
 
 export const ScreenTemplatesEntrance: IZeldaEnum = {
-	name: "ScreenTemplatesEntrance",
+	displayName: "Entrance",
+	name: "Entrance",
 	id: 1,
 };
 
 export const ScreenTemplatesBlocks2X3Columns: IZeldaEnum = {
-	name: "ScreenTemplatesBlocks2X3Columns",
+	displayName: "Blocks 2 X 3 Columns",
+	name: "Blocks2X3Columns",
 	id: 2,
 };
 
 export const ScreenTemplatesBlocks2X3Column: IZeldaEnum = {
-	name: "ScreenTemplatesBlocks2X3Column",
+	displayName: "Blocks 2 X 3 Column",
+	name: "Blocks2X3Column",
 	id: 3,
 };
 
 export const ScreenTemplatesBlocks4: IZeldaEnum = {
-	name: "ScreenTemplatesBlocks4",
+	displayName: "Blocks 4",
+	name: "Blocks4",
 	id: 4,
 };
 
 export const ScreenTemplatesBlocks4Alt: IZeldaEnum = {
-	name: "ScreenTemplatesBlocks4Alt",
+	displayName: "Blocks 4 Alt",
+	name: "Blocks4Alt",
 	id: 5,
 };
 
 export const ScreenTemplatesBlocks1: IZeldaEnum = {
-	name: "ScreenTemplatesBlocks1",
+	displayName: "Blocks 1",
+	name: "Blocks1",
 	id: 6,
 };
 
 export const ScreenTemplatesBlocksX: IZeldaEnum = {
-	name: "ScreenTemplatesBlocksX",
+	displayName: "Blocks X",
+	name: "BlocksX",
 	id: 7,
 };
 
 export const ScreenTemplatesBlocks3Rows: IZeldaEnum = {
-	name: "ScreenTemplatesBlocks3Rows",
+	displayName: "Blocks 3 Rows",
+	name: "Blocks3Rows",
 	id: 8,
 };
 
 export const ScreenTemplatesWaterMaze: IZeldaEnum = {
-	name: "ScreenTemplatesWaterMaze",
+	displayName: "Water Maze",
+	name: "WaterMaze",
 	id: 9,
 };
 
 export const ScreenTemplatesBlocksAquamentus: IZeldaEnum = {
-	name: "ScreenTemplatesBlocksAquamentus",
+	displayName: "Blocks Aquamentus",
+	name: "BlocksAquamentus",
 	id: 10,
 };
 
 export const ScreenTemplatesExit: IZeldaEnum = {
-	name: "ScreenTemplatesExit",
+	displayName: "Exit",
+	name: "Exit",
 	id: 11,
 };
 
 export const ScreenTemplatesBlocksStairsCenter: IZeldaEnum = {
-	name: "ScreenTemplatesBlocksStairsCenter",
+	displayName: "Blocks Stairs Center",
+	name: "BlocksStairsCenter",
 	id: 12,
 };
 
 export const ScreenTemplatesWaterBrackets: IZeldaEnum = {
-	name: "ScreenTemplatesWaterBrackets",
+	displayName: "Water Brackets",
+	name: "WaterBrackets",
 	id: 13,
 };
 
 export const ScreenTemplatesPlainStatues: IZeldaEnum = {
-	name: "ScreenTemplatesPlainStatues",
+	displayName: "Plain Statues",
+	name: "PlainStatues",
 	id: 14,
 };
 
 export const ScreenTemplatesSand: IZeldaEnum = {
-	name: "ScreenTemplatesSand",
+	displayName: "Sand",
+	name: "Sand",
 	id: 15,
 };
 
 export const ScreenTemplatesBlocksStairsEnd: IZeldaEnum = {
-	name: "ScreenTemplatesBlocksStairsEnd",
+	displayName: "Blocks Stairs End",
+	name: "BlocksStairsEnd",
 	id: 16,
 };
 
 export const ScreenTemplatesBlocksDiagonal: IZeldaEnum = {
-	name: "ScreenTemplatesBlocksDiagonal",
+	displayName: "Blocks Diagonal",
+	name: "BlocksDiagonal",
 	id: 17,
 };
 
 export const ScreenTemplatesBlocksHorizontal: IZeldaEnum = {
-	name: "ScreenTemplatesBlocksHorizontal",
+	displayName: "Blocks Horizontal",
+	name: "BlocksHorizontal",
 	id: 18,
 };
 
 export const ScreenTemplatesBlocksC: IZeldaEnum = {
-	name: "ScreenTemplatesBlocksC",
+	displayName: "Blocks C",
+	name: "BlocksC",
 	id: 19,
 };
 
 export const ScreenTemplatesBlocks2: IZeldaEnum = {
-	name: "ScreenTemplatesBlocks2",
+	displayName: "Blocks 2",
+	name: "Blocks2",
 	id: 20,
 };
 
 export const ScreenTemplatesBlocksMaze: IZeldaEnum = {
-	name: "ScreenTemplatesBlocksMaze",
+	displayName: "Blocks Maze",
+	name: "BlocksMaze",
 	id: 21,
 };
 
 export const ScreenTemplatesWaterHorizontal: IZeldaEnum = {
-	name: "ScreenTemplatesWaterHorizontal",
+	displayName: "Water Horizontal",
+	name: "WaterHorizontal",
 	id: 22,
 };
 
 export const ScreenTemplatesWaterT: IZeldaEnum = {
-	name: "ScreenTemplatesWaterT",
+	displayName: "Water T",
+	name: "WaterT",
 	id: 23,
 };
 
 export const ScreenTemplatesBlocks4Statues: IZeldaEnum = {
-	name: "ScreenTemplatesBlocks4Statues",
+	displayName: "Blocks 4 Statues",
+	name: "Blocks4Statues",
 	id: 24,
 };
 
 export const ScreenTemplatesBlocksGleeok: IZeldaEnum = {
-	name: "ScreenTemplatesBlocksGleeok",
+	displayName: "Blocks Gleeok",
+	name: "BlocksGleeok",
 	id: 25,
 };
 
 export const ScreenTemplatesWaterLadder: IZeldaEnum = {
-	name: "ScreenTemplatesWaterLadder",
+	displayName: "Water Ladder",
+	name: "WaterLadder",
 	id: 26,
 };
 
 export const ScreenTemplatesBlocks6Alt: IZeldaEnum = {
-	name: "ScreenTemplatesBlocks6Alt",
+	displayName: "Blocks 6 Alt",
+	name: "Blocks6Alt",
 	id: 27,
 };
 
 export const ScreenTemplatesWaterVertical: IZeldaEnum = {
-	name: "ScreenTemplatesWaterVertical",
+	displayName: "Water Vertical",
+	name: "WaterVertical",
 	id: 28,
 };
 
 export const ScreenTemplatesBlocks3Horizontal: IZeldaEnum = {
-	name: "ScreenTemplatesBlocks3Horizontal",
+	displayName: "Blocks 3 Horizontal",
+	name: "Blocks3Horizontal",
 	id: 29,
 };
 
 export const ScreenTemplatesWaterRectangle: IZeldaEnum = {
-	name: "ScreenTemplatesWaterRectangle",
+	displayName: "Water Rectangle",
+	name: "WaterRectangle",
 	id: 30,
 };
 
 export const ScreenTemplatesPlainStatues2: IZeldaEnum = {
-	name: "ScreenTemplatesPlainStatues2",
+	displayName: "Plain Statues 2",
+	name: "PlainStatues2",
 	id: 31,
 };
 
 export const ScreenTemplatesBlocksRectangle: IZeldaEnum = {
-	name: "ScreenTemplatesBlocksRectangle",
+	displayName: "Blocks Rectangle",
+	name: "BlocksRectangle",
 	id: 32,
 };
 
 export const ScreenTemplatesWaterHorizontal2: IZeldaEnum = {
-	name: "ScreenTemplatesWaterHorizontal2",
+	displayName: "Water Horizontal 2",
+	name: "WaterHorizontal2",
 	id: 33,
 };
 
 export const ScreenTemplatesBlocksSpiral: IZeldaEnum = {
-	name: "ScreenTemplatesBlocksSpiral",
+	displayName: "Blocks Spiral",
+	name: "BlocksSpiral",
 	id: 34,
 };
 
 export const ScreenTemplatesGanon: IZeldaEnum = {
-	name: "ScreenTemplatesGanon",
+	displayName: "Ganon",
+	name: "Ganon",
 	id: 35,
 };
 
 export const ScreenTemplatesEnding: IZeldaEnum = {
-	name: "ScreenTemplatesEnding",
+	displayName: "Ending",
+	name: "Ending",
 	id: 36,
 };
 
 export const ScreenTemplatesBlocks2Vertical: IZeldaEnum = {
-	name: "ScreenTemplatesBlocks2Vertical",
+	displayName: "Blocks 2 Vertical",
+	name: "Blocks2Vertical",
 	id: 37,
 };
 
 export const ScreenTemplatesBlocks6Vertical: IZeldaEnum = {
-	name: "ScreenTemplatesBlocks6Vertical",
+	displayName: "Blocks 6 Vertical",
+	name: "Blocks6Vertical",
 	id: 38,
 };
 
 export const ScreenTemplatesBlocks4Way: IZeldaEnum = {
-	name: "ScreenTemplatesBlocks4Way",
+	displayName: "Blocks 4 Way",
+	name: "Blocks4Way",
 	id: 39,
 };
 
 export const ScreenTemplatesWaterH: IZeldaEnum = {
-	name: "ScreenTemplatesWaterH",
+	displayName: "Water H",
+	name: "WaterH",
 	id: 40,
 };
 
 export const ScreenTemplatesBlack: IZeldaEnum = {
-	name: "ScreenTemplatesBlack",
+	displayName: "Black",
+	name: "Black",
 	id: 41,
 };
 
 export const ScreenTemplatesBlocksArrow: IZeldaEnum = {
-	name: "ScreenTemplatesBlocksArrow",
+	displayName: "Blocks Arrow",
+	name: "BlocksArrow",
 	id: 42,
 };
 
 export const ScreenTemplatesWaterHAlt: IZeldaEnum = {
-	name: "ScreenTemplatesWaterHAlt",
+	displayName: "Water H Alt",
+	name: "WaterHAlt",
 	id: 43,
 };
 
 export const ScreenTemplatesKeepItem: IZeldaEnum = {
-	name: "ScreenTemplatesKeepItem",
+	displayName: "Keep Item",
+	name: "KeepItem",
 	id: 44,
 };
 
 export const ScreenTemplatesKeepPath: IZeldaEnum = {
-	name: "ScreenTemplatesKeepPath",
+	displayName: "Keep Path",
+	name: "KeepPath",
 	id: 45,
 };
 
 export const ScreenTemplatesShop: IZeldaEnum = {
-	name: "ScreenTemplatesShop",
+	displayName: "Shop",
+	name: "Shop",
 	id: 46,
 };
 

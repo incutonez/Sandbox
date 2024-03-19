@@ -1,6 +1,6 @@
 // @ts-expect-error This isn't exported with a declaration file
 import { defaultMetadataStorage } from "class-transformer/esm5/storage";
-import { TypeOptions } from "class-transformer/types/interfaces";
+import { TransformOptions } from "class-transformer/types/interfaces";
 import { registerDecorator, ValidationArguments, ValidationOptions } from "class-validator";
 import isEmpty from "just-is-empty";
 import { ViewModel } from "@/models/ViewModel";
@@ -26,7 +26,9 @@ export function IsRequired(validationOptions?: ValidationOptions) {
 }
 
 // Idea taken from https://github.com/typestack/class-transformer/issues/563#issue-788919461
-export function ModelTransform(cls: () => typeof ViewModel, options?: TypeOptions): PropertyDecorator {
+export function ModelTransform(cls: () => typeof ViewModel, options?: TransformOptions): PropertyDecorator {
+	options ??= {};
+	options.toClassOnly = true;
 	return function(target: any, propertyName: string | Symbol): void {
 		defaultMetadataStorage.addTransformMetadata({
 			target: target.constructor,

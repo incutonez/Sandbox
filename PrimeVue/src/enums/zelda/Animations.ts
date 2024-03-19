@@ -1,72 +1,86 @@
 import { IZeldaEnum } from "@/types/components";
 
 export const AnimationsActionUp: IZeldaEnum = {
-	name: "AnimationsActionUp",
+	displayName: "Action Up",
+	name: "ActionUp",
 	id: 0,
 };
 
 export const AnimationsActionDown: IZeldaEnum = {
-	name: "AnimationsActionDown",
+	displayName: "Action Down",
+	name: "ActionDown",
 	id: 1,
 };
 
 export const AnimationsActionRight: IZeldaEnum = {
-	name: "AnimationsActionRight",
+	displayName: "Action Right",
+	name: "ActionRight",
 	id: 2,
 };
 
 export const AnimationsActionLeft: IZeldaEnum = {
-	name: "AnimationsActionLeft",
+	displayName: "Action Left",
+	name: "ActionLeft",
 	id: 3,
 };
 
 export const AnimationsEntering: IZeldaEnum = {
-	name: "AnimationsEntering",
+	displayName: "Entering",
+	name: "Entering",
 	id: 4,
 };
 
 export const AnimationsExiting: IZeldaEnum = {
-	name: "AnimationsExiting",
+	displayName: "Exiting",
+	name: "Exiting",
 	id: 5,
 };
 
 export const AnimationsIdleUp: IZeldaEnum = {
-	name: "AnimationsIdleUp",
+	displayName: "Idle Up",
+	name: "IdleUp",
 	id: 6,
 };
 
 export const AnimationsIdleDown: IZeldaEnum = {
-	name: "AnimationsIdleDown",
+	displayName: "Idle Down",
+	name: "IdleDown",
 	id: 7,
 };
 
 export const AnimationsIdleRight: IZeldaEnum = {
-	name: "AnimationsIdleRight",
+	displayName: "Idle Right",
+	name: "IdleRight",
 	id: 8,
 };
 
 export const AnimationsIdleLeft: IZeldaEnum = {
-	name: "AnimationsIdleLeft",
+	displayName: "Idle Left",
+	name: "IdleLeft",
 	id: 9,
 };
 
 export const AnimationsWalkUp: IZeldaEnum = {
-	name: "AnimationsWalkUp",
+	displayName: "Walk Up",
+	name: "WalkUp",
 	id: 10,
 };
 
 export const AnimationsWalkDown: IZeldaEnum = {
-	name: "AnimationsWalkDown",
+	displayName: "Walk Down",
+	name: "WalkDown",
 	id: 11,
 };
 
 export const AnimationsWalkRight: IZeldaEnum = {
-	name: "AnimationsWalkRight",
+	displayName: "Walk Right",
+	name: "WalkRight",
 	id: 12,
 };
 
 export const AnimationsWalkLeft: IZeldaEnum = {
-	name: "AnimationsWalkLeft",
+	displayName: "Walk Left",
+	name: "WalkLeft",
 	id: 13,
 };
 

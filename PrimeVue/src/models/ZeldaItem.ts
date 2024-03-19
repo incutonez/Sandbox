@@ -20,15 +20,18 @@ export class ZeldaItem extends ZeldaWorldObject {
   	return "Items";
 	}
 
-	getConfig(): IZeldaItemConfig {
+	getConfig() {
 		const { cell = ZeldaTileCell.create() } = this;
-  	return {
-  		X: cell.x,
-  		Y: cell.y,
-  		Config: {
-  			Type: this.getTypeKey(),
-  		},
-  	};
+		const itemType = this.getTypeKey();
+		if (itemType) {
+			return {
+				X: cell.x,
+				Y: cell.y,
+				Config: {
+					Type: itemType,
+				},
+			} as IZeldaItemConfig;
+		}
 	}
 
 	setDefaultValues() {

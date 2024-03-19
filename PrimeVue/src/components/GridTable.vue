@@ -25,8 +25,8 @@
 			</template>
 			<template #body="slotProps">
 				<Component
-					v-if="column.cellComponent"
 					:is="column.cellComponent"
+					v-if="column.cellComponent"
 					v-bind="getCellParams(column, slotProps.data)"
 				/>
 				<span v-else>
@@ -34,8 +34,8 @@
 				</span>
 			</template>
 			<template
-				#header
 				v-if="column.showMenu ?? true"
+				#header
 			>
 				<GridCellMenu
 					:button-config="{ plain: true }"
@@ -51,9 +51,8 @@
 				</h2>
 				<section class="ml-auto flex gap-x-2">
 					<FieldText
-						label="Search"
-						label-position="left"
 						v-model="search"
+						label="Search"
 						@input-clear="onSearch"
 						@input-end="onSearch"
 					/>
@@ -245,34 +244,30 @@ function getColumnMenuConfig(column: IGridColumn): IBaseMenu {
 		items.push({
 			text: "Lock Column",
 			icon: IconLock,
-			items: [
-				{
-					text: "Left",
-					icon: IconPin,
-					iconCls: "rotate-90",
-					click() {
-						setColumnLock("left", column);
-						reorderColumns();
-					},
+			items: [{
+				text: "Left",
+				icon: IconPin,
+				iconCls: "rotate-90",
+				click() {
+					setColumnLock("left", column);
+					reorderColumns();
 				},
-				{
-					text: "Right",
-					icon: IconPin,
-					iconCls: "-rotate-90",
-					click() {
-						setColumnLock("right", column);
-						reorderColumns();
-					},
+			}, {
+				text: "Right",
+				icon: IconPin,
+				iconCls: "-rotate-90",
+				click() {
+					setColumnLock("right", column);
+					reorderColumns();
 				},
-				{
-					text: "None",
-					icon: IconNotAllowed,
-					click() {
-						setColumnLock(false, column);
-						reorderColumns();
-					},
+			}, {
+				text: "None",
+				icon: IconNotAllowed,
+				click() {
+					setColumnLock(false, column);
+					reorderColumns();
 				},
-			],
+			}],
 		}, {
 			text: "Reset Column",
 			icon: IconResetColumn,

@@ -32,13 +32,16 @@ export async function replaceColors({ colors = [], imageEnum }: IReplaceColors) 
 		ctx.drawImage(image, 0, 0, w, h);
 		const imageData = ctx.getImageData(0, 0, w, h);
 		const { data } = imageData;
-		for (const color of colors) {
-			if (!color.Value?.id) {
-				continue;
-			}
-			const { red, green, blue } = hexToRgb(color.Value.id as string);
-			const { red: redTarget, blue: blueTarget, green: greenTarget } = hexToRgb(color.Target.id as string);
-			for (let i = 0; i < data.length; i += 4) {
+		for (let i = 0; i < data.length; i += 4) {
+			let found = false;
+			for (const color of colors) {
+				/* Return if we've already found the color we've replaced... otherwise, we could possibly be replacing
+				 * the color we just replaced if they chose that same color... */
+				if (found || !color.Value?.id) {
+					continue;
+				}
+				const { red, green, blue } = hexToRgb(color.Value.id as string);
+				const { red: redTarget, blue: blueTarget, green: greenTarget } = hexToRgb(color.Target.id as string);
 				// is this pixel the old rgb?
 				if (data[i] === redTarget &&
 					data[i + 1] === greenTarget &&
@@ -48,6 +51,7 @@ export async function replaceColors({ colors = [], imageEnum }: IReplaceColors) 
 					data[i] = red;
 					data[i + 1] = green;
 					data[i + 2] = blue;
+					found = true;
 				}
 			}
 		}

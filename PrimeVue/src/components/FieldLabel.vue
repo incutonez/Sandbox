@@ -1,7 +1,7 @@
 <template>
 	<label
 		v-if="!!text"
-		class="text-sm font-semibold text-gray-700"
+		class="block text-sm font-semibold text-gray-700"
 		:class="cls"
 	>{{ text }}{{ separator }}</label>
 </template>

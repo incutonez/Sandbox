@@ -31,37 +31,44 @@ import { default as ImageEnemiesZora } from "@/assets/zelda/Enemies/Zora.png";
 import { IZeldaEnum } from "@/types/components";
 
 export const CharactersFairy: IZeldaEnum = {
-	name: "CharactersFairy",
+	displayName: "Fairy",
+	name: "Fairy",
 	id: 0,
 };
 
 export const CharactersLink: IZeldaEnum = {
-	name: "CharactersLink",
+	displayName: "Link",
+	name: "Link",
 	id: 1,
 };
 
 export const CharactersMerchant: IZeldaEnum = {
-	name: "CharactersMerchant",
+	displayName: "Merchant",
+	name: "Merchant",
 	id: 2,
 };
 
 export const CharactersOldMan: IZeldaEnum = {
-	name: "CharactersOldMan",
+	displayName: "Old Man",
+	name: "OldMan",
 	id: 3,
 };
 
 export const CharactersOldMan2: IZeldaEnum = {
-	name: "CharactersOldMan2",
+	displayName: "Old Man 2",
+	name: "OldMan2",
 	id: 4,
 };
 
 export const CharactersOldWoman: IZeldaEnum = {
-	name: "CharactersOldWoman",
+	displayName: "Old Woman",
+	name: "OldWoman",
 	id: 5,
 };
 
 export const CharactersZelda: IZeldaEnum = {
-	name: "CharactersZelda",
+	displayName: "Zelda",
+	name: "Zelda",
 	id: 6,
 };
 
@@ -76,271 +83,319 @@ export const Characters: IZeldaEnum[] = [
 ];
 
 export const EnemiesArmos: IZeldaEnum = {
-	name: "EnemiesArmos",
+	displayName: "Armos",
+	name: "Armos",
 	id: 0,
 	imageSrc: ImageEnemiesArmos,
 };
 
 export const EnemiesBubble: IZeldaEnum = {
-	name: "EnemiesBubble",
+	displayName: "Bubble",
+	name: "Bubble",
 	id: 1,
 	imageSrc: ImageEnemiesBubble,
 };
 
 export const EnemiesBubbleBlue: IZeldaEnum = {
-	name: "EnemiesBubbleBlue",
+	displayName: "Bubble Blue",
+	name: "BubbleBlue",
 	id: 2,
 };
 
 export const EnemiesBubbleRed: IZeldaEnum = {
-	name: "EnemiesBubbleRed",
+	displayName: "Bubble Red",
+	name: "BubbleRed",
 	id: 3,
 };
 
 export const EnemiesDarknut: IZeldaEnum = {
-	name: "EnemiesDarknut",
+	displayName: "Darknut",
+	name: "Darknut",
 	id: 4,
 	imageSrc: ImageEnemiesDarknut,
 };
 
 export const EnemiesDarknutBlue: IZeldaEnum = {
-	name: "EnemiesDarknutBlue",
+	displayName: "Darknut Blue",
+	name: "DarknutBlue",
 	id: 5,
 };
 
 export const EnemiesGel: IZeldaEnum = {
-	name: "EnemiesGel",
+	displayName: "Gel",
+	name: "Gel",
 	id: 6,
 	imageSrc: ImageEnemiesGel,
 };
 
 export const EnemiesGelBlue: IZeldaEnum = {
-	name: "EnemiesGelBlue",
+	displayName: "Gel Blue",
+	name: "GelBlue",
 	id: 7,
 };
 
 export const EnemiesGhini: IZeldaEnum = {
-	name: "EnemiesGhini",
+	displayName: "Ghini",
+	name: "Ghini",
 	id: 8,
 	imageSrc: ImageEnemiesGhini,
 };
 
 export const EnemiesGibdo: IZeldaEnum = {
-	name: "EnemiesGibdo",
+	displayName: "Gibdo",
+	name: "Gibdo",
 	id: 9,
 	imageSrc: ImageEnemiesGibdo,
 };
 
 export const EnemiesGleeokHead: IZeldaEnum = {
-	name: "EnemiesGleeokHead",
+	displayName: "Gleeok Head",
+	name: "GleeokHead",
 	id: 10,
 	imageSrc: ImageEnemiesGleeokHead,
 };
 
 export const EnemiesGoriya: IZeldaEnum = {
-	name: "EnemiesGoriya",
+	displayName: "Goriya",
+	name: "Goriya",
 	id: 11,
 	imageSrc: ImageEnemiesGoriya,
 };
 
 export const EnemiesGoriyaBlue: IZeldaEnum = {
-	name: "EnemiesGoriyaBlue",
+	displayName: "Goriya Blue",
+	name: "GoriyaBlue",
 	id: 12,
 };
 
 export const EnemiesKeese: IZeldaEnum = {
-	name: "EnemiesKeese",
+	displayName: "Keese",
+	name: "Keese",
 	id: 13,
 	imageSrc: ImageEnemiesKeese,
 };
 
 export const EnemiesKeeseBlue: IZeldaEnum = {
-	name: "EnemiesKeeseBlue",
+	displayName: "Keese Blue",
+	name: "KeeseBlue",
 	id: 14,
 };
 
 export const EnemiesKeeseRed: IZeldaEnum = {
-	name: "EnemiesKeeseRed",
+	displayName: "Keese Red",
+	name: "KeeseRed",
 	id: 15,
 };
 
 export const EnemiesLanmola: IZeldaEnum = {
-	name: "EnemiesLanmola",
+	displayName: "Lanmola",
+	name: "Lanmola",
 	id: 16,
 	imageSrc: ImageEnemiesLanmola,
 };
 
 export const EnemiesLanmolaBlue: IZeldaEnum = {
-	name: "EnemiesLanmolaBlue",
+	displayName: "Lanmola Blue",
+	name: "LanmolaBlue",
 	id: 17,
 };
 
 export const EnemiesLeever: IZeldaEnum = {
-	name: "EnemiesLeever",
+	displayName: "Leever",
+	name: "Leever",
 	id: 18,
 	imageSrc: ImageEnemiesLeever,
 };
 
 export const EnemiesLeeverBlue: IZeldaEnum = {
-	name: "EnemiesLeeverBlue",
+	displayName: "Leever Blue",
+	name: "LeeverBlue",
 	id: 19,
 };
 
 export const EnemiesLikeLike: IZeldaEnum = {
-	name: "EnemiesLikeLike",
+	displayName: "Like Like",
+	name: "LikeLike",
 	id: 20,
 	imageSrc: ImageEnemiesLikeLike,
 };
 
 export const EnemiesLynel: IZeldaEnum = {
-	name: "EnemiesLynel",
+	displayName: "Lynel",
+	name: "Lynel",
 	id: 21,
 	imageSrc: ImageEnemiesLynel,
 };
 
 export const EnemiesLynelBlue: IZeldaEnum = {
-	name: "EnemiesLynelBlue",
+	displayName: "Lynel Blue",
+	name: "LynelBlue",
 	id: 22,
 };
 
 export const EnemiesMoblin: IZeldaEnum = {
-	name: "EnemiesMoblin",
+	displayName: "Moblin",
+	name: "Moblin",
 	id: 23,
 	imageSrc: ImageEnemiesMoblin,
 };
 
 export const EnemiesMoblinBlue: IZeldaEnum = {
-	name: "EnemiesMoblinBlue",
+	displayName: "Moblin Blue",
+	name: "MoblinBlue",
 	id: 24,
 };
 
 export const EnemiesMoldorm: IZeldaEnum = {
-	name: "EnemiesMoldorm",
+	displayName: "Moldorm",
+	name: "Moldorm",
 	id: 25,
 	imageSrc: ImageEnemiesMoldorm,
 };
 
 export const EnemiesMoldormBlue: IZeldaEnum = {
-	name: "EnemiesMoldormBlue",
+	displayName: "Moldorm Blue",
+	name: "MoldormBlue",
 	id: 26,
 };
 
 export const EnemiesOctorok: IZeldaEnum = {
-	name: "EnemiesOctorok",
+	displayName: "Octorok",
+	name: "Octorok",
 	id: 27,
 	imageSrc: ImageEnemiesOctorok,
 };
 
 export const EnemiesOctorokBlue: IZeldaEnum = {
-	name: "EnemiesOctorokBlue",
+	displayName: "Octorok Blue",
+	name: "OctorokBlue",
 	id: 28,
 };
 
 export const EnemiesPatra: IZeldaEnum = {
-	name: "EnemiesPatra",
+	displayName: "Patra",
+	name: "Patra",
 	id: 29,
 	imageSrc: ImageEnemiesPatra,
 };
 
 export const EnemiesPatraHead: IZeldaEnum = {
-	name: "EnemiesPatraHead",
+	displayName: "Patra Head",
+	name: "PatraHead",
 	id: 30,
 	imageSrc: ImageEnemiesPatraHead,
 };
 
 export const EnemiesPeahat: IZeldaEnum = {
-	name: "EnemiesPeahat",
+	displayName: "Peahat",
+	name: "Peahat",
 	id: 31,
 	imageSrc: ImageEnemiesPeahat,
 };
 
 export const EnemiesPolsVoice: IZeldaEnum = {
-	name: "EnemiesPolsVoice",
+	displayName: "Pols Voice",
+	name: "PolsVoice",
 	id: 32,
 	imageSrc: ImageEnemiesPolsVoice,
 };
 
 export const EnemiesRock: IZeldaEnum = {
-	name: "EnemiesRock",
+	displayName: "Rock",
+	name: "Rock",
 	id: 33,
 	imageSrc: ImageEnemiesRock,
 };
 
 export const EnemiesRope: IZeldaEnum = {
-	name: "EnemiesRope",
+	displayName: "Rope",
+	name: "Rope",
 	id: 34,
 	imageSrc: ImageEnemiesRope,
 };
 
 export const EnemiesRopeBlue: IZeldaEnum = {
-	name: "EnemiesRopeBlue",
+	displayName: "Rope Blue",
+	name: "RopeBlue",
 	id: 35,
 };
 
 export const EnemiesStalfos: IZeldaEnum = {
-	name: "EnemiesStalfos",
+	displayName: "Stalfos",
+	name: "Stalfos",
 	id: 36,
 	imageSrc: ImageEnemiesStalfos,
 };
 
 export const EnemiesTektite: IZeldaEnum = {
-	name: "EnemiesTektite",
+	displayName: "Tektite",
+	name: "Tektite",
 	id: 37,
 	imageSrc: ImageEnemiesTektite,
 };
 
 export const EnemiesTektiteBlue: IZeldaEnum = {
-	name: "EnemiesTektiteBlue",
+	displayName: "Tektite Blue",
+	name: "TektiteBlue",
 	id: 38,
 };
 
 export const EnemiesTrap: IZeldaEnum = {
-	name: "EnemiesTrap",
+	displayName: "Trap",
+	name: "Trap",
 	id: 39,
 	imageSrc: ImageEnemiesTrap,
 };
 
 export const EnemiesVire: IZeldaEnum = {
-	name: "EnemiesVire",
+	displayName: "Vire",
+	name: "Vire",
 	id: 40,
 	imageSrc: ImageEnemiesVire,
 };
 
 export const EnemiesWallmaster: IZeldaEnum = {
-	name: "EnemiesWallmaster",
+	displayName: "Wallmaster",
+	name: "Wallmaster",
 	id: 41,
 	imageSrc: ImageEnemiesWallmaster,
 };
 
 export const EnemiesWizzrobe: IZeldaEnum = {
-	name: "EnemiesWizzrobe",
+	displayName: "Wizzrobe",
+	name: "Wizzrobe",
 	id: 42,
 	imageSrc: ImageEnemiesWizzrobe,
 };
 
 export const EnemiesWizzrobeBlue: IZeldaEnum = {
-	name: "EnemiesWizzrobeBlue",
+	displayName: "Wizzrobe Blue",
+	name: "WizzrobeBlue",
 	id: 43,
 };
 
 export const EnemiesZol: IZeldaEnum = {
-	name: "EnemiesZol",
+	displayName: "Zol",
+	name: "Zol",
 	id: 44,
 	imageSrc: ImageEnemiesZol,
 };
 
 export const EnemiesZolGray: IZeldaEnum = {
-	name: "EnemiesZolGray",
+	displayName: "Zol Gray",
+	name: "ZolGray",
 	id: 45,
 };
 
 export const EnemiesZolGreen: IZeldaEnum = {
-	name: "EnemiesZolGreen",
+	displayName: "Zol Green",
+	name: "ZolGreen",
 	id: 46,
 };
 
 export const EnemiesZora: IZeldaEnum = {
-	name: "EnemiesZora",
+	displayName: "Zora",
+	name: "Zora",
 	id: 47,
 	imageSrc: ImageEnemiesZora,
 };
@@ -397,42 +452,50 @@ export const Enemies: IZeldaEnum[] = [
 ];
 
 export const BossesAquamentus: IZeldaEnum = {
-	name: "BossesAquamentus",
+	displayName: "Aquamentus",
+	name: "Aquamentus",
 	id: 0,
 };
 
 export const BossesDigdogger: IZeldaEnum = {
-	name: "BossesDigdogger",
+	displayName: "Digdogger",
+	name: "Digdogger",
 	id: 1,
 };
 
 export const BossesDodongo: IZeldaEnum = {
-	name: "BossesDodongo",
+	displayName: "Dodongo",
+	name: "Dodongo",
 	id: 2,
 };
 
 export const BossesGanon: IZeldaEnum = {
-	name: "BossesGanon",
+	displayName: "Ganon",
+	name: "Ganon",
 	id: 3,
 };
 
 export const BossesGleeok: IZeldaEnum = {
-	name: "BossesGleeok",
+	displayName: "Gleeok",
+	name: "Gleeok",
 	id: 4,
 };
 
 export const BossesGohma: IZeldaEnum = {
-	name: "BossesGohma",
+	displayName: "Gohma",
+	name: "Gohma",
 	id: 5,
 };
 
 export const BossesGohmaBlue: IZeldaEnum = {
-	name: "BossesGohmaBlue",
+	displayName: "Gohma Blue",
+	name: "GohmaBlue",
 	id: 6,
 };
 
 export const BossesManhandla: IZeldaEnum = {
-	name: "BossesManhandla",
+	displayName: "Manhandla",
+	name: "Manhandla",
 	id: 7,
 };
 

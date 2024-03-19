@@ -14,7 +14,11 @@ export function makeArray(value: any) {
 }
 
 export function isEmpty(value: any) {
-	return value === undefined || value === null || value === "" || Array.isArray(value) && value.length === 0;
+	return value === undefined ||
+		value === null ||
+		value === "" ||
+		Array.isArray(value) && value.length === 0 ||
+		isObject(value) && !Object.keys(value).length;
 }
 
 export function isFunction(value: any): value is (...args: any[]) => any {

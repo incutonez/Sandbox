@@ -70,10 +70,6 @@
         @apply p-1 hover:bg-select-200 cursor-pointer;
     }
 
-    .base-field {
-        @apply border text-sm py-0.5 px-1 outline-none focus:border-blue-500 shadow-sm w-full;
-    }
-
     .base-card-title {
         @apply text-gray-900 leading-6;
     }

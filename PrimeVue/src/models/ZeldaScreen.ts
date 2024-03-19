@@ -2,7 +2,7 @@
 import { findRecordByName, getNameById } from "@/enums/helper";
 import { WorldColors, WorldColorsBrown, WorldColorsTan } from "@/enums/zelda/WorldColors";
 import { ModelTransform } from "@/models/decorators";
-import { ViewModel } from "@/models/ViewModel";
+import { Parent, ViewModel } from "@/models/ViewModel";
 import { IZeldaEnemyConfig } from "@/models/ZeldaEnemy";
 import { IZeldaItemConfig } from "@/models/ZeldaItem";
 import { getDefaultTileColors, IZeldaTileMeta } from "@/models/ZeldaTile";
@@ -70,9 +70,9 @@ export class ZeldaScreen extends ViewModel {
   		for (let column = 0; column < this.totalColumns; column++) {
   			config.push(ZeldaTileCell.create({
   				Coordinates: [column, row],
-  				grid: this,
   			}, {
 					init: true,
+				  [Parent]: this,
 			  }));
   		}
   	}

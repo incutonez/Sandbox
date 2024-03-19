@@ -22,11 +22,230 @@
 			:total-columns="gridRecord.totalColumns"
 			:total-rows="gridRecord.totalRows"
 			:show-grid-lines="showGridLines"
-			:get-cell-color="getCellColor"
+			:style="getCellColor()"
 			@replace-cell="onReplaceCell"
 		/>
-		<div class="min-w-72 space-y-2 overflow-auto">
-			<div class="flex justify-between">
+		<article class="flex flex-col">
+			<section class="w-72 flex-1 space-y-2 overflow-auto">
+				<BaseCard
+					title="Screen Coordinates"
+					class="bp-2 vertical"
+				>
+					<FieldDisplay
+						:value="gridRecord.Name"
+						label="Name"
+					/>
+					<section class="flex space-x-2">
+						<FieldNumber
+							v-model="gridRecord.X"
+							label="X"
+							label-width="auto"
+							input-width="w-12"
+							width="w-28"
+						/>
+						<FieldNumber
+							v-model="gridRecord.Y"
+							label="Y"
+							label-width="auto"
+							input-width="w-12"
+							width="w-28"
+						/>
+					</section>
+				</BaseCard>
+				<BaseCard
+					title="Colors"
+					class="bp-2 vertical"
+				>
+					<FieldWorldColors
+						v-model="gridRecord.GroundColor"
+						label="Ground"
+						label-cls="w-12"
+						width="w-28"
+					/>
+					<FieldWorldColors
+						v-model="gridRecord.AccentColor"
+						label="Accent"
+						label-cls="w-12"
+						width="w-28"
+					/>
+				</BaseCard>
+				<template v-if="selectedTile">
+					<BaseCard
+						class="vertical bp-2"
+						title="Tile"
+					>
+						<div class="flex justify-between">
+							<FieldComboBox
+								v-model="selectedTile.Type"
+								:options="Tiles"
+								:value-only="false"
+								label="Type"
+								class="flex-1"
+							/>
+							<div
+								v-show="showColors"
+								class="h-16 w-16 bg-blue-100"
+							>
+								<img
+									v-if="selectedTile.src"
+									:src="selectedTile.src"
+									class="h-full w-full"
+									alt="Tile Image"
+								>
+							</div>
+						</div>
+						<BaseCard
+							v-show="showColors"
+							title="Replace Colors"
+							class="vertical bp-2"
+						>
+							<FieldWorldColors
+								v-for="tileColor in selectedTile.Colors"
+								:key="tileColor.Target.id"
+								v-model="tileColor.Value"
+								:label="tileColor.Target.name"
+								:value-only="false"
+								@update:model-value="onUpdateTileColor"
+							/>
+						</BaseCard>
+						<BaseCard
+							v-if="isTransition && selectedTile.Transition"
+							title="Transition Properties"
+							class="vertical bp-2"
+						>
+							<FieldNumber
+								v-model="selectedTile.Transition.X"
+								label="X Offset"
+								width="w-24"
+							/>
+							<FieldNumber
+								v-model="selectedTile.Transition.Y"
+								label="Y Offset"
+								width="w-24"
+							/>
+							<FieldDisplay
+								v-if="selectedTile.isDoor"
+								:value="selectedTile.Transition.Name"
+								label="Name"
+							/>
+							<FieldComboBox
+								v-if="selectedTile.isDoor"
+								v-model="selectedTile.Transition.Template"
+								label="Template"
+								required
+								option-value="value"
+								:options="ScreenTemplates"
+							/>
+							<FieldCheckbox
+								v-model="selectedTile.Transition.IsFloating"
+								label="Floating"
+							/>
+						</BaseCard>
+					</BaseCard>
+					<BaseCard
+						title="Item"
+						:expanded="false"
+						class="vertical bp-2"
+					>
+						<div
+							v-if="selectedItem"
+							class="flex justify-between"
+						>
+							<FieldComboBox
+								v-model="selectedItem.Type"
+								:options="Items"
+								:value-only="false"
+								label="Type"
+								label-width="auto"
+							/>
+							<div class="flex h-16 w-16 justify-center bg-blue-100">
+								<img
+									v-if="selectedItem.src"
+									:src="selectedItem.src"
+									class="h-full"
+									alt="Item Image"
+								>
+							</div>
+						</div>
+					</BaseCard>
+					<BaseCard
+						v-if="selectedEnemy"
+						title="Enemy"
+						:expanded="false"
+						class="vertical bp-2"
+					>
+						<div class="flex justify-between">
+							<div class="flex flex-col justify-between">
+								<FieldComboBox
+									v-model="selectedEnemy.Type"
+									:options="Enemies"
+									:value-only="false"
+									label="Type"
+									label-width="w-12"
+								/>
+								<FieldNumber
+									v-model="selectedEnemy.Speed"
+									label="Speed"
+									label-width="w-12"
+								/>
+							</div>
+							<div class="flex h-16 w-16 justify-center bg-blue-100">
+								<img
+									v-if="selectedEnemy.src"
+									:src="selectedEnemy.src"
+									class="h-full"
+									alt="Item Image"
+								>
+							</div>
+						</div>
+						<BaseCard
+							v-show="selectedEnemy.hasImage()"
+							title="Replace Colors"
+							class="vertical bp-2"
+						>
+							<FieldWorldColors
+								v-for="tileColor in selectedEnemy.Colors"
+								:key="tileColor.Target.id"
+								v-model="tileColor.Value"
+								:value-only="false"
+								:label="tileColor.Target.name"
+								@update:model-value="onUpdateEnemyColor"
+							/>
+						</BaseCard>
+						<BaseCard
+							title="Health"
+							class="vertical bp-2"
+						>
+							<FieldNumber
+								v-model="selectedEnemy.Health"
+								label="Health"
+								label-cls="w-16"
+							/>
+							<FieldNumber
+								v-model="selectedEnemy.HealthModifier"
+								label="Modifier"
+								label-cls="w-16"
+							/>
+						</BaseCard>
+						<BaseCard
+							title="Damage"
+							class="vertical bp-2"
+						>
+							<FieldNumber
+								v-model="selectedEnemy.TouchDamage"
+								label="Touch"
+								label-cls="w-14"
+							/>
+							<FieldNumber
+								v-model="selectedEnemy.WeaponDamage"
+								label="Weapon"
+								label-cls="w-14"
+							/>
+						</BaseCard>
+					</BaseCard>
+				</template>
+			</section>
+			<section class="flex justify-between pt-2">
 				<FieldCheckbox
 					v-model="showGridLines"
 					label="Grid Lines"
@@ -49,231 +268,8 @@
 						@change="onChangeLoadFile"
 					>
 				</div>
-			</div>
-			<BaseCard
-				title="Screen Coordinates"
-				class="bp-2 vertical"
-			>
-				<FieldDisplay
-					:value="gridRecord.Name"
-					label-position="left"
-					label="Name"
-				/>
-				<section class="flex space-x-2">
-					<FieldNumber
-						v-model="gridRecord.X"
-						label="X"
-						label-width="auto"
-						input-width="w-12"
-						width="w-28"
-					/>
-					<FieldNumber
-						v-model="gridRecord.Y"
-						label="Y"
-						label-width="auto"
-						input-width="w-12"
-						width="w-28"
-					/>
-				</section>
-			</BaseCard>
-			<BaseCard
-				title="Colors"
-				class="bp-2 vertical"
-			>
-				<FieldComboBox
-					v-model="gridRecord.GroundColor"
-					label="Ground"
-					label-width="auto"
-					:options="WorldColors"
-					width="w-28"
-				/>
-				<FieldComboBox
-					v-model="gridRecord.AccentColor"
-					label="Accent"
-					label-width="auto"
-					:options="WorldColors"
-					width="w-28"
-				/>
-			</BaseCard>
-			<BaseCard
-				v-if="selectedCell && selectedTile"
-				:key="selectedCell.id"
-				title="Cell"
-				class="vertical"
-			>
-				<BaseCard
-					class="vertical bp-2"
-					title="Tile"
-				>
-					<div class="flex justify-between">
-						<FieldComboBox
-							v-model="selectedTile.Type"
-							:options="Tiles"
-							:value-only="false"
-							label="Type"
-							label-width="auto"
-						/>
-						<div
-							v-show="showColors"
-							class="h-16 w-16 bg-blue-100"
-						>
-							<img
-								v-if="selectedTile.src"
-								:src="selectedTile.src"
-								class="h-full w-full"
-								alt="Tile Image"
-							>
-						</div>
-					</div>
-					<BaseCard
-						v-show="showColors"
-						title="Replace Colors"
-						class="vertical bp-2"
-					>
-						<FieldComboBox
-							v-for="tileColor in selectedTile.Colors"
-							:key="tileColor.Target.id"
-							v-model="tileColor.Value"
-							:label="tileColor.Target.name"
-							:options="WorldColors"
-							:value-only="false"
-							@update:model-value="onUpdateTileColor"
-						/>
-					</BaseCard>
-					<BaseCard
-						v-if="isTransition && selectedTile.Transition"
-						title="Transition Properties"
-						class="vertical bp-2"
-					>
-						<FieldNumber
-							v-model="selectedTile.Transition.X"
-							label="X Offset"
-							width="w-24"
-						/>
-						<FieldNumber
-							v-model="selectedTile.Transition.Y"
-							label="Y Offset"
-							width="w-24"
-						/>
-						<FieldDisplay
-							v-if="selectedTile.isDoor"
-							:value="selectedTile.Transition.Name"
-							label="Name"
-						/>
-						<FieldComboBox
-							v-if="selectedTile.isDoor"
-							v-model="selectedTile.Transition.Template"
-							label="Template"
-							required
-							option-value="value"
-							:options="ScreenTemplates"
-						/>
-						<FieldCheckbox
-							v-model="selectedTile.Transition.IsFloating"
-							label="Floating"
-						/>
-					</BaseCard>
-				</BaseCard>
-				<BaseCard
-					title="Item"
-					:expanded="false"
-					class="vertical bp-2"
-				>
-					<div
-						v-if="selectedItem"
-						class="flex justify-between"
-					>
-						<FieldComboBox
-							v-model="selectedItem.Type"
-							:options="Items"
-							:value-only="false"
-							label="Type"
-							label-width="auto"
-						/>
-						<div class="flex h-16 w-16 justify-center bg-blue-100">
-							<img
-								v-if="selectedItem.src"
-								:src="selectedItem.src"
-								class="h-full"
-								alt="Item Image"
-							>
-						</div>
-					</div>
-				</BaseCard>
-				<BaseCard
-					v-if="selectedEnemy"
-					title="Enemy"
-					:expanded="false"
-					class="vertical bp-2"
-				>
-					<div class="flex justify-between">
-						<div class="flex flex-col justify-between">
-							<FieldComboBox
-								v-model="selectedEnemy.Type"
-								:options="Enemies"
-								:value-only="false"
-								label="Type"
-								label-width="w-12"
-							/>
-							<FieldNumber
-								v-model="selectedEnemy.Speed"
-								label="Speed"
-								label-width="w-12"
-							/>
-						</div>
-						<div class="flex h-16 w-16 justify-center bg-blue-100">
-							<img
-								v-if="selectedEnemy.src"
-								:src="selectedEnemy.src"
-								class="h-full"
-								alt="Item Image"
-							>
-						</div>
-					</div>
-					<BaseCard
-						v-show="selectedEnemy.hasImage()"
-						title="Replace Colors"
-						class="vertical bp-2"
-					>
-						<FieldComboBox
-							v-for="tileColor in selectedEnemy.Colors"
-							:key="tileColor.Target.id"
-							v-model="tileColor.Value"
-							:value-only="false"
-							:label="tileColor.Target.name"
-							:options="WorldColors"
-							@update:model-value="onUpdateEnemyColor"
-						/>
-					</BaseCard>
-					<BaseCard
-						title="Health"
-						class="horizontal bp-2"
-					>
-						<FieldNumber
-							v-model="selectedEnemy.Health"
-							label="Health"
-						/>
-						<FieldNumber
-							v-model="selectedEnemy.HealthModifier"
-							label="Modifier"
-						/>
-					</BaseCard>
-					<BaseCard
-						title="Damage"
-						class="horizontal bp-2"
-					>
-						<FieldNumber
-							v-model="selectedEnemy.TouchDamage"
-							label="Touch"
-						/>
-						<FieldNumber
-							v-model="selectedEnemy.WeaponDamage"
-							label="Weapon"
-						/>
-					</BaseCard>
-				</BaseCard>
-			</BaseCard>
-		</div>
+			</section>
+		</article>
 	</div>
 </template>
 
@@ -285,7 +281,7 @@ import FieldCheckbox from "@/components/FieldCheckbox.vue";
 import FieldComboBox from "@/components/FieldComboBox.vue";
 import FieldDisplay from "@/components/FieldDisplay.vue";
 import FieldNumber from "@/components/FieldNumber.vue";
-import { findRecordByName } from "@/enums/helper";
+import { findRecord } from "@/enums/helper";
 import { Items } from "@/enums/zelda/Items";
 import { Enemies } from "@/enums/zelda/NPCs";
 import { ScreenTemplates } from "@/enums/zelda/ScreenTemplates";
@@ -295,6 +291,7 @@ import { ZeldaScreen } from "@/models/ZeldaScreen";
 import { ZeldaTileCell } from "@/models/ZeldaTileCell";
 import { makeArray } from "@/utils/common";
 import { provideCellCopy } from "@/views/zeldaWorldBuilder/cellCopy";
+import FieldWorldColors from "@/views/zeldaWorldBuilder/FieldWorldColors.vue";
 import TileGrid from "@/views/zeldaWorldBuilder/TileGrid.vue";
 
 /**
@@ -334,7 +331,7 @@ function addGridRecord(config = {}) {
 }
 
 function getCellColor() {
-	const found = findRecordByName(WorldColors, gridRecord.value.GroundColor);
+	const found = findRecord(WorldColors, gridRecord.value.GroundColor);
 	if (found === WorldColorsNone || !found) {
 		return "";
 	}
@@ -356,13 +353,11 @@ function onReplaceCell({ indices, replacement }: { indices: number | number[], r
 	indices.forEach((idx) => {
 		const record = gridRecord.value.cells[idx];
 		const clone = replacement.clone({
-			exclude: ["grid", "Coordinates"],
+			options: {
+				init: true,
+			},
 		});
-		clone.set({
-			Coordinates: record.Coordinates,
-			grid: record.grid,
-		});
-		clone.init();
+		clone.Coordinates = record.Coordinates;
 		gridRecord.value.cells[idx] = clone;
 	});
 }

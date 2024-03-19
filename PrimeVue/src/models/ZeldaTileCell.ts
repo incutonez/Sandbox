@@ -1,9 +1,9 @@
 ﻿import { IsArray, IsString } from "class-validator";
 import { IsRequired, ModelTransform } from "@/models/decorators";
-import { ViewModel } from "@/models/ViewModel";
+import { Parent, ViewModel } from "@/models/ViewModel";
 import { ZeldaEnemy } from "@/models/ZeldaEnemy";
 import { ZeldaItem } from "@/models/ZeldaItem";
-import { ILoadData, ZeldaScreen } from "@/models/ZeldaScreen";
+import { ILoadData } from "@/models/ZeldaScreen";
 import { ZeldaTile } from "@/models/ZeldaTile";
 
 export class ZeldaTileCell extends ViewModel {
@@ -13,9 +13,6 @@ export class ZeldaTileCell extends ViewModel {
   @IsRequired()
   @IsString()
   Name = "";
-
-  @ModelTransform(() => ZeldaScreen)
-  grid?: ZeldaScreen;
 
 	@ModelTransform(() => ZeldaTile)
 	tile = ZeldaTile.create();
@@ -36,8 +33,10 @@ export class ZeldaTileCell extends ViewModel {
   	this.tile.reset();
 	}
 
+	/* TODO: Potentially don't lean on there being a parent and just return the x, y coords as a string and
+	 * have the grid do a lookup to find that cell with that string key */
 	getIndex() {
-  	return this.grid?.cells.indexOf(this);
+  	return this[Parent]?.cells.indexOf(this);
 	}
 
 	get id() {

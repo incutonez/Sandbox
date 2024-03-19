@@ -1,132 +1,158 @@
 import { IZeldaEnum } from "@/types/components";
 
 export const FXArrowBoomerang: IZeldaEnum = {
-	name: "FXArrowBoomerang",
+	displayName: "Arrow Boomerang",
+	name: "ArrowBoomerang",
 	id: 0,
 };
 
 export const FXBombBlow: IZeldaEnum = {
-	name: "FXBombBlow",
+	displayName: "Bomb Blow",
+	name: "BombBlow",
 	id: 1,
 };
 
 export const FXBombDrop: IZeldaEnum = {
-	name: "FXBombDrop",
+	displayName: "Bomb Drop",
+	name: "BombDrop",
 	id: 2,
 };
 
 export const FXBossManhandlaDigdoggerPatra: IZeldaEnum = {
-	name: "FXBossManhandlaDigdoggerPatra",
+	displayName: "Boss Manhandla Digdogger Patra",
+	name: "BossManhandlaDigdoggerPatra",
 	id: 3,
 };
 
 export const FXBossDragonGanon: IZeldaEnum = {
-	name: "FXBossDragonGanon",
+	displayName: "Boss Dragon Ganon",
+	name: "BossDragonGanon",
 	id: 4,
 };
 
 export const FXBossDodongoGohma: IZeldaEnum = {
-	name: "FXBossDodongoGohma",
+	displayName: "Boss Dodongo Gohma",
+	name: "BossDodongoGohma",
 	id: 5,
 };
 
 export const FXBossHurt: IZeldaEnum = {
-	name: "FXBossHurt",
+	displayName: "Boss Hurt",
+	name: "BossHurt",
 	id: 6,
 };
 
 export const FXDoorUnlock: IZeldaEnum = {
-	name: "FXDoorUnlock",
+	displayName: "Door Unlock",
+	name: "DoorUnlock",
 	id: 7,
 };
 
 export const FXEnemyDie: IZeldaEnum = {
-	name: "FXEnemyDie",
+	displayName: "Enemy Die",
+	name: "EnemyDie",
 	id: 8,
 };
 
 export const FXEnemyHurt: IZeldaEnum = {
-	name: "FXEnemyHurt",
+	displayName: "Enemy Hurt",
+	name: "EnemyHurt",
 	id: 9,
 };
 
 export const FXFire: IZeldaEnum = {
-	name: "FXFire",
+	displayName: "Fire",
+	name: "Fire",
 	id: 10,
 };
 
 export const FXFlute: IZeldaEnum = {
-	name: "FXFlute",
+	displayName: "Flute",
+	name: "Flute",
 	id: 11,
 };
 
 export const FXHealthLow: IZeldaEnum = {
-	name: "FXHealthLow",
+	displayName: "Health Low",
+	name: "HealthLow",
 	id: 12,
 };
 
 export const FXHeartPickup: IZeldaEnum = {
-	name: "FXHeartPickup",
+	displayName: "Heart Pickup",
+	name: "HeartPickup",
 	id: 13,
 };
 
 export const FXItemAppear: IZeldaEnum = {
-	name: "FXItemAppear",
+	displayName: "Item Appear",
+	name: "ItemAppear",
 	id: 14,
 };
 
 export const FXItemFanfare: IZeldaEnum = {
-	name: "FXItemFanfare",
+	displayName: "Item Fanfare",
+	name: "ItemFanfare",
 	id: 15,
 };
 
 export const FXItemPickup: IZeldaEnum = {
-	name: "FXItemPickup",
+	displayName: "Item Pickup",
+	name: "ItemPickup",
 	id: 16,
 };
 
 export const FXMagic: IZeldaEnum = {
-	name: "FXMagic",
+	displayName: "Magic",
+	name: "Magic",
 	id: 17,
 };
 
 export const FXRupee: IZeldaEnum = {
-	name: "FXRupee",
+	displayName: "Rupee",
+	name: "Rupee",
 	id: 18,
 };
 
 export const FXSecretAppear: IZeldaEnum = {
-	name: "FXSecretAppear",
+	displayName: "Secret Appear",
+	name: "SecretAppear",
 	id: 19,
 };
 
 export const FXShield: IZeldaEnum = {
-	name: "FXShield",
+	displayName: "Shield",
+	name: "Shield",
 	id: 20,
 };
 
 export const FXShore: IZeldaEnum = {
-	name: "FXShore",
+	displayName: "Shore",
+	name: "Shore",
 	id: 21,
 };
 
 export const FXStairs: IZeldaEnum = {
-	name: "FXStairs",
+	displayName: "Stairs",
+	name: "Stairs",
 	id: 22,
 };
 
 export const FXSwordShoot: IZeldaEnum = {
-	name: "FXSwordShoot",
+	displayName: "Sword Shoot",
+	name: "SwordShoot",
 	id: 23,
 };
 
 export const FXSwordSlash: IZeldaEnum = {
-	name: "FXSwordSlash",
+	displayName: "Sword Slash",
+	name: "SwordSlash",
 	id: 24,
 };
 
 export const FXText: IZeldaEnum = {
-	name: "FXText",
+	displayName: "Text",
+	name: "Text",
 	id: 25,
 };
 
@@ -160,37 +186,44 @@ export const FX: IZeldaEnum[] = [
 ];
 
 export const MusicCastle: IZeldaEnum = {
-	name: "MusicCastle",
+	displayName: "Castle",
+	name: "Castle",
 	id: 0,
 };
 
 export const MusicEnding: IZeldaEnum = {
-	name: "MusicEnding",
+	displayName: "Ending",
+	name: "Ending",
 	id: 1,
 };
 
 export const MusicFinalCastle: IZeldaEnum = {
-	name: "MusicFinalCastle",
+	displayName: "Final Castle",
+	name: "FinalCastle",
 	id: 2,
 };
 
 export const MusicGameOver: IZeldaEnum = {
-	name: "MusicGameOver",
+	displayName: "Game Over",
+	name: "GameOver",
 	id: 3,
 };
 
 export const MusicGanonAppear: IZeldaEnum = {
-	name: "MusicGanonAppear",
+	displayName: "Ganon Appear",
+	name: "GanonAppear",
 	id: 4,
 };
 
 export const MusicIntro: IZeldaEnum = {
-	name: "MusicIntro",
+	displayName: "Intro",
+	name: "Intro",
 	id: 5,
 };
 
 export const MusicOverworld: IZeldaEnum = {
-	name: "MusicOverworld",
+	displayName: "Overworld",
+	name: "Overworld",
 	id: 6,
 };
 

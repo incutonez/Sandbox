@@ -40,6 +40,7 @@ import { default as ImageTilesSandCenterRight } from "@/assets/zelda/Tiles/SandC
 import { default as ImageTilesSandTop } from "@/assets/zelda/Tiles/SandTop.png";
 import { default as ImageTilesSandTopLeft } from "@/assets/zelda/Tiles/SandTopLeft.png";
 import { default as ImageTilesSandTopRight } from "@/assets/zelda/Tiles/SandTopRight.png";
+import { default as ImageTilesSolidColor } from "@/assets/zelda/Tiles/SolidColor.png";
 import { default as ImageTilesStairsDown } from "@/assets/zelda/Tiles/StairsDown.png";
 import { default as ImageTilesStairsKeep } from "@/assets/zelda/Tiles/StairsKeep.png";
 import { default as ImageTilesStairsUp } from "@/assets/zelda/Tiles/StairsUp.png";
@@ -76,471 +77,551 @@ import { default as ImageTilesWaterTopRight } from "@/assets/zelda/Tiles/WaterTo
 import { IZeldaEnum } from "@/types/components";
 
 export const TilesBlock: IZeldaEnum = {
-	name: "TilesBlock",
+	displayName: "Block",
+	name: "Block",
 	id: 0,
 	imageSrc: ImageTilesBlock,
 };
 
 export const TilesBush: IZeldaEnum = {
-	name: "TilesBush",
+	displayName: "Bush",
+	name: "Bush",
 	id: 1,
 	imageSrc: ImageTilesBush,
 };
 
 export const TilesCastle: IZeldaEnum = {
-	name: "TilesCastle",
+	displayName: "Castle",
+	name: "Castle",
 	id: 2,
 };
 
 export const TilesCastleBottomLeft: IZeldaEnum = {
-	name: "TilesCastleBottomLeft",
+	displayName: "Castle Bottom Left",
+	name: "CastleBottomLeft",
 	id: 3,
 	imageSrc: ImageTilesCastleBottomLeft,
 };
 
 export const TilesCastleBottomRight: IZeldaEnum = {
-	name: "TilesCastleBottomRight",
+	displayName: "Castle Bottom Right",
+	name: "CastleBottomRight",
 	id: 4,
 	imageSrc: ImageTilesCastleBottomRight,
 };
 
 export const TilesCastleSand: IZeldaEnum = {
-	name: "TilesCastleSand",
+	displayName: "Castle Sand",
+	name: "CastleSand",
 	id: 5,
 	imageSrc: ImageTilesCastleSand,
 };
 
 export const TilesCastleTop: IZeldaEnum = {
-	name: "TilesCastleTop",
+	displayName: "Castle Top",
+	name: "CastleTop",
 	id: 6,
 	imageSrc: ImageTilesCastleTop,
 };
 
 export const TilesCastleTopAlt: IZeldaEnum = {
-	name: "TilesCastleTopAlt",
+	displayName: "Castle Top Alt",
+	name: "CastleTopAlt",
 	id: 7,
 	imageSrc: ImageTilesCastleTopAlt,
 };
 
 export const TilesCastleTopLeft: IZeldaEnum = {
-	name: "TilesCastleTopLeft",
+	displayName: "Castle Top Left",
+	name: "CastleTopLeft",
 	id: 8,
 	imageSrc: ImageTilesCastleTopLeft,
 };
 
 export const TilesCastleTopLeftAlt: IZeldaEnum = {
-	name: "TilesCastleTopLeftAlt",
+	displayName: "Castle Top Left Alt",
+	name: "CastleTopLeftAlt",
 	id: 9,
 	imageSrc: ImageTilesCastleTopLeftAlt,
 };
 
 export const TilesCastleTopRight: IZeldaEnum = {
-	name: "TilesCastleTopRight",
+	displayName: "Castle Top Right",
+	name: "CastleTopRight",
 	id: 10,
 	imageSrc: ImageTilesCastleTopRight,
 };
 
 export const TilesCastleTopRightAlt: IZeldaEnum = {
-	name: "TilesCastleTopRightAlt",
+	displayName: "Castle Top Right Alt",
+	name: "CastleTopRightAlt",
 	id: 11,
 	imageSrc: ImageTilesCastleTopRightAlt,
 };
 
 export const TilesDock: IZeldaEnum = {
-	name: "TilesDock",
+	displayName: "Dock",
+	name: "Dock",
 	id: 12,
 	imageSrc: ImageTilesDock,
 };
 
 export const TilesDoor: IZeldaEnum = {
-	name: "TilesDoor",
+	displayName: "Door",
+	name: "Door",
 	id: 13,
 	imageSrc: ImageTilesDoor,
 };
 
 export const TilesDoorClosedX: IZeldaEnum = {
-	name: "TilesDoorClosedX",
+	displayName: "Door Closed X",
+	name: "DoorClosedX",
 	id: 14,
 	imageSrc: ImageTilesDoorClosedX,
 };
 
 export const TilesDoorClosedY: IZeldaEnum = {
-	name: "TilesDoorClosedY",
+	displayName: "Door Closed Y",
+	name: "DoorClosedY",
 	id: 15,
 	imageSrc: ImageTilesDoorClosedY,
 };
 
 export const TilesDoorLockedX: IZeldaEnum = {
-	name: "TilesDoorLockedX",
+	displayName: "Door Locked X",
+	name: "DoorLockedX",
 	id: 16,
 	imageSrc: ImageTilesDoorLockedX,
 };
 
 export const TilesDoorLockedY: IZeldaEnum = {
-	name: "TilesDoorLockedY",
+	displayName: "Door Locked Y",
+	name: "DoorLockedY",
 	id: 17,
 	imageSrc: ImageTilesDoorLockedY,
 };
 
 export const TilesDoorUnlockedX: IZeldaEnum = {
-	name: "TilesDoorUnlockedX",
+	displayName: "Door Unlocked X",
+	name: "DoorUnlockedX",
 	id: 18,
 	imageSrc: ImageTilesDoorUnlockedX,
 };
 
 export const TilesDoorUnlockedY: IZeldaEnum = {
-	name: "TilesDoorUnlockedY",
+	displayName: "Door Unlocked Y",
+	name: "DoorUnlockedY",
 	id: 19,
 	imageSrc: ImageTilesDoorUnlockedY,
 };
 
 export const TilesFire: IZeldaEnum = {
-	name: "TilesFire",
+	displayName: "Fire",
+	name: "Fire",
 	id: 20,
 	imageSrc: ImageTilesFire,
 };
 
 export const TilesFireAlt: IZeldaEnum = {
-	name: "TilesFireAlt",
+	displayName: "Fire Alt",
+	name: "FireAlt",
 	id: 21,
 	imageSrc: ImageTilesFireAlt,
 };
 
 export const TilesGrave: IZeldaEnum = {
-	name: "TilesGrave",
+	displayName: "Grave",
+	name: "Grave",
 	id: 22,
 	imageSrc: ImageTilesGrave,
 };
 
 export const TilesGroundTile: IZeldaEnum = {
-	name: "TilesGroundTile",
+	displayName: "Ground Tile",
+	name: "GroundTile",
 	id: 23,
 	imageSrc: ImageTilesGroundTile,
 };
 
 export const TilesNone: IZeldaEnum = {
-	name: "TilesNone",
+	displayName: "None",
+	name: "None",
 	id: 24,
 };
 
 export const TilesPondBottom: IZeldaEnum = {
-	name: "TilesPondBottom",
+	displayName: "Pond Bottom",
+	name: "PondBottom",
 	id: 25,
 	imageSrc: ImageTilesPondBottom,
 };
 
 export const TilesPondBottomLeft: IZeldaEnum = {
-	name: "TilesPondBottomLeft",
+	displayName: "Pond Bottom Left",
+	name: "PondBottomLeft",
 	id: 26,
 	imageSrc: ImageTilesPondBottomLeft,
 };
 
 export const TilesPondBottomRight: IZeldaEnum = {
-	name: "TilesPondBottomRight",
+	displayName: "Pond Bottom Right",
+	name: "PondBottomRight",
 	id: 27,
 	imageSrc: ImageTilesPondBottomRight,
 };
 
 export const TilesPondCenter: IZeldaEnum = {
-	name: "TilesPondCenter",
+	displayName: "Pond Center",
+	name: "PondCenter",
 	id: 28,
 	imageSrc: ImageTilesPondCenter,
 };
 
 export const TilesPondCenterLeft: IZeldaEnum = {
-	name: "TilesPondCenterLeft",
+	displayName: "Pond Center Left",
+	name: "PondCenterLeft",
 	id: 29,
 	imageSrc: ImageTilesPondCenterLeft,
 };
 
 export const TilesPondCenterRight: IZeldaEnum = {
-	name: "TilesPondCenterRight",
+	displayName: "Pond Center Right",
+	name: "PondCenterRight",
 	id: 30,
 	imageSrc: ImageTilesPondCenterRight,
 };
 
 export const TilesPondTop: IZeldaEnum = {
-	name: "TilesPondTop",
+	displayName: "Pond Top",
+	name: "PondTop",
 	id: 31,
 	imageSrc: ImageTilesPondTop,
 };
 
 export const TilesPondTopLeft: IZeldaEnum = {
-	name: "TilesPondTopLeft",
+	displayName: "Pond Top Left",
+	name: "PondTopLeft",
 	id: 32,
 	imageSrc: ImageTilesPondTopLeft,
 };
 
 export const TilesPondTopRight: IZeldaEnum = {
-	name: "TilesPondTopRight",
+	displayName: "Pond Top Right",
+	name: "PondTopRight",
 	id: 33,
 	imageSrc: ImageTilesPondTopRight,
 };
 
 export const TilesRock: IZeldaEnum = {
-	name: "TilesRock",
+	displayName: "Rock",
+	name: "Rock",
 	id: 34,
 	imageSrc: ImageTilesRock,
 };
 
 export const TilesSandBottom: IZeldaEnum = {
-	name: "TilesSandBottom",
+	displayName: "Sand Bottom",
+	name: "SandBottom",
 	id: 35,
 	imageSrc: ImageTilesSandBottom,
 };
 
 export const TilesSandBottomLeft: IZeldaEnum = {
-	name: "TilesSandBottomLeft",
+	displayName: "Sand Bottom Left",
+	name: "SandBottomLeft",
 	id: 36,
 	imageSrc: ImageTilesSandBottomLeft,
 };
 
 export const TilesSandBottomRight: IZeldaEnum = {
-	name: "TilesSandBottomRight",
+	displayName: "Sand Bottom Right",
+	name: "SandBottomRight",
 	id: 37,
 	imageSrc: ImageTilesSandBottomRight,
 };
 
 export const TilesSandCenter: IZeldaEnum = {
-	name: "TilesSandCenter",
+	displayName: "Sand Center",
+	name: "SandCenter",
 	id: 38,
 	imageSrc: ImageTilesSandCenter,
 };
 
 export const TilesSandCenterLeft: IZeldaEnum = {
-	name: "TilesSandCenterLeft",
+	displayName: "Sand Center Left",
+	name: "SandCenterLeft",
 	id: 39,
 	imageSrc: ImageTilesSandCenterLeft,
 };
 
 export const TilesSandCenterRight: IZeldaEnum = {
-	name: "TilesSandCenterRight",
+	displayName: "Sand Center Right",
+	name: "SandCenterRight",
 	id: 40,
 	imageSrc: ImageTilesSandCenterRight,
 };
 
 export const TilesSandTop: IZeldaEnum = {
-	name: "TilesSandTop",
+	displayName: "Sand Top",
+	name: "SandTop",
 	id: 41,
 	imageSrc: ImageTilesSandTop,
 };
 
 export const TilesSandTopLeft: IZeldaEnum = {
-	name: "TilesSandTopLeft",
+	displayName: "Sand Top Left",
+	name: "SandTopLeft",
 	id: 42,
 	imageSrc: ImageTilesSandTopLeft,
 };
 
 export const TilesSandTopRight: IZeldaEnum = {
-	name: "TilesSandTopRight",
+	displayName: "Sand Top Right",
+	name: "SandTopRight",
 	id: 43,
 	imageSrc: ImageTilesSandTopRight,
 };
 
 export const TilesSolidColor: IZeldaEnum = {
-	name: "TilesSolidColor",
+	displayName: "Solid Color",
+	name: "SolidColor",
 	id: 44,
+	imageSrc: ImageTilesSolidColor,
 };
 
 export const TilesStairsDown: IZeldaEnum = {
-	name: "TilesStairsDown",
+	displayName: "Stairs Down",
+	name: "StairsDown",
 	id: 45,
 	imageSrc: ImageTilesStairsDown,
 };
 
 export const TilesStairsKeep: IZeldaEnum = {
-	name: "TilesStairsKeep",
+	displayName: "Stairs Keep",
+	name: "StairsKeep",
 	id: 46,
 	imageSrc: ImageTilesStairsKeep,
 };
 
 export const TilesStairsUp: IZeldaEnum = {
-	name: "TilesStairsUp",
+	displayName: "Stairs Up",
+	name: "StairsUp",
 	id: 47,
 	imageSrc: ImageTilesStairsUp,
 };
 
 export const TilesStatue: IZeldaEnum = {
-	name: "TilesStatue",
+	displayName: "Statue",
+	name: "Statue",
 	id: 48,
 	imageSrc: ImageTilesStatue,
 };
 
 export const TilesStatue1: IZeldaEnum = {
-	name: "TilesStatue1",
+	displayName: "Statue 1",
+	name: "Statue1",
 	id: 49,
 	imageSrc: ImageTilesStatue1,
 };
 
 export const TilesStatue2: IZeldaEnum = {
-	name: "TilesStatue2",
+	displayName: "Statue 2",
+	name: "Statue2",
 	id: 50,
 	imageSrc: ImageTilesStatue2,
 };
 
 export const TilesTransition: IZeldaEnum = {
-	name: "TilesTransition",
+	displayName: "Transition",
+	name: "Transition",
 	id: 51,
 };
 
 export const TilesTreeBottomLeft: IZeldaEnum = {
-	name: "TilesTreeBottomLeft",
+	displayName: "Tree Bottom Left",
+	name: "TreeBottomLeft",
 	id: 52,
 	imageSrc: ImageTilesTreeBottomLeft,
 };
 
 export const TilesTreeBottomRight: IZeldaEnum = {
-	name: "TilesTreeBottomRight",
+	displayName: "Tree Bottom Right",
+	name: "TreeBottomRight",
 	id: 53,
 	imageSrc: ImageTilesTreeBottomRight,
 };
 
 export const TilesTreeTop: IZeldaEnum = {
-	name: "TilesTreeTop",
+	displayName: "Tree Top",
+	name: "TreeTop",
 	id: 54,
 	imageSrc: ImageTilesTreeTop,
 };
 
 export const TilesTreeTopLeft: IZeldaEnum = {
-	name: "TilesTreeTopLeft",
+	displayName: "Tree Top Left",
+	name: "TreeTopLeft",
 	id: 55,
 	imageSrc: ImageTilesTreeTopLeft,
 };
 
 export const TilesTreeTopRight: IZeldaEnum = {
-	name: "TilesTreeTopRight",
+	displayName: "Tree Top Right",
+	name: "TreeTopRight",
 	id: 56,
 	imageSrc: ImageTilesTreeTopRight,
 };
 
 export const TilesWallBottom: IZeldaEnum = {
-	name: "TilesWallBottom",
+	displayName: "Wall Bottom",
+	name: "WallBottom",
 	id: 57,
 	imageSrc: ImageTilesWallBottom,
 };
 
 export const TilesWallBottomLeft: IZeldaEnum = {
-	name: "TilesWallBottomLeft",
+	displayName: "Wall Bottom Left",
+	name: "WallBottomLeft",
 	id: 58,
 	imageSrc: ImageTilesWallBottomLeft,
 };
 
 export const TilesWallBottomRight: IZeldaEnum = {
-	name: "TilesWallBottomRight",
+	displayName: "Wall Bottom Right",
+	name: "WallBottomRight",
 	id: 59,
 	imageSrc: ImageTilesWallBottomRight,
 };
 
 export const TilesWallHoleX: IZeldaEnum = {
-	name: "TilesWallHoleX",
+	displayName: "Wall Hole X",
+	name: "WallHoleX",
 	id: 60,
 	imageSrc: ImageTilesWallHoleX,
 };
 
 export const TilesWallHoleY: IZeldaEnum = {
-	name: "TilesWallHoleY",
+	displayName: "Wall Hole Y",
+	name: "WallHoleY",
 	id: 61,
 	imageSrc: ImageTilesWallHoleY,
 };
 
 export const TilesWallKeep: IZeldaEnum = {
-	name: "TilesWallKeep",
+	displayName: "Wall Keep",
+	name: "WallKeep",
 	id: 62,
 	imageSrc: ImageTilesWallKeep,
 };
 
 export const TilesWallLeftX: IZeldaEnum = {
-	name: "TilesWallLeftX",
+	displayName: "Wall Left X",
+	name: "WallLeftX",
 	id: 63,
 	imageSrc: ImageTilesWallLeftX,
 };
 
 export const TilesWallLeftY: IZeldaEnum = {
-	name: "TilesWallLeftY",
+	displayName: "Wall Left Y",
+	name: "WallLeftY",
 	id: 64,
 	imageSrc: ImageTilesWallLeftY,
 };
 
 export const TilesWallLeftYFlip: IZeldaEnum = {
-	name: "TilesWallLeftYFlip",
+	displayName: "Wall Left Y Flip",
+	name: "WallLeftYFlip",
 	id: 65,
 	imageSrc: ImageTilesWallLeftYFlip,
 };
 
 export const TilesWallRightX: IZeldaEnum = {
-	name: "TilesWallRightX",
+	displayName: "Wall Right X",
+	name: "WallRightX",
 	id: 66,
 	imageSrc: ImageTilesWallRightX,
 };
 
 export const TilesWallRightY: IZeldaEnum = {
-	name: "TilesWallRightY",
+	displayName: "Wall Right Y",
+	name: "WallRightY",
 	id: 67,
 	imageSrc: ImageTilesWallRightY,
 };
 
 export const TilesWallRightYFlip: IZeldaEnum = {
-	name: "TilesWallRightYFlip",
+	displayName: "Wall Right Y Flip",
+	name: "WallRightYFlip",
 	id: 68,
 	imageSrc: ImageTilesWallRightYFlip,
 };
 
 export const TilesWallTop: IZeldaEnum = {
-	name: "TilesWallTop",
+	displayName: "Wall Top",
+	name: "WallTop",
 	id: 69,
 	imageSrc: ImageTilesWallTop,
 };
 
 export const TilesWallTopLeft: IZeldaEnum = {
-	name: "TilesWallTopLeft",
+	displayName: "Wall Top Left",
+	name: "WallTopLeft",
 	id: 70,
 	imageSrc: ImageTilesWallTopLeft,
 };
 
 export const TilesWallTopRight: IZeldaEnum = {
-	name: "TilesWallTopRight",
+	displayName: "Wall Top Right",
+	name: "WallTopRight",
 	id: 71,
 	imageSrc: ImageTilesWallTopRight,
 };
 
 export const TilesWallX: IZeldaEnum = {
-	name: "TilesWallX",
+	displayName: "Wall X",
+	name: "WallX",
 	id: 72,
 	imageSrc: ImageTilesWallX,
 };
 
 export const TilesWallY: IZeldaEnum = {
-	name: "TilesWallY",
+	displayName: "Wall Y",
+	name: "WallY",
 	id: 73,
 	imageSrc: ImageTilesWallY,
 };
 
 export const TilesWater: IZeldaEnum = {
-	name: "TilesWater",
+	displayName: "Water",
+	name: "Water",
 	id: 74,
 	imageSrc: ImageTilesWater,
 };
 
 export const TilesWaterBottomLeft: IZeldaEnum = {
-	name: "TilesWaterBottomLeft",
+	displayName: "Water Bottom Left",
+	name: "WaterBottomLeft",
 	id: 75,
 	imageSrc: ImageTilesWaterBottomLeft,
 };
 
 export const TilesWaterBottomRight: IZeldaEnum = {
-	name: "TilesWaterBottomRight",
+	displayName: "Water Bottom Right",
+	name: "WaterBottomRight",
 	id: 76,
 	imageSrc: ImageTilesWaterBottomRight,
 };
 
 export const TilesWaterTopLeft: IZeldaEnum = {
-	name: "TilesWaterTopLeft",
+	displayName: "Water Top Left",
+	name: "WaterTopLeft",
 	id: 77,
 	imageSrc: ImageTilesWaterTopLeft,
 };
 
 export const TilesWaterTopRight: IZeldaEnum = {
-	name: "TilesWaterTopRight",
+	displayName: "Water Top Right",
+	name: "WaterTopRight",
 	id: 78,
 	imageSrc: ImageTilesWaterTopRight,
 };

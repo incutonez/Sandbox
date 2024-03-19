@@ -205,9 +205,6 @@ export interface IZeldaTileMeta {
 
 // TODOJEF: This class shares a lot with ZeldaWorldObject, so we should consider refactoring to use that
 export class ZeldaTile extends ViewModel {
-	@IsObject()
-	image = document.createElement("img");
-
 	@IsString()
 	src? = "";
 
@@ -216,7 +213,7 @@ export class ZeldaTile extends ViewModel {
 
 	// TODOJEF: Make this a proper enum?
 	@IsObject()
-	type: IZeldaEnum = TilesNone;
+	type: IZeldaEnum = {};
 
 	@IsArray()
 	@ModelTransform(() => ZeldaTargetColor)
@@ -279,7 +276,7 @@ export class ZeldaTile extends ViewModel {
 	}
 
 	hasImage() {
-		return this.Type !== TilesNone;
+		return !(isEmpty(this.Type) || this.Type.id === TilesNone.id);
 	}
 
 	async updateImage() {

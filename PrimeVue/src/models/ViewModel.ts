@@ -1,10 +1,10 @@
 import "reflect-metadata";
 import { ResponseListEntity } from "@incutonez/api-spec/dist";
-import { ClassTransformOptions, instanceToPlain, plainToInstance } from "class-transformer";
+import { ClassTransformOptions, plainToInstance } from "class-transformer";
 import { validate, ValidatorOptions } from "class-validator";
 import { unset } from "lodash-es";
 import { isListResponse } from "@/utils/api";
-import { getObjectValue, isEmpty } from "@/utils/common";
+import { getObjectValue, isEmpty, isObject } from "@/utils/common";
 
 // Taken from https://github.com/microsoft/TypeScript/issues/42896#issuecomment-782754005
 export type DeepPartial<T> = {
@@ -34,13 +34,33 @@ export const IsModel = Symbol("isModel");
 
 export const Parent = Symbol("parent");
 
+const Visited = Symbol("visited");
 const LastKeyRegex = /\.(?=[^.]+$)/;
+
+function isModel(value: any): value is ViewModel {
+	return value?.[IsModel];
+}
+
+function getValue(item: any, options: IModelGetOptions): any {
+	if (isModel(item)) {
+		return item.get(options);
+	}
+	else if (Array.isArray(item)) {
+		return item.map((subItem) => getValue(subItem, options));
+	}
+	// If we're dealing with a plain old object, just clone it the old fashion way
+	else if (isObject(item)) {
+		return JSON.parse(JSON.stringify(item));
+	}
+	return item;
+}
 
 export class ViewModel {
 	static [IsModel] = true;
 	[IsNew] = true;
 	[IsModel] = true;
 	[Parent]?: any;
+	[Visited] = false;
 
 	static create<T extends ViewModel>(this: new () => T, data = {} as DeepPartial<T>, options: IModelOptions = {}) {
 		const record = new this();
@@ -85,9 +105,19 @@ export class ViewModel {
 		return response.length === 0;
 	}
 
-	get<T = any>(options: IModelGetOptions = {}): T {
-		const data = instanceToPlain(this, options) as T;
+	get<T = any>(options: IModelGetOptions = {}) {
+		if (this[Visited]) {
+			return;
+		}
+		options.ignoreDecorators = true;
+		const data = {};
+		// const data = instanceToPlain(this, options) as T;
 		const { exclude = [] } = options;
+		this[Visited] = true;
+		for (const key in this) {
+			const item = this[key];
+			Reflect.set(data, key, getValue(item, options));
+		}
 		exclude.forEach((field) => {
 			if (field.includes(".")) {
 				const [parentKey, key] = field.split(LastKeyRegex);
@@ -103,8 +133,8 @@ export class ViewModel {
 					}
 				}
 				// TODO: What about Set/Map?
-				else if (value instanceof Object) {
-					delete value[key];
+				else if (isObject(value)) {
+					delete value[key as keyof typeof value];
 				}
 				// If our object is now empty because that was the last property, let's just remove it from the array
 				if (isEmpty(value)) {
@@ -116,7 +146,8 @@ export class ViewModel {
 				delete data[field as keyof typeof data];
 			}
 		});
-		return data;
+		this[Visited] = false;
+		return data as T;
 	}
 
 	set(data: DeepPartial<this>) {
@@ -137,8 +168,8 @@ export class ViewModel {
 		}
 	}
 
-	clone(options: IModelGetOptions = {}) {
-		return (this.constructor as typeof ViewModel).create(this.get(options)) as typeof this;
+	clone({ options, getOptions }: {options?: IModelOptions, getOptions?: IModelGetOptions} = {}) {
+		return (this.constructor as typeof ViewModel).create(this.get(getOptions), options) as typeof this;
 	}
 
 	clear() {

@@ -42,247 +42,288 @@ import { default as ImageItemsWand } from "@/assets/zelda/Items/Wand.png";
 import { IZeldaEnum } from "@/types/components";
 
 export const ItemsNone: IZeldaEnum = {
-	name: "ItemsNone",
+	displayName: "None",
+	name: "None",
 	id: 0,
 	imageSrc: ImageItemsNone,
 };
 
 export const ItemsArrow: IZeldaEnum = {
-	name: "ItemsArrow",
+	displayName: "Arrow",
+	name: "Arrow",
 	id: 1,
 	imageSrc: ImageItemsArrow,
 };
 
 export const ItemsArrowSilver: IZeldaEnum = {
-	name: "ItemsArrowSilver",
+	displayName: "Arrow Silver",
+	name: "ArrowSilver",
 	id: 2,
 	imageSrc: ImageItemsArrowSilver,
 };
 
 export const ItemsBomb: IZeldaEnum = {
-	name: "ItemsBomb",
+	displayName: "Bomb",
+	name: "Bomb",
 	id: 3,
 	imageSrc: ImageItemsBomb,
 };
 
 export const ItemsBoomerang: IZeldaEnum = {
-	name: "ItemsBoomerang",
+	displayName: "Boomerang",
+	name: "Boomerang",
 	id: 4,
 	imageSrc: ImageItemsBoomerang,
 };
 
 export const ItemsBoomerangMagical: IZeldaEnum = {
-	name: "ItemsBoomerangMagical",
+	displayName: "Boomerang Magical",
+	name: "BoomerangMagical",
 	id: 5,
 	imageSrc: ImageItemsBoomerangMagical,
 };
 
 export const ItemsBow: IZeldaEnum = {
-	name: "ItemsBow",
+	displayName: "Bow",
+	name: "Bow",
 	id: 6,
 	imageSrc: ImageItemsBow,
 };
 
 export const ItemsCandle: IZeldaEnum = {
-	name: "ItemsCandle",
+	displayName: "Candle",
+	name: "Candle",
 	id: 7,
 	imageSrc: ImageItemsCandle,
 };
 
 export const ItemsCandleRed: IZeldaEnum = {
-	name: "ItemsCandleRed",
+	displayName: "Candle Red",
+	name: "CandleRed",
 	id: 8,
 	imageSrc: ImageItemsCandleRed,
 };
 
 export const ItemsClock: IZeldaEnum = {
-	name: "ItemsClock",
+	displayName: "Clock",
+	name: "Clock",
 	id: 9,
 	imageSrc: ImageItemsClock,
 };
 
 export const ItemsCompass: IZeldaEnum = {
-	name: "ItemsCompass",
+	displayName: "Compass",
+	name: "Compass",
 	id: 10,
 	imageSrc: ImageItemsCompass,
 };
 
 export const ItemsFlute: IZeldaEnum = {
-	name: "ItemsFlute",
+	displayName: "Flute",
+	name: "Flute",
 	id: 11,
 	imageSrc: ImageItemsFlute,
 };
 
 export const ItemsFood: IZeldaEnum = {
-	name: "ItemsFood",
+	displayName: "Food",
+	name: "Food",
 	id: 12,
 	imageSrc: ImageItemsFood,
 };
 
 export const ItemsHeart: IZeldaEnum = {
-	name: "ItemsHeart",
+	displayName: "Heart",
+	name: "Heart",
 	id: 13,
 	imageSrc: ImageItemsHeart,
 };
 
 export const ItemsHeartHalf: IZeldaEnum = {
-	name: "ItemsHeartHalf",
+	displayName: "Heart Half",
+	name: "HeartHalf",
 	id: 130,
 	imageSrc: ImageItemsHeartHalf,
 };
 
 export const ItemsHeartEmpty: IZeldaEnum = {
-	name: "ItemsHeartEmpty",
+	displayName: "Heart Empty",
+	name: "HeartEmpty",
 	id: 131,
 	imageSrc: ImageItemsHeartEmpty,
 };
 
 export const ItemsHeartAlt: IZeldaEnum = {
-	name: "ItemsHeartAlt",
+	displayName: "Heart Alt",
+	name: "HeartAlt",
 	id: 133,
 	imageSrc: ImageItemsHeartAlt,
 };
 
 export const ItemsHeartContainer: IZeldaEnum = {
-	name: "ItemsHeartContainer",
+	displayName: "Heart Container",
+	name: "HeartContainer",
 	id: 14,
 	imageSrc: ImageItemsHeartContainer,
 };
 
 export const ItemsKey: IZeldaEnum = {
-	name: "ItemsKey",
+	displayName: "Key",
+	name: "Key",
 	id: 15,
 	imageSrc: ImageItemsKey,
 };
 
 export const ItemsKeySkeleton: IZeldaEnum = {
-	name: "ItemsKeySkeleton",
+	displayName: "Key Skeleton",
+	name: "KeySkeleton",
 	id: 16,
 	imageSrc: ImageItemsKeySkeleton,
 };
 
 export const ItemsLadder: IZeldaEnum = {
-	name: "ItemsLadder",
+	displayName: "Ladder",
+	name: "Ladder",
 	id: 17,
 	imageSrc: ImageItemsLadder,
 };
 
 export const ItemsLetter: IZeldaEnum = {
-	name: "ItemsLetter",
+	displayName: "Letter",
+	name: "Letter",
 	id: 18,
 	imageSrc: ImageItemsLetter,
 };
 
 export const ItemsMagicBook: IZeldaEnum = {
-	name: "ItemsMagicBook",
+	displayName: "Magic Book",
+	name: "MagicBook",
 	id: 19,
 	imageSrc: ImageItemsMagicBook,
 };
 
 export const ItemsMap: IZeldaEnum = {
-	name: "ItemsMap",
+	displayName: "Map",
+	name: "Map",
 	id: 20,
 	imageSrc: ImageItemsMap,
 };
 
 export const ItemsPotionBlue: IZeldaEnum = {
-	name: "ItemsPotionBlue",
+	displayName: "Potion Blue",
+	name: "PotionBlue",
 	id: 21,
 	imageSrc: ImageItemsPotionBlue,
 };
 
 export const ItemsPotionRed: IZeldaEnum = {
-	name: "ItemsPotionRed",
+	displayName: "Potion Red",
+	name: "PotionRed",
 	id: 22,
 	imageSrc: ImageItemsPotionRed,
 };
 
 export const ItemsPowerBracelet: IZeldaEnum = {
-	name: "ItemsPowerBracelet",
+	displayName: "Power Bracelet",
+	name: "PowerBracelet",
 	id: 23,
 	imageSrc: ImageItemsPowerBracelet,
 };
 
 export const ItemsRaft: IZeldaEnum = {
-	name: "ItemsRaft",
+	displayName: "Raft",
+	name: "Raft",
 	id: 24,
 	imageSrc: ImageItemsRaft,
 };
 
 export const ItemsRingBlue: IZeldaEnum = {
-	name: "ItemsRingBlue",
+	displayName: "Ring Blue",
+	name: "RingBlue",
 	id: 25,
 	imageSrc: ImageItemsRingBlue,
 };
 
 export const ItemsRingGreen: IZeldaEnum = {
-	name: "ItemsRingGreen",
+	displayName: "Ring Green",
+	name: "RingGreen",
 	id: 26,
 	imageSrc: ImageItemsRingGreen,
 };
 
 export const ItemsRingRed: IZeldaEnum = {
-	name: "ItemsRingRed",
+	displayName: "Ring Red",
+	name: "RingRed",
 	id: 27,
 	imageSrc: ImageItemsRingRed,
 };
 
 export const ItemsRupeeFive: IZeldaEnum = {
-	name: "ItemsRupeeFive",
+	displayName: "Rupee Five",
+	name: "RupeeFive",
 	id: 28,
 	imageSrc: ImageItemsRupeeFive,
 };
 
 export const ItemsRupeeOne: IZeldaEnum = {
-	name: "ItemsRupeeOne",
+	displayName: "Rupee One",
+	name: "RupeeOne",
 	id: 29,
 	imageSrc: ImageItemsRupeeOne,
 };
 
 export const ItemsShield: IZeldaEnum = {
-	name: "ItemsShield",
+	displayName: "Shield",
+	name: "Shield",
 	id: 30,
 	imageSrc: ImageItemsShield,
 };
 
 export const ItemsShieldMagical: IZeldaEnum = {
-	name: "ItemsShieldMagical",
+	displayName: "Shield Magical",
+	name: "ShieldMagical",
 	id: 31,
 	imageSrc: ImageItemsShieldMagical,
 };
 
 export const ItemsSword: IZeldaEnum = {
-	name: "ItemsSword",
+	displayName: "Sword",
+	name: "Sword",
 	id: 32,
 	imageSrc: ImageItemsSword,
 };
 
 export const ItemsSwordWhite: IZeldaEnum = {
-	name: "ItemsSwordWhite",
+	displayName: "Sword White",
+	name: "SwordWhite",
 	id: 33,
 	imageSrc: ImageItemsSwordWhite,
 };
 
 export const ItemsSwordMagical: IZeldaEnum = {
-	name: "ItemsSwordMagical",
+	displayName: "Sword Magical",
+	name: "SwordMagical",
 	id: 34,
 	imageSrc: ImageItemsSwordMagical,
 };
 
 export const ItemsTriforceShard: IZeldaEnum = {
-	name: "ItemsTriforceShard",
+	displayName: "Triforce Shard",
+	name: "TriforceShard",
 	id: 35,
 	imageSrc: ImageItemsTriforceShard,
 };
 
 export const ItemsTriforceShardAlt: IZeldaEnum = {
-	name: "ItemsTriforceShardAlt",
+	displayName: "Triforce Shard Alt",
+	name: "TriforceShardAlt",
 	id: 355,
 	imageSrc: ImageItemsTriforceShardAlt,
 };
 
 export const ItemsWand: IZeldaEnum = {
-	name: "ItemsWand",
+	displayName: "Wand",
+	name: "Wand",
 	id: 36,
 	imageSrc: ImageItemsWand,
 };
