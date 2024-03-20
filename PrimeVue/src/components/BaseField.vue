@@ -4,6 +4,7 @@
 		:class="cls"
 	>
 		<FieldLabel
+			v-if="!!label"
 			:text="label"
 			:position="labelPosition"
 			:class="labelCls"

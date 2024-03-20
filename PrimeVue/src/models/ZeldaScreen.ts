@@ -95,7 +95,7 @@ export class ZeldaScreen extends ViewModel {
   			for (const child of tile.Children) {
   				if (child.X === x && child.Y === y) {
   					found = true;
-  					const Type = Tiles.find((item) => item.id === tile.Type);
+  					const Type = Tiles.find((item) => item.Type === tile.Type);
   					const tileColors = getDefaultTileColors(Type!);
   					const { Colors } = child;
   					if (Colors) {
@@ -109,7 +109,7 @@ export class ZeldaScreen extends ViewModel {
   					}
   					cell.tile.set({
   						Type,
-  						Transition: child.Transition,
+  						Transition: ZeldaScreen.create(child.Transition),
   						Colors: tileColors,
   					});
 					  removeItem(tile.Children, child);

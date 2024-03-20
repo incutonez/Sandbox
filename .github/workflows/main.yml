@@ -14,9 +14,9 @@ jobs:
       - run: npm ci
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - run: npm run build:zelda
+      - run: npm run build:ui
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.3.0
         with:
           branch: gh-pages
-          folder: ZeldaWorldBuilder/ui/dist
+          folder: PrimeVue/dist

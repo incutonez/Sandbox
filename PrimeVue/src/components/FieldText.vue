@@ -1,12 +1,5 @@
 <template>
-	<article
-		class="flex w-max"
-		:class="cls"
-	>
-		<FieldLabel
-			:text="label"
-			:position="labelPosition"
-		/>
+	<BaseField v-bind="$props">
 		<section class="relative flex-1">
 			<PrimeInputText
 				v-model="modelValue"
@@ -25,7 +18,7 @@
 				@click="onClickClear"
 			/>
 		</section>
-	</article>
+	</BaseField>
 </template>
 
 <script setup lang="ts">
@@ -33,11 +26,9 @@ import { computed, InputTypeHTMLAttribute } from "vue";
 import PrimeInputText from "primevue/inputtext";
 import IconClear from "@/assets/IconClear.vue";
 import BaseButton from "@/components/BaseButton.vue";
-import FieldLabel, { IFieldLabel } from "@/components/FieldLabel.vue";
+import BaseField, { IBaseField } from "@/components/BaseField.vue";
 
-interface IFieldText {
-	label?: string;
-	labelPosition?: IFieldLabel["position"];
+interface IFieldText extends IBaseField {
 	showClear?: boolean;
 	disabled?: boolean;
 	type?: InputTypeHTMLAttribute;
@@ -49,8 +40,6 @@ interface IFieldText {
 }
 
 const props = withDefaults(defineProps<IFieldText>(), {
-	label: undefined,
-	labelPosition: "top",
 	showClear: true,
 	type: "text",
 	delay: 300,
@@ -60,11 +49,6 @@ const emit = defineEmits(["inputEnd", "inputClear"]);
 const modelValue = defineModel<string>();
 let inputEndTimer: ReturnType<typeof setTimeout>;
 const clearVisible = computed(() => props.showClear && !!modelValue.value);
-const cls = computed(() => {
-	return {
-		"flex-col": props.labelPosition === "top",
-	};
-});
 const inputCls = computed(() => {
 	return {
 		"pr-6": props.showClear,

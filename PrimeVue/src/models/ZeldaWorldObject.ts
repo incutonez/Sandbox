@@ -96,8 +96,9 @@ export class ZeldaWorldObject extends ViewModel {
   	this.Type = {};
   }
 
-  getTypeKey(type = this.Type.id) {
-  	return this.enumCollection.find((item) => item.id === type)?.name;
+  getTypeKey(type = this.Type) {
+  	const { id } = type;
+  	return this.enumCollection.find((item) => item.id === id)?.name;
   }
 
   /**

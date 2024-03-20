@@ -11,16 +11,6 @@
 				:class="slotProps.item.iconCls"
 			/>
 		</template>
-		<!-- Expose all slots from parent component -->
-		<template
-			v-for="(_, slot) of $slots"
-			#[slot]="scope"
-		>
-			<slot
-				:name="slot as keyof typeof $slots"
-				v-bind="scope ?? {}"
-			/>
-		</template>
 	</PrimeMenu>
 </template>
 
@@ -35,7 +25,6 @@ export interface IBaseMenu {
 }
 
 const props = defineProps<IBaseMenu>();
-// const slots = defineSlots<MenuSlots>;
 const componentEl = ref<InstanceType<typeof PrimeMenu>>();
 const menuItems = computed(() => props.items.map((item) => getMenuItemProps(item)));
 

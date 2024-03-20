@@ -6,11 +6,7 @@ import { unset } from "lodash-es";
 import { isListResponse } from "@/utils/api";
 import { getObjectValue, isEmpty, isObject } from "@/utils/common";
 
-// Taken from https://github.com/microsoft/TypeScript/issues/42896#issuecomment-782754005
-export type DeepPartial<T> = {
-	[P in keyof T]?: DeepPartial<T[P]>;
-};
-
+// Related: https://github.com/microsoft/TypeScript/issues/42896#issuecomment-782754005
 export type ModelInterface<T> = {
 	// We need to map over the keys directly to preserve optionality. We filter with "as"
 	// Exclude undefined from the check to properly handle optional properties
@@ -62,7 +58,7 @@ export class ViewModel {
 	[Parent]?: any;
 	[Visited] = false;
 
-	static create<T extends ViewModel>(this: new () => T, data = {} as DeepPartial<T>, options: IModelOptions = {}) {
+	static create<T extends ViewModel>(this: new () => T, data = {} as Partial<ModelInterface<T>>, options: IModelOptions = {}) {
 		const record = new this();
 		record.set(data);
 		if (options.init) {
@@ -92,7 +88,7 @@ export class ViewModel {
 	 * @abstract
 	 */
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
-	init(_data?: DeepPartial<this>) {
+	init(_data?: Partial<ModelInterface<this>>) {
 
 	}
 
@@ -106,51 +102,49 @@ export class ViewModel {
 	}
 
 	get<T = any>(options: IModelGetOptions = {}) {
-		if (this[Visited]) {
-			return;
-		}
-		options.ignoreDecorators = true;
 		const data = {};
-		// const data = instanceToPlain(this, options) as T;
-		const { exclude = [] } = options;
-		this[Visited] = true;
-		for (const key in this) {
-			const item = this[key];
-			Reflect.set(data, key, getValue(item, options));
-		}
-		exclude.forEach((field) => {
-			if (field.includes(".")) {
-				const [parentKey, key] = field.split(LastKeyRegex);
-				const value = getObjectValue(data, parentKey);
-				if (Array.isArray(value)) {
-					for (let i = value.length - 1; i >= 0; i--) {
-						const item = value[i];
-						delete item[key];
-						// If our object is now empty because that was the last property, let's just remove it from the array
-						if (isEmpty(item)) {
-							value.splice(i, 1);
+		if (!this[Visited]) {
+			options.ignoreDecorators = true;
+			const { exclude = [] } = options;
+			this[Visited] = true;
+			for (const key in this) {
+				const item = this[key];
+				Reflect.set(data, key, getValue(item, options));
+			}
+			exclude.forEach((field) => {
+				if (field.includes(".")) {
+					const [parentKey, key] = field.split(LastKeyRegex);
+					const value = getObjectValue(data, parentKey);
+					if (Array.isArray(value)) {
+						for (let i = value.length - 1; i >= 0; i--) {
+							const item = value[i];
+							delete item[key];
+							// If our object is now empty because that was the last property, let's just remove it from the array
+							if (isEmpty(item)) {
+								value.splice(i, 1);
+							}
 						}
 					}
+					// TODO: What about Set/Map?
+					else if (isObject(value)) {
+						delete value[key as keyof typeof value];
+					}
+					// If our object is now empty because that was the last property, let's just remove it from the array
+					if (isEmpty(value)) {
+						// TODO: Figure out how to do this without lodash
+						unset(data, parentKey);
+					}
 				}
-				// TODO: What about Set/Map?
-				else if (isObject(value)) {
-					delete value[key as keyof typeof value];
+				else {
+					delete data[field as keyof typeof data];
 				}
-				// If our object is now empty because that was the last property, let's just remove it from the array
-				if (isEmpty(value)) {
-					// TODO: Figure out how to do this without lodash
-					unset(data, parentKey);
-				}
-			}
-			else {
-				delete data[field as keyof typeof data];
-			}
-		});
-		this[Visited] = false;
+			});
+			this[Visited] = false;
+		}
 		return data as T;
 	}
 
-	set(data: DeepPartial<this>) {
+	set(data: Partial<ModelInterface<this>>) {
 		const values = plainToInstance(this.constructor as new () => this, data);
 		for (const key in values) {
 			const value = values[key];

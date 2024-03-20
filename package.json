@@ -4,13 +4,14 @@
   "type": "module",
   "private": false,
   "scripts": {
-    "zelda:ui": "cd ZeldaWorldBuilder/ui && npm start",
+    "ui": "cd PrimeVue && npm run dev",
+    "api": "cd API && npm run start:dev",
     "test": "echo \"Error: no test specified\" && exit 1",
     "updateDeps": "node ./updateDependencies.js",
     "lint": "npx eslint . --ext .js --fix",
     "lint:fix": "prettier --write && npx eslint --fix",
-    "build:zelda": "cd ZeldaWorldBuilder/ui && npm run build",
-    "explode": "npm cache clean --force && npx rimraf package-lock.json node_modules && npm i"
+    "explode": "npm cache clean --force && npx rimraf package-lock.json node_modules && npm i",
+    "build:ui": "cd PrimeVue && npm run build"
   },
   "repository": {
     "type": "git",
@@ -28,7 +29,6 @@
     "lint-staged": "^15.2.0"
   },
   "workspaces": [
-    "ZeldaWorldBuilder/ui",
     "Differ/api",
     "Differ/shared",
     "Differ/ui",

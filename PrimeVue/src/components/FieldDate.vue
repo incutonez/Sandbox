@@ -1,8 +1,8 @@
 <template>
 	<BaseField v-bind="$props">
 		<PrimeCalendar
-			class="flex-1"
 			v-model="input"
+			class="flex-1"
 			:min-date="min"
 			:max-date="max"
 		/>
@@ -26,16 +26,18 @@ const emit = defineEmits(["update:modelValue"]);
 const input = computed({
 	get() {
 		const { modelValue = "" } = props;
-		return props.timestamp ? new Date(modelValue) : modelValue;
+		return props.timestamp ? new Date(modelValue) : modelValue.toString();
 	},
 	set(value) {
 		if (props.timestamp) {
 			if (!(value instanceof Date)) {
 				value = new Date(value);
 			}
-			value = value.getTime();
+			emit("update:modelValue", value.getTime());
 		}
-		emit("update:modelValue", value);
+		else {
+			emit("update:modelValue", value);
+		}
 	},
 });
 </script>

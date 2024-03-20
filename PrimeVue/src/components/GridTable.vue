@@ -136,11 +136,12 @@ import IconResetColumn from "@/assets/IconResetColumn.vue";
 import IconResetColumns from "@/assets/IconResetColumns.vue";
 import IconSort from "@/assets/IconSort.vue";
 import BaseButton from "@/components/BaseButton.vue";
-import { IBaseMenu, IMenuItem } from "@/components/BaseMenu.vue";
+import { IBaseMenu } from "@/components/BaseMenu.vue";
 import FieldComboBox from "@/components/FieldComboBox.vue";
 import FieldNumber from "@/components/FieldNumber.vue";
 import FieldText from "@/components/FieldText.vue";
 import GridCellMenu from "@/components/GridCellMenu.vue";
+import { IMenuItem } from "@/types/components";
 import { getColumnProps, IGridColumn, IGridTable, RowsPerPageOptions, setColumnLock } from "@/types/dataTable";
 
 const props = withDefaults(defineProps<IGridTable>(), {
