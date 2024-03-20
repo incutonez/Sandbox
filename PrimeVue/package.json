@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "build": "vue-tsc && vite build --mode=GitHubPages",
     "preview": "vite preview",
     "zelda:copyEnums": "npx tsx copyEnums.ts"
   },
