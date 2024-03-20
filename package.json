@@ -11,6 +11,7 @@
     "lint": "npx eslint . --ext .js --fix",
     "lint:fix": "prettier --write && npx eslint --fix",
     "explode": "npm cache clean --force && npx rimraf package-lock.json node_modules && npm i",
+    "build:apiSpec": "cd APISpec && npm run build",
     "build:ui": "cd PrimeVue && npm run build"
   },
   "repository": {

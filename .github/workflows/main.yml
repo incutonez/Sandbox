@@ -14,6 +14,7 @@ jobs:
       - run: npm ci
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - run: npm run build:apiSpec
       - run: npm run build:ui
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.3.0
