@@ -41,7 +41,6 @@
 <script setup lang="ts">
 /**
  * TODOJEF:
- * - Fix styling for checkbox
  * - Fix styling for context menu
  * - Add sorting and filtering to the load method
  * - Have remote and local filtering/sorting/paging

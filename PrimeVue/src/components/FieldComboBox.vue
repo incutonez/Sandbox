@@ -7,7 +7,14 @@
 			v-bind="$props"
 			v-model="model"
 			class="flex-1 overflow-hidden"
-		/>
+		>
+			<template #header>
+				<slot name="header" />
+			</template>
+			<template #footer>
+				<slot name="footer" />
+			</template>
+		</PrimeDropdown>
 	</BaseField>
 </template>
 

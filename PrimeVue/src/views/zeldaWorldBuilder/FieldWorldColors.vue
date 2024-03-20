@@ -2,6 +2,7 @@
 	<FieldComboBox
 		:options="WorldColors"
 		option-label="displayName"
+		label-cls="w-20"
 	/>
 </template>
 

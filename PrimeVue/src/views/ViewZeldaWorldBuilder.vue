@@ -1,21 +1,89 @@
 <template>
 	<div class="flex h-full space-x-4 p-4">
-		<div class="flex min-w-44 flex-col">
-			<FieldComboBox
-				v-model="selectedScreen"
-				:options="overworldRecords"
-				:value-only="false"
-				label-align="top"
-				label="Screens"
-				option-label="Name"
-				option-value="Name"
+		<article class="flex min-w-44 flex-col space-y-4">
+			<section class="flex space-x-2">
+				<FieldComboBox
+					v-model="selectedScreen"
+					:options="overworldRecords"
+					:value-only="false"
+					label-align="top"
+					label="Screens"
+					option-label="Name"
+					option-value="Name"
+					class="flex-1"
+				/>
+				<BaseButton
+					:icon="IconAdd"
+					class="!px-2"
+					title="Add Screen"
+					@click="onClickNewButton"
+				/>
+			</section>
+			<FieldCheckbox
+				v-model="showGridLines"
+				label="Grid Lines"
 			/>
-			<BaseButton
-				text="New"
-				class="default mt-1 self-start rounded"
-				@click="onClickNewButton"
-			/>
-		</div>
+			<BaseCard
+				title="Screen Coordinates"
+				class="bp-2 vertical"
+			>
+				<FieldDisplay
+					:value="gridRecord.Name"
+					label="Name"
+				/>
+				<section class="flex space-x-2">
+					<FieldNumber
+						v-model="gridRecord.X"
+						label="X"
+						label-width="auto"
+						input-width="w-12"
+						width="w-28"
+					/>
+					<FieldNumber
+						v-model="gridRecord.Y"
+						label="Y"
+						label-width="auto"
+						input-width="w-12"
+						width="w-28"
+					/>
+				</section>
+			</BaseCard>
+			<BaseCard
+				title="Colors"
+				class="bp-2 vertical"
+			>
+				<FieldWorldColors
+					v-model="gridRecord.GroundColor"
+					label="Ground"
+					label-cls="w-12"
+					width="w-28"
+				/>
+				<FieldWorldColors
+					v-model="gridRecord.AccentColor"
+					label="Accent"
+					label-cls="w-12"
+					width="w-28"
+				/>
+			</BaseCard>
+			<section class="ml-auto">
+				<BaseButton
+					text="Save"
+					class="default mr-2 rounded"
+					@click="onClickSaveBtn"
+				/>
+				<BaseButton
+					text="Load"
+					class="default rounded"
+					@click="onClickLoadBtn"
+				/>
+				<input
+					v-show="false"
+					ref="fileInputEl"
+					type="file"
+					@change="onChangeLoadFile"
+				>
+			</section>
+		</article>
 		<TileGrid
 			v-model:selected-cell="selectedCell"
 			:cells="selectedScreen?.cells"
@@ -27,48 +95,6 @@
 		/>
 		<article class="flex flex-col">
 			<section class="w-72 flex-1 space-y-2 overflow-auto">
-				<BaseCard
-					title="Screen Coordinates"
-					class="bp-2 vertical"
-				>
-					<FieldDisplay
-						:value="gridRecord.Name"
-						label="Name"
-					/>
-					<section class="flex space-x-2">
-						<FieldNumber
-							v-model="gridRecord.X"
-							label="X"
-							label-width="auto"
-							input-width="w-12"
-							width="w-28"
-						/>
-						<FieldNumber
-							v-model="gridRecord.Y"
-							label="Y"
-							label-width="auto"
-							input-width="w-12"
-							width="w-28"
-						/>
-					</section>
-				</BaseCard>
-				<BaseCard
-					title="Colors"
-					class="bp-2 vertical"
-				>
-					<FieldWorldColors
-						v-model="gridRecord.GroundColor"
-						label="Ground"
-						label-cls="w-12"
-						width="w-28"
-					/>
-					<FieldWorldColors
-						v-model="gridRecord.AccentColor"
-						label="Accent"
-						label-cls="w-12"
-						width="w-28"
-					/>
-				</BaseCard>
 				<template v-if="selectedTile">
 					<BaseCard
 						class="vertical bp-2"
@@ -79,8 +105,10 @@
 								v-model="selectedTile.Type"
 								:options="Tiles"
 								:value-only="false"
+								option-label="displayName"
+								label-position="top"
 								label="Type"
-								class="flex-1"
+								class="mr-2 flex-1"
 							/>
 							<div
 								v-show="showColors"
@@ -94,20 +122,24 @@
 								>
 							</div>
 						</div>
-						<BaseCard
-							v-show="showColors"
-							title="Replace Colors"
-							class="vertical bp-2"
-						>
+						<template v-if="showColors">
+							<hr>
+							<FieldLabel
+								text="Replace Colors"
+								position="top"
+								class="uppercase"
+								size="medium"
+								separator=""
+							/>
 							<FieldWorldColors
 								v-for="tileColor in selectedTile.Colors"
 								:key="tileColor.Target.id"
 								v-model="tileColor.Value"
-								:label="tileColor.Target.name"
+								:label="tileColor.Target.displayName"
 								:value-only="false"
 								@update:model-value="onUpdateTileColor"
 							/>
-						</BaseCard>
+						</template>
 						<BaseCard
 							v-if="isTransition && selectedTile.Transition"
 							title="Transition Properties"
@@ -156,7 +188,8 @@
 								:options="Items"
 								:value-only="false"
 								label="Type"
-								label-width="auto"
+								label-position="top"
+								class="mr-2 flex-1"
 							/>
 							<div class="flex h-16 w-16 justify-center bg-blue-100">
 								<img
@@ -174,19 +207,19 @@
 						:expanded="false"
 						class="vertical bp-2"
 					>
-						<div class="flex justify-between">
-							<div class="flex flex-col justify-between">
+						<div class="flex items-center justify-between">
+							<div class="mr-2 flex flex-1 flex-col justify-between space-y-2">
 								<FieldComboBox
 									v-model="selectedEnemy.Type"
 									:options="Enemies"
 									:value-only="false"
 									label="Type"
-									label-width="w-12"
+									label-cls="w-12"
 								/>
 								<FieldNumber
 									v-model="selectedEnemy.Speed"
 									label="Speed"
-									label-width="w-12"
+									label-cls="w-12"
 								/>
 							</div>
 							<div class="flex h-16 w-16 justify-center bg-blue-100">
@@ -198,76 +231,62 @@
 								>
 							</div>
 						</div>
-						<BaseCard
-							v-show="selectedEnemy.hasImage()"
-							title="Replace Colors"
-							class="vertical bp-2"
-						>
+						<template v-if="selectedEnemy.hasImage()">
+							<hr>
+							<FieldLabel
+								text="Replace Colors"
+								position="top"
+								class="uppercase"
+								size="medium"
+								separator=""
+							/>
 							<FieldWorldColors
 								v-for="tileColor in selectedEnemy.Colors"
 								:key="tileColor.Target.id"
 								v-model="tileColor.Value"
 								:value-only="false"
-								:label="tileColor.Target.name"
+								:label="tileColor.Target.displayName"
 								@update:model-value="onUpdateEnemyColor"
 							/>
-						</BaseCard>
-						<BaseCard
-							title="Health"
-							class="vertical bp-2"
-						>
-							<FieldNumber
-								v-model="selectedEnemy.Health"
-								label="Health"
-								label-cls="w-16"
-							/>
-							<FieldNumber
-								v-model="selectedEnemy.HealthModifier"
-								label="Modifier"
-								label-cls="w-16"
-							/>
-						</BaseCard>
-						<BaseCard
-							title="Damage"
-							class="vertical bp-2"
-						>
-							<FieldNumber
-								v-model="selectedEnemy.TouchDamage"
-								label="Touch"
-								label-cls="w-14"
-							/>
-							<FieldNumber
-								v-model="selectedEnemy.WeaponDamage"
-								label="Weapon"
-								label-cls="w-14"
-							/>
-						</BaseCard>
+						</template>
+						<hr>
+						<FieldLabel
+							text="Health"
+							position="top"
+							class="uppercase"
+							size="medium"
+							separator=""
+						/>
+						<FieldNumber
+							v-model="selectedEnemy.Health"
+							label="Value"
+							label-cls="w-16"
+						/>
+						<FieldNumber
+							v-model="selectedEnemy.HealthModifier"
+							label="Modifier"
+							label-cls="w-16"
+						/>
+						<hr>
+						<FieldLabel
+							text="Damage"
+							position="top"
+							class="uppercase"
+							size="medium"
+							separator=""
+						/>
+						<FieldNumber
+							v-model="selectedEnemy.TouchDamage"
+							label="Touch"
+							label-cls="w-14"
+						/>
+						<FieldNumber
+							v-model="selectedEnemy.WeaponDamage"
+							label="Weapon"
+							label-cls="w-14"
+						/>
 					</BaseCard>
 				</template>
-			</section>
-			<section class="flex justify-between pt-2">
-				<FieldCheckbox
-					v-model="showGridLines"
-					label="Grid Lines"
-				/>
-				<div>
-					<BaseButton
-						text="Save"
-						class="default mr-2 rounded"
-						@click="onClickSaveBtn"
-					/>
-					<BaseButton
-						text="Load"
-						class="default rounded"
-						@click="onClickLoadBtn"
-					/>
-					<input
-						v-show="false"
-						ref="fileInputEl"
-						type="file"
-						@change="onChangeLoadFile"
-					>
-				</div>
 			</section>
 		</article>
 	</div>
@@ -275,11 +294,13 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from "vue";
+import IconAdd from "@/assets/IconAdd.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseCard from "@/components/BaseCard.vue";
 import FieldCheckbox from "@/components/FieldCheckbox.vue";
 import FieldComboBox from "@/components/FieldComboBox.vue";
 import FieldDisplay from "@/components/FieldDisplay.vue";
+import FieldLabel from "@/components/FieldLabel.vue";
 import FieldNumber from "@/components/FieldNumber.vue";
 import { findRecord } from "@/enums/helper";
 import { Items } from "@/enums/zelda/Items";

@@ -3,7 +3,7 @@ export default {
 		class: [
 			// Display and Position
 			"inline-flex",
-			"relative",
+			"relative max-h-8",
 
 			// Shape
 			"rounded-md",
