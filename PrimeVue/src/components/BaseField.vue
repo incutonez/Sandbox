@@ -1,11 +1,13 @@
 <template>
 	<article
-		class="flex w-max"
+		class="base-field flex min-w-0"
 		:class="cls"
 	>
 		<FieldLabel
+			v-if="!!label"
 			:text="label"
 			:position="labelPosition"
+			:class="labelCls"
 		/>
 		<slot />
 	</article>
@@ -18,15 +20,18 @@ import FieldLabel, { IFieldLabel } from "@/components/FieldLabel.vue";
 export interface IBaseField {
 	label?: string;
 	labelPosition?: IFieldLabel["position"];
+	labelCls?: string;
 }
 
 const props = withDefaults(defineProps<IBaseField>(), {
 	label: undefined,
-	labelPosition: "top",
+	labelPosition: "left",
+	labelCls: undefined,
 });
 const cls = computed(() => {
 	return {
 		"flex-col": props.labelPosition === "top",
+		"items-center": props.labelPosition === "left",
 	};
 });
 </script>

@@ -17,19 +17,48 @@
     "sourceType": "module",
     "ecmaVersion": "latest"
   },
-  "plugins": ["eslint-plugin-tailwindcss", "eslint-plugin-import", "@typescript-eslint", "simple-import-sort"],
+  "plugins": [
+    "eslint-plugin-tailwindcss",
+    "eslint-plugin-import",
+    "@typescript-eslint",
+    "simple-import-sort",
+    "@incutonez"
+  ],
   "rules": {
-    "vue/html-indent": ["error", "tab"],
+    "vue/html-indent": [
+      "error",
+      "tab"
+    ],
+    "vue/attributes-order": "error",
     "tailwindcss/classnames-order": "error",
-    "quote-props": ["error", "as-needed"],
-    "space-before-function-paren": ["error",
+    "quote-props": [
+      "error",
+      "as-needed"
+    ],
+    "padding-line-between-statements": [
+      "error",
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "export"
+      }
+    ],
+    "space-before-function-paren": [
+      "error",
       {
         "anonymous": "never",
         "named": "never",
         "asyncArrow": "always"
-      }],
-    "function-call-argument-newline": ["error", "never"],
-    "function-paren-newline": ["error", "never"],
+      }
+    ],
+    "function-call-argument-newline": [
+      "error",
+      "never"
+    ],
+    "function-paren-newline": [
+      "error",
+      "never"
+    ],
     "no-mixed-spaces-and-tabs": "off",
     "no-var": "error",
     "@typescript-eslint/no-unused-vars": "error",
@@ -38,17 +67,35 @@
       "tab",
       {
         "SwitchCase": 1,
-        "ignoredNodes": ["PropertyDefinition"]
+        "ignoredNodes": [
+          "PropertyDefinition"
+        ]
       }
     ],
-    "@typescript-eslint/ban-ts-comment": ["error", {
-      "ts-expect-error": "allow-with-description"
-    }],
-    "semi": [2, "always"],
-    "quotes": ["error", "double"],
+    "@typescript-eslint/ban-ts-comment": [
+      "error",
+      {
+        "ts-expect-error": "allow-with-description",
+        "ts-nocheck": "allow-with-description"
+      }
+    ],
+    "semi": [
+      2,
+      "always"
+    ],
+    "quotes": [
+      "error",
+      "double"
+    ],
     "curly": "error",
-    "multiline-ternary": ["error", "always-multiline"],
-    "brace-style": ["error", "stroustrup"],
+    "multiline-ternary": [
+      "error",
+      "always-multiline"
+    ],
+    "brace-style": [
+      "error",
+      "stroustrup"
+    ],
     "comma-dangle": [
       "error",
       "always-multiline"
@@ -72,19 +119,57 @@
       "always"
     ],
     "object-property-newline": "error",
-    "no-trailing-spaces": ["error"],
+    "no-trailing-spaces": [
+      "error"
+    ],
     "arrow-spacing": "error",
     "no-duplicate-imports": "error",
     "arrow-parens": "error",
-    "computed-property-spacing": ["error", "never"],
-    "func-call-spacing": ["error", "never"],
+    "computed-property-spacing": [
+      "error",
+      "never"
+    ],
+    "func-call-spacing": [
+      "error",
+      "never"
+    ],
     "new-parens": "error",
     "prefer-const": "error",
-    "array-bracket-spacing": ["error", "never"],
-    "comma-spacing": ["error", { "before": false, "after": true }],
-    "array-element-newline": ["error", "consistent"],
+    "array-bracket-spacing": [
+      "error",
+      "never"
+    ],
+    "comma-spacing": [
+      "error",
+      {
+        "before": false,
+        "after": true
+      }
+    ],
+    "@incutonez/array-element-newline": [
+      "error",
+      {
+        "multiline": true,
+        "minItems": 5,
+        "bracesSameLine": true
+      }
+    ],
+    "@incutonez/array-bracket-newline": [
+      "error",
+      {
+        "multiline": true,
+        "minItems": 5,
+        "bracesSameLine": true
+      }
+    ],
     "key-spacing": "error",
-    "import/newline-after-import": ["error", { "count": 1 }],
+    "import/first": "error",
+    "import/newline-after-import": [
+      "error",
+      {
+        "count": 1
+      }
+    ],
     "space-infix-ops": "error",
     "no-multi-spaces": "error",
     "space-before-blocks": "error",
@@ -93,7 +178,15 @@
     "simple-import-sort/imports": [
       "error",
       {
-        "groups": [["^\\u0000", "^vue", "^@?\\w", "^[^.]", "^\\."]]
+        "groups": [
+          [
+            "^\\u0000",
+            "^vue",
+            "^@?\\w",
+            "^[^.]",
+            "^\\."
+          ]
+        ]
       }
     ]
   }

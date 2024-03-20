@@ -7,6 +7,11 @@ export interface IOption {
 	[key: string]: any;
 }
 
+export interface IZeldaEnum extends IOption {
+	imageSrc?: string;
+	displayName?: string;
+}
+
 /**
  * @patch https://github.com/vuejs/core/issues/8286
  * In order to use HTMLAttributes, we MUST specify the @vue-ignore comment, otherwise we get a vite error
@@ -20,4 +25,13 @@ export interface IBaseButton extends /** @vue-ignore */ HTMLAttributes {
 	size?: "small" | "large";
 	plain?: boolean;
 	unstyled?: boolean;
+}
+
+export interface IMenuItem {
+	text?: string;
+	icon?: string | InstanceType<any>;
+	iconCls?: string;
+	visible?: boolean;
+	click?: () => void;
+	items?: IMenuItem[];
 }

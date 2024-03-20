@@ -6,13 +6,34 @@
  * TODOJEF: Move this to the API... it should be what it does whenever the UI hits enums
  */
 import { execSync } from "child_process";
-import fs from "fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "fs";
 import { glob } from "glob";
+import { startCase } from "lodash-es";
 import path from "path";
-import { IOption } from "./src/types/components";
+import { IZeldaEnum } from "./src/types/components";
 
 const inPath = "../../ZeldaU/Assets/Scripts/Enums/";
-const outPath = "src/enums/";
+const outPath = "src/enums/zelda/";
+const imageBasePath = "src/assets/zelda/";
+const SrcRegex = /^src/;
+
+function createEnum({ matchName = "", item = "", index, items }) {
+	const name = `${matchName}${item}`;
+	const imagePath = `${imageBasePath}${matchName}/${item}.png`;
+	let imageImport = "";
+	const config: IZeldaEnum = {
+		displayName: startCase(item),
+		name: item,
+		id: index,
+	};
+	items.push(name);
+	if (existsSync(imagePath)) {
+		imageImport = `import { default as Image${name} } from "${imagePath.replace(SrcRegex, "@")}";\n`;
+		config.imageSrc = `Image${name}`;
+	}
+	const configStr = JSON.stringify(config).replace(/"imageSrc":"(\w+)"/, "\"imageSrc\":$1");
+	return `${imageImport}export ${`const ${name}: IZeldaEnum = `} ${configStr};`;
+}
 
 /**
  * This takes a C# enum and turns it into a JSON string
@@ -27,7 +48,7 @@ function toEnum(data) {
 		.forEach((match) => {
 			// Get the name of the enum
 			const matchName = match.match(/public enum ([^\r{\s]+)/)[1];
-			const items: IOption[] = [];
+			const items: string[] = [];
 			// Need the trim because there's some sort of zwnbsp character that'll show up
 			match = match
 				.trim()
@@ -52,31 +73,33 @@ function toEnum(data) {
 			match = match.replace(/\[[^\]]+\]\r\n/g, "").replace(/\r\n/g, "");
 			// If there are no default values, let's create them
 			if (match.indexOf(":") === -1) {
-				const parsed: string[] =
-					match
-						.replace(/\s+/g, "")
-						.replace(/\{|\}/g, "")
-						.split(/([^,]+),/)
-						.filter((item) => !!item) ?? [];
+				const parsed: string[] = match.replace(/\s+/g, "")
+					.replace(/\{|\}/g, "")
+					.split(/([^,]+),/)
+					.filter((item) => !!item) ?? [];
 				parsed.forEach((item, index) => {
-					items.push({
-						id: index,
-						name: item,
+					output += createEnum({
+						matchName,
+						item,
+						index,
+						items,
 					});
 				});
 			}
 			else if (match.indexOf("{") === 0) {
 				const parsed = JSON.parse(match.replace(/(\w+)\s*:/g, "\"$1\":"));
 				for (const key in parsed) {
-					items.push({
-						id: parsed[key],
-						name: key,
+					output += createEnum({
+						matchName,
+						item: key,
+						index: parsed[key],
+						items,
 					});
 				}
 			}
-			output += `export ${`const Zelda${matchName}: IOption[] =`} ${JSON.stringify(items)};`;
+			output += `export ${`const ${matchName}: IZeldaEnum[] =`} [${items.join(", ").replace(/"/g, "")}];`;
 		});
-	return `import { IOption } from "@/types/components";\n${output}`;
+	return `import { IZeldaEnum } from "@/types/components";\n${output}`;
 }
 
 async function main() {
@@ -85,22 +108,22 @@ async function main() {
 	});
 	const eslintFiles: string[] = [];
 	for (const file of files) {
-		const data = toEnum(fs.readFileSync(file, "utf8"));
+		const data = toEnum(readFileSync(file, "utf8"));
 		const ext = path.extname(file);
 		const baseName = path.basename(file, ext);
-		const filename = `${outPath}Zelda${baseName}.ts`;
+		const filename = `${outPath}${baseName}.ts`;
 		eslintFiles.push(filename);
-		fs.writeFileSync(filename, data, {
+		writeFileSync(filename, data, {
 			flag: "w+",
 		});
 	}
 	execSync(`npx eslint --fix ${eslintFiles.join(" ")}`);
 }
 
-if (fs.existsSync(outPath)) {
-	fs.rmSync(outPath, {
+if (existsSync(outPath)) {
+	rmSync(outPath, {
 		recursive: true,
 	});
 }
-fs.mkdirSync(outPath);
+mkdirSync(outPath);
 main();

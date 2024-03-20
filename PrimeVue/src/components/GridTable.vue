@@ -25,8 +25,8 @@
 			</template>
 			<template #body="slotProps">
 				<Component
-					v-if="column.cellComponent"
 					:is="column.cellComponent"
+					v-if="column.cellComponent"
 					v-bind="getCellParams(column, slotProps.data)"
 				/>
 				<span v-else>
@@ -34,8 +34,8 @@
 				</span>
 			</template>
 			<template
-				#header
 				v-if="column.showMenu ?? true"
+				#header
 			>
 				<GridCellMenu
 					:button-config="{ plain: true }"
@@ -51,9 +51,8 @@
 				</h2>
 				<section class="ml-auto flex gap-x-2">
 					<FieldText
-						label="Search"
-						label-position="left"
 						v-model="search"
+						label="Search"
 						@input-clear="onSearch"
 						@input-end="onSearch"
 					/>
@@ -137,11 +136,12 @@ import IconResetColumn from "@/assets/IconResetColumn.vue";
 import IconResetColumns from "@/assets/IconResetColumns.vue";
 import IconSort from "@/assets/IconSort.vue";
 import BaseButton from "@/components/BaseButton.vue";
-import { IBaseMenu, IMenuItem } from "@/components/BaseMenu.vue";
+import { IBaseMenu } from "@/components/BaseMenu.vue";
 import FieldComboBox from "@/components/FieldComboBox.vue";
 import FieldNumber from "@/components/FieldNumber.vue";
 import FieldText from "@/components/FieldText.vue";
 import GridCellMenu from "@/components/GridCellMenu.vue";
+import { IMenuItem } from "@/types/components";
 import { getColumnProps, IGridColumn, IGridTable, RowsPerPageOptions, setColumnLock } from "@/types/dataTable";
 
 const props = withDefaults(defineProps<IGridTable>(), {
@@ -245,34 +245,30 @@ function getColumnMenuConfig(column: IGridColumn): IBaseMenu {
 		items.push({
 			text: "Lock Column",
 			icon: IconLock,
-			items: [
-				{
-					text: "Left",
-					icon: IconPin,
-					iconCls: "rotate-90",
-					click() {
-						setColumnLock("left", column);
-						reorderColumns();
-					},
+			items: [{
+				text: "Left",
+				icon: IconPin,
+				iconCls: "rotate-90",
+				click() {
+					setColumnLock("left", column);
+					reorderColumns();
 				},
-				{
-					text: "Right",
-					icon: IconPin,
-					iconCls: "-rotate-90",
-					click() {
-						setColumnLock("right", column);
-						reorderColumns();
-					},
+			}, {
+				text: "Right",
+				icon: IconPin,
+				iconCls: "-rotate-90",
+				click() {
+					setColumnLock("right", column);
+					reorderColumns();
 				},
-				{
-					text: "None",
-					icon: IconNotAllowed,
-					click() {
-						setColumnLock(false, column);
-						reorderColumns();
-					},
+			}, {
+				text: "None",
+				icon: IconNotAllowed,
+				click() {
+					setColumnLock(false, column);
+					reorderColumns();
 				},
-			],
+			}],
 		}, {
 			text: "Reset Column",
 			icon: IconResetColumn,

@@ -10,11 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@openapitools/openapi-generator-cli": "^2.9.0",
-    "vite": "^5.1.4",
-    "vue": "^3.4.20"
+    "@openapitools/openapi-generator-cli": "^2.13.1",
+    "vite": "^5.2.2",
+    "vue": "^3.4.21"
   },
   "devDependencies": {
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   }
 }
