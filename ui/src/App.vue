@@ -49,7 +49,6 @@
  * - Add global error handling
  * - CSV upload that shows grids and errors from API
  * - Add saving of scrollbar for routes (using __name with dynamic caching)
- * - Add vue-tsc-files for TS linting on commit
  * - Migrate any individual API dirs to API dir, so we have a centralized API
  * - Add CRUD operations to grids with cell editors
  * - Potentially add provide/inject with GridTable
