@@ -9,7 +9,7 @@ on:
 permissions:
   pull-requests: read
 jobs:
-  validate:
+  semanticRelease:
     name: Validate Semantic Title
     runs-on: ubuntu-latest
     steps:
@@ -17,3 +17,19 @@ jobs:
         uses: amannn/action-semantic-pull-request@v5.4.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  project:
+    name: Validate Builds
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: npm ci
+      - name: UI TypeScript Error Free
+        run: |
+          npm run build:spec
+          cd ui
+          npx vue-tsc --noEmit
+      - name: API TypeScript Error Free
+        run: |
+          cd api
+          npx tsc --noEmit
