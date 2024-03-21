@@ -25,6 +25,10 @@ jobs:
         uses: actions/checkout@v3
       - run: npm ci
       - name: UI TypeScript Error Free
-        run: npm run validate:ui
+        run: |
+          cd ui
+          npx vue-tsc --noEmit
       - name: API TypeScript Error Free
-        run: npm run validate:api
+        run: |
+          cd api
+          npx tsc --noEmit
