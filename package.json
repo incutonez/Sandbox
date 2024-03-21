@@ -78,15 +78,5 @@
         }
       ]
     ]
-  },
-  "multi-release": {
-    "ignorePackages": [
-      "TipTap/**",
-      "Modeling/**",
-      "Differ/**"
-    ],
-    "deps": {
-      "bump": "inherit"
-    }
   }
 }
