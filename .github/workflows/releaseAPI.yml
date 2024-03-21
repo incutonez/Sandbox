@@ -1,4 +1,4 @@
-name: Release UI
+name: Release API
 on:
   push:
     branches:
