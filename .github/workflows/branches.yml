@@ -1,8 +1,12 @@
 name: Branches
 on:
-  push:
-    branches-ignore:
-      - main
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+permissions:
+  pull-requests: read
 jobs:
   validate:
     name: Validate Semantic Title
