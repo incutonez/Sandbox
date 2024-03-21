@@ -94,12 +94,12 @@ function createApp() {
 }
 
 function startAPI() {
-  cd "$sandbox\API"
-  npm run start:dev
+  cd "$sandbox"
+  npm run api
 }
 
 
 function startUI() {
-  cd "$sandbox\PrimeVue"
-  npm run dev
+  cd "$sandbox"
+  npm run ui
 }
