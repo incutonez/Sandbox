@@ -29,7 +29,9 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0",
-    "multi-semantic-release": "^3.0.2"
+    "multi-semantic-release": "^3.0.2",
+    "tsc-files": "^1.1.4",
+    "vue-tsc-files": "^0.0.6"
   },
   "workspaces": [
     "Differ/api",
@@ -46,6 +48,8 @@
     "npm": ">=9"
   },
   "lint-staged": {
+    "ui/*.{vue,ts}": "npx vue-tsc-files --noEmit",
+    "api/*.{ts}": "npx tsc-files --noEmit",
     "*.{js,mjs,cjs,jsx,ts,tsx,vue}": [
       "eslint --fix"
     ]
