@@ -26,6 +26,7 @@ jobs:
       - run: npm ci
       - name: UI TypeScript Error Free
         run: |
+          npm run build:spec
           cd ui
           npx vue-tsc --noEmit
       - name: API TypeScript Error Free
