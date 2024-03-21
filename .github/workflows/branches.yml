@@ -24,7 +24,11 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - run: npm ci
-      - run: cd ui
-      - run: npx vue-tsc-files --noEmit
-      - run: cd ../api
-      - run: npx tsc-files --noEmit
+      - name: UI TypeScript Error Free
+        run: |
+          cd ui
+          npx vue-tsc-files --noEmit
+      - name: API TypeScript Error Free
+        run: |
+          cd api
+          npx tsc-files --noEmit
