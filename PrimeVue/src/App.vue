@@ -41,9 +41,7 @@
 <script setup lang="ts">
 /**
  * TODOJEF:
- * - Add Semantic Versioning in this repo
  * - Add TypeScript checker on PRs
- * - Add Semantic Versioning check to PRs
  * - Fix styling for context menu
  * - Add sorting and filtering to the load method
  * - Have remote and local filtering/sorting/paging
