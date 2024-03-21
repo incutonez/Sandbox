@@ -56,7 +56,6 @@
  * - Add CRUD operations to grids with cell editors
  * - Potentially add provide/inject with GridTable
  * - Potentially use provide/inject for users.ts data loading
- *
  */
 import { useRoute } from "vue-router";
 import IconTriforce from "@/assets/IconTriforce.vue";
