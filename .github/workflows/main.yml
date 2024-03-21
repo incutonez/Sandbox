@@ -11,11 +11,19 @@ jobs:
         uses: actions/checkout@v3
       - name: Create npmrc
         run: echo '//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN  }}' >> ${{ github.workspace }}/.npmrc
-      - run: npm ci
+      - name: Install Deps
+        run: npm ci
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - run: npm run build:spec
-      - run: npm run build:ui
+      - name: Build Spec
+        run: npm run build:spec
+      - name: Build UI
+        run: npm run build:ui
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE }}
+        run: npx multi-semantic-release
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.3.0
         with:
