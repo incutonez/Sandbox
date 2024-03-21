@@ -6,9 +6,9 @@ const apps = [
 	"Differ/shared",
 	"TipTap",
 	"Modeling",
-	"PrimeVue",
-	"API",
-	"APISpec",
+	"ui",
+	"api",
+	"spec",
 ];
 apps.forEach((app) => {
 	console.info(`Updating: ${app}`);

@@ -4,7 +4,7 @@ on:
     branches:
       - main
     paths:
-      - ui/**
+      - api/**
 jobs:
   release:
     environment: main
@@ -31,4 +31,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE }}
-        run: npx multi-semantic-release --ignore-packages=api/**,spec/**,Differ/**,Modeling/**,TipTap/**
+        run: npx multi-semantic-release --ignore-packages=ui/**,spec/**,Differ/**,Modeling/**,TipTap/**
