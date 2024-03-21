@@ -4,6 +4,14 @@ import { writeFileSync } from "fs";
 import * as path from "path";
 import { AppModule } from "src/app.module";
 
+interface test {
+	thing: string;
+}
+
+const blah: test = {
+	thing: 1,
+};
+
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
 	app.enableCors();

@@ -12,7 +12,9 @@
     "lint:fix": "prettier --write && npx eslint --fix",
     "explode": "npm cache clean --force && npx rimraf package-lock.json node_modules && npm i",
     "build:spec": "cd spec && npm run build",
-    "build:ui": "cd ui && npm run build"
+    "build:ui": "cd ui && npm run build",
+    "validate:api": "cd api && npx tsc-files --noEmit",
+    "validate:ui": "cd ui && npx vue-tsc-files --noEmit"
   },
   "repository": {
     "type": "git",
@@ -48,8 +50,8 @@
     "npm": ">=9"
   },
   "lint-staged": {
-    "ui/*.{vue,ts}": "npx vue-tsc-files --noEmit",
-    "api/*.{ts}": "npx tsc-files --noEmit",
+    "ui/**/*.{vue,ts}": "npm run validate:ui",
+    "api/**/*.{ts}": "npm run validate:api",
     "*.{js,mjs,cjs,jsx,ts,tsx,vue}": [
       "eslint --fix"
     ]
