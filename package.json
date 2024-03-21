@@ -23,11 +23,13 @@
   },
   "homepage": "https://github.com/incutonez/Sandbox#readme",
   "devDependencies": {
+    "@semantic-release/git": "^10.0.1",
     "eslint": "^8.17.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "husky": "^8.0.3",
-    "lint-staged": "^15.2.0"
+    "lint-staged": "^15.2.0",
+    "multi-semantic-release": "^3.0.2"
   },
   "workspaces": [
     "Differ/api",
@@ -46,6 +48,23 @@
   "lint-staged": {
     "*.{js,mjs,cjs,jsx,ts,tsx,vue}": [
       "eslint --fix"
+    ]
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
+      "@semantic-release/git",
+      "@semantic-release/github"
     ]
   }
 }
