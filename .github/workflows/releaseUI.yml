@@ -26,9 +26,8 @@ jobs:
           node-version: "lts/*"
       - name: Install dependencies
         run: npm clean-install
-      - run: cd PrimeVue
       - name: Release
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+        run: npx multi-semantic-release --ignore-packages=API/**,APISpec/**,Differ/**,Modeling/**,TipTap/**
