@@ -13,7 +13,7 @@ async function bootstrap() {
 	});
 	SwaggerModule.setup("api", app, document);
 	const outputPath = path.resolve(process.cwd(), "../spec/swagger.json");
-	// Taken from https://stackoverflow.com/a/64935977/1253609
+	/* Taken from https://stackoverflow.com/a/64935977/1253609 */
 	writeFileSync(outputPath, JSON.stringify(document), {
 		encoding: "utf8",
 	});
