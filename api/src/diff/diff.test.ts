@@ -1,6 +1,6 @@
 ﻿import { faker } from "@faker-js/faker";
-import { getChanges } from "./diff.utilities";
-import { ChangeStatus } from "@incutonez/differ-shared/dist/models";
+import { getChanges } from "src/diff/diff.utilities";
+import { EnumChangeStatus } from "src/models/diff.entity";
 
 describe("Differ", () => {
 	const FieldStr = "fieldString";
@@ -28,18 +28,18 @@ describe("Differ", () => {
 				field: FieldStr,
 				value: data.current[FieldStr],
 				previous: data.previous[FieldStr],
-				status: ChangeStatus.Updated,
+				status: EnumChangeStatus.Updated,
 			},
 			{
 				field: FieldInt,
 				value: data.current[FieldInt],
 				previous: data.previous[FieldInt],
-				status: ChangeStatus.Updated,
+				status: EnumChangeStatus.Updated,
 			},
 			{
 				field: FieldBool,
 				value: data.current[FieldBool],
-				status: ChangeStatus.Unchanged,
+				status: EnumChangeStatus.Unchanged,
 			},
 		];
 		const changes = structuredClone(getChanges(data));
@@ -116,18 +116,18 @@ describe("Differ", () => {
 				field: FieldStr,
 				value: data.current[FieldStr],
 				previous: data.previous[FieldStr],
-				status: ChangeStatus.Updated,
+				status: EnumChangeStatus.Updated,
 			},
 			{
 				field: FieldInt,
 				value: data.current[FieldInt],
 				previous: data.previous[FieldInt],
-				status: ChangeStatus.Updated,
+				status: EnumChangeStatus.Updated,
 			},
 			{
 				field: FieldBool,
 				value: data.current[FieldBool],
-				status: ChangeStatus.Unchanged,
+				status: EnumChangeStatus.Unchanged,
 			},
 			{
 				field: FieldArr,
@@ -139,7 +139,7 @@ describe("Differ", () => {
 								field: FieldStr,
 								value: data.current[FieldArr][0][FieldStr],
 								previous: data.previous[FieldArr][0][FieldStr],
-								status: ChangeStatus.Updated,
+								status: EnumChangeStatus.Updated,
 							},
 							{
 								field: FieldObj,
@@ -148,12 +148,12 @@ describe("Differ", () => {
 										field: FieldStr,
 										value: data.current[FieldArr][0][FieldObj][FieldStr],
 										previous: data.previous[FieldArr][0][FieldObj][FieldStr],
-										status: ChangeStatus.Updated,
+										status: EnumChangeStatus.Updated,
 									},
 									{
 										field: FieldInt,
 										value: data.current[FieldArr][0][FieldObj][FieldInt],
-										status: ChangeStatus.Unchanged,
+										status: EnumChangeStatus.Unchanged,
 									},
 									{
 										field: FieldArr,
@@ -164,29 +164,29 @@ describe("Differ", () => {
 													{
 														field: FieldStr,
 														value: data.current[FieldArr][0][FieldObj][FieldArr][0][FieldStr],
-														status: ChangeStatus.Unchanged,
+														status: EnumChangeStatus.Unchanged,
 													},
 													{
 														field: FieldInt,
 														value: data.current[FieldArr][0][FieldObj][FieldArr][0][FieldInt],
 														previous: data.previous[FieldArr][0][FieldObj][FieldArr][0][FieldInt],
-														status: ChangeStatus.Updated,
+														status: EnumChangeStatus.Updated,
 													},
 													{
 														field: FieldBool,
 														value: data.current[FieldArr][0][FieldObj][FieldArr][0][FieldBool],
 														previous: data.previous[FieldArr][0][FieldObj][FieldArr][0][FieldBool],
-														status: ChangeStatus.Updated,
+														status: EnumChangeStatus.Updated,
 													},
 													{
 														field: FieldDate,
 														value: data.current[FieldArr][0][FieldObj][FieldArr][0][FieldDate],
-														status: ChangeStatus.Created,
+														status: EnumChangeStatus.Created,
 													},
 													{
 														field: FieldDelete,
 														value: data.previous[FieldArr][0][FieldObj][FieldArr][0][FieldDelete],
-														status: ChangeStatus.Deleted,
+														status: EnumChangeStatus.Deleted,
 													},
 												],
 											},
@@ -196,17 +196,17 @@ describe("Differ", () => {
 													{
 														field: FieldStr,
 														value: data.current[FieldArr][0][FieldObj][FieldArr][1][FieldStr],
-														status: ChangeStatus.Created,
+														status: EnumChangeStatus.Created,
 													},
 													{
 														field: FieldInt,
 														value: data.current[FieldArr][0][FieldObj][FieldArr][1][FieldInt],
-														status: ChangeStatus.Created,
+														status: EnumChangeStatus.Created,
 													},
 													{
 														field: FieldBool,
 														value: data.current[FieldArr][0][FieldObj][FieldArr][1][FieldBool],
-														status: ChangeStatus.Created,
+														status: EnumChangeStatus.Created,
 													},
 												],
 											},
@@ -220,7 +220,7 @@ describe("Differ", () => {
 									{
 										field: 0,
 										value: data.previous[FieldArr][0][FieldArr][0],
-										status: ChangeStatus.Deleted,
+										status: EnumChangeStatus.Deleted,
 									},
 								],
 							},
@@ -232,7 +232,7 @@ describe("Differ", () => {
 							{
 								field: FieldStr,
 								value: data.current[FieldArr][1][FieldStr],
-								status: ChangeStatus.Created,
+								status: EnumChangeStatus.Created,
 							},
 							{
 								field: FieldObj,
@@ -240,12 +240,12 @@ describe("Differ", () => {
 									{
 										field: FieldStr,
 										value: data.current[FieldArr][1][FieldObj][FieldStr],
-										status: ChangeStatus.Created,
+										status: EnumChangeStatus.Created,
 									},
 									{
 										field: FieldInt,
 										value: data.current[FieldArr][1][FieldObj][FieldInt],
-										status: ChangeStatus.Created,
+										status: EnumChangeStatus.Created,
 									},
 									{
 										field: FieldArr,
@@ -256,12 +256,12 @@ describe("Differ", () => {
 													{
 														field: FieldStr,
 														value: data.current[FieldArr][1][FieldObj][FieldArr][0][FieldStr],
-														status: ChangeStatus.Created,
+														status: EnumChangeStatus.Created,
 													},
 													{
 														field: FieldInt,
 														value: data.current[FieldArr][1][FieldObj][FieldArr][0][FieldInt],
-														status: ChangeStatus.Created,
+														status: EnumChangeStatus.Created,
 													},
 												],
 											},

@@ -1,7 +1,7 @@
 ﻿import { faker } from "@faker-js/faker";
-import { get, isArray, set, isDate } from "lodash";
 import { diff } from "just-diff";
-import { ChangeStatus, DiffModel, DiffModelValue } from "@incutonez/differ-shared/dist/models";
+import { get, isDate, set } from "lodash";
+import { EnumChangeStatus, TDiffEntity, TDiffValue } from "src/models/diff.entity";
 
 const PropertyTypes = ["string", "number", "date", "boolean", "object", "array"] as const;
 type TPropertyTypes = (typeof PropertyTypes)[number];
@@ -13,8 +13,8 @@ const PropertyTypesTotal = PropertyTypes.length - 1;
  * at most give you an object that has 2 levels of nested data.
  */
 export function generateData(depth = 2) {
-	const previous: any = {};
-	const current: any = {};
+	const previous: Record<string, TDiffValue> = {};
+	const current: Record<string, TDiffValue> = {};
 	const totalProperties = faker.number.int({
 		min: 4,
 		max: 10,
@@ -67,44 +67,36 @@ export function generateData(depth = 2) {
 				}
 				break;
 			case "array":
-				previous[fieldName] = [];
-				current[fieldName] = [];
-				for (
-					let j = 0;
-					j <
-					faker.number.int({
-						min: 0,
-						max: 5,
-					});
-					j++
-				) {
+				const previousValue = previous[fieldName] = [];
+				const currentValue = current[fieldName] = [];
+				let maxValue = faker.number.int({
+					min: 0,
+					max: 5,
+				});
+				for (let j = 0; j <	maxValue; j++) {
 					value = generateData(depth - 1);
-					previous[fieldName].push(value.previous);
-					current[fieldName].push(value.current);
+					previousValue.push(value.previous);
+					currentValue.push(value.current);
 				}
-				if (current[fieldName].length) {
+				if (currentValue.length) {
+					maxValue = faker.number.int({
+						min: currentValue.length - 1,
+						max: 10,
+					});
 					// Should increase current
 					if (faker.datatype.boolean()) {
-						for (
-							let j = current[fieldName].length - 1;
-							j <
-							faker.number.int({
-								min: current[fieldName].length - 1,
-								max: 10,
-							});
-							j++
-						) {
+						for (let j = currentValue.length - 1;	j <	maxValue;	j++) {
 							value = generateData(depth - 1);
-							current[fieldName].push(value.current);
+							currentValue.push(value.current);
 						}
 					}
 					// Should decrease current
 					// eslint-disable-next-line no-dupe-else-if
 					else if (faker.datatype.boolean()) {
-						current[fieldName].splice(
+						currentValue.splice(
 							0,
 							faker.number.int({
-								max: current[fieldName].length - 1,
+								max: currentValue.length - 1,
 							}),
 						);
 					}
@@ -120,8 +112,7 @@ export function generateData(depth = 2) {
 
 const Converted = Symbol("converted");
 
-interface ITreeDiff extends DiffModel {
-	value: DiffModelValue | any;
+interface ITreeDiff extends TDiffEntity {
 	[Converted]?: boolean;
 }
 
@@ -133,16 +124,16 @@ export function getChanges({ current, previous } = generateData()) {
 		let old;
 		switch (op) {
 			case "add":
-				status = ChangeStatus.Created;
+				status = EnumChangeStatus.Created;
 				value = get(current, path);
 				break;
 			case "replace":
-				status = ChangeStatus.Updated;
+				status = EnumChangeStatus.Updated;
 				value = get(current, path);
 				old = get(previous, path);
 				break;
 			case "remove":
-				status = ChangeStatus.Deleted;
+				status = EnumChangeStatus.Deleted;
 				value = get(previous, path);
 				break;
 		}
@@ -163,15 +154,11 @@ export function getChanges({ current, previous } = generateData()) {
 	});
 }
 
-function isArrayCheck(value: any): value is Array<any> {
-	return isArray(value);
-}
-
 export function treeDiff({ value, previous, status, field }: ITreeDiff) {
 	if (value?.[Converted]) {
 		return value;
 	}
- else if (isArrayCheck(value)) {
+	else if (Array.isArray(value)) {
 		const items = [];
 		value.forEach((record, index) => {
 			items.push(
@@ -188,11 +175,11 @@ export function treeDiff({ value, previous, status, field }: ITreeDiff) {
 			[Converted]: true,
 		};
 		if (value.length === 0) {
-			result.status = ChangeStatus.Unchanged;
+			result.status = EnumChangeStatus.Unchanged;
 		}
 		return result;
 	}
- else if (value instanceof Object && !isDate(value)) {
+	else if (value instanceof Object && !isDate(value)) {
 		const result = [];
 		for (const key in value) {
 			result.push(
@@ -215,7 +202,7 @@ export function treeDiff({ value, previous, status, field }: ITreeDiff) {
 	const result: ITreeDiff = {
 		field,
 		value,
-		status: status ?? ChangeStatus.Unchanged,
+		status: status ?? EnumChangeStatus.Unchanged,
 		[Converted]: true,
 	};
 	if (previous !== undefined) {

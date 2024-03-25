@@ -3,6 +3,8 @@
 .openapi-generator-ignore
 api.ts
 api/default-api.ts
+api/differ-api.ts
+api/random-api.ts
 api/users-api.ts
 base.ts
 common.ts
@@ -11,9 +13,13 @@ git_push.sh
 index.ts
 models/address-entity.ts
 models/api-paginated-request.ts
+models/diff-entity.ts
+models/enum-change-status.ts
 models/enum-filter-type.ts
 models/filter-type-value.ts
 models/filter-type.ts
+models/get-diff200-response-all-of.ts
+models/get-diff200-response.ts
 models/index.ts
 models/list-users200-response-all-of.ts
 models/list-users200-response.ts

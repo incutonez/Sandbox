@@ -11,7 +11,7 @@ export type IUser = ModelInterface<User>;
 })
 export class User extends Model {
 	@PrimaryKeyGuid()
-	id: string;
+	declare id: string;
 
 	@Column
 	first_name: string;
