@@ -1,5 +1,5 @@
 import { reactive } from "vue";
-import { ApiPaginatedRequest } from "@incutonez/api-spec/dist";
+import { ApiPaginatedRequest } from "@incutonez/spec/dist";
 import { ColumnProps } from "primevue/column";
 import { IBaseButton, IOption } from "@/types/components";
 

@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { ResponseListEntity } from "@incutonez/api-spec/dist";
+import { ResponseListEntity } from "@incutonez/spec/dist";
 import { ClassTransformOptions, plainToInstance } from "class-transformer";
 import { validate, ValidatorOptions } from "class-validator";
 import { unset } from "lodash-es";

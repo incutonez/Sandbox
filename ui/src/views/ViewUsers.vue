@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { ref, unref } from "vue";
-import { ApiPaginatedRequest } from "@incutonez/api-spec/dist";
+import { ApiPaginatedRequest } from "@incutonez/spec/dist";
 import IconCopy from "@/assets/IconCopy.vue";
 import IconDelete from "@/assets/IconDelete.vue";
 import IconEdit from "@/assets/IconEdit.vue";

@@ -1,5 +1,4 @@
-import { ApiPaginatedRequest, UserEntity } from "@incutonez/api-spec/dist";
-import { UsersApi } from "@incutonez/api-spec/generated/api/users-api";
+import { ApiPaginatedRequest, UserEntity, UsersApi } from "@incutonez/spec/dist";
 import { Allow, IsInt, IsString } from "class-validator";
 import { configuration } from "@/apiConfig";
 import { IsRequired } from "@/models/decorators";

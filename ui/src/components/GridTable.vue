@@ -121,7 +121,7 @@
  * - Can't redefine emits: https://github.com/vuejs/core/issues/8457
  */
 import { computed, markRaw, reactive, ref, unref, watch } from "vue";
-import { type FilterType } from "@incutonez/api-spec/dist";
+import { type FilterType } from "@incutonez/spec/dist";
 import get from "just-safe-get";
 import { FilterMatchMode } from "primevue/api";
 import Column from "primevue/column";

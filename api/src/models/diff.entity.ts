@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, getSchemaPath } from "@nestjs/swagger";
 import { ClassInterface } from "src/types";
 
 export const EnumChangeStatus = {
@@ -13,7 +13,30 @@ export type TDiffValue = DiffEntity | DiffEntity[] | boolean | number | string |
 export type TDiffEntity = ClassInterface<DiffEntity>;
 
 export class DiffEntity {
+	@ApiProperty({
+		oneOf: [{
+			type: "string",
+		}, {
+			type: "number",
+		}],
+	})
 	field: number | string;
+	@ApiProperty({
+		oneOf: [{
+			type: "string",
+		}, {
+			type: "boolean",
+		}, {
+			type: "number",
+		}, {
+			$ref: getSchemaPath(DiffEntity),
+		}, {
+			type: "array",
+			items: {
+				$ref: getSchemaPath(DiffEntity),
+			},
+		}],
+	})
 	value: TDiffValue;
 	previous?: DiffEntity;
 	@ApiProperty({

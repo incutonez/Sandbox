@@ -1,4 +1,4 @@
-import { ResponseListEntity } from "@incutonez/api-spec/dist";
+import { ResponseListEntity } from "@incutonez/spec/dist";
 
 export function toInt(value: string) {
 	return parseInt(value, 10);

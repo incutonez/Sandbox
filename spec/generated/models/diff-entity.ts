@@ -15,6 +15,12 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import { DiffEntityField } from './diff-entity-field';
+// May contain unused imports in some cases
+// @ts-ignore
+import { DiffEntityValue } from './diff-entity-value';
+// May contain unused imports in some cases
+// @ts-ignore
 import { EnumChangeStatus } from './enum-change-status';
 
 /**
@@ -25,22 +31,22 @@ import { EnumChangeStatus } from './enum-change-status';
 export interface DiffEntity {
     /**
      * 
+     * @type {DiffEntityField}
+     * @memberof DiffEntity
+     */
+    'field': DiffEntityField;
+    /**
+     * 
+     * @type {DiffEntityValue}
+     * @memberof DiffEntity
+     */
+    'value': DiffEntityValue;
+    /**
+     * 
      * @type {EnumChangeStatus}
      * @memberof DiffEntity
      */
     'status'?: EnumChangeStatus;
-    /**
-     * 
-     * @type {object}
-     * @memberof DiffEntity
-     */
-    'field': object;
-    /**
-     * 
-     * @type {object}
-     * @memberof DiffEntity
-     */
-    'value': object;
     /**
      * 
      * @type {DiffEntity}

@@ -13,6 +13,8 @@ git_push.sh
 index.ts
 models/address-entity.ts
 models/api-paginated-request.ts
+models/diff-entity-field.ts
+models/diff-entity-value.ts
 models/diff-entity.ts
 models/enum-change-status.ts
 models/enum-filter-type.ts

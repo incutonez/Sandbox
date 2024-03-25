@@ -1,7 +1,8 @@
 <template>
-  <BaseIcon icon="woman" />
+	<BaseIcon :icon="SVGIcon" />
 </template>
 
 <script setup lang="ts">
+import SVGIcon from "@material-symbols/svg-400/outlined/difference.svg";
 import BaseIcon from "@/components/BaseIcon.vue";
 </script>
