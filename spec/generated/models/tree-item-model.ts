@@ -15,44 +15,44 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { DiffEntityField } from './diff-entity-field';
-// May contain unused imports in some cases
-// @ts-ignore
-import { DiffEntityValue } from './diff-entity-value';
-// May contain unused imports in some cases
-// @ts-ignore
 import { EnumChangeStatus } from './enum-change-status';
+// May contain unused imports in some cases
+// @ts-ignore
+import { TreeItemModelField } from './tree-item-model-field';
+// May contain unused imports in some cases
+// @ts-ignore
+import { TreeItemModelValue } from './tree-item-model-value';
 
 /**
  * 
  * @export
- * @interface DiffEntity
+ * @interface TreeItemModel
  */
-export interface DiffEntity {
+export interface TreeItemModel {
     /**
      * 
-     * @type {DiffEntityField}
-     * @memberof DiffEntity
+     * @type {TreeItemModelField}
+     * @memberof TreeItemModel
      */
-    'field': DiffEntityField;
+    'field': TreeItemModelField;
     /**
      * 
-     * @type {DiffEntityValue}
-     * @memberof DiffEntity
+     * @type {TreeItemModelValue}
+     * @memberof TreeItemModel
      */
-    'value': DiffEntityValue;
+    'value': TreeItemModelValue;
     /**
      * 
      * @type {EnumChangeStatus}
-     * @memberof DiffEntity
+     * @memberof TreeItemModel
      */
     'status'?: EnumChangeStatus;
     /**
      * 
-     * @type {DiffEntity}
-     * @memberof DiffEntity
+     * @type {TreeItemModel}
+     * @memberof TreeItemModel
      */
-    'previous'?: DiffEntity;
+    'previous'?: TreeItemModel;
 }
 
 

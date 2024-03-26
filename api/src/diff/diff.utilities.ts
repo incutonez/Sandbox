@@ -1,7 +1,7 @@
 ﻿import { faker } from "@faker-js/faker";
 import { diff } from "just-diff";
 import { get, isDate, set } from "lodash";
-import { EnumChangeStatus, TDiffEntity, TDiffValue } from "src/models/diff.entity";
+import { EnumChangeStatus, TTreeItem, TTreeItemValue } from "src/models/diff.entity";
 
 const PropertyTypes = ["string", "number", "date", "boolean", "object", "array"] as const;
 type TPropertyTypes = (typeof PropertyTypes)[number];
@@ -13,8 +13,8 @@ const PropertyTypesTotal = PropertyTypes.length - 1;
  * at most give you an object that has 2 levels of nested data.
  */
 export function generateData(depth = 2) {
-	const previous: Record<string, TDiffValue> = {};
-	const current: Record<string, TDiffValue> = {};
+	const previous: Record<string, TTreeItemValue> = {};
+	const current: Record<string, TTreeItemValue> = {};
 	const totalProperties = faker.number.int({
 		min: 4,
 		max: 10,
@@ -112,7 +112,7 @@ export function generateData(depth = 2) {
 
 const Converted = Symbol("converted");
 
-interface ITreeDiff extends TDiffEntity {
+interface ITreeDiff extends TTreeItem {
 	[Converted]?: boolean;
 }
 
@@ -151,22 +151,22 @@ export function getChanges({ current, previous } = generateData()) {
 	return treeDiff({
 		value: current,
 		field: undefined,
-	});
+	}) as TTreeItem[];
 }
 
-export function treeDiff({ value, previous, status, field }: ITreeDiff) {
+export function treeDiff({ value, previous, status, field }: ITreeDiff): TTreeItem[] | ITreeDiff {
 	if (value?.[Converted]) {
-		return value;
+		return value as ITreeDiff;
 	}
 	else if (Array.isArray(value)) {
-		const items = [];
+		const items: TTreeItem[] = [];
 		value.forEach((record, index) => {
 			items.push(
 				treeDiff({
 					status,
 					value: record,
 					field: index,
-				}),
+				}) as ITreeDiff,
 			);
 		});
 		const result: ITreeDiff = {
@@ -180,14 +180,14 @@ export function treeDiff({ value, previous, status, field }: ITreeDiff) {
 		return result;
 	}
 	else if (value instanceof Object && !isDate(value)) {
-		const result = [];
+		const result: TTreeItem[] = [];
 		for (const key in value) {
 			result.push(
 				treeDiff({
 					status,
 					value: value[key],
 					field: key,
-				}),
+				}) as ITreeDiff,
 			);
 		}
 		if (field === undefined) {

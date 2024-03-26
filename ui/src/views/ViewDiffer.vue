@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { DiffModel } from "@/models/DiffModel";
+import { TreeViewModel } from "@/models/TreeViewModel";
 
-DiffModel.list();
+TreeViewModel.list();
 </script>

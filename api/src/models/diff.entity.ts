@@ -9,10 +9,16 @@ export const EnumChangeStatus = {
 } as const;
 
 export type ChangeStatus = typeof EnumChangeStatus[keyof typeof EnumChangeStatus];
-export type TDiffValue = DiffEntity | DiffEntity[] | boolean | number | string | Date | object;
-export type TDiffEntity = ClassInterface<DiffEntity>;
+export type TTreeItemValue = TreeItemModel | TreeItemModel[] | boolean | number | string | Date | object;
+export type TTreeItem = ClassInterface<TreeItemModel>;
 
-export class DiffEntity {
+export class TreeChangeModel {
+	username: string;
+	date: number;
+	items: TreeItemModel[];
+}
+
+export class TreeItemModel {
 	@ApiProperty({
 		oneOf: [{
 			type: "string",
@@ -29,16 +35,16 @@ export class DiffEntity {
 		}, {
 			type: "number",
 		}, {
-			$ref: getSchemaPath(DiffEntity),
+			$ref: getSchemaPath(TreeItemModel),
 		}, {
 			type: "array",
 			items: {
-				$ref: getSchemaPath(DiffEntity),
+				$ref: getSchemaPath(TreeItemModel),
 			},
 		}],
 	})
-	value: TDiffValue;
-	previous?: DiffEntity;
+	value: TTreeItemValue;
+	previous?: TreeItemModel;
 	@ApiProperty({
 		enum: Object.keys(EnumChangeStatus),
 		enumName: "EnumChangeStatus",

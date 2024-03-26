@@ -2,7 +2,7 @@
 import { ApiTags } from "@nestjs/swagger";
 import { DiffService } from "src/diff/diff.service";
 import { ApiPaginatedResponse, ResponseListEntity } from "src/models/base.list.entity";
-import { DiffEntity } from "src/models/diff.entity";
+import { TreeChangeModel } from "src/models/diff.entity";
 
 @ApiTags("Differ")
 @Controller("diff")
@@ -10,7 +10,7 @@ export class DiffController {
 	constructor(private readonly service: DiffService) {}
 
 	@Get()
-	@ApiPaginatedResponse(DiffEntity)
+	@ApiPaginatedResponse(TreeChangeModel)
 	getDiff(): ResponseListEntity {
 		const data = this.service.getDiff();
 

@@ -14,9 +14,9 @@
 import BaseButton from "@/components/BaseButton.vue";
 import { IBaseButton } from "@/types/components";
 
-export interface IGridCellActions {
+export interface ITableCellActions {
 	actions: IBaseButton[];
 }
 
-defineProps<IGridCellActions>();
+defineProps<ITableCellActions>();
 </script>

@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { DiffEntity } from './diff-entity';
+import { TreeChangeModel } from './tree-change-model';
 
 /**
  * 
@@ -25,9 +25,9 @@ import { DiffEntity } from './diff-entity';
 export interface GetDiff200ResponseAllOf {
     /**
      * 
-     * @type {Array<DiffEntity>}
+     * @type {Array<TreeChangeModel>}
      * @memberof GetDiff200ResponseAllOf
      */
-    'data'?: Array<DiffEntity>;
+    'data'?: Array<TreeChangeModel>;
 }
 

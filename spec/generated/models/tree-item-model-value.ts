@@ -15,18 +15,18 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { DiffEntity } from './diff-entity';
-// May contain unused imports in some cases
-// @ts-ignore
-import { DiffEntityField } from './diff-entity-field';
-// May contain unused imports in some cases
-// @ts-ignore
 import { EnumChangeStatus } from './enum-change-status';
+// May contain unused imports in some cases
+// @ts-ignore
+import { TreeItemModel } from './tree-item-model';
+// May contain unused imports in some cases
+// @ts-ignore
+import { TreeItemModelField } from './tree-item-model-field';
 
 /**
- * @type DiffEntityValue
+ * @type TreeItemModelValue
  * @export
  */
-export type DiffEntityValue = Array<DiffEntity> | DiffEntity | boolean | number | string;
+export type TreeItemModelValue = Array<TreeItemModel> | TreeItemModel | boolean | number | string;
 
 

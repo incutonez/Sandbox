@@ -15,13 +15,13 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { DiffEntity } from './diff-entity';
-// May contain unused imports in some cases
-// @ts-ignore
 import { GetDiff200ResponseAllOf } from './get-diff200-response-all-of';
 // May contain unused imports in some cases
 // @ts-ignore
 import { ResponseListEntity } from './response-list-entity';
+// May contain unused imports in some cases
+// @ts-ignore
+import { TreeChangeModel } from './tree-change-model';
 
 /**
  * @type GetDiff200Response

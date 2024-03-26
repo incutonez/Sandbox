@@ -8,7 +8,8 @@
  * Source: https://github.com/primefaces/primevue/issues/4940
  */
 import TableColumn from "primevue/column";
-import { getColumnProps, IGridColumn } from "@/types/dataTable";
+import { getColumnProps } from "@/components/table";
+import { ITableColumn } from "@/types/table";
 
-const props = defineProps<IGridColumn>();
+const props = defineProps<ITableColumn>();
 </script>

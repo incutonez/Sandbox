@@ -13,9 +13,6 @@ git_push.sh
 index.ts
 models/address-entity.ts
 models/api-paginated-request.ts
-models/diff-entity-field.ts
-models/diff-entity-value.ts
-models/diff-entity.ts
 models/enum-change-status.ts
 models/enum-filter-type.ts
 models/filter-type-value.ts
@@ -26,4 +23,8 @@ models/index.ts
 models/list-users200-response-all-of.ts
 models/list-users200-response.ts
 models/response-list-entity.ts
+models/tree-change-model.ts
+models/tree-item-model-field.ts
+models/tree-item-model-value.ts
+models/tree-item-model.ts
 models/user-entity.ts

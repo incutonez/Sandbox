@@ -11,6 +11,7 @@
     "lint": "npx eslint . --ext .js --fix",
     "lint:fix": "prettier --write && npx eslint --fix",
     "explode": "npm cache clean --force && npx rimraf package-lock.json node_modules && npm i",
+    "generate:spec": "cd spec && npm run generate",
     "build:spec": "cd spec && npm run build",
     "build:ui": "cd ui && npm run build",
     "validate:api": "cd api && npx tsc-files --noEmit",

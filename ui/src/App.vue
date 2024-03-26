@@ -56,7 +56,7 @@
  * - Add saving of scrollbar for routes (using __name with dynamic caching)
  * - Migrate any individual API dirs to API dir, so we have a centralized API
  * - Add CRUD operations to grids with cell editors
- * - Potentially add provide/inject with GridTable
+ * - Potentially add provide/inject with TableGrid
  * - Potentially use provide/inject for users.ts data loading
  */
 import { useRoute } from "vue-router";

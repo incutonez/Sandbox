@@ -20,12 +20,12 @@ import BaseButton from "@/components/BaseButton.vue";
 import BaseMenu, { IBaseMenu } from "@/components/BaseMenu.vue";
 import { IBaseButton } from "@/types/components";
 
-export interface IGridCellMenu {
+export interface ITableCellMenu {
 	buttonConfig?: IBaseButton;
 	menuConfig: IBaseMenu;
 }
 
-withDefaults(defineProps<IGridCellMenu>(), {
+withDefaults(defineProps<ITableCellMenu>(), {
 	buttonConfig() {
 		return {};
 	},

@@ -15,9 +15,9 @@
 
 
 /**
- * @type DiffEntityField
+ * @type TreeItemModelField
  * @export
  */
-export type DiffEntityField = number | string;
+export type TreeItemModelField = number | string;
 
 
