@@ -17,14 +17,11 @@ models/enum-change-status.ts
 models/enum-filter-type.ts
 models/filter-type-value.ts
 models/filter-type.ts
-models/get-diff200-response-all-of.ts
-models/get-diff200-response.ts
 models/index.ts
-models/list-users200-response-all-of.ts
-models/list-users200-response.ts
-models/response-list-entity.ts
 models/tree-change-model.ts
+models/tree-change-response-model.ts
 models/tree-item-model-field.ts
 models/tree-item-model-value.ts
 models/tree-item-model.ts
 models/user-entity.ts
+models/user-response-model.ts

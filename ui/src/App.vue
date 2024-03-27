@@ -15,7 +15,7 @@
 				<IconDifference
 					title="Differ"
 					class="h-10 w-10 cursor-pointer rounded-full fill-red-500 p-2 hover:bg-slate-500"
-					@click="onClickViewDiffer"
+					@click="onClickViewTreeChanges"
 				/>
 			</div>
 		</nav>
@@ -63,7 +63,7 @@ import { useRoute } from "vue-router";
 import IconDifference from "@/assets/IconDifference.vue";
 import IconTriforce from "@/assets/IconTriforce.vue";
 import IconUsers from "@/assets/IconUsers.vue";
-import { viewDiffer, viewUsers, viewZeldaWorldBuilder } from "@/router";
+import { viewTreeChanges, viewUsers, viewZeldaWorldBuilder } from "@/router";
 
 const route = useRoute();
 
@@ -75,7 +75,7 @@ function onClickViewZelda() {
 	viewZeldaWorldBuilder();
 }
 
-function onClickViewDiffer() {
-	viewDiffer();
+function onClickViewTreeChanges() {
+	viewTreeChanges();
 }
 </script>

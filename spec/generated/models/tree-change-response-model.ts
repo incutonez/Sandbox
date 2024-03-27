@@ -15,18 +15,25 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { GetDiff200ResponseAllOf } from './get-diff200-response-all-of';
-// May contain unused imports in some cases
-// @ts-ignore
-import { ResponseListEntity } from './response-list-entity';
-// May contain unused imports in some cases
-// @ts-ignore
 import { TreeChangeModel } from './tree-change-model';
 
 /**
- * @type GetDiff200Response
+ * 
  * @export
+ * @interface TreeChangeResponseModel
  */
-export type GetDiff200Response = GetDiff200ResponseAllOf & ResponseListEntity;
-
+export interface TreeChangeResponseModel {
+    /**
+     * 
+     * @type {Array<TreeChangeModel>}
+     * @memberof TreeChangeResponseModel
+     */
+    'data': Array<TreeChangeModel>;
+    /**
+     * 
+     * @type {number}
+     * @memberof TreeChangeResponseModel
+     */
+    'total'?: number;
+}
 

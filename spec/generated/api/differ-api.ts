@@ -22,7 +22,7 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 // @ts-ignore
-import { GetDiff200Response } from '../models';
+import { TreeChangeResponseModel } from '../models';
 /**
  * DifferApi - axios parameter creator
  * @export
@@ -73,7 +73,7 @@ export const DifferApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getDiff(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetDiff200Response>> {
+        async getDiff(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TreeChangeResponseModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getDiff(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -92,7 +92,7 @@ export const DifferApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDiff(options?: any): AxiosPromise<GetDiff200Response> {
+        getDiff(options?: any): AxiosPromise<TreeChangeResponseModel> {
             return localVarFp.getDiff(options).then((request) => request(axios, basePath));
         },
     };
@@ -110,7 +110,7 @@ export interface DifferApiInterface {
      * @throws {RequiredError}
      * @memberof DifferApiInterface
      */
-    getDiff(options?: AxiosRequestConfig): AxiosPromise<GetDiff200Response>;
+    getDiff(options?: AxiosRequestConfig): AxiosPromise<TreeChangeResponseModel>;
 
 }
 

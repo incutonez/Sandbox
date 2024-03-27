@@ -37,7 +37,7 @@ export class UserModel extends ViewModel implements UserEntity {
 
 	static async readAll(request: ApiPaginatedRequest) {
 		const response = await UsersAPI.listUsers(request);
-		return response.data;
+		return super._readAll(response.data);
 	}
 
 	async read(userId = this.id) {

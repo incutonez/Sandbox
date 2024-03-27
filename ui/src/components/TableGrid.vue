@@ -120,7 +120,7 @@
  * - Column Resizing: https://github.com/primefaces/primevue/issues/5104
  * - Can't redefine emits: https://github.com/vuejs/core/issues/8457
  */
-import { computed, reactive, watch } from "vue";
+import { reactive, watch } from "vue";
 import { FilterMatchMode } from "primevue/api";
 import Column from "primevue/column";
 import DataTable, { DataTableColumnReorderEvent } from "primevue/datatable";
@@ -132,9 +132,9 @@ import BaseButton from "@/components/BaseButton.vue";
 import FieldComboBox from "@/components/FieldComboBox.vue";
 import FieldNumber from "@/components/FieldNumber.vue";
 import FieldText from "@/components/FieldText.vue";
-import { RowsPerPageOptions, useDataTable } from "@/components/table";
 import TableCellMenu from "@/components/TableCellMenu.vue";
 import { ITableEmit, ITableGrid } from "@/types/table";
+import { RowsPerPageOptions, useDataTable } from "@/utils/table";
 
 const props = withDefaults(defineProps<ITableGrid>(), {
 	showLinesColumn: true,
@@ -147,21 +147,13 @@ const props = withDefaults(defineProps<ITableGrid>(), {
 	columnsReorder: true,
 });
 const emit = defineEmits<ITableEmit>();
-const { filterFields, columnsConfig, propsComponent, recordsTotal, start, loading, rowsPerPage, currentPage, recordsCached, search, loadRecords, previousPage, nextPage, changeRowsPerPage, getColumnMenuConfig, getCellDisplay, getCellParams } = useDataTable(props, emit);
+const { filterFields, columnsConfig, propsComponent, recordsTotal, start, loading, rowsPerPage, currentPage, recordsCached, search, isPageLast, isPageFirst, startDisplay, endDisplay, totalPages, loadRecords, previousPage, nextPage, changePage, changeRowsPerPage, getColumnMenuConfig, getCellDisplay, getCellParams } = useDataTable(props, emit);
 const filters = reactive<any>({
 	global: {
 		value: null,
 		matchMode: FilterMatchMode.CONTAINS,
 	},
 });
-const startDisplay = computed(() => (recordsTotal.value === 0 ? 0 : start.value + 1));
-const endDisplay = computed(() => {
-	const end = start.value + rowsPerPage.value;
-	return end > recordsTotal.value ? recordsTotal.value : end;
-});
-const isPageFirst = computed(() => currentPage.value === 1);
-const isPageLast = computed(() => start.value + rowsPerPage.value >= recordsTotal.value);
-const totalPages = computed(() => Math.ceil(recordsTotal.value / rowsPerPage.value));
 
 function onPagePrevious() {
 	previousPage();
@@ -206,14 +198,7 @@ function onSearch() {
 }
 
 function onChangePage(value: number) {
-	if (!value) {
-		value = 1;
-	}
-	else if (value > totalPages.value) {
-		value = totalPages.value;
-	}
-	currentPage.value = value;
-	loadRecords();
+	changePage(value);
 }
 
 watch(() => props.records, ($records = []) => (recordsCached.value = $records), {

@@ -3,6 +3,7 @@ import { FilterType } from "@incutonez/spec/dist";
 import get from "just-safe-get";
 import { ColumnProps } from "primevue/column";
 import { DataTableProps } from "primevue/datatable";
+import { TreeNode } from "primevue/treenode";
 import IconLock from "@/assets/IconLock.vue";
 import IconNotAllowed from "@/assets/IconNotAllowed.vue";
 import IconPin from "@/assets/IconPin.vue";
@@ -26,7 +27,7 @@ export const RowsPerPageOptions: IOption[] = [{
 	name: "100",
 }];
 
-export function getColumnProps({ field, title, titleCls, titleAlign, sortable, lock, cls = "", showMenu = true, id }: ITableColumn) {
+export function getColumnProps({ field, title, titleCls, titleAlign, sortable, lock, cls = "", showMenu = true, id, expandable }: ITableColumn) {
 	const headerContentCls = [];
 	if (showMenu) {
 		headerContentCls.push("pr-10");
@@ -54,6 +55,7 @@ export function getColumnProps({ field, title, titleCls, titleAlign, sortable, l
 		alignFrozen: lock,
 		class: cls,
 		columnKey: id,
+		expander: expandable,
 	};
 	return reactive(columnProps);
 }
@@ -126,6 +128,14 @@ export function useDataTable<T = unknown>(props: ITableGrid, emit: TTableEmit) {
 		}
 		return tableProps;
 	});
+	const startDisplay = computed(() => (recordsTotal.value === 0 ? 0 : start.value + 1));
+	const endDisplay = computed(() => {
+		const end = start.value + rowsPerPage.value;
+		return end > recordsTotal.value ? recordsTotal.value : end;
+	});
+	const isPageFirst = computed(() => currentPage.value === 1);
+	const isPageLast = computed(() => start.value + rowsPerPage.value >= recordsTotal.value);
+	const totalPages = computed(() => Math.ceil(recordsTotal.value / rowsPerPage.value));
 
 	function previousPage() {
 		currentPage.value--;
@@ -137,17 +147,35 @@ export function useDataTable<T = unknown>(props: ITableGrid, emit: TTableEmit) {
 		loadRecords();
 	}
 
+	function changePage(value: number) {
+		if (!value) {
+			value = 1;
+		}
+		else if (value > totalPages.value) {
+			value = totalPages.value;
+		}
+		currentPage.value = value;
+		loadRecords();
+	}
+
 	function changeRowsPerPage(value: number) {
 		currentPage.value = Math.floor((start.value + 1) / value) + 1;
 		rowsPerPage.value = value;
 		loadRecords();
 	}
 
-	function getCellDisplay({ cellDisplay }: ITableColumn, slotProps: any) {
+	function getCellDisplay({ cellDisplay }: ITableColumn, { data, field }: any) {
 		if (cellDisplay) {
-			return cellDisplay(slotProps.data, recordsCached.value);
+			return cellDisplay(data, recordsCached.value);
 		}
-		return get(slotProps.data, slotProps.field);
+		return get(data, field);
+	}
+
+	function getNodeDisplay({ cellDisplay }: ITableColumn, { node, column }: { node: TreeNode, column: ITableColumn }) {
+		if (cellDisplay) {
+			return cellDisplay(node.data, recordsCached.value);
+		}
+		return get(node.data, column.key ?? "");
 	}
 
 	function getCellParams({ cellParams }: ITableColumn, data: any) {
@@ -290,6 +318,11 @@ export function useDataTable<T = unknown>(props: ITableGrid, emit: TTableEmit) {
 	});
 
 	return {
+		startDisplay,
+		endDisplay,
+		isPageFirst,
+		isPageLast,
+		totalPages,
 		columnsConfig,
 		filterFields,
 		propsComponent,
@@ -304,8 +337,10 @@ export function useDataTable<T = unknown>(props: ITableGrid, emit: TTableEmit) {
 		previousPage,
 		nextPage,
 		changeRowsPerPage,
+		changePage,
 		getCellParams,
 		getCellDisplay,
+		getNodeDisplay,
 		getColumnMenuConfig,
 	};
 }

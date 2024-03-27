@@ -17,8 +17,8 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import PrimeMenu from "primevue/tieredmenu";
-import { getMenuItemProps } from "@/components/menu.helper";
 import { type IMenuItem } from "@/types/components";
+import { getMenuItemProps } from "@/utils/menu";
 
 export interface IBaseMenu {
 	items: IMenuItem[];

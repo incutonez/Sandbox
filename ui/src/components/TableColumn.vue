@@ -8,8 +8,8 @@
  * Source: https://github.com/primefaces/primevue/issues/4940
  */
 import TableColumn from "primevue/column";
-import { getColumnProps } from "@/components/table";
 import { ITableColumn } from "@/types/table";
+import { getColumnProps } from "@/utils/table";
 
 const props = defineProps<ITableColumn>();
 </script>

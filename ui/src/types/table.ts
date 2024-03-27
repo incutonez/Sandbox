@@ -22,6 +22,7 @@ export interface ITableColumn {
 	indexOriginal?: number;
 	props?: ColumnProps;
 	stateful?: boolean;
+	expandable?: boolean;
 }
 
 export interface ITableGrid<TData = any> {

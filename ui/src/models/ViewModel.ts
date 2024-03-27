@@ -1,9 +1,7 @@
 import "reflect-metadata";
-import { ResponseListEntity } from "@incutonez/spec/dist";
 import { ClassTransformOptions, plainToInstance } from "class-transformer";
 import { validate, ValidatorOptions } from "class-validator";
 import { unset } from "lodash-es";
-import { isListResponse } from "@/utils/api";
 import { getObjectValue, isEmpty, isObject } from "@/utils/common";
 
 // Related: https://github.com/microsoft/TypeScript/issues/42896#issuecomment-782754005
@@ -51,6 +49,7 @@ function getValue(item: any, options: IModelGetOptions): any {
 	return item;
 }
 
+// TODOJEF: Add Dirty flag and ability to reset to non-dirty state with a snapshot?
 export class ViewModel {
 	static [IsModel] = true;
 	[IsNew] = true;
@@ -67,21 +66,6 @@ export class ViewModel {
 		record[IsNew] = options[IsNew] ?? true;
 		record[Parent] = options[Parent];
 		return record;
-	}
-
-	static async list(params?: unknown) {
-		const response = await this.readAll(params);
-		let records: unknown[] = [];
-		const genericResponse = isListResponse(response);
-		const data = genericResponse ? response.data : response;
-		if (data) {
-			records = data.map((item: any) => this.create(item));
-		}
-		if (genericResponse) {
-			(response.data as unknown[]) = records;
-			return response;
-		}
-		return records;
 	}
 
 	/**
@@ -182,9 +166,18 @@ export class ViewModel {
 		throw Error("Method not implemented");
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
-	static async readAll(_params?: unknown): Promise<ResponseListEntity | unknown[]> {
-		throw Error("Method not implemented");
+	static _readAll<T extends object>(response: T): T {
+		let records: unknown[] = [];
+		const genericResponse = "data" in response;
+		const data = genericResponse ? response.data : response;
+		if (data) {
+			records = (data as ViewModel[]).map((item) => this.create(item));
+		}
+		if (genericResponse) {
+			(response.data as unknown[]) = records;
+			return response;
+		}
+		return records as T;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars

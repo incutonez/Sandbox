@@ -15,18 +15,25 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { ListUsers200ResponseAllOf } from './list-users200-response-all-of';
-// May contain unused imports in some cases
-// @ts-ignore
-import { ResponseListEntity } from './response-list-entity';
-// May contain unused imports in some cases
-// @ts-ignore
 import { UserEntity } from './user-entity';
 
 /**
- * @type ListUsers200Response
+ * 
  * @export
+ * @interface UserResponseModel
  */
-export type ListUsers200Response = ListUsers200ResponseAllOf & ResponseListEntity;
-
+export interface UserResponseModel {
+    /**
+     * 
+     * @type {Array<UserEntity>}
+     * @memberof UserResponseModel
+     */
+    'data': Array<UserEntity>;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserResponseModel
+     */
+    'total'?: number;
+}
 

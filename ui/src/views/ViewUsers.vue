@@ -120,7 +120,7 @@ const columns: ITableColumn[] = [
 ];
 
 async function loadUsers(params: ApiPaginatedRequest) {
-	return UserModel.list(params);
+	return UserModel.readAll(params);
 }
 
 async function onDeleteUser() {
