@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { TreeItemModel } from "@incutonez/spec";
-import { TreeNode } from "primevue/treenode";
+import type { TreeNode } from "primevue/treenode";
 import TableTree from "@/components/TableTree.vue";
 import { TreeViewModel } from "@/models/TreeViewModel";
 import { ITableColumn } from "@/types/table";
@@ -46,7 +46,7 @@ async function loadRecords() {
 			return {
 				key: `${index}`,
 				data: record,
-				children: getChildren(record.items),
+				children: getChildren(record.items, `${index}`),
 			};
 		}),
 	};

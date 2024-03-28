@@ -1,9 +1,6 @@
 ﻿import { execSync } from "child_process";
 
 const apps = [
-	"Differ/api",
-	"Differ/ui",
-	"Differ/shared",
 	"TipTap",
 	"Modeling",
 	"ui",

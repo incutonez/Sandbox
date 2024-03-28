@@ -93,7 +93,7 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 import Column from "primevue/column";
-import { TreeNode } from "primevue/treenode";
+import type { TreeNode } from "primevue/treenode";
 import PrimeTreeTable from "primevue/treetable";
 import IconPageLeft from "@/assets/IconPageLeft.vue";
 import IconPageRight from "@/assets/IconPageRight.vue";
