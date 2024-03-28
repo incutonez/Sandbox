@@ -1,6 +1,6 @@
-import { IGridColumn } from "@/types/dataTable";
+import { ITableColumn } from "@/types/table";
 
-export function useColumnIndex(): IGridColumn {
+export function useColumnIndex(): ITableColumn {
 	return {
 		lock: "left",
 		showMenu: false,

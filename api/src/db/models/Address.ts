@@ -1,4 +1,5 @@
 import { Column, Model, Table } from "sequelize-typescript";
+import { PrimaryKeyGuid } from "src/db/decorators";
 import { ModelInterface } from "src/types";
 
 export type IAddress = ModelInterface<Address>;
@@ -8,10 +9,8 @@ export type IAddress = ModelInterface<Address>;
 	timestamps: false,
 })
 export class Address extends Model {
-	@Column({
-		primaryKey: true,
-	})
-	id: number;
+	@PrimaryKeyGuid()
+	declare id: number;
 
 	@Column
 	line_one: string;

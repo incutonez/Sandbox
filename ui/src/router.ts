@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+import ViewTreeChanges from "@/views/ViewTreeChanges.vue";
 import ViewUser from "@/views/ViewUser.vue";
 import ViewUsers from "@/views/ViewUsers.vue";
 import ViewZeldaWorldBuilder from "@/views/ViewZeldaWorldBuilder.vue";
@@ -12,6 +13,8 @@ export const RouteUsersView = "users-view";
 export const RouteUsersNew = "users-new";
 
 export const RouteZeldaWorldBuilder = "zelda-world-builder";
+
+export const RouteTreeChangesView = "tree-changes-view";
 
 export const routes = [{
 	path: "/users",
@@ -27,6 +30,10 @@ export const routes = [{
 		name: RouteUsersNew,
 		component: ViewUser,
 	}],
+}, {
+	path: "/treechanges",
+	name: RouteTreeChangesView,
+	component: ViewTreeChanges,
 }, {
 	path: "/zelda",
 	name: RouteZeldaWorldBuilder,
@@ -59,5 +66,11 @@ export function viewUser(userId?: string) {
 export function viewZeldaWorldBuilder() {
 	return router.push({
 		name: RouteZeldaWorldBuilder,
+	});
+}
+
+export function viewTreeChanges() {
+	return router.push({
+		name: RouteTreeChangesView,
 	});
 }

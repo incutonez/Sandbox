@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { ApiPaginatedRequest, ApiPaginatedResponse, ResponseListEntity } from "src/models/base.list.entity";
+import { ApiPaginatedRequest } from "src/models/base.list.entity";
+import { UserResponseModel } from "src/models/responses.entity";
 import { UserEntity } from "src/models/user.entity";
 import { UsersService } from "src/users/users.service";
 
@@ -11,8 +12,7 @@ export class UsersController {
 
 	@Post("list")
 	@HttpCode(HttpStatus.OK)
-	@ApiPaginatedResponse(UserEntity)
-	async listUsers(@Body() body: ApiPaginatedRequest): Promise<ResponseListEntity> {
+	async listUsers(@Body() body: ApiPaginatedRequest): Promise<UserResponseModel> {
 		return this.service.listUsers(body);
 	}
 

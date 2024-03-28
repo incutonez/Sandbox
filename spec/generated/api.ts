@@ -15,5 +15,7 @@
 
 
 export * from './api/default-api';
+export * from './api/differ-api';
+export * from './api/random-api';
 export * from './api/users-api';
 

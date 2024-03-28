@@ -1,11 +1,7 @@
-import { applyDecorators, Type } from "@nestjs/common";
-import { ApiExtraModels, ApiOkResponse, ApiProperty, getSchemaPath } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 import { FilterType } from "src/enums.entity";
 
-export class ResponseListEntity<T = unknown> {
-	@ApiProperty({
-		type: () => Array,
-	})
+interface IResponseListEntity<T> {
 	data: T[];
 	total?: number;
 }
@@ -17,27 +13,13 @@ export class ApiPaginatedRequest {
 	filters?: FilterType[];
 }
 
-export const ApiPaginatedResponse = <TModel extends Type<unknown>>(model: TModel) => {
-	return applyDecorators(
-		ApiExtraModels(ResponseListEntity, model),
-		ApiOkResponse({
-			schema: {
-				allOf: [
-					{
-						$ref: getSchemaPath(ResponseListEntity),
-					},
-					{
-						properties: {
-							data: {
-								type: "array",
-								items: {
-									$ref: getSchemaPath(model),
-								},
-							},
-						},
-					},
-				],
-			},
-		}),
-	);
-};
+export function GetResponseModel<T>(ResourceClass) {
+	class ResponseListEntity implements IResponseListEntity<T> {
+		@ApiProperty({
+			type: [ResourceClass],
+		})
+		data: T[];
+		total?: number;
+	}
+	return ResponseListEntity;
+}
