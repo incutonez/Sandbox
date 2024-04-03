@@ -1,10 +1,12 @@
 import { ApiPaginatedRequest } from "@incutonez/spec/dist";
-import { ColumnProps } from "primevue/column";
+import { ColumnPassThroughMethodOptions, ColumnPassThroughOptions, ColumnProps } from "primevue/column";
 import { EmitFn, IBaseButton } from "@/types/components";
 
 export type TColumnLock = "left" | "right" | false;
 
-export interface ITableColumn {
+export interface IPassThroughOptions extends ColumnPassThroughMethodOptions {}
+
+export interface ITableColumn<T = unknown> {
 	field?: string;
 	title?: string;
 	titleCls?: string;
@@ -14,7 +16,8 @@ export interface ITableColumn {
 	sortable?: boolean;
 	cellComponent?: InstanceType<any>;
 	cellParams?: any;
-	cellDisplay?: (data: unknown, records: unknown) => any;
+	cellDisplay?: (data: T, records: T[]) => any;
+	cellClass?: string | ((column: ITableColumn, node: T | ITreeNode<T>) => string);
 	lock?: TColumnLock;
 	cls?: string;
 	showMenu?: boolean;
@@ -23,6 +26,9 @@ export interface ITableColumn {
 	props?: ColumnProps;
 	stateful?: boolean;
 	expandable?: boolean;
+	rowspan?: number;
+	colspan?: number;
+	classes?: ColumnPassThroughOptions;
 }
 
 export interface ITableGrid<TData = any> {
@@ -33,8 +39,11 @@ export interface ITableGrid<TData = any> {
 	showLinesRow?: boolean;
 	showStripedRows?: boolean;
 	showRowsPerPage?: boolean;
+	showSearch?: boolean;
+	showAddEntity?: boolean;
+	hideHeaders?: boolean;
 	multiSelect?: boolean | undefined;
-	columns?: ITableColumn[];
+	columns?: ITableColumn<TData>[];
 	columnsResize?: boolean;
 	columnsReorder?: boolean;
 	rowsPerPage?: number;
@@ -58,4 +67,19 @@ export interface IColumnState {
 	index?: number;
 }
 
+export interface IColumnFilter {
+	value: any;
+	matchMode: string;
+}
+
+export type TColumnFilters = Record<string, IColumnFilter>;
+
 export type TTableEmit = EmitFn<ITableEmit>;
+
+export interface ITreeNode<T = any> {
+	data: T;
+	key: string;
+	leaf?: boolean;
+	root?: boolean;
+	children?: ITreeNode[];
+}

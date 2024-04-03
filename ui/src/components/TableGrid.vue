@@ -51,12 +51,16 @@
 				</h2>
 				<section class="ml-auto flex gap-x-2">
 					<FieldText
+						v-if="showSearch"
 						v-model="search"
 						label="Search"
 						@input-clear="onSearch"
 						@input-end="onSearch"
 					/>
-					<slot name="addEntity">
+					<slot
+						v-if="showAddEntity"
+						name="addEntity"
+					>
 						<BaseButton
 							v-bind="addEntityConfig"
 							:icon="IconAdd"
@@ -120,7 +124,7 @@
  * - Column Resizing: https://github.com/primefaces/primevue/issues/5104
  * - Can't redefine emits: https://github.com/vuejs/core/issues/8457
  */
-import { reactive, watch } from "vue";
+import { watch } from "vue";
 import { FilterMatchMode } from "primevue/api";
 import Column from "primevue/column";
 import DataTable, { DataTableColumnReorderEvent } from "primevue/datatable";
@@ -133,7 +137,7 @@ import FieldComboBox from "@/components/FieldComboBox.vue";
 import FieldNumber from "@/components/FieldNumber.vue";
 import FieldText from "@/components/FieldText.vue";
 import TableCellMenu from "@/components/TableCellMenu.vue";
-import { ITableEmit, ITableGrid } from "@/types/table";
+import { ITableEmit, ITableGrid, TColumnFilters } from "@/types/table";
 import { RowsPerPageOptions, useDataTable } from "@/utils/table";
 
 const props = withDefaults(defineProps<ITableGrid>(), {
@@ -145,13 +149,14 @@ const props = withDefaults(defineProps<ITableGrid>(), {
 	multiSelect: false,
 	columnsResize: true,
 	columnsReorder: true,
+	showSearch: true,
+	showAddEntity: true,
 });
 const emit = defineEmits<ITableEmit>();
 const { filterFields, columnsConfig, propsComponent, recordsTotal, start, loading, rowsPerPage, currentPage, recordsCached, search, isPageLast, isPageFirst, startDisplay, endDisplay, totalPages, loadRecords, previousPage, nextPage, changePage, changeRowsPerPage, getColumnMenuConfig, getCellDisplay, getCellParams } = useDataTable(props, emit);
-const filters = reactive<any>({
-	global: {
-		value: null,
-		matchMode: FilterMatchMode.CONTAINS,
+const filters = defineModel<TColumnFilters>("filters", {
+	default: () => {
+		return {};
 	},
 });
 
@@ -193,7 +198,10 @@ function onSearch() {
 		reloadRecords();
 	}
 	else {
-		filters.global.value = search.value;
+		filters.value.global = {
+			value: search.value,
+			matchMode: FilterMatchMode.CONTAINS,
+		};
 	}
 }
 

@@ -1,38 +1,77 @@
 <template>
 	<TableTree
+		:filters="filters"
 		:columns="columns"
 		:load="loadRecords"
-	/>
+		:hide-headers="true"
+		:show-search="false"
+	>
+		<template #beforeSearch>
+			<FieldCheckbox
+				v-model="showUnchanged"
+				label="Show Unchanged"
+			/>
+		</template>
+	</TableTree>
 </template>
 
 <script setup lang="ts">
-import { TreeItemModel } from "@incutonez/spec";
-import type { TreeNode } from "primevue/treenode";
+import { reactive, ref, watch } from "vue";
+import { EnumChangeStatus, TreeItemModel } from "@incutonez/spec";
+import { FilterMatchMode } from "primevue/api";
+import FieldCheckbox from "@/components/FieldCheckbox.vue";
 import TableTree from "@/components/TableTree.vue";
 import { TreeViewModel } from "@/models/TreeViewModel";
-import { ITableColumn } from "@/types/table";
+import { IPassThroughOptions, ITableColumn, ITreeNode, TColumnFilters } from "@/types/table";
+import { isEmpty } from "@/utils/common";
+import { getPassThroughNode } from "@/utils/table";
+import ColumnChange from "@/views/treeChanges/ColumnChange.vue";
 
-const columns: ITableColumn[] = [{
-	field: "username",
-	title: "Username",
-	expandable: true,
-}, {
-	field: "date",
-	title: "Date",
-}, {
+const showUnchanged = ref(false);
+const filters = reactive<TColumnFilters>({
+	status: {
+		value: EnumChangeStatus.Unchanged,
+		matchMode: FilterMatchMode.NOT_EQUALS,
+	},
+});
+const columns: ITableColumn<ITreeNode>[] = [{
 	field: "field",
-	title: "Field",
+	expandable: true,
+	cellComponent: ColumnChange,
+}, {
+	field: "value",
+	classes: {
+		bodyCell(options: IPassThroughOptions) {
+			const node = getPassThroughNode(options);
+			if (node.leaf) {
+				const data = node.data as TreeItemModel;
+				switch (data.status) {
+					case EnumChangeStatus.Created:
+						return "bg-sky-100";
+					case EnumChangeStatus.Updated:
+						return "bg-orange-100";
+					case EnumChangeStatus.Deleted:
+						return "bg-red-100";
+					default:
+						return "";
+				}
+			}
+			return "hidden";
+		},
+	},
 }];
 
 function getChildren(records: TreeItemModel[], parentIndex = "") {
 	return records.map((record, recordIndex) => {
-		parentIndex = parentIndex ? `${parentIndex}-${recordIndex}` : `${recordIndex}`;
-		const node: TreeNode = {
-			key: parentIndex,
+		const { value } = record;
+		const hasChildren = Array.isArray(value);
+		const node: ITreeNode = {
+			key: parentIndex ? `${parentIndex}-${recordIndex}` : `${recordIndex}`,
 			data: record,
+			leaf: !hasChildren || isEmpty(value),
 		};
-		if (Array.isArray(record.value)) {
-			node.children = getChildren(record.value, parentIndex);
+		if (hasChildren) {
+			node.children = getChildren(value, node.key);
 		}
 		return node;
 	});
@@ -43,12 +82,27 @@ async function loadRecords() {
 	return {
 		total: data.length,
 		data: data.map((record, index) => {
+			const children = getChildren(record.items, `${index}`);
 			return {
+				children,
 				key: `${index}`,
 				data: record,
-				children: getChildren(record.items, `${index}`),
+				root: true,
+				leaf: isEmpty(children),
 			};
 		}),
 	};
 }
+
+watch(showUnchanged, ($showUnchanged) => {
+	if ($showUnchanged) {
+		delete filters.status;
+	}
+	else {
+		filters.status = {
+			value: EnumChangeStatus.Unchanged,
+			matchMode: FilterMatchMode.NOT_EQUALS,
+		};
+	}
+});
 </script>

@@ -1,6 +1,18 @@
 import get from "just-safe-get";
 import { isFunction as lodashIsFunction, isObject as lodashIsObject } from "lodash-es";
 
+export { default as clone } from "just-clone";
+
+// TODO: Get i18n string from somewhere
+const DateLong = Intl.DateTimeFormat("en-us", {
+	month: "2-digit",
+	year: "numeric",
+	day: "2-digit",
+	hour: "2-digit",
+	minute: "2-digit",
+	second: "2-digit",
+});
+
 export function isString(value: any): value is string {
 	return typeof value === "string";
 }
@@ -50,4 +62,14 @@ export function getObjectValue(data: any, key: string) {
 
 export function removeItem(items: unknown[], item: any) {
 	items.splice(items.indexOf(item), 1);
+}
+
+export function dateLongFormat(value: string | number | Date) {
+	if (!value) {
+		return "";
+	}
+	if (!(value instanceof Date)) {
+		value = new Date(value);
+	}
+	return DateLong.format(value);
 }

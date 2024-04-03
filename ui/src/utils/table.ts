@@ -3,7 +3,6 @@ import { FilterType } from "@incutonez/spec/dist";
 import get from "just-safe-get";
 import { ColumnProps } from "primevue/column";
 import { DataTableProps } from "primevue/datatable";
-import { TreeNode } from "primevue/treenode";
 import IconLock from "@/assets/IconLock.vue";
 import IconNotAllowed from "@/assets/IconNotAllowed.vue";
 import IconPin from "@/assets/IconPin.vue";
@@ -11,7 +10,7 @@ import IconResetColumn from "@/assets/IconResetColumn.vue";
 import IconResetColumns from "@/assets/IconResetColumns.vue";
 import { IBaseMenu } from "@/components/BaseMenu.vue";
 import { IMenuItem, IOption } from "@/types/components";
-import { ITableColumn, ITableGrid, TColumnLock, TTableEmit } from "@/types/table";
+import { IPassThroughOptions, ITableColumn, ITableGrid, ITreeNode, TColumnLock, TTableEmit } from "@/types/table";
 
 export const RowsPerPageOptions: IOption[] = [{
 	id: 10,
@@ -27,7 +26,7 @@ export const RowsPerPageOptions: IOption[] = [{
 	name: "100",
 }];
 
-export function getColumnProps({ field, title, titleCls, titleAlign, sortable, lock, cls = "", showMenu = true, id, expandable }: ITableColumn) {
+export function getColumnProps({ field, title, classes, titleCls, titleAlign, sortable, lock, cls = "", showMenu = true, id, expandable, rowspan = 1, colspan = 1 }: ITableColumn) {
 	const headerContentCls = [];
 	if (showMenu) {
 		headerContentCls.push("pr-10");
@@ -43,10 +42,13 @@ export function getColumnProps({ field, title, titleCls, titleAlign, sortable, l
 	}
 	const columnProps: ColumnProps = {
 		field,
+		rowspan,
+		colspan,
 		pt: {
 			headerContent: {
 				class: headerContentCls,
 			},
+			...classes,
 		},
 		header: title,
 		headerClass: titleCls,
@@ -171,7 +173,7 @@ export function useDataTable<T = unknown>(props: ITableGrid, emit: TTableEmit) {
 		return get(data, field);
 	}
 
-	function getNodeDisplay({ cellDisplay }: ITableColumn, { node, column }: { node: TreeNode, column: ITableColumn }) {
+	function getNodeDisplay({ cellDisplay }: ITableColumn, { node, column }: { node: ITreeNode, column: ITableColumn }) {
 		if (cellDisplay) {
 			return cellDisplay(node.data, recordsCached.value);
 		}
@@ -182,7 +184,27 @@ export function useDataTable<T = unknown>(props: ITableGrid, emit: TTableEmit) {
 		if (typeof cellParams === "function") {
 			return cellParams(data, recordsCached.value);
 		}
-		return cellParams;
+		return {
+			...cellParams,
+			data,
+		};
+	}
+
+	function getNodeParams({ cellParams }: ITableColumn, node: ITreeNode) {
+		if (typeof cellParams === "function") {
+			return cellParams(node, recordsCached.value);
+		}
+		return {
+			...cellParams,
+			node,
+		};
+	}
+
+	function getCellClass(column: ITableColumn, node: ITreeNode) {
+		if (typeof column.cellClass === "function") {
+			return column.cellClass(column, node);
+		}
+		return column.cellClass ?? "";
 	}
 
 	function getColumnMenuConfig(column: ITableColumn): IBaseMenu {
@@ -339,8 +361,14 @@ export function useDataTable<T = unknown>(props: ITableGrid, emit: TTableEmit) {
 		changeRowsPerPage,
 		changePage,
 		getCellParams,
+		getCellClass,
+		getNodeParams,
 		getCellDisplay,
 		getNodeDisplay,
 		getColumnMenuConfig,
 	};
+}
+
+export function getPassThroughNode<T = any>(options: IPassThroughOptions): ITreeNode<T> {
+	return options.parent.props.node;
 }
