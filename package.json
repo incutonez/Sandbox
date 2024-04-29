@@ -26,11 +26,11 @@
   "homepage": "https://github.com/incutonez/Sandbox#readme",
   "devDependencies": {
     "@semantic-release/git": "^10.0.1",
-    "eslint": "^8.17.0",
+    "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-simple-import-sort": "^10.0.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^15.2.0",
+    "eslint-plugin-simple-import-sort": "^12.1.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "multi-semantic-release": "^3.0.2",
     "tsc-files": "^1.1.4",
     "vue-tsc-files": "^0.0.6"
