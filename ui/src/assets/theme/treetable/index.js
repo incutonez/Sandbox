@@ -1,14 +1,12 @@
 export default {
 	root: ({ props }) => ({
 		class: [
-			"relative",
-			{
-				"flex flex-col h-full": props.scrollHeight === "flex",
-			},
+"relative", {
+			"flex flex-col h-full": props.scrollHeight === "flex",
+		},
 
-			// Shape
-			"border-spacing-0 border-separate",
-		],
+		// Shape
+		"border-spacing-0 border-separate",],
 	}),
 	loadingoverlay: {
 		class: [
@@ -39,15 +37,11 @@ export default {
 			{
 				"relative overflow-auto": props.scrollable,
 				"overflow-x-auto": props.resizableColumns,
-			},
-		],
+			}],
 	}),
 	header: ({ props }) => ({
 		class: [
 			"font-semibold",
-
-			// Shape
-			props.showGridlines ? "border-b" : "border-b border-x-0",
 
 			// Spacing
 			"py-3.5 px-3",
@@ -77,59 +71,55 @@ export default {
 	table: {
 		class: [
 			// Table & Width
-			"border-collapse table-fixed w-full ",
-		],
+			"border-collapse table-fixed w-full "],
 	},
 	thead: ({ props }) => ({
 		class: [
 			// Position & Z-index
 			{
 				"top-0 z-40 sticky": props.scrollable,
-			},
-		],
+			}],
 	}),
 	tbody: ({ props }) => ({
-		class: [
-			{
-				block: props.scrollable,
-			},
-		],
+		class: [{
+			block: props.scrollable,
+		}],
 	}),
 	tfoot: ({ props }) => ({
 		class: [
 			// Block Display
 			{
 				block: props.scrollable,
-			},
-		],
+			}],
 	}),
 	headerrow: ({ props }) => ({
 		class: [
 			// Flexbox & Width
 			{
 				"flex flex-nowrap w-full": props.scrollable,
-			},
-		],
+			}],
 	}),
 	row: ({ context, props }) => ({
 		class: [
 			// Flex
-			{ "flex flex-nowrap w-full": context.scrollable },
+			{
+				"flex flex-nowrap w-full": context.scrollable,
+			},
 
 			// Color
-			"dark:text-white/80",
-			{ "bg-surface-50 dark:bg-surface-500/30": context.selected },
-			{ "bg-surface-0 text-surface-600 dark:bg-surface-800": !context.selected },
-
-			// Hover & Flexbox
-			{
-				"hover:bg-surface-300/20 hover:text-surface-600": context.selectable && !context.selected,
+			"dark:text-white/80", {
+				"bg-sky-200": context.selected,
+			}, {
+				"bg-surface-0 text-surface-600 dark:bg-surface-800": !context.selected,
+			}, {
+				"hover:bg-sky-100 hover:text-slate-900": context.selectable && !context.selected,
 			},
 			"focus:outline-none focus:outline-offset-0 focus:ring-2 focus:ring-primary-500 ring-inset dark:focus:ring-primary-400",
 
 			// Transition
-			{ "transition duration-200": (props.selectionMode && !context.selected) || props.rowHover },
-		],
+			{
+				"transition duration-200": (props.selectionMode && !context.selected) || props.rowHover,
+			}],
 	}),
 	headercell: ({ context, props }) => ({
 		class: [
@@ -137,7 +127,9 @@ export default {
 			"text-sm",
 
 			// Position
-			{ "sticky z-40": context.scrollable && context.scrollDirection === "both" && context.frozen },
+			{
+				"sticky z-40": context.scrollable && context.scrollDirection === "both" && context.frozen,
+			},
 
 			// Flex & Alignment
 			{
@@ -147,7 +139,9 @@ export default {
 			"text-left",
 
 			// Shape
-			{ "border-r last:border-r-0": context?.showGridlines },
+			{
+				"border-r last:border-r-0": context?.showGridlines,
+			},
 			"border-0 border-b border-solid",
 
 			// Spacing
@@ -162,7 +156,9 @@ export default {
 			"focus-visible:outline-none focus-visible:outline-offset-0 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400",
 
 			// Transition
-			{ "transition duration-200": props.sortable === "" || props.sortable },
+			{
+				"transition duration-200": props.sortable === "" || props.sortable,
+			},
 
 			// Misc
 			{
@@ -174,10 +170,14 @@ export default {
 		headercell: ({ context, props }) => ({
 			class: [
 				"font-semibold",
-				"text-sm",
+				"text-xs",
+				"uppercase",
+				"group",
 
 				// Position
-				{ "sticky z-40": context.scrollable && context.scrollDirection === "both" && context.frozen },
+				{
+					"sticky z-40": context.scrollable && context.scrollDirection === "both" && context.frozen,
+				},
 
 				// Flex & Alignment
 				{
@@ -187,22 +187,26 @@ export default {
 				"text-left",
 
 				// Shape
-				{ "border-r last:border-r-0": context?.showGridlines },
-				"border-0 border-b border-solid",
+				{
+					"border-r last:border-r-0": context?.showGridlines,
+				},
+				"border-0 border-b border-t border-solid",
+				"border-slate-400",
 
 				// Spacing
 				context?.size === "small" ? "py-2.5 px-2" : context?.size === "large" ? "py-5 px-4" : "py-3.5 px-3",
 
 				// Color
-				(props.sortable === "" || props.sortable) && context.sorted ? "text-primary-500" : "bg-surface-0 text-surface-700",
-				(props.sortable === "" || props.sortable) && context.sorted ? "dark:text-primary-400" : "dark:text-white/80 dark:bg-surface-800",
-				"border-surface-200 dark:border-surface-700 ",
+
+				(props.sortable === "" || props.sortable) && context.sorted ? "text-sky-900 bg-sky-200" : "text-gray-700 bg-slate-300",
 
 				// States
 				"focus-visible:outline-none focus-visible:outline-offset-0 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400",
 
 				// Transition
-				{ "transition duration-200": props.sortable === "" || props.sortable },
+				{
+					"transition duration-200": props.sortable === "" || props.sortable,
+				},
 
 				// Misc
 				{
@@ -228,22 +232,23 @@ export default {
 				"text-left",
 
 				// Shape
-				"border-0 border-b border-solid",
-				{ "last:border-r-0 border-r border-b": context?.showGridlines },
+				"border-0 border-b border-solid", {
+					"last:border-r-0 border-r border-b": context?.showGridlines,
+				},
 
 				// Color
-				"border-surface-200 dark:border-surface-700",
-				{ "bg-surface-0 dark:bg-surface-800": !context.selected },
+				"border-surface-200 dark:border-surface-700", {
+					"bg-surface-0 dark:bg-surface-800": !context.selected,
+				},
+				"border-slate-400",
 
 				// Spacing
 				context?.size === "small" ? "py-2.5 px-2" : context?.size === "large" ? "py-5 px-4" : "py-3.5 px-3",
 
 				// Misc
-				"space-nowrap",
-				{
+				"space-nowrap", {
 					"cursor-pointer": context.selectable,
-				},
-			],
+				}],
 		}),
 		rowtoggler: {
 			class: [
@@ -350,15 +355,13 @@ export default {
 				"w-6 h-6",
 
 				// Color
-				"text-surface-600",
-				{
+				"text-surface-600", {
 					"border-surface-200 bg-surface-0 dark:border-surface-700 dark:bg-surface-900": !context.checked,
 					"border-primary-500 bg-primary-500 dark:border-primary-400 dark:bg-primary-400": context.checked,
 				},
 
 				// States
-				"focus:outline-none focus:outline-offset-0",
-				{
+				"focus:outline-none focus:outline-offset-0", {
 					"ring ring-primary-400/50 dark:ring-primary-300/50": context.focused,
 				},
 
@@ -366,21 +369,21 @@ export default {
 				"transition-colors duration-200",
 
 				// Misc
-				{ "cursor-default opacity-60": context.disabled },
+				{
+					"cursor-default opacity-60": context.disabled,
+				},
 			],
 		}),
 		checkboxicon: {
 			class: [
 				// Size
-				"w-4 h-4",
-				"text-base leading-none",
+				"w-4 h-4", "text-base leading-none",
 
 				// Color
 				"text-white dark:text-surface-900",
 
 				// Transition
-				"transition-all duration-200",
-			],
+				"transition-all duration-200"],
 		},
 		transition: {
 			enterFromClass: "opacity-0 scale-y-[0.8]",
@@ -390,6 +393,6 @@ export default {
 		},
 	},
 	resizehelper: {
-		class: "absolute hidden w-[2px] z-20 bg-primary-500 dark:bg-primary-400",
+		class: "absolute hidden w-[2px] z-20 bg-sky-500",
 	},
 };

@@ -1,5 +1,5 @@
 <template>
-	<GridTable
+	<TableGrid
 		ref="usersGrid"
 		:columns="columns"
 		:load="loadUsers"
@@ -27,25 +27,25 @@
 
 <script setup lang="ts">
 import { ref, unref } from "vue";
-import { ApiPaginatedRequest } from "@incutonez/api-spec/dist";
+import { ApiPaginatedRequest } from "@incutonez/spec/dist";
 import IconCopy from "@/assets/IconCopy.vue";
 import IconDelete from "@/assets/IconDelete.vue";
 import IconEdit from "@/assets/IconEdit.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import DialogConfirm from "@/components/DialogConfirm.vue";
-import GridCellActions, { IGridCellActions } from "@/components/GridCellActions.vue";
-import GridTable from "@/components/GridTable.vue";
+import TableCellActions, { ITableCellActions } from "@/components/TableCellActions.vue";
+import TableGrid from "@/components/TableGrid.vue";
 import { UserModel } from "@/models/UserModel";
 import { viewUser, viewUsers } from "@/router";
 import { IBaseButton } from "@/types/components";
-import { IGridColumn } from "@/types/dataTable";
+import { ITableColumn } from "@/types/table";
 import { useColumnIndex } from "@/views/shared/columns";
 
 const showDelete = ref(false);
 const showCopy = ref(false);
 const deleting = ref(false);
 const copying = ref(false);
-const usersGrid = ref<InstanceType<typeof GridTable>>();
+const usersGrid = ref<InstanceType<typeof TableGrid>>();
 const selectedRecord = ref<UserModel>();
 const addUserConfig: IBaseButton = {
 	text: "User",
@@ -53,7 +53,7 @@ const addUserConfig: IBaseButton = {
 		viewUser();
 	},
 };
-const columns: IGridColumn[] = [
+const columns: ITableColumn[] = [
 	// TODOJEF: Need to fix this in the eslint plugin because it thinks the function call should have a newline
 	// eslint-disable-next-line
 	useColumnIndex(), {
@@ -61,7 +61,7 @@ const columns: IGridColumn[] = [
 		title: "Actions",
 		titleAlign: "center",
 		showMenu: false,
-		cellComponent: GridCellActions,
+		cellComponent: TableCellActions,
 		cellParams(record: UserModel) {
 			return {
 				actions: [{
@@ -85,7 +85,7 @@ const columns: IGridColumn[] = [
 						showDelete.value = true;
 					},
 				}],
-			} as IGridCellActions;
+			} as ITableCellActions;
 		},
 	}, {
 		field: "firstName",
@@ -120,7 +120,7 @@ const columns: IGridColumn[] = [
 ];
 
 async function loadUsers(params: ApiPaginatedRequest) {
-	return UserModel.list(params);
+	return UserModel.readAll(params);
 }
 
 async function onDeleteUser() {

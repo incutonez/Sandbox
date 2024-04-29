@@ -14,6 +14,7 @@ export class UsersService {
 	async listUsers({ start = 0, limit = 20, filters = [] }: ApiPaginatedRequest) {
 		const query: FindOptions<User> = {
 			limit,
+			raw: true,
 			offset: start,
 			include: [
 				{

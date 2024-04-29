@@ -12,6 +12,11 @@
 					class="h-10 w-10 cursor-pointer rounded-full p-2 hover:bg-slate-500"
 					@click="onClickViewZelda"
 				/>
+				<IconDifference
+					title="Differ"
+					class="h-10 w-10 cursor-pointer rounded-full fill-red-500 p-2 hover:bg-slate-500"
+					@click="onClickViewTreeChanges"
+				/>
 			</div>
 		</nav>
 		<section class="flex h-full w-full flex-1 flex-col overflow-hidden">
@@ -51,13 +56,14 @@
  * - Add saving of scrollbar for routes (using __name with dynamic caching)
  * - Migrate any individual API dirs to API dir, so we have a centralized API
  * - Add CRUD operations to grids with cell editors
- * - Potentially add provide/inject with GridTable
+ * - Potentially add provide/inject with TableGrid
  * - Potentially use provide/inject for users.ts data loading
  */
 import { useRoute } from "vue-router";
+import IconDifference from "@/assets/IconDifference.vue";
 import IconTriforce from "@/assets/IconTriforce.vue";
 import IconUsers from "@/assets/IconUsers.vue";
-import { viewUsers, viewZeldaWorldBuilder } from "@/router";
+import { viewTreeChanges, viewUsers, viewZeldaWorldBuilder } from "@/router";
 
 const route = useRoute();
 
@@ -67,5 +73,9 @@ function onClickViewUsers() {
 
 function onClickViewZelda() {
 	viewZeldaWorldBuilder();
+}
+
+function onClickViewTreeChanges() {
+	viewTreeChanges();
 }
 </script>

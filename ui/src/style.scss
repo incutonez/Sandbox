@@ -9,6 +9,9 @@
 }
 
 @layer components {
+    .table-hide-headers table thead tr {
+        @apply hidden bg-transparent;
+    }
     .base-grid {
         @apply grid grow grid-rows-11 grid-cols-16;
     }

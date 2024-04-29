@@ -24,9 +24,9 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 // @ts-ignore
 import { ApiPaginatedRequest } from '../models';
 // @ts-ignore
-import { ListUsers200Response } from '../models';
-// @ts-ignore
 import { UserEntity } from '../models';
+// @ts-ignore
+import { UserResponseModel } from '../models';
 /**
  * UsersApi - axios parameter creator
  * @export
@@ -297,7 +297,7 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listUsers(apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListUsers200Response>> {
+        async listUsers(apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserResponseModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listUsers(apiPaginatedRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -364,7 +364,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listUsers(apiPaginatedRequest: ApiPaginatedRequest, options?: any): AxiosPromise<ListUsers200Response> {
+        listUsers(apiPaginatedRequest: ApiPaginatedRequest, options?: any): AxiosPromise<UserResponseModel> {
             return localVarFp.listUsers(apiPaginatedRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -429,7 +429,7 @@ export interface UsersApiInterface {
      * @throws {RequiredError}
      * @memberof UsersApiInterface
      */
-    listUsers(apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig): AxiosPromise<ListUsers200Response>;
+    listUsers(apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig): AxiosPromise<UserResponseModel>;
 
     /**
      * 

@@ -7,7 +7,7 @@ import { AppModule } from "src/app.module";
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
 	app.enableCors();
-	const config = new DocumentBuilder().setTitle("API").setDescription("The main API for all Sandbox apps").setVersion("1.0").addTag("users").addTag("accounts").build();
+	const config = new DocumentBuilder().setTitle("API").setDescription("The main API for all Sandbox apps").setVersion("1.0").addTag("users").addTag("accounts").addTag("Differ").addTag("Random").build();
 	const document = SwaggerModule.createDocument(app, config, {
 		operationIdFactory: (controllerKey: string, methodKey: string) => methodKey,
 	});

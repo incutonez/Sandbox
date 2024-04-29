@@ -8,8 +8,8 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import PrimeContextMenu from "primevue/contextmenu";
-import { getMenuItemProps } from "@/components/menu.helper";
 import type { IMenuItem } from "@/types/components";
+import { getMenuItemProps } from "@/utils/menu";
 
 interface IProps {
 	items: IMenuItem[]
