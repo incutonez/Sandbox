@@ -70,8 +70,11 @@
       [
         "@semantic-release/github",
         {
-          "successComment": false,
           "failTitle": false
+        },
+        "@semantic-release/exec",
+        {
+          "successCmd": "sleep 3"
         }
       ]
     ]
