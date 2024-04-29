@@ -23,11 +23,9 @@ export interface IFieldDate extends IBaseField {
 
 const props = defineProps<IFieldDate>();
 const emit = defineEmits(["update:modelValue"]);
-console.log("hi");
 const input = computed({
 	get() {
-		const { modelValue = "" } = props;
-		return props.timestamp ? new Date(modelValue) : modelValue.toString();
+		return new Date(props.modelValue ?? "");
 	},
 	set(value) {
 		if (props.timestamp) {
