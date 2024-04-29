@@ -8,24 +8,23 @@
     "generate": "npx rimraf src/generated && npx openapi-generator-cli generate -g typescript-axios -i /local/src/openapi.yml -o /local/src/generated/ -p withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models,supportsES6=true,withInterfaces=true"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.13.1",
-    "@sinclair/typebox": "^0.32.20",
-    "@typescript-eslint/eslint-plugin": "^7.4.0",
-    "@typescript-eslint/parser": "^7.4.0",
+    "@openapitools/openapi-generator-cli": "^2.13.4",
+    "@sinclair/typebox": "^0.32.27",
+    "@typescript-eslint/eslint-plugin": "^7.7.1",
+    "@typescript-eslint/parser": "^7.7.1",
     "@vitejs/plugin-vue": "^5.0.4",
     "autoprefixer": "^10.4.19",
-    "eslint-plugin-simple-import-sort": "^12.0.0",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.4.3",
-    "vite": "^5.2.6",
-    "vue": "^3.4.21",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.10",
+    "vue": "^3.4.26",
     "vue-eslint-parser": "^9.4.2"
   },
   "dependencies": {
-    "@geut/openapi-box": "^2.2.2",
+    "@geut/openapi-box": "^3.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
-    "zod": "^3.22.4"
+    "zod": "^3.23.4"
   }
 }
