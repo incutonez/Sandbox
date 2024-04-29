@@ -67,13 +67,7 @@
           "npmPublish": false
         }
       ],
-      "@semantic-release/git",
-      [
-        "@semantic-release/exec",
-        {
-          "successCmd": "sleep 3"
-        }
-      ]
+      "@semantic-release/github"
     ]
   }
 }
