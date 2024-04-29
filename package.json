@@ -68,10 +68,6 @@
       ],
       "@semantic-release/git",
       [
-        "@semantic-release/github",
-        {
-          "failTitle": false
-        },
         "@semantic-release/exec",
         {
           "successCmd": "sleep 3"
