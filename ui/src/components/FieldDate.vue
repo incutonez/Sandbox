@@ -23,6 +23,7 @@ export interface IFieldDate extends IBaseField {
 
 const props = defineProps<IFieldDate>();
 const emit = defineEmits(["update:modelValue"]);
+console.log("test");
 const input = computed({
 	get() {
 		return new Date(props.modelValue ?? "");
