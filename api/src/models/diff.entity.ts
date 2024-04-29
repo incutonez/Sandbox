@@ -14,6 +14,9 @@ export type TTreeItem = ClassInterface<TreeItemModel>;
 export class TreeChangeModel {
 	username: string;
 	date: number;
+	creates: number;
+	updates: number;
+	deletes: number;
 	items: TreeItemModel[];
 }
 

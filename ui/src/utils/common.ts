@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import get from "just-safe-get";
 import { isFunction as lodashIsFunction, isObject as lodashIsObject } from "lodash-es";
 
@@ -12,6 +13,15 @@ const DateLong = Intl.DateTimeFormat("en-us", {
 	minute: "2-digit",
 	second: "2-digit",
 });
+
+export const Avatars = [
+	faker.image.avatar(),
+	faker.image.avatar(),
+	faker.image.avatar(),
+	faker.image.avatar(),
+	faker.image.avatar(),
+	faker.image.avatar(),
+];
 
 export function isString(value: any): value is string {
 	return typeof value === "string";
@@ -72,4 +82,12 @@ export function dateLongFormat(value: string | number | Date) {
 		value = new Date(value);
 	}
 	return DateLong.format(value);
+}
+
+export function getAvatar() {
+	const index = faker.number.int({
+		min: 0,
+		max: Avatars.length - 1,
+	});
+	return Avatars[index];
 }

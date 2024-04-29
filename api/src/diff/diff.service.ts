@@ -11,11 +11,7 @@ export class DiffService {
 			min: 1,
 			max: 50,
 		}); i++) {
-			const record = new TreeChangeModel();
-			record.username = faker.internet.userName();
-			record.date = faker.date.anytime().getTime();
-			record.items = getChanges();
-			records.push(record);
+			records.push(getChanges());
 		}
 		return records;
 	}

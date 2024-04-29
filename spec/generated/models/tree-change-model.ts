@@ -37,6 +37,24 @@ export interface TreeChangeModel {
     'date': number;
     /**
      * 
+     * @type {number}
+     * @memberof TreeChangeModel
+     */
+    'creates': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TreeChangeModel
+     */
+    'updates': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TreeChangeModel
+     */
+    'deletes': number;
+    /**
+     * 
      * @type {Array<TreeItemModel>}
      * @memberof TreeChangeModel
      */

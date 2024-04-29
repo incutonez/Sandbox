@@ -1,7 +1,7 @@
 ﻿import { faker } from "@faker-js/faker";
 import { diff } from "just-diff";
 import { get, isDate, set } from "lodash";
-import { EnumChangeStatus, TTreeItem, TTreeItemValue } from "src/models/diff.entity";
+import { EnumChangeStatus, TreeChangeModel, TreeItemModel, TTreeItem, TTreeItemValue } from "src/models/diff.entity";
 
 const PropertyTypes = ["string", "number", "date", "boolean", "object", "array"] as const;
 type TPropertyTypes = (typeof PropertyTypes)[number];
@@ -118,23 +118,29 @@ interface ITreeDiff extends TTreeItem {
 
 export function getChanges({ current, previous } = generateData()) {
 	const changes = diff(previous, current);
+	let creates = 0;
+	let updates = 0;
+	let deletes = 0;
 	changes.forEach(({ op, path }) => {
-		let status;
-		let value;
-		let old;
+		let status: EnumChangeStatus;
+		let value: TTreeItemValue;
+		let old: TreeItemModel;
 		switch (op) {
 			case "add":
 				status = EnumChangeStatus.Created;
 				value = get(current, path);
+				creates++;
 				break;
 			case "replace":
 				status = EnumChangeStatus.Updated;
 				value = get(current, path);
 				old = get(previous, path);
+				updates++;
 				break;
 			case "remove":
 				status = EnumChangeStatus.Deleted;
 				value = get(previous, path);
+				deletes++;
 				break;
 		}
 		set(
@@ -148,10 +154,17 @@ export function getChanges({ current, previous } = generateData()) {
 			}),
 		);
 	});
-	return treeDiff({
+	const record = new TreeChangeModel();
+	record.username = faker.internet.userName();
+	record.date = faker.date.anytime().getTime();
+	record.items = treeDiff({
 		value: current,
 		field: undefined,
 	}) as TTreeItem[];
+	record.creates = creates;
+	record.updates = updates;
+	record.deletes = deletes;
+	return record;
 }
 
 export function treeDiff({ value, previous, status, field }: ITreeDiff): TTreeItem[] | ITreeDiff {

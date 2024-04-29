@@ -3,8 +3,8 @@
 		:filters="filters"
 		:columns="columns"
 		:load="loadRecords"
-		:hide-headers="true"
 		:show-search="false"
+		show-striped-rows
 	>
 		<template #beforeSearch>
 			<FieldCheckbox
@@ -25,7 +25,8 @@ import { TreeViewModel } from "@/models/TreeViewModel";
 import { IPassThroughOptions, ITableColumn, ITreeNode, TColumnFilters } from "@/types/table";
 import { isEmpty } from "@/utils/common";
 import { getPassThroughNode } from "@/utils/table";
-import ColumnChange from "@/views/treeChanges/ColumnChange.vue";
+import ColumnField from "@/views/auditor/ColumnField.vue";
+import ColumnValue from "@/views/auditor/ColumnValue.vue";
 
 const showUnchanged = ref(false);
 const filters = reactive<TColumnFilters>({
@@ -35,11 +36,15 @@ const filters = reactive<TColumnFilters>({
 	},
 });
 const columns: ITableColumn<ITreeNode>[] = [{
+	title: "Field",
 	field: "field",
 	expandable: true,
-	cellComponent: ColumnChange,
+	cellComponent: ColumnField,
 }, {
+	title: "Value",
 	field: "value",
+	titleCls: "justify-center",
+	cellComponent: ColumnValue,
 	classes: {
 		bodyCell(options: IPassThroughOptions) {
 			const node = getPassThroughNode(options);
@@ -47,11 +52,11 @@ const columns: ITableColumn<ITreeNode>[] = [{
 				const data = node.data as TreeItemModel;
 				switch (data.status) {
 					case EnumChangeStatus.Created:
-						return "bg-sky-100";
+						return "bg-sky-200";
 					case EnumChangeStatus.Updated:
-						return "bg-orange-100";
+						return "bg-orange-200";
 					case EnumChangeStatus.Deleted:
-						return "bg-red-100";
+						return "bg-red-200";
 					default:
 						return "";
 				}

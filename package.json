@@ -50,7 +50,7 @@
     "ui/**/*.{vue,ts}": "npm run validate:ui",
     "api/**/*.ts": "npm run validate:api",
     "*.{js,mjs,cjs,jsx,ts,tsx,vue}": [
-      "eslint --fix"
+      "npx eslint --fix"
     ]
   },
   "release": {
