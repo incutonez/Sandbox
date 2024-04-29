@@ -51,7 +51,7 @@
  * - Have remote and local filtering/sorting/paging
  * - Add my own pagination toolbar
  * - Add a custom column menu, which allows to dynamically hide, pin, reset columns
- * - Add global error handling
+ * - Add global error handling... will need to add something for Axios too, I think
  * - CSV upload that shows grids and errors from API
  * - Add saving of scrollbar for routes (using __name with dynamic caching)
  * - Migrate any individual API dirs to API dir, so we have a centralized API
