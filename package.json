@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/incutonez/Sandbox#readme",
   "devDependencies": {
+    "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
