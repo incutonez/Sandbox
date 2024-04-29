@@ -11,7 +11,6 @@
     "lint": "npx eslint . --ext .js --fix",
     "lint:fix": "prettier --write && npx eslint --fix",
     "explode": "npm cache clean --force && npx rimraf package-lock.json node_modules && npm i",
-    "generate:spec": "cd spec && npm run generate",
     "build:spec": "cd spec && npm run build",
     "build:ui": "cd ui && npm run build",
     "validate:api": "cd api && npx tsc-files --noEmit",
@@ -27,7 +26,7 @@
   "homepage": "https://github.com/incutonez/Sandbox#readme",
   "devDependencies": {
     "@semantic-release/git": "^10.0.1",
-    "eslint": "8.57.0",
+    "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-simple-import-sort": "^12.1.0",
     "husky": "^9.0.11",
