@@ -1,6 +1,7 @@
 import { ApiPaginatedRequest, UserEntity, UsersApi } from "@incutonez/spec/dist";
 import { Allow, IsInt, IsString } from "class-validator";
 import { configuration } from "@/apiConfig";
+import { HasAPI } from "@/enums/helper";
 import { IsRequired } from "@/models/decorators";
 import { ViewModel } from "@/models/ViewModel";
 
@@ -36,7 +37,11 @@ export class UserModel extends ViewModel implements UserEntity {
 	}
 
 	static async readAll(request: ApiPaginatedRequest) {
-		const response = await UsersAPI.listUsers(request);
+		const response = HasAPI
+			? await UsersAPI.listUsers(request)
+			: {
+				data: [],
+			};
 		return super._readAll(response.data);
 	}
 

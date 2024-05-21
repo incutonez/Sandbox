@@ -1,5 +1,7 @@
 import { type IOption } from "@/types/components";
 
+export const HasAPI = import.meta.env.MODE !== "GitHubPages";
+
 export function findRecord(enums: IOption[], value?: string | number) {
 	return enums.find((record) => record.id === value);
 }
