@@ -1,7 +1,7 @@
 /**
  * In order to use this, go to about:debugging#/runtime/this-firefox and load the manifest.json file as the Temporary Add-on
  */
-const MatchRegex = /Viewed|Applied/;
+const MatchRegex = /Viewed|Applied|Promoted/;
 const CompaniesRegex = /DataAnnotation|Veeva Systems|Aha!|HireMeFast|Team Remotely|Recruiting from Scratch|myGwork/i;
 
 setInterval(removeJobs, 100);

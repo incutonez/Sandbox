@@ -272,7 +272,7 @@ export function useDataTable<T = unknown>(props: ITableGrid, emit: TTableEmit) {
 			}
 			/**
 			 * If our loadCount is >= rowsPerPage, then that means we've loaded the range... we must check rowsPerPage because
-			 * the max isn't sufficient enough, as it could just be the remoteMax value instead of how many rows we want to
+			 * the max isn't sufficient, as it could just be the remoteMax value instead of how many rows we want to
 			 * display.  We also check to see if we've loaded < the max, as that means we've most likely hit the last row of
 			 * results.
 			 */
