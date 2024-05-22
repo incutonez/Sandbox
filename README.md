@@ -16,4 +16,4 @@ There is a [script](https://github.com/incutonez/Sandbox/blob/main/updateDepende
 
 # Examples
 
-The `ui` dir in this repo gets deployed to [GH Pages](https://pages.github.com/).  Here is the link to the [Zelda 1 World Editor](http://incutonez.github.io/Sandbox/#/zelda).  The other two options in the navigation bar don't work because they rely on the API, which can't be deployed to GH Pages.
+The `ui` dir in this repo gets deployed to [GH Pages](https://pages.github.com/).  Here is the link to the [Zelda 1 World Editor](http://incutonez.github.io/Sandbox/#/zelda).  The other two options in the navigation bar work, but don't have a proper API, which can't be deployed to GH Pages.

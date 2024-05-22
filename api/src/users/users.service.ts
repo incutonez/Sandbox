@@ -36,6 +36,7 @@ export class UsersService {
 
 	async getUser(userId: string) {
 		const response = await User.findOne({
+			raw: true,
 			where: {
 				id: userId,
 			},

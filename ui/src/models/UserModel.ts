@@ -1,11 +1,91 @@
+import { toRaw } from "vue";
+import { faker } from "@faker-js/faker";
 import { ApiPaginatedRequest, UserEntity, UsersApi } from "@incutonez/spec/dist";
 import { Allow, IsInt, IsString } from "class-validator";
 import { configuration } from "@/apiConfig";
 import { HasAPI } from "@/enums/helper";
 import { IsRequired } from "@/models/decorators";
 import { ViewModel } from "@/models/ViewModel";
+import { removeItem } from "@/utils/common";
 
 export const UsersAPI = new UsersApi(configuration);
+
+const LocalUsers: UserModel[] = [];
+
+async function loadUsers(request: ApiPaginatedRequest) {
+	if (HasAPI) {
+		return UsersAPI.listUsers(request);
+	}
+	for (let i = request.start; i < request.limit + request.start; i++) {
+		LocalUsers[i] ??= UserModel.create({
+			id: faker.string.uuid(),
+			firstName: faker.person.firstName(),
+			lastName: faker.person.lastName(),
+			email: faker.internet.email(),
+			phone: faker.phone.number(),
+			birthDate: faker.date.birthdate().getTime(),
+			gender: faker.person.gender(),
+		});
+	}
+	return {
+		data: {
+			total: LocalUsers.length < 500 ? 500 : LocalUsers.length,
+			data: LocalUsers.slice(request.start, request.start + request.limit),
+		},
+	};
+}
+
+async function loadUser(userId: string) {
+	if (HasAPI) {
+		return UsersAPI.getUser(userId);
+	}
+	return {
+		data: LocalUsers.find((user) => user?.id === userId),
+	};
+}
+
+async function createUser(user: UserModel) {
+	if (HasAPI) {
+		return UsersAPI.createUser(user.get());
+	}
+	LocalUsers.push(user);
+	user.id = faker.string.uuid();
+	return {
+		data: user.get(),
+	};
+}
+
+async function updateUser(user: UserModel) {
+	if (HasAPI) {
+		return UsersAPI.updateUser(user.id, user.get());
+	}
+	const found = LocalUsers.find((item) => item?.id === user.id);
+	if (found) {
+		found.set(user.get());
+	}
+	return {
+		data: found?.get(),
+	};
+}
+
+async function deleteUser(user: UserModel) {
+	if (HasAPI) {
+		return UsersAPI.deleteUser(user.id);
+	}
+	removeItem(LocalUsers, toRaw(user));
+}
+
+async function copyUser(user: UserModel) {
+	if (HasAPI) {
+		return UsersAPI.copyUser(user.id);
+	}
+	const clone = user.clone();
+	clone.id = faker.string.uuid();
+	LocalUsers.push(clone);
+	return {
+		data: clone,
+	};
+}
 
 export class UserModel extends ViewModel implements UserEntity {
 	@Allow()
@@ -37,35 +117,32 @@ export class UserModel extends ViewModel implements UserEntity {
 	}
 
 	static async readAll(request: ApiPaginatedRequest) {
-		const response = HasAPI
-			? await UsersAPI.listUsers(request)
-			: {
-				data: [],
-			};
+		const response = await loadUsers(request);
 		return super._readAll(response.data);
 	}
 
 	async read(userId = this.id) {
-		const response = await UsersAPI.getUser(userId);
+		console.log("reading", userId);
+		const response = await loadUser(userId);
 		return response.data;
 	}
 
 	async create() {
-		const response = await UsersAPI.createUser(this.get());
+		const response = await createUser(this);
 		return response.data;
 	}
 
 	async update() {
-		const response = await UsersAPI.updateUser(this.id, this.get());
+		const response = await updateUser(this);
 		return response.data;
 	}
 
 	async delete() {
-		await UsersAPI.deleteUser(this.id);
+		await deleteUser(this);
 	}
 
 	async copy() {
-		const response = await UsersAPI.copyUser(this.id);
+		const response = await copyUser(this);
 		return response.data;
 	}
 }
