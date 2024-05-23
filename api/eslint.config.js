@@ -16,7 +16,9 @@ module.exports = [
 		languageOptions: {
 			ecmaVersion: "latest",
 			globals: {
-				...globals.browser,
+				...globals.node,
+				...globals.jest,
+				...globals.es2021,
 			},
 			parserOptions: {
 				parser: tsEslint.parser,
