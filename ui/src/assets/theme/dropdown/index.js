@@ -20,7 +20,8 @@ export default {
 
 			// Misc
 			"cursor-default",
-			"select-none", {
+			"select-none",
+			{
 				"opacity-60": props.disabled,
 				"pointer-events-none": props.disabled,
 			},
@@ -39,7 +40,8 @@ export default {
 
 			// Color and Background
 			"bg-transparent",
-			"border-0", {
+			"border-0",
+			{
 				"text-surface-800 dark:text-white/80": props.modelValue,
 				"text-surface-400 dark:text-surface-500": !props.modelValue,
 			},
@@ -47,7 +49,8 @@ export default {
 
 			// Sizing and Spacing
 			"w-[1%]",
-			"py-1.5 px-2", {
+			"py-1.5 px-2",
+			{
 				"pr-7": props.showClear,
 			},
 
@@ -122,7 +125,8 @@ export default {
 		class: [
 			// Font
 			"sm:text-sm",
-			"leading-none", {
+			"leading-none",
+			{
 				"font-normal": !context.selected,
 				"font-semibold": context.selected,
 			},
@@ -141,7 +145,8 @@ export default {
 			// Color
 			{
 				"bg-white dark:bg-surface-600/60 text-surface-700 dark:text-white/80": !context.selected,
-			}, {
+			},
+			{
 				"!bg-sky-200 dark:bg-primary-400 text-black dark:text-surface-700": context.selected,
 			},
 

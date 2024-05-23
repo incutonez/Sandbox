@@ -24,26 +24,36 @@ export default {
 			"rounded-md",
 
 			// Spacing
-			{ "pr-4 min-[576px]:pr-32 md:pr-40": props.model.length !== context.index + 1 },
+			{
+				"pr-4 min-[576px]:pr-32 md:pr-40": props.model.length !== context.index + 1,
+			},
 
 			// Colors
 			"bg-surface-0",
 			"dark:bg-transparent",
 
 			// Misc
-			{ "cursor-pointer": !props.readonly },
+			{
+				"cursor-pointer": !props.readonly,
+			},
 
 			// After
 			"after:border-t-2",
-			{ "after:border-surface-200 after:dark:border-surface-700": state.d_activeStep <= context.index },
-			{ "after:border-primary-500 after:dark:border-primary-400": state.d_activeStep > context.index },
+			{
+				"after:border-surface-200 after:dark:border-surface-700": state.d_activeStep <= context.index,
+			},
+			{
+				"after:border-primary-500 after:dark:border-primary-400": state.d_activeStep > context.index,
+			},
 			"after:w-full",
 			"after:absolute",
 			"after:top-1/2",
 			"after:left-0",
 			"after:transform",
 			"after:-mt-3",
-			{ "after:hidden": props.model.length == context.index + 1 },
+			{
+				"after:hidden": props.model.length == context.index + 1,
+			},
 		],
 	}),
 	step: ({ context, props, state }) => ({
@@ -94,7 +104,9 @@ export default {
 			"relative",
 			// Font
 			"text-sm leading-none",
-			{ "font-medium": context.active },
+			{
+				"font-medium": context.active,
+			},
 
 			// Display
 			"block",
@@ -103,7 +115,10 @@ export default {
 			"mt-2",
 
 			// Colors
-			{ "text-surface-400 dark:text-white/60": !context.active, "text-surface-800 dark:text-white/80": context.active },
+			{
+				"text-surface-400 dark:text-white/60": !context.active,
+				"text-surface-800 dark:text-white/80": context.active,
+			},
 
 			// Text and Overflow
 			"whitespace-nowrap",

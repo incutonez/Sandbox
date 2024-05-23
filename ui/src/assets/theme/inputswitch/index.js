@@ -12,7 +12,9 @@ export default {
 			"h-5 w-9",
 
 			// States
-			{ "outline-none outline-offset-0 ring-2 ring-primary-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900 dark:ring-primary-400": state.focused },
+			{
+				"outline-none outline-offset-0 ring-2 ring-primary-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900 dark:ring-primary-400": state.focused,
+			},
 			{
 				"opacity-60 select-none pointer-events-none cursor-default": props.disabled,
 			},
@@ -34,7 +36,9 @@ export default {
 			"before:duration-200 before:transition before:ease-in-out",
 			"before:bg-surface-0 before:dark:bg-surface-900",
 			"before:shadow",
-			{ "before:transform before:translate-x-4": props.modelValue },
+			{
+				"before:transform before:translate-x-4": props.modelValue,
+			},
 
 			// Colors
 			"border-2 border-transparent",
@@ -44,7 +48,9 @@ export default {
 			},
 
 			// States
-			{ "hover:bg-surface-300 hover:dark:bg-surface-600 ": !props.modelValue },
+			{
+				"hover:bg-surface-300 hover:dark:bg-surface-600 ": !props.modelValue,
+			},
 
 			// Transition
 			"transition-colors duration-200",

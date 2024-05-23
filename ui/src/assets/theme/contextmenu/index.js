@@ -101,7 +101,9 @@ export default {
 			// Position
 			"static sm:absolute",
 			"z-10",
-			{ "sm:absolute sm:left-full sm:top-0": props.level > 1 },
+			{
+				"sm:absolute sm:left-full sm:top-0": props.level > 1,
+			},
 
 			// Color
 			"bg-surface-0 dark:bg-surface-700",

@@ -14,12 +14,18 @@ export default {
 			"bg-surface-0 dark:bg-surface-900",
 
 			// States
-			{ "ring-1 ring-inset ring-surface-300 dark:ring-surface-700": !state.focused, "ring-2 ring-inset ring-primary-500 dark:ring-primary-400": state.focused },
+			{
+				"ring-1 ring-inset ring-surface-300 dark:ring-surface-700": !state.focused,
+				"ring-2 ring-inset ring-primary-500 dark:ring-primary-400": state.focused,
+			},
 
 			// Misc
 			"cursor-default",
 			"select-none",
-			{ "opacity-60": props.disabled, "pointer-events-none": props.disabled },
+			{
+				"opacity-60": props.disabled,
+				"pointer-events-none": props.disabled,
+			},
 		],
 	}),
 	labelContainer: {
@@ -126,15 +132,21 @@ export default {
 
 				// Colors
 				"text-surface-700 dark:text-surface-0",
-				{ "bg-surface-100 text-primary-500 dark:bg-surface-300/10 dark:text-primary-400": context.selected },
+				{
+					"bg-surface-100 text-primary-500 dark:bg-surface-300/10 dark:text-primary-400": context.selected,
+				},
 
 				// States
-				{ "hover:bg-surface-200 dark:hover:bg-surface-400/10": props.selectionMode == "single" || props.selectionMode == "multiple" },
+				{
+					"hover:bg-surface-200 dark:hover:bg-surface-400/10": props.selectionMode == "single" || props.selectionMode == "multiple",
+				},
 
 				// Transition
 				"transition-shadow duration-200",
 
-				{ "cursor-pointer select-none": props.selectionMode == "single" || props.selectionMode == "multiple" },
+				{
+					"cursor-pointer select-none": props.selectionMode == "single" || props.selectionMode == "multiple",
+				},
 			],
 		}),
 		toggler: ({ context }) => ({

@@ -13,7 +13,9 @@ export default {
 				"border border-surface-200 dark:border-surface-700",
 
 				// State
-				{ "select-none pointer-events-none cursor-default opacity-60": props?.disabled },
+				{
+					"select-none pointer-events-none cursor-default opacity-60": props?.disabled,
+				},
 			],
 		}),
 		headerAction: ({ context }) => ({

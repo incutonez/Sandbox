@@ -45,7 +45,9 @@ export default {
 				"hover:bg-surface-100 dark:hover:bg-surface-600/40": context?.selectable,
 			},
 
-			{ "cursor-pointer": context?.selectable },
+			{
+				"cursor-pointer": context?.selectable,
+			},
 		],
 	}),
 	linecell: {
@@ -79,7 +81,9 @@ export default {
 
 			// Shape
 			"rounded-none border-r",
-			{ "border-t": context.lineTop },
+			{
+				"border-t": context.lineTop,
+			},
 
 			// Color
 			"border-surface-200 dark:border-surface-700",
@@ -97,7 +101,9 @@ export default {
 			"rounded-none",
 
 			// Color
-			{ "border-t border-surface-200 dark:border-surface-700": context.lineTop },
+			{
+				"border-t border-surface-200 dark:border-surface-700": context.lineTop,
+			},
 		],
 	}),
 	nodecell: {

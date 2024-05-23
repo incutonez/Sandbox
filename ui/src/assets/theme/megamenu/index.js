@@ -17,7 +17,10 @@ export default {
 			"bg-surface-0 dark:bg-surface-900",
 			"ring-1 ring-inset ring-surface-100 dark:ring-surface-800 ring-offset-0",
 
-			{ "items-center px-2 sm:px-6": props.orientation == "horizontal", "flex-col justify-center sm:justify-start sm:w-48 px-2": props.orientation !== "horizontal" },
+			{
+				"items-center px-2 sm:px-6": props.orientation == "horizontal",
+				"flex-col justify-center sm:justify-start sm:w-48 px-2": props.orientation !== "horizontal",
+			},
 		],
 	}),
 	menu: ({ props }) => ({
@@ -27,7 +30,10 @@ export default {
 			"items-center",
 			"flex-wrap",
 			"flex-col sm:flex-row",
-			{ hidden: !props?.mobileActive, flex: props?.mobileActive },
+			{
+				hidden: !props?.mobileActive,
+				flex: props?.mobileActive,
+			},
 
 			// Position
 			"absolute sm:relative",
@@ -66,7 +72,9 @@ export default {
 	content: ({ props, context }) => ({
 		class: [
 			// Shape
-			{ "rounded-md": props.level < 1 },
+			{
+				"rounded-md": props.level < 1,
+			},
 
 			//  Colors
 			{

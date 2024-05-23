@@ -62,7 +62,9 @@ export default {
 			"text-surface-700 dark:text-surface-0/70",
 
 			// State
-			{ "hover:text-primary-500 dark:hover:text-primary-400": !props.readonly },
+			{
+				"hover:text-primary-500 dark:hover:text-primary-400": !props.readonly,
+			},
 
 			// Transition
 			"transition duration-200 ease-in",

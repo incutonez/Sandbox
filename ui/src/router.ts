@@ -4,6 +4,7 @@ import ViewTypeBox from "@/views/modeling/ViewTypeBox.vue";
 import ViewZod from "@/views/modeling/ViewZod.vue";
 import ViewAuditor from "@/views/ViewAuditor.vue";
 import ViewModeling from "@/views/ViewModeling.vue";
+import ViewTipTap from "@/views/ViewTipTap.vue";
 import ViewUser from "@/views/ViewUser.vue";
 import ViewUsers from "@/views/ViewUsers.vue";
 import ViewZeldaWorldBuilder from "@/views/ViewZeldaWorldBuilder.vue";
@@ -17,6 +18,8 @@ export const RouteUsersView = "users-view";
 export const RouteUsersNew = "users-new";
 
 export const RouteZeldaWorldBuilder = "zelda-world-builder";
+
+export const RouteTipTap = "tip-tap";
 
 export const RouteAuditorView = "auditor-view";
 
@@ -70,6 +73,10 @@ export const routes = [{
 		component: ViewZod,
 	}],
 }, {
+	path: "/tipTap",
+	name: RouteTipTap,
+	component: ViewTipTap,
+}, {
 	path: "/zelda",
 	name: RouteZeldaWorldBuilder,
 	component: ViewZeldaWorldBuilder,
@@ -107,6 +114,12 @@ export function viewZeldaWorldBuilder() {
 export function viewTreeChanges() {
 	return router.push({
 		name: RouteAuditorView,
+	});
+}
+
+export function viewTipTap() {
+	return router.push({
+		name: RouteTipTap,
 	});
 }
 

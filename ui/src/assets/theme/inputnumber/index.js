@@ -2,7 +2,8 @@ export default {
 	root: ({ props, parent }) => ({
 		class: [
 			// Display
-			"inline-flex", {
+			"inline-flex",
+			{
 				"flex-col": props.showButtons && props.buttonLayout == "vertical",
 			},
 
@@ -14,9 +15,11 @@ export default {
 			// Shape
 			{
 				"first:rounded-l-md rounded-none last:rounded-r-md": parent.instance.$name == "InputGroup" && !props.showButtons,
-			}, {
+			},
+			{
 				"border-0 border-y border-l last:border-r border-gray-b dark:border-surface-600": parent.instance.$name == "InputGroup" && !props.showButtons,
-			}, {
+			},
+			{
 				"ring-1 ring-gray-b dark:ring-surface-700 ring-offset-0 focus-within:ring-sky-600 dark:focus:ring-primary-400": parent.instance.$name !== "InputGroup",
 			},
 
@@ -31,7 +34,8 @@ export default {
 				"flex flex-auto min-w-0 w-16",
 
 				//Text
-				"sm:text-sm", {
+				"sm:text-sm",
+				{
 					"text-center": parent.props.showButtons && parent.props.buttonLayout == "vertical",
 				},
 
@@ -40,22 +44,28 @@ export default {
 				"py-1.5 px-3",
 
 				// Shape
-				"rounded-md", {
+				"rounded-md",
+				{
 					"rounded-tr-none rounded-br-none": parent.props.showButtons,
-				}, {
+				},
+				{
 					"rounded-tl-none rounded-bl-none": parent.props.showButtons && parent.props.buttonLayout == "horizontal",
-				}, {
+				},
+				{
 					"rounded-none": parent.props.showButtons && parent.props.buttonLayout == "vertical",
 				},
 
 				// Colors
 				"text-surface-900 dark:text-surface-0",
 				"placeholder:text-surface-400 dark:placeholder:text-surface-500",
-				"bg-surface-0 dark:bg-surface-900", {
+				"bg-surface-0 dark:bg-surface-900",
+				{
 					"border-r border-gray-b dark:border-surface-700": parent.props.showButtons && parent.props.buttonLayout == "stacked",
-				}, {
+				},
+				{
 					"border-x border-gray-b dark:border-surface-700": parent.props.showButtons && parent.props.buttonLayout == "horizontal",
-				}, {
+				},
+				{
 					"border-y border-gray-b dark:border-surface-700": parent.props.showButtons && parent.props.buttonLayout == "vertical",
 				},
 				"outline-none",
@@ -84,9 +94,11 @@ export default {
 				"text-center align-bottom",
 
 				//Position
-				"relative", {
+				"relative",
+				{
 					"order-3": parent.props.showButtons && parent.props.buttonLayout == "horizontal",
-				}, {
+				},
+				{
 					"order-1": parent.props.showButtons && parent.props.buttonLayout == "vertical",
 				},
 
@@ -95,20 +107,26 @@ export default {
 				"bg-surface-0 dark:bg-surface-800",
 
 				// Sizing
-				"w-[3rem]", {
+				"w-[3rem]",
+				{
 					"px-2.5 py-1.5": parent.props.showButtons && parent.props.buttonLayout !== "stacked",
-				}, {
+				},
+				{
 					"p-0": parent.props.showButtons && parent.props.buttonLayout == "stacked",
-				}, {
+				},
+				{
 					"w-full": parent.props.showButtons && parent.props.buttonLayout == "vertical",
 				},
 
 				// Shape
-				"rounded-md", {
+				"rounded-md",
+				{
 					"rounded-tl-none rounded-br-none rounded-bl-none": parent.props.showButtons && parent.props.buttonLayout == "stacked",
-				}, {
+				},
+				{
 					"rounded-bl-none rounded-tl-none": parent.props.showButtons && parent.props.buttonLayout == "horizontal",
-				}, {
+				},
+				{
 					"rounded-bl-none rounded-br-none": parent.props.showButtons && parent.props.buttonLayout == "vertical",
 				},
 
@@ -136,9 +154,11 @@ export default {
 				"text-center align-bottom",
 
 				//Position
-				"relative", {
+				"relative",
+				{
 					"order-1": parent.props.showButtons && parent.props.buttonLayout == "horizontal",
-				}, {
+				},
+				{
 					"order-3": parent.props.showButtons && parent.props.buttonLayout == "vertical",
 				},
 
@@ -147,20 +167,26 @@ export default {
 				"bg-surface-0 dark:bg-surface-800",
 
 				// Sizing
-				"w-[3rem]", {
+				"w-[3rem]",
+				{
 					"px-2.5 py-1.5": parent.props.showButtons && parent.props.buttonLayout !== "stacked",
-				}, {
+				},
+				{
 					"p-0": parent.props.showButtons && parent.props.buttonLayout == "stacked",
-				}, {
+				},
+				{
 					"w-full": parent.props.showButtons && parent.props.buttonLayout == "vertical",
 				},
 
 				// Shape
-				"rounded-md", {
+				"rounded-md",
+				{
 					"rounded-tr-none rounded-tl-none rounded-bl-none": parent.props.showButtons && parent.props.buttonLayout == "stacked",
-				}, {
+				},
+				{
 					"rounded-tr-none rounded-br-none ": parent.props.showButtons && parent.props.buttonLayout == "horizontal",
-				}, {
+				},
+				{
 					"rounded-tr-none rounded-tl-none ": parent.props.showButtons && parent.props.buttonLayout == "vertical",
 				},
 

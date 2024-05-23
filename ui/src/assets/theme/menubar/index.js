@@ -28,7 +28,10 @@ export default {
 			"items-center",
 			"flex-wrap",
 			"flex-col sm:flex-row",
-			{ hidden: !props?.mobileActive, flex: props?.mobileActive },
+			{
+				hidden: !props?.mobileActive,
+				flex: props?.mobileActive,
+			},
 
 			// Position
 			"absolute sm:relative",
@@ -61,7 +64,9 @@ export default {
 	content: ({ props, context }) => ({
 		class: [
 			// Shape
-			{ "rounded-md": props.root },
+			{
+				"rounded-md": props.root,
+			},
 
 			//  Colors
 			{
@@ -139,7 +144,9 @@ export default {
 			// Position
 			"static sm:absolute",
 			"z-10",
-			{ "sm:absolute sm:left-full sm:top-0": props.level > 1 },
+			{
+				"sm:absolute sm:left-full sm:top-0": props.level > 1,
+			},
 
 			// Color
 			"bg-surface-0 dark:bg-surface-900",

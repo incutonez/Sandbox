@@ -43,15 +43,21 @@ export default {
 
 			// Colors
 			"text-surface-700 dark:text-surface-0",
-			{ "bg-surface-100 text-primary-500 dark:bg-surface-300/10 dark:text-primary-400": context.selected },
+			{
+				"bg-surface-100 text-primary-500 dark:bg-surface-300/10 dark:text-primary-400": context.selected,
+			},
 
 			// States
-			{ "hover:bg-surface-200 dark:hover:bg-surface-400/10": props.selectionMode == "single" || props.selectionMode == "multiple" },
+			{
+				"hover:bg-surface-200 dark:hover:bg-surface-400/10": props.selectionMode == "single" || props.selectionMode == "multiple",
+			},
 
 			// Transition
 			"transition-shadow duration-200",
 
-			{ "cursor-pointer select-none": props.selectionMode == "single" || props.selectionMode == "multiple" },
+			{
+				"cursor-pointer select-none": props.selectionMode == "single" || props.selectionMode == "multiple",
+			},
 		],
 	}),
 	toggler: ({ context }) => ({
