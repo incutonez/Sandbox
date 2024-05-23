@@ -37,8 +37,6 @@
     "vue-tsc-files": "^0.0.6"
   },
   "workspaces": [
-    "TipTap",
-    "Modeling",
     "ui",
     "api",
     "spec"

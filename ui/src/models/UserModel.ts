@@ -4,7 +4,8 @@ import { ApiPaginatedRequest, UserEntity, UsersApi } from "@incutonez/spec/dist"
 import { Allow, IsInt, IsString } from "class-validator";
 import { configuration } from "@/apiConfig";
 import { HasAPI } from "@/enums/helper";
-import { IsRequired } from "@/models/decorators";
+import { AddressModel } from "@/models/AddressModel";
+import { IsRequired, ModelTransform } from "@/models/decorators";
 import { ViewModel } from "@/models/ViewModel";
 import { removeItem } from "@/utils/common";
 
@@ -111,6 +112,9 @@ export class UserModel extends ViewModel implements UserEntity {
 
 	@IsString()
 	gender?: string;
+
+	@ModelTransform(() => AddressModel)
+	address?: AddressModel;
 
 	get name() {
 		return `${this.firstName} ${this.lastName}`;

@@ -17,6 +17,11 @@
 					class="h-10 w-10 cursor-pointer rounded-full fill-red-500 p-2 hover:bg-slate-500"
 					@click="onClickViewTreeChanges"
 				/>
+				<IconModeling
+					title="Modeling"
+					class="w-10 cursor-pointer rounded-full fill-red-500 p-2 hover:bg-slate-500"
+					@click="onClickViewModeling"
+				/>
 			</div>
 		</nav>
 		<section class="flex h-full w-full flex-1 flex-col overflow-hidden">
@@ -29,12 +34,6 @@
 				</article>
 			</section>
 			<section class="flex w-full flex-1 overflow-hidden">
-				<nav
-					v-if="route.meta.showNav !== false"
-					class="h-full w-64 border-r border-red-700 bg-red-200 p-4"
-				>
-					Nav
-				</nav>
 				<main class="h-full w-full overflow-hidden">
 					<RouterView />
 				</main>
@@ -59,13 +58,11 @@
  * - Potentially add provide/inject with TableGrid
  * - Potentially use provide/inject for users.ts data loading
  */
-import { useRoute } from "vue-router";
 import IconDifference from "@/assets/IconDifference.vue";
+import IconModeling from "@/assets/IconModeling.vue";
 import IconTriforce from "@/assets/IconTriforce.vue";
 import IconUsers from "@/assets/IconUsers.vue";
-import { viewTreeChanges, viewUsers, viewZeldaWorldBuilder } from "@/router";
-
-const route = useRoute();
+import { viewModeling, viewTreeChanges, viewUsers, viewZeldaWorldBuilder } from "@/router";
 
 function onClickViewUsers() {
 	viewUsers();
@@ -77,5 +74,9 @@ function onClickViewZelda() {
 
 function onClickViewTreeChanges() {
 	viewTreeChanges();
+}
+
+function onClickViewModeling() {
+	viewModeling();
 }
 </script>
