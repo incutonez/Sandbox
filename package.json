@@ -11,7 +11,7 @@
     "lint": "npx eslint . --ext .js --fix",
     "lint:fix": "prettier --write && npx eslint --fix",
     "explode": "npm cache clean --force && npx rimraf package-lock.json node_modules && npm i",
-    "build:spec": "cd spec && npm run build",
+    "build:spec": "cd spec && rimraf dist && npm run build",
     "build:ui": "cd ui && npm run build",
     "validate:api": "cd api && npx tsc-files --noEmit",
     "validate:ui": "cd ui && npx vue-tsc-files --noEmit"
@@ -25,20 +25,19 @@
   },
   "homepage": "https://github.com/incutonez/Sandbox#readme",
   "devDependencies": {
+    "@eslint/js": "^9.3.0",
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "eslint": "^8.57.0",
-    "eslint-plugin-import": "^2.29.1",
+    "eslint": "^9.3.0",
     "eslint-plugin-simple-import-sort": "^12.1.0",
     "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
+    "lint-staged": "^15.2.4",
     "multi-semantic-release": "^3.0.2",
     "tsc-files": "^1.1.4",
+    "typescript-eslint": "^8.0.0-alpha.14",
     "vue-tsc-files": "^0.0.6"
   },
   "workspaces": [
-    "TipTap",
-    "Modeling",
     "ui",
     "api",
     "spec"

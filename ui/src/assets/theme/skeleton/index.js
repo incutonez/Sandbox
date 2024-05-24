@@ -7,7 +7,10 @@ export default {
 			},
 
 			// Round
-			{ "rounded-full": props.shape === "circle", "rounded-md": props.shape !== "circle" },
+			{
+				"rounded-full": props.shape === "circle",
+				"rounded-md": props.shape !== "circle",
+			},
 
 			// Colors
 			"bg-surface-200 dark:bg-surface-700",

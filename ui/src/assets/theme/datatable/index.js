@@ -1,7 +1,7 @@
 export default {
 	root: ({ props }) => ({
 		class: [
-"relative",
+			"relative",
 
 			// Flex & Alignment
 			{
@@ -66,9 +66,9 @@ export default {
 	}),
 	tbody: ({ instance, context }) => ({
 		class: [
-"border-t border-surface-300 dark:border-surface-600", {
-			"sticky z-20 font-semibold": instance.frozenRow && context.scrollable,
-		},],
+			"border-t border-surface-300 dark:border-surface-600", {
+				"sticky z-20 font-semibold": instance.frozenRow && context.scrollable,
+			}],
 	}),
 	tfoot: ({ context }) => ({
 		class: [{
@@ -102,7 +102,8 @@ export default {
 				// Position
 				{
 					"sticky z-20 border-b": props.frozen || props.frozen === "",
-				}, {
+				},
+				{
 					relative: context.resizable,
 				},
 
@@ -127,7 +128,8 @@ export default {
 				// Misc
 				{
 					"cursor-pointer": props.sortable === "" || props.sortable,
-				}, {
+				},
+				{
 					"overflow-hidden space-nowrap bg-clip-padding": context.resizable,
 				},
 			],
@@ -151,18 +153,22 @@ export default {
 					// Alignment
 					"text-left",
 
-					"border-0 border-b border-solid", {
+					"border-0 border-b border-solid",
+					{
 						"last:border-r-0 border-r border-b": context?.showGridlines,
 					},
 
 					// Spacing
 					{
 						"py-1.5 px-2": context?.size === "small" && !state["d_editing"],
-					}, {
+					},
+					{
 						"py-5 px-4": context?.size === "large" && !state["d_editing"],
-					}, {
+					},
+					{
 						"py-3.5 px-3": context?.size !== "large" && context?.size !== "small" && !state["d_editing"],
-					}, {
+					},
+					{
 						"py-[0.6rem] px-2": state["d_editing"],
 					},
 
@@ -257,7 +263,8 @@ export default {
 					"shadow-sm",
 
 					// Color and Background
-					"bg-surface-0 dark:bg-surface-900", {
+					"bg-surface-0 dark:bg-surface-900",
+					{
 						"ring-1 ring-inset ring-surface-300 dark:ring-surface-700": !state.focused,
 					},
 
@@ -288,7 +295,8 @@ export default {
 
 					// Color and Background
 					"bg-transparent",
-					"border-0", {
+					"border-0",
+					{
 						"text-surface-800 dark:text-white/80": props.modelValue,
 						"text-surface-400 dark:text-surface-500": !props.modelValue,
 					},
@@ -322,7 +330,8 @@ export default {
 			class: [
 				// Font
 				"sm:text-sm",
-				"leading-none", {
+				"leading-none",
+				{
 					"font-normal": !context?.highlighted,
 					"font-bold": context?.highlighted,
 				},
@@ -341,9 +350,11 @@ export default {
 				// Color
 				{
 					"text-surface-700 dark:text-white/80": !context?.highlighted,
-				}, {
+				},
+				{
 					"bg-surface-0 dark:bg-surface-800 text-surface-700 dark:text-white/80": !context?.highlighted,
-				}, {
+				},
+				{
 					"bg-primary-500 dark:bg-primary-400 text-white dark:text-surface-700": context?.highlighted,
 				},
 
@@ -390,7 +401,8 @@ export default {
 					// Color and Background
 					"text-surface-800 dark:text-white/80",
 					"placeholder:text-surface-400 dark:placeholder:text-surface-500",
-					"bg-surface-0 dark:bg-surface-900", {
+					"bg-surface-0 dark:bg-surface-900",
+					{
 						"ring-1 ring-inset ring-surface-300 dark:ring-surface-700": !state.focused,
 					},
 
@@ -490,7 +502,8 @@ export default {
 				class: [
 					// Font
 					"sm:text-sm",
-					"leading-none", {
+					"leading-none",
+					{
 						"font-normal": !context?.highlighted,
 						"font-bold": context?.highlighted,
 					},
@@ -509,9 +522,11 @@ export default {
 					// Color
 					{
 						"text-surface-700 dark:text-white/80": !context?.highlighted,
-					}, {
+					},
+					{
 						"bg-surface-0 dark:bg-surface-800 text-surface-700 dark:text-white/80": !context?.highlighted,
-					}, {
+					},
+					{
 						"bg-primary-500 dark:bg-primary-400 text-white dark:text-surface-700": context?.highlighted,
 					},
 
@@ -723,7 +738,8 @@ export default {
 				"bg-transparent",
 
 				// Misc
-				"cursor-pointer no-underline overflow-hidden select-none", {
+				"cursor-pointer no-underline overflow-hidden select-none",
+				{
 					invisible: !context.hidden,
 				},
 			],
@@ -901,18 +917,22 @@ export default {
 				// Color
 				{
 					"text-surface-700 dark:text-white/80": !context.checked,
-				}, {
+				},
+				{
 					"bg-surface-0 dark:bg-surface-900": !context.checked,
-				}, {
+				},
+				{
 					"border-surface-300 dark:border-surface-700": !context.checked,
-				}, {
+				},
+				{
 					"border-primary-500 dark:border-primary-400": context.checked,
 				},
 
 				// States
 				{
 					"hover:border-primary-500 dark:hover:border-primary-400": !context.disabled,
-				}, {
+				},
+				{
 					"ring-2 ring-offset-2 ring-offset-surface-0 dark:ring-offset-surface-800 ring-primary-500 dark:ring-primary-400": context.focused,
 				},
 
@@ -957,13 +977,15 @@ export default {
 				"h-4",
 
 				// Color
-				"text-surface-600", {
+				"text-surface-600",
+				{
 					"border-surface-300 bg-surface-0 dark:border-surface-700 dark:bg-surface-900": !context.checked,
 					"border-primary-500 bg-primary-500 dark:border-primary-400 dark:bg-primary-400": context.checked,
 				},
 
 				// States
-				"focus:outline-none focus:outline-offset-0", {
+				"focus:outline-none focus:outline-offset-0",
+				{
 					"ring-2 ring-primary-500 dark:ring-primary-400": context.focused,
 				},
 
@@ -1021,13 +1043,15 @@ export default {
 				"h-4",
 
 				// Color
-				"text-surface-600", {
+				"text-surface-600",
+				{
 					"border-surface-300 bg-surface-0 dark:border-surface-700 dark:bg-surface-900": !context.checked,
 					"border-primary-500 bg-primary-500 dark:border-primary-400 dark:bg-primary-400": context.checked,
 				},
 
 				// States
-				"focus:outline-none focus:outline-offset-0", {
+				"focus:outline-none focus:outline-offset-0",
+				{
 					"ring-2 ring-primary-500 dark:ring-primary-400": context.focused,
 				},
 
@@ -1068,16 +1092,19 @@ export default {
 			class: [
 				"data-table-row",
 				// Color
-				"dark:text-white/80", {
+				"dark:text-white/80",
+				{
 					"even:bg-slate-200 even:text-slate-900 odd:bg-white": context.stripedRows && !context.selected,
-				}, {
+				},
+				{
 					"bg-sky-200": context.selected,
 				},
 
 				// State
 				{
 					"focus:bg-sky-200": props.selectionMode,
-				}, {
+				},
+				{
 					"hover:bg-sky-100 hover:text-slate-900": props.selectionMode && !context.selected,
 				},
 

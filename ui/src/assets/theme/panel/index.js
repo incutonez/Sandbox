@@ -16,7 +16,10 @@ export default {
 			"rounded-tl-lg rounded-tr-lg",
 
 			// Conditional Spacing
-			{ "px-5 md:px-6 py-5": !props.toggleable, "py-3 px-5 md:px-6": props.toggleable },
+			{
+				"px-5 md:px-6 py-5": !props.toggleable,
+				"py-3 px-5 md:px-6": props.toggleable,
+			},
 		],
 	}),
 	title: {

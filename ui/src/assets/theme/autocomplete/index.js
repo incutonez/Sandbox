@@ -7,7 +7,9 @@ export default {
 			"inline-flex",
 
 			// Size
-			{ "w-full": props.multiple },
+			{
+				"w-full": props.multiple,
+			},
 
 			// Color
 			"text-surface-900 dark:text-surface-0",
@@ -30,7 +32,10 @@ export default {
 			// Spacing
 			"m-0 list-none",
 			"px-3 py-1",
-			{ "px-3 py-1.5": !props.multiple, "px-3 py-1": props.multiple },
+			{
+				"px-3 py-1.5": !props.multiple,
+				"px-3 py-1": props.multiple,
+			},
 			// Size
 			"w-full",
 
@@ -45,7 +50,10 @@ export default {
 
 			// States
 			"focus:outline-none focus:outline-offset-0",
-			{ "ring-1 ring-inset ring-surface-300 dark:ring-surface-700 ring-offset-0": !state.focused, "ring-2 ring-primary-500 dark:ring-primary-400": state.focused },
+			{
+				"ring-1 ring-inset ring-surface-300 dark:ring-surface-700 ring-offset-0": !state.focused,
+				"ring-2 ring-primary-500 dark:ring-primary-400": state.focused,
+			},
 
 			// Transition
 			"transition duration-200 ease-in-out",
@@ -55,7 +63,10 @@ export default {
 		],
 	}),
 	inputtoken: ({ props }) => ({
-		class: [{ "py-1.5 px-0": !props.multiple, "p-0.5": props.multiple }, , "inline-flex flex-auto"],
+		class: [{
+			"py-1.5 px-0": !props.multiple,
+			"p-0.5": props.multiple,
+		}, , "inline-flex flex-auto"],
 	}),
 	input: ({ props }) => ({
 		class: [
@@ -64,15 +75,24 @@ export default {
 
 			// Shape
 			"appearance-none rounded-md",
-			{ "rounded-tr-none rounded-br-none": props.dropdown },
-			{ "outline-none shadow-none rounded-none": props.multiple },
+			{
+				"rounded-tr-none rounded-br-none": props.dropdown,
+			},
+			{
+				"outline-none shadow-none rounded-none": props.multiple,
+			},
 
 			// Size
-			{ "w-full": props.multiple },
+			{
+				"w-full": props.multiple,
+			},
 
 			// Spacing
 			"m-0",
-			{ "py-1.5 px-3": !props.multiple, "p-0": props.multiple },
+			{
+				"py-1.5 px-3": !props.multiple,
+				"p-0": props.multiple,
+			},
 
 			// Colors
 			"text-surface-700 dark:text-white/80",
@@ -83,7 +103,9 @@ export default {
 			},
 
 			// States
-			{ "focus:outline-none focus:outline-offset-0 focus:ring-inset focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400": !props.multiple },
+			{
+				"focus:outline-none focus:outline-offset-0 focus:ring-inset focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400": !props.multiple,
+			},
 
 			// Transition
 			"transition-colors duration-200",
@@ -183,7 +205,10 @@ export default {
 			// Font
 			"sm:text-sm",
 			"leading-none",
-			{ "font-normal": !context.selected, "font-bold": context.selected },
+			{
+				"font-normal": !context.selected,
+				"font-bold": context.selected,
+			},
 
 			// Position
 			"relative",
@@ -197,10 +222,18 @@ export default {
 			"py-2 px-4",
 
 			// Color
-			{ "text-surface-700 dark:text-white/80": !context.focused && !context.selected },
-			{ "bg-surface-200 dark:bg-surface-600/60 text-surface-700 dark:text-white/80": context.focused && !context.selected },
-			{ "bg-primary-500 dark:bg-primary-400 text-white dark:text-surface-700": context.focused && context.selected },
-			{ "bg-transparent text-surface-700 dark:text-white/80": !context.focused && context.selected },
+			{
+				"text-surface-700 dark:text-white/80": !context.focused && !context.selected,
+			},
+			{
+				"bg-surface-200 dark:bg-surface-600/60 text-surface-700 dark:text-white/80": context.focused && !context.selected,
+			},
+			{
+				"bg-primary-500 dark:bg-primary-400 text-white dark:text-surface-700": context.focused && context.selected,
+			},
+			{
+				"bg-transparent text-surface-700 dark:text-white/80": !context.focused && context.selected,
+			},
 
 			//States
 			"hover:bg-primary-500 dark:hover:bg-primary-400 hover:text-white dark:hover:text-surface-700",

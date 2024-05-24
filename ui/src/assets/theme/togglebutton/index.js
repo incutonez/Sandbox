@@ -13,7 +13,9 @@ export default {
 
 			// Colors
 			"text-surface-700 dark:text-white/80",
-			{ "ring-1 ring-surface-200 dark:ring-surface-700": !context.focused },
+			{
+				"ring-1 ring-surface-200 dark:ring-surface-700": !context.focused,
+			},
 			{
 				"bg-surface-0 dark:bg-surface-900 ": !props.modelValue,
 				"bg-surface-100 dark:bg-surface-700": props.modelValue,
@@ -29,7 +31,10 @@ export default {
 			"transition-all duration-200",
 
 			// Misc
-			{ "cursor-pointer": !props.disabled, "opacity-60 select-none pointer-events-none cursor-default": props.disabled },
+			{
+				"cursor-pointer": !props.disabled,
+				"opacity-60 select-none pointer-events-none cursor-default": props.disabled,
+			},
 		],
 	}),
 	label: {

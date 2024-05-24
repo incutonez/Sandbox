@@ -9,13 +9,18 @@ export default {
 		class: [
 			// Shape
 			"rounded-t-md",
-			{ "rounded-br-md rounded-bl-md": !context.active || instance.activeItem?.items === undefined, "rounded-br-0 rounded-bl-0": context.active && instance.activeItem?.items !== undefined },
+			{
+				"rounded-br-md rounded-bl-md": !context.active || instance.activeItem?.items === undefined,
+				"rounded-br-0 rounded-bl-0": context.active && instance.activeItem?.items !== undefined,
+			},
 
 			// Color
 			"border border-surface-200 dark:border-surface-700",
 			"bg-surface-0 dark:bg-surface-800",
 			"text-surface-600 dark:text-surface-0/80",
-			{ "text-surface-900 ark:text-surface-0": context.active },
+			{
+				"text-surface-900 ark:text-surface-0": context.active,
+			},
 
 			// Transition
 			"transition duration-200 ease-in-out",

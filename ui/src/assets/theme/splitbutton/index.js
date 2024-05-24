@@ -7,7 +7,9 @@ export default {
 
 			// Shape
 			"rounded-md",
-			{ "shadow-lg": props.raised },
+			{
+				"shadow-lg": props.raised,
+			},
 		],
 	}),
 	button: {
@@ -31,24 +33,41 @@ export default {
 				// Shape
 				"rounded-r-none",
 				"border-r-0",
-				{ "rounded-l-full": parent.props.rounded },
-				{ "rounded-md": !parent.props.rounded, "rounded-full": parent.props.rounded },
+				{
+					"rounded-l-full": parent.props.rounded,
+				},
+				{
+					"rounded-md": !parent.props.rounded,
+					"rounded-full": parent.props.rounded,
+				},
 
 				// Link Button
-				{ "text-primary-600 bg-transparent ring-transparent": parent.props.link },
+				{
+					"text-primary-600 bg-transparent ring-transparent": parent.props.link,
+				},
 
 				// Plain Button
-				{ "text-white bg-gray-500 ring-1 ring-gray-500": parent.props.plain && !parent.props.outlined && !parent.props.text },
+				{
+					"text-white bg-gray-500 ring-1 ring-gray-500": parent.props.plain && !parent.props.outlined && !parent.props.text,
+				},
 				// Plain Text Button
-				{ "text-surface-500": parent.props.plain && parent.props.text },
+				{
+					"text-surface-500": parent.props.plain && parent.props.text,
+				},
 				// Plain Outlined Button
-				{ "text-surface-500 ring-1 ring-gray-500": parent.props.plain && parent.props.outlined },
+				{
+					"text-surface-500 ring-1 ring-gray-500": parent.props.plain && parent.props.outlined,
+				},
 
 				// Text Button
-				{ "bg-transparent ring-transparent": parent.props.text && !parent.props.plain },
+				{
+					"bg-transparent ring-transparent": parent.props.text && !parent.props.plain,
+				},
 
 				// Outlined Button
-				{ "bg-transparent": parent.props.outlined && !parent.props.plain },
+				{
+					"bg-transparent": parent.props.outlined && !parent.props.plain,
+				},
 
 				// --- Severity Buttons ---
 
@@ -59,9 +78,13 @@ export default {
 					"ring-1 ring-primary-500 dark:ring-primary-400": !parent.props.link && parent.props.severity === null && !parent.props.text && !parent.props.outlined && !parent.props.plain,
 				},
 				// Primary Text Button
-				{ "text-primary-500 dark:text-primary-400": parent.props.text && parent.props.severity === null && !parent.props.plain },
+				{
+					"text-primary-500 dark:text-primary-400": parent.props.text && parent.props.severity === null && !parent.props.plain,
+				},
 				// Primary Outlined Button
-				{ "text-primary-500 ring-1 ring-primary-500 hover:bg-primary-300/20": parent.props.outlined && parent.props.severity === null && !parent.props.plain },
+				{
+					"text-primary-500 ring-1 ring-primary-500 hover:bg-primary-300/20": parent.props.outlined && parent.props.severity === null && !parent.props.plain,
+				},
 
 				// Secondary Button
 				{
@@ -70,9 +93,13 @@ export default {
 					"ring-1 ring-surface-500 dark:ring-surface-400": parent.props.severity === "secondary" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
 				},
 				// Secondary Text Button
-				{ "text-surface-500 dark:text-surface-400": parent.props.text && parent.props.severity === "secondary" && !parent.props.plain },
+				{
+					"text-surface-500 dark:text-surface-400": parent.props.text && parent.props.severity === "secondary" && !parent.props.plain,
+				},
 				// Secondary Outlined Button
-				{ "text-surface-500 ring-1 ring-surface-500 hover:bg-surface-300/20": parent.props.outlined && parent.props.severity === "secondary" && !parent.props.plain },
+				{
+					"text-surface-500 ring-1 ring-surface-500 hover:bg-surface-300/20": parent.props.outlined && parent.props.severity === "secondary" && !parent.props.plain,
+				},
 
 				// Success Button
 				{
@@ -81,9 +108,13 @@ export default {
 					"ring-1 ring-green-500 dark:ring-green-400": parent.props.severity === "success" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
 				},
 				// Success Text Button
-				{ "text-surface-500 dark:text-surface-400": parent.props.text && parent.props.severity === "secondary" && !parent.props.plain },
+				{
+					"text-surface-500 dark:text-surface-400": parent.props.text && parent.props.severity === "secondary" && !parent.props.plain,
+				},
 				// Success Outlined Button
-				{ "text-green-500 ring-1 ring-green-500 hover:bg-green-300/20": parent.props.outlined && parent.props.severity === "success" && !parent.props.plain },
+				{
+					"text-green-500 ring-1 ring-green-500 hover:bg-green-300/20": parent.props.outlined && parent.props.severity === "success" && !parent.props.plain,
+				},
 
 				// Info Button
 				{
@@ -92,9 +123,13 @@ export default {
 					"ring-1 ring-blue-500 dark:ring-blue-400": parent.props.severity === "info" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
 				},
 				// Info Text Button
-				{ "text-blue-500 dark:text-blue-400": parent.props.text && parent.props.severity === "info" && !parent.props.plain },
+				{
+					"text-blue-500 dark:text-blue-400": parent.props.text && parent.props.severity === "info" && !parent.props.plain,
+				},
 				// Info Outlined Button
-				{ "text-blue-500 ring-1 ring-blue-500 hover:bg-blue-300/20 ": parent.props.outlined && parent.props.severity === "info" && !parent.props.plain },
+				{
+					"text-blue-500 ring-1 ring-blue-500 hover:bg-blue-300/20 ": parent.props.outlined && parent.props.severity === "info" && !parent.props.plain,
+				},
 
 				// Warning Button
 				{
@@ -103,9 +138,13 @@ export default {
 					"ring-1 ring-orange-500 dark:ring-orange-400": parent.props.severity === "warning" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
 				},
 				// Warning Text Button
-				{ "text-orange-500 dark:text-orange-400": parent.props.text && parent.props.severity === "warning" && !parent.props.plain },
+				{
+					"text-orange-500 dark:text-orange-400": parent.props.text && parent.props.severity === "warning" && !parent.props.plain,
+				},
 				// Warning Outlined Button
-				{ "text-orange-500 ring-1 ring-orange-500 hover:bg-orange-300/20": parent.props.outlined && parent.props.severity === "warning" && !parent.props.plain },
+				{
+					"text-orange-500 ring-1 ring-orange-500 hover:bg-orange-300/20": parent.props.outlined && parent.props.severity === "warning" && !parent.props.plain,
+				},
 
 				// Help Button
 				{
@@ -114,9 +153,13 @@ export default {
 					"ring-1 ring-purple-500 dark:ring-purple-400": parent.props.severity === "help" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
 				},
 				// Help Text Button
-				{ "text-purple-500 dark:text-purple-400": parent.props.text && parent.props.severity === "help" && !parent.props.plain },
+				{
+					"text-purple-500 dark:text-purple-400": parent.props.text && parent.props.severity === "help" && !parent.props.plain,
+				},
 				// Help Outlined Button
-				{ "text-purple-500 ring-1 ring-purple-500 hover:bg-purple-300/20": parent.props.outlined && parent.props.severity === "help" && !parent.props.plain },
+				{
+					"text-purple-500 ring-1 ring-purple-500 hover:bg-purple-300/20": parent.props.outlined && parent.props.severity === "help" && !parent.props.plain,
+				},
 
 				// Danger Button
 				{
@@ -125,63 +168,117 @@ export default {
 					"ring-1 ring-red-500 dark:ring-red-400": parent.props.severity === "danger" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
 				},
 				// Danger Text Button
-				{ "text-red-500 dark:text-red-400": parent.props.text && parent.props.severity === "danger" && !parent.props.plain },
+				{
+					"text-red-500 dark:text-red-400": parent.props.text && parent.props.severity === "danger" && !parent.props.plain,
+				},
 				// Danger Outlined Button
-				{ "text-red-500 ring-1 ring-red-500 hover:bg-red-300/20": parent.props.outlined && parent.props.severity === "danger" && !parent.props.plain },
+				{
+					"text-red-500 ring-1 ring-red-500 hover:bg-red-300/20": parent.props.outlined && parent.props.severity === "danger" && !parent.props.plain,
+				},
 
 				// --- Severity Button States ---
 				"focus:outline-none focus:outline-offset-0 focus:ring-2 focus:ring-offset-current",
-				{ "focus:ring-offset-2": !parent.props.link && !parent.props.plain && !parent.props.outlined && !parent.props.text },
+				{
+					"focus:ring-offset-2": !parent.props.link && !parent.props.plain && !parent.props.outlined && !parent.props.text,
+				},
 
 				// Link
-				{ "focus:ring-primary-500 dark:focus:ring-primary-400": parent.props.link },
+				{
+					"focus:ring-primary-500 dark:focus:ring-primary-400": parent.props.link,
+				},
 
 				// Plain
-				{ "hover:bg-gray-600 hover:ring-gray-600": parent.props.plain && !parent.props.outlined && !parent.props.text },
+				{
+					"hover:bg-gray-600 hover:ring-gray-600": parent.props.plain && !parent.props.outlined && !parent.props.text,
+				},
 				// Text & Outlined Button
-				{ "hover:bg-surface-300/20": parent.props.plain && (parent.props.text || parent.props.outlined) },
+				{
+					"hover:bg-surface-300/20": parent.props.plain && (parent.props.text || parent.props.outlined),
+				},
 
 				// Primary
-				{ "hover:bg-primary-600 dark:hover:bg-primary-300 hover:ring-primary-600 dark:hover:ring-primary-300": !parent.props.link && parent.props.severity === null && !parent.props.text && !parent.props.outlined && !parent.props.plain },
-				{ "focus:ring-primary-500 dark:focus:ring-primary-400": parent.props.severity === null },
+				{
+					"hover:bg-primary-600 dark:hover:bg-primary-300 hover:ring-primary-600 dark:hover:ring-primary-300": !parent.props.link && parent.props.severity === null && !parent.props.text && !parent.props.outlined && !parent.props.plain,
+				},
+				{
+					"focus:ring-primary-500 dark:focus:ring-primary-400": parent.props.severity === null,
+				},
 				// Text & Outlined Button
-				{ "hover:bg-primary-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === null && !parent.props.plain },
+				{
+					"hover:bg-primary-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === null && !parent.props.plain,
+				},
 
 				// Secondary
-				{ "hover:bg-surface-600 dark:hover:bg-surface-300 hover:ring-surface-600 dark:hover:ring-surface-300": parent.props.severity === "secondary" && !parent.props.text && !parent.props.outlined && !parent.props.plain },
-				{ "focus:ring-surface-500 dark:focus:ring-surface-400": parent.props.severity === "secondary" },
+				{
+					"hover:bg-surface-600 dark:hover:bg-surface-300 hover:ring-surface-600 dark:hover:ring-surface-300": parent.props.severity === "secondary" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
+				},
+				{
+					"focus:ring-surface-500 dark:focus:ring-surface-400": parent.props.severity === "secondary",
+				},
 				// Text & Outlined Button
-				{ "hover:bg-surface-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "secondary" && !parent.props.plain },
+				{
+					"hover:bg-surface-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "secondary" && !parent.props.plain,
+				},
 
 				// Success
-				{ "hover:bg-green-600 dark:hover:bg-green-300 hover:ring-green-600 dark:hover:ring-green-300": parent.props.severity === "success" && !parent.props.text && !parent.props.outlined && !parent.props.plain },
-				{ "focus:ring-green-500 dark:focus:ring-green-400": parent.props.severity === "success" },
+				{
+					"hover:bg-green-600 dark:hover:bg-green-300 hover:ring-green-600 dark:hover:ring-green-300": parent.props.severity === "success" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
+				},
+				{
+					"focus:ring-green-500 dark:focus:ring-green-400": parent.props.severity === "success",
+				},
 				// Text & Outlined Button
-				{ "hover:bg-green-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "success" && !parent.props.plain },
+				{
+					"hover:bg-green-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "success" && !parent.props.plain,
+				},
 
 				// Info
-				{ "hover:bg-blue-600 dark:hover:bg-blue-300 hover:ring-blue-600 dark:hover:ring-blue-300": parent.props.severity === "info" && !parent.props.text && !parent.props.outlined && !parent.props.plain },
-				{ "focus:ring-blue-500 dark:focus:ring-blue-400": parent.props.severity === "info" },
+				{
+					"hover:bg-blue-600 dark:hover:bg-blue-300 hover:ring-blue-600 dark:hover:ring-blue-300": parent.props.severity === "info" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
+				},
+				{
+					"focus:ring-blue-500 dark:focus:ring-blue-400": parent.props.severity === "info",
+				},
 				// Text & Outlined Button
-				{ "hover:bg-blue-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "info" && !parent.props.plain },
+				{
+					"hover:bg-blue-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "info" && !parent.props.plain,
+				},
 
 				// Warning
-				{ "hover:bg-orange-600 dark:hover:bg-orange-300 hover:ring-orange-600 dark:hover:ring-orange-300": parent.props.severity === "warning" && !parent.props.text && !parent.props.outlined && !parent.props.plain },
-				{ "focus:ring-orange-500 dark:focus:ring-orange-400": parent.props.severity === "warning" },
+				{
+					"hover:bg-orange-600 dark:hover:bg-orange-300 hover:ring-orange-600 dark:hover:ring-orange-300": parent.props.severity === "warning" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
+				},
+				{
+					"focus:ring-orange-500 dark:focus:ring-orange-400": parent.props.severity === "warning",
+				},
 				// Text & Outlined Button
-				{ "hover:bg-orange-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "warning" && !parent.props.plain },
+				{
+					"hover:bg-orange-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "warning" && !parent.props.plain,
+				},
 
 				// Help
-				{ "hover:bg-purple-600 dark:hover:bg-purple-300 hover:ring-purple-600 dark:hover:ring-purple-300": parent.props.severity === "help" && !parent.props.text && !parent.props.outlined && !parent.props.plain },
-				{ "focus:ring-purple-500 dark:focus:ring-purple-400": parent.props.severity === "help" },
+				{
+					"hover:bg-purple-600 dark:hover:bg-purple-300 hover:ring-purple-600 dark:hover:ring-purple-300": parent.props.severity === "help" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
+				},
+				{
+					"focus:ring-purple-500 dark:focus:ring-purple-400": parent.props.severity === "help",
+				},
 				// Text & Outlined Button
-				{ "hover:bg-purple-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "help" && !parent.props.plain },
+				{
+					"hover:bg-purple-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "help" && !parent.props.plain,
+				},
 
 				// Warning
-				{ "hover:bg-red-600 dark:hover:bg-red-300 hover:ring-red-600 dark:hover:ring-red-300": parent.props.severity === "danger" && !parent.props.text && !parent.props.outlined && !parent.props.plain },
-				{ "focus:ring-red-500 dark:focus:ring-red-400": parent.props.severity === "danger" },
+				{
+					"hover:bg-red-600 dark:hover:bg-red-300 hover:ring-red-600 dark:hover:ring-red-300": parent.props.severity === "danger" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
+				},
+				{
+					"focus:ring-red-500 dark:focus:ring-red-400": parent.props.severity === "danger",
+				},
 				// Text & Outlined Button
-				{ "hover:bg-red-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "danger" && !parent.props.plain },
+				{
+					"hover:bg-red-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "danger" && !parent.props.plain,
+				},
 
 				// Transitions
 				"transition duration-200 ease-in-out",
@@ -219,24 +316,41 @@ export default {
 
 				// Shape
 				"rounded-l-none",
-				{ "rounded-l-full": parent.props.rounded },
-				{ "rounded-md": !parent.props.rounded, "rounded-full": parent.props.rounded },
+				{
+					"rounded-l-full": parent.props.rounded,
+				},
+				{
+					"rounded-md": !parent.props.rounded,
+					"rounded-full": parent.props.rounded,
+				},
 
 				// Link Button
-				{ "text-primary-600 bg-transparent ring-transparent": parent.props.link },
+				{
+					"text-primary-600 bg-transparent ring-transparent": parent.props.link,
+				},
 
 				// Plain Button
-				{ "text-white bg-gray-500 ring-1 ring-gray-500": parent.props.plain && !parent.props.outlined && !parent.props.text },
+				{
+					"text-white bg-gray-500 ring-1 ring-gray-500": parent.props.plain && !parent.props.outlined && !parent.props.text,
+				},
 				// Plain Text Button
-				{ "text-surface-500": parent.props.plain && parent.props.text },
+				{
+					"text-surface-500": parent.props.plain && parent.props.text,
+				},
 				// Plain Outlined Button
-				{ "text-surface-500 ring-1 ring-gray-500": parent.props.plain && parent.props.outlined },
+				{
+					"text-surface-500 ring-1 ring-gray-500": parent.props.plain && parent.props.outlined,
+				},
 
 				// Text Button
-				{ "bg-transparent ring-transparent": parent.props.text && !parent.props.plain },
+				{
+					"bg-transparent ring-transparent": parent.props.text && !parent.props.plain,
+				},
 
 				// Outlined Button
-				{ "bg-transparent": parent.props.outlined && !parent.props.plain },
+				{
+					"bg-transparent": parent.props.outlined && !parent.props.plain,
+				},
 
 				// --- Severity Buttons ---
 
@@ -247,9 +361,13 @@ export default {
 					"ring-1 ring-primary-500 dark:ring-primary-400": !parent.props.link && parent.props.severity === null && !parent.props.text && !parent.props.outlined && !parent.props.plain,
 				},
 				// Primary Text Button
-				{ "text-primary-500 dark:text-primary-400": parent.props.text && parent.props.severity === null && !parent.props.plain },
+				{
+					"text-primary-500 dark:text-primary-400": parent.props.text && parent.props.severity === null && !parent.props.plain,
+				},
 				// Primary Outlined Button
-				{ "text-primary-500 ring-1 ring-primary-500 hover:bg-primary-300/20": parent.props.outlined && parent.props.severity === null && !parent.props.plain },
+				{
+					"text-primary-500 ring-1 ring-primary-500 hover:bg-primary-300/20": parent.props.outlined && parent.props.severity === null && !parent.props.plain,
+				},
 
 				// Secondary Button
 				{
@@ -258,9 +376,13 @@ export default {
 					"ring-1 ring-surface-500 dark:ring-surface-400": parent.props.severity === "secondary" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
 				},
 				// Secondary Text Button
-				{ "text-surface-500 dark:text-surface-400": parent.props.text && parent.props.severity === "secondary" && !parent.props.plain },
+				{
+					"text-surface-500 dark:text-surface-400": parent.props.text && parent.props.severity === "secondary" && !parent.props.plain,
+				},
 				// Secondary Outlined Button
-				{ "text-surface-500 ring-1 ring-surface-500 hover:bg-surface-300/20": parent.props.outlined && parent.props.severity === "secondary" && !parent.props.plain },
+				{
+					"text-surface-500 ring-1 ring-surface-500 hover:bg-surface-300/20": parent.props.outlined && parent.props.severity === "secondary" && !parent.props.plain,
+				},
 
 				// Success Button
 				{
@@ -269,9 +391,13 @@ export default {
 					"ring-1 ring-green-500 dark:ring-green-400": parent.props.severity === "success" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
 				},
 				// Success Text Button
-				{ "text-surface-500 dark:text-surface-400": parent.props.text && parent.props.severity === "secondary" && !parent.props.plain },
+				{
+					"text-surface-500 dark:text-surface-400": parent.props.text && parent.props.severity === "secondary" && !parent.props.plain,
+				},
 				// Success Outlined Button
-				{ "text-green-500 ring-1 ring-green-500 hover:bg-green-300/20": parent.props.outlined && parent.props.severity === "success" && !parent.props.plain },
+				{
+					"text-green-500 ring-1 ring-green-500 hover:bg-green-300/20": parent.props.outlined && parent.props.severity === "success" && !parent.props.plain,
+				},
 
 				// Info Button
 				{
@@ -280,9 +406,13 @@ export default {
 					"ring-1 ring-blue-500 dark:ring-blue-400": parent.props.severity === "info" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
 				},
 				// Info Text Button
-				{ "text-blue-500 dark:text-blue-400": parent.props.text && parent.props.severity === "info" && !parent.props.plain },
+				{
+					"text-blue-500 dark:text-blue-400": parent.props.text && parent.props.severity === "info" && !parent.props.plain,
+				},
 				// Info Outlined Button
-				{ "text-blue-500 ring-1 ring-blue-500 hover:bg-blue-300/20 ": parent.props.outlined && parent.props.severity === "info" && !parent.props.plain },
+				{
+					"text-blue-500 ring-1 ring-blue-500 hover:bg-blue-300/20 ": parent.props.outlined && parent.props.severity === "info" && !parent.props.plain,
+				},
 
 				// Warning Button
 				{
@@ -291,9 +421,13 @@ export default {
 					"ring-1 ring-orange-500 dark:ring-orange-400": parent.props.severity === "warning" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
 				},
 				// Warning Text Button
-				{ "text-orange-500 dark:text-orange-400": parent.props.text && parent.props.severity === "warning" && !parent.props.plain },
+				{
+					"text-orange-500 dark:text-orange-400": parent.props.text && parent.props.severity === "warning" && !parent.props.plain,
+				},
 				// Warning Outlined Button
-				{ "text-orange-500 ring-1 ring-orange-500 hover:bg-orange-300/20": parent.props.outlined && parent.props.severity === "warning" && !parent.props.plain },
+				{
+					"text-orange-500 ring-1 ring-orange-500 hover:bg-orange-300/20": parent.props.outlined && parent.props.severity === "warning" && !parent.props.plain,
+				},
 
 				// Help Button
 				{
@@ -302,9 +436,13 @@ export default {
 					"ring-1 ring-purple-500 dark:ring-purple-400": parent.props.severity === "help" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
 				},
 				// Help Text Button
-				{ "text-purple-500 dark:text-purple-400": parent.props.text && parent.props.severity === "help" && !parent.props.plain },
+				{
+					"text-purple-500 dark:text-purple-400": parent.props.text && parent.props.severity === "help" && !parent.props.plain,
+				},
 				// Help Outlined Button
-				{ "text-purple-500 ring-1 ring-purple-500 hover:bg-purple-300/20": parent.props.outlined && parent.props.severity === "help" && !parent.props.plain },
+				{
+					"text-purple-500 ring-1 ring-purple-500 hover:bg-purple-300/20": parent.props.outlined && parent.props.severity === "help" && !parent.props.plain,
+				},
 
 				// Danger Button
 				{
@@ -313,63 +451,117 @@ export default {
 					"ring-1 ring-red-500 dark:ring-red-400": parent.props.severity === "danger" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
 				},
 				// Danger Text Button
-				{ "text-red-500 dark:text-red-400": parent.props.text && parent.props.severity === "danger" && !parent.props.plain },
+				{
+					"text-red-500 dark:text-red-400": parent.props.text && parent.props.severity === "danger" && !parent.props.plain,
+				},
 				// Danger Outlined Button
-				{ "text-red-500 ring-1 ring-red-500 hover:bg-red-300/20": parent.props.outlined && parent.props.severity === "danger" && !parent.props.plain },
+				{
+					"text-red-500 ring-1 ring-red-500 hover:bg-red-300/20": parent.props.outlined && parent.props.severity === "danger" && !parent.props.plain,
+				},
 
 				// --- Severity Button States ---
 				"focus:outline-none focus:outline-offset-0 focus:ring-2 focus:ring-offset-current",
-				{ "focus:ring-offset-2": !parent.props.link && !parent.props.plain && !parent.props.outlined && !parent.props.text },
+				{
+					"focus:ring-offset-2": !parent.props.link && !parent.props.plain && !parent.props.outlined && !parent.props.text,
+				},
 
 				// Link
-				{ "focus:ring-primary-500 dark:focus:ring-primary-400": parent.props.link },
+				{
+					"focus:ring-primary-500 dark:focus:ring-primary-400": parent.props.link,
+				},
 
 				// Plain
-				{ "hover:bg-gray-600 hover:ring-gray-600": parent.props.plain && !parent.props.outlined && !parent.props.text },
+				{
+					"hover:bg-gray-600 hover:ring-gray-600": parent.props.plain && !parent.props.outlined && !parent.props.text,
+				},
 				// Text & Outlined Button
-				{ "hover:bg-surface-300/20": parent.props.plain && (parent.props.text || parent.props.outlined) },
+				{
+					"hover:bg-surface-300/20": parent.props.plain && (parent.props.text || parent.props.outlined),
+				},
 
 				// Primary
-				{ "hover:bg-primary-600 dark:hover:bg-primary-300 hover:ring-primary-600 dark:hover:ring-primary-300": !parent.props.link && parent.props.severity === null && !parent.props.text && !parent.props.outlined && !parent.props.plain },
-				{ "focus:ring-primary-500 dark:focus:ring-primary-400": parent.props.severity === null },
+				{
+					"hover:bg-primary-600 dark:hover:bg-primary-300 hover:ring-primary-600 dark:hover:ring-primary-300": !parent.props.link && parent.props.severity === null && !parent.props.text && !parent.props.outlined && !parent.props.plain,
+				},
+				{
+					"focus:ring-primary-500 dark:focus:ring-primary-400": parent.props.severity === null,
+				},
 				// Text & Outlined Button
-				{ "hover:bg-primary-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === null && !parent.props.plain },
+				{
+					"hover:bg-primary-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === null && !parent.props.plain,
+				},
 
 				// Secondary
-				{ "hover:bg-surface-600 dark:hover:bg-surface-300 hover:ring-surface-600 dark:hover:ring-surface-300": parent.props.severity === "secondary" && !parent.props.text && !parent.props.outlined && !parent.props.plain },
-				{ "focus:ring-surface-500 dark:focus:ring-surface-400": parent.props.severity === "secondary" },
+				{
+					"hover:bg-surface-600 dark:hover:bg-surface-300 hover:ring-surface-600 dark:hover:ring-surface-300": parent.props.severity === "secondary" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
+				},
+				{
+					"focus:ring-surface-500 dark:focus:ring-surface-400": parent.props.severity === "secondary",
+				},
 				// Text & Outlined Button
-				{ "hover:bg-surface-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "secondary" && !parent.props.plain },
+				{
+					"hover:bg-surface-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "secondary" && !parent.props.plain,
+				},
 
 				// Success
-				{ "hover:bg-green-600 dark:hover:bg-green-300 hover:ring-green-600 dark:hover:ring-green-300": parent.props.severity === "success" && !parent.props.text && !parent.props.outlined && !parent.props.plain },
-				{ "focus:ring-green-500 dark:focus:ring-green-400": parent.props.severity === "success" },
+				{
+					"hover:bg-green-600 dark:hover:bg-green-300 hover:ring-green-600 dark:hover:ring-green-300": parent.props.severity === "success" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
+				},
+				{
+					"focus:ring-green-500 dark:focus:ring-green-400": parent.props.severity === "success",
+				},
 				// Text & Outlined Button
-				{ "hover:bg-green-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "success" && !parent.props.plain },
+				{
+					"hover:bg-green-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "success" && !parent.props.plain,
+				},
 
 				// Info
-				{ "hover:bg-blue-600 dark:hover:bg-blue-300 hover:ring-blue-600 dark:hover:ring-blue-300": parent.props.severity === "info" && !parent.props.text && !parent.props.outlined && !parent.props.plain },
-				{ "focus:ring-blue-500 dark:focus:ring-blue-400": parent.props.severity === "info" },
+				{
+					"hover:bg-blue-600 dark:hover:bg-blue-300 hover:ring-blue-600 dark:hover:ring-blue-300": parent.props.severity === "info" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
+				},
+				{
+					"focus:ring-blue-500 dark:focus:ring-blue-400": parent.props.severity === "info",
+				},
 				// Text & Outlined Button
-				{ "hover:bg-blue-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "info" && !parent.props.plain },
+				{
+					"hover:bg-blue-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "info" && !parent.props.plain,
+				},
 
 				// Warning
-				{ "hover:bg-orange-600 dark:hover:bg-orange-300 hover:ring-orange-600 dark:hover:ring-orange-300": parent.props.severity === "warning" && !parent.props.text && !parent.props.outlined && !parent.props.plain },
-				{ "focus:ring-orange-500 dark:focus:ring-orange-400": parent.props.severity === "warning" },
+				{
+					"hover:bg-orange-600 dark:hover:bg-orange-300 hover:ring-orange-600 dark:hover:ring-orange-300": parent.props.severity === "warning" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
+				},
+				{
+					"focus:ring-orange-500 dark:focus:ring-orange-400": parent.props.severity === "warning",
+				},
 				// Text & Outlined Button
-				{ "hover:bg-orange-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "warning" && !parent.props.plain },
+				{
+					"hover:bg-orange-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "warning" && !parent.props.plain,
+				},
 
 				// Help
-				{ "hover:bg-purple-600 dark:hover:bg-purple-300 hover:ring-purple-600 dark:hover:ring-purple-300": parent.props.severity === "help" && !parent.props.text && !parent.props.outlined && !parent.props.plain },
-				{ "focus:ring-purple-500 dark:focus:ring-purple-400": parent.props.severity === "help" },
+				{
+					"hover:bg-purple-600 dark:hover:bg-purple-300 hover:ring-purple-600 dark:hover:ring-purple-300": parent.props.severity === "help" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
+				},
+				{
+					"focus:ring-purple-500 dark:focus:ring-purple-400": parent.props.severity === "help",
+				},
 				// Text & Outlined Button
-				{ "hover:bg-purple-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "help" && !parent.props.plain },
+				{
+					"hover:bg-purple-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "help" && !parent.props.plain,
+				},
 
 				// Warning
-				{ "hover:bg-red-600 dark:hover:bg-red-300 hover:ring-red-600 dark:hover:ring-red-300": parent.props.severity === "danger" && !parent.props.text && !parent.props.outlined && !parent.props.plain },
-				{ "focus:ring-red-500 dark:focus:ring-red-400": parent.props.severity === "danger" },
+				{
+					"hover:bg-red-600 dark:hover:bg-red-300 hover:ring-red-600 dark:hover:ring-red-300": parent.props.severity === "danger" && !parent.props.text && !parent.props.outlined && !parent.props.plain,
+				},
+				{
+					"focus:ring-red-500 dark:focus:ring-red-400": parent.props.severity === "danger",
+				},
 				// Text & Outlined Button
-				{ "hover:bg-red-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "danger" && !parent.props.plain },
+				{
+					"hover:bg-red-300/20": (parent.props.text || parent.props.outlined) && parent.props.severity === "danger" && !parent.props.plain,
+				},
 
 				// Transitions
 				"transition duration-200 ease-in-out",

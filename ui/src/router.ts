@@ -1,5 +1,10 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+import ViewClassValidator from "@/views/modeling/ViewClassValidator.vue";
+import ViewTypeBox from "@/views/modeling/ViewTypeBox.vue";
+import ViewZod from "@/views/modeling/ViewZod.vue";
 import ViewAuditor from "@/views/ViewAuditor.vue";
+import ViewModeling from "@/views/ViewModeling.vue";
+import ViewTipTap from "@/views/ViewTipTap.vue";
 import ViewUser from "@/views/ViewUser.vue";
 import ViewUsers from "@/views/ViewUsers.vue";
 import ViewZeldaWorldBuilder from "@/views/ViewZeldaWorldBuilder.vue";
@@ -14,7 +19,17 @@ export const RouteUsersNew = "users-new";
 
 export const RouteZeldaWorldBuilder = "zelda-world-builder";
 
+export const RouteTipTap = "tip-tap";
+
 export const RouteAuditorView = "auditor-view";
+
+export const RouteModelingView = "modeling-view";
+
+export const RouteModelingClassValidatorView = "modeling-class-validator-view";
+
+export const RouteModelingTypeBoxView = "modeling-typebox-view";
+
+export const RouteModelingZodView = "modeling-zod-view";
 
 export const routes = [{
 	path: "/users",
@@ -37,6 +52,30 @@ export const routes = [{
 	meta: {
 		showNav: false,
 	},
+}, {
+	path: "/modeling",
+	name: RouteModelingView,
+	component: ViewModeling,
+	redirect: {
+		name: RouteModelingClassValidatorView,
+	},
+	children: [{
+		path: "classValidator",
+		name: RouteModelingClassValidatorView,
+		component: ViewClassValidator,
+	}, {
+		path: "typebox",
+		name: RouteModelingTypeBoxView,
+		component: ViewTypeBox,
+	}, {
+		path: "zod",
+		name: RouteModelingZodView,
+		component: ViewZod,
+	}],
+}, {
+	path: "/tipTap",
+	name: RouteTipTap,
+	component: ViewTipTap,
 }, {
 	path: "/zelda",
 	name: RouteZeldaWorldBuilder,
@@ -75,5 +114,35 @@ export function viewZeldaWorldBuilder() {
 export function viewTreeChanges() {
 	return router.push({
 		name: RouteAuditorView,
+	});
+}
+
+export function viewTipTap() {
+	return router.push({
+		name: RouteTipTap,
+	});
+}
+
+export function viewModeling() {
+	return router.push({
+		name: RouteModelingView,
+	});
+}
+
+export function viewClassValidator() {
+	return router.push({
+		name: RouteModelingClassValidatorView,
+	});
+}
+
+export function viewTypeBox() {
+	return router.push({
+		name: RouteModelingTypeBoxView,
+	});
+}
+
+export function viewZod() {
+	return router.push({
+		name: RouteModelingZodView,
 	});
 }

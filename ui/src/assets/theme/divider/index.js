@@ -3,8 +3,12 @@ export default {
 		class: [
 			// Flex and Position
 			"flex relative",
-			{ "justify-center": props.layout == "vertical" },
-			{ "items-center": props.layout == "vertical" },
+			{
+				"justify-center": props.layout == "vertical",
+			},
+			{
+				"items-center": props.layout == "vertical",
+			},
 			{
 				"justify-start": props?.align == "left" && props.layout == "horizontal",
 				"justify-center": props?.align == "center" && props.layout == "horizontal",

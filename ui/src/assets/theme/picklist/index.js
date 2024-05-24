@@ -42,7 +42,9 @@ export default {
 				"hover:bg-primary-600 dark:hover:bg-primary-300 hover:border-primary-600 dark:hover:border-primary-300",
 				"focus:outline-none focus:outline-offset-0 focus:ring-2",
 				"focus:ring-primary-500 dark:focus:ring-primary-400",
-				{ "cursor-default pointer-events-none opacity-60": context.disabled },
+				{
+					"cursor-default pointer-events-none opacity-60": context.disabled,
+				},
 
 				// Interactivity
 				"cursor-pointer user-select-none",
@@ -86,7 +88,9 @@ export default {
 				"hover:bg-primary-600 dark:hover:bg-primary-300 hover:border-primary-600 dark:hover:border-primary-300",
 				"focus:outline-none focus:outline-offset-0 focus:ring-2",
 				"focus:ring-primary-500 dark:focus:ring-primary-400",
-				{ "cursor-default pointer-events-none opacity-60": context.disabled },
+				{
+					"cursor-default pointer-events-none opacity-60": context.disabled,
+				},
 
 				// Interactivity
 				"cursor-pointer user-select-none",
@@ -130,7 +134,9 @@ export default {
 				"hover:bg-primary-600 dark:hover:bg-primary-300 hover:border-primary-600 dark:hover:border-primary-300",
 				"focus:outline-none focus:outline-offset-0 focus:ring-2",
 				"focus:ring-primary-500 dark:focus:ring-primary-400",
-				{ "cursor-default pointer-events-none opacity-60": context.disabled },
+				{
+					"cursor-default pointer-events-none opacity-60": context.disabled,
+				},
 
 				// Interactivity
 				"cursor-pointer user-select-none",
@@ -174,7 +180,9 @@ export default {
 				"hover:bg-primary-600 dark:hover:bg-primary-300 hover:border-primary-600 dark:hover:border-primary-300",
 				"focus:outline-none focus:outline-offset-0 focus:ring-2",
 				"focus:ring-primary-500 dark:focus:ring-primary-400",
-				{ "cursor-default pointer-events-none opacity-60": context.disabled },
+				{
+					"cursor-default pointer-events-none opacity-60": context.disabled,
+				},
 
 				// Interactivity
 				"cursor-pointer user-select-none",
@@ -252,9 +260,15 @@ export default {
 			// Color
 			"text-surface-700 dark:text-white/80",
 			"border-surface-200 dark:border-surface-700",
-			{ "bg-surface-100 dark:bg-surface-600/30": context.active && !context.focused },
-			{ "bg-surface-200 dark:bg-surface-500/30": context.active && context.focused },
-			{ "bg-surface-50 dark:bg-surface-700/70": !context.active && context.focused },
+			{
+				"bg-surface-100 dark:bg-surface-600/30": context.active && !context.focused,
+			},
+			{
+				"bg-surface-200 dark:bg-surface-500/30": context.active && context.focused,
+			},
+			{
+				"bg-surface-50 dark:bg-surface-700/70": !context.active && context.focused,
+			},
 
 			// State
 			"hover:bg-surface-100 dark:hover:bg-surface-700",
@@ -294,7 +308,9 @@ export default {
 				"hover:bg-primary-600 dark:hover:bg-primary-300 hover:border-primary-600 dark:hover:border-primary-300",
 				"focus:outline-none focus:outline-offset-0 focus:ring-2",
 				"focus:ring-primary-500 dark:focus:ring-primary-400",
-				{ "cursor-default pointer-events-none opacity-60": context.disabled },
+				{
+					"cursor-default pointer-events-none opacity-60": context.disabled,
+				},
 
 				// Interactivity
 				"cursor-pointer user-select-none",
@@ -338,7 +354,9 @@ export default {
 				"hover:bg-primary-600 dark:hover:bg-primary-300 hover:border-primary-600 dark:hover:border-primary-300",
 				"focus:outline-none focus:outline-offset-0 focus:ring-2",
 				"focus:ring-primary-500 dark:focus:ring-primary-400",
-				{ "cursor-default pointer-events-none opacity-60": context.disabled },
+				{
+					"cursor-default pointer-events-none opacity-60": context.disabled,
+				},
 
 				// Interactivity
 				"cursor-pointer user-select-none",
@@ -382,7 +400,9 @@ export default {
 				"hover:bg-primary-600 dark:hover:bg-primary-300 hover:border-primary-600 dark:hover:border-primary-300",
 				"focus:outline-none focus:outline-offset-0 focus:ring-2",
 				"focus:ring-primary-500 dark:focus:ring-primary-400",
-				{ "cursor-default pointer-events-none opacity-60": context.disabled },
+				{
+					"cursor-default pointer-events-none opacity-60": context.disabled,
+				},
 
 				// Interactivity
 				"cursor-pointer user-select-none",
@@ -426,7 +446,9 @@ export default {
 				"hover:bg-primary-600 dark:hover:bg-primary-300 hover:border-primary-600 dark:hover:border-primary-300",
 				"focus:outline-none focus:outline-offset-0 focus:ring-2",
 				"focus:ring-primary-500 dark:focus:ring-primary-400",
-				{ "cursor-default pointer-events-none opacity-60": context.disabled },
+				{
+					"cursor-default pointer-events-none opacity-60": context.disabled,
+				},
 
 				// Interactivity
 				"cursor-pointer user-select-none",
@@ -473,7 +495,9 @@ export default {
 				"hover:bg-primary-600 dark:hover:bg-primary-300 hover:border-primary-600 dark:hover:border-primary-300",
 				"focus:outline-none focus:outline-offset-0 focus:ring-2",
 				"focus:ring-primary-500 dark:focus:ring-primary-400",
-				{ "cursor-default pointer-events-none opacity-60": context.disabled },
+				{
+					"cursor-default pointer-events-none opacity-60": context.disabled,
+				},
 
 				// Interactivity
 				"cursor-pointer user-select-none",
@@ -517,7 +541,9 @@ export default {
 				"hover:bg-primary-600 dark:hover:bg-primary-300 hover:border-primary-600 dark:hover:border-primary-300",
 				"focus:outline-none focus:outline-offset-0 focus:ring-2",
 				"focus:ring-primary-500 dark:focus:ring-primary-400",
-				{ "cursor-default pointer-events-none opacity-60": context.disabled },
+				{
+					"cursor-default pointer-events-none opacity-60": context.disabled,
+				},
 
 				// Interactivity
 				"cursor-pointer user-select-none",
@@ -561,7 +587,9 @@ export default {
 				"hover:bg-primary-600 dark:hover:bg-primary-300 hover:border-primary-600 dark:hover:border-primary-300",
 				"focus:outline-none focus:outline-offset-0 focus:ring-2",
 				"focus:ring-primary-500 dark:focus:ring-primary-400",
-				{ "cursor-default pointer-events-none opacity-60": context.disabled },
+				{
+					"cursor-default pointer-events-none opacity-60": context.disabled,
+				},
 
 				// Interactivity
 				"cursor-pointer user-select-none",
@@ -605,7 +633,9 @@ export default {
 				"hover:bg-primary-600 dark:hover:bg-primary-300 hover:border-primary-600 dark:hover:border-primary-300",
 				"focus:outline-none focus:outline-offset-0 focus:ring-2",
 				"focus:ring-primary-500 dark:focus:ring-primary-400",
-				{ "cursor-default pointer-events-none opacity-60": context.disabled },
+				{
+					"cursor-default pointer-events-none opacity-60": context.disabled,
+				},
 
 				// Interactivity
 				"cursor-pointer user-select-none",

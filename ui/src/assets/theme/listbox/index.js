@@ -26,7 +26,10 @@ export default {
 			// Font
 			"sm:text-sm",
 			"leading-none",
-			{ "font-normal": !context.selected, "font-bold": context.selected },
+			{
+				"font-normal": !context.selected,
+				"font-bold": context.selected,
+			},
 
 			// Position
 			"relative",
@@ -40,10 +43,18 @@ export default {
 			"py-2 px-4",
 
 			// Color
-			{ "text-surface-700 dark:text-white/80": !context.focused && !context.selected },
-			{ "bg-surface-200 dark:bg-surface-600/60 text-surface-700 dark:text-white/80": context.focused && !context.selected },
-			{ "bg-primary-500 dark:bg-primary-400 text-white dark:text-surface-700": context.focused && context.selected },
-			{ "bg-surface-100 dark:bg-surface-300/10 text-primary-500 dark:text-primary-400": !context.focused && context.selected },
+			{
+				"text-surface-700 dark:text-white/80": !context.focused && !context.selected,
+			},
+			{
+				"bg-surface-200 dark:bg-surface-600/60 text-surface-700 dark:text-white/80": context.focused && !context.selected,
+			},
+			{
+				"bg-primary-500 dark:bg-primary-400 text-white dark:text-surface-700": context.focused && context.selected,
+			},
+			{
+				"bg-surface-100 dark:bg-surface-300/10 text-primary-500 dark:text-primary-400": !context.focused && context.selected,
+			},
 
 			//States
 			"hover:bg-primary-500 dark:hover:bg-primary-400 hover:text-white dark:hover:text-surface-700",

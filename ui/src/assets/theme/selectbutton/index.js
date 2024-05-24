@@ -1,6 +1,8 @@
 export default {
 	root: ({ props }) => ({
-		class: ["shadow-sm", { "opacity-60 select-none pointer-events-none cursor-default": props.disabled }],
+		class: ["shadow-sm", {
+			"opacity-60 select-none pointer-events-none cursor-default": props.disabled,
+		}],
 	}),
 	button: ({ context }) => ({
 		class: [
@@ -30,7 +32,9 @@ export default {
 			// States
 			"focus:outline-none focus:outline-offset-0 focus:ring-primary-500 dark:focus:ring-primary-400",
 			"hover:bg-surface-200 dark:hover:bg-surface-600/80",
-			{ "opacity-60 select-none pointer-events-none cursor-default": context.disabled },
+			{
+				"opacity-60 select-none pointer-events-none cursor-default": context.disabled,
+			},
 
 			// Transition
 			"transition duration-200",

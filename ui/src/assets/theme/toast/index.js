@@ -5,7 +5,9 @@ export default {
 			"w-96 rounded-md",
 
 			// Positioning
-			{ "-translate-x-2/4": props.position == "top-center" || props.position == "bottom-center" },
+			{
+				"-translate-x-2/4": props.position == "top-center" || props.position == "bottom-center",
+			},
 		],
 	}),
 	container: ({ props }) => ({

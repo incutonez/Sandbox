@@ -5,7 +5,10 @@ export default {
 			"flex items-center",
 
 			// Size
-			{ "h-2 w-full min-w-[15rem]": props.orientation == "horizontal", "w-2 h-full min-h-[15rem]": props.orientation == "vertical" },
+			{
+				"h-2 w-full min-w-[15rem]": props.orientation == "horizontal",
+				"w-2 h-full min-h-[15rem]": props.orientation == "vertical",
+			},
 
 			// Shape
 			"border-0 rounded-lg",
@@ -14,7 +17,9 @@ export default {
 			"bg-surface-100 dark:bg-surface-700",
 
 			// States
-			{ "opacity-60 select-none pointer-events-none cursor-default": props.disabled },
+			{
+				"opacity-60 select-none pointer-events-none cursor-default": props.disabled,
+			},
 		],
 	}),
 	range: ({ props }) => ({

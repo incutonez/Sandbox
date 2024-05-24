@@ -7,24 +7,34 @@ export default {
 			// Shape and Size
 			"border-0",
 			"rounded-md",
-			{ "h-7 pt-5": props.mode !== "indeterminate" && props.showValue },
-			{ "h-2 bg-surface-100 dark:bg-surface-700 ": props.mode == "indeterminate" || !props.showValue },
+			{
+				"h-7 pt-5": props.mode !== "indeterminate" && props.showValue,
+			},
+			{
+				"h-2 bg-surface-100 dark:bg-surface-700 ": props.mode == "indeterminate" || !props.showValue,
+			},
 
 			// Before & After (!indeterminate)
-			{ "before:absolute before:w-full before:rounded-md before:h-2 before:top-[1.25rem] before:left-0 before:bottom-0 before:bg-surface-100 dark:before:bg-surface-700": props.mode !== "indeterminate" },
+			{
+				"before:absolute before:w-full before:rounded-md before:h-2 before:top-[1.25rem] before:left-0 before:bottom-0 before:bg-surface-100 dark:before:bg-surface-700": props.mode !== "indeterminate",
+			},
 		],
 	}),
 	value: ({ props }) => ({
 		class: [
 			// Flexbox & Overflow & Position
-			{ "absolute flex items-center justify-center": props.mode !== "indeterminate" },
+			{
+				"absolute flex items-center justify-center": props.mode !== "indeterminate",
+			},
 
 			// Colors
 			"bg-primary-500 dark:bg-primary-400",
 
 			// Spacing & Sizing
 			"m-0",
-			{ "h-2 w-0": props.mode !== "indeterminate" },
+			{
+				"h-2 w-0": props.mode !== "indeterminate",
+			},
 
 			// Shape
 			"border-0 rounded-md",

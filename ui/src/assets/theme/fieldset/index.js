@@ -22,7 +22,10 @@ export default {
 			"leading-none",
 
 			//Spacing
-			{ "p-0": props.toggleable, "px-3 py-1.5": !props.toggleable },
+			{
+				"p-0": props.toggleable,
+				"px-3 py-1.5": !props.toggleable,
+			},
 
 			// Shape
 			"rounded-md",
@@ -36,8 +39,12 @@ export default {
 			"transition-none",
 
 			// States
-			{ "": props.toggleable },
-			{ "focus:outline-none focus:outline-offset-0 focus:ring-2 focus:ring-primary-600 ring-inset dark:focus:ring-primary-500": props.toggleable },
+			{
+				"": props.toggleable,
+			},
+			{
+				"focus:outline-none focus:outline-offset-0 focus:ring-2 focus:ring-primary-600 ring-inset dark:focus:ring-primary-500": props.toggleable,
+			},
 		],
 	}),
 	toggler: ({ props }) => ({
@@ -47,17 +54,27 @@ export default {
 			"relative",
 
 			//Spacing
-			{ "px-3 py-1.5": props.toggleable },
+			{
+				"px-3 py-1.5": props.toggleable,
+			},
 
 			// Shape
-			{ "rounded-md": props.toggleable },
+			{
+				"rounded-md": props.toggleable,
+			},
 
 			// Color
-			{ "text-surface-700 dark:text-surface-200 hover:text-surface-900 hover:text-surface-900": props.toggleable },
+			{
+				"text-surface-700 dark:text-surface-200 hover:text-surface-900 hover:text-surface-900": props.toggleable,
+			},
 
 			// States
-			{ "hover:text-surface-900 dark:hover:text-surface-100": props.toggleable },
-			{ "focus:outline-none focus:outline-offset-0 focus:ring-2 focus:ring-inset focus:ring-primary-600 dark:focus:ring-primary-500": props.toggleable },
+			{
+				"hover:text-surface-900 dark:hover:text-surface-100": props.toggleable,
+			},
+			{
+				"focus:outline-none focus:outline-offset-0 focus:ring-2 focus:ring-inset focus:ring-primary-600 dark:focus:ring-primary-500": props.toggleable,
+			},
 
 			// Misc
 			{

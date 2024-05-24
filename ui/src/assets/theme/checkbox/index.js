@@ -29,7 +29,8 @@ export default {
 			"border border-gray-b",
 
 			// Colors
-			"text-surface-600", {
+			"text-surface-600",
+			{
 				"bg-white dark:border-surface-700 dark:bg-surface-900": !context.checked && !props.invalid,
 				"border-sky-600 bg-sky-200 dark:border-primary-400 dark:bg-primary-400": context.checked,
 			},
@@ -37,7 +38,8 @@ export default {
 			// Invalid State
 			{
 				"border-red-500 dark:border-red-400": props.invalid,
-			}, {
+			},
+			{
 				"ring-2 ring-sky-600 dark:ring-primary-400": !props.disabled && context.focused,
 				"cursor-default opacity-60": props.disabled,
 			},

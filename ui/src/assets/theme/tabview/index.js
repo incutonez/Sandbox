@@ -5,7 +5,9 @@ export default {
 			"relative",
 
 			// Misc
-			{ "overflow-hidden": props.scrollable },
+			{
+				"overflow-hidden": props.scrollable,
+			},
 		],
 	}),
 	navContent: {

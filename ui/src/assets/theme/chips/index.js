@@ -32,7 +32,10 @@ export default {
 			"shadow-sm",
 
 			// States
-			{ "ring-1 ring-inset ring-surface-300 dark:ring-surface-700 ring-offset-0": !state.focused, "ring-2 ring-primary-500 dark:ring-primary-400": state.focused },
+			{
+				"ring-1 ring-inset ring-surface-300 dark:ring-surface-700 ring-offset-0": !state.focused,
+				"ring-2 ring-primary-500 dark:ring-primary-400": state.focused,
+			},
 
 			// Transition
 			"transition-colors duration-200",

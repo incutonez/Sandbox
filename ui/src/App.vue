@@ -1,25 +1,35 @@
 <template>
-	<article class="flex h-full w-full">
+	<article class="flex size-full">
 		<nav class="min-w-16 border-r border-r-slate-800 bg-slate-600 p-4">
 			<div class="flex flex-col">
 				<IconUsers
-					class="h-10 w-10 cursor-pointer rounded-full fill-green-500 p-2 text-center hover:bg-slate-500"
+					class="size-10 cursor-pointer rounded-full fill-green-500 p-2 text-center hover:bg-slate-500"
 					title="Users"
 					@click="onClickViewUsers"
 				/>
 				<IconTriforce
 					title="Zelda World Builder"
-					class="h-10 w-10 cursor-pointer rounded-full p-2 hover:bg-slate-500"
+					class="size-10 cursor-pointer rounded-full p-2 hover:bg-slate-500"
 					@click="onClickViewZelda"
 				/>
 				<IconDifference
 					title="Differ"
-					class="h-10 w-10 cursor-pointer rounded-full fill-red-500 p-2 hover:bg-slate-500"
+					class="size-10 cursor-pointer rounded-full fill-red-500 p-2 hover:bg-slate-500"
 					@click="onClickViewTreeChanges"
+				/>
+				<IconModeling
+					title="Modeling"
+					class="w-10 cursor-pointer rounded-full p-2 hover:bg-slate-500"
+					@click="onClickViewModeling"
+				/>
+				<IconEditor
+					title="TipTap Editor"
+					class="size-10 cursor-pointer rounded-full fill-fuchsia-500 p-2 hover:bg-slate-500"
+					@click="onClickViewTipTap"
 				/>
 			</div>
 		</nav>
-		<section class="flex h-full w-full flex-1 flex-col overflow-hidden">
+		<section class="flex size-full flex-1 flex-col overflow-hidden">
 			<section class="flex">
 				<article class="border-b border-r border-sky-700 bg-sky-200 px-4 py-2">
 					Switcher
@@ -29,13 +39,7 @@
 				</article>
 			</section>
 			<section class="flex w-full flex-1 overflow-hidden">
-				<nav
-					v-if="route.meta.showNav !== false"
-					class="h-full w-64 border-r border-red-700 bg-red-200 p-4"
-				>
-					Nav
-				</nav>
-				<main class="h-full w-full overflow-hidden">
+				<main class="size-full overflow-hidden">
 					<RouterView />
 				</main>
 			</section>
@@ -46,6 +50,7 @@
 <script setup lang="ts">
 /**
  * TODOJEF:
+ * - Testing comment
  * - Fix styling for context menu
  * - Add sorting and filtering to the load method
  * - Have remote and local filtering/sorting/paging
@@ -59,13 +64,12 @@
  * - Potentially add provide/inject with TableGrid
  * - Potentially use provide/inject for users.ts data loading
  */
-import { useRoute } from "vue-router";
 import IconDifference from "@/assets/IconDifference.vue";
+import IconEditor from "@/assets/IconEditor.vue";
+import IconModeling from "@/assets/IconModeling.vue";
 import IconTriforce from "@/assets/IconTriforce.vue";
 import IconUsers from "@/assets/IconUsers.vue";
-import { viewTreeChanges, viewUsers, viewZeldaWorldBuilder } from "@/router";
-
-const route = useRoute();
+import { viewModeling, viewTipTap, viewTreeChanges, viewUsers, viewZeldaWorldBuilder } from "@/router";
 
 function onClickViewUsers() {
 	viewUsers();
@@ -77,5 +81,13 @@ function onClickViewZelda() {
 
 function onClickViewTreeChanges() {
 	viewTreeChanges();
+}
+
+function onClickViewModeling() {
+	viewModeling();
+}
+
+function onClickViewTipTap() {
+	viewTipTap();
 }
 </script>
