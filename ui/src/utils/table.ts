@@ -166,7 +166,7 @@ export function useDataTable<T = unknown>(props: ITableGrid, emit: TTableEmit) {
 		loadRecords();
 	}
 
-	function getCellDisplay({ cellDisplay }: ITableColumn, { data, field }: any) {
+	function getCellDisplay({ cellDisplay }: ITableColumn, { data, field }: { data: unknown[], field: string }) {
 		if (cellDisplay) {
 			return cellDisplay(data, recordsCached.value);
 		}
@@ -180,7 +180,7 @@ export function useDataTable<T = unknown>(props: ITableGrid, emit: TTableEmit) {
 		return get(node.data, column.key ?? "");
 	}
 
-	function getCellParams({ cellParams }: ITableColumn, data: any) {
+	function getCellParams({ cellParams }: ITableColumn, data: { data: unknown[], field: string }) {
 		if (typeof cellParams === "function") {
 			return cellParams(data, recordsCached.value);
 		}
@@ -369,6 +369,6 @@ export function useDataTable<T = unknown>(props: ITableGrid, emit: TTableEmit) {
 	};
 }
 
-export function getPassThroughNode<T = any>(options: IPassThroughOptions): ITreeNode<T> {
+export function getPassThroughNode<T = unknown>(options: IPassThroughOptions): ITreeNode<T> {
 	return options.parent.props.node;
 }

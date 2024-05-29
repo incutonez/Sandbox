@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import ViewClassValidator from "@/views/modeling/ViewClassValidator.vue";
 import ViewTypeBox from "@/views/modeling/ViewTypeBox.vue";
 import ViewZod from "@/views/modeling/ViewZod.vue";
+import DialogImport from "@/views/users/DialogImport.vue";
 import ViewAuditor from "@/views/ViewAuditor.vue";
 import ViewModeling from "@/views/ViewModeling.vue";
 import ViewTipTap from "@/views/ViewTipTap.vue";
@@ -12,6 +13,8 @@ import ViewZeldaWorldBuilder from "@/views/ViewZeldaWorldBuilder.vue";
 const RouteNew = "create";
 
 export const RouteUsers = "users";
+
+export const RouteUsersImport = "users-import";
 
 export const RouteUsersView = "users-view";
 
@@ -44,6 +47,13 @@ export const routes = [{
 		path: RouteNew,
 		name: RouteUsersNew,
 		component: ViewUser,
+	}, {
+		path: "import",
+		name: RouteUsersImport,
+		component: DialogImport,
+		props: {
+			modelValue: true,
+		},
 	}],
 }, {
 	path: "/auditor",
@@ -93,6 +103,12 @@ export const router = createRouter({
 export function viewUsers() {
 	return router.push({
 		name: RouteUsers,
+	});
+}
+
+export function viewUsersImport() {
+	return router.push({
+		name: RouteUsersImport,
 	});
 }
 

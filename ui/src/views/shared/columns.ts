@@ -1,10 +1,10 @@
 import { ITableColumn } from "@/types/table";
 
-export function useColumnIndex(): ITableColumn {
+export function useColumnIndex<T = unknown>(): ITableColumn<T> {
 	return {
 		lock: "left",
 		showMenu: false,
-		cellDisplay(data: any, records: any) {
+		cellDisplay(data, records) {
 			return records.indexOf(data) + 1;
 		},
 	};

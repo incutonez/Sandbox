@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiTags } from "@nestjs/swagger";
 import { ApiPaginatedRequest } from "src/models/base.list.entity";
 import { UserResponseModel } from "src/models/responses.entity";
 import { UserEntity } from "src/models/user.entity";
@@ -24,6 +24,14 @@ export class UsersController {
 	@Post()
 	async createUser(@Body() body: UserEntity) {
 		return this.service.createUser(body);
+	}
+
+	@Post("bulk")
+	@ApiBody({
+		type: [UserEntity],
+	})
+	async createUsers(@Body() body: UserEntity[]) {
+		return this.service.createUsers(body);
 	}
 
 	@Post(":userId/copy")

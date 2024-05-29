@@ -47,9 +47,9 @@ const columns: ITableColumn<ITreeNode>[] = [{
 	cellComponent: ColumnValue,
 	classes: {
 		bodyCell(options: IPassThroughOptions) {
-			const node = getPassThroughNode(options);
+			const node = getPassThroughNode<TreeItemModel>(options);
 			if (node.leaf) {
-				const data = node.data as TreeItemModel;
+				const { data } = node;
 				switch (data.status) {
 					case EnumChangeStatus.Created:
 						return "bg-sky-200";

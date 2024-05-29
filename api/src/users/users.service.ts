@@ -54,6 +54,10 @@ export class UsersService {
 		return this.mapper.userToViewModel(response);
 	}
 
+	async createUsers(users: UserEntity[]) {
+		return Promise.all(users.map((user) => this.createUser(user)));
+	}
+
 	async copyUser(userId: string) {
 		const user = await this.getUser(userId);
 		delete user.id;

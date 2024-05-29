@@ -9,9 +9,17 @@ export default defineConfig(({ mode }) => {
 		plugins: [vue(), svgLoader()],
 		base: mode === "GitHubPages" ? "/Sandbox/" : "",
 		resolve: {
-			alias: {
-				"@": path.resolve(path.resolve(), "./src"),
-			},
+			alias: [{
+				find: "@",
+				replacement: path.resolve(path.resolve(), "./src"),
+			}, {
+				/**
+				 * Apparently needed for mime-types package
+				 * Source: https://github.com/jshttp/mime-types/issues/124
+				 */
+				find: "path",
+				replacement: "path-browserify",
+			}],
 		},
 	};
 });

@@ -8,6 +8,9 @@ export default {
 		pattern: /^row-start-.*/,
 	}],
 	theme: {
+		fontFamily: {
+			sans: ["Open Sans"],
+		},
 		extend: {
 			// Additional font sizes without line heights
 			fontSize: {
