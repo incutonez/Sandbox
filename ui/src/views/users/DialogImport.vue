@@ -34,6 +34,7 @@
 					csv
 				</p>
 			</section>
+			<ViewUsersImport v-model="showViewUsers" />
 		</template>
 		<template #beforeCancel>
 			<BaseButton
@@ -56,8 +57,12 @@ import BaseDialog from "@/components/BaseDialog.vue";
 import { IUserCSV, UserModel } from "@/models/UserModel";
 import { viewUsers } from "@/router";
 import { downloadFile } from "@/utils/common";
+import { provideUsersImport } from "@/views/users/usersProvider";
+import ViewUsersImport from "@/views/users/ViewUsersImport.vue";
 
 const fileField = ref<HTMLInputElement>();
+const { users } = provideUsersImport();
+const showViewUsers = ref(false);
 
 function onDragEnter({ target }: DragEvent) {
 	(target as HTMLElement).classList.add("drop-hover");
@@ -86,7 +91,7 @@ function parseFile(file: File) {
 	Papa.parse<IUserCSV>(file, {
 		header: true,
 		complete(results) {
-			const users = results.data.map((data) => {
+			users.value = results.data.map((data) => {
 				const birthDate = data["Birth Date"];
         	const user = UserModel.create({
         		firstName: data["First Name"],
@@ -100,7 +105,7 @@ function parseFile(file: File) {
         	}
 				return user;
 			});
-			UserModel.bulk(users);
+			showViewUsers.value = true;
 		},
 	});
 }

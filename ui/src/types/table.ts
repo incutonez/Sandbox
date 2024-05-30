@@ -4,7 +4,7 @@ import { EmitFn, IBaseButton } from "@/types/components";
 
 export type TColumnLock = "left" | "right" | false;
 
-export interface IPassThroughOptions extends ColumnPassThroughMethodOptions {}
+export type IPassThroughOptions = ColumnPassThroughMethodOptions
 
 export interface ITableColumn<T = unknown> {
 	field?: string;
@@ -34,12 +34,14 @@ export interface ITableColumn<T = unknown> {
 export interface ITableGrid<TData = any> {
 	records?: TData;
 	title?: string;
+	showHeader?: boolean;
 	showHoverRow?: boolean;
 	showLinesColumn?: boolean;
 	showLinesRow?: boolean;
 	showStripedRows?: boolean;
 	showRowsPerPage?: boolean;
 	showSearch?: boolean;
+	showPagination?: boolean;
 	showAddEntity?: boolean;
 	hideHeaders?: boolean;
 	multiSelect?: boolean | undefined;

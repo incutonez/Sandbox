@@ -13,6 +13,7 @@ git_push.sh
 index.ts
 models/address-entity.ts
 models/api-paginated-request.ts
+models/bulk-response.ts
 models/enum-change-status.ts
 models/enum-filter-type.ts
 models/filter-type-value.ts

@@ -4,3 +4,7 @@ import { UserEntity } from "src/models/user.entity";
 
 export class TreeChangeResponseModel extends GetResponseModel<TreeChangeModel>(TreeChangeModel) {}
 export class UserResponseModel extends GetResponseModel<UserEntity>(UserEntity) {}
+export class BulkResponse {
+	index: number;
+	message: string[];
+}

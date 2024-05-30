@@ -2,7 +2,7 @@ import { computed, markRaw, reactive, ref, unref, watch } from "vue";
 import { FilterType } from "@incutonez/spec/dist";
 import get from "just-safe-get";
 import { ColumnProps } from "primevue/column";
-import { DataTableProps } from "primevue/datatable";
+import { DataTablePassThroughOptions, DataTableProps } from "primevue/datatable";
 import IconLock from "@/assets/IconLock.vue";
 import IconNotAllowed from "@/assets/IconNotAllowed.vue";
 import IconPin from "@/assets/IconPin.vue";
@@ -108,7 +108,18 @@ export function useDataTable<T = unknown>(props: ITableGrid, emit: TTableEmit) {
 	const start = computed(() => (currentPage.value - 1) * rowsPerPage.value);
 	const max = computed(() => props.remoteMax ?? rowsPerPage.value);
 	const propsComponent = computed(() => {
+		const pt: DataTablePassThroughOptions = {};
+		/* PrimeVue doesn't have the ability to actually hide the HTML tag for the header, so we have to tap into the
+		 * passthrough property to actually hide the element.  However, the var must start off as undefined, otherwise,
+		 * PrimeVue loses its mind and doesn't add any default styling */
+		if (!props.showHeader) {
+			pt.header = ["hidden"];
+		}
+		if (!props.showPagination) {
+			pt.footer = ["hidden"];
+		}
 		const tableProps: DataTableProps = {
+			pt,
 			showGridlines: props.showLinesRow,
 			rowHover: props.showHoverRow,
 			scrollable: true,
@@ -119,7 +130,7 @@ export function useDataTable<T = unknown>(props: ITableGrid, emit: TTableEmit) {
 			columnResizeMode: "expand",
 			reorderableColumns: props.columnsReorder,
 			removableSort: true,
-			paginator: true,
+			paginator: props.showPagination,
 			paginatorTemplate: "",
 		};
 		if (props.multiSelect) {

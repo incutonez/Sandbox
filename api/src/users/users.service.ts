@@ -4,6 +4,7 @@ import { User } from "src/db/models/User";
 import { whereSearch } from "src/db/query";
 import { EnumFilterType } from "src/enums.entity";
 import { ApiPaginatedRequest } from "src/models/base.list.entity";
+import { BulkResponse } from "src/models/responses.entity";
 import { UserEntity } from "src/models/user.entity";
 import { UsersMapper } from "src/users/users.mapper";
 
@@ -55,7 +56,19 @@ export class UsersService {
 	}
 
 	async createUsers(users: UserEntity[]) {
-		return Promise.all(users.map((user) => this.createUser(user)));
+		const errors: BulkResponse[] = [];
+		await Promise.all(users.map(async (user, index) => {
+			try {
+				await this.createUser(user);
+			}
+			catch (ex) {
+				errors.push({
+					index,
+					message: ex.errors.map(({ message }) => message),
+				});
+			}
+		}));
+		return errors;
 	}
 
 	async copyUser(userId: string) {

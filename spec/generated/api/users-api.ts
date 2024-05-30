@@ -24,6 +24,8 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 // @ts-ignore
 import { ApiPaginatedRequest } from '../models';
 // @ts-ignore
+import { BulkResponse } from '../models';
+// @ts-ignore
 import { UserEntity } from '../models';
 // @ts-ignore
 import { UserResponseModel } from '../models';
@@ -312,7 +314,7 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createUsers(userEntity: Array<UserEntity>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<UserEntity>>> {
+        async createUsers(userEntity: Array<UserEntity>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<BulkResponse>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUsers(userEntity, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -391,7 +393,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsers(userEntity: Array<UserEntity>, options?: any): AxiosPromise<Array<UserEntity>> {
+        createUsers(userEntity: Array<UserEntity>, options?: any): AxiosPromise<Array<BulkResponse>> {
             return localVarFp.createUsers(userEntity, options).then((request) => request(axios, basePath));
         },
         /**
@@ -465,7 +467,7 @@ export interface UsersApiInterface {
      * @throws {RequiredError}
      * @memberof UsersApiInterface
      */
-    createUsers(userEntity: Array<UserEntity>, options?: AxiosRequestConfig): AxiosPromise<Array<UserEntity>>;
+    createUsers(userEntity: Array<UserEntity>, options?: AxiosRequestConfig): AxiosPromise<Array<BulkResponse>>;
 
     /**
      * 
