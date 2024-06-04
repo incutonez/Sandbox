@@ -67,7 +67,7 @@ export function pluck<T = unknown>(items: object[], keys: string | string[]) {
 	return collection;
 }
 
-export function getObjectValue(data: unknown[], key: string) {
+export function getObjectValue(data: object, key: string) {
 	return get(data, key);
 }
 

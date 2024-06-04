@@ -11,9 +11,9 @@ type IfEquals<X, Y, A = X, B = never> =
 type WritableKeys<T> = {
 	[P in keyof T]-?:
 	IfEquals<
-	{ [Q in P]: T[P] },
-	{ -readonly [Q in P]: T[P] },
-	P
+		{ [Q in P]: T[P] },
+		{ -readonly [Q in P]: T[P] },
+		P
 	>
 }[keyof T];
 
@@ -41,7 +41,7 @@ export interface IModelGetOptions extends ClassTransformOptions {
 export interface IModelOptions {
 	init?: boolean;
 	[IsNew]?: boolean;
-	[Parent]?: any;
+	[Parent]?: ViewModel;
 }
 
 export const IsNew = Symbol("isNew");
@@ -53,11 +53,11 @@ export const Parent = Symbol("parent");
 const Visited = Symbol("visited");
 const LastKeyRegex = /\.(?=[^.]+$)/;
 
-function isModel(value: any): value is ViewModel {
-	return value?.[IsModel];
+function isModel(value: unknown): value is ViewModel {
+	return (value as ViewModel)?.[IsModel];
 }
 
-function getValue(item: any, options: IModelGetOptions): any {
+function getValue(item: unknown, options: IModelGetOptions): unknown {
 	if (isModel(item)) {
 		return item.get(options);
 	}
@@ -76,10 +76,10 @@ export class ViewModel {
 	static [IsModel] = true;
 	[IsNew] = true;
 	[IsModel] = true;
-	[Parent]?: any;
+	[Parent]?: ViewModel;
 	[Visited] = false;
 
-	static create<T extends ViewModel>(this: new () => T, data = {} as Partial<ModelInterface<T>>, options: IModelOptions = {}) {
+	static create<T extends ViewModel>(this: new () => T, data = {} as Partial<IViewModel<T>>, options: IModelOptions = {}) {
 		const record = new this();
 		record.set(data);
 		if (options.init) {
@@ -93,8 +93,8 @@ export class ViewModel {
 	/**
 	 * @abstract
 	 */
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
-	init(_data?: Partial<ModelInterface<this>>) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	init(_data?: Partial<IViewModel<this>>) {
 
 	}
 
@@ -107,7 +107,7 @@ export class ViewModel {
 		return response.length === 0;
 	}
 
-	get<T = any>(options: IModelGetOptions = {}) {
+	get<T = unknown>(options: IModelGetOptions = {}) {
 		const data = {};
 		if (!this[Visited]) {
 			options.ignoreDecorators = true;
@@ -150,7 +150,7 @@ export class ViewModel {
 		return data as T;
 	}
 
-	set(data: Partial<ModelInterface<this>>) {
+	set(data: Partial<IViewModel<this>>) {
 		const values = plainToInstance(this.constructor as new () => this, data);
 		for (const key in values) {
 			const value = values[key];
@@ -178,13 +178,13 @@ export class ViewModel {
 		}
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
-	async create(_params?: unknown): Promise<any> {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	async create(_params?: unknown): Promise<unknown> {
 		throw Error("Method not implemented");
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
-	async read(_params?: unknown): Promise<any> {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	async read(_params?: unknown): Promise<unknown> {
 		throw Error("Method not implemented");
 	}
 
@@ -207,25 +207,25 @@ export class ViewModel {
 		return records as T;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
-	async update(_params?: unknown): Promise<any> {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	async update(_params?: unknown): Promise<unknown> {
 		throw Error("Method not implemented");
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
-	async delete(_params?: unknown): Promise<any> {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	async delete(_params?: unknown): Promise<unknown> {
 		throw Error("Method not implemented");
 	}
 
 	async load(params?: unknown) {
 		const data = await this.read(params);
 		this[IsNew] = false;
-		this.set(data);
+		this.set(data as IViewModel<this>);
 	}
 
 	async save(params?: unknown) {
 		const data = this[IsNew] ? await this.create(params) : await this.update(params);
 		this[IsNew] = false;
-		this.set(data);
+		this.set(data as IViewModel<this>);
 	}
 }

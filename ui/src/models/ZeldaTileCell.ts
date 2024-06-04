@@ -3,7 +3,7 @@ import { IsRequired, ModelTransform } from "@/models/decorators";
 import { Parent, ViewModel } from "@/models/ViewModel";
 import { ZeldaEnemy } from "@/models/ZeldaEnemy";
 import { ZeldaItem } from "@/models/ZeldaItem";
-import { ILoadData } from "@/models/ZeldaScreen";
+import { ILoadData, ZeldaScreen } from "@/models/ZeldaScreen";
 import { ZeldaTile } from "@/models/ZeldaTile";
 
 export class ZeldaTileCell extends ViewModel {
@@ -13,6 +13,8 @@ export class ZeldaTileCell extends ViewModel {
   @IsRequired()
   @IsString()
   Name = "";
+
+	[Parent]?: ZeldaScreen;
 
 	@ModelTransform(() => ZeldaTile)
 	tile = ZeldaTile.create();

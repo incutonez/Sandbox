@@ -73,10 +73,6 @@ async function onClickImport() {
 	loading.value = true;
 	errors.value = await UserModel.bulk(users.value);
 	users.value = users.value.filter((_, i) => !!errors.value.find(({ index }) => index === i));
-	// TODOJEF: Map error to record somehow?  And then remove other items
-	// errors.value.forEach((error) => {
-	//
-	// })
 	loading.value = false;
 }
 </script>
