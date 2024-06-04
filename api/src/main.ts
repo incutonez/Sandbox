@@ -9,7 +9,7 @@ async function bootstrap() {
 	app.enableCors();
 	const config = new DocumentBuilder().setTitle("API").setDescription("The main API for all Sandbox apps").setVersion("1.0").addTag("users").addTag("accounts").addTag("Differ").addTag("Random").build();
 	const document = SwaggerModule.createDocument(app, config, {
-		operationIdFactory: (controllerKey: string, methodKey: string) => methodKey,
+		operationIdFactory: (_: string, methodKey: string) => methodKey,
 	});
 	SwaggerModule.setup("api", app, document);
 	const outputPath = path.resolve(process.cwd(), "../spec/swagger.json");

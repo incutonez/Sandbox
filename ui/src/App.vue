@@ -63,6 +63,7 @@
  * - Add CRUD operations to grids with cell editors
  * - Potentially add provide/inject with TableGrid
  * - Potentially use provide/inject for users.ts data loading
+ *
  */
 import IconDifference from "@/assets/IconDifference.vue";
 import IconEditor from "@/assets/IconEditor.vue";
