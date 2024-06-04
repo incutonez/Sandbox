@@ -50,7 +50,7 @@
 <script setup lang="ts">
 /**
  * TODOJEF:
- * - Testing comment
+ * - Add cell editing to TableGrid
  * - Fix styling for context menu
  * - Add sorting and filtering to the load method
  * - Have remote and local filtering/sorting/paging
