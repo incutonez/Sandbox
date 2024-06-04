@@ -7,7 +7,7 @@
 			<Component
 				:is="slotProps.item.icon"
 				v-if="showItemIcon(slotProps.item.icon)"
-				class="mr-1 h-4 w-4"
+				class="mr-1 size-4"
 				:class="slotProps.item.iconCls"
 			/>
 		</template>
@@ -28,7 +28,7 @@ const props = defineProps<IBaseMenu>();
 const componentEl = ref<InstanceType<typeof PrimeMenu>>();
 const menuItems = computed(() => props.items.map((item) => getMenuItemProps(item)));
 
-function showItemIcon(item: string | InstanceType<any>) {
+function showItemIcon(item: string | unknown) {
 	return typeof item !== "string";
 }
 

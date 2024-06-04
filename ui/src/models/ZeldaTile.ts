@@ -67,7 +67,7 @@ import {
 	WorldColorsWhitePure,
 } from "@/enums/zelda/WorldColors";
 import { ModelTransform } from "@/models/decorators";
-import { ModelInterface, ViewModel } from "@/models/ViewModel";
+import { IViewModel, ViewModel } from "@/models/ViewModel";
 import { ZeldaScreen } from "@/models/ZeldaScreen";
 import { ZeldaTargetColor } from "@/models/ZeldaTargetColor";
 import { ZeldaTileCell } from "@/models/ZeldaTileCell";
@@ -100,7 +100,7 @@ const WhiteBlue = [WorldColorsWhitePure, WorldColorsBluePure];
 const WhiteBlack = [WorldColorsWhitePure, WorldColorsBlack];
 
 export function getDefaultTileColors(type: IZeldaEnum) {
-	let colors: IZeldaEnum[] = [];
+	let colors: IZeldaEnum[] | IZeldaEnum[][] = [];
 	switch (type) {
 		// TODOJEF: Add color change for these?
 		case TilesStairsKeep:
@@ -195,7 +195,7 @@ export function getDefaultTileColors(type: IZeldaEnum) {
 
 export interface IZeldaTileConfig extends IZeldaWorldObjectConfig {
 	Name?: string;
-	Transition?: ModelInterface<ZeldaScreen>;
+	Transition?: IViewModel<ZeldaScreen>;
 }
 
 export interface IZeldaTileMeta {
@@ -327,7 +327,7 @@ export class ZeldaTile extends ViewModel {
 		}
 		if (this.isTransition) {
 			const removeFields = [];
-			const transition = this.Transition?.get<ModelInterface<ZeldaScreen>>({
+			const transition = this.Transition?.get<IViewModel<ZeldaScreen>>({
 				exclude: [
 					"AccentColor",
 					"GroundColor",

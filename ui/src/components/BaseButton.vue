@@ -11,7 +11,7 @@
 			<slot name="icon">
 				<Component
 					:is="icon"
-					class="h-4 w-4"
+					class="mr-0.5 size-4"
 					:class="iconCls"
 				/>
 			</slot>

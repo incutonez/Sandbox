@@ -1,5 +1,6 @@
 ﻿import eslint from "@eslint/js";
 import pluginIncutonez from "@incutonez/eslint-plugin";
+import stylisticTs from "@stylistic/eslint-plugin-ts";
 import pluginImport from "eslint-plugin-simple-import-sort";
 import tailwind from "eslint-plugin-tailwindcss";
 import pluginVue from "eslint-plugin-vue";
@@ -14,6 +15,7 @@ export default [
 	], {
 		plugins: {
 			"typescript-eslint": tsEslint.plugin,
+			"@stylistic/ts": stylisticTs,
 		},
 		languageOptions: {
 			ecmaVersion: "latest",
@@ -54,7 +56,7 @@ export default [
 			"no-mixed-spaces-and-tabs": "off",
 			"no-var": "error",
 			"@typescript-eslint/no-unused-vars": "error",
-			"@/indent": ["error", "tab", {
+			"@stylistic/ts/indent": ["error", "tab", {
 					SwitchCase: 1,
 					ignoredNodes: ["PropertyDefinition"],
 				}],

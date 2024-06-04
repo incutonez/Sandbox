@@ -18,7 +18,7 @@
 			<template #sorticon="slotProps">
 				<template v-if="slotProps.sorted">
 					<IconSort
-						class="ml-1.5 h-4 w-4"
+						class="ml-1.5 size-4"
 						:class="slotProps.sortOrder === 1 ? 'rotate-180 -scale-x-100' : ''"
 					/>
 				</template>
@@ -45,7 +45,10 @@
 			</template>
 		</Column>
 		<template #header>
-			<section class="flex">
+			<section
+				v-if="showHeader"
+				class="flex"
+			>
 				<h2 v-if="title">
 					{{ title }}
 				</h2>
@@ -64,14 +67,17 @@
 						<BaseButton
 							v-bind="addEntityConfig"
 							:icon="IconAdd"
-							icon-cls="mr-0.5"
 						/>
 					</slot>
+					<slot name="headerEnd" />
 				</section>
 			</section>
 		</template>
 		<template #footer>
-			<article class="flex items-center justify-between">
+			<article
+				v-if="showPagination"
+				class="flex items-center justify-between"
+			>
 				<FieldComboBox
 					v-if="showRowsPerPage"
 					:model-value="rowsPerPage"
@@ -150,7 +156,9 @@ const props = withDefaults(defineProps<ITableGrid>(), {
 	columnsResize: true,
 	columnsReorder: true,
 	showSearch: true,
+	showHeader: true,
 	showAddEntity: true,
+	showPagination: true,
 });
 const emit = defineEmits<ITableEmit>();
 const { filterFields, columnsConfig, propsComponent, recordsTotal, start, loading, rowsPerPage, currentPage, recordsCached, search, isPageLast, isPageFirst, startDisplay, endDisplay, totalPages, loadRecords, previousPage, nextPage, changePage, changeRowsPerPage, getColumnMenuConfig, getCellDisplay, getCellParams } = useDataTable(props, emit);

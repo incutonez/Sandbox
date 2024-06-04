@@ -1,5 +1,8 @@
 ﻿import { IsArray, IsBoolean, IsInt, IsNumber, IsString } from "class-validator";
 import { findRecordByName, getNameById } from "@/enums/helper";
+import { Items as EnumItems } from "@/enums/zelda/Items";
+import { Enemies as EnumEnemies } from "@/enums/zelda/NPCs";
+import { Tiles as EnumTiles } from "@/enums/zelda/Tiles";
 import { WorldColors, WorldColorsBrown, WorldColorsTan } from "@/enums/zelda/WorldColors";
 import { ModelTransform } from "@/models/decorators";
 import { Parent, ViewModel } from "@/models/ViewModel";
@@ -95,8 +98,8 @@ export class ZeldaScreen extends ViewModel {
   			for (const child of tile.Children) {
   				if (child.X === x && child.Y === y) {
   					found = true;
-  					const Type = Tiles.find((item) => item.Type === tile.Type);
-  					const tileColors = getDefaultTileColors(Type!);
+  					const foundTile = EnumTiles.find((item) => item.Type === tile.Type);
+  					const tileColors = getDefaultTileColors(foundTile!);
   					const { Colors } = child;
   					if (Colors) {
   						for (let i = 0; i < Colors.length; i += 2) {
@@ -108,7 +111,7 @@ export class ZeldaScreen extends ViewModel {
   						}
   					}
   					cell.tile.set({
-  						Type,
+  						Type: foundTile,
   						Transition: ZeldaScreen.create(child.Transition),
   						Colors: tileColors,
   					});
@@ -129,8 +132,9 @@ export class ZeldaScreen extends ViewModel {
   			if (item.X === x && item.Y === y) {
   				found = true;
 					removeItem(Items, item);
+					const itemType = item.Config.Type;
   				cell.item.set({
-  					Type: findRecordByName(Items, item.Config.Type),
+  					Type: EnumItems.find((record) => record.Type === itemType),
   				});
   				break;
   			}
@@ -150,7 +154,7 @@ export class ZeldaScreen extends ViewModel {
   					Speed: value.Speed,
   					TouchDamage: value.TouchDamage,
   					WeaponDamage: value.WeaponDamage,
-  					Type: findRecordByName(Enemies, value.Type),
+  					Type: findRecordByName(EnumEnemies, value.Type),
   				});
   				break;
   			}

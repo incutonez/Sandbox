@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 export interface IBaseIcon {
-	icon: InstanceType<any>;
+	icon: SVGElement | string;
 }
 
 defineProps<IBaseIcon>();

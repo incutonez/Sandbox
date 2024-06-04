@@ -13,6 +13,12 @@ export const UsersAPI = new UsersApi(configuration);
 
 const LocalUsers: UserModel[] = [];
 
+async function importUsers(request: UserModel[]) {
+	// TODOJEF: ALLOW LOCAL MODE
+	console.log("here", request);
+	return UsersAPI.createUsers(request.map((user) => user.get()));
+}
+
 async function loadUsers(request: ApiPaginatedRequest) {
 	if (HasAPI) {
 		return UsersAPI.listUsers(request);
@@ -58,7 +64,7 @@ async function createUser(user: UserModel) {
 
 async function updateUser(user: UserModel) {
 	if (HasAPI) {
-		return UsersAPI.updateUser(user.id, user.get());
+		return UsersAPI.updateUser(user.id!, user.get());
 	}
 	const found = LocalUsers.find((item) => item?.id === user.id);
 	if (found) {
@@ -71,14 +77,14 @@ async function updateUser(user: UserModel) {
 
 async function deleteUser(user: UserModel) {
 	if (HasAPI) {
-		return UsersAPI.deleteUser(user.id);
+		return UsersAPI.deleteUser(user.id!);
 	}
 	removeItem(LocalUsers, toRaw(user));
 }
 
 async function copyUser(user: UserModel) {
 	if (HasAPI) {
-		return UsersAPI.copyUser(user.id);
+		return UsersAPI.copyUser(user.id!);
 	}
 	const clone = user.clone();
 	clone.id = faker.string.uuid();
@@ -88,9 +94,18 @@ async function copyUser(user: UserModel) {
 	};
 }
 
+export interface IUserCSV {
+	"First Name": string;
+	"Last Name": string;
+	Email: string;
+	Phone: string;
+	"Birth Date": string;
+	Gender: string;
+}
+
 export class UserModel extends ViewModel implements UserEntity {
 	@Allow()
-	id = "";
+	id?: string;
 
 	@IsRequired()
 	@IsString()
@@ -125,20 +140,24 @@ export class UserModel extends ViewModel implements UserEntity {
 		return super._readAll(response.data);
 	}
 
+	static async bulk(users: UserModel[]) {
+		const { data } = await importUsers(users);
+		return data;
+	}
+
 	async read(userId = this.id) {
-		console.log("reading", userId);
-		const response = await loadUser(userId);
-		return response.data;
+		const { data } = await loadUser(userId!);
+		return data;
 	}
 
 	async create() {
-		const response = await createUser(this);
-		return response.data;
+		const { data } = await createUser(this);
+		return data;
 	}
 
 	async update() {
-		const response = await updateUser(this);
-		return response.data;
+		const { data } = await updateUser(this);
+		return data;
 	}
 
 	async delete() {
@@ -146,7 +165,7 @@ export class UserModel extends ViewModel implements UserEntity {
 	}
 
 	async copy() {
-		const response = await copyUser(this);
-		return response.data;
+		const { data } = await copyUser(this);
+		return data;
 	}
 }

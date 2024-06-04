@@ -7,7 +7,15 @@
 		:remote-max="15"
 		title="Users"
 		:add-entity-config="addUserConfig"
-	/>
+	>
+		<template #headerEnd>
+			<BaseButton
+				text="Import"
+				:icon="IconImport"
+				@click="onClickImportUsers"
+			/>
+		</template>
+	</TableGrid>
 	<RouterView @saved="onSavedUser" />
 	<DialogConfirm
 		v-model="showDelete"
@@ -31,15 +39,17 @@ import { ApiPaginatedRequest } from "@incutonez/spec/dist";
 import IconCopy from "@/assets/IconCopy.vue";
 import IconDelete from "@/assets/IconDelete.vue";
 import IconEdit from "@/assets/IconEdit.vue";
+import IconImport from "@/assets/IconImport.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import DialogConfirm from "@/components/DialogConfirm.vue";
 import TableCellActions, { ITableCellActions } from "@/components/TableCellActions.vue";
 import TableGrid from "@/components/TableGrid.vue";
 import { UserModel } from "@/models/UserModel";
-import { viewUser, viewUsers } from "@/router";
+import { viewUser, viewUsers, viewUsersImport } from "@/router";
 import { IBaseButton } from "@/types/components";
 import { ITableColumn } from "@/types/table";
 import { useColumnIndex } from "@/views/shared/columns";
+import { useUsersDefaultColumns } from "@/views/users/usersColumns";
 
 const showDelete = ref(false);
 const showCopy = ref(false);
@@ -53,6 +63,7 @@ const addUserConfig: IBaseButton = {
 		viewUser();
 	},
 };
+// eslint-disable-next-line @incutonez/array-bracket-newline
 const columns: ITableColumn[] = [
 	// TODOJEF: Need to fix this in the eslint plugin because it thinks the function call should have a newline
 	// eslint-disable-next-line
@@ -87,37 +98,15 @@ const columns: ITableColumn[] = [
 				}],
 			} as ITableCellActions;
 		},
-	}, {
-		field: "firstName",
-		title: "First Name",
-		cls: "min-w-32",
-		lock: "left",
-	}, {
-		field: "lastName",
-		title: "Last Name",
-		cls: "min-w-32",
-		lock: "left",
-	}, {
-		field: "phone",
-		title: "Phone",
-	}, {
-		field: "email",
-		title: "Email",
-	}, {
-		field: "gender",
-		title: "Gender",
-	}, {
-		field: "birthDate",
-		title: "Birth Date",
-	}, {
+		// eslint-disable-next-line @incutonez/array-element-newline
+	}, ...useUsersDefaultColumns(), {
 		cellComponent: BaseButton,
-		cellParams(data: any) {
+		cellParams(data: UserModel) {
 			return {
 				text: data.email,
 			};
 		},
-	},
-];
+	}];
 
 async function loadUsers(params: ApiPaginatedRequest) {
 	return UserModel.readAll(params);
@@ -148,5 +137,9 @@ async function onCopyUser() {
 function onSavedUser() {
 	viewUsers();
 	usersGrid.value!.reloadRecords();
+}
+
+function onClickImportUsers() {
+	viewUsersImport();
 }
 </script>
