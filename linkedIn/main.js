@@ -4,6 +4,10 @@
 const MatchRegex = /Viewed|Applied|Promoted/;
 const CompaniesRegex = /DataAnnotation|Veeva Systems|Aha!|HireMeFast|Team Remotely|Recruiting from Scratch|myGwork|Jerry/i;
 const Today = new Date();
+const OneWeek = 604800000;
+const HoursAgoRegex = /(\d+) hours ago/;
+const MinutesAgoRegex = /minutes ago/;
+const HoursToCheck = 16;
 
 setInterval(removeJobs, 100);
 
@@ -19,8 +23,15 @@ function removeJobs() {
 		}
 	});
 	document.querySelectorAll(".job-card-container__footer-item time").forEach((el) => {
-		if (Today - new Date(el.getAttribute("datetime")) > 604800000) {
+		const text = el.innerText;
+		if (Today - new Date(el.getAttribute("datetime")) > OneWeek) {
 			el.closest(".jobs-search-results__list-item").remove();
+		}
+		else if (!MinutesAgoRegex.test(text)) {
+			const match = text?.match(HoursAgoRegex)?.[1];
+			if (!match || +match > HoursToCheck) {
+				el.closest(".jobs-search-results__list-item").remove();
+			}
 		}
 	});
 }
