@@ -34,7 +34,7 @@
 				<article class="border-b border-r border-sky-700 bg-sky-200 px-4 py-2">
 					Switcher
 				</article>
-				<article class="lg:revert hidden flex-1 border-b border-orange-700 bg-orange-200 px-4 py-2">
+				<article class="flex-1 border-b border-orange-700 bg-orange-200 px-4 py-2">
 					User Panel
 				</article>
 			</section>
