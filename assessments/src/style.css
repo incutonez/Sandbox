@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#app, body, html {
+  @apply h-full w-full;
+}
+
+#app {
+  @apply flex flex-col;
+}
+
+@layer utilities {
+  .revert {
+    display: revert;
+  }
+}
+
+@layer base {
+  th {
+    @apply h-10 text-xs;
+    position: sticky;
+    top: 0;
+    background-color: #E4EDF2;
+  }
+  tr {
+    border-bottom: 1px solid #E4EDF2;
+  }
+  tr:last-child {
+    @apply border-b-0;
+  }
+}
+
+@layer components {
+  .table-row {
+    height: 4.375rem;
+  }
+
+  .table-striped-rows tr.table-row:nth-child(odd) {
+    background-color: #F6F7F7;
+  }
+}

@@ -8,6 +8,9 @@
     .writing-mode-vertical {
         writing-mode: vertical-lr;
     }
+    .revert {
+        display: revert;
+    }
 }
 
 @layer components {

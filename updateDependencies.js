@@ -3,6 +3,7 @@
 const apps = [
 	"ui",
 	"api",
+	"assessments",
 	"spec",
 ];
 apps.forEach((app) => {
