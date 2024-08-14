@@ -4,7 +4,7 @@
 			<img
 				:src="getAvatar()"
 				alt="Avatar"
-				class="mr-2 h-8 w-8 rounded-full"
+				class="mr-2 size-8 rounded-full"
 			>
 			<span class="text-base font-semibold">{{ rootNode.username }} at {{ dateLongFormat(rootNode.date) }}</span>
 		</section>

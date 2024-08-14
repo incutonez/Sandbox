@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { computed, watch } from "vue";
-import PrimeDropdown from "primevue/dropdown";
+import PrimeDropdown from "primevue/select";
 import BaseField, { IBaseField } from "@/components/BaseField.vue";
 import { IOption } from "@/types/components";
 import { isObject } from "@/utils/common";

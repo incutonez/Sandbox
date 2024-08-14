@@ -41,6 +41,7 @@
   "workspaces": [
     "ui",
     "api",
+    "assessments",
     "spec"
   ],
   "engines": {

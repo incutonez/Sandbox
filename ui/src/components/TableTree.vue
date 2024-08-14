@@ -122,7 +122,7 @@
 
 <script setup lang="ts">
 import { ref, unref, watch } from "vue";
-import { FilterMatchMode } from "primevue/api";
+import { FilterMatchMode } from "@primevue/core/api";
 import Column from "primevue/column";
 import PrimeTreeTable from "primevue/treetable";
 import IconAdd from "@/assets/IconAdd.vue";

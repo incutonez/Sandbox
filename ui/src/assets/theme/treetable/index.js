@@ -1,13 +1,12 @@
 export default {
 	root: ({ props }) => ({
 		class: [
-			"relative",
-			{
-				"flex flex-col h-full": props.scrollHeight === "flex",
-			},
+"relative", {
+			"flex flex-col h-full": props.scrollHeight === "flex",
+		},
 
-			// Shape
-			"border-spacing-0 border-separate"],
+		// Shape
+		"border-spacing-0 border-separate"],
 	}),
 	loadingoverlay: {
 		class: [
@@ -108,14 +107,11 @@ export default {
 			},
 
 			// Color
-			"dark:text-white/80",
-			{
+			"dark:text-white/80", {
 				"bg-sky-200": context.selected,
-			},
-			{
+			}, {
 				"bg-surface-0 text-surface-600 dark:bg-surface-800": !context.selected,
-			},
-			{
+			}, {
 				"hover:bg-sky-100 hover:text-slate-900": context.selectable && !context.selected,
 			},
 			"focus:outline-none focus:outline-offset-0 focus:ring-2 focus:ring-primary-500 ring-inset dark:focus:ring-primary-400",
@@ -236,14 +232,12 @@ export default {
 				"text-left",
 
 				// Shape
-				"border-0 border-b border-solid",
-				{
+				"border-0 border-b border-solid", {
 					"last:border-r-0 border-r border-b": context?.showGridlines,
 				},
 
 				// Color
-				"border-surface-200 dark:border-surface-700",
-				{
+				"border-surface-200 dark:border-surface-700", {
 					"bg-surface-0 dark:bg-surface-800": !context.selected,
 				},
 				"border-slate-400",
@@ -252,11 +246,45 @@ export default {
 				context?.size === "small" ? "py-2.5 px-2" : context?.size === "large" ? "py-5 px-4" : "py-3.5 px-3",
 
 				// Misc
-				"space-nowrap",
-				{
+				"space-nowrap", {
 					"cursor-pointer": context.selectable,
 				}],
 		}),
+		bodyCellContent: "flex items-center gap-2",
+		rowToggleButton: {
+			class: [
+				"relative",
+
+				// Flex & Alignment
+				"inline-flex items-center justify-center",
+				"text-left align-middle",
+
+				// Spacing
+				"m-0 mr-2 p-0",
+
+				// Size
+				"w-8 h-8",
+
+				// Shape
+				"border-0 rounded-full",
+
+				// Color
+				"text-surface-500 dark:text-white/70",
+				"bg-transparent",
+
+				// States
+				"hover:bg-surface-50 dark:hover:bg-surface-700",
+				"focus-visible:outline-none focus-visible:outline-offset-0",
+				"focus-visible:ring focus-visible:ring-primary-400/50 dark:focus-visible:ring-primary-300/50",
+
+				// Transition
+				"transition duration-200",
+
+				// Misc
+				"overflow-hidden",
+				"cursor-pointer select-none",
+			],
+		},
 		rowtoggler: {
 			class: [
 				"relative",
@@ -362,15 +390,13 @@ export default {
 				"w-6 h-6",
 
 				// Color
-				"text-surface-600",
-				{
+				"text-surface-600", {
 					"border-surface-200 bg-surface-0 dark:border-surface-700 dark:bg-surface-900": !context.checked,
 					"border-primary-500 bg-primary-500 dark:border-primary-400 dark:bg-primary-400": context.checked,
 				},
 
 				// States
-				"focus:outline-none focus:outline-offset-0",
-				{
+				"focus:outline-none focus:outline-offset-0", {
 					"ring ring-primary-400/50 dark:ring-primary-300/50": context.focused,
 				},
 
@@ -386,8 +412,7 @@ export default {
 		checkboxicon: {
 			class: [
 				// Size
-				"w-4 h-4",
-				"text-base leading-none",
+				"w-4 h-4", "text-base leading-none",
 
 				// Color
 				"text-white dark:text-surface-900",

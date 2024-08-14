@@ -33,6 +33,10 @@ jobs:
           npm run build:spec
           cd ui
           npx vue-tsc --noEmit
+      - name: Assessments TypeScript Error Free
+        run: |
+          cd assessments
+          npx vue-tsc --noEmit
       - name: API TypeScript Error Free
         run: |
           cd api

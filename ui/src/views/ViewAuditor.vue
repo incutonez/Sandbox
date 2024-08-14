@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { reactive, ref, watch } from "vue";
 import { EnumChangeStatus, TreeItemModel } from "@incutonez/spec";
-import { FilterMatchMode } from "primevue/api";
+import { FilterMatchMode } from "@primevue/core/api";
 import FieldCheckbox from "@/components/FieldCheckbox.vue";
 import TableTree from "@/components/TableTree.vue";
 import { TreeViewModel } from "@/models/TreeViewModel";
