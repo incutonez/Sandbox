@@ -131,7 +131,7 @@
  * - Can't redefine emits: https://github.com/vuejs/core/issues/8457
  */
 import { watch } from "vue";
-import { FilterMatchMode } from "primevue/api";
+import { FilterMatchMode } from "@primevue/core/api";
 import Column from "primevue/column";
 import DataTable, { DataTableColumnReorderEvent } from "primevue/datatable";
 import IconAdd from "@/assets/IconAdd.vue";

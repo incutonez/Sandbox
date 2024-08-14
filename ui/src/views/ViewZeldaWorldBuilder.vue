@@ -14,7 +14,6 @@
 				/>
 				<BaseButton
 					:icon="IconAdd"
-					class="!px-2"
 					title="Add Screen"
 					@click="onClickNewButton"
 				/>
@@ -112,12 +111,12 @@
 							/>
 							<div
 								v-show="showColors"
-								class="h-16 w-16 bg-blue-100"
+								class="size-16 bg-blue-100"
 							>
 								<img
 									v-if="selectedTile.src"
 									:src="selectedTile.src"
-									class="h-full w-full"
+									class="size-full"
 									alt="Tile Image"
 								>
 							</div>
@@ -191,7 +190,7 @@
 								label-position="top"
 								class="mr-2 flex-1"
 							/>
-							<div class="flex h-16 w-16 justify-center bg-blue-100">
+							<div class="flex size-16 justify-center bg-blue-100">
 								<img
 									v-if="selectedItem.src"
 									:src="selectedItem.src"
@@ -222,7 +221,7 @@
 									label-cls="w-12"
 								/>
 							</div>
-							<div class="flex h-16 w-16 justify-center bg-blue-100">
+							<div class="flex size-16 justify-center bg-blue-100">
 								<img
 									v-if="selectedEnemy.src"
 									:src="selectedEnemy.src"

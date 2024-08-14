@@ -8,7 +8,7 @@
 		</section>
 		<IconChange
 			v-if="hasPrevious"
-			class="h-6 w-6"
+			class="size-6"
 		/>
 		<section class="flex-1 text-center">
 			{{ dataNode.value }}
