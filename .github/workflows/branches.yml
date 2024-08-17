@@ -37,6 +37,10 @@ jobs:
         run: |
           cd assessments
           npx vue-tsc --noEmit
+      - name: Resume TypeScript Error Free
+        run: |
+          cd resume
+          npx vue-tsc --noEmit
       - name: API TypeScript Error Free
         run: |
           cd api
