@@ -8,6 +8,9 @@ export default defineConfig(({ mode }) => {
 	return {
 		plugins: [vue(), svgLoader()],
 		base: mode === "GitHubPages" ? "/Sandbox/" : "",
+		build: {
+			outDir: "../dist",
+		},
 		resolve: {
 			alias: [{
 				find: "@",

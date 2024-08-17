@@ -14,6 +14,7 @@
     "build:spec": "cd spec && rimraf dist && npm run build",
     "generate:spec": "cd spec && npm run generate",
     "build:ui": "cd ui && npm run build",
+    "build:resume": "cd resume && npm run build",
     "validate:api": "cd api && npx tsc-files --noEmit",
     "validate:ui": "cd ui && npx vue-tsc-files --noEmit"
   },
