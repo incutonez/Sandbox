@@ -5,6 +5,7 @@ const apps = [
 	"api",
 	"assessments",
 	"spec",
+	"resume",
 ];
 apps.forEach((app) => {
 	console.info(`Updating: ${app}`);
