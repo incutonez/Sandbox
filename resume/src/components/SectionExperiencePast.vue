@@ -41,7 +41,7 @@ import SectionJobDescription from "@/components/SectionJobDescription.vue";
 				company="Time Warner Cable"
 				location="Broomfield, CO"
 				industry="Communications Tech"
-				position="Senior Developer (contractor)"
+				position="UI Developer (contractor)"
 				date-end="Mar 2015"
 			/>
 			<SectionJobDescription
