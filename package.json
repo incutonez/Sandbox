@@ -42,7 +42,8 @@
     "ui",
     "api",
     "assessments",
-    "spec"
+    "spec",
+    "resume"
   ],
   "engines": {
     "node": ">=18",
