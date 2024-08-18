@@ -8,8 +8,8 @@ import SectionSummary from "@/components/SectionSummary.vue";
 </script>
 
 <template>
-	<main class="mx-auto overflow-auto bg-blue-resume md:flex md:h-letter md:w-letter">
-		<section class="pl-2 pt-1 text-white md:w-1/3">
+	<main class="mx-auto flex overflow-auto bg-blue-resume md:h-letter md:w-letter">
+		<section class="w-48 pl-2 pt-1 text-white md:w-1/3">
 			<SectionContactInfo class="mb-8" />
 			<SectionSkills class="mb-8" />
 			<SectionEducation />

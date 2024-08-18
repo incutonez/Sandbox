@@ -39,19 +39,19 @@ import IconPin from "@/assets/IconPin.vue";
 			<td>
 				<IconLinkedIn class="size-5" />
 			</td>
-			<td class="pl-3">
+			<td class="max-w-36 truncate pl-3 md:max-w-full">
 				<a
-					href="https://www.linkedin.com/in/jefharkay/"
+					href="https://www.linkedin.com/in/jefharkay"
 					class="text-xs underline"
 					target="_blank"
-				>https://www.linkedin.com/in/jefharkay/</a>
+				>https://www.linkedin.com/in/jefharkay</a>
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<IconGitHub class="size-5" />
 			</td>
-			<td class="pl-3">
+			<td class="max-w-36 truncate pl-3 md:max-w-full">
 				<a
 					href="https://github.com/incutonez/Sandbox"
 					class="text-xs underline"
