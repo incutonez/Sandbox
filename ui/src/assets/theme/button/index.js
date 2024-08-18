@@ -8,16 +8,12 @@ export default {
 				// Alignments
 				"items-center justify-center inline-flex text-center align-bottom",
 
-				/**
-				 * I had to add ! for importance because unstyled mode was not fully supported in 4.0.4
-				 * See also https://www.reddit.com/r/vuejs/comments/1es2us9/primevue_migration_anecdotes_unfunny_old_man/
-				 */
 				// Sizes & Spacing
-				"!text-sm", {
-					"!px-2.5 !py-1.5 min-w-[2rem]": props.size === null && props.label !== null,
-					"!px-2 !py-0.5 h-6": props.size === "small",
-					"!px-3 !py-1.5 !h-8": props.size === "large" && !!props.label,
-					"!px-2 !py-1.5 !h-8": props.size === "large" && !props.label,
+				"text-sm", {
+					"px-2.5 py-1.5 min-w-[2rem]": props.size === null && props.label !== null,
+					"px-2 py-0.5 h-6": props.size === "small",
+					"px-3 py-1.5 h-8": props.size === "large" && !!props.label,
+					"px-2 py-1.5 h-8": props.size === "large" && !props.label,
 				},
 
 				// Shapes

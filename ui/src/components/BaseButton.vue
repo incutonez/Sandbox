@@ -4,7 +4,6 @@
 		:disabled="disabled"
 		:size="size"
 		:plain="plain"
-		:unstyled="unstyled"
 		:loading="loading"
 	>
 		<template #icon>
