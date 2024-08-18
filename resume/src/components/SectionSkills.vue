@@ -11,7 +11,7 @@ import RowSkill from "@/components/RowSkill.vue";
 			<h2 class="font-semibold underline">
 				Front-End
 			</h2>
-			<table class="w-full">
+			<article class="w-full space-y-2 md:space-y-0">
 				<RowSkill
 					skill="Vue.js"
 					:rating="5"
@@ -44,13 +44,13 @@ import RowSkill from "@/components/RowSkill.vue";
 					skill="SCSS"
 					:rating="3"
 				/>
-			</table>
+			</article>
 		</section>
 		<section>
 			<h2 class="font-semibold underline">
 				Back-End
 			</h2>
-			<table class="w-full">
+			<article class="w-full space-y-2 md:space-y-0">
 				<RowSkill
 					skill="Node.js"
 					:rating="3"
@@ -75,13 +75,13 @@ import RowSkill from "@/components/RowSkill.vue";
 					skill="SQL"
 					:rating="2"
 				/>
-			</table>
+			</article>
 		</section>
 		<section>
 			<h2 class="font-semibold underline">
 				Misc
 			</h2>
-			<table class="w-full">
+			<article class="w-full space-y-2 md:space-y-0">
 				<RowSkill
 					skill="Data Modeling"
 					:rating="4"
@@ -102,11 +102,7 @@ import RowSkill from "@/components/RowSkill.vue";
 					skill="Web Sockets"
 					:rating="3"
 				/>
-			</table>
+			</article>
 		</section>
 	</article>
 </template>
-
-<style scoped lang="scss">
-
-</style>

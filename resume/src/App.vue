@@ -8,13 +8,21 @@ import SectionSummary from "@/components/SectionSummary.vue";
 </script>
 
 <template>
-	<main class="flex size-full overflow-auto bg-blue-resume">
-		<section class="w-1/3 pl-2 pt-1 text-white">
+	<main class="mx-auto flex overflow-auto bg-blue-resume md:h-letter md:w-letter">
+		<section class="relative w-48 pl-2 pt-1 text-white md:w-1/3">
 			<SectionContactInfo class="mb-8" />
 			<SectionSkills class="mb-8" />
 			<SectionEducation />
+			<section class="absolute bottom-2 flex flex-col items-center justify-center text-sm">
+				<span class="font-semibold">Web Version:</span>
+				<a
+					href="https://incutonez.github.io/Sandbox/resume"
+					target="_blank"
+					class="w-44 truncate underline md:w-auto md:px-0"
+				>https://incutonez.github.io/Sandbox/resume</a>
+			</section>
 		</section>
-		<section class="flex w-2/3 flex-col pt-1">
+		<section class="flex flex-col pt-1 md:w-2/3">
 			<article class="mb-8 flex min-h-30 flex-col place-content-center items-center text-white">
 				<h1 class="text-5xl">
 					Jef Harkay
