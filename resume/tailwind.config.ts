@@ -15,6 +15,12 @@ export default {
 			spacing: {
 				30: "7.5rem",
 			},
+			height: {
+				letter: "11in",
+			},
+			width: {
+				letter: "8.5in",
+			},
 		},
 	},
 	plugins: [],

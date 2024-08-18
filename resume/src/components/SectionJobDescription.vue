@@ -16,18 +16,20 @@ defineProps<ISectionJobDescription>();
 
 <template>
 	<article>
-		<section class="flex text-sm leading-4">
+		<section class="flex flex-wrap text-sm leading-4 md:flex-row">
 			<span class="font-semibold">{{ position }}</span>
 			<span class="mx-1">|</span>
 			<span class="font-semibold">{{ company }}</span>
 			<span class="mx-1">|</span>
 			<span>{{ location }}</span>
-			<span class="ml-auto font-semibold">{{ dateStart }} - {{ dateEnd }}</span>
+			<span class="w-full font-semibold md:ml-auto md:w-auto">{{ dateStart }} - {{ dateEnd }}</span>
 		</section>
-		<section class="mb-0.5 flex text-sm">
-			<span class="font-semibold text-blue-resume">Project{{ multipleProjects ? 's' : '' }}</span>
-			<span>: {{ project }}</span>
-			<span class="ml-auto">{{ industry }}</span>
+		<section class="mb-0.5 flex flex-col text-sm md:flex-row">
+			<span>
+				<span class="font-semibold text-blue-resume">Project{{ multipleProjects ? 's' : '' }}</span>
+				<span>: {{ project }}</span>
+			</span>
+			<span class="italic md:ml-auto">{{ industry }}</span>
 		</section>
 		<template v-if="!!tasks">
 			<ul

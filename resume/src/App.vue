@@ -8,13 +8,13 @@ import SectionSummary from "@/components/SectionSummary.vue";
 </script>
 
 <template>
-	<main class="flex size-full overflow-auto bg-blue-resume">
-		<section class="w-1/3 pl-2 pt-1 text-white">
+	<main class="mx-auto overflow-auto bg-blue-resume md:flex md:h-letter md:w-letter">
+		<section class="pl-2 pt-1 text-white md:w-1/3">
 			<SectionContactInfo class="mb-8" />
 			<SectionSkills class="mb-8" />
 			<SectionEducation />
 		</section>
-		<section class="flex w-2/3 flex-col pt-1">
+		<section class="flex flex-col pt-1 md:w-2/3">
 			<article class="mb-8 flex min-h-30 flex-col place-content-center items-center text-white">
 				<h1 class="text-5xl">
 					Jef Harkay
