@@ -9,10 +9,18 @@ import SectionSummary from "@/components/SectionSummary.vue";
 
 <template>
 	<main class="mx-auto flex overflow-auto bg-blue-resume md:h-letter md:w-letter">
-		<section class="w-48 pl-2 pt-1 text-white md:w-1/3">
+		<section class="relative w-48 pl-2 pt-1 text-white md:w-1/3">
 			<SectionContactInfo class="mb-8" />
 			<SectionSkills class="mb-8" />
 			<SectionEducation />
+			<section class="absolute bottom-2 flex flex-col items-center justify-center text-sm">
+				<span class="font-semibold">Web Version:</span>
+				<a
+					href="https://incutonez.github.io/Sandbox/resume"
+					target="_blank"
+					class="w-44 truncate underline md:w-auto md:px-0"
+				>https://incutonez.github.io/Sandbox/resume</a>
+			</section>
 		</section>
 		<section class="flex flex-col pt-1 md:w-2/3">
 			<article class="mb-8 flex min-h-30 flex-col place-content-center items-center text-white">
