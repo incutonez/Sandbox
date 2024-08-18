@@ -31,7 +31,6 @@ export interface IBaseButton extends /** @vue-ignore */ HTMLAttributes {
 	loading?: boolean;
 	size?: "small" | "large";
 	plain?: boolean;
-	unstyled?: boolean;
 }
 
 export interface IMenuItem {
