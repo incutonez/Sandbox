@@ -18,6 +18,7 @@ export default [
 			ecmaVersion: "latest",
 			globals: {
 				...globals.browser,
+        ...globals.node,
 			},
 			"parserOptions": {
 				"sourceType": "module",
