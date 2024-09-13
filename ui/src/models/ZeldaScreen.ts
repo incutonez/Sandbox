@@ -25,6 +25,12 @@ export class ZeldaScreen extends ViewModel {
   @IsNumber()
   Y = 0;
 
+	@IsBoolean()
+	OriginTopLeft = true;
+
+	@IsNumber()
+	CellSize = 16;
+
 	@IsString()
   AccentColor = WorldColorsBrown.id;
 
@@ -56,29 +62,29 @@ export class ZeldaScreen extends ViewModel {
 	_name = "";
 
 	set Name(value) {
-  	this._name = value;
+		this._name = value;
 	}
 
 	get Name() {
-  	let { _name } = this;
-  	if (!_name) {
-  		_name = `${this.X}${this.Y}`;
-  	}
-  	return _name;
+		let { _name } = this;
+		if (!_name) {
+			_name = `${this.X}${this.Y}`;
+		}
+		return _name;
 	}
 
 	init() {
-  	const config: ZeldaTileCell[] = [];
-  	for (let row = 0; row < this.totalRows; row++) {
-  		for (let column = 0; column < this.totalColumns; column++) {
-  			config.push(ZeldaTileCell.create({
-  				Coordinates: [column, row],
-  			}, {
+		const config: ZeldaTileCell[] = [];
+		for (let row = 0; row < this.totalRows; row++) {
+			for (let column = 0; column < this.totalColumns; column++) {
+				config.push(ZeldaTileCell.create({
+					Coordinates: [column, row],
+				}, {
 					init: true,
-				  [Parent]: this,
-			  }));
-  		}
-  	}
+					[Parent]: this,
+				}));
+			}
+		}
 		this.cells = config;
 	}
 
@@ -89,136 +95,136 @@ export class ZeldaScreen extends ViewModel {
    * TODO: Should probably create a UI model for that
    */
 	async loadFileData(data: ILoadData = {}) {
-  	const { Tiles = [], Items = [], Enemies = [] } = data;
-  	// Loop through the entire grid to find and update any children in the data
-  	for (const cell of this.cells) {
-  		let found = false;
-  		const { x, y } = cell;
-  		for (const tile of Tiles) {
-  			for (const child of tile.Children) {
-  				if (child.X === x && child.Y === y) {
-  					found = true;
-  					const foundTile = EnumTiles.find((item) => item.Type === tile.Type);
-  					const tileColors = getDefaultTileColors(foundTile!);
-  					const { Colors } = child;
-  					if (Colors) {
-  						for (let i = 0; i < Colors.length; i += 2) {
-  							const target = findRecordByName(WorldColors, Colors[i]);
-  							const foundColor = tileColors.find((color) => color.Target === target);
-  							if (foundColor) {
-  								foundColor.Value = findRecordByName(WorldColors, Colors[i + 1])!;
-  							}
-  						}
-  					}
-  					cell.tile.set({
-  						Type: foundTile,
-  						Transition: ZeldaScreen.create(child.Transition),
-  						Colors: tileColors,
-  					});
-					  removeItem(tile.Children, child);
-  					break;
-  				}
-  			}
-  			if (found) {
-  				break;
-  			}
-  		}
-  		if (!found) {
-  			cell.tile.reset();
-  		}
-  		// Unset, as we're using for next loop
-  		found = false;
-  		for (const item of Items) {
-  			if (item.X === x && item.Y === y) {
-  				found = true;
+		const { Tiles = [], Items = [], Enemies = [] } = data;
+		// Loop through the entire grid to find and update any children in the data
+		for (const cell of this.cells) {
+			let found = false;
+			const { x, y } = cell;
+			for (const tile of Tiles) {
+				for (const child of tile.Children) {
+					if (child.X === x && child.Y === y) {
+						found = true;
+						const foundTile = EnumTiles.find((item) => item.Type === tile.Type);
+						const tileColors = getDefaultTileColors(foundTile!);
+						const { Colors } = child;
+						if (Colors) {
+							for (let i = 0; i < Colors.length; i += 2) {
+								const target = findRecordByName(WorldColors, Colors[i]);
+								const foundColor = tileColors.find((color) => color.Target === target);
+								if (foundColor) {
+									foundColor.Value = findRecordByName(WorldColors, Colors[i + 1])!;
+								}
+							}
+						}
+						cell.tile.set({
+							Type: foundTile,
+							Transition: ZeldaScreen.create(child.Transition),
+							Colors: tileColors,
+						});
+						removeItem(tile.Children, child);
+						break;
+					}
+				}
+				if (found) {
+					break;
+				}
+			}
+			if (!found) {
+				cell.tile.reset();
+			}
+			// Unset, as we're using for next loop
+			found = false;
+			for (const item of Items) {
+				if (item.X === x && item.Y === y) {
+					found = true;
 					removeItem(Items, item);
 					const itemType = item.Config.Type;
-  				cell.item.set({
-  					Type: EnumItems.find((record) => record.Type === itemType),
-  				});
-  				break;
-  			}
-  		}
-  		if (!found) {
-  			cell.item.reset();
-  		}
-  		// Unset, as we're using for next loop
-  		found = false;
-  		for (const value of Enemies) {
-  			if (value.X === x && value.Y === y) {
-  				found = true;
-  				removeItem(Enemies, value);
-  				cell.enemy.set({
-  					Health: value.Health,
-  					HealthModifier: value.HealthModifier,
-  					Speed: value.Speed,
-  					TouchDamage: value.TouchDamage,
-  					WeaponDamage: value.WeaponDamage,
-  					Type: findRecordByName(EnumEnemies, value.Type),
-  				});
-  				break;
-  			}
-  		}
-  		if (!found) {
-  			cell.enemy.reset();
-  		}
-  		// Unset, as we're using for next loop
-  		found = false;
-  	}
+					cell.item.set({
+						Type: EnumItems.find((record) => record.Type === itemType),
+					});
+					break;
+				}
+			}
+			if (!found) {
+				cell.item.reset();
+			}
+			// Unset, as we're using for next loop
+			found = false;
+			for (const value of Enemies) {
+				if (value.X === x && value.Y === y) {
+					found = true;
+					removeItem(Enemies, value);
+					cell.enemy.set({
+						Health: value.Health,
+						HealthModifier: value.HealthModifier,
+						Speed: value.Speed,
+						TouchDamage: value.TouchDamage,
+						WeaponDamage: value.WeaponDamage,
+						Type: findRecordByName(EnumEnemies, value.Type),
+					});
+					break;
+				}
+			}
+			if (!found) {
+				cell.enemy.reset();
+			}
+			// Unset, as we're using for next loop
+			found = false;
+		}
 	}
 
 	getCell(x: number, y: number) {
-  	return this.cells[y * this.totalColumns + x];
+		return this.cells[y * this.totalColumns + x];
 	}
 
 	getAdjacentNodes(node: ZeldaTileCell) {
-  	const { x, y } = node;
-  	const nodes = [this.getCell(x - 1, y), this.getCell(x + 1, y), this.getCell(x, y - 1), this.getCell(x, y + 1)];
-  	const tileType = node.tile.Type;
-  	// Some of the nodes from above might be undefined or not have the same type, so let's filter those out
-  	return nodes.filter((record) => record?.tile.TileType === tileType);
+		const { x, y } = node;
+		const nodes = [this.getCell(x - 1, y), this.getCell(x + 1, y), this.getCell(x, y - 1), this.getCell(x, y + 1)];
+		const tileType = node.tile.Type;
+		// Some of the nodes from above might be undefined or not have the same type, so let's filter those out
+		return nodes.filter((record) => record?.tile.TileType === tileType);
 	}
 
 	findAdjacentNodes(startNode: ZeldaTileCell = this.cells[0], traversedNodes: ZeldaTileCell[] = []) {
-  	const nodes: ZeldaTileCell[] = [];
-  	const adjacentNodes = this.getAdjacentNodes(startNode);
-  	if (traversedNodes.indexOf(startNode) === -1) {
-  		traversedNodes.push(startNode);
-  		nodes.push(startNode);
-  	}
-  	for (const adjacentNode of adjacentNodes) {
-  		if (!traversedNodes.find((node) => node === adjacentNode)) {
-  			const subNodes = this.findAdjacentNodes(adjacentNode, traversedNodes);
-  			if (isEmpty(subNodes)) {
-  				continue;
-  			}
-  			nodes.push(...subNodes);
-  		}
-  	}
-  	return nodes;
+		const nodes: ZeldaTileCell[] = [];
+		const adjacentNodes = this.getAdjacentNodes(startNode);
+		if (traversedNodes.indexOf(startNode) === -1) {
+			traversedNodes.push(startNode);
+			nodes.push(startNode);
+		}
+		for (const adjacentNode of adjacentNodes) {
+			if (!traversedNodes.find((node) => node === adjacentNode)) {
+				const subNodes = this.findAdjacentNodes(adjacentNode, traversedNodes);
+				if (isEmpty(subNodes)) {
+					continue;
+				}
+				nodes.push(...subNodes);
+			}
+		}
+		return nodes;
 	}
 
 	// In my case, adjacent depends on the coordinates... e.g. 0,0 has 0,1 and 1,0
 	getConfig() {
-  	const Tiles: IZeldaTileMeta[] = [];
-  	const Items: IZeldaItemConfig[] = [];
-  	const Enemies: IZeldaEnemyConfig[] = [];
-  	for (const cell of this.cells) {
-  		cell.getConfig({
-  			Tiles,
-  			Items,
-  			Enemies,
-  		});
-  	}
-  	return {
-  		X: this.X,
-  		Y: this.Y,
-  		Name: this.Name,
-  		GroundColor: getNameById(WorldColors, this.GroundColor),
-  		AccentColor: getNameById(WorldColors, this.AccentColor),
-  		Tiles,
-  		Items,
-  		Enemies,
-  	};
+		const Tiles: IZeldaTileMeta[] = [];
+		const Items: IZeldaItemConfig[] = [];
+		const Enemies: IZeldaEnemyConfig[] = [];
+		for (const cell of this.cells) {
+			cell.getConfig({
+				Tiles,
+				Items,
+				Enemies,
+			});
+		}
+		return {
+			X: this.X,
+			Y: this.Y,
+			Name: this.Name,
+			GroundColor: getNameById(WorldColors, this.GroundColor),
+			AccentColor: getNameById(WorldColors, this.AccentColor),
+			Tiles,
+			Items,
+			Enemies,
+		};
 	}
 }

@@ -1,10 +1,10 @@
 /**
  * In order to use this, go to about:debugging#/runtime/this-firefox and load the manifest.json file as the Temporary Add-on
  */
-const MatchRegex = /Viewed|Applied/;
+const MatchRegex = /Viewed|Applied|Promoted/;
 const CompaniesRegex = /SideRamp|DataAnnotation|Veeva Systems|Aha!|HireMeFast|Team Remotely|Recruiting from Scratch|myGwork|Jerry|RemoteWorker|ClickJobs\.io|Varsity Tutors|Ascendion/i;
 const Today = new Date();
-const OneWeek = 604800000;
+const OneWeek = 604800000 * 2;
 const HoursAgoRegex = /(\d+) hours ago/;
 const MinutesAgoRegex = /minutes ago/;
 const HoursToCheck = undefined;
@@ -22,18 +22,16 @@ function removeJobs() {
 			el.closest(".jobs-search-results__list-item").remove();
 		}
 	});
-	if (HoursToCheck) {
-		document.querySelectorAll(".job-card-container__footer-item time").forEach((el) => {
-			const text = el.innerText;
-			if (Today - new Date(el.getAttribute("datetime")) > OneWeek) {
+	document.querySelectorAll(".job-card-container__footer-item time").forEach((el) => {
+		const text = el.innerText;
+		if (Today - new Date(el.getAttribute("datetime")) > OneWeek) {
+			el.closest(".jobs-search-results__list-item").remove();
+		}
+		else if (HoursToCheck && !MinutesAgoRegex.test(text)) {
+			const match = text?.match(HoursAgoRegex)?.[1];
+			if (!match || +match > HoursToCheck) {
 				el.closest(".jobs-search-results__list-item").remove();
 			}
-			else if (!MinutesAgoRegex.test(text)) {
-				const match = text?.match(HoursAgoRegex)?.[1];
-				if (!match || +match > HoursToCheck) {
-					el.closest(".jobs-search-results__list-item").remove();
-				}
-			}
-		});
-	}
+		}
+	});
 }

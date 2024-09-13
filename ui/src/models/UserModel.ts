@@ -15,7 +15,6 @@ const LocalUsers: UserModel[] = [];
 
 async function importUsers(request: UserModel[]) {
 	// TODOJEF: ALLOW LOCAL MODE
-	console.log("here", request);
 	return UsersAPI.createUsers(request.map((user) => user.get()));
 }
 
