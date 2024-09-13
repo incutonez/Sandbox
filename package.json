@@ -7,6 +7,7 @@
     "ui": "cd ui && npm run dev",
     "api": "cd api && npm run start:dev",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "resume": "cd resume && npm run dev",
     "updateDeps": "node ./updateDependencies.js",
     "lint": "npx eslint . --ext .js --fix",
     "lint:fix": "prettier --write && npx eslint --fix",
