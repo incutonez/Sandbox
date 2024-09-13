@@ -314,8 +314,9 @@ export class ZeldaTile extends ViewModel {
 	getConfig() {
 		const { cell = ZeldaTileCell.create() } = this;
 		const config: IZeldaTileConfig = {
-			X: cell.x,
-			Y: cell.y,
+			// TODOJEF: Remove these from here, as they get set in ZeldaTileCell
+			X: 0,
+			Y: 0,
 		};
 		const { Name } = cell;
 		if (Name) {

@@ -16,12 +16,12 @@
 			<img
 				v-if="cell.tile.src"
 				:src="cell.tile.src"
-				class="absolute h-full w-full"
+				class="absolute size-full"
 				alt="Tile Image"
 			>
 			<div
 				v-if="cell.item.src"
-				class="absolute flex h-full w-full justify-center"
+				class="absolute flex size-full justify-center"
 			>
 				<img
 					:src="cell.item.src"
@@ -31,7 +31,7 @@
 			</div>
 			<div
 				v-if="cell.enemy.src"
-				class="absolute flex h-full w-full justify-center"
+				class="absolute flex size-full justify-center"
 			>
 				<img
 					:src="cell.enemy.src"
@@ -61,7 +61,6 @@
 
 <script setup lang="ts">
 import {
-	onMounted,
 	ref, unref,
 	watch,
 } from "vue";
@@ -81,7 +80,6 @@ interface IProps {
 	totalRows: number;
 	totalColumns: number;
 	selectedCell?: ZeldaTileCell;
-	showGridLines?: boolean;
 }
 
 const props = defineProps<IProps>();
@@ -125,7 +123,7 @@ function getCellCls(cell: ZeldaTileCell) {
 		}
 	}
 	return {
-		[`grid-cell row-start-${props.totalRows - cell.y}`]: true,
+		[`grid-cell row-start-${cell.y + 1}`]: true,
 		"grid-cell-selected": cell === props.selectedCell,
 		"grid-cell-hover": hoverCls,
 		[activeCursor.value]: true,
@@ -209,24 +207,10 @@ function onMouseOverCell(cell: ZeldaTileCell) {
 	hoverColumn.value = cell.x;
 }
 
-function toggleGridLines(value: boolean) {
-	if (value) {
-		rootEl.value?.classList.add("grid-show-lines");
-	}
-	else {
-		rootEl.value?.classList.remove("grid-show-lines");
-	}
-}
-
 function onClickTilesMenu() {
 	showTestDialog.value = true;
 	hideContextMenu();
 }
-
-// We don't use watchEffect here because this fires before onMounted, which means rootEl is undefined
-watch(() => props.showGridLines, (value) => {
-	toggleGridLines(value);
-});
 
 watch(() => {
 	return pressedKeys.shift || pressedKeys.ctrl;
@@ -259,6 +243,4 @@ watch(() => pressedKeys.paste, (value) => {
 		});
 	}
 });
-
-onMounted(() => toggleGridLines(props.showGridLines));
 </script>

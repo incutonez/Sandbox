@@ -46,6 +46,14 @@
 						width="w-28"
 					/>
 				</section>
+				<FieldCheckbox
+					v-model="gridRecord.OriginTopLeft"
+					label="Origin Top Left"
+				/>
+				<FieldNumber
+					v-model="gridRecord.CellSize"
+					label="Cell Size"
+				/>
 			</BaseCard>
 			<BaseCard
 				title="Colors"
@@ -88,8 +96,8 @@
 			:cells="selectedScreen?.cells"
 			:total-columns="gridRecord.totalColumns"
 			:total-rows="gridRecord.totalRows"
-			:show-grid-lines="showGridLines"
 			:style="getCellColor()"
+			:class="gridCls"
 			@replace-cell="onReplaceCell"
 		/>
 		<article class="flex flex-col">
@@ -292,7 +300,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from "vue";
+import { computed, reactive, ref, unref, watch } from "vue";
 import IconAdd from "@/assets/IconAdd.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseCard from "@/components/BaseCard.vue";
@@ -307,6 +315,7 @@ import { Enemies } from "@/enums/zelda/NPCs";
 import { ScreenTemplates } from "@/enums/zelda/ScreenTemplates";
 import { Tiles } from "@/enums/zelda/Tiles";
 import { WorldColors, WorldColorsNone } from "@/enums/zelda/WorldColors";
+import { Parent } from "@/models/ViewModel";
 import { ZeldaScreen } from "@/models/ZeldaScreen";
 import { ZeldaTileCell } from "@/models/ZeldaTileCell";
 import { makeArray } from "@/utils/common";
@@ -337,6 +346,12 @@ const selectedTile = computed(() => selectedCell.value?.tile);
 const selectedItem = computed(() => selectedCell.value?.item);
 const selectedEnemy = computed(() => selectedCell.value?.enemy);
 const showColors = computed(() => !isTransition.value && selectedTile.value?.hasImage());
+const gridCls = computed(() => {
+	return {
+		"grid-origin-top-left": gridRecord.value.OriginTopLeft,
+		"grid-show-lines": showGridLines.value,
+	};
+});
 
 function addGridRecord(config = {}) {
 	const record = ZeldaScreen.create({
@@ -370,15 +385,18 @@ function onReplaceCell({ indices, replacement }: { indices: number | number[], r
 	indices = makeArray(indices);
 	// Make sure we update the selection with the replacement
 	selectedCell.value = replacement;
+	const $gridRecord = unref(gridRecord);
 	indices.forEach((idx) => {
-		const record = gridRecord.value.cells[idx];
+		const record = $gridRecord.cells[idx];
 		const clone = replacement.clone({
 			options: {
 				init: true,
 			},
 		});
 		clone.Coordinates = record.Coordinates;
-		gridRecord.value.cells[idx] = clone;
+		// Replace the parent, as it gets cloned incorrectly
+		clone[Parent] = $gridRecord!;
+		$gridRecord.cells[idx] = clone;
 	});
 }
 
@@ -418,6 +436,10 @@ watch(selectedScreen, ($selectedScreen) => {
 	selectedCell.value = undefined;
 	const name = $selectedScreen?.Name;
 	gridRecord.value = overworldRecords.find((overworldRecord) => overworldRecord.Name === name)!;
+});
+
+watch(() => gridRecord.value?.OriginTopLeft, () => {
+	gridRecord.value?.cells.forEach((cell) => cell.Coordinates = [cell.x, 10 - cell.y]);
 });
 
 provideCellCopy();

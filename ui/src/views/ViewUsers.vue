@@ -63,50 +63,45 @@ const addUserConfig: IBaseButton = {
 		viewUser();
 	},
 };
-// eslint-disable-next-line @incutonez/array-bracket-newline
-const columns: ITableColumn[] = [
-	// TODOJEF: Need to fix this in the eslint plugin because it thinks the function call should have a newline
-	// eslint-disable-next-line
-	useColumnIndex(), {
-		lock: "left",
-		title: "Actions",
-		titleAlign: "center",
-		showMenu: false,
-		cellComponent: TableCellActions,
-		cellParams(record: UserModel) {
-			return {
-				actions: [{
-					title: "Edit",
-					icon: IconEdit,
-					onClick() {
-						viewUser(record.id!);
-					},
-				}, {
-					title: "Copy",
-					icon: IconCopy,
-					async onClick() {
-						selectedRecord.value = record;
-						showCopy.value = true;
-					},
-				}, {
-					title: "Delete",
-					icon: IconDelete,
-					onClick() {
-						selectedRecord.value = record;
-						showDelete.value = true;
-					},
-				}],
-			} as ITableCellActions;
-		},
-		// eslint-disable-next-line @incutonez/array-element-newline
-	}, ...useUsersDefaultColumns(), {
-		cellComponent: BaseButton,
-		cellParams(data: UserModel) {
-			return {
-				text: data.email,
-			};
-		},
-	}];
+const columns: ITableColumn[] = [useColumnIndex(), {
+	lock: "left",
+	title: "Actions",
+	titleAlign: "center",
+	showMenu: false,
+	cellComponent: TableCellActions,
+	cellParams(record: UserModel) {
+		return {
+			actions: [{
+				title: "Edit",
+				icon: IconEdit,
+				onClick() {
+					viewUser(record.id!);
+				},
+			}, {
+				title: "Copy",
+				icon: IconCopy,
+				async onClick() {
+					selectedRecord.value = record;
+					showCopy.value = true;
+				},
+			}, {
+				title: "Delete",
+				icon: IconDelete,
+				onClick() {
+					selectedRecord.value = record;
+					showDelete.value = true;
+				},
+			}],
+		} as ITableCellActions;
+	},
+}, ...useUsersDefaultColumns(), {
+	cellComponent: BaseButton,
+	cellParams(data: UserModel) {
+		return {
+			text: data.email,
+		};
+	},
+}];
 
 async function loadUsers(params: ApiPaginatedRequest) {
 	return UserModel.readAll(params);

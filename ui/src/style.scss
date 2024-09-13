@@ -41,7 +41,13 @@
 
     /* Taken from https://keithclark.co.uk/articles/targeting-first-and-last-rows-in-css-grid-layouts/ */
     /* Target last row, which is considered the first row due to the grid's starting position... 0,0 is bottom left */
-    .grid-show-lines .grid-cell:nth-child(-n+16) {
+    .grid-show-lines:not(.grid-origin-top-left) .grid-cell:nth-child(-n+16) {
+        @apply border-b;
+    }
+
+    /* Taken from https://keithclark.co.uk/articles/targeting-first-and-last-rows-in-css-grid-layouts/ */
+    /* Target last row, which is considered the first row due to the grid's starting position... 0,0 is bottom left */
+    .grid-show-lines.grid-origin-top-left .grid-cell:nth-last-child(-n+16) {
         @apply border-b;
     }
 
