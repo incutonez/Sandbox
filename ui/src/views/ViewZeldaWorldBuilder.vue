@@ -26,8 +26,8 @@
 				title="Screen Coordinates"
 				class="bp-2 vertical"
 			>
-				<FieldDisplay
-					:value="gridRecord.Name"
+				<FieldText
+					v-model="gridRecord.Name"
 					label="Name"
 				/>
 				<section class="flex space-x-2">
@@ -309,6 +309,7 @@ import FieldComboBox from "@/components/FieldComboBox.vue";
 import FieldDisplay from "@/components/FieldDisplay.vue";
 import FieldLabel from "@/components/FieldLabel.vue";
 import FieldNumber from "@/components/FieldNumber.vue";
+import FieldText from "@/components/FieldText.vue";
 import { findRecord } from "@/enums/helper";
 import { Items } from "@/enums/zelda/Items";
 import { Enemies } from "@/enums/zelda/NPCs";
@@ -352,6 +353,7 @@ const gridCls = computed(() => {
 		"grid-show-lines": showGridLines.value,
 	};
 });
+console.log(overworldRecords, gridRecord);
 
 function addGridRecord(config = {}) {
 	const record = ZeldaScreen.create({
