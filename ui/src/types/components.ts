@@ -2,6 +2,7 @@
 import type { Component, HTMLAttributes, ObjectEmitsOptions } from "vue";
 // eslint-disable-next-line vue/prefer-import-from-vue
 import { UnionToIntersection } from "@vue/shared";
+import { TreeNode } from "primevue/treenode";
 
 // Taken from Vue source, as it's not exported by them...
 export type EmitFn<Options = ObjectEmitsOptions, Event extends keyof Options = keyof Options> = Options extends Array<infer V> ? (event: V, ...args: unknown[]) => void : object extends Options ? (event: string, ...args: unknown[]) => void : UnionToIntersection<{
@@ -12,6 +13,11 @@ export interface IOption {
 	id?: string | number;
 	name?: string;
 	[key: string]: unknown;
+}
+
+export interface ITreeOption<T = string> extends TreeNode {
+	children?: ITreeOption<T>[];
+	data?: T;
 }
 
 export interface IZeldaEnum extends IOption {

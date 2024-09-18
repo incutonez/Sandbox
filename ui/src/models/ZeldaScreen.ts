@@ -19,11 +19,11 @@ export interface ILoadData {
 }
 
 export class ZeldaScreen extends ViewModel {
-  @IsNumber()
-  X = 0;
+	@IsNumber()
+	X = 0;
 
-  @IsNumber()
-  Y = 0;
+	@IsNumber()
+	Y = 0;
 
 	@IsBoolean()
 	OriginTopLeft = true;
@@ -32,7 +32,7 @@ export class ZeldaScreen extends ViewModel {
 	CellSize = 16;
 
 	@IsString()
-  AccentColor = WorldColorsBrown.id;
+  	AccentColor = WorldColorsBrown.id;
 
 	@IsString()
 	GroundColor = WorldColorsTan.id;

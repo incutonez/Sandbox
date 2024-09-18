@@ -2,14 +2,14 @@
 	<div class="flex h-full space-x-4 p-4">
 		<article class="flex min-w-44 flex-col space-y-4">
 			<section class="flex space-x-2">
-				<FieldComboBox
-					v-model="selectedScreen"
+				<FieldTreeBox
+					v-model:selected="selectedScreen"
+					:model-value="selectedScreen?.key"
 					:options="overworldRecords"
 					:value-only="false"
 					label-align="top"
 					label="Screens"
 					option-label="Name"
-					option-value="Name"
 					class="flex-1"
 				/>
 				<BaseButton
@@ -310,6 +310,7 @@ import FieldDisplay from "@/components/FieldDisplay.vue";
 import FieldLabel from "@/components/FieldLabel.vue";
 import FieldNumber from "@/components/FieldNumber.vue";
 import FieldText from "@/components/FieldText.vue";
+import FieldTreeBox from "@/components/FieldTreeBox.vue";
 import { findRecord } from "@/enums/helper";
 import { Items } from "@/enums/zelda/Items";
 import { Enemies } from "@/enums/zelda/NPCs";
@@ -319,6 +320,7 @@ import { WorldColors, WorldColorsNone } from "@/enums/zelda/WorldColors";
 import { Parent } from "@/models/ViewModel";
 import { ZeldaScreen } from "@/models/ZeldaScreen";
 import { ZeldaTileCell } from "@/models/ZeldaTileCell";
+import { ITreeOption } from "@/types/components";
 import { makeArray } from "@/utils/common";
 import { provideCellCopy } from "@/views/zeldaWorldBuilder/cellCopy";
 import FieldWorldColors from "@/views/zeldaWorldBuilder/FieldWorldColors.vue";
@@ -339,9 +341,9 @@ import TileGrid from "@/views/zeldaWorldBuilder/TileGrid.vue";
 const fileInputEl = ref<HTMLInputElement>();
 const selectedCell = ref<ZeldaTileCell>();
 const showGridLines = ref(true);
-const overworldRecords = reactive<ZeldaScreen[]>([]);
+const overworldRecords = reactive<ITreeOption<ZeldaScreen>[]>([]);
+const selectedScreen = ref<ITreeOption<ZeldaScreen>>();
 const gridRecord = ref(addGridRecord());
-const selectedScreen = ref<ZeldaScreen>(gridRecord.value);
 const isTransition = computed(() => selectedCell.value?.tile.isTransition);
 const selectedTile = computed(() => selectedCell.value?.tile);
 const selectedItem = computed(() => selectedCell.value?.item);
@@ -353,7 +355,6 @@ const gridCls = computed(() => {
 		"grid-show-lines": showGridLines.value,
 	};
 });
-console.log(overworldRecords, gridRecord);
 
 function addGridRecord(config = {}) {
 	const record = ZeldaScreen.create({
@@ -363,7 +364,12 @@ function addGridRecord(config = {}) {
 	}, {
 		init: true,
 	});
-	overworldRecords.push(record);
+	selectedScreen.value = {
+		key: record.Name,
+		label: record.Name,
+		data: record,
+	};
+	overworldRecords.push(selectedScreen.value);
 	return record;
 }
 
@@ -417,6 +423,7 @@ function onChangeLoadFile() {
 	}
 }
 
+// TODOJEF: Need to make this save all files to overworld or redesign the files, so we can have 1 overworld file
 function onClickSaveBtn() {
 	// TODO: Move this logic to a utility function
 	const contents = new Blob([JSON.stringify(gridRecord.value.getConfig())], {
@@ -436,8 +443,7 @@ function onClickNewButton() {
 
 watch(selectedScreen, ($selectedScreen) => {
 	selectedCell.value = undefined;
-	const name = $selectedScreen?.Name;
-	gridRecord.value = overworldRecords.find((overworldRecord) => overworldRecord.Name === name)!;
+	gridRecord.value = $selectedScreen!.data!;
 });
 
 watch(() => gridRecord.value?.OriginTopLeft, () => {
