@@ -1,191 +1,236 @@
 <template>
-	<div class="flex h-full space-x-4 p-4">
-		<article class="flex min-w-44 flex-col space-y-4">
-			<section class="flex space-x-2">
-				<FieldComboBox
-					v-model="selectedScreen"
-					:options="overworldRecords"
-					:value-only="false"
-					label-align="top"
-					label="Screens"
-					option-label="Name"
-					option-value="Name"
-					class="flex-1"
-				/>
-				<BaseButton
-					:icon="IconAdd"
-					title="Add Screen"
-					@click="onClickNewButton"
-				/>
-			</section>
-			<FieldCheckbox
-				v-model="showGridLines"
-				label="Grid Lines"
-			/>
-			<BaseCard
-				title="Screen Coordinates"
-				class="bp-2 vertical"
-			>
-				<FieldText
-					v-model="gridRecord.Name"
-					label="Name"
-				/>
-				<section class="flex space-x-2">
-					<FieldNumber
-						v-model="gridRecord.X"
-						label="X"
-						label-width="auto"
-						input-width="w-12"
-						width="w-28"
-					/>
-					<FieldNumber
-						v-model="gridRecord.Y"
-						label="Y"
-						label-width="auto"
-						input-width="w-12"
-						width="w-28"
-					/>
-				</section>
-				<FieldCheckbox
-					v-model="gridRecord.OriginTopLeft"
-					label="Origin Top Left"
-				/>
-				<FieldNumber
-					v-model="gridRecord.CellSize"
-					label="Cell Size"
-				/>
-			</BaseCard>
-			<BaseCard
-				title="Colors"
-				class="bp-2 vertical"
-			>
-				<FieldWorldColors
-					v-model="gridRecord.GroundColor"
-					label="Ground"
-					label-cls="w-12"
-					width="w-28"
-				/>
-				<FieldWorldColors
-					v-model="gridRecord.AccentColor"
-					label="Accent"
-					label-cls="w-12"
-					width="w-28"
-				/>
-			</BaseCard>
-			<section class="ml-auto">
-				<BaseButton
-					text="Save"
-					class="default mr-2 rounded"
-					@click="onClickSaveBtn"
-				/>
-				<BaseButton
-					text="Load"
-					class="default rounded"
-					@click="onClickLoadBtn"
-				/>
-				<input
-					v-show="false"
-					ref="fileInputEl"
-					type="file"
-					@change="onChangeLoadFile"
-				>
-			</section>
-		</article>
+	<article class="flex h-full space-x-4 p-4">
 		<TileGrid
 			v-model:selected-cell="selectedCell"
 			:cells="selectedScreen?.cells"
-			:total-columns="gridRecord.totalColumns"
-			:total-rows="gridRecord.totalRows"
+			:total-columns="selectedScreen?.totalColumns ?? 11"
+			:total-rows="selectedScreen?.totalRows ?? 16"
 			:style="getCellColor()"
 			:class="gridCls"
 			@replace-cell="onReplaceCell"
 		/>
-		<article class="flex flex-col">
-			<section class="w-72 flex-1 space-y-2 overflow-auto">
-				<template v-if="selectedTile">
-					<BaseCard
-						class="vertical bp-2"
-						title="Tile"
+		<section class="flex min-w-80 flex-col space-y-4">
+			<article class="flex flex-col space-y-4">
+				<section class="flex w-full space-x-2 bg-white py-2">
+					<BaseButton
+						text="Save"
+						:icon="IconSave"
+						@click="onClickSaveBtn"
+					/>
+					<BaseButton
+						text="Load"
+						:icon="IconUploadFile"
+						@click="onClickLoadBtn"
+					/>
+					<FieldCheckbox
+						v-model="showGridLines"
+						label="Grid Lines"
+					/>
+					<input
+						v-show="false"
+						ref="fileInputEl"
+						type="file"
+						@change="onChangeLoadFile"
 					>
-						<div class="flex justify-between">
-							<FieldComboBox
-								v-model="selectedTile.Type"
-								:options="Tiles"
-								:value-only="false"
-								option-label="displayName"
-								label-position="top"
-								label="Type"
-								class="mr-2 flex-1"
-							/>
-							<div
-								v-show="showColors"
-								class="size-16 bg-blue-100"
-							>
-								<img
-									v-if="selectedTile.src"
-									:src="selectedTile.src"
-									class="size-full"
-									alt="Tile Image"
-								>
-							</div>
-						</div>
-						<template v-if="showColors">
-							<hr>
-							<FieldLabel
-								text="Replace Colors"
-								position="top"
-								class="uppercase"
-								size="medium"
-								separator=""
-							/>
-							<FieldWorldColors
-								v-for="tileColor in selectedTile.Colors"
-								:key="tileColor.Target.id"
-								v-model="tileColor.Value"
-								:label="tileColor.Target.displayName"
-								:value-only="false"
-								@update:model-value="onUpdateTileColor"
-							/>
-						</template>
-						<BaseCard
-							v-if="isTransition && selectedTile.Transition"
-							title="Transition Properties"
-							class="vertical bp-2"
-						>
-							<FieldNumber
-								v-model="selectedTile.Transition.X"
-								label="X Offset"
-								width="w-24"
-							/>
-							<FieldNumber
-								v-model="selectedTile.Transition.Y"
-								label="Y Offset"
-								width="w-24"
-							/>
-							<FieldDisplay
-								v-if="selectedTile.isDoor"
-								:value="selectedTile.Transition.Name"
-								label="Name"
-							/>
-							<FieldComboBox
-								v-if="selectedTile.isDoor"
-								v-model="selectedTile.Transition.Template"
-								label="Template"
-								required
-								option-value="value"
-								:options="ScreenTemplates"
-							/>
-							<FieldCheckbox
-								v-model="selectedTile.Transition.IsFloating"
-								label="Floating"
-							/>
-						</BaseCard>
-					</BaseCard>
-					<BaseCard
-						title="Item"
-						:expanded="false"
-						class="vertical bp-2"
-					>
+				</section>
+				<section class="flex space-x-2">
+					<FieldComboBox
+						v-model="selectedOverworld"
+						:options="overworlds"
+						:value-only="false"
+						label-align="top"
+						label="Overworld"
+						option-label="Name"
+						option-value="Name"
+						class="flex-1"
+					/>
+					<BaseButton
+						:icon="IconAdd"
+						title="Add Overworld"
+						@click="onClickAddOverworld"
+					/>
+					<BaseButton
+						v-show="!!selectedOverworld"
+						:icon="IconDelete"
+						title="Delete Overworld"
+						@click="onClickDeleteOverworld"
+					/>
+					<BaseButton
+						v-show="!!selectedOverworld"
+						:icon="IconEdit"
+						title="Edit Overworld"
+						@click="onClickEditOverworld"
+					/>
+				</section>
+				<section
+					v-if="!!selectedOverworld?.Name"
+					class="flex space-x-2"
+				>
+					<FieldComboBox
+						v-model="selectedScreen"
+						:options="selectedOverworld.Children"
+						:value-only="false"
+						label-align="top"
+						label="Screen"
+						option-label="Name"
+						option-value="Name"
+						class="flex-1"
+					/>
+					<BaseButton
+						:icon="IconAdd"
+						title="Add Screen"
+						@click="onClickNewButton"
+					/>
+					<BaseButton
+						v-show="!!selectedScreen"
+						:icon="IconDelete"
+						title="Delete Screen"
+						@click="onClickDeleteScreen"
+					/>
+				</section>
+			</article>
+			<BaseTabs
+				v-if="selectedScreen"
+				v-model:selected="selectedTab"
+				:tabs="tabs"
+				class="grow"
+			>
+				<template #content>
+					<template v-if="selectedTab === 'Screen'">
+						<FieldText
+							v-model="selectedScreen.Name"
+							label="Name"
+							class="mb-2"
+						/>
+						<section class="flex space-x-2">
+							<section class="flex flex-1 flex-col space-y-2">
+								<FieldNumber
+									v-model="selectedScreen.X"
+									label="Overworld X"
+									label-width="auto"
+									input-width="w-8"
+									width="max-w-28"
+								/>
+								<FieldNumber
+									v-model="selectedScreen.CellSize"
+									label="Cell Size"
+								/>
+								<FieldWorldColors
+									v-model="selectedScreen.AccentColor"
+									label="Accent"
+									label-cls="w-12"
+									width="w-28"
+								/>
+							</section>
+							<section class="flex flex-1 flex-col space-y-2">
+								<FieldNumber
+									v-model="selectedScreen.Y"
+									label="Overworld Y"
+									label-width="auto"
+									input-width="w-8"
+									width="max-w-28"
+								/>
+								<FieldCheckbox
+									v-model="selectedScreen.OriginTopLeft"
+									label="Origin Top Left"
+								/>
+								<FieldWorldColors
+									v-model="selectedScreen.GroundColor"
+									label="Ground"
+									label-cls="w-12"
+									width="w-28"
+								/>
+							</section>
+						</section>
+					</template>
+					<template v-else-if="selectedTab === 'Tile'">
+						<article class="flex h-full flex-col overflow-auto">
+							<section class="w-72 flex-1 space-y-2">
+								<template v-if="selectedTile">
+									<div class="flex justify-between">
+										<FieldComboBox
+											v-model="selectedTile.Type"
+											:options="Tiles"
+											:value-only="false"
+											option-label="displayName"
+											label-position="top"
+											label="Type"
+											class="mr-2 flex-1"
+										/>
+										<div
+											v-show="showColors"
+											class="size-16 bg-blue-100"
+										>
+											<img
+												v-if="selectedTile.src"
+												:src="selectedTile.src"
+												class="size-full"
+												alt="Tile Image"
+											>
+										</div>
+									</div>
+									<template v-if="showColors">
+										<hr>
+										<FieldLabel
+											text="Replace Tile Colors"
+											position="top"
+											size="medium"
+											class="!text-black"
+											separator=""
+										/>
+										<FieldWorldColors
+											v-for="tileColor in selectedTile.Colors"
+											:key="tileColor.Target.id"
+											v-model="tileColor.Value"
+											:label="tileColor.Target.displayName"
+											:value-only="false"
+											@update:model-value="onUpdateTileColor"
+										/>
+									</template>
+									<template v-if="isTransition && selectedTile.Transition">
+										<FieldNumber
+											v-model="selectedTile.Transition.X"
+											label="Transition X"
+											width="w-24"
+										/>
+										<FieldNumber
+											v-model="selectedTile.Transition.Y"
+											label="Transition Y"
+											width="w-24"
+										/>
+										<FieldNumber
+											v-model="selectedTile.OffsetX"
+											label="Position Offset X"
+											width="w-24"
+										/>
+										<FieldNumber
+											v-model="selectedTile.OffsetY"
+											label="Position Offset Y"
+											width="w-24"
+										/>
+										<FieldDisplay
+											v-if="selectedTile.isDoor"
+											:value="selectedTile.Transition.Name"
+											label="Name"
+										/>
+										<FieldComboBox
+											v-if="selectedTile.isDoor"
+											v-model="selectedTile.Transition.Template"
+											label="Template"
+											required
+											option-value="value"
+											:options="ScreenTemplates"
+										/>
+										<FieldCheckbox
+											v-model="selectedTile.Transition.IsFloating"
+											label="Floating"
+										/>
+									</template>
+								</template>
+							</section>
+						</article>
+					</template>
+					<template v-else-if="selectedTab === 'Item'">
 						<div
 							v-if="selectedItem"
 							class="flex justify-between"
@@ -194,7 +239,7 @@
 								v-model="selectedItem.Type"
 								:options="Items"
 								:value-only="false"
-								label="Type"
+								label="Item Type"
 								label-position="top"
 								class="mr-2 flex-1"
 							/>
@@ -207,13 +252,8 @@
 								>
 							</div>
 						</div>
-					</BaseCard>
-					<BaseCard
-						v-if="selectedEnemy"
-						title="Enemy"
-						:expanded="false"
-						class="vertical bp-2"
-					>
+					</template>
+					<template v-else-if="selectedTab === 'Enemy' && selectedEnemy">
 						<div class="flex items-center justify-between">
 							<div class="mr-2 flex flex-1 flex-col justify-between space-y-2">
 								<FieldComboBox
@@ -292,18 +332,28 @@
 							label="Weapon"
 							label-cls="w-14"
 						/>
-					</BaseCard>
+					</template>
 				</template>
-			</section>
-		</article>
-	</div>
+			</BaseTabs>
+		</section>
+	</article>
+	<DialogOverworld
+		v-model="showDialogOverworld"
+		:record="selectedOverworld"
+		@click-save="onClickSaveOverworld"
+		@click-cancel="onCancelOverworld"
+	/>
 </template>
 
 <script setup lang="ts">
 import { computed, reactive, ref, unref, watch } from "vue";
 import IconAdd from "@/assets/IconAdd.vue";
+import IconDelete from "@/assets/IconDelete.vue";
+import IconEdit from "@/assets/IconEdit.vue";
+import IconSave from "@/assets/IconSave.vue";
+import IconUploadFile from "@/assets/IconUploadFile.vue";
 import BaseButton from "@/components/BaseButton.vue";
-import BaseCard from "@/components/BaseCard.vue";
+import BaseTabs from "@/components/BaseTabs.vue";
 import FieldCheckbox from "@/components/FieldCheckbox.vue";
 import FieldComboBox from "@/components/FieldComboBox.vue";
 import FieldDisplay from "@/components/FieldDisplay.vue";
@@ -316,11 +366,13 @@ import { Enemies } from "@/enums/zelda/NPCs";
 import { ScreenTemplates } from "@/enums/zelda/ScreenTemplates";
 import { Tiles } from "@/enums/zelda/Tiles";
 import { WorldColors, WorldColorsNone } from "@/enums/zelda/WorldColors";
+import { GameOverworld } from "@/models/GameOverworld";
 import { Parent } from "@/models/ViewModel";
 import { ZeldaScreen } from "@/models/ZeldaScreen";
 import { ZeldaTileCell } from "@/models/ZeldaTileCell";
-import { makeArray } from "@/utils/common";
+import { makeArray, removeItem } from "@/utils/common";
 import { provideCellCopy } from "@/views/zeldaWorldBuilder/cellCopy";
+import DialogOverworld from "@/views/zeldaWorldBuilder/DialogOverworld.vue";
 import FieldWorldColors from "@/views/zeldaWorldBuilder/FieldWorldColors.vue";
 import TileGrid from "@/views/zeldaWorldBuilder/TileGrid.vue";
 
@@ -338,37 +390,39 @@ import TileGrid from "@/views/zeldaWorldBuilder/TileGrid.vue";
  */
 const fileInputEl = ref<HTMLInputElement>();
 const selectedCell = ref<ZeldaTileCell>();
+const selectedOverworld = ref();
 const showGridLines = ref(true);
-const overworldRecords = reactive<ZeldaScreen[]>([]);
-const gridRecord = ref(addGridRecord());
-const selectedScreen = ref<ZeldaScreen>(gridRecord.value);
+const showDialogOverworld = ref(false);
+const isEditOverworld = ref(false);
+const overworlds = reactive<GameOverworld[]>([]);
+const selectedScreen = ref<ZeldaScreen>();
 const isTransition = computed(() => selectedCell.value?.tile.isTransition);
 const selectedTile = computed(() => selectedCell.value?.tile);
 const selectedItem = computed(() => selectedCell.value?.item);
 const selectedEnemy = computed(() => selectedCell.value?.enemy);
 const showColors = computed(() => !isTransition.value && selectedTile.value?.hasImage());
+const tabs = ref(["Screen"]);
+const selectedTab = ref(tabs.value[0]);
 const gridCls = computed(() => {
 	return {
-		"grid-origin-top-left": gridRecord.value.OriginTopLeft,
+		"grid-origin-top-left": selectedScreen.value?.OriginTopLeft,
 		"grid-show-lines": showGridLines.value,
 	};
 });
-console.log(overworldRecords, gridRecord);
 
-function addGridRecord(config = {}) {
-	const record = ZeldaScreen.create({
+function addScreen(config = {}) {
+	selectedScreen.value = ZeldaScreen.create({
 		totalRows: 11,
 		totalColumns: 16,
 		...config,
 	}, {
 		init: true,
 	});
-	overworldRecords.push(record);
-	return record;
+	selectedOverworld.value.Children.push(selectedScreen.value);
 }
 
 function getCellColor() {
-	const found = findRecord(WorldColors, gridRecord.value.GroundColor);
+	const found = findRecord(WorldColors, selectedScreen.value?.GroundColor);
 	if (found === WorldColorsNone || !found) {
 		return "";
 	}
@@ -387,29 +441,47 @@ function onReplaceCell({ indices, replacement }: { indices: number | number[], r
 	indices = makeArray(indices);
 	// Make sure we update the selection with the replacement
 	selectedCell.value = replacement;
-	const $gridRecord = unref(gridRecord);
-	indices.forEach((idx) => {
-		const record = $gridRecord.cells[idx];
-		const clone = replacement.clone({
-			options: {
-				init: true,
-			},
+	const $selectedScreen = unref(selectedScreen);
+	if ($selectedScreen) {
+		indices.forEach((idx) => {
+			const record = $selectedScreen.cells[idx];
+			const clone = replacement.clone({
+				options: {
+					init: true,
+				},
+			});
+			clone.Coordinates = record.Coordinates;
+			// Replace the parent, as it gets cloned incorrectly
+			clone[Parent] = $selectedScreen!;
+			$selectedScreen.cells[idx] = clone;
 		});
-		clone.Coordinates = record.Coordinates;
-		// Replace the parent, as it gets cloned incorrectly
-		clone[Parent] = $gridRecord!;
-		$gridRecord.cells[idx] = clone;
-	});
+	}
 }
 
 function onClickLoadBtn() {
 	fileInputEl.value?.click();
 }
 
+function onClickAddOverworld() {
+	selectedOverworld.value = GameOverworld.create();
+	showDialogOverworld.value = true;
+	isEditOverworld.value = false;
+}
+
+function onClickEditOverworld() {
+	showDialogOverworld.value = true;
+	isEditOverworld.value = true;
+}
+
+function onClickDeleteOverworld() {
+	removeItem(overworlds, selectedOverworld.value);
+	selectedOverworld.value = undefined;
+}
+
 function onChangeLoadFile() {
 	const reader = new FileReader();
 	reader.addEventListener("load", () => {
-		gridRecord.value.loadFileData(JSON.parse(reader.result as string));
+		selectedScreen.value?.loadFileData(JSON.parse(reader.result as string));
 	});
 	const [file] = fileInputEl.value?.files ?? [];
 	if (file) {
@@ -417,31 +489,72 @@ function onChangeLoadFile() {
 	}
 }
 
+// TODOJEF: Need to make this save all files to overworld or redesign the files, so we can have 1 overworld file
 function onClickSaveBtn() {
+	const configs: Record<string, object> = {};
+	overworlds.forEach((overworld) => configs[overworld.Name] = overworld.getConfig());
 	// TODO: Move this logic to a utility function
-	const contents = new Blob([JSON.stringify(gridRecord.value.getConfig())], {
+	const contents = new Blob([JSON.stringify(configs)], {
 		type: "application/json",
 	});
 	const tempEl = document.createElement("a");
-	tempEl.download = `${gridRecord.value.X}${gridRecord.value.Y}.json`;
+	tempEl.download = "game.json";
 	tempEl.href = window.URL.createObjectURL(contents);
 	tempEl.click();
 }
 
 function onClickNewButton() {
-	addGridRecord({
-		Name: "TEMPORARY NAME",
+	addScreen({
+		Name: "Temporary Name",
 	});
 }
 
-watch(selectedScreen, ($selectedScreen) => {
+function onClickDeleteScreen() {
+	removeItem(selectedOverworld.value.Children, selectedScreen.value);
+	selectedScreen.value = undefined;
+}
+
+function onCancelOverworld() {
+	if (isEditOverworld.value) {
+		return;
+	}
+	selectedOverworld.value = undefined;
+}
+
+function onClickSaveOverworld(viewRecord: GameOverworld) {
+	selectedOverworld.value = viewRecord;
+	if (!isEditOverworld.value) {
+		overworlds.push(viewRecord);
+	}
+}
+
+watch(selectedOverworld, () => {
 	selectedCell.value = undefined;
-	const name = $selectedScreen?.Name;
-	gridRecord.value = overworldRecords.find((overworldRecord) => overworldRecord.Name === name)!;
+	selectedScreen.value = undefined;
 });
 
-watch(() => gridRecord.value?.OriginTopLeft, () => {
-	gridRecord.value?.cells.forEach((cell) => cell.Coordinates = [cell.x, 10 - cell.y]);
+watch(selectedScreen, () => {
+	selectedCell.value = undefined;
+});
+
+watch(() => selectedScreen.value?.OriginTopLeft, ($originTopLeft) => {
+	const cells = selectedScreen.value?.cells;
+	if ($originTopLeft && cells?.[0].Coordinates[1] !== 0 || !$originTopLeft && cells?.[0].Coordinates[1] !== 10) {
+		selectedScreen.value?.cells.forEach((cell) => cell.Coordinates = [cell.x, 10 - cell.y]);
+	}
+});
+
+watch(selectedCell, ($selectedCell, $previousValue) => {
+	if ($selectedCell && !$previousValue) {
+		tabs.value.push("Tile", "Item", "Enemy");
+		selectedTab.value = "Tile";
+	}
+	else if (!$selectedCell) {
+		removeItem(tabs.value, "Tile");
+		removeItem(tabs.value, "Item");
+		removeItem(tabs.value, "Enemy");
+		selectedTab.value = "Screen";
+	}
 });
 
 provideCellCopy();

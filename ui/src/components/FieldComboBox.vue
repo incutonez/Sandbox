@@ -22,11 +22,10 @@
 import { computed, watch } from "vue";
 import PrimeDropdown from "primevue/select";
 import BaseField, { IBaseField } from "@/components/BaseField.vue";
-import { IOption } from "@/types/components";
 import { isObject } from "@/utils/common";
 
 export interface IFieldComboBox extends IBaseField {
-	options?: IOption[];
+	options?: any[];
 	optionLabel?: string | ((data: any) => string) | undefined;
 	optionValue?: string | ((data: any) => any) | undefined;
 	disabled?: boolean;
@@ -55,7 +54,7 @@ const model = computed({
 		emit("update:modelValue", props.valueOnly ? value : getSelected(value));
 	},
 });
-const selected = defineModel<IOption>("selected");
+const selected = defineModel<unknown>("selected");
 
 function getSelected(value = props.modelValue) {
 	const { optionValue } = props;

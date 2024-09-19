@@ -2,6 +2,7 @@
 	<BaseField v-bind="$props">
 		<section class="relative flex-1">
 			<PrimeInputText
+				ref="libCmp"
 				v-model="modelValue"
 				:class="inputCls"
 				:type="type"
@@ -22,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, InputTypeHTMLAttribute } from "vue";
+import { computed, InputTypeHTMLAttribute, onMounted, ref } from "vue";
 import PrimeInputText from "primevue/inputtext";
 import IconClear from "@/assets/IconClear.vue";
 import BaseButton from "@/components/BaseButton.vue";
@@ -37,6 +38,7 @@ interface IFieldText extends IBaseField {
 	 */
 	delay?: number;
 	inputWidth?: string;
+	autoFocus?: boolean;
 }
 
 const props = withDefaults(defineProps<IFieldText>(), {
@@ -48,6 +50,7 @@ const props = withDefaults(defineProps<IFieldText>(), {
 const emit = defineEmits(["inputEnd", "inputClear"]);
 const modelValue = defineModel<string>();
 let inputEndTimer: ReturnType<typeof setTimeout>;
+const libCmp = ref<InstanceType<typeof PrimeInputText>>();
 const clearVisible = computed(() => props.showClear && !!modelValue.value);
 const inputCls = computed(() => {
 	return {
@@ -65,4 +68,10 @@ function onKeyUp() {
 	clearTimeout(inputEndTimer);
 	inputEndTimer = setTimeout(() => emit("inputEnd"), props.delay);
 }
+
+onMounted(() => {
+	if (props.autoFocus) {
+		libCmp.value?.$el.focus();
+	}
+});
 </script>

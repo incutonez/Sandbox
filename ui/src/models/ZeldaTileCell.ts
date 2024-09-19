@@ -7,12 +7,12 @@ import { ILoadData, ZeldaScreen } from "@/models/ZeldaScreen";
 import { ZeldaTile } from "@/models/ZeldaTile";
 
 export class ZeldaTileCell extends ViewModel {
-  @IsArray()
-  Coordinates: number[] = [];
+	@IsArray()
+	Coordinates: number[] = [];
 
-  @IsRequired()
-  @IsString()
-  Name = "";
+	@IsRequired()
+	@IsString()
+	Name = "";
 
 	[Parent]?: ZeldaScreen;
 
@@ -60,8 +60,9 @@ export class ZeldaTileCell extends ViewModel {
 			const tileType = tile.getTypeKey();
 			const config = tile.getConfig();
 			const cellSize = grid?.CellSize || 1;
-			config.X = this.x * cellSize;
-			config.Y = this.y * cellSize;
+			const { OffsetX = 0, OffsetY = 0 } = tile;
+			config.X = (this.x + OffsetX) * cellSize;
+			config.Y = (this.y + OffsetY) * cellSize;
 			const found = Tiles.find(({ Type }) => Type === tileType);
 			if (found) {
 				found.Children.push(config);

@@ -12,6 +12,8 @@ export interface IZeldaWorldObjectConfig {
 	Type?: string;
 	X: number;
 	Y: number;
+	OffsetX?: number;
+	OffsetY?: number;
 	Colors?: string[];
 }
 
@@ -72,8 +74,8 @@ export class ZeldaWorldObject extends ViewModel {
   async updateImage() {
   	if (this.hasImage()) {
   		this.src = await replaceColors({
-			  colors: this.Colors,
-			  imageEnum: this.Type,
+  			colors: this.Colors,
+  			imageEnum: this.Type,
   		});
   	}
   }
