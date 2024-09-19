@@ -8,9 +8,9 @@
 					@click="onClickViewUsers"
 				/>
 				<IconTriforce
-					title="Zelda World Builder"
+					title="Game World Builder"
 					class="size-10 cursor-pointer rounded-full p-2 hover:bg-slate-500"
-					@click="onClickViewZelda"
+					@click="onClickViewGame"
 				/>
 				<IconDifference
 					title="Differ"
@@ -70,14 +70,14 @@ import IconEditor from "@/assets/IconEditor.vue";
 import IconModeling from "@/assets/IconModeling.vue";
 import IconTriforce from "@/assets/IconTriforce.vue";
 import IconUsers from "@/assets/IconUsers.vue";
-import { viewModeling, viewTipTap, viewTreeChanges, viewUsers, viewZeldaWorldBuilder } from "@/router";
+import { viewGameWorldBuilder, viewModeling, viewTipTap, viewTreeChanges, viewUsers } from "@/router";
 
 function onClickViewUsers() {
 	viewUsers();
 }
 
-function onClickViewZelda() {
-	viewZeldaWorldBuilder();
+function onClickViewGame() {
+	viewGameWorldBuilder();
 }
 
 function onClickViewTreeChanges() {

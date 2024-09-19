@@ -8,6 +8,7 @@
 				:type="type"
 				:disabled="disabled"
 				@keyup="onKeyUp"
+				@blur="onBlur"
 			/>
 			<BaseButton
 				v-if="clearVisible"
@@ -23,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, InputTypeHTMLAttribute, onMounted, ref } from "vue";
+import { computed, InputTypeHTMLAttribute, onMounted, ref, unref, watch } from "vue";
 import PrimeInputText from "primevue/inputtext";
 import IconClear from "@/assets/IconClear.vue";
 import BaseButton from "@/components/BaseButton.vue";
@@ -39,6 +40,7 @@ interface IFieldText extends IBaseField {
 	delay?: number;
 	inputWidth?: string;
 	autoFocus?: boolean;
+	autoSelect?: boolean;
 }
 
 const props = withDefaults(defineProps<IFieldText>(), {
@@ -47,7 +49,7 @@ const props = withDefaults(defineProps<IFieldText>(), {
 	delay: 300,
 	inputWidth: "w-full",
 });
-const emit = defineEmits(["inputEnd", "inputClear"]);
+const emit = defineEmits(["inputEnd", "inputClear", "blur"]);
 const modelValue = defineModel<string>();
 let inputEndTimer: ReturnType<typeof setTimeout>;
 const libCmp = ref<InstanceType<typeof PrimeInputText>>();
@@ -69,9 +71,34 @@ function onKeyUp() {
 	inputEndTimer = setTimeout(() => emit("inputEnd"), props.delay);
 }
 
+function onBlur() {
+	emit("blur");
+}
+
+function selectInputText() {
+	const $libCmp = unref(libCmp);
+	if ($libCmp) {
+		$libCmp.$el.focus();
+		// Need a slight delay
+		setTimeout(() => $libCmp.$el.select(), 0);
+	}
+}
+
+watch(() => props.autoSelect, ($autoSelect) => {
+	if ($autoSelect) {
+		selectInputText();
+	}
+});
+
 onMounted(() => {
-	if (props.autoFocus) {
-		libCmp.value?.$el.focus();
+	const $libCmp = unref(libCmp);
+	if ($libCmp) {
+		if (props.autoFocus) {
+			$libCmp.$el.focus();
+		}
+		if (props.autoSelect) {
+			selectInputText();
+		}
 	}
 });
 </script>

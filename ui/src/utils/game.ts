@@ -1,12 +1,12 @@
-import { ZeldaTargetColor } from "@/models/ZeldaTargetColor";
-import { IZeldaEnum } from "@/types/components";
+import { GameTargetColor } from "@/models/GameTargetColor";
+import { IGameEnum } from "@/types/components";
 import { toInt } from "@/utils/common";
 
 const ImageCache: Record<string, HTMLImageElement> = {};
 
 interface IReplaceColors {
-	imageEnum: IZeldaEnum;
-	colors: ZeldaTargetColor[];
+	imageEnum: IGameEnum;
+	colors: GameTargetColor[];
 }
 
 const canvas = document.createElement("canvas");

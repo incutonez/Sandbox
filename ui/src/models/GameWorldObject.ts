@@ -1,14 +1,14 @@
 ﻿import { IsArray, IsObject, IsString } from "class-validator";
-import { Tiles } from "@/enums/zelda/Tiles";
+import { Tiles } from "@/enums/game/Tiles";
 import { ModelTransform } from "@/models/decorators";
+import { GameTargetColor } from "@/models/GameTargetColor";
+import { GameTileCell } from "@/models/GameTileCell";
 import { ViewModel } from "@/models/ViewModel";
-import { ZeldaTargetColor } from "@/models/ZeldaTargetColor";
-import { ZeldaTileCell } from "@/models/ZeldaTileCell";
-import { type IZeldaEnum } from "@/types/components";
+import { type IGameEnum } from "@/types/components";
 import { isEmpty } from "@/utils/common";
-import { replaceColors } from "@/utils/zelda";
+import { replaceColors } from "@/utils/game";
 
-export interface IZeldaWorldObjectConfig {
+export interface IGameWorldObjectConfig {
 	Type?: string;
 	X: number;
 	Y: number;
@@ -17,19 +17,19 @@ export interface IZeldaWorldObjectConfig {
 	Colors?: string[];
 }
 
-export class ZeldaWorldObject extends ViewModel {
+export class GameWorldObject extends ViewModel {
   @IsString()
   src?: string = "";
 
-  @ModelTransform(() => ZeldaTileCell)
-  cell?: ZeldaTileCell;
+  @ModelTransform(() => GameTileCell)
+  cell?: GameTileCell;
 
   @IsObject()
-  type: IZeldaEnum = {};
+  type: IGameEnum = {};
 
   @IsArray()
-  @ModelTransform(() => ZeldaTargetColor)
-  colors: ZeldaTargetColor[] = [];
+  @ModelTransform(() => GameTargetColor)
+  colors: GameTargetColor[] = [];
 
   get enumCollection() {
   	return Tiles;

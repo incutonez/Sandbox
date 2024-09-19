@@ -41,7 +41,7 @@ export interface IModelGetOptions extends ClassTransformOptions {
 export interface IModelOptions {
 	init?: boolean;
 	[IsNew]?: boolean;
-	[Parent]?: ViewModel;
+	[Parent]?: unknown;
 }
 
 export const IsNew = Symbol("isNew");
@@ -78,7 +78,7 @@ export class ViewModel {
 	static [IsModel] = true;
 	[IsNew] = true;
 	[IsModel] = true;
-	[Parent]?: ViewModel;
+	[Parent]?: unknown;
 	[Visited] = false;
 	[Errors]: ValidationError[] = [];
 

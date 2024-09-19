@@ -35,40 +35,34 @@
 				</section>
 				<section class="flex space-x-2">
 					<FieldComboBox
-						v-model="selectedOverworld"
-						:options="overworlds"
+						v-model="selectedWorld"
+						:options="worlds"
 						:value-only="false"
 						label-align="top"
-						label="Overworld"
+						label="World"
 						option-label="Name"
 						option-value="Name"
 						class="flex-1"
 					/>
 					<BaseButton
 						:icon="IconAdd"
-						title="Add Overworld"
-						@click="onClickAddOverworld"
+						title="Add World"
+						@click="onClickAddWorld"
 					/>
 					<BaseButton
-						v-show="!!selectedOverworld"
+						v-show="!!selectedWorld"
 						:icon="IconDelete"
-						title="Delete Overworld"
-						@click="onClickDeleteOverworld"
-					/>
-					<BaseButton
-						v-show="!!selectedOverworld"
-						:icon="IconEdit"
-						title="Edit Overworld"
-						@click="onClickEditOverworld"
+						title="Delete World"
+						@click="onClickDeleteWorld"
 					/>
 				</section>
 				<section
-					v-if="!!selectedOverworld?.Name"
+					v-if="!!selectedWorld?.Name"
 					class="flex space-x-2"
 				>
 					<FieldComboBox
 						v-model="selectedScreen"
-						:options="selectedOverworld.Children"
+						:options="selectedWorld.Children"
 						:value-only="false"
 						label-align="top"
 						label="Screen"
@@ -79,7 +73,7 @@
 					<BaseButton
 						:icon="IconAdd"
 						title="Add Screen"
-						@click="onClickNewButton"
+						@click="onClickAddScreen"
 					/>
 					<BaseButton
 						v-show="!!selectedScreen"
@@ -90,60 +84,15 @@
 				</section>
 			</article>
 			<BaseTabs
-				v-if="selectedScreen"
+				v-if="!!selectedWorld"
 				v-model:selected="selectedTab"
 				:tabs="tabs"
 				class="grow"
 			>
 				<template #content>
-					<template v-if="selectedTab === 'Screen'">
-						<FieldText
-							v-model="selectedScreen.Name"
-							label="Name"
-							class="mb-2"
-						/>
-						<section class="flex space-x-2">
-							<section class="flex flex-1 flex-col space-y-2">
-								<FieldNumber
-									v-model="selectedScreen.X"
-									label="Overworld X"
-									label-width="auto"
-									input-width="w-8"
-									width="max-w-28"
-								/>
-								<FieldNumber
-									v-model="selectedScreen.CellSize"
-									label="Cell Size"
-								/>
-								<FieldWorldColors
-									v-model="selectedScreen.AccentColor"
-									label="Accent"
-									label-cls="w-12"
-									width="w-28"
-								/>
-							</section>
-							<section class="flex flex-1 flex-col space-y-2">
-								<FieldNumber
-									v-model="selectedScreen.Y"
-									label="Overworld Y"
-									label-width="auto"
-									input-width="w-8"
-									width="max-w-28"
-								/>
-								<FieldCheckbox
-									v-model="selectedScreen.OriginTopLeft"
-									label="Origin Top Left"
-								/>
-								<FieldWorldColors
-									v-model="selectedScreen.GroundColor"
-									label="Ground"
-									label-cls="w-12"
-									width="w-28"
-								/>
-							</section>
-						</section>
-					</template>
-					<template v-else-if="selectedTab === 'Tile'">
+					<WorldConfigPanel v-show="selectedTab === 'World'" />
+					<ScreenConfigPanel v-show="selectedTab === 'Screen'" />
+					<template v-if="selectedTab === 'Tile'">
 						<article class="flex h-full flex-col overflow-auto">
 							<section class="w-72 flex-1 space-y-2">
 								<template v-if="selectedTile">
@@ -337,19 +286,12 @@
 			</BaseTabs>
 		</section>
 	</article>
-	<DialogOverworld
-		v-model="showDialogOverworld"
-		:record="selectedOverworld"
-		@click-save="onClickSaveOverworld"
-		@click-cancel="onCancelOverworld"
-	/>
 </template>
 
 <script setup lang="ts">
 import { computed, reactive, ref, unref, watch } from "vue";
 import IconAdd from "@/assets/IconAdd.vue";
 import IconDelete from "@/assets/IconDelete.vue";
-import IconEdit from "@/assets/IconEdit.vue";
 import IconSave from "@/assets/IconSave.vue";
 import IconUploadFile from "@/assets/IconUploadFile.vue";
 import BaseButton from "@/components/BaseButton.vue";
@@ -359,22 +301,23 @@ import FieldComboBox from "@/components/FieldComboBox.vue";
 import FieldDisplay from "@/components/FieldDisplay.vue";
 import FieldLabel from "@/components/FieldLabel.vue";
 import FieldNumber from "@/components/FieldNumber.vue";
-import FieldText from "@/components/FieldText.vue";
+import { Items } from "@/enums/game/Items";
+import { Enemies } from "@/enums/game/NPCs";
+import { ScreenTemplates } from "@/enums/game/ScreenTemplates";
+import { Tiles } from "@/enums/game/Tiles";
+import { WorldColors, WorldColorsNone } from "@/enums/game/WorldColors";
 import { findRecord } from "@/enums/helper";
-import { Items } from "@/enums/zelda/Items";
-import { Enemies } from "@/enums/zelda/NPCs";
-import { ScreenTemplates } from "@/enums/zelda/ScreenTemplates";
-import { Tiles } from "@/enums/zelda/Tiles";
-import { WorldColors, WorldColorsNone } from "@/enums/zelda/WorldColors";
-import { GameOverworld } from "@/models/GameOverworld";
+import { GameScreen } from "@/models/GameScreen";
+import { GameTileCell } from "@/models/GameTileCell";
+import { GameWorld } from "@/models/GameWorld";
 import { Parent } from "@/models/ViewModel";
-import { ZeldaScreen } from "@/models/ZeldaScreen";
-import { ZeldaTileCell } from "@/models/ZeldaTileCell";
 import { makeArray, removeItem } from "@/utils/common";
-import { provideCellCopy } from "@/views/zeldaWorldBuilder/cellCopy";
-import DialogOverworld from "@/views/zeldaWorldBuilder/DialogOverworld.vue";
-import FieldWorldColors from "@/views/zeldaWorldBuilder/FieldWorldColors.vue";
-import TileGrid from "@/views/zeldaWorldBuilder/TileGrid.vue";
+import { provideCellCopy } from "@/views/gameWorldBuilder/cellCopy";
+import FieldWorldColors from "@/views/gameWorldBuilder/FieldWorldColors.vue";
+import { provideWorldConfig } from "@/views/gameWorldBuilder/providers";
+import ScreenConfigPanel from "@/views/gameWorldBuilder/ScreenConfigPanel.vue";
+import TileGrid from "@/views/gameWorldBuilder/TileGrid.vue";
+import WorldConfigPanel from "@/views/gameWorldBuilder/WorldConfigPanel.vue";
 
 /**
  * TODOJEF:
@@ -389,19 +332,16 @@ import TileGrid from "@/views/zeldaWorldBuilder/TileGrid.vue";
  * -- Like CanBreak, CanBurn, CanBomb
  */
 const fileInputEl = ref<HTMLInputElement>();
-const selectedCell = ref<ZeldaTileCell>();
-const selectedOverworld = ref();
+const selectedCell = ref<GameTileCell>();
+const { worldRecord: selectedWorld, screenRecord: selectedScreen } = provideWorldConfig();
 const showGridLines = ref(true);
-const showDialogOverworld = ref(false);
-const isEditOverworld = ref(false);
-const overworlds = reactive<GameOverworld[]>([]);
-const selectedScreen = ref<ZeldaScreen>();
+const worlds = reactive<GameWorld[]>([]);
 const isTransition = computed(() => selectedCell.value?.tile.isTransition);
 const selectedTile = computed(() => selectedCell.value?.tile);
 const selectedItem = computed(() => selectedCell.value?.item);
 const selectedEnemy = computed(() => selectedCell.value?.enemy);
 const showColors = computed(() => !isTransition.value && selectedTile.value?.hasImage());
-const tabs = ref(["Screen"]);
+const tabs = ref(["World"]);
 const selectedTab = ref(tabs.value[0]);
 const gridCls = computed(() => {
 	return {
@@ -409,17 +349,6 @@ const gridCls = computed(() => {
 		"grid-show-lines": showGridLines.value,
 	};
 });
-
-function addScreen(config = {}) {
-	selectedScreen.value = ZeldaScreen.create({
-		totalRows: 11,
-		totalColumns: 16,
-		...config,
-	}, {
-		init: true,
-	});
-	selectedOverworld.value.Children.push(selectedScreen.value);
-}
 
 function getCellColor() {
 	const found = findRecord(WorldColors, selectedScreen.value?.GroundColor);
@@ -437,7 +366,7 @@ function onUpdateEnemyColor() {
 	selectedEnemy.value?.updateImage();
 }
 
-function onReplaceCell({ indices, replacement }: { indices: number | number[], replacement: ZeldaTileCell }) {
+function onReplaceCell({ indices, replacement }: { indices: number | number[], replacement: GameTileCell }) {
 	indices = makeArray(indices);
 	// Make sure we update the selection with the replacement
 	selectedCell.value = replacement;
@@ -462,20 +391,18 @@ function onClickLoadBtn() {
 	fileInputEl.value?.click();
 }
 
-function onClickAddOverworld() {
-	selectedOverworld.value = GameOverworld.create();
-	showDialogOverworld.value = true;
-	isEditOverworld.value = false;
+function onClickAddWorld() {
+	selectedWorld.value = GameWorld.create({
+		Name: "Temporary Name",
+	}, {
+		[Parent]: worlds,
+	});
+	worlds.push(selectedWorld.value);
 }
 
-function onClickEditOverworld() {
-	showDialogOverworld.value = true;
-	isEditOverworld.value = true;
-}
-
-function onClickDeleteOverworld() {
-	removeItem(overworlds, selectedOverworld.value);
-	selectedOverworld.value = undefined;
+function onClickDeleteWorld() {
+	removeItem(worlds, selectedWorld.value);
+	selectedWorld.value = undefined;
 }
 
 function onChangeLoadFile() {
@@ -489,12 +416,9 @@ function onChangeLoadFile() {
 	}
 }
 
-// TODOJEF: Need to make this save all files to overworld or redesign the files, so we can have 1 overworld file
 function onClickSaveBtn() {
-	const configs: Record<string, object> = {};
-	overworlds.forEach((overworld) => configs[overworld.Name] = overworld.getConfig());
 	// TODO: Move this logic to a utility function
-	const contents = new Blob([JSON.stringify(configs)], {
+	const contents = new Blob([JSON.stringify(worlds.map((world) => world.getConfig()))], {
 		type: "application/json",
 	});
 	const tempEl = document.createElement("a");
@@ -503,38 +427,37 @@ function onClickSaveBtn() {
 	tempEl.click();
 }
 
-function onClickNewButton() {
-	addScreen({
-		Name: "Temporary Name",
+function onClickAddScreen() {
+	selectedScreen.value = GameScreen.create({
+		totalRows: 11,
+		totalColumns: 16,
+		Name: "Screen Name",
+	}, {
+		init: true,
 	});
+	selectedWorld.value!.Children.push(selectedScreen.value);
 }
 
 function onClickDeleteScreen() {
-	removeItem(selectedOverworld.value.Children, selectedScreen.value);
+	removeItem(selectedWorld.value!.Children, selectedScreen.value);
 	selectedScreen.value = undefined;
 }
 
-function onCancelOverworld() {
-	if (isEditOverworld.value) {
-		return;
-	}
-	selectedOverworld.value = undefined;
-}
-
-function onClickSaveOverworld(viewRecord: GameOverworld) {
-	selectedOverworld.value = viewRecord;
-	if (!isEditOverworld.value) {
-		overworlds.push(viewRecord);
-	}
-}
-
-watch(selectedOverworld, () => {
+watch(selectedWorld, () => {
 	selectedCell.value = undefined;
 	selectedScreen.value = undefined;
 });
 
-watch(selectedScreen, () => {
+watch(selectedScreen, ($selectedScreen, $previousValue) => {
 	selectedCell.value = undefined;
+	if ($selectedScreen && !$previousValue) {
+		tabs.value.push("Screen");
+		selectedTab.value = "Screen";
+	}
+	else if (!$selectedScreen) {
+		removeItem(tabs.value, "Screen");
+		selectedTab.value = "World";
+	}
 });
 
 watch(() => selectedScreen.value?.OriginTopLeft, ($originTopLeft) => {
@@ -545,15 +468,18 @@ watch(() => selectedScreen.value?.OriginTopLeft, ($originTopLeft) => {
 });
 
 watch(selectedCell, ($selectedCell, $previousValue) => {
+	const $tabs = unref(tabs);
 	if ($selectedCell && !$previousValue) {
-		tabs.value.push("Tile", "Item", "Enemy");
+		$tabs.push("Tile", "Item", "Enemy");
 		selectedTab.value = "Tile";
 	}
 	else if (!$selectedCell) {
-		removeItem(tabs.value, "Tile");
-		removeItem(tabs.value, "Item");
-		removeItem(tabs.value, "Enemy");
-		selectedTab.value = "Screen";
+		removeItem($tabs, "Tile");
+		removeItem($tabs, "Item");
+		removeItem($tabs, "Enemy");
+		if (selectedTab.value !== "World") {
+			selectedTab.value = "Screen";
+		}
 	}
 });
 

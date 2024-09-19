@@ -4,11 +4,11 @@ import ViewTypeBox from "@/views/modeling/ViewTypeBox.vue";
 import ViewZod from "@/views/modeling/ViewZod.vue";
 import DialogImport from "@/views/users/DialogImport.vue";
 import ViewAuditor from "@/views/ViewAuditor.vue";
+import ViewGameWorldBuilder from "@/views/ViewGameWorldBuilder.vue";
 import ViewModeling from "@/views/ViewModeling.vue";
 import ViewTipTap from "@/views/ViewTipTap.vue";
 import ViewUser from "@/views/ViewUser.vue";
 import ViewUsers from "@/views/ViewUsers.vue";
-import ViewZeldaWorldBuilder from "@/views/ViewZeldaWorldBuilder.vue";
 
 const RouteNew = "create";
 
@@ -20,7 +20,7 @@ export const RouteUsersView = "users-view";
 
 export const RouteUsersNew = "users-new";
 
-export const RouteZeldaWorldBuilder = "zelda-world-builder";
+export const RouteGameWorldBuilder = "game-world-builder";
 
 export const RouteTipTap = "tip-tap";
 
@@ -87,9 +87,9 @@ export const routes = [{
 	name: RouteTipTap,
 	component: ViewTipTap,
 }, {
-	path: "/zelda",
-	name: RouteZeldaWorldBuilder,
-	component: ViewZeldaWorldBuilder,
+	path: "/game",
+	name: RouteGameWorldBuilder,
+	component: ViewGameWorldBuilder,
 	meta: {
 		showNav: false,
 	},
@@ -121,9 +121,9 @@ export function viewUser(userId?: string) {
 	});
 }
 
-export function viewZeldaWorldBuilder() {
+export function viewGameWorldBuilder() {
 	return router.push({
-		name: RouteZeldaWorldBuilder,
+		name: RouteGameWorldBuilder,
 	});
 }
 

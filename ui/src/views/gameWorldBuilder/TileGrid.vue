@@ -13,6 +13,10 @@
 			@contextmenu="onContextMenuCell"
 			@mouseover="onMouseOverCell(cell)"
 		>
+			<div
+				v-if="cell.tile.isTransition && !cell.tile.isDoor"
+				class="size-full bg-green-700"
+			/>
 			<img
 				v-if="cell.tile.src"
 				:src="cell.tile.src"
@@ -67,19 +71,19 @@ import {
 import BaseContextMenu from "@/components/BaseContextMenu.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
 import FieldDisplay from "@/components/FieldDisplay.vue";
-import { ZeldaTileCell } from "@/models/ZeldaTileCell";
+import { GameTileCell } from "@/models/GameTileCell";
 import { IMenuItem } from "@/types/components";
-import { injectCellCopy } from "@/views/zeldaWorldBuilder/cellCopy";
+import { injectCellCopy } from "@/views/gameWorldBuilder/cellCopy";
 
 defineOptions({
 	inheritAttrs: false,
 });
 
 interface IProps {
-	cells?: ZeldaTileCell[];
+	cells?: GameTileCell[];
 	totalRows: number;
 	totalColumns: number;
-	selectedCell?: ZeldaTileCell;
+	selectedCell?: GameTileCell;
 }
 
 const props = defineProps<IProps>();
@@ -90,8 +94,8 @@ const testDialog = ref(null);
 const testValue = ref("Hello");
 const pressedKeys = injectCellCopy();
 const activeCursor = ref("cursor-pointer");
-const lastCopiedCell = ref<ZeldaTileCell>();
-const hoverCell = ref<ZeldaTileCell>();
+const lastCopiedCell = ref<GameTileCell>();
+const hoverCell = ref<GameTileCell>();
 const hoverRow = ref<number>();
 const hoverColumn = ref<number>();
 const showTestDialog = ref(false);
@@ -100,7 +104,7 @@ const contextItems: IMenuItem[] = [{
 	click: onClickTilesMenu,
 }];
 
-function getCellCls(cell: ZeldaTileCell) {
+function getCellCls(cell: GameTileCell) {
 	let hoverCls = false;
 	const $hoverCell = unref(hoverCell);
 	if (props.selectedCell && pressedKeys.shift && $hoverCell) {
@@ -168,7 +172,7 @@ function getSelectedCells() {
  * We use mouseup instead of click because of the ctrl-copy flow... that monitors mousedown and up,
  * so we can't rely on click, as that'll change it back to false before we can look at the value
  */
-function onMouseUpCell(_event: MouseEvent, cell: ZeldaTileCell) {
+function onMouseUpCell(_event: MouseEvent, cell: GameTileCell) {
 	const { selectedCell } = props;
 	if (pressedKeys.ctrl && pressedKeys.mouseDown && selectedCell) {
 		emit("replaceCell", {
@@ -201,7 +205,7 @@ function hideContextMenu() {
 	contextMenu.value?.hide();
 }
 
-function onMouseOverCell(cell: ZeldaTileCell) {
+function onMouseOverCell(cell: GameTileCell) {
 	hoverCell.value = cell;
 	hoverRow.value = cell.y;
 	hoverColumn.value = cell.x;
