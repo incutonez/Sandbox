@@ -26,7 +26,7 @@ import { IOption } from "@/types/components";
 import { isObject } from "@/utils/common";
 
 export interface IFieldComboBox extends IBaseField {
-	options?: IOption[];
+	options?: IOption[] | object[];
 	optionLabel?: string | ((data: any) => string) | undefined;
 	optionValue?: string | ((data: any) => any) | undefined;
 	disabled?: boolean;
