@@ -4,7 +4,7 @@ import PrimeTreeSelect from "primevue/treeselect";
 import BaseField, { IBaseField } from "@/components/BaseField.vue";
 import { ITreeOption } from "@/types/components";
 
-type IFieldTreeBoxSelection = Record<string, boolean>;
+export type IFieldTreeBoxSelection = Record<string, boolean>;
 
 export interface IFieldTreeBox extends IBaseField {
 	options?: ITreeOption<T>[];
