@@ -1,4 +1,4 @@
-﻿import { Allow, IsArray, IsObject, IsString } from "class-validator";
+﻿import { Allow, IsArray, IsNumber, IsObject, IsString } from "class-validator";
 import { getNameById } from "@/enums/helper";
 import {
 	Tiles,
@@ -76,7 +76,7 @@ import { type IZeldaEnum } from "@/types/components";
 import { isEmpty } from "@/utils/common";
 import { replaceColors } from "@/utils/zelda";
 
-const TransitionTypes = [TilesTransition, TilesDoor];
+const TransitionTypes = [TilesTransition.name, TilesDoor.name];
 function makeTargets(item: IZeldaEnum, Value?: IZeldaEnum) {
 	return ZeldaTargetColor.create({
 		Value,
@@ -222,6 +222,14 @@ export class ZeldaTile extends ViewModel {
 	@ModelTransform(() => ZeldaScreen)
 	Transition?: ZeldaScreen;
 
+	// This is only used for transitions... we need to offset their world position
+	@IsNumber()
+	OffsetX?: number;
+
+	// This is only used for transitions... we need to offset their world position
+	@IsNumber()
+	OffsetY?: number;
+
 	@Allow()
 	TileType?: IZeldaEnum;
 
@@ -231,11 +239,11 @@ export class ZeldaTile extends ViewModel {
 	}
 
 	get isDoor() {
-		return this.Type === TilesDoor;
+		return this.Type.name === TilesDoor.name;
 	}
 
 	get isTransition() {
-		return TransitionTypes.indexOf(this.Type) !== -1;
+		return TransitionTypes.indexOf(this.Type.name) !== -1;
 	}
 
 	/**
@@ -335,6 +343,9 @@ export class ZeldaTile extends ViewModel {
 					"cells",
 					"totalRows",
 					"totalColumns",
+					"_name",
+					"OriginTopLeft",
+					"CellSize",
 				],
 			}) ?? ZeldaScreen.create();
 			if (isEmpty(transition.Template)) {

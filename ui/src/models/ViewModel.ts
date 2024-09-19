@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { ClassTransformOptions, plainToInstance } from "class-transformer";
-import { validate, ValidatorOptions } from "class-validator";
+import { validate, ValidationError, ValidatorOptions } from "class-validator";
 import { unset } from "lodash-es";
 import { getObjectValue, isEmpty, isObject } from "@/utils/common";
 
@@ -50,6 +50,8 @@ export const IsModel = Symbol("isModel");
 
 export const Parent = Symbol("parent");
 
+export const Errors = Symbol("Errors");
+
 const Visited = Symbol("visited");
 const LastKeyRegex = /\.(?=[^.]+$)/;
 
@@ -78,6 +80,7 @@ export class ViewModel {
 	[IsModel] = true;
 	[Parent]?: ViewModel;
 	[Visited] = false;
+	[Errors]: ValidationError[] = [];
 
 	static create<T extends ViewModel>(this: new () => T, data = {} as Partial<IViewModel<T>>, options: IModelOptions = {}) {
 		const record = new this();
@@ -102,8 +105,29 @@ export class ViewModel {
 		if (!("stopAtFirstError" in options)) {
 			options.stopAtFirstError = true;
 		}
-		const response = await validate(this);
-		return response.length === 0;
+		await this.validate(options);
+		return isEmpty(this[Errors]);
+	}
+
+	async validate(options?: ValidatorOptions) {
+		if (!this[Visited]) {
+			this[Visited] = true;
+			for (const key in this) {
+				const value = this[key] as ViewModel | ViewModel[];
+				if (Array.isArray(value)) {
+					await Promise.allSettled(value.map((item) => {
+						if (item?.[IsModel]) {
+							return item.validate(options);
+						}
+					}));
+				}
+				else if (value?.[IsModel]) {
+					await value.validate(options);
+				}
+			}
+			this[Errors] = await validate(this, options);
+			this[Visited] = false;
+		}
 	}
 
 	get<T = unknown>(options: IModelGetOptions = {}) {

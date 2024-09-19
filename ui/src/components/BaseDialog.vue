@@ -3,7 +3,9 @@
 		v-model:visible="show"
 		:modal="modal"
 		:content-class="bodyCls"
-		@hide="onClose"
+		:closable="false"
+		:close-on-escape="false"
+		@keydown.esc="onKeyEscape"
 	>
 		<template #header>
 			<slot name="header">
@@ -11,6 +13,13 @@
 					{{ title }}
 				</h2>
 			</slot>
+			<BaseButton
+				:icon="IconCancel"
+				:plain="true"
+				class="ml-auto !p-0 hover:fill-red-800"
+				icon-cls="size-5"
+				@click="onClickCloseButton"
+			/>
 		</template>
 		<template #default>
 			<slot name="body" />
@@ -37,7 +46,7 @@ import BaseButton from "@/components/BaseButton.vue";
 interface IProps {
 	title?: string;
 	modal?: boolean;
-  bodyCls?: string;
+	bodyCls?: string;
 }
 
 withDefaults(defineProps<IProps>(), {
@@ -45,17 +54,34 @@ withDefaults(defineProps<IProps>(), {
 	title: undefined,
 	bodyCls: undefined,
 });
-const emit = defineEmits(["close", "cancel"]);
+const emit = defineEmits(["close", "click-cancel"]);
 const show = defineModel<boolean>("modelValue", {
 	default: false,
 });
 
-function onCancel() {
+function close() {
 	show.value = false;
-	emit("cancel");
 }
 
-function onClose() {
-	emit("close");
+function cancel() {
+	close();
+	emit("click-cancel");
 }
+
+function onCancel() {
+	cancel();
+}
+
+function onKeyEscape() {
+	cancel();
+}
+
+function onClickCloseButton() {
+	cancel();
+}
+
+defineExpose({
+	close,
+	cancel,
+});
 </script>
