@@ -1,90 +1,90 @@
-import { IZeldaEnum } from "@/types/components";
+import { IGameEnum } from "@/types/components";
 
-export const AnimationsActionUp: IZeldaEnum = {
+export const AnimationsActionUp: IGameEnum = {
 	displayName: "Action Up",
 	name: "ActionUp",
 	id: 0,
 };
 
-export const AnimationsActionDown: IZeldaEnum = {
+export const AnimationsActionDown: IGameEnum = {
 	displayName: "Action Down",
 	name: "ActionDown",
 	id: 1,
 };
 
-export const AnimationsActionRight: IZeldaEnum = {
+export const AnimationsActionRight: IGameEnum = {
 	displayName: "Action Right",
 	name: "ActionRight",
 	id: 2,
 };
 
-export const AnimationsActionLeft: IZeldaEnum = {
+export const AnimationsActionLeft: IGameEnum = {
 	displayName: "Action Left",
 	name: "ActionLeft",
 	id: 3,
 };
 
-export const AnimationsEntering: IZeldaEnum = {
+export const AnimationsEntering: IGameEnum = {
 	displayName: "Entering",
 	name: "Entering",
 	id: 4,
 };
 
-export const AnimationsExiting: IZeldaEnum = {
+export const AnimationsExiting: IGameEnum = {
 	displayName: "Exiting",
 	name: "Exiting",
 	id: 5,
 };
 
-export const AnimationsIdleUp: IZeldaEnum = {
+export const AnimationsIdleUp: IGameEnum = {
 	displayName: "Idle Up",
 	name: "IdleUp",
 	id: 6,
 };
 
-export const AnimationsIdleDown: IZeldaEnum = {
+export const AnimationsIdleDown: IGameEnum = {
 	displayName: "Idle Down",
 	name: "IdleDown",
 	id: 7,
 };
 
-export const AnimationsIdleRight: IZeldaEnum = {
+export const AnimationsIdleRight: IGameEnum = {
 	displayName: "Idle Right",
 	name: "IdleRight",
 	id: 8,
 };
 
-export const AnimationsIdleLeft: IZeldaEnum = {
+export const AnimationsIdleLeft: IGameEnum = {
 	displayName: "Idle Left",
 	name: "IdleLeft",
 	id: 9,
 };
 
-export const AnimationsWalkUp: IZeldaEnum = {
+export const AnimationsWalkUp: IGameEnum = {
 	displayName: "Walk Up",
 	name: "WalkUp",
 	id: 10,
 };
 
-export const AnimationsWalkDown: IZeldaEnum = {
+export const AnimationsWalkDown: IGameEnum = {
 	displayName: "Walk Down",
 	name: "WalkDown",
 	id: 11,
 };
 
-export const AnimationsWalkRight: IZeldaEnum = {
+export const AnimationsWalkRight: IGameEnum = {
 	displayName: "Walk Right",
 	name: "WalkRight",
 	id: 12,
 };
 
-export const AnimationsWalkLeft: IZeldaEnum = {
+export const AnimationsWalkLeft: IGameEnum = {
 	displayName: "Walk Left",
 	name: "WalkLeft",
 	id: 13,
 };
 
-export const Animations: IZeldaEnum[] = [
+export const Animations: IGameEnum[] = [
 	AnimationsActionUp,
 	AnimationsActionDown,
 	AnimationsActionRight,

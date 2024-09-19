@@ -20,7 +20,7 @@ export interface ITreeOption<T = string> extends TreeNode {
 	data?: T;
 }
 
-export interface IZeldaEnum extends IOption {
+export interface IGameEnum extends IOption {
 	imageSrc?: string;
 	displayName?: string;
 }

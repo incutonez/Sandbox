@@ -8,5 +8,5 @@
 
 <script setup lang="ts">
 import FieldComboBox from "@/components/FieldComboBox.vue";
-import { WorldColors } from "@/enums/zelda/WorldColors";
+import { WorldColors } from "@/enums/game/WorldColors";
 </script>

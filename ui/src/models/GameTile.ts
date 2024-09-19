@@ -1,5 +1,4 @@
 ﻿import { Allow, IsArray, IsNumber, IsObject, IsString } from "class-validator";
-import { getNameById } from "@/enums/helper";
 import {
 	Tiles,
 	TilesBlock, TilesBush,
@@ -59,26 +58,27 @@ import {
 	TilesWaterBottomRight,
 	TilesWaterTopLeft,
 	TilesWaterTopRight,
-} from "@/enums/zelda/Tiles";
+} from "@/enums/game/Tiles";
 import {
 	WorldColorsBlack,
 	WorldColorsBluePure,
 	WorldColorsRedPure, WorldColorsWhite,
 	WorldColorsWhitePure,
-} from "@/enums/zelda/WorldColors";
+} from "@/enums/game/WorldColors";
+import { getNameById } from "@/enums/helper";
 import { ModelTransform } from "@/models/decorators";
+import { GameScreen } from "@/models/GameScreen";
+import { GameTargetColor } from "@/models/GameTargetColor";
+import { GameTileCell } from "@/models/GameTileCell";
+import { IGameWorldObjectConfig } from "@/models/GameWorldObject";
 import { IViewModel, ViewModel } from "@/models/ViewModel";
-import { ZeldaScreen } from "@/models/ZeldaScreen";
-import { ZeldaTargetColor } from "@/models/ZeldaTargetColor";
-import { ZeldaTileCell } from "@/models/ZeldaTileCell";
-import { IZeldaWorldObjectConfig } from "@/models/ZeldaWorldObject";
-import { type IZeldaEnum } from "@/types/components";
+import { type IGameEnum } from "@/types/components";
 import { isEmpty } from "@/utils/common";
-import { replaceColors } from "@/utils/zelda";
+import { replaceColors } from "@/utils/game";
 
 const TransitionTypes = [TilesTransition.name, TilesDoor.name];
-function makeTargets(item: IZeldaEnum, Value?: IZeldaEnum) {
-	return ZeldaTargetColor.create({
+function makeTargets(item: IGameEnum, Value?: IGameEnum) {
+	return GameTargetColor.create({
 		Value,
 		Target: item,
 	});
@@ -99,8 +99,8 @@ const White = [WorldColorsWhitePure];
 const WhiteBlue = [WorldColorsWhitePure, WorldColorsBluePure];
 const WhiteBlack = [WorldColorsWhitePure, WorldColorsBlack];
 
-export function getDefaultTileColors(type: IZeldaEnum) {
-	let colors: IZeldaEnum[] | IZeldaEnum[][] = [];
+export function getDefaultTileColors(type: IGameEnum) {
+	let colors: IGameEnum[] | IGameEnum[][] = [];
 	switch (type) {
 		// TODOJEF: Add color change for these?
 		case TilesStairsKeep:
@@ -184,7 +184,7 @@ export function getDefaultTileColors(type: IZeldaEnum) {
 			break;
 	}
 	return colors.map((target) => {
-		let value: IZeldaEnum | undefined;
+		let value: IGameEnum | undefined;
 		if (Array.isArray(target)) {
 			value = target[1];
 			target = target[0];
@@ -193,34 +193,34 @@ export function getDefaultTileColors(type: IZeldaEnum) {
 	});
 }
 
-export interface IZeldaTileConfig extends IZeldaWorldObjectConfig {
+export interface IGameTileConfig extends IGameWorldObjectConfig {
 	Name?: string;
-	Transition?: IViewModel<ZeldaScreen>;
+	Transition?: IViewModel<GameScreen>;
 }
 
-export interface IZeldaTileMeta {
-	Children: IZeldaTileConfig[];
+export interface IGameTileMeta {
+	Children: IGameTileConfig[];
 	Type: string;
 }
 
-// TODOJEF: This class shares a lot with ZeldaWorldObject, so we should consider refactoring to use that
-export class ZeldaTile extends ViewModel {
+// TODOJEF: This class shares a lot with GameWorldObject, so we should consider refactoring to use that
+export class GameTile extends ViewModel {
 	@IsString()
 	src? = "";
 
-	@ModelTransform(() => ZeldaTileCell)
-	cell?: ZeldaTileCell;
+	@ModelTransform(() => GameTileCell)
+	cell?: GameTileCell;
 
 	// TODOJEF: Make this a proper enum?
 	@IsObject()
-	type: IZeldaEnum = {};
+	type: IGameEnum = {};
 
 	@IsArray()
-	@ModelTransform(() => ZeldaTargetColor)
-	colors: ZeldaTargetColor[] = [];
+	@ModelTransform(() => GameTargetColor)
+	colors: GameTargetColor[] = [];
 
-	@ModelTransform(() => ZeldaScreen)
-	Transition?: ZeldaScreen;
+	@ModelTransform(() => GameScreen)
+	Transition?: GameScreen;
 
 	// This is only used for transitions... we need to offset their world position
 	@IsNumber()
@@ -231,11 +231,11 @@ export class ZeldaTile extends ViewModel {
 	OffsetY?: number;
 
 	@Allow()
-	TileType?: IZeldaEnum;
+	TileType?: IGameEnum;
 
 	reset() {
 		this.Type = TilesNone;
-		this.Transition = ZeldaScreen.create();
+		this.Transition = GameScreen.create();
 	}
 
 	get isDoor() {
@@ -259,11 +259,11 @@ export class ZeldaTile extends ViewModel {
    * is due to having to redefine both the set AND get if you change one or the other.
    * Ref: https://stackoverflow.com/q/28950760/1253609
    */
-	set Type(value: IZeldaEnum) {
+	set Type(value: IGameEnum) {
 		this.type = value;
 		this.Colors = getDefaultTileColors(value);
 		if (this.isTransition) {
-			this.Transition = ZeldaScreen.create({
+			this.Transition = GameScreen.create({
 				X: 0,
 				Y: 0,
 			});
@@ -294,6 +294,9 @@ export class ZeldaTile extends ViewModel {
 				imageEnum: this.Type,
 			});
 		}
+		else {
+			this.src = undefined;
+		}
 	}
 
 	/**
@@ -320,9 +323,9 @@ export class ZeldaTile extends ViewModel {
 	}
 
 	getConfig() {
-		const { cell = ZeldaTileCell.create() } = this;
-		const config: IZeldaTileConfig = {
-			// TODOJEF: Remove these from here, as they get set in ZeldaTileCell
+		const { cell = GameTileCell.create() } = this;
+		const config: IGameTileConfig = {
+			// TODOJEF: Remove these from here, as they get set in GameTileCell
 			X: 0,
 			Y: 0,
 		};
@@ -336,7 +339,7 @@ export class ZeldaTile extends ViewModel {
 		}
 		if (this.isTransition) {
 			const removeFields = [];
-			const transition = this.Transition?.get<IViewModel<ZeldaScreen>>({
+			const transition = this.Transition?.get<IViewModel<GameScreen>>({
 				exclude: [
 					"AccentColor",
 					"GroundColor",
@@ -347,7 +350,7 @@ export class ZeldaTile extends ViewModel {
 					"OriginTopLeft",
 					"CellSize",
 				],
-			}) ?? ZeldaScreen.create();
+			}) ?? GameScreen.create();
 			if (isEmpty(transition.Template)) {
 				removeFields.push("Template");
 			}

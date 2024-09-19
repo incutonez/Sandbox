@@ -1,162 +1,162 @@
-import { IZeldaEnum } from "@/types/components";
+import { IGameEnum } from "@/types/components";
 
-export const FXArrowBoomerang: IZeldaEnum = {
+export const FXArrowBoomerang: IGameEnum = {
 	displayName: "Arrow Boomerang",
 	name: "ArrowBoomerang",
 	id: 0,
 };
 
-export const FXBombBlow: IZeldaEnum = {
+export const FXBombBlow: IGameEnum = {
 	displayName: "Bomb Blow",
 	name: "BombBlow",
 	id: 1,
 };
 
-export const FXBombDrop: IZeldaEnum = {
+export const FXBombDrop: IGameEnum = {
 	displayName: "Bomb Drop",
 	name: "BombDrop",
 	id: 2,
 };
 
-export const FXBossManhandlaDigdoggerPatra: IZeldaEnum = {
+export const FXBossManhandlaDigdoggerPatra: IGameEnum = {
 	displayName: "Boss Manhandla Digdogger Patra",
 	name: "BossManhandlaDigdoggerPatra",
 	id: 3,
 };
 
-export const FXBossDragonGanon: IZeldaEnum = {
+export const FXBossDragonGanon: IGameEnum = {
 	displayName: "Boss Dragon Ganon",
 	name: "BossDragonGanon",
 	id: 4,
 };
 
-export const FXBossDodongoGohma: IZeldaEnum = {
+export const FXBossDodongoGohma: IGameEnum = {
 	displayName: "Boss Dodongo Gohma",
 	name: "BossDodongoGohma",
 	id: 5,
 };
 
-export const FXBossHurt: IZeldaEnum = {
+export const FXBossHurt: IGameEnum = {
 	displayName: "Boss Hurt",
 	name: "BossHurt",
 	id: 6,
 };
 
-export const FXDoorUnlock: IZeldaEnum = {
+export const FXDoorUnlock: IGameEnum = {
 	displayName: "Door Unlock",
 	name: "DoorUnlock",
 	id: 7,
 };
 
-export const FXEnemyDie: IZeldaEnum = {
+export const FXEnemyDie: IGameEnum = {
 	displayName: "Enemy Die",
 	name: "EnemyDie",
 	id: 8,
 };
 
-export const FXEnemyHurt: IZeldaEnum = {
+export const FXEnemyHurt: IGameEnum = {
 	displayName: "Enemy Hurt",
 	name: "EnemyHurt",
 	id: 9,
 };
 
-export const FXFire: IZeldaEnum = {
+export const FXFire: IGameEnum = {
 	displayName: "Fire",
 	name: "Fire",
 	id: 10,
 };
 
-export const FXFlute: IZeldaEnum = {
+export const FXFlute: IGameEnum = {
 	displayName: "Flute",
 	name: "Flute",
 	id: 11,
 };
 
-export const FXHealthLow: IZeldaEnum = {
+export const FXHealthLow: IGameEnum = {
 	displayName: "Health Low",
 	name: "HealthLow",
 	id: 12,
 };
 
-export const FXHeartPickup: IZeldaEnum = {
+export const FXHeartPickup: IGameEnum = {
 	displayName: "Heart Pickup",
 	name: "HeartPickup",
 	id: 13,
 };
 
-export const FXItemAppear: IZeldaEnum = {
+export const FXItemAppear: IGameEnum = {
 	displayName: "Item Appear",
 	name: "ItemAppear",
 	id: 14,
 };
 
-export const FXItemFanfare: IZeldaEnum = {
+export const FXItemFanfare: IGameEnum = {
 	displayName: "Item Fanfare",
 	name: "ItemFanfare",
 	id: 15,
 };
 
-export const FXItemPickup: IZeldaEnum = {
+export const FXItemPickup: IGameEnum = {
 	displayName: "Item Pickup",
 	name: "ItemPickup",
 	id: 16,
 };
 
-export const FXMagic: IZeldaEnum = {
+export const FXMagic: IGameEnum = {
 	displayName: "Magic",
 	name: "Magic",
 	id: 17,
 };
 
-export const FXRupee: IZeldaEnum = {
+export const FXRupee: IGameEnum = {
 	displayName: "Rupee",
 	name: "Rupee",
 	id: 18,
 };
 
-export const FXSecretAppear: IZeldaEnum = {
+export const FXSecretAppear: IGameEnum = {
 	displayName: "Secret Appear",
 	name: "SecretAppear",
 	id: 19,
 };
 
-export const FXShield: IZeldaEnum = {
+export const FXShield: IGameEnum = {
 	displayName: "Shield",
 	name: "Shield",
 	id: 20,
 };
 
-export const FXShore: IZeldaEnum = {
+export const FXShore: IGameEnum = {
 	displayName: "Shore",
 	name: "Shore",
 	id: 21,
 };
 
-export const FXStairs: IZeldaEnum = {
+export const FXStairs: IGameEnum = {
 	displayName: "Stairs",
 	name: "Stairs",
 	id: 22,
 };
 
-export const FXSwordShoot: IZeldaEnum = {
+export const FXSwordShoot: IGameEnum = {
 	displayName: "Sword Shoot",
 	name: "SwordShoot",
 	id: 23,
 };
 
-export const FXSwordSlash: IZeldaEnum = {
+export const FXSwordSlash: IGameEnum = {
 	displayName: "Sword Slash",
 	name: "SwordSlash",
 	id: 24,
 };
 
-export const FXText: IZeldaEnum = {
+export const FXText: IGameEnum = {
 	displayName: "Text",
 	name: "Text",
 	id: 25,
 };
 
-export const FX: IZeldaEnum[] = [
+export const FX: IGameEnum[] = [
 	FXArrowBoomerang,
 	FXBombBlow,
 	FXBombDrop,
@@ -185,49 +185,49 @@ export const FX: IZeldaEnum[] = [
 	FXText,
 ];
 
-export const MusicCastle: IZeldaEnum = {
+export const MusicCastle: IGameEnum = {
 	displayName: "Castle",
 	name: "Castle",
 	id: 0,
 };
 
-export const MusicEnding: IZeldaEnum = {
+export const MusicEnding: IGameEnum = {
 	displayName: "Ending",
 	name: "Ending",
 	id: 1,
 };
 
-export const MusicFinalCastle: IZeldaEnum = {
+export const MusicFinalCastle: IGameEnum = {
 	displayName: "Final Castle",
 	name: "FinalCastle",
 	id: 2,
 };
 
-export const MusicGameOver: IZeldaEnum = {
+export const MusicGameOver: IGameEnum = {
 	displayName: "Game Over",
 	name: "GameOver",
 	id: 3,
 };
 
-export const MusicGanonAppear: IZeldaEnum = {
+export const MusicGanonAppear: IGameEnum = {
 	displayName: "Ganon Appear",
 	name: "GanonAppear",
 	id: 4,
 };
 
-export const MusicIntro: IZeldaEnum = {
+export const MusicIntro: IGameEnum = {
 	displayName: "Intro",
 	name: "Intro",
 	id: 5,
 };
 
-export const MusicOverworld: IZeldaEnum = {
+export const MusicOverworld: IGameEnum = {
 	displayName: "Overworld",
 	name: "Overworld",
 	id: 6,
 };
 
-export const Music: IZeldaEnum[] = [
+export const Music: IGameEnum[] = [
 	MusicCastle,
 	MusicEnding,
 	MusicFinalCastle,

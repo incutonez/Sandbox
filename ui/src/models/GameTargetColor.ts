@@ -1,15 +1,15 @@
 ﻿import { IsObject } from "class-validator";
 import { ModelInterface, ViewModel } from "@/models/ViewModel";
-import { type IZeldaEnum } from "@/types/components";
+import { type IGameEnum } from "@/types/components";
 
-export type IZeldaTargetColor = ModelInterface<ZeldaTargetColor>;
+export type IGameTargetColor = ModelInterface<GameTargetColor>;
 
-export class ZeldaTargetColor extends ViewModel {
+export class GameTargetColor extends ViewModel {
   @IsObject()
-  Target: IZeldaEnum = {};
+  Target: IGameEnum = {};
 
   @IsObject()
-  Value?: IZeldaEnum = {};
+  Value?: IGameEnum = {};
 
   getConfig() {
   	const { Target, Value } = this;

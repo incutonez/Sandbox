@@ -10,18 +10,18 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "fs";
 import { glob } from "glob";
 import { startCase } from "lodash-es";
 import path from "path";
-import { IZeldaEnum } from "./src/types/components";
+import { IGameEnum } from "./src/types/components";
 
 const inPath = "../../ZeldaU/Assets/Scripts/Enums/";
-const outPath = "src/enums/zelda/";
-const imageBasePath = "src/assets/zelda/";
+const outPath = "src/enums/game/";
+const imageBasePath = "src/assets/game/";
 const SrcRegex = /^src/;
 
 function createEnum({ matchName = "", item = "", index, items }) {
 	const name = `${matchName}${item}`;
 	const imagePath = `${imageBasePath}${matchName}/${item}.png`;
 	let imageImport = "";
-	const config: IZeldaEnum = {
+	const config: IGameEnum = {
 		displayName: startCase(item),
 		name: item,
 		id: index,
@@ -32,7 +32,7 @@ function createEnum({ matchName = "", item = "", index, items }) {
 		config.imageSrc = `Image${name}`;
 	}
 	const configStr = JSON.stringify(config).replace(/"imageSrc":"(\w+)"/, "\"imageSrc\":$1");
-	return `${imageImport}export ${`const ${name}: IZeldaEnum = `} ${configStr};`;
+	return `${imageImport}export ${`const ${name}: IGameEnum = `} ${configStr};`;
 }
 
 /**
@@ -97,9 +97,9 @@ function toEnum(data) {
 					});
 				}
 			}
-			output += `export ${`const ${matchName}: IZeldaEnum[] =`} [${items.join(", ").replace(/"/g, "")}];`;
+			output += `export ${`const ${matchName}: IGameEnum[] =`} [${items.join(", ").replace(/"/g, "")}];`;
 		});
-	return `import { IZeldaEnum } from "@/types/components";\n${output}`;
+	return `import { IGameEnum } from "@/types/components";\n${output}`;
 }
 
 async function main() {

@@ -1,12 +1,12 @@
 ﻿import { IsArray, IsString } from "class-validator";
 import { IsRequired, ModelTransform } from "@/models/decorators";
+import { GameEnemy } from "@/models/GameEnemy";
+import { GameItem } from "@/models/GameItem";
+import { GameScreen, ILoadData } from "@/models/GameScreen";
+import { GameTile } from "@/models/GameTile";
 import { Parent, ViewModel } from "@/models/ViewModel";
-import { ZeldaEnemy } from "@/models/ZeldaEnemy";
-import { ZeldaItem } from "@/models/ZeldaItem";
-import { ILoadData, ZeldaScreen } from "@/models/ZeldaScreen";
-import { ZeldaTile } from "@/models/ZeldaTile";
 
-export class ZeldaTileCell extends ViewModel {
+export class GameTileCell extends ViewModel {
 	@IsArray()
 	Coordinates: number[] = [];
 
@@ -14,16 +14,16 @@ export class ZeldaTileCell extends ViewModel {
 	@IsString()
 	Name = "";
 
-	[Parent]?: ZeldaScreen;
+	[Parent]?: GameScreen;
 
-	@ModelTransform(() => ZeldaTile)
-	tile = ZeldaTile.create();
+	@ModelTransform(() => GameTile)
+	tile = GameTile.create();
 
-	@ModelTransform(() => ZeldaItem)
-	item = ZeldaItem.create();
+	@ModelTransform(() => GameItem)
+	item = GameItem.create();
 
-	@ModelTransform(() => ZeldaEnemy)
-	enemy = ZeldaEnemy.create();
+	@ModelTransform(() => GameEnemy)
+	enemy = GameEnemy.create();
 
 	init() {
 		this.tile.cell = this;

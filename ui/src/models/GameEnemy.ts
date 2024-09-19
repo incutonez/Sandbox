@@ -45,7 +45,7 @@ import {
 	EnemiesWizzrobe,
 	EnemiesWizzrobeBlue,
 	EnemiesZol, EnemiesZolGray, EnemiesZolGreen, EnemiesZora,
-} from "@/enums/zelda/NPCs";
+} from "@/enums/game/NPCs";
 import {
 	WorldColorsBlack,
 	WorldColorsBlue,
@@ -59,10 +59,10 @@ import {
 	WorldColorsTealDark,
 	WorldColorsTealLight,
 	WorldColorsWhitePure,
-} from "@/enums/zelda/WorldColors";
-import { IZeldaTargetColor, ZeldaTargetColor } from "@/models/ZeldaTargetColor";
-import { ZeldaTileCell } from "@/models/ZeldaTileCell";
-import { IZeldaWorldObjectConfig, ZeldaWorldObject } from "@/models/ZeldaWorldObject";
+} from "@/enums/game/WorldColors";
+import { GameTargetColor, IGameTargetColor } from "@/models/GameTargetColor";
+import { GameTileCell } from "@/models/GameTileCell";
+import { GameWorldObject, IGameWorldObjectConfig } from "@/models/GameWorldObject";
 import { isEmpty } from "@/utils/common";
 
 const WhiteBlack = [WorldColorsWhitePure, WorldColorsBlack];
@@ -72,7 +72,7 @@ const WhiteBlackRed = [WorldColorsWhitePure, WorldColorsBlack, WorldColorsRedPur
  * a red/orange for the standard version, and blue/light blue for the harder version of the enemy.
  */
 const EnemyNormal = WhiteBlackRed.map((color) => {
-	const config: IZeldaTargetColor = {
+	const config: IGameTargetColor = {
 		Target: color,
 	};
 	if (color === WorldColorsRedPure) {
@@ -84,7 +84,7 @@ const EnemyNormal = WhiteBlackRed.map((color) => {
 	return config;
 });
 const EnemyHard = WhiteBlackRed.map((color) => {
-	const config: IZeldaTargetColor = {
+	const config: IGameTargetColor = {
 		Target: color,
 	};
 	if (color === WorldColorsRedPure) {
@@ -101,7 +101,7 @@ const EnemyHard = WhiteBlackRed.map((color) => {
  * Blue Ring = PurpleLight
  * Red Ring = Red */
 const PolsVoice = WhiteBlackRed.map((color) => {
-	const config: IZeldaTargetColor = {
+	const config: IGameTargetColor = {
 		Target: color,
 	};
 	if (color === WorldColorsBlack) {
@@ -117,7 +117,7 @@ const PolsVoice = WhiteBlackRed.map((color) => {
 });
 // The harder version of the moblin has all 3 different colors instead of the standard 2 changes
 const MoblinHarder = WhiteBlackRed.map((color) => {
-	const config: IZeldaTargetColor = {
+	const config: IGameTargetColor = {
 		Target: color,
 	};
 	if (color === WorldColorsRedPure) {
@@ -132,7 +132,7 @@ const MoblinHarder = WhiteBlackRed.map((color) => {
 	return config;
 });
 const Zora = WhiteBlack.map((color) => {
-	const config: IZeldaTargetColor = {
+	const config: IGameTargetColor = {
 		Target: color,
 	};
 	if (color === WorldColorsWhitePure) {
@@ -144,7 +144,7 @@ const Zora = WhiteBlack.map((color) => {
 	return config;
 });
 const GelBlue = WhiteBlack.map((color) => {
-	const config: IZeldaTargetColor = {
+	const config: IGameTargetColor = {
 		Target: color,
 	};
 	if (color === WorldColorsWhitePure) {
@@ -156,7 +156,7 @@ const GelBlue = WhiteBlack.map((color) => {
 	return config;
 });
 const KeeseBlue = WhiteBlack.map((color) => {
-	const config: IZeldaTargetColor = {
+	const config: IGameTargetColor = {
 		Target: color,
 	};
 	if (color === WorldColorsWhitePure) {
@@ -168,7 +168,7 @@ const KeeseBlue = WhiteBlack.map((color) => {
 	return config;
 });
 const KeeseRed = WhiteBlack.map((color) => {
-	const config: IZeldaTargetColor = {
+	const config: IGameTargetColor = {
 		Target: color,
 	};
 	if (color === WorldColorsWhitePure) {
@@ -180,7 +180,7 @@ const KeeseRed = WhiteBlack.map((color) => {
 	return config;
 });
 const ZolGray = WhiteBlack.map((color) => {
-	const config: IZeldaTargetColor = {
+	const config: IGameTargetColor = {
 		Target: color,
 	};
 	if (color === WorldColorsBlack) {
@@ -189,7 +189,7 @@ const ZolGray = WhiteBlack.map((color) => {
 	return config;
 });
 const ZolGreen = WhiteBlack.map((color) => {
-	const config: IZeldaTargetColor = {
+	const config: IGameTargetColor = {
 		Target: color,
 	};
 	if (color === WorldColorsWhitePure) {
@@ -206,7 +206,7 @@ const EnemyDefault = WhiteBlackRed.map((color) => {
 	};
 });
 
-export interface IZeldaEnemyConfig extends IZeldaWorldObjectConfig {
+export interface IGameEnemyConfig extends IGameWorldObjectConfig {
 	Speed?: number;
 	Health?: number;
 	TouchDamage?: number;
@@ -214,7 +214,7 @@ export interface IZeldaEnemyConfig extends IZeldaWorldObjectConfig {
 	WeaponDamage?: number;
 }
 
-export class ZeldaEnemy extends ZeldaWorldObject {
+export class GameEnemy extends GameWorldObject {
 	@IsNumber()
 	Speed?: number;
 
@@ -530,7 +530,7 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 		Speed = this.Speed ?? Speed;
 		TouchDamage = this.TouchDamage ?? TouchDamage;
 		WeaponDamage = this.WeaponDamage ?? WeaponDamage;
-		this.Colors = Colors.map((color) => ZeldaTargetColor.create(color));
+		this.Colors = Colors.map((color) => GameTargetColor.create(color));
 		this.Health = Health;
 		this.TouchDamage = TouchDamage;
 		this.Speed = Speed;
@@ -599,8 +599,8 @@ export class ZeldaEnemy extends ZeldaWorldObject {
 	// the user can change the values
 
 	getConfig() {
-		const { cell = ZeldaTileCell.create() } = this;
-		const config: IZeldaEnemyConfig = {
+		const { cell = GameTileCell.create() } = this;
+		const config: IGameEnemyConfig = {
 			Type: this.getTypeKey(),
 			X: cell.x,
 			Y: cell.y,

@@ -1,24 +1,24 @@
 ﻿import { IsArray, IsBoolean, IsInt, IsNumber, IsString } from "class-validator";
+import { Items as EnumItems } from "@/enums/game/Items";
+import { Enemies as EnumEnemies } from "@/enums/game/NPCs";
+import { Tiles as EnumTiles } from "@/enums/game/Tiles";
+import { WorldColors, WorldColorsBrown, WorldColorsTan } from "@/enums/game/WorldColors";
 import { findRecordByName, getNameById } from "@/enums/helper";
-import { Items as EnumItems } from "@/enums/zelda/Items";
-import { Enemies as EnumEnemies } from "@/enums/zelda/NPCs";
-import { Tiles as EnumTiles } from "@/enums/zelda/Tiles";
-import { WorldColors, WorldColorsBrown, WorldColorsTan } from "@/enums/zelda/WorldColors";
 import { ModelTransform } from "@/models/decorators";
+import { IGameEnemyConfig } from "@/models/GameEnemy";
+import { IGameItemConfig } from "@/models/GameItem";
+import { getDefaultTileColors, IGameTileMeta } from "@/models/GameTile";
+import { GameTileCell } from "@/models/GameTileCell";
 import { Parent, ViewModel } from "@/models/ViewModel";
-import { IZeldaEnemyConfig } from "@/models/ZeldaEnemy";
-import { IZeldaItemConfig } from "@/models/ZeldaItem";
-import { getDefaultTileColors, IZeldaTileMeta } from "@/models/ZeldaTile";
-import { ZeldaTileCell } from "@/models/ZeldaTileCell";
 import { isEmpty, removeItem } from "@/utils/common";
 
 export interface ILoadData {
-	Tiles?: IZeldaTileMeta[];
-	Items?: IZeldaItemConfig[];
-	Enemies?: IZeldaEnemyConfig[];
+	Tiles?: IGameTileMeta[];
+	Items?: IGameItemConfig[];
+	Enemies?: IGameEnemyConfig[];
 }
 
-export class ZeldaScreen extends ViewModel {
+export class GameScreen extends ViewModel {
 	@IsNumber()
 	X = 0;
 
@@ -49,8 +49,8 @@ export class ZeldaScreen extends ViewModel {
 	Template = "";
 
 	@IsArray()
-	@ModelTransform(() => ZeldaTileCell)
-	cells: ZeldaTileCell[] = [];
+	@ModelTransform(() => GameTileCell)
+	cells: GameTileCell[] = [];
 
 	@IsInt()
 	totalRows = 0;
@@ -74,10 +74,10 @@ export class ZeldaScreen extends ViewModel {
 	}
 
 	init() {
-		const config: ZeldaTileCell[] = [];
+		const config: GameTileCell[] = [];
 		for (let row = 0; row < this.totalRows; row++) {
 			for (let column = 0; column < this.totalColumns; column++) {
-				config.push(ZeldaTileCell.create({
+				config.push(GameTileCell.create({
 					Coordinates: [column, row],
 				}, {
 					init: true,
@@ -118,7 +118,7 @@ export class ZeldaScreen extends ViewModel {
 						}
 						cell.tile.set({
 							Type: foundTile,
-							Transition: ZeldaScreen.create(child.Transition),
+							Transition: GameScreen.create(child.Transition),
 							Colors: tileColors,
 						});
 						removeItem(tile.Children, child);
@@ -177,7 +177,7 @@ export class ZeldaScreen extends ViewModel {
 		return this.cells[y * this.totalColumns + x];
 	}
 
-	getAdjacentNodes(node: ZeldaTileCell) {
+	getAdjacentNodes(node: GameTileCell) {
 		const { x, y } = node;
 		const nodes = [this.getCell(x - 1, y), this.getCell(x + 1, y), this.getCell(x, y - 1), this.getCell(x, y + 1)];
 		const tileType = node.tile.Type;
@@ -185,8 +185,8 @@ export class ZeldaScreen extends ViewModel {
 		return nodes.filter((record) => record?.tile.TileType === tileType);
 	}
 
-	findAdjacentNodes(startNode: ZeldaTileCell = this.cells[0], traversedNodes: ZeldaTileCell[] = []) {
-		const nodes: ZeldaTileCell[] = [];
+	findAdjacentNodes(startNode: GameTileCell = this.cells[0], traversedNodes: GameTileCell[] = []) {
+		const nodes: GameTileCell[] = [];
 		const adjacentNodes = this.getAdjacentNodes(startNode);
 		if (traversedNodes.indexOf(startNode) === -1) {
 			traversedNodes.push(startNode);
@@ -206,9 +206,9 @@ export class ZeldaScreen extends ViewModel {
 
 	// In my case, adjacent depends on the coordinates... e.g. 0,0 has 0,1 and 1,0
 	getConfig() {
-		const Tiles: IZeldaTileMeta[] = [];
-		const Items: IZeldaItemConfig[] = [];
-		const Enemies: IZeldaEnemyConfig[] = [];
+		const Tiles: IGameTileMeta[] = [];
+		const Items: IGameItemConfig[] = [];
+		const Enemies: IGameEnemyConfig[] = [];
 		for (const cell of this.cells) {
 			cell.getConfig({
 				Tiles,
