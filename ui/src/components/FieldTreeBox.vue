@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="T extends object">
+<script setup lang="ts">
 import { computed } from "vue";
 import PrimeTreeSelect from "primevue/treeselect";
 import BaseField, { IBaseField } from "@/components/BaseField.vue";
@@ -7,7 +7,7 @@ import { ITreeOption } from "@/types/components";
 export type IFieldTreeBoxSelection = Record<string, boolean>;
 
 export interface IFieldTreeBox extends IBaseField {
-	options?: ITreeOption<T>[];
+	options?: ITreeOption[];
 	optionLabel?: string | undefined;
 	optionValue?: string | undefined;
 	disabled?: boolean;
@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<IFieldTreeBox>(), {
 	options: () => [],
 });
 const emit = defineEmits(["update:modelValue"]);
-const selected = defineModel<ITreeOption<T>>("selected");
+const selected = defineModel<ITreeOption>("selected");
 const model = computed({
 	get() {
 		const { modelValue } = props;
@@ -43,7 +43,7 @@ const model = computed({
 	},
 });
 
-function getSelected(options: ITreeOption<T>[], value: string): ITreeOption<T> | undefined {
+function getSelected(options: ITreeOption[], value: string): ITreeOption | undefined {
 	const { optionValue } = props;
 	return options.find((option) => {
 		if (option[optionValue as keyof typeof option] === value) {
