@@ -33,7 +33,7 @@ import IconPin from "@/assets/IconPin.vue";
 					<IconPin class="size-5" />
 				</td>
 				<td class="pl-3">
-					Sterling, VA
+					Fairfax, VA
 				</td>
 			</tr>
 			<tr>
