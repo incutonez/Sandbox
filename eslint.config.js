@@ -9,6 +9,7 @@ export default [
 		"ignores": [
 			"**/dist",
 			"ui/src/assets/theme/*",
+      "linkedIn/*",
 			"**/generated",
 			"**/eslint.config.js"
 		],
