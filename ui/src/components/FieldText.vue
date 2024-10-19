@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, InputTypeHTMLAttribute, onMounted, ref, unref, watch } from "vue";
+import { ComponentInstance, computed, InputTypeHTMLAttribute, onMounted, ref, unref, watch } from "vue";
 import PrimeInputText from "primevue/inputtext";
 import IconClear from "@/assets/IconClear.vue";
 import BaseButton from "@/components/BaseButton.vue";
@@ -52,7 +52,7 @@ const props = withDefaults(defineProps<IFieldText>(), {
 const emit = defineEmits(["inputEnd", "inputClear", "blur"]);
 const modelValue = defineModel<string>();
 let inputEndTimer: ReturnType<typeof setTimeout>;
-const libCmp = ref<InstanceType<typeof PrimeInputText>>();
+const libCmp = ref<ComponentInstance<typeof PrimeInputText>>();
 const clearVisible = computed(() => props.showClear && !!modelValue.value);
 const inputCls = computed(() => {
 	return {

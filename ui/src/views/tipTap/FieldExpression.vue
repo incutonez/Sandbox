@@ -20,7 +20,8 @@ import { isNumber, isOperator } from "@/views/tipTap/globals";
 import { IToken } from "@/views/tipTap/types";
 
 const props = defineProps<NodeViewProps>();
-const token = computed<IToken>(() => props.node.attrs.token);
+// TODO: Fix this "as any"  Had to add it because props.node is apparently an "unknown" type with their latest update
+const token = computed<IToken>(() => (props.node as any).attrs.token);
 const isTokenNumber = computed(() => token.value.type === "number");
 const editor = useEditor({
 	extensions: [StarterKit],

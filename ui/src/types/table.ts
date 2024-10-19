@@ -1,12 +1,16 @@
-import { ApiPaginatedRequest } from "@incutonez/spec/dist";
 import { ColumnPassThroughMethodOptions, ColumnPassThroughOptions, ColumnProps } from "primevue/column";
+import { DataTableFilterMeta, DataTableFilterMetaData } from "primevue/datatable";
 import { EmitFn, IBaseButton } from "@/types/components";
 
 export type TColumnLock = "left" | "right" | false;
 
 export type IPassThroughOptions = ColumnPassThroughMethodOptions
 
-export interface ITableColumn<T = unknown> {
+export type ITableFilter = DataTableFilterMeta;
+
+export type ITableTreeFilter = DataTableFilterMetaData;
+
+export interface ITableColumn<TData = unknown> {
 	field?: string;
 	title?: string;
 	titleCls?: string;
@@ -16,8 +20,8 @@ export interface ITableColumn<T = unknown> {
 	sortable?: boolean;
 	cellComponent?: InstanceType<any>;
 	cellParams?: any;
-	cellDisplay?: (data: T, records: T[]) => any;
-	cellClass?: string | ((column: ITableColumn, node: T | ITreeNode<T>) => string);
+	cellDisplay?: (data: TData, records: TData[]) => any;
+	cellClass?: string | ((column: ITableColumn, node: TData | ITreeNode<TData>) => string);
 	lock?: TColumnLock;
 	cls?: string;
 	showMenu?: boolean;
@@ -31,7 +35,7 @@ export interface ITableColumn<T = unknown> {
 	classes?: ColumnPassThroughOptions;
 }
 
-export interface ITableGrid<TData = any> {
+export interface ITableGrid<TData = any, TLoadParams = any> {
 	records?: TData;
 	title?: string;
 	showHeader?: boolean;
@@ -49,7 +53,7 @@ export interface ITableGrid<TData = any> {
 	columnsResize?: boolean;
 	columnsReorder?: boolean;
 	rowsPerPage?: number;
-	load?: (params: ApiPaginatedRequest) => Promise<any>;
+	load?: (params: TLoadParams) => Promise<any>;
 	remote?: boolean;
 	/**
 	 * Sometimes the API endpoint can only have a certain max number, which is what this represents.
@@ -68,13 +72,6 @@ export interface IColumnState {
 	width?: number;
 	index?: number;
 }
-
-export interface IColumnFilter {
-	value: any;
-	matchMode: string;
-}
-
-export type TColumnFilters = Record<string, IColumnFilter>;
 
 export type TTableEmit = EmitFn<ITableEmit>;
 
