@@ -9,7 +9,7 @@ export default {
 		extend: {
 			colors: {
 				blue: {
-					resume: "#355269",
+					resume: "#041E42",
 				},
 			},
 			spacing: {
