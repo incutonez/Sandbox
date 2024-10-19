@@ -1,6 +1,6 @@
 <template>
 	<PrimeTreeTable
-		v-bind="propsComponent"
+		v-bind="propsComponent as TreeTableProps"
 		:value="loading ? [] : recordsFiltered"
 		:first="start"
 		:loading="loading"
@@ -124,7 +124,7 @@
 import { ref, unref, watch } from "vue";
 import { FilterMatchMode } from "@primevue/core/api";
 import Column from "primevue/column";
-import PrimeTreeTable from "primevue/treetable";
+import PrimeTreeTable, { TreeTableProps } from "primevue/treetable";
 import IconAdd from "@/assets/IconAdd.vue";
 import IconPageLeft from "@/assets/IconPageLeft.vue";
 import IconPageRight from "@/assets/IconPageRight.vue";
@@ -134,7 +134,7 @@ import FieldComboBox from "@/components/FieldComboBox.vue";
 import FieldNumber from "@/components/FieldNumber.vue";
 import FieldText from "@/components/FieldText.vue";
 import TableCellMenu from "@/components/TableCellMenu.vue";
-import { ITableEmit, ITableGrid, ITreeNode, TColumnFilters } from "@/types/table";
+import { ITableEmit, ITableFilter, ITableGrid, ITableTreeFilter, ITreeNode } from "@/types/table";
 import { clone, isEmpty } from "@/utils/common";
 import { RowsPerPageOptions, useDataTable } from "@/utils/table";
 
@@ -157,12 +157,7 @@ const recordsFiltered = ref<ITreeNode[]>([]);
  * Filters seem busted, at least being able to use them as an object, so I'm going to implement it a little
  * differently until there's a response on that issue.
  */
-const filters = defineModel<TColumnFilters>("filters", {
-	default: () => {
-		return {};
-	},
-});
-const { columnsConfig, search, rowsPerPage, propsComponent, loading, recordsCached, start, isPageFirst, isPageLast, totalPages, recordsTotal, currentPage, startDisplay, endDisplay, loadRecords, getColumnMenuConfig, getNodeDisplay, getCellClass, getNodeParams, previousPage, nextPage, changePage, changeRowsPerPage } = useDataTable<ITreeNode>(props, emit);
+const { columnsConfig, search, rowsPerPage, propsComponent, loading, recordsCached, start, isPageFirst, isPageLast, totalPages, recordsTotal, currentPage, startDisplay, endDisplay, loadRecords, getColumnMenuConfig, getNodeDisplay, getCellClass, getNodeParams, previousPage, nextPage, changePage, changeRowsPerPage, filters } = useDataTable<ITreeNode>(props, emit);
 
 function clearCache() {
 	recordsCached.value = [];
@@ -199,18 +194,18 @@ function onSearch() {
 		reloadRecords();
 	}
 	else {
-		filters.value.global = {
+		filters.global = {
 			value: search.value,
 			matchMode: FilterMatchMode.CONTAINS,
 		};
 	}
 }
 
-function includeInFilter({ record, filters, filterFields }: { record: ITreeNode, filters: TColumnFilters, filterFields: string[] }): boolean {
+function includeInFilter({ record, filters, filterFields }: { record: ITreeNode, filters: ITableFilter, filterFields: string[] }): boolean {
 	let include = isEmpty(filterFields);
 	const { data } = record;
 	for (const field of filterFields) {
-		const { matchMode, value } = filters[field];
+		const { matchMode, value } = filters[field] as ITableTreeFilter;
 		switch (matchMode) {
 			case FilterMatchMode.EQUALS:
 				include = data[field as keyof typeof data] === value;
@@ -238,7 +233,7 @@ function updateFilters() {
 	const $filters = unref(filters);
 	const filterFields = Object.keys($filters);
 	/* TODOJEF: I don't like cloning like this, but we need to filter the children out if they don't match the criteria,
-	 * but we need to restore the data when the filter is removed */
+   * but we need to restore the data when the filter is removed */
 	const records = clone(recordsCached.value);
 	recordsFiltered.value = records.filter((node) => includeInFilter({
 		record: node,

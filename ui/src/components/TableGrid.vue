@@ -143,7 +143,7 @@ import FieldComboBox from "@/components/FieldComboBox.vue";
 import FieldNumber from "@/components/FieldNumber.vue";
 import FieldText from "@/components/FieldText.vue";
 import TableCellMenu from "@/components/TableCellMenu.vue";
-import { ITableEmit, ITableGrid, TColumnFilters } from "@/types/table";
+import { ITableEmit, ITableGrid } from "@/types/table";
 import { RowsPerPageOptions, useDataTable } from "@/utils/table";
 
 const props = withDefaults(defineProps<ITableGrid>(), {
@@ -161,12 +161,7 @@ const props = withDefaults(defineProps<ITableGrid>(), {
 	showPagination: true,
 });
 const emit = defineEmits<ITableEmit>();
-const { filterFields, columnsConfig, propsComponent, recordsTotal, start, loading, rowsPerPage, currentPage, recordsCached, search, isPageLast, isPageFirst, startDisplay, endDisplay, totalPages, loadRecords, previousPage, nextPage, changePage, changeRowsPerPage, getColumnMenuConfig, getCellDisplay, getCellParams } = useDataTable(props, emit);
-const filters = defineModel<TColumnFilters>("filters", {
-	default: () => {
-		return {};
-	},
-});
+const { filterFields, columnsConfig, propsComponent, recordsTotal, start, loading, rowsPerPage, currentPage, recordsCached, filters, search, isPageLast, isPageFirst, startDisplay, endDisplay, totalPages, loadRecords, previousPage, nextPage, changePage, changeRowsPerPage, getColumnMenuConfig, getCellDisplay, getCellParams } = useDataTable(props, emit);
 
 function onPagePrevious() {
 	previousPage();
@@ -206,7 +201,7 @@ function onSearch() {
 		reloadRecords();
 	}
 	else {
-		filters.value.global = {
+		filters.global = {
 			value: search.value,
 			matchMode: FilterMatchMode.CONTAINS,
 		};

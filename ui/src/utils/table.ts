@@ -1,5 +1,4 @@
 import { computed, markRaw, reactive, ref, unref, watch } from "vue";
-import { FilterType } from "@incutonez/spec/dist";
 import get from "just-safe-get";
 import { ColumnProps } from "primevue/column";
 import { DataTablePassThroughOptions, DataTableProps } from "primevue/datatable";
@@ -10,7 +9,15 @@ import IconResetColumn from "@/assets/IconResetColumn.vue";
 import IconResetColumns from "@/assets/IconResetColumns.vue";
 import { IBaseMenu } from "@/components/BaseMenu.vue";
 import { IMenuItem, IOption } from "@/types/components";
-import { IPassThroughOptions, ITableColumn, ITableGrid, ITreeNode, TColumnLock, TTableEmit } from "@/types/table";
+import {
+	IPassThroughOptions,
+	ITableColumn,
+	ITableFilter,
+	ITableGrid,
+	ITreeNode,
+	TColumnLock,
+	TTableEmit,
+} from "@/types/table";
 
 export const RowsPerPageOptions: IOption[] = [{
 	id: 10,
@@ -96,15 +103,16 @@ function reorderColumns(columns: ITableColumn[]) {
 	});
 }
 
-export function useDataTable<T = unknown>(props: ITableGrid, emit: TTableEmit) {
+export function useDataTable<TData = unknown>(props: ITableGrid, emit: TTableEmit) {
 	const columnsConfig = ref<ITableColumn[]>([]);
 	const filterFields = ref<string[]>([]);
-	const recordsCached = ref<T[]>([]);
+	const recordsCached = ref<TData[]>([]);
 	const recordsTotal = ref(0);
 	const rowsPerPage = ref(20);
 	const currentPage = ref(1);
 	const loading = ref(false);
 	const search = ref("");
+	const filters: ITableFilter = reactive({});
 	const start = computed(() => (currentPage.value - 1) * rowsPerPage.value);
 	const max = computed(() => props.remoteMax ?? rowsPerPage.value);
 	const propsComponent = computed(() => {
@@ -295,13 +303,6 @@ export function useDataTable<T = unknown>(props: ITableGrid, emit: TTableEmit) {
 			const $max = unref(max);
 			loading.value = true;
 			try {
-				const filters: FilterType[] = [];
-				if (search.value) {
-					filters.push({
-						type: "Search",
-						value: search.value,
-					});
-				}
 				const response = await load({
 					page,
 					filters,
@@ -362,6 +363,7 @@ export function useDataTable<T = unknown>(props: ITableGrid, emit: TTableEmit) {
 		loadRecords,
 		recordsTotal,
 		recordsCached,
+		filters,
 		search,
 		start,
 		loading,

@@ -22,14 +22,14 @@ import { FilterMatchMode } from "@primevue/core/api";
 import FieldCheckbox from "@/components/FieldCheckbox.vue";
 import TableTree from "@/components/TableTree.vue";
 import { TreeViewModel } from "@/models/TreeViewModel";
-import { IPassThroughOptions, ITableColumn, ITreeNode, TColumnFilters } from "@/types/table";
+import { IPassThroughOptions, ITableColumn, ITableFilter, ITreeNode } from "@/types/table";
 import { isEmpty } from "@/utils/common";
 import { getPassThroughNode } from "@/utils/table";
 import ColumnField from "@/views/auditor/ColumnField.vue";
 import ColumnValue from "@/views/auditor/ColumnValue.vue";
 
 const showUnchanged = ref(false);
-const filters = reactive<TColumnFilters>({
+const filters = reactive<ITableFilter>({
 	status: {
 		value: EnumChangeStatus.Unchanged,
 		matchMode: FilterMatchMode.NOT_EQUALS,
