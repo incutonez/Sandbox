@@ -11,7 +11,7 @@
     "updateDeps": "node ./updateDependencies.js",
     "lint": "npx eslint . --ext .js --fix",
     "lint:fix": "prettier --write && npx eslint --fix",
-    "explode": "npm cache clean --force && npx rimraf package-lock.json node_modules && npm i",
+    "explode": "npm cache clean --force && npx rimraf package-lock.json **/node_modules --glob && npm i",
     "build:spec": "cd spec && rimraf dist && npm run build",
     "generate:spec": "cd spec && npm run generate",
     "build:ui": "cd ui && npm run build",
