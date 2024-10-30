@@ -1,7 +1,6 @@
 $workspace = "$home\workspace"
 $sandbox = "$workspace\Sandbox"
 $zeldaU = "$workspace\ZeldaU"
-$jefbox = "$workspace\applications\web\jefbox"
 
 function pruneGit() {
   git fetch --prune origin
@@ -24,27 +23,6 @@ function branchRename($branch) {
 
 function branchResetHard() {
   git reset --hard
-}
-
-function SenchaCmdProps() {
-  sencha ant .props
-}
-
-function AppWatch {
-  param
-  (
-    [string]$dir,
-    [string]$env,
-    [string]$port
-  )
-  if ($dir -eq '') {
-    $dir = "$jefbox\ui"
-  }
-  if ($port -ne '') {
-    $port = "--port $port"
-  }
-  cd $dir
-  Invoke-Expression "sencha app watch $port $env"
 }
 
 function killTask($processId) {
@@ -73,24 +51,22 @@ function killTaskByPort($portNumber) {
   killTask $portnum.captures[0].Value;
 }
 
-function playlistGta($playlist) {
-  foreach($line in Get-Content $playlist) {
-    if ($line -match 'MyCloudEx2Ultra') {
-      $path = $line -replace '\\\\MyCloudEx2Ultra\\Public\\Shared Music\\', ''
-      $path = $path -replace '\\', '_'
-      $path = "C:\Users\incut\Documents\Rockstar Games\GTA V\User Music\$path"
-      echo $path
-      New-Item -ItemType SymbolicLink -Path "$path" -Target $line
-    }
-  }
-}
-
 function upgradeApp() {
   npx npm-check-updates -u
 }
 
 function createApp() {
-  npm create vite@latest
+  param(
+    [Parameter(Mandatory=$true)]
+    [string]
+    $projectName,
+
+    [Parameter(Mandatory=$false)]
+    [string]
+    $directory
+  )
+  cd $sandbox
+  npx tsx scaffold.ts -n "$projectName" -d "$directory"
 }
 
 function startAPI() {
