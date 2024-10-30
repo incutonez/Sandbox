@@ -2,7 +2,7 @@
  * In order to use this, go to about:debugging#/runtime/this-firefox and load the manifest.json file as the Temporary Add-on
  */
 const MatchRegex = /Viewed|Applied|Promoted/;
-const CompaniesRegex = /Get It Recruit|Actalent|Patterned Learning|G2i|SideRamp|DataAnnotation|Veeva Systems|Aha!|HireMeFast|Team Remotely|Recruiting from Scratch|myGwork|Jerry|RemoteWorker|ClickJobs\.io|Varsity Tutors|Ascendion/i;
+const CompaniesRegex = /Novum Global|Pragmatike|Energy Jobline|JTek Software Solutions|Software Technology Inc|Get It Recruit|Actalent|Patterned Learning|G2i|SideRamp|DataAnnotation|Veeva Systems|Aha!|HireMeFast|Team Remotely|Recruiting from Scratch|myGwork|Jerry|RemoteWorker|ClickJobs\.io|Varsity Tutors|Ascendion/i;
 const Today = new Date();
 const OneWeek = 604800000;
 const HoursAgoRegex = /(\d+) hours ago/;
