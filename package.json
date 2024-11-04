@@ -45,7 +45,8 @@
     "api",
     "assessments",
     "spec",
-    "resume"
+    "resume",
+    "ecommerce"
   ],
   "engines": {
     "node": ">=18",
