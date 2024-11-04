@@ -14,26 +14,26 @@ export class User extends Model {
 	declare id: string;
 
 	@Column
-	first_name: string;
+	declare first_name: string;
 
 	@Column
-	last_name: string;
+	declare last_name: string;
 
 	@Column
-	phone: string;
+	declare phone: string;
 
 	@Column
-	email: string;
+	declare email: string;
 
 	@Column
-	gender: string;
+	declare gender: string;
 
 	@Column
-	birth_date: number;
+	declare birth_date: number;
 
 	@ForeignKey(() => Address)
 	@Column
-	address_id?: number;
+	declare address_id?: number;
 
 	@BelongsTo(() => Address)
 	address?: Address;

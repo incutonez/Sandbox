@@ -1,4 +1,4 @@
-import { Column, ForeignKey, Model, Table } from "sequelize-typescript";
+import { BelongsTo, Column, ForeignKey, Model, Table } from "sequelize-typescript";
 import { PrimaryKeyGuid } from "src/db/decorators";
 import { ProductModel } from "src/db/models/ProductModel";
 import { User } from "src/db/models/User";
@@ -30,4 +30,7 @@ export class ReviewModel extends Model {
   @ForeignKey(() => ProductModel)
   @Column
   declare product_id: string;
+
+  @BelongsTo(() => User, "created_by")
+  created_by_user: User;
 }

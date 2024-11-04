@@ -5,10 +5,14 @@ import { SequelizeModule } from "@nestjs/sequelize";
 import { AccountsModule } from "src/accounts/accounts.module";
 import { AppController } from "src/app.controller";
 import { AppService } from "src/app.service";
+import { CategoriesModule } from "src/categories/categories.module";
 import { DBConfig } from "src/db";
 import { DiffModule } from "src/diff/diff.module";
+import { ImagesModule } from "src/images/images.module";
 import { LeaguesModule } from "src/leagues/leagues.module";
+import { ProductsModule } from "src/products/products.module";
 import { RandomModule } from "src/random/random.module";
+import { ReviewsModule } from "src/reviews/reviews.module";
 import { UsersModule } from "src/users/users.module";
 
 @Module({
@@ -18,6 +22,10 @@ import { UsersModule } from "src/users/users.module";
 		RandomModule,
 		DiffModule,
 		LeaguesModule,
+		ImagesModule,
+		ProductsModule,
+		CategoriesModule,
+		ReviewsModule,
 		ConfigModule.forRoot({
 			envFilePath: [".env.local", ".env"],
 		}),

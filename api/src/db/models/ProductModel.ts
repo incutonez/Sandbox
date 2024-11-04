@@ -1,4 +1,4 @@
-import { Column, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
+import { BelongsTo, Column, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
 import { PrimaryKeyGuid } from "src/db/decorators";
 import { CategoryModel } from "src/db/models/CategoryModel";
 import { ImageModel } from "src/db/models/ImageModel";
@@ -29,6 +29,12 @@ export class ProductModel extends Model {
   @Column
   declare image_id: string;
 
-  @HasMany(() => ReviewModel)
+  @BelongsTo(() => ImageModel, "image_id")
+  image: ImageModel;
+
+  @BelongsTo(() => CategoryModel, "category_id")
+  category: CategoryModel;
+
+  @HasMany(() => ReviewModel, "product_id")
   reviews: ReviewModel[];
 }

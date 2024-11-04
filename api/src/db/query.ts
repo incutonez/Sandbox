@@ -9,7 +9,7 @@ export function whereLike(field: string, value: number | string | boolean | Date
 	};
 }
 
-export function whereSearch<TAttributes>(fields: Array<keyof TAttributes>, value: number | boolean | string): WhereOptions<TAttributes> {
+export function whereSearch<TAttributes>(fields: (keyof TAttributes)[], value: number | boolean | string): WhereOptions<TAttributes> {
 	return {
 		[Op.or]: fields.map((field) => whereLike(field as string, value)),
 	};
