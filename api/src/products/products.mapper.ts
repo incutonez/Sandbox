@@ -31,6 +31,7 @@ export class ProductsMapper {
 			image: this.imagesMapper.modelToViewModel(image),
 			category: this.categoriesMapper.modelToViewModel(category),
 			reviews: reviews.map((review) => this.reviewsMapper.modelToViewModel(review)),
+			rating: calculateRating(reviews),
 		};
 	}
 }

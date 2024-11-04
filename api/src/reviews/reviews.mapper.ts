@@ -10,7 +10,8 @@ export function calculateRating(reviews: ReviewModel[]) {
 		count++;
 		total += review.rating;
 	});
-	return (total / (count * 5)) * 5;
+	// * 500 because it's really 5 * 100... we want the ultimate value to be multiplied by 5 because it's a 5-star rating
+	return Math.round((total / (count * 5)) * 500 + Number.EPSILON) / 100;
 }
 
 @Injectable()

@@ -7,6 +7,7 @@ export class ProductEntity {
   name: string;
   price: number;
   description: string;
+  rating: number;
   category: CategoryEntity;
   image: ImageEntity;
   reviews: ReviewEntity[];
