@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 import { readdirSync, readFileSync } from "fs";
 import { CategoryModel } from "src/db/models/CategoryModel";
 import { ImageModel } from "src/db/models/ImageModel";
@@ -22,6 +23,7 @@ function createParagraphs(total: number) {
 	return paragraphs.join("\n\n");
 }
 
+@ApiTags("products")
 @Controller("products")
 export class ProductsController {
 	constructor(private readonly service: ProductsService) {
