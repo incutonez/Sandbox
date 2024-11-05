@@ -25,6 +25,8 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 import { ApiPaginatedRequest } from '../models';
 // @ts-ignore
 import { ProductEntity } from '../models';
+// @ts-ignore
+import { ProductResponseModel } from '../models';
 /**
  * ProductsApi - axios parameter creator
  * @export
@@ -163,7 +165,7 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listProducts(apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async listProducts(apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductResponseModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listProducts(apiPaginatedRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -200,7 +202,7 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listProducts(apiPaginatedRequest: ApiPaginatedRequest, options?: any): AxiosPromise<void> {
+        listProducts(apiPaginatedRequest: ApiPaginatedRequest, options?: any): AxiosPromise<ProductResponseModel> {
             return localVarFp.listProducts(apiPaginatedRequest, options).then((request) => request(axios, basePath));
         },
     };
@@ -236,7 +238,7 @@ export interface ProductsApiInterface {
      * @throws {RequiredError}
      * @memberof ProductsApiInterface
      */
-    listProducts(apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig): AxiosPromise<void>;
+    listProducts(apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig): AxiosPromise<ProductResponseModel>;
 
 }
 

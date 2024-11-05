@@ -9,6 +9,9 @@ export class ImageModel extends Model {
   @PrimaryKeyGuid()
   declare id: string;
 
+  @Column
+  declare name: string;
+
   @Column({
   	type: DataType.BLOB,
   })
@@ -16,4 +19,7 @@ export class ImageModel extends Model {
 
   @Column
   declare created_date: number;
+
+  @Column
+  declare content_type: string;
 }

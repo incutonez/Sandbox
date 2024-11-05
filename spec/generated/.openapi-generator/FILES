@@ -4,6 +4,7 @@
 api.ts
 api/default-api.ts
 api/differ-api.ts
+api/images-api.ts
 api/leagues-api.ts
 api/products-api.ts
 api/random-api.ts
@@ -27,6 +28,8 @@ models/index.ts
 models/league-match-entity.ts
 models/league-match-response-model.ts
 models/product-entity.ts
+models/product-list-entity.ts
+models/product-response-model.ts
 models/profile-entity.ts
 models/review-entity.ts
 models/tree-change-model.ts

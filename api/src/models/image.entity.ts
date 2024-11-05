@@ -1,5 +1,6 @@
 export class ImageEntity {
   id?: string;
-  contents: Blob;
+  name: string;
+  contentType: string;
   createdDate: number;
 }

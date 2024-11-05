@@ -8,6 +8,7 @@ import { ProductModel } from "src/db/models/ProductModel";
 import { ReviewModel } from "src/db/models/ReviewModel";
 import { User } from "src/db/models/User";
 import { ApiPaginatedRequest } from "src/models/base.list.entity";
+import { ProductResponseModel } from "src/models/responses.entity";
 import { ProductsService } from "src/products/products.service";
 
 function createParagraphs(total: number) {
@@ -31,7 +32,7 @@ export class ProductsController {
 
 	@Post("list")
 	@HttpCode(HttpStatus.OK)
-	async listProducts(@Body() body: ApiPaginatedRequest) {
+	async listProducts(@Body() body: ApiPaginatedRequest): Promise<ProductResponseModel> {
 		return this.service.getProducts(body);
 	}
 

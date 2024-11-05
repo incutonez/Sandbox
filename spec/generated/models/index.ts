@@ -11,6 +11,8 @@ export * from './image-entity';
 export * from './league-match-entity';
 export * from './league-match-response-model';
 export * from './product-entity';
+export * from './product-list-entity';
+export * from './product-response-model';
 export * from './profile-entity';
 export * from './review-entity';
 export * from './tree-change-model';

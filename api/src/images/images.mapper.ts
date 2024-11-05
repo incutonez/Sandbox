@@ -2,10 +2,11 @@ import { ImageModel } from "src/db/models/ImageModel";
 import { ImageEntity } from "src/models/image.entity";
 
 export class ImagesMapper {
-	modelToViewModel({ id, contents, created_date }: ImageModel): ImageEntity {
+	modelToViewModel({ id, created_date, name, content_type }: ImageModel): ImageEntity {
 		return {
 			id,
-			contents,
+			name,
+			contentType: content_type,
 			createdDate: created_date,
 		};
 	}

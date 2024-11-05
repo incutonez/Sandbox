@@ -28,10 +28,16 @@ export interface ImageEntity {
     'id'?: string;
     /**
      * 
-     * @type {object}
+     * @type {string}
      * @memberof ImageEntity
      */
-    'contents': object;
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ImageEntity
+     */
+    'contentType': string;
     /**
      * 
      * @type {number}
