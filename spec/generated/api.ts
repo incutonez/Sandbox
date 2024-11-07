@@ -14,6 +14,7 @@
 
 
 
+export * from './api/categories-api';
 export * from './api/default-api';
 export * from './api/differ-api';
 export * from './api/images-api';

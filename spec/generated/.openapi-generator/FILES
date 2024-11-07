@@ -2,6 +2,7 @@
 .npmignore
 .openapi-generator-ignore
 api.ts
+api/categories-api.ts
 api/default-api.ts
 api/differ-api.ts
 api/images-api.ts

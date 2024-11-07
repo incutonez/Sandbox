@@ -1,4 +1,4 @@
-import { UserEntity } from "@incutonez/spec";
+import { UserEntity } from "src/models/user.entity";
 
 export class ReviewEntity {
   id?: string;

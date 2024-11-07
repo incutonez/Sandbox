@@ -6,14 +6,21 @@ import { EnumFilterType } from "src/enums.entity";
 import { ApiPaginatedRequest } from "src/models/base.list.entity";
 import { ProductsMapper } from "src/products/products.mapper";
 
+function sleep(ms: number): Promise<void> {
+	return new Promise((resolve) => {
+		setTimeout(resolve, ms);
+	});
+}
+
 @Injectable()
 export class ProductsService {
 	constructor(private mapper: ProductsMapper) {	}
 
-	async getProducts({ start = 0, limit = 20, filters = [] }: ApiPaginatedRequest) {
+	async getProducts({ page = 1, limit = 20, filters = [] }: ApiPaginatedRequest) {
+		await sleep(2000);
 		const query: FindAndCountOptions<ProductModel> = {
 			limit,
-			offset: start,
+			offset: (page - 1) * limit,
 			/**
 			 * @patch https://github.com/sequelize/sequelize/issues/9481
 			 * We have to use distinct here, otherwise, it'd count the associations, which gives us an erroneous total count

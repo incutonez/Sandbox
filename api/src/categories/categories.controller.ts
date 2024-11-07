@@ -1,4 +1,4 @@
-import { Controller } from "@nestjs/common";
+import { Controller, Get } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { CategoriesService } from "src/categories/categories.service";
 
@@ -6,5 +6,10 @@ import { CategoriesService } from "src/categories/categories.service";
 @Controller("categories")
 export class CategoriesController {
 	constructor(private readonly service: CategoriesService) {
+	}
+
+	@Get("")
+	async getCategories() {
+		return this.service.getCategories();
 	}
 }

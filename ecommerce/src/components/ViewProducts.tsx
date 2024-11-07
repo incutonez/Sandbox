@@ -1,34 +1,17 @@
-import { useState } from "react";
+import { useContext, useMemo } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { ProductsAPI } from "@/apiConfig.ts";
+import { BaseButton } from "@/components/BaseButton.tsx";
+import { IconNext, IconPrevious } from "@/components/icons.tsx";
 import { ProductTile } from "@/components/ProductTile.tsx";
+import { ContextStoreProducts } from "@/contexts.ts";
 
 export function ViewProducts() {
-	// TODOJEF: Need to wire this up... PICK UP HERE TOMORROW AND FINISH THE TILE
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [start, setStart] = useState(0);
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [limit, setLimit] = useState(15);
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [page, setPage] = useState(1);
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [filters, setFilters] = useState([]);
+	const { params, nextPage, previousPage, loadRecords } = useContext(ContextStoreProducts);
+	const previousDisabled = useMemo(() => params.page <= 1, [params.page]);
 	const { data } = useSuspenseQuery({
-		queryKey: [
-			"ViewProducts",
-			start,
-			limit,
-			page,
-			filters,
-		],
+		queryKey: ["ViewProducts", params],
 		queryFn: async () => {
-			const { data } = await ProductsAPI.listProducts({
-				start,
-				limit,
-				page,
-				filters,
-			});
-			return data.data;
+			return await loadRecords();
 		},
 	});
 	const productTiles = data.map((record) => {
@@ -39,9 +22,33 @@ export function ViewProducts() {
 			/>
 		);
 	});
+
+	function onClickPrevious() {
+		previousPage();
+	}
+
+	function onClickNext() {
+		nextPage();
+	}
+
 	return (
 		<article>
+			<section className="flex">
+				<BaseButton
+					icon={IconPrevious}
+					disabled={previousDisabled}
+					onClick={onClickPrevious}
+				/>
+				<BaseButton
+					icon={IconNext}
+					iconAfter
+					onClick={onClickNext}
+				/>
+			</section>
 			<section className="flex flex-wrap gap-4">
+				<span>
+					{/*{record.name}*/}
+				</span>
 				{productTiles}
 			</section>
 		</article>
