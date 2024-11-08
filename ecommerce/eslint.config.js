@@ -42,6 +42,7 @@ export default tseslint.config(...tailwind.configs["flat/recommended"], {
 		"react-refresh/only-export-components": ["warn", {
 			allowConstantExport: true,
 		}],
+		"@typescript-eslint/no-explicit-any": ["warn"],
 		"@typescript-eslint/no-unused-vars": "error",
 		"@typescript-eslint/ban-ts-comment": ["error", {
 			"ts-expect-error": "allow-with-description",
