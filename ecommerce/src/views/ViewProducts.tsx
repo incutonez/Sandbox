@@ -1,22 +1,22 @@
-import { BaseHTMLAttributes, Suspense, useContext } from "react";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { BaseHTMLAttributes } from "react";
 import classNames from "classnames";
 import { BasePagination } from "@/components/BasePagination.tsx";
 import { LoadingMask } from "@/components/LoadingMask.tsx";
-import { ContextProductsStore } from "@/hooks/products.ts";
+import { NavigationMain } from "@/components/NavigationMain.tsx";
+import { ContextPaginatedApi, usePaginatedApi } from "@/hooks/api.ts";
+import { useLoadProducts } from "@/hooks/products.ts";
 import { ProductTile } from "@/views/products/ProductTile.tsx";
 
 export type IProductsList = BaseHTMLAttributes<HTMLElement>;
 
 function ProductsList({ className = "" }: IProductsList) {
-	const { api, loadRecords } = useContext(ContextProductsStore);
-	const { data } = useSuspenseQuery({
-		queryKey: ["ViewProducts", api.params],
-		queryFn: async () => {
-			return await loadRecords();
-		},
-	});
-	const productTiles = data.map((record) => {
+	const { data, isFetching } = useLoadProducts();
+	if (isFetching) {
+		return (
+			<LoadingMask className={className} />
+		);
+	}
+	const productTiles = data?.map((record) => {
 		return (
 			<ProductTile
 				record={record}
@@ -34,12 +34,14 @@ function ProductsList({ className = "" }: IProductsList) {
 }
 
 export function ViewProducts() {
+	const api = usePaginatedApi();
 	return (
-		<article className="relative flex flex-1 flex-col overflow-hidden">
-			<Suspense fallback={<LoadingMask className="flex-1" />}>
-				<ProductsList className="grow overflow-auto" />
-			</Suspense>
-			<BasePagination />
-		</article>
+		<ContextPaginatedApi.Provider value={api}>
+			<NavigationMain />
+			<article className="relative flex flex-1 flex-col overflow-hidden">
+				<ProductsList className="flex-1 overflow-auto" />
+				<BasePagination	/>
+			</article>
+		</ContextPaginatedApi.Provider>
 	);
 }

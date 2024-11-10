@@ -1,7 +1,6 @@
 import "@/components/FieldComboBox.css";
-import { ChangeEvent, SelectHTMLAttributes } from "react";
+import { ChangeEvent, SelectHTMLAttributes, useState } from "react";
 import classNames from "classnames";
-import { useImmer } from "use-immer";
 
 export interface IOption {
 	id: number;
@@ -17,7 +16,7 @@ export type IFieldComboBox<TOption> = {
 } & SelectHTMLAttributes<HTMLSelectElement>;
 
 export function FieldComboBox<T extends Record<string, any>>({ options = [], className = "", onSelectionChange, optionValue = "id", optionLabel = "name", ...attrs }: IFieldComboBox<T>) {
-	const [selection, setSelection] = useImmer<T | undefined>(undefined);
+	const [selection, setSelection] = useState<T | undefined>(undefined);
 	className = classNames("field-combo-box", className);
 	function onChange({ currentTarget }: ChangeEvent<HTMLSelectElement>) {
 		const { value } = currentTarget;

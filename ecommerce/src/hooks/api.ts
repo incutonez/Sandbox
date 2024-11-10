@@ -1,49 +1,58 @@
-import { useMemo } from "react";
-import { ApiPaginatedRequest } from "@incutonez/spec";
-import { useImmer } from "use-immer";
+import { createContext, useMemo, useState } from "react";
+import { QueryClient } from "@tanstack/react-query";
 
-export function usePaginatedApi<T extends { total?: number }>() {
-	const [response, setResponse] = useImmer({} as T);
-	const [params, setParams] = useImmer<ApiPaginatedRequest>({
-		start: 0,
-		limit: 15,
-		page: 1,
-		filters: [],
-	});
-	const start = useMemo(() => (params.page - 1) * params.limit + 1, [params.page, params.limit]);
-	const end = useMemo(() => start + params.limit - 1, [start, params.limit]);
-	const previousDisabled = useMemo(() => params.page <= 1, [params.page]);
+export const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false,
+		},
+	},
+});
+
+export type TPaginatedApi = ReturnType<typeof usePaginatedApi>;
+
+export const ContextPaginatedApi = createContext<TPaginatedApi | undefined>(undefined);
+
+export function usePaginatedApi() {
+	const [total, setTotal] = useState(0);
+	const [loading, setLoading] = useState(false);
+	const [page, setPage] = useState(1);
+	const [limit, setLimit] = useState(10);
+	const [filters, setFilters] = useState([]);
+	const start = useMemo(() => (page - 1) * limit + 1, [page, limit]);
+	const end = useMemo(() => start + limit - 1, [start, limit]);
+	const previousDisabled = useMemo(() => page <= 1, [page]);
 	const lastPage = useMemo(() => {
-		if (response.total) {
-			return Math.ceil(response.total / params.limit);
+		if (total) {
+			return Math.ceil(total / limit);
 		}
 		return 1;
-	}, [response.total, params.limit]);
+	}, [total, limit]);
 
 	function previousPage() {
-		setParams((draft) => {
-			if (draft.page > 0) {
-				draft.page--;
-			}
-		});
+		setPage(page - 1);
 	}
 
 	function nextPage() {
-		setParams((draft) => {
-			draft.page++;
-		});
+		setPage(page + 1);
 	}
 
 	return {
-		response,
-		setResponse,
-		params,
-		setParams,
+		total,
+		setTotal,
 		previousPage,
 		nextPage,
 		lastPage,
 		start,
 		end,
 		previousDisabled,
+		loading,
+		setLoading,
+		page,
+		setPage,
+		limit,
+		setLimit,
+		filters,
+		setFilters,
 	};
 }

@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { BaseButton } from "@/components/BaseButton.tsx";
 import { FieldComboBox, IOption } from "@/components/FieldComboBox.tsx";
 import { IconNext, IconPrevious } from "@/components/icons.tsx";
-import { ContextProductsStore } from "@/hooks/products.ts";
+import { ContextPaginatedApi } from "@/hooks/api.ts";
 
 const options: IOption[] = [{
 	id: 10,
@@ -19,61 +19,61 @@ const options: IOption[] = [{
 }];
 
 export function BasePagination() {
-	const { api } = useContext(ContextProductsStore);
+	const { previousPage, nextPage, setLimit, lastPage, page, start, end, total, loading } = useContext(ContextPaginatedApi)!;
 
 	function onClickPrevious() {
-		api.previousPage();
+		previousPage();
 	}
 
 	function onClickNext() {
-		api.nextPage();
+		nextPage();
 	}
 
 	function onChangeLimit(found?: IOption) {
 		if (found) {
-			api.setParams((draft) => {
-				draft.limit = found.id;
-			});
+			setLimit(found.id);
 		}
 	}
 
 	return (
 		<section className="sticky bottom-0 flex items-center justify-between bg-slate-700 px-4 py-2">
 			<FieldComboBox
+				disabled={loading}
 				options={options}
 				onSelectionChange={onChangeLimit}
 			/>
 			<div className="flex items-center text-amber-500">
 				<BaseButton
 					icon={IconPrevious}
-					disabled={api.previousDisabled}
+					disabled={loading}
 					onClick={onClickPrevious}
 				/>
 				<p className="px-2 text-sm font-semibold">
 					Page
 					{" "}
-					{api.params.page}
+					{page}
 					{" "}
 					of
 					{" "}
-					{api.lastPage}
+					{lastPage}
 				</p>
 				<BaseButton
 					icon={IconNext}
+					disabled={loading}
 					iconAfter
 					onClick={onClickNext}
 				/>
 			</div>
 			<span className="text-sm font-semibold text-amber-500">
-				{api.start}
+				{start}
 				{" "}
 				-
 				{" "}
-				{api.end}
+				{end}
 				{" "}
 				of
 				{" "}
-				{api.response.total}
+				{total}
 			</span>
 		</section>
 	);
