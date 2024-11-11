@@ -28,6 +28,7 @@ export function usePaginatedApi() {
 		}
 		return 1;
 	}, [total, limit]);
+	const nextDisabled = useMemo(() => page === lastPage, [page, lastPage]);
 
 	function previousPage() {
 		setPage(page - 1);
@@ -46,6 +47,7 @@ export function usePaginatedApi() {
 		start,
 		end,
 		previousDisabled,
+		nextDisabled,
 		loading,
 		setLoading,
 		page,

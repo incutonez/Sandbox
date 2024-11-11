@@ -5,7 +5,7 @@ export class CategoriesMapper {
 	modelToViewModel({ id, name, parent_id }: CategoryModel): CategoryEntity {
 		return {
 			id,
-			name,
+			name: name[0].toUpperCase() + name.slice(1),
 			parentId: parent_id,
 		};
 	}

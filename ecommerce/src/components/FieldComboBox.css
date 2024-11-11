@@ -1,7 +1,7 @@
 .field-combo-box {
-    @apply h-8 px-2 rounded cursor-pointer;
+    @apply h-8 px-2 rounded cursor-pointer bg-slate-300;
 
-    & > option:checked {
-        @apply text-blue-300 bg-black;
+    & option {
+        @apply bg-slate-100;
     }
 }

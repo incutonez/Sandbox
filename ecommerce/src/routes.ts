@@ -1,3 +1,5 @@
 export const RouteHome = "/";
 
-export const RouteViewProduct = "/products/$productId";
+export const RouteViewProducts = "/products/";
+
+export const RouteViewProduct = `${RouteViewProducts}$productId`;

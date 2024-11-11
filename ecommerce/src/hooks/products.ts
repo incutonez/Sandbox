@@ -5,6 +5,8 @@ import { ContextPaginatedApi, queryClient } from "@/hooks/api.ts";
 
 export const QueryKeyProducts = "ViewProducts";
 
+export const QueryKeyProductsFeatured = "ViewProductsFeatured";
+
 export const QueryKeyProduct = "ViewProduct";
 
 export function useLoadProducts() {
@@ -27,6 +29,16 @@ export function useLoadProducts() {
 			setTotal(data.total ?? 0);
 			setLoading(false);
 			return data.data;
+		},
+	});
+}
+
+export function useLoadProductsFeatured() {
+	return useQuery({
+		queryKey: [QueryKeyProductsFeatured],
+		queryFn: async () => {
+			const { data } = await ProductsAPI.getFeaturedProducts();
+			return data;
 		},
 	});
 }

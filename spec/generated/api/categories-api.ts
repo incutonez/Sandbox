@@ -22,7 +22,7 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 // @ts-ignore
-import { CategoryEntity } from '../models';
+import { CategoryResponseModel } from '../models';
 /**
  * CategoriesApi - axios parameter creator
  * @export
@@ -73,7 +73,7 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCategories(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CategoryEntity>>> {
+        async getCategories(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CategoryResponseModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getCategories(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -92,7 +92,7 @@ export const CategoriesApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCategories(options?: any): AxiosPromise<Array<CategoryEntity>> {
+        getCategories(options?: any): AxiosPromise<CategoryResponseModel> {
             return localVarFp.getCategories(options).then((request) => request(axios, basePath));
         },
     };
@@ -110,7 +110,7 @@ export interface CategoriesApiInterface {
      * @throws {RequiredError}
      * @memberof CategoriesApiInterface
      */
-    getCategories(options?: AxiosRequestConfig): AxiosPromise<Array<CategoryEntity>>;
+    getCategories(options?: AxiosRequestConfig): AxiosPromise<CategoryResponseModel>;
 
 }
 

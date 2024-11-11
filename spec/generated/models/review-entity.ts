@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { UserEntity } from './user-entity';
 
 /**
  * 
@@ -52,9 +55,9 @@ export interface ReviewEntity {
     'createdDate': number;
     /**
      * 
-     * @type {object}
+     * @type {UserEntity}
      * @memberof ReviewEntity
      */
-    'createdBy': object;
+    'createdBy': UserEntity;
 }
 

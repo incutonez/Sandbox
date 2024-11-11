@@ -8,9 +8,11 @@ export type IBaseButton<T extends ElementType = "button"> = ComponentProps<T> & 
 	iconCls?: string;
 	iconAfter?: boolean;
 	iconSlot?: ReactNode;
+	size?: string;
+	hidden?: boolean;
 }
 
-export function BaseButton({ text, icon, iconSlot, iconCls = "", className, iconAfter = false, ...attrs }: IBaseButton) {
+export function BaseButton({ text, icon, iconSlot, hidden = false, size = "h-8", iconCls = "", className, iconAfter = false, ...attrs }: IBaseButton) {
 	const ButtonIcon = iconSlot || icon &&
 			<BaseIcon
 				as={icon}
@@ -20,8 +22,9 @@ export function BaseButton({ text, icon, iconSlot, iconCls = "", className, icon
 		<span>
 			{text}
 		</span>;
+	const hiddenCls = hidden ? "hidden" : "";
 	const disabledCls = attrs.disabled ? "opacity-70 cursor-not-allowed" : "";
-	const buttonCls = classNames("flex h-8 items-center bg-gray-300 rounded", disabledCls, textNode ? "px-2" : "px-1", className);
+	const buttonCls = classNames("flex items-center bg-slate-300 rounded hover:bg-slate-400 space-x-1", hiddenCls, size, disabledCls, textNode ? "px-2" : "px-1", className);
 	return (
 		<button
 			className={buttonCls}

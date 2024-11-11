@@ -1,7 +1,7 @@
 import { useContext } from "react";
+import { IconNext, IconPrevious } from "@/assets/icons.tsx";
 import { BaseButton } from "@/components/BaseButton.tsx";
 import { FieldComboBox, IOption } from "@/components/FieldComboBox.tsx";
-import { IconNext, IconPrevious } from "@/components/icons.tsx";
 import { ContextPaginatedApi } from "@/hooks/api.ts";
 
 const options: IOption[] = [{
@@ -19,7 +19,7 @@ const options: IOption[] = [{
 }];
 
 export function BasePagination() {
-	const { previousPage, nextPage, setLimit, lastPage, page, start, end, total, loading } = useContext(ContextPaginatedApi)!;
+	const { previousPage, nextPage, setLimit, lastPage, previousDisabled, nextDisabled, page, start, end, total, loading } = useContext(ContextPaginatedApi)!;
 
 	function onClickPrevious() {
 		previousPage();
@@ -45,7 +45,7 @@ export function BasePagination() {
 			<div className="flex items-center text-amber-500">
 				<BaseButton
 					icon={IconPrevious}
-					disabled={loading}
+					disabled={previousDisabled || loading}
 					onClick={onClickPrevious}
 				/>
 				<p className="px-2 text-sm font-semibold">
@@ -59,7 +59,7 @@ export function BasePagination() {
 				</p>
 				<BaseButton
 					icon={IconNext}
-					disabled={loading}
+					disabled={nextDisabled || loading}
 					iconAfter
 					onClick={onClickNext}
 				/>

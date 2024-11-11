@@ -26,6 +26,8 @@ import { ApiPaginatedRequest } from '../models';
 // @ts-ignore
 import { ProductEntity } from '../models';
 // @ts-ignore
+import { ProductListEntity } from '../models';
+// @ts-ignore
 import { ProductResponseModel } from '../models';
 /**
  * ProductsApi - axios parameter creator
@@ -48,6 +50,35 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             }
 
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getFeaturedProducts: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/products/featured`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -151,6 +182,15 @@ export const ProductsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getFeaturedProducts(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ProductListEntity>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getFeaturedProducts(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {string} productId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -189,6 +229,14 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getFeaturedProducts(options?: any): AxiosPromise<Array<ProductListEntity>> {
+            return localVarFp.getFeaturedProducts(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {string} productId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -221,6 +269,14 @@ export interface ProductsApiInterface {
      * @memberof ProductsApiInterface
      */
     bulkImport(options?: AxiosRequestConfig): AxiosPromise<void>;
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProductsApiInterface
+     */
+    getFeaturedProducts(options?: AxiosRequestConfig): AxiosPromise<Array<ProductListEntity>>;
 
     /**
      * 
@@ -257,6 +313,16 @@ export class ProductsApi extends BaseAPI implements ProductsApiInterface {
      */
     public bulkImport(options?: AxiosRequestConfig) {
         return ProductsApiFp(this.configuration).bulkImport(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProductsApi
+     */
+    public getFeaturedProducts(options?: AxiosRequestConfig) {
+        return ProductsApiFp(this.configuration).getFeaturedProducts(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

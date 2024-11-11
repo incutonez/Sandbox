@@ -3,6 +3,7 @@ export * from './address-entity';
 export * from './api-paginated-request';
 export * from './bulk-response';
 export * from './category-entity';
+export * from './category-response-model';
 export * from './enum-change-status';
 export * from './enum-filter-type';
 export * from './filter-type';

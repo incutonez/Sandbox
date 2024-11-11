@@ -36,6 +36,11 @@ export class ProductsController {
 		return this.service.getProducts(body);
 	}
 
+	@Get("featured")
+	async getFeaturedProducts() {
+		return this.service.getFeaturedProducts();
+	}
+
 	@Get(":productId")
 	async getProduct(@Param("productId") productId: string) {
 		return this.service.getProduct(productId);

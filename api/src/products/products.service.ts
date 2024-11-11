@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { Sequelize } from "sequelize";
 import { FindAndCountOptions } from "sequelize/types/model";
 import { ProductModel } from "src/db/models/ProductModel";
 import { whereSearch } from "src/db/query";
@@ -45,6 +46,22 @@ export class ProductsService {
 			}))),
 			total: count,
 		};
+	}
+
+	async getFeaturedProducts() {
+		const products = await ProductModel.findAll({
+			order: Sequelize.literal("random()"),
+			limit: 5,
+			include: [
+				{
+					all: true,
+					nested: true,
+				},
+			],
+		});
+		return products.map((product) => this.mapper.modelToListViewModel(product.get({
+			plain: true,
+		})));
 	}
 
 	async getProduct(productId: string) {
