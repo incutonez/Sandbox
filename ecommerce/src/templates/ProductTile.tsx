@@ -1,4 +1,6 @@
 import { ProductListEntity } from "@incutonez/spec";
+import { Link } from "@tanstack/react-router";
+import { RouteViewProduct } from "@/routes.ts";
 import { getImageUrl } from "@/utils.ts";
 
 export interface IProductTile {
@@ -7,7 +9,13 @@ export interface IProductTile {
 
 export function ProductTile({ record }: IProductTile) {
 	return (
-		<article className="flex min-w-48 flex-col items-center rounded">
+		<Link
+			to={RouteViewProduct}
+			params={{
+				productId: record.id!,
+			}}
+			className="flex min-w-48 flex-col items-center rounded"
+		>
 			<img
 				src={getImageUrl(record.image.id)}
 				className="size-48 object-cover"
@@ -18,6 +26,6 @@ export function ProductTile({ record }: IProductTile) {
 					{record.name}
 				</span>
 			</section>
-		</article>
+		</Link>
 	);
 }

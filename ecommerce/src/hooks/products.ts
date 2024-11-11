@@ -5,6 +5,8 @@ import { ContextPaginatedApi, queryClient } from "@/hooks/api.ts";
 
 export const QueryKeyProducts = "ViewProducts";
 
+export const QueryKeyProduct = "ViewProduct";
+
 export function useLoadProducts() {
 	const { page, limit, filters, setTotal, setLoading } = useContext(ContextPaginatedApi)!;
 	return useQuery({
@@ -25,6 +27,17 @@ export function useLoadProducts() {
 			setTotal(data.total ?? 0);
 			setLoading(false);
 			return data.data;
+		},
+	});
+}
+
+export function useLoadProduct(productId: string) {
+	return useQuery({
+		staleTime: Infinity,
+		queryKey: [QueryKeyProduct, productId],
+		queryFn: async () => {
+			const { data } = await ProductsAPI.getProduct(productId);
+			return data;
 		},
 	});
 }
