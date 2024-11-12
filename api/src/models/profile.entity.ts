@@ -1,5 +1,6 @@
 export class ProfileEntity {
     sub: string;
-    name: string;
-    iat: number;
+    family_name: string;
+    given_name: string;
+    email: string;
 }

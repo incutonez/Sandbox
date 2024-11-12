@@ -1,10 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+
 const globals = require("globals");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+
 const tsEslint = require("typescript-eslint");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+
 const pluginImport = require("eslint-plugin-simple-import-sort");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+
 const pluginIncutonez = require("@incutonez/eslint-plugin");
 
 module.exports = [
@@ -34,6 +34,7 @@ module.exports = [
 		},
 		rules: {
 			"@typescript-eslint/no-unused-vars": "error",
+			"@typescript-eslint/prefer-namespace-keyword": "off",
 			"@/indent": [
 				"error",
 				"tab",

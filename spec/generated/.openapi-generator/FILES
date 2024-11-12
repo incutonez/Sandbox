@@ -2,6 +2,9 @@
 .npmignore
 .openapi-generator-ignore
 api.ts
+api/app-api.ts
+api/auth-api.ts
+api/carts-api.ts
 api/categories-api.ts
 api/default-api.ts
 api/differ-api.ts
@@ -19,6 +22,9 @@ models/access-token-entity.ts
 models/address-entity.ts
 models/api-paginated-request.ts
 models/bulk-response.ts
+models/cart-add-entity.ts
+models/cart-entity.ts
+models/cart-response-model.ts
 models/category-entity.ts
 models/category-response-model.ts
 models/enum-change-status.ts

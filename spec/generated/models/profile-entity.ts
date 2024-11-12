@@ -31,12 +31,18 @@ export interface ProfileEntity {
      * @type {string}
      * @memberof ProfileEntity
      */
-    'name': string;
+    'family_name': string;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof ProfileEntity
      */
-    'iat': number;
+    'given_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProfileEntity
+     */
+    'email': string;
 }
 
