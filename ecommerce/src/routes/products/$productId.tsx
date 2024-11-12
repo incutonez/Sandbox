@@ -1,6 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { LoadingMask } from "@/components/LoadingMask.tsx";
-import { useLoadProduct } from "@/hooks/products.ts";
+import { optionsProduct } from "@/hooks/products.ts";
 import { RouteViewProduct } from "@/routes.ts";
 
 export const Route = createFileRoute(RouteViewProduct)({
@@ -9,7 +10,7 @@ export const Route = createFileRoute(RouteViewProduct)({
 
 function RouteComponent() {
 	const { productId } = Route.useParams();
-	const { isFetching } = useLoadProduct(productId);
+	const { isFetching } = useQuery(optionsProduct(productId));
 	if (isFetching) {
 		return (
 			<LoadingMask />

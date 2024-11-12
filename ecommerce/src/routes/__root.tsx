@@ -1,8 +1,8 @@
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { LoadingMask } from "@/components/LoadingMask.tsx";
 import { queryClient } from "@/hooks/api.ts";
-import { useUser } from "@/hooks/user.ts";
+import { optionsUserLoad } from "@/hooks/user.ts";
 import { NavigationMain } from "@/templates/NavigationMain.tsx";
 
 export const Route = createRootRoute({
@@ -18,8 +18,7 @@ function RouteComponent() {
 }
 
 function MainComponent() {
-	const { data, isFetching } = useUser();
-	console.log("here", data);
+	const { isFetching } = useQuery(optionsUserLoad);
 	if (isFetching) {
 		return (
 			<LoadingMask />
