@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { FindOptions } from "sequelize";
+import { FindAndCountOptions } from "sequelize/types/model";
 import { User } from "src/db/models/User";
 import { whereSearch } from "src/db/query";
 import { EnumFilterType } from "src/enums.entity";
@@ -13,7 +13,7 @@ export class UsersService {
 	constructor(private readonly mapper: UsersMapper) {}
 
 	async listUsers({ start = 0, limit = 20, filters = [] }: ApiPaginatedRequest) {
-		const query: FindOptions<User> = {
+		const query: FindAndCountOptions<User> = {
 			limit,
 			raw: true,
 			offset: start,

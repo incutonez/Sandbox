@@ -48,10 +48,10 @@ export class ProductsService {
 		};
 	}
 
-	async getFeaturedProducts() {
+	async getFeaturedProducts(visibleAmount = 1) {
 		const products = await ProductModel.findAll({
 			order: Sequelize.literal("random()"),
-			limit: 5,
+			limit: 5 * visibleAmount,
 			include: [
 				{
 					all: true,

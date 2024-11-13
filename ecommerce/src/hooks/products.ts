@@ -38,16 +38,18 @@ export function optionsProduct(productId: string) {
 	});
 }
 
-export const optionsProductsFeatured = queryOptions({
-	queryKey: ["ProductsFeatured"],
-	queryFn: async () => {
-		const { data } = await ProductsAPI.getFeaturedProducts();
-		return data;
-	},
-});
+export function optionsProductsFeatured(visibleAmount = 2) {
+	return queryOptions({
+		queryKey: ["ProductsFeatured", visibleAmount],
+		queryFn: async () => {
+			const { data } = await ProductsAPI.getFeaturedProducts(visibleAmount);
+			return data;
+		},
+	});
+}
 
-export function useGetProductsFeatured() {
-	return queryClient.getQueryData(optionsProductsFeatured.queryKey) ?? [];
+export function useGetProductsFeatured(visibleAmount?: number) {
+	return queryClient.getQueryData(optionsProductsFeatured(visibleAmount).queryKey) ?? [];
 }
 
 export function useProductRecords() {

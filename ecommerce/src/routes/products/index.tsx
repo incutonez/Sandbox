@@ -8,7 +8,7 @@ export const Route = createFileRoute(RouteViewProducts)({
 	component: RouteComponent,
 });
 
-export function RouteComponent() {
+function RouteComponent() {
 	const api = usePaginatedApi();
 	return (
 		<ContextPaginatedApi.Provider value={api}>

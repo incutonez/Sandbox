@@ -6,7 +6,7 @@ import { AccountsModule } from "src/accounts/accounts.module";
 import { AppController } from "src/app.controller";
 import { AppService } from "src/app.service";
 import { AuthModule } from "src/auth/auth.module";
-import { CartsModule } from "src/cart/carts.module";
+import { CartItemsModule } from "src/cart/cart.items.module";
 import { CategoriesModule } from "src/categories/categories.module";
 import { DBConfig } from "src/db";
 import { DiffModule } from "src/diff/diff.module";
@@ -29,7 +29,7 @@ import { UsersModule } from "src/users/users.module";
 		ProductsModule,
 		CategoriesModule,
 		ReviewsModule,
-		CartsModule,
+		CartItemsModule,
 		ConfigModule.forRoot({
 			envFilePath: [".env.local", ".env"],
 		}),

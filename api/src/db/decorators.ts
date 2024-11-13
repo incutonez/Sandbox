@@ -10,3 +10,11 @@ export function PrimaryKeyGuid() {
 		allowNull: false,
 	});
 }
+
+export function DateEpoch() {
+	return Column({
+		type: DataTypes.NUMBER,
+		defaultValue: () => Date.now(),
+		allowNull: false,
+	});
+}

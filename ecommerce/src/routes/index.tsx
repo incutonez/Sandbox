@@ -9,7 +9,8 @@ export const Route = createFileRoute(RouteHome)({
 	component: RouteComponent,
 });
 
-export function RouteComponent() {
-	const { isFetching } = useQuery(optionsProductsFeatured);
-	return isFetching ? <LoadingMask /> : <ProductsFeatured />;
+function RouteComponent() {
+	const visibleAmount = 3;
+	const { isFetching } = useQuery(optionsProductsFeatured(visibleAmount));
+	return isFetching ? <LoadingMask /> : <ProductsFeatured visibleAmount={visibleAmount} />;
 }

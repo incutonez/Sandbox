@@ -1,17 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import { IconCartCheckout, IconSearch } from "@/assets/icons.tsx";
 import { BaseButton } from "@/components/BaseButton.tsx";
 import { FieldComboBox } from "@/components/FieldComboBox.tsx";
+import { useCartTotal } from "@/contexts.ts";
 import { optionsCategories } from "@/hooks/categories.ts";
-import { optionsCartLoad } from "@/hooks/user.ts";
+import { RouteHome, RouteViewCart } from "@/routes.ts";
 
 export function NavigationMain() {
 	const categories = useQuery(optionsCategories);
-	const cart = useQuery(optionsCartLoad);
-	console.log(cart.data);
+	const cartTotal = useCartTotal();
+	const cartText = cartTotal ? `${cartTotal}` : "";
 	return (
 		<nav className="flex items-center bg-slate-700 p-4">
-			<span className="mr-40 text-4xl font-semibold text-amber-500">The Market</span>
+			<Link
+				to={RouteHome}
+				className="mr-40"
+			>
+				<span className="text-4xl font-semibold text-amber-500">The Market</span>
+			</Link>
 			<section className="flex">
 				<FieldComboBox
 					options={categories.data ?? []}
@@ -29,13 +36,19 @@ export function NavigationMain() {
 					iconCls="size-full"
 				/>
 			</section>
-			<BaseButton
+			<Link
+				to={RouteViewCart}
 				className="ml-auto"
-				size="size-10"
-				icon={IconCartCheckout}
-				iconCls="size-full"
-				title="Checkout"
-			/>
+			>
+				<BaseButton
+					className="text-lg font-semibold"
+					size="h-10"
+					icon={IconCartCheckout}
+					iconCls="size-8"
+					title="Checkout"
+					text={cartText}
+				/>
+			</Link>
 		</nav>
 	);
 }

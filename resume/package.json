@@ -13,20 +13,20 @@
   },
   "devDependencies": {
     "@incutonez/eslint-plugin": "^1.1.4",
-    "@stylistic/eslint-plugin-ts": "^2.9.0",
-    "@typescript-eslint/eslint-plugin": "^8.10.0",
-    "@typescript-eslint/parser": "^8.10.0",
-    "@vitejs/plugin-vue": "^5.1.4",
+    "@stylistic/eslint-plugin-ts": "^2.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.14.0",
+    "@typescript-eslint/parser": "^8.14.0",
+    "@vitejs/plugin-vue": "^5.2.0",
     "autoprefixer": "^10.4.20",
-    "esbuild": "^0.21.5",
+    "esbuild": "^0.24.0",
     "eslint-plugin-tailwindcss": "^3.17.5",
-    "eslint-plugin-vue": "^9.29.0",
-    "postcss": "^8.4.47",
-    "rollup": "^4.24.0",
+    "eslint-plugin-vue": "^9.31.0",
+    "postcss": "^8.4.49",
+    "rollup": "^4.26.0",
     "tailwindcss": "^3.4.14",
     "typescript": "^5.6.3",
-    "vite": "^5.4.9",
+    "vite": "^5.4.11",
     "vite-svg-loader": "^5.1.0",
-    "vue-tsc": "^2.1.6"
+    "vue-tsc": "^2.1.10"
   }
 }

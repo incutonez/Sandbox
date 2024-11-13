@@ -1,7 +1,9 @@
 import "./index.css";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { createHashHistory, createRouter, RouterProvider } from "@tanstack/react-router";
+import { queryClient } from "@/hooks/api.ts";
 import { routeTree } from "@/routeTree.gen.ts";
 
 // Register the router instance for type safety
@@ -25,6 +27,10 @@ const router = createRouter({
  * - Immer for mutations https://immerjs.github.io/immer/example-setstate
  * - useMemo for computed values
  */
-createRoot(document.getElementById("app")!).render(<StrictMode>
-	<RouterProvider router={router} />
-</StrictMode>);
+createRoot(document.getElementById("app")!).render((
+	<StrictMode>
+		<QueryClientProvider client={queryClient}>
+			<RouterProvider router={router} />
+		</QueryClientProvider>
+	</StrictMode>
+));

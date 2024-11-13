@@ -11,7 +11,7 @@ import { UsersModule } from "src/users/users.module";
 		global: true,
 		secret: process.env.JWT_SECRET,
 		signOptions: {
-			expiresIn: "60s",
+			expiresIn: "1d",
 		},
 	})],
 	controllers: [AuthController],

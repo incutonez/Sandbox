@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query } from "@nestjs/common";
+import { ApiQuery, ApiTags } from "@nestjs/swagger";
 import { readdirSync, readFileSync } from "fs";
 import { CategoryModel } from "src/db/models/CategoryModel";
 import { ImageModel } from "src/db/models/ImageModel";
@@ -36,9 +36,13 @@ export class ProductsController {
 		return this.service.getProducts(body);
 	}
 
+	@ApiQuery({
+		name: "visibleAmount",
+		required: false,
+	})
 	@Get("featured")
-	async getFeaturedProducts() {
-		return this.service.getFeaturedProducts();
+	async getFeaturedProducts(@Query("visibleAmount") visibleAmount?: number) {
+		return this.service.getFeaturedProducts(visibleAmount);
 	}
 
 	@Get(":productId")

@@ -1,4 +1,4 @@
-import { AuthApi, CartsApi, CategoriesApi, Configuration, ImagesApi, ProductsApi } from "@incutonez/spec";
+import { AuthApi, CartItemsApi, CategoriesApi, Configuration, ImagesApi, ProductsApi } from "@incutonez/spec";
 
 export const configuration = new Configuration({
 	basePath: import.meta.env.VITE_BASE_API,
@@ -15,4 +15,4 @@ export const ImagesAPI = new ImagesApi(configuration);
 
 export const AuthAPI = new AuthApi(configuration);
 
-export const CartAPI = new CartsApi(configuration);
+export const CartItemsAPI = new CartItemsApi(configuration);

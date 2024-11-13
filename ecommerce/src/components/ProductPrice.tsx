@@ -6,7 +6,7 @@ export interface IProductPrice extends BaseHTMLAttributes<HTMLElement> {
 }
 
 export function ProductPrice({ price, className = "" }: IProductPrice) {
-	const [whole, fraction] = `${price}`.split(".");
+	const [whole, fraction = ""] = `${price}`.split(".");
 	className = classNames("flex items-start space-x-0.5", className);
 	return (
 		<div className={className}>

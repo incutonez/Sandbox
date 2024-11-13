@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { CartEntity } from './cart-entity';
+import { CartItemEntity } from './cart-item-entity';
 
 /**
  * 
@@ -25,10 +25,10 @@ import { CartEntity } from './cart-entity';
 export interface CartResponseModel {
     /**
      * 
-     * @type {Array<CartEntity>}
+     * @type {Array<CartItemEntity>}
      * @memberof CartResponseModel
      */
-    'data': Array<CartEntity>;
+    'data': Array<CartItemEntity>;
     /**
      * 
      * @type {number}

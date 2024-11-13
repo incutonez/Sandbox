@@ -1,6 +1,6 @@
 import { SequelizeModuleOptions } from "@nestjs/sequelize";
 import { Address } from "src/db/models/Address";
-import { CartModel } from "src/db/models/CartModel";
+import { CartItemModel } from "src/db/models/CartItemModel";
 import { CategoryModel } from "src/db/models/CategoryModel";
 import { ImageModel } from "src/db/models/ImageModel";
 import { LeagueMatch } from "src/db/models/LeagueMatch";
@@ -12,5 +12,5 @@ export const DBConfig: SequelizeModuleOptions = {
 	dialect: "sqlite",
 	storage: "src/db/data.db",
 	host: "localhost",
-	models: [User, Address, LeagueMatch, ImageModel, CategoryModel, ReviewModel, ProductModel, CartModel],
+	models: [User, Address, LeagueMatch, ImageModel, CategoryModel, ReviewModel, ProductModel, CartItemModel],
 };

@@ -66,10 +66,11 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @param {number} [visibleAmount] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFeaturedProducts: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getFeaturedProducts: async (visibleAmount?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/products/featured`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -81,6 +82,10 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (visibleAmount !== undefined) {
+                localVarQueryParameter['visibleAmount'] = visibleAmount;
+            }
 
 
     
@@ -182,11 +187,12 @@ export const ProductsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {number} [visibleAmount] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getFeaturedProducts(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ProductListEntity>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getFeaturedProducts(options);
+        async getFeaturedProducts(visibleAmount?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ProductListEntity>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getFeaturedProducts(visibleAmount, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -229,11 +235,12 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
+         * @param {number} [visibleAmount] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFeaturedProducts(options?: any): AxiosPromise<Array<ProductListEntity>> {
-            return localVarFp.getFeaturedProducts(options).then((request) => request(axios, basePath));
+        getFeaturedProducts(visibleAmount?: number, options?: any): AxiosPromise<Array<ProductListEntity>> {
+            return localVarFp.getFeaturedProducts(visibleAmount, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -272,11 +279,12 @@ export interface ProductsApiInterface {
 
     /**
      * 
+     * @param {number} [visibleAmount] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProductsApiInterface
      */
-    getFeaturedProducts(options?: AxiosRequestConfig): AxiosPromise<Array<ProductListEntity>>;
+    getFeaturedProducts(visibleAmount?: number, options?: AxiosRequestConfig): AxiosPromise<Array<ProductListEntity>>;
 
     /**
      * 
@@ -317,12 +325,13 @@ export class ProductsApi extends BaseAPI implements ProductsApiInterface {
 
     /**
      * 
+     * @param {number} [visibleAmount] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public getFeaturedProducts(options?: AxiosRequestConfig) {
-        return ProductsApiFp(this.configuration).getFeaturedProducts(options).then((request) => request(this.axios, this.basePath));
+    public getFeaturedProducts(visibleAmount?: number, options?: AxiosRequestConfig) {
+        return ProductsApiFp(this.configuration).getFeaturedProducts(visibleAmount, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
