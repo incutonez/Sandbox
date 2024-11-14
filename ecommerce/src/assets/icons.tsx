@@ -15,3 +15,7 @@ export { default as IconCartAdd } from "@material-symbols/svg-400/outlined/add_s
 export { default as IconCartRemove } from "@material-symbols/svg-400/outlined/remove_shopping_cart.svg?react";
 
 export { default as IconCartCheckout } from "@material-symbols/svg-400/outlined/shopping_cart_checkout.svg?react";
+
+export { default as IconAdd } from "@material-symbols/svg-400/outlined/add.svg?react";
+
+export { default as IconRemove } from "@material-symbols/svg-400/outlined/remove.svg?react";

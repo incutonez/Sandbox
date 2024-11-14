@@ -3,7 +3,7 @@ import { ProductListEntity } from "@incutonez/spec";
 import { Link } from "@tanstack/react-router";
 import classNames from "classnames";
 import { CartItemsAPI } from "@/apiConfig.ts";
-import { IconCartAdd, IconCartRemove } from "@/assets/icons.tsx";
+import { IconAdd, IconRemove } from "@/assets/icons.tsx";
 import { BaseButton } from "@/components/BaseButton.tsx";
 import { ProductPrice } from "@/components/ProductPrice.tsx";
 import { RatingStars } from "@/components/RatingStars.tsx";
@@ -51,8 +51,8 @@ export function ProductDescription({ clamp = "line-clamp-2", className = "" }: {
 
 export function ProductCartButtons() {
 	const record = useProductRecord();
-	const { refetch } = useCart();
-	const cartTotal = getCartItemTotal(record.id!);
+	const { refetch, data } = useCart();
+	const cartTotal = getCartItemTotal(data?.data, record.id!);
 	let cartTotalText: ReactNode;
 
 	async function onClickCartAdd() {
@@ -69,31 +69,34 @@ export function ProductCartButtons() {
 
 	if (cartTotal) {
 		cartTotalText = (
-			<span className="text-sm">
-				{cartTotal}
-				{" "}
-				in cart
-			</span>
+			<>
+				<BaseButton
+					icon={IconRemove}
+					onClick={onClickCartRemove}
+				/>
+				<span className="text-sm">
+					{cartTotal}
+					{" "}
+					in cart
+				</span>
+				<BaseButton
+					icon={IconAdd}
+					onClick={onClickCartAdd}
+				/>
+			</>
+		);
+	}
+	else {
+		cartTotalText = (
+			<BaseButton
+				text="Add to Cart"
+				onClick={onClickCartAdd}
+			/>
 		);
 	}
 	return (
 		<section className="flex items-center justify-between">
-			<BaseButton
-				icon={IconCartAdd}
-				iconCls="size-5"
-				title="Add to Cart"
-				size="h-7"
-				onClick={onClickCartAdd}
-			/>
 			{cartTotalText}
-			<BaseButton
-				icon={IconCartRemove}
-				iconCls="size-5"
-				title="Remove from Cart"
-				size="h-7"
-				hidden={!cartTotal}
-				onClick={onClickCartRemove}
-			/>
 		</section>
 	);
 }

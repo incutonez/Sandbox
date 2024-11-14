@@ -10,31 +10,27 @@ export const Route = createRootRoute({
 });
 
 function RouteComponent() {
-	const user = useQuery(optionsUserLoad);
-	if (user.isFetching) {
+	const { isFetching } = useQuery(optionsUserLoad);
+	if (isFetching) {
 		return (
 			<LoadingMask />
 		);
 	}
 	return (
-		<MainComponent />
+		<App />
 	);
 }
 
-function MainComponent() {
+function App() {
 	const cart = useQuery(optionsCartLoad);
-	if (cart.isFetching) {
-		return (
-			<LoadingMask />
-		);
-	}
-
 	return (
-		<ContextCart.Provider value={cart}>
-			<NavigationMain />
-			<main className="relative flex size-full flex-col overflow-hidden">
-				<Outlet />
-			</main>
-		</ContextCart.Provider>
+		<>
+			<ContextCart.Provider value={cart}>
+				<NavigationMain />
+				<main className="relative flex size-full flex-col overflow-hidden">
+					<Outlet />
+				</main>
+			</ContextCart.Provider>
+		</>
 	);
 }

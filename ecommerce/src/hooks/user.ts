@@ -1,7 +1,7 @@
 import { decodeToken, isExpired } from "react-jwt";
+import { CartItemEntity } from "@incutonez/spec";
 import { queryOptions } from "@tanstack/react-query";
 import { AuthAPI, CartItemsAPI, configuration } from "@/apiConfig.ts";
-import { queryClient } from "@/hooks/api.ts";
 
 export const optionsUserLoad = queryOptions({
 	queryKey: ["User"],
@@ -26,7 +26,6 @@ export const optionsCartLoad = queryOptions({
 	},
 });
 
-export function getCartItemTotal(id: string) {
-	const data = queryClient.getQueryData(optionsCartLoad.queryKey)?.data ?? [];
+export function getCartItemTotal(data: CartItemEntity[] = [], id: string) {
 	return data.find((item) => item.productId === id)?.count ?? 0;
 }
