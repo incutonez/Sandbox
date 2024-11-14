@@ -15,6 +15,14 @@ declare module "@tanstack/react-router" {
 
 const router = createRouter({
 	routeTree,
+	/**
+	 * We want this because we want to be able to reuse our route string constants in routes.ts... if we didn't do this,
+	 * then the route generation has a mix of keys with trailing slash, but the path of the route wouldn't have the slash.
+	 * When we specify always, it will always require a trailing slash in our URLS.  The default is never, which would
+	 * strip out the trailing slash, if we provided it, which would cause issues for routes that have it.  When it gets
+	 * stripped out, and we're dealing with an index file, then it assumes params are required
+	 */
+	trailingSlash: "always",
 	history: createHashHistory(),
 });
 

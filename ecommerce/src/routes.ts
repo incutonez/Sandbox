@@ -4,4 +4,4 @@ export const RouteViewProducts = "/products/";
 
 export const RouteViewProduct = `${RouteViewProducts}$productId`;
 
-export const RouteViewCart = "/cart";
+export const RouteViewCart = "/cart/";
