@@ -26,6 +26,14 @@ export const optionsCartLoad = queryOptions({
 	},
 });
 
+export const optionsCartCheckoutLoad = queryOptions({
+	queryKey: ["CartCheckout"],
+	async queryFn() {
+		const { data } = await CartItemsAPI.getCartCheckout();
+		return data;
+	},
+});
+
 export function getCartItemTotal(data: CartItemEntity[] = [], id: string) {
 	return data.find((item) => item.productId === id)?.count ?? 0;
 }

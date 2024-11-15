@@ -16,9 +16,9 @@ export class ProductsMapper {
 			name,
 			price,
 			description,
-			image: this.imagesMapper.modelToViewModel(image),
-			category: this.categoriesMapper.modelToViewModel(category),
-			rating: calculateRating(reviews),
+			image: image ? this.imagesMapper.modelToViewModel(image) : undefined,
+			category: category ? this.categoriesMapper.modelToViewModel(category) : undefined,
+			rating: reviews ? calculateRating(reviews) : undefined,
 		};
 	}
 

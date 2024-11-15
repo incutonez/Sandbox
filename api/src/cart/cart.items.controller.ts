@@ -21,6 +21,11 @@ export class CartItemsController {
 		await this.service.addItem(body);
 	}
 
+	@Get("checkout")
+	async getCartCheckout(): Promise<CartResponseModel> {
+		return this.service.getCartCheckout();
+	}
+
 	@Delete(":itemId")
 	@HttpCode(HttpStatus.NO_CONTENT)
 	async remove(@Param("itemId") itemId: string): Promise<void> {

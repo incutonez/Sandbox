@@ -99,6 +99,35 @@ export const CartItemsApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCartCheckout: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/cart-items/checkout`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string} itemId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -200,6 +229,15 @@ export const CartItemsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCartCheckout(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CartResponseModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCartCheckout(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {string} itemId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -248,6 +286,14 @@ export const CartItemsApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCartCheckout(options?: any): AxiosPromise<CartResponseModel> {
+            return localVarFp.getCartCheckout(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {string} itemId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -290,6 +336,14 @@ export interface CartItemsApiInterface {
      * @memberof CartItemsApiInterface
      */
     getCart(options?: AxiosRequestConfig): AxiosPromise<CartResponseModel>;
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CartItemsApiInterface
+     */
+    getCartCheckout(options?: AxiosRequestConfig): AxiosPromise<CartResponseModel>;
 
     /**
      * 
@@ -338,6 +392,16 @@ export class CartItemsApi extends BaseAPI implements CartItemsApiInterface {
      */
     public getCart(options?: AxiosRequestConfig) {
         return CartItemsApiFp(this.configuration).getCart(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CartItemsApi
+     */
+    public getCartCheckout(options?: AxiosRequestConfig) {
+        return CartItemsApiFp(this.configuration).getCartCheckout(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

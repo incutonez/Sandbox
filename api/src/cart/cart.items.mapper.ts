@@ -1,10 +1,17 @@
+import { Injectable } from "@nestjs/common";
 import { CartItemModel, ICartItemAddModel } from "src/db/models/CartItemModel";
 import { CartItemAddEntity, CartItemEntity } from "src/models/cart.item.entity";
+import { ProductsMapper } from "src/products/products.mapper";
 
+@Injectable()
 export class CartItemsMapper {
-	modelToViewModel({ user_id, product_id, count = 1 }: CartItemModel): CartItemEntity {
+	constructor(private readonly productsMapper: ProductsMapper) {
+	}
+
+	modelToViewModel({ user_id, product_id, total = 1, product }: CartItemModel): CartItemEntity {
 		return {
-			count,
+			count: total,
+			product: product ? this.productsMapper.modelToListViewModel(product) : undefined,
 			userId: user_id,
 			productId: product_id,
 		};

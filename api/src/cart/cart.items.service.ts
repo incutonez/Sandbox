@@ -1,7 +1,7 @@
 import { Inject, Injectable, Scope } from "@nestjs/common";
 import { REQUEST } from "@nestjs/core";
 import { Request } from "express";
-import { fn } from "sequelize";
+import { col, fn } from "sequelize";
 import { CartItemsMapper } from "src/cart/cart.items.mapper";
 import { CartItemModel } from "src/db/models/CartItemModel";
 import { CartItemAddEntity, CartItemUpdateEntity } from "src/models/cart.item.entity";
@@ -87,6 +87,29 @@ export class CartItemsService {
 		});
 		return {
 			data: rows.map((record) => this.mapper.modelToViewModel(record)),
+			total: count.reduce((total, current) => current.count + total, 0),
+		};
+	}
+
+	async getCartCheckout() {
+		const { count, rows } = await CartItemModel.findAndCountAll({
+			/**
+			 * We want to count the number of similar products and get that in our response, as it's more
+			 * efficient to count at the DB level than post array manipulation
+			 */
+			distinct: true,
+			attributes: ["CartItemModel.*", [fn("COUNT", fn("DISTINCT", col("CartItemModel.id"))), "total"]],
+			group: [col("CartItemModel.product_id")],
+			where: {
+				user_id: this.request.user.sub,
+			},
+			include: [{
+				all: true,
+				nested: true,
+			}],
+		});
+		return {
+			data: rows.map((record) => this.mapper.modelToViewModel(record.getPlain())),
 			total: count.reduce((total, current) => current.count + total, 0),
 		};
 	}

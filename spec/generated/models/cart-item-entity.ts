@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { ProductListEntity } from './product-list-entity';
 
 /**
  * 
@@ -44,6 +47,12 @@ export interface CartItemEntity {
      * @memberof CartItemEntity
      */
     'createdDate'?: number;
+    /**
+     * 
+     * @type {ProductListEntity}
+     * @memberof CartItemEntity
+     */
+    'product'?: ProductListEntity;
     /**
      * 
      * @type {number}

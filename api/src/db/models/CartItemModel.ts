@@ -1,5 +1,6 @@
-import { AutoIncrement, Column, ForeignKey, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { AutoIncrement, BelongsTo, Column, ForeignKey, PrimaryKey, Table } from "sequelize-typescript";
 import { DateEpoch } from "src/db/decorators";
+import { BaseModel } from "src/db/models/BaseModel";
 import { ProductModel } from "src/db/models/ProductModel";
 import { User } from "src/db/models/User";
 import { ModelInterface } from "src/types";
@@ -12,7 +13,7 @@ export type ICartItemAddModel = Pick<ICartItemModel, "user_id" | "product_id">;
 	tableName: "cart_items",
 	timestamps: false,
 })
-export class CartItemModel extends Model {
+export class CartItemModel extends BaseModel {
   @PrimaryKey
   @AutoIncrement
   @Column
@@ -29,5 +30,11 @@ export class CartItemModel extends Model {
   @DateEpoch()
   declare created_date: number;
 
-  count?: number;
+  total?: number;
+
+  @BelongsTo(() => ProductModel, "product_id")
+  product?: ProductModel;
+
+  @BelongsTo(() => User, "user_id")
+  user?: User;
 }
