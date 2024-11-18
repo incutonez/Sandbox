@@ -3,14 +3,14 @@ import { Link } from "@tanstack/react-router";
 import { IconCartCheckout, IconSearch } from "@/assets/icons.tsx";
 import { BaseButton } from "@/components/BaseButton.tsx";
 import { FieldComboBox } from "@/components/FieldComboBox.tsx";
-import { useCartTotal } from "@/contexts.ts";
 import { optionsCategories } from "@/hooks/categories.ts";
 import { RouteHome, RouteViewCart } from "@/routes.ts";
+import { useCart } from "@/stores/cartTotal.ts";
 
 export function NavigationMain() {
 	const categories = useQuery(optionsCategories);
-	const cartTotal = useCartTotal();
-	const cartText = cartTotal ? `${cartTotal}` : "";
+	const { total } = useCart();
+	const cartText = total ? `${total}` : "";
 	return (
 		<nav className="flex items-center bg-slate-700 p-4">
 			<Link

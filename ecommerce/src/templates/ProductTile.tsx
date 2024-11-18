@@ -1,28 +1,31 @@
-import { ReactNode } from "react";
-import { ProductListEntity } from "@incutonez/spec";
+import { ImageEntity, ProductListEntity } from "@incutonez/spec";
 import { Link } from "@tanstack/react-router";
 import classNames from "classnames";
-import { CartItemsAPI } from "@/apiConfig.ts";
 import { IconAdd, IconRemove } from "@/assets/icons.tsx";
 import { BaseButton } from "@/components/BaseButton.tsx";
 import { ProductPrice } from "@/components/ProductPrice.tsx";
 import { RatingStars } from "@/components/RatingStars.tsx";
-import { ContextProductRecord, useCart, useProductRecord } from "@/contexts.ts";
-import { getCartItemTotal } from "@/hooks/user.ts";
+import { ContextProductRecord, useProductRecord } from "@/contexts.ts";
 import { RouteViewProduct } from "@/routes.ts";
+import { cartAdd, cartRemove, useCartItemTotal } from "@/stores/cartTotal.ts";
 import { getImageUrl } from "@/utils.ts";
 
 export interface IProductTile {
 	record: ProductListEntity;
 }
 
-export function ProductImage() {
-	const record = useProductRecord();
+export interface IProductImage {
+	image: ImageEntity;
+	size?: string;
+}
+
+export function ProductImage({ image, size = "size-52" }: IProductImage) {
+	const className = `${size} object-cover`;
 	return (
 		<img
-			src={getImageUrl(record.image.id)}
-			className="size-52 object-cover"
-			alt={record.image.name}
+			src={getImageUrl(image.id)}
+			className={className}
+			alt={image.name}
 		/>
 	);
 }
@@ -39,37 +42,39 @@ export function ProductTitle() {
 	);
 }
 
-export function ProductDescription({ clamp = "line-clamp-2", className = "" }: { clamp?: string; className?: string }) {
-	const record = useProductRecord();
+export interface IProductDescription {
+	description: string;
+	clamp?: string;
+	className?: string;
+}
+
+export function ProductDescription({ clamp = "line-clamp-2", className = "", description }: IProductDescription) {
 	className = classNames("text-sm hover:text-sky-800", clamp, className);
 	return (
 		<p className={className}>
-			{record.description}
+			{description}
 		</p>
 	);
 }
 
-export function ProductCartButtons() {
-	const record = useProductRecord();
-	const { refetch, data } = useCart();
-	const cartTotal = getCartItemTotal(data?.data, record.id!);
-	let cartTotalText: ReactNode;
+export interface IProductCartButtons {
+	productId: string;
+}
 
-	async function onClickCartAdd() {
-		await CartItemsAPI.add({
-			productId: record.id!,
-		});
-		await refetch();
+export function ProductCartButtons({ productId }: IProductCartButtons) {
+	const cartTotal = useCartItemTotal(productId);
+
+	function onClickCartAdd() {
+		cartAdd(productId);
 	}
 
-	async function onClickCartRemove() {
-		await CartItemsAPI.remove(record.id!);
-		await refetch();
+	function onClickCartRemove() {
+		cartRemove(productId);
 	}
 
 	if (cartTotal) {
-		cartTotalText = (
-			<>
+		return (
+			<section className="flex items-center justify-between">
 				<BaseButton
 					icon={IconRemove}
 					onClick={onClickCartRemove}
@@ -83,28 +88,19 @@ export function ProductCartButtons() {
 					icon={IconAdd}
 					onClick={onClickCartAdd}
 				/>
-			</>
+			</section>
 		);
 	}
-	else {
-		cartTotalText = (
+	return (
+		<section>
 			<BaseButton
 				text="Add to Cart"
 				onClick={onClickCartAdd}
 			/>
-		);
-	}
-	return (
-		<section className="flex items-center justify-between">
-			{cartTotalText}
 		</section>
 	);
 }
 
-/**
- * TODOJEF: Pick up here and add the checkout functionality in the API... will need a new table that has the userId and what items they have in their cart
- * ... then when that item is rendered, there should be an indication showing how many of it are in the cart/the ability to remove/add more
- */
 export function ProductTile({ record }: IProductTile) {
 	return (
 		<ContextProductRecord.Provider value={record}>
@@ -116,10 +112,10 @@ export function ProductTile({ record }: IProductTile) {
 					}}
 					className="flex flex-col"
 				>
-					<ProductImage />
+					<ProductImage image={record.image} />
 					<section className="flex w-full flex-col items-stretch border-x p-2">
 						<ProductTitle />
-						<ProductDescription />
+						<ProductDescription description={record.description} />
 					</section>
 				</Link>
 				<section className="flex w-full flex-col rounded-b border-x border-b px-2 pb-2">
@@ -128,7 +124,7 @@ export function ProductTile({ record }: IProductTile) {
 						className="pb-2 pt-1"
 						price={record.price}
 					/>
-					<ProductCartButtons />
+					<ProductCartButtons productId={record.id!} />
 				</section>
 			</article>
 		</ContextProductRecord.Provider>

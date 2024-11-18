@@ -1,5 +1,7 @@
 import { Model } from "sequelize-typescript";
 
+export { default as PreciseNumber } from "bignumber.js";
+
 export type ModelInterface<T> = {
 	// We need to map over the keys directly to preserve optionality. We filter with "as"
 	// Exclude undefined from the check to properly handle optional properties

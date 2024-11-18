@@ -22,6 +22,8 @@ models/access-token-entity.ts
 models/address-entity.ts
 models/api-paginated-request.ts
 models/bulk-response.ts
+models/cart-checkout-item-entity.ts
+models/cart-checkout-response-model.ts
 models/cart-item-add-entity.ts
 models/cart-item-entity.ts
 models/cart-item-update-entity.ts

@@ -28,6 +28,7 @@
     "@nestjs/platform-express": "^10.4.7",
     "@nestjs/sequelize": "^10.0.1",
     "@nestjs/swagger": "^8.0.5",
+    "bignumber.js": "^9.1.2",
     "just-diff": "^6.0.2",
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.2.2",

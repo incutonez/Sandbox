@@ -1,5 +1,5 @@
 import { GetResponseModel } from "src/models/base.list.entity";
-import { CartItemEntity } from "src/models/cart.item.entity";
+import { CartCheckoutItemEntity, CartItemEntity } from "src/models/cart.item.entity";
 import { CategoryEntity } from "src/models/category.entity";
 import { TreeChangeModel } from "src/models/diff.entity";
 import { LeagueMatchEntity } from "src/models/league.match.entity";
@@ -15,4 +15,14 @@ export class LeagueMatchResponseModel extends GetResponseModel<LeagueMatchEntity
 export class BulkResponse {
 	index: number;
 	message: string[];
+}
+
+export class CartCheckoutResponseModel {
+	data: CartCheckoutItemEntity[];
+	total: number;
+	subTotal: number;
+	tax: number;
+	taxPercent: number;
+	grandTotal: number;
+	shipping: number;
 }

@@ -6,12 +6,7 @@ import { whereSearch } from "src/db/query";
 import { EnumFilterType } from "src/enums.entity";
 import { ApiPaginatedRequest } from "src/models/base.list.entity";
 import { ProductsMapper } from "src/products/products.mapper";
-
-function sleep(ms: number): Promise<void> {
-	return new Promise((resolve) => {
-		setTimeout(resolve, ms);
-	});
-}
+import { sleep } from "src/utils";
 
 @Injectable()
 export class ProductsService {

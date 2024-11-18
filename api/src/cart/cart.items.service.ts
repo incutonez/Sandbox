@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { Inject, Injectable, Scope } from "@nestjs/common";
 import { REQUEST } from "@nestjs/core";
 import { Request } from "express";
@@ -5,6 +6,7 @@ import { col, fn } from "sequelize";
 import { CartItemsMapper } from "src/cart/cart.items.mapper";
 import { CartItemModel } from "src/db/models/CartItemModel";
 import { CartItemAddEntity, CartItemUpdateEntity } from "src/models/cart.item.entity";
+import { toDecimal } from "src/utils";
 
 @Injectable({
 	scope: Scope.REQUEST,
@@ -92,6 +94,12 @@ export class CartItemsService {
 	}
 
 	async getCartCheckout() {
+		let subTotal = 0;
+		const shipping = faker.number.float({
+			min: 1,
+			max: 100,
+			fractionDigits: 2,
+		});
 		const { count, rows } = await CartItemModel.findAndCountAll({
 			/**
 			 * We want to count the number of similar products and get that in our response, as it's more
@@ -108,8 +116,24 @@ export class CartItemsService {
 				nested: true,
 			}],
 		});
+		const data = rows.map((record) => {
+			const response = this.mapper.modelToCheckoutViewModel(record);
+			subTotal += response.subTotal;
+			return response;
+		});
+		const taxPercent = faker.number.float({
+			min: 0,
+			max: 1,
+			fractionDigits: 2,
+		});
+		const tax = subTotal * taxPercent;
 		return {
-			data: rows.map((record) => this.mapper.modelToViewModel(record)),
+			data,
+			taxPercent,
+			shipping,
+			tax: toDecimal(tax),
+			subTotal: toDecimal(subTotal),
+			grandTotal: toDecimal(subTotal + tax + shipping),
 			total: count.reduce((total, current) => current.count + total, 0),
 		};
 	}

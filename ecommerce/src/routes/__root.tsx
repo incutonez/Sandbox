@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { LoadingMask } from "@/components/LoadingMask.tsx";
-import { ContextCart } from "@/contexts.ts";
-import { optionsCartLoad, optionsUserLoad } from "@/hooks/user.ts";
+import { optionsUserLoad } from "@/hooks/user.ts";
 import { NavigationMain } from "@/templates/NavigationMain.tsx";
 
 export const Route = createRootRoute({
@@ -22,15 +21,12 @@ function RouteComponent() {
 }
 
 function App() {
-	const cart = useQuery(optionsCartLoad);
 	return (
 		<>
-			<ContextCart.Provider value={cart}>
-				<NavigationMain />
-				<main className="relative flex size-full flex-col overflow-hidden">
-					<Outlet />
-				</main>
-			</ContextCart.Provider>
+			<NavigationMain />
+			<main className="relative flex size-full flex-col overflow-hidden">
+				<Outlet />
+			</main>
 		</>
 	);
 }

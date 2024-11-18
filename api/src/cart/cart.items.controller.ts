@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put }
 import { ApiTags } from "@nestjs/swagger";
 import { CartItemsService } from "src/cart/cart.items.service";
 import { CartItemAddEntity, CartItemUpdateEntity } from "src/models/cart.item.entity";
-import { CartResponseModel } from "src/models/responses.entity";
+import { CartCheckoutResponseModel, CartResponseModel } from "src/models/responses.entity";
 
 @ApiTags("cartItems")
 @Controller("cart-items")
@@ -22,7 +22,7 @@ export class CartItemsController {
 	}
 
 	@Get("checkout")
-	async getCartCheckout(): Promise<CartResponseModel> {
+	async getCartCheckout(): Promise<CartCheckoutResponseModel> {
 		return this.service.getCartCheckout();
 	}
 

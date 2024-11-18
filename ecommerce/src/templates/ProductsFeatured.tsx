@@ -28,10 +28,13 @@ export function ProductFeaturedTile({ record }: { record: ProductListEntity }) {
 						productId: record.id!,
 					}}
 				>
-					<ProductImage />
+					<ProductImage image={record.image} />
 					<section className="flex flex-1 flex-col space-y-2 overflow-hidden">
 						<ProductTitle />
-						<ProductDescription clamp="line-clamp-2 lg:line-clamp-[9]" />
+						<ProductDescription
+							clamp="line-clamp-2 lg:line-clamp-[9]"
+							description={record.description}
+						/>
 					</section>
 				</Link>
 				<section className="flex w-full items-center space-x-4 p-2">
@@ -41,7 +44,7 @@ export function ProductFeaturedTile({ record }: { record: ProductListEntity }) {
 					/>
 					<RatingStars rating={record.rating} />
 				</section>
-				<ProductCartButtons />
+				<ProductCartButtons productId={record.id!} />
 			</ContextProductRecord.Provider>
 		</article>
 	);

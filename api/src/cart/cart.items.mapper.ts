@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { CartItemModel, ICartItemAddModel } from "src/db/models/CartItemModel";
-import { CartItemAddEntity, CartItemEntity } from "src/models/cart.item.entity";
+import { CartCheckoutItemEntity, CartItemAddEntity, CartItemEntity } from "src/models/cart.item.entity";
 import { ProductsMapper } from "src/products/products.mapper";
 
 @Injectable()
@@ -19,6 +19,12 @@ export class CartItemsMapper {
 			userId: model.user_id,
 			productId: model.product_id,
 		};
+	}
+
+	modelToCheckoutViewModel(model: CartItemModel): CartCheckoutItemEntity {
+		const item = this.modelToViewModel(model) as CartCheckoutItemEntity;
+		item.subTotal = item.product.price * item.count;
+		return item;
 	}
 
 	addViewModelToModel({ userId, productId }: CartItemAddEntity): ICartItemAddModel {

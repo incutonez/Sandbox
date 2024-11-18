@@ -22,6 +22,8 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 // @ts-ignore
+import { CartCheckoutResponseModel } from '../models';
+// @ts-ignore
 import { CartItemAddEntity } from '../models';
 // @ts-ignore
 import { CartItemUpdateEntity } from '../models';
@@ -232,7 +234,7 @@ export const CartItemsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCartCheckout(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CartResponseModel>> {
+        async getCartCheckout(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CartCheckoutResponseModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getCartCheckout(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -289,7 +291,7 @@ export const CartItemsApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCartCheckout(options?: any): AxiosPromise<CartResponseModel> {
+        getCartCheckout(options?: any): AxiosPromise<CartCheckoutResponseModel> {
             return localVarFp.getCartCheckout(options).then((request) => request(axios, basePath));
         },
         /**
@@ -343,7 +345,7 @@ export interface CartItemsApiInterface {
      * @throws {RequiredError}
      * @memberof CartItemsApiInterface
      */
-    getCartCheckout(options?: AxiosRequestConfig): AxiosPromise<CartResponseModel>;
+    getCartCheckout(options?: AxiosRequestConfig): AxiosPromise<CartCheckoutResponseModel>;
 
     /**
      * 

@@ -9,6 +9,15 @@ export class CartItemEntity {
   readonly id?: number;
 }
 
+export class CartCheckoutItemEntity {
+  userId: string;
+  productId: string;
+  count: number;
+  product: ProductListEntity;
+  subTotal: number;
+  readonly id?: number;
+}
+
 export class CartItemAddEntity {
   userId?: string;
   productId: string;
