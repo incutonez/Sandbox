@@ -1,13 +1,14 @@
-import { BelongsTo, Column, ForeignKey, Model, Table } from "sequelize-typescript";
+import { BelongsTo, Column, ForeignKey, Table } from "sequelize-typescript";
 import { PrimaryKeyGuid } from "src/db/decorators";
+import { BaseModel } from "src/db/models/BaseModel";
 import { ProductModel } from "src/db/models/ProductModel";
-import { User } from "src/db/models/User";
+import { UserModel } from "src/db/models/UserModel";
 
 @Table({
 	tableName: "reviews",
 	timestamps: false,
 })
-export class ReviewModel extends Model {
+export class ReviewModel extends BaseModel {
   @PrimaryKeyGuid()
   declare id: string;
 
@@ -23,7 +24,7 @@ export class ReviewModel extends Model {
   @Column
   declare created_date: number;
 
-  @ForeignKey(() => User)
+  @ForeignKey(() => UserModel)
   @Column
   declare created_by: string;
 
@@ -31,6 +32,6 @@ export class ReviewModel extends Model {
   @Column
   declare product_id: string;
 
-  @BelongsTo(() => User, "created_by")
-  created_by_user: User;
+  @BelongsTo(() => UserModel, "created_by")
+  created_by_user: UserModel;
 }

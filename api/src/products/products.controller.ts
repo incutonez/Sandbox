@@ -6,7 +6,7 @@ import { CategoryModel } from "src/db/models/CategoryModel";
 import { ImageModel } from "src/db/models/ImageModel";
 import { ProductModel } from "src/db/models/ProductModel";
 import { ReviewModel } from "src/db/models/ReviewModel";
-import { User } from "src/db/models/User";
+import { UserModel } from "src/db/models/UserModel";
 import { ApiPaginatedRequest } from "src/models/base.list.entity";
 import { ProductResponseModel } from "src/models/responses.entity";
 import { ProductsService } from "src/products/products.service";
@@ -61,7 +61,7 @@ export class ProductsController {
 	async bulkImport() {
 		const CategoryRe = /.*\\(\w+)$/;
 		const FileExtension = /\.\w+$/;
-		const allUsers = await User.findAll({
+		const allUsers = await UserModel.findAll({
 			raw: true,
 		});
 		const files = readdirSync(`${process.cwd()}/pexels`, {

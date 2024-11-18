@@ -1,15 +1,16 @@
-import { BelongsTo, Column, ForeignKey, Model, Table } from "sequelize-typescript";
+import { BelongsTo, Column, ForeignKey, Table } from "sequelize-typescript";
 import { PrimaryKeyGuid } from "src/db/decorators";
-import { Address } from "src/db/models/Address";
+import { AddressModel } from "src/db/models/AddressModel";
+import { BaseModel } from "src/db/models/BaseModel";
 import { ModelInterface } from "src/types";
 
-export type IUser = ModelInterface<User>;
+export type IUserModel = ModelInterface<UserModel>;
 
 @Table({
 	tableName: "users",
 	timestamps: false,
 })
-export class User extends Model {
+export class UserModel extends BaseModel {
 	@PrimaryKeyGuid()
 	declare id: string;
 
@@ -31,10 +32,10 @@ export class User extends Model {
 	@Column
 	declare birth_date: number;
 
-	@ForeignKey(() => Address)
+	@ForeignKey(() => AddressModel)
 	@Column
 	declare address_id?: number;
 
-	@BelongsTo(() => Address)
-	address?: Address;
+	@BelongsTo(() => AddressModel)
+	address?: AddressModel;
 }

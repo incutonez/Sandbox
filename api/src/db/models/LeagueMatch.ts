@@ -1,11 +1,12 @@
-import { Column, Model, Table } from "sequelize-typescript";
+import { Column, Table } from "sequelize-typescript";
 import { PrimaryKeyGuid } from "src/db/decorators";
+import { BaseModel } from "src/db/models/BaseModel";
 
 @Table({
 	tableName: "league_matches",
 	timestamps: false,
 })
-export class LeagueMatch extends Model {
+export class LeagueMatch extends BaseModel {
     @PrimaryKeyGuid()
     declare id: string;
 

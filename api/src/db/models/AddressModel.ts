@@ -1,14 +1,15 @@
-import { Column, Model, Table } from "sequelize-typescript";
+import { Column, Table } from "sequelize-typescript";
 import { PrimaryKeyGuid } from "src/db/decorators";
+import { BaseModel } from "src/db/models/BaseModel";
 import { ModelInterface } from "src/types";
 
-export type IAddress = ModelInterface<Address>;
+export type IAddressModel = ModelInterface<AddressModel>;
 
 @Table({
 	tableName: "addresses",
 	timestamps: false,
 })
-export class Address extends Model {
+export class AddressModel extends BaseModel {
 	@PrimaryKeyGuid()
 	declare id: number;
 

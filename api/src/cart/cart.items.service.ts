@@ -74,13 +74,13 @@ export class CartItemsService {
 
 	async getCart() {
 		const { count, rows } = await CartItemModel.findAndCountAll({
-			raw: true,
 			/**
 			 * We want to count the number of similar products and get that in our response, as it's more
 			 * efficient to count at the DB level than post array manipulation
 			 */
-			attributes: ["CartItemModel.*", [fn("count", "CartItemModel.product_id"), "count"]],
-			group: ["product_id"],
+			distinct: true,
+			attributes: ["product_id", "user_id", [fn("COUNT", fn("DISTINCT", col("CartItemModel.id"))), "total"]],
+			group: [col("product_id")],
 			where: {
 				user_id: this.request.user.sub,
 			},
@@ -109,7 +109,7 @@ export class CartItemsService {
 			}],
 		});
 		return {
-			data: rows.map((record) => this.mapper.modelToViewModel(record.getPlain())),
+			data: rows.map((record) => this.mapper.modelToViewModel(record)),
 			total: count.reduce((total, current) => current.count + total, 0),
 		};
 	}

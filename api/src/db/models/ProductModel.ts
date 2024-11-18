@@ -1,5 +1,6 @@
-import { BelongsTo, Column, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
+import { BelongsTo, Column, ForeignKey, HasMany, Table } from "sequelize-typescript";
 import { PrimaryKeyGuid } from "src/db/decorators";
+import { BaseModel } from "src/db/models/BaseModel";
 import { CategoryModel } from "src/db/models/CategoryModel";
 import { ImageModel } from "src/db/models/ImageModel";
 import { ReviewModel } from "src/db/models/ReviewModel";
@@ -8,7 +9,7 @@ import { ReviewModel } from "src/db/models/ReviewModel";
 	tableName: "products",
 	timestamps: false,
 })
-export class ProductModel extends Model {
+export class ProductModel extends BaseModel {
   @PrimaryKeyGuid()
   declare id: string;
 

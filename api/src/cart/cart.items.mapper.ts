@@ -8,12 +8,16 @@ export class CartItemsMapper {
 	constructor(private readonly productsMapper: ProductsMapper) {
 	}
 
-	modelToViewModel({ user_id, product_id, total = 1, product }: CartItemModel): CartItemEntity {
+	modelToViewModel(model: CartItemModel): CartItemEntity {
+		// We have to convert to a plain object because otherwise, the data is nested
+		if (model instanceof CartItemModel) {
+			model = model.getPlain();
+		}
 		return {
-			count: total,
-			product: product ? this.productsMapper.modelToListViewModel(product) : undefined,
-			userId: user_id,
-			productId: product_id,
+			count: model.total,
+			product: model.product ? this.productsMapper.modelToListViewModel(model.product) : undefined,
+			userId: model.user_id,
+			productId: model.product_id,
 		};
 	}
 

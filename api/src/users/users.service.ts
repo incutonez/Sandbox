@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { FindAndCountOptions } from "sequelize/types/model";
-import { User } from "src/db/models/User";
+import { UserModel } from "src/db/models/UserModel";
 import { whereSearch } from "src/db/query";
 import { EnumFilterType } from "src/enums.entity";
 import { ApiPaginatedRequest } from "src/models/base.list.entity";
@@ -13,7 +13,7 @@ export class UsersService {
 	constructor(private readonly mapper: UsersMapper) {}
 
 	async listUsers({ start = 0, limit = 20, filters = [] }: ApiPaginatedRequest) {
-		const query: FindAndCountOptions<User> = {
+		const query: FindAndCountOptions<UserModel> = {
 			limit,
 			raw: true,
 			offset: start,
@@ -25,10 +25,10 @@ export class UsersService {
 		};
 		filters.forEach(({ type, value }) => {
 			if (type === EnumFilterType.Search) {
-				query.where = whereSearch<User>(["first_name", "last_name", "phone", "email", "gender", "birth_date"], value);
+				query.where = whereSearch<UserModel>(["first_name", "last_name", "phone", "email", "gender", "birth_date"], value);
 			}
 		});
-		const { rows, count } = await User.findAndCountAll(query);
+		const { rows, count } = await UserModel.findAndCountAll(query);
 		return {
 			data: rows.map((item) => this.mapper.userToViewModel(item)),
 			total: count,
@@ -36,7 +36,7 @@ export class UsersService {
 	}
 
 	async getUser(userId: string) {
-		const response = await User.findOne({
+		const response = await UserModel.findOne({
 			raw: true,
 			where: {
 				id: userId,
@@ -51,7 +51,7 @@ export class UsersService {
 	}
 
 	async createUser(user: UserEntity) {
-		const response = await User.create(this.mapper.viewModelToUser(user));
+		const response = await UserModel.create(this.mapper.viewModelToUser(user));
 		return this.mapper.userToViewModel(response);
 	}
 
@@ -79,7 +79,7 @@ export class UsersService {
 	}
 
 	async updateUser(user: UserEntity) {
-		await User.update(this.mapper.viewModelToUser(user), {
+		await UserModel.update(this.mapper.viewModelToUser(user), {
 			where: {
 				id: user.id,
 			},
@@ -89,7 +89,7 @@ export class UsersService {
 	}
 
 	async deleteUser(id: string) {
-		await User.destroy({
+		await UserModel.destroy({
 			where: {
 				id,
 			},

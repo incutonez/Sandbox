@@ -2,7 +2,7 @@ import { AutoIncrement, BelongsTo, Column, ForeignKey, PrimaryKey, Table } from 
 import { DateEpoch } from "src/db/decorators";
 import { BaseModel } from "src/db/models/BaseModel";
 import { ProductModel } from "src/db/models/ProductModel";
-import { User } from "src/db/models/User";
+import { UserModel } from "src/db/models/UserModel";
 import { ModelInterface } from "src/types";
 
 export type ICartItemModel = ModelInterface<CartItemModel>;
@@ -19,7 +19,7 @@ export class CartItemModel extends BaseModel {
   @Column
   declare id: number;
 
-  @ForeignKey(() => User)
+  @ForeignKey(() => UserModel)
   @Column
   declare user_id: string;
 
@@ -35,6 +35,6 @@ export class CartItemModel extends BaseModel {
   @BelongsTo(() => ProductModel, "product_id")
   product?: ProductModel;
 
-  @BelongsTo(() => User, "user_id")
-  user?: User;
+  @BelongsTo(() => UserModel, "user_id")
+  user?: UserModel;
 }
