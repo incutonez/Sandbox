@@ -84,7 +84,7 @@ const WideOrbitTasks = [
 							Summary
 						</h1>
 						<p class="text-sm">
-							Meticulous Senior Software Engineer with a big personality looking for an even bigger project to wrangle.  Loves long walks on the beach with Vue but has a curiosity for learning React or Angular.  Mentors engineers of all ages, ranks, and walks of life.  Jira champion, enthusiastic debugger, defensive programmer, effective communicator, and a loud advocator for best practices.
+							Meticulous Senior Software Engineer with a big personality looking for an even bigger project to wrangle.  Loves long walks on the beach with Vue but has a curiosity for using React in a production setting.  Mentors engineers of all ages, ranks, and walks of life.  Jira champion, enthusiastic debugger, defensive programmer, effective communicator, and a loud advocator for best practices.
 						</p>
 					</article>
 
@@ -180,13 +180,14 @@ const WideOrbitTasks = [
 								Front-End Skills
 							</h2>
 							<ul class="flex flex-wrap gap-x-2 gap-y-1">
-								<li>Vue.js</li>
-								<li>Ext JS</li>
+								<li>Vue</li>
+								<li>React</li>
 								<li>TypeScript</li>
+								<li>Ext JS</li>
 								<li>JSON</li>
 								<li>ECMAScript 6+</li>
-								<li>Tailwind CSS</li>
 								<li>SCSS</li>
+								<li>Tailwind</li>
 								<li>PrimeVue</li>
 								<li>Phaser</li>
 								<li>HTML</li>
@@ -216,6 +217,7 @@ const WideOrbitTasks = [
 								<li>OpenAPI</li>
 								<li>REST</li>
 								<li>Web Sockets</li>
+								<li>AWS</li>
 							</ul>
 						</section>
 					</article>

@@ -14,7 +14,8 @@
 
 
 
-export * from './api/default-api';
+export * from './api/accounts-api';
+export * from './api/app-api';
 export * from './api/differ-api';
 export * from './api/leagues-api';
 export * from './api/random-api';

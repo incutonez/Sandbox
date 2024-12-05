@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { ClassTransformOptions, plainToInstance } from "class-transformer";
-import { validate, ValidationError, ValidatorOptions } from "class-validator";
+import { validate, validateSync, ValidationError, ValidatorOptions } from "class-validator";
+import compare from "just-compare";
 import { unset } from "lodash-es";
 import { getObjectValue, isEmpty, isObject } from "@/utils/common";
 
@@ -21,7 +22,7 @@ export type ModelInterface<T> = {
 	// We need to map over the keys directly to preserve optionality. We filter with "as"
 	// Exclude undefined from the check to properly handle optional properties
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	[K in keyof T as T[K] extends Function ? never : K extends Symbol ? never : K]: Exclude<T[K], undefined> extends Array<infer E> ? Array<ModelInterface<E>> : Exclude<T[K], undefined> extends Record<string, never> ? ModelInterface<T[K]> : T[K];
+	[K in keyof T as T[K] extends Function ? never : K extends symbol ? never : K]: Exclude<T[K], undefined> extends Array<infer E> ? Array<ModelInterface<E>> : Exclude<T[K], undefined> extends Record<string, never> ? ModelInterface<T[K]> : T[K];
 };
 
 /**
@@ -79,7 +80,7 @@ export class ViewModel {
 	[IsNew] = true;
 	[IsModel] = true;
 	[Parent]?: unknown;
-	[Visited] = false;
+	[Visited]?: boolean;
 	[Errors]: ValidationError[] = [];
 
 	static create<T extends ViewModel>(this: new () => T, data = {} as Partial<IViewModel<T>>, options: IModelOptions = {}) {
@@ -100,33 +101,33 @@ export class ViewModel {
 	init(_data?: Partial<IViewModel<this>>) {
 	}
 
-	async isValid(options?: ValidatorOptions) {
+	isValid(options?: ValidatorOptions) {
 		options ??= {};
 		if (!("stopAtFirstError" in options)) {
 			options.stopAtFirstError = true;
 		}
-		await this.validate(options);
+		this.validate(options);
 		return isEmpty(this[Errors]);
 	}
 
-	async validate(options?: ValidatorOptions) {
+	validate(options?: ValidatorOptions) {
 		if (!this[Visited]) {
 			this[Visited] = true;
 			for (const key in this) {
 				const value = this[key] as ViewModel | ViewModel[];
 				if (Array.isArray(value)) {
-					await Promise.allSettled(value.map((item) => {
+					value.forEach((item) => {
 						if (item?.[IsModel]) {
-							return item.validate(options);
+							item.validate(options);
 						}
-					}));
+					});
 				}
 				else if (value?.[IsModel]) {
-					await value.validate(options);
+					value.validate(options);
 				}
 			}
-			this[Errors] = await validate(this, options);
-			this[Visited] = false;
+			this[Errors] = validateSync(this, options);
+			delete this[Visited];
 		}
 	}
 
@@ -168,7 +169,7 @@ export class ViewModel {
 					delete data[field as keyof typeof data];
 				}
 			});
-			this[Visited] = false;
+			delete this[Visited];
 		}
 		return data as T;
 	}

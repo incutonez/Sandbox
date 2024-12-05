@@ -8,7 +8,7 @@
     "api": "cd api && npm run start:dev",
     "test": "echo \"Error: no test specified\" && exit 1",
     "resume": "cd resume && npm run dev",
-    "updateDeps": "node ./updateDependencies.js",
+    "updateDeps": "node ./updateDependencies.js && npm i",
     "lint": "npx eslint . --ext .js --fix",
     "lint:fix": "prettier --write && npx eslint --fix",
     "explode": "npm cache clean --force && npx rimraf package-lock.json **/node_modules --glob && npm i",
@@ -74,22 +74,5 @@
       "@semantic-release/git",
       "@semantic-release/github"
     ]
-  },
-  "overrides": {
-    "@incutonez/ui": {
-      "@tiptap/vue-3": {
-        "@tiptap/core": "2.6.6",
-        "@tiptap/extension-bubble-menu": "2.6.6",
-        "@tiptap/extension-floating-menu": "2.6.6",
-        "@tiptap/pm": "2.6.6"
-      },
-      "@tiptap/pm": {
-        "@tiptap/core": "2.6.6"
-      },
-      "@tiptap/starter-kit": {
-        "@tiptap/core": "2.6.6",
-        "@tiptap/pm": "2.6.6"
-      }
-    }
   }
 }
