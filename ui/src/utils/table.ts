@@ -1,7 +1,12 @@
 import { computed, markRaw, reactive, ref, unref, watch } from "vue";
+import { EnumFilterType, FilterType } from "@incutonez/spec";
 import get from "just-safe-get";
 import { ColumnProps } from "primevue/column";
-import { DataTablePassThroughOptions, DataTableProps } from "primevue/datatable";
+import {
+	DataTableFilterMetaData,
+	DataTablePassThroughOptions,
+	DataTableProps,
+} from "primevue/datatable";
 import IconLock from "@/assets/IconLock.vue";
 import IconNotAllowed from "@/assets/IconNotAllowed.vue";
 import IconPin from "@/assets/IconPin.vue";
@@ -303,9 +308,29 @@ export function useDataTable<TData = unknown>(props: ITableGrid, emit: TTableEmi
 			const $max = unref(max);
 			loading.value = true;
 			try {
+				const apiFilters: FilterType[] = [];
+				for (const field in filters) {
+					let filterType: EnumFilterType;
+					const filter = filters[field] as DataTableFilterMetaData;
+					switch (filter.matchMode) {
+						case "contains":
+							filterType = EnumFilterType.Contains;
+							break;
+						case "gt":
+							filterType = EnumFilterType.GreaterThan;
+							break;
+						default:
+							filterType = EnumFilterType.Search;
+					}
+					apiFilters.push({
+						field,
+						type: filterType,
+						value: filter.value,
+					});
+				}
 				const response = await load({
 					page,
-					filters,
+					filters: apiFilters,
 					start: i,
 					limit: $max,
 				});

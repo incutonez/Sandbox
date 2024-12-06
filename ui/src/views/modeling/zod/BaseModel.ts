@@ -12,7 +12,7 @@ export class BaseModel {
 		return record;
 	}
 
-	async isValid() {
+	isValid() {
 		const response = this[SymSchema].safeParse(this);
 		return response.success;
 	}

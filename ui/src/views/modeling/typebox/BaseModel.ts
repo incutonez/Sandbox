@@ -13,7 +13,7 @@ export class BaseModel {
 		return record;
 	}
 
-	async isValid() {
+	isValid() {
 		return Value.Check(this[SymSchema], this.getData());
 	}
 
