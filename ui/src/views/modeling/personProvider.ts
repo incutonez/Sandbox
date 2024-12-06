@@ -15,7 +15,7 @@ export interface IPerson {
 		zipCode: string;
 	};
 	name: string;
-	isValid: () => Promise<boolean>;
+	isValid: () => boolean;
 }
 
 export function providePerson() {
