@@ -23,7 +23,6 @@
     "class-validator": "^0.14.1",
     "glob": "^11.0.0",
     "just-clone": "^6.2.0",
-    "just-compare": "^2.3.0",
     "just-is-empty": "^3.4.1",
     "just-safe-get": "^4.2.0",
     "just-safe-set": "^4.2.1",
