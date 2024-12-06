@@ -8,7 +8,7 @@
     "api": "cd api && npm run start:dev",
     "test": "echo \"Error: no test specified\" && exit 1",
     "resume": "cd resume && npm run dev",
-    "updateDeps": "node ./updateDependencies.js",
+    "updateDeps": "node ./updateDependencies.js && npm i",
     "lint": "npx eslint . --ext .js --fix",
     "lint:fix": "prettier --write && npx eslint --fix",
     "explode": "npm cache clean --force && npx rimraf package-lock.json **/node_modules --glob && npm i",
@@ -48,8 +48,8 @@
     "resume"
   ],
   "engines": {
-    "node": ">=18",
-    "npm": ">=9"
+    "node": ">=20",
+    "npm": ">=10"
   },
   "lint-staged": {
     "ui/**/*.{vue,ts}": "npm run validate:ui",

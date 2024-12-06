@@ -1,4 +1,4 @@
-import { inject, InjectionKey, provide, ref, watch } from "vue";
+import { computed, inject, InjectionKey, provide, ref } from "vue";
 
 export type TPersonProvider = ReturnType<typeof providePerson>;
 
@@ -19,8 +19,8 @@ export interface IPerson {
 }
 
 export function providePerson() {
-	const isValid = ref(false);
 	const record = ref({} as IPerson);
+	const isValid = computed(() => record.value.isValid && record.value.isValid());
 
 	const provider = {
 		record,
@@ -28,13 +28,6 @@ export function providePerson() {
 	};
 
 	provide(SymPersonProvider, provider);
-
-	watch(record, async () => {
-		isValid.value = "isValid" in record.value && (await record.value.isValid());
-	}, {
-		immediate: true,
-		deep: true,
-	});
 
 	return provider;
 }
