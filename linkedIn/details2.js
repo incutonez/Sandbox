@@ -9,7 +9,7 @@ let appliedDate = new Intl.DateTimeFormat('en-US', {
 if (location.hostname === "www.indeed.com") {
   companyName = document.querySelector('.jobsearch-JobInfoHeader-companyNameLink')?.innerText  || document.querySelector(".jobsearch-JobInfoHeader-companyNameSimple").innerText;
   jobTitle = document.querySelector("[data-testid='simpler-jobTitle']").innerText;
-  url = location.toString();
+  url = location.href.split('?')[0] + `?jk=${Object.fromEntries(new URLSearchParams(location.search)).jk}`;
 }
 else {
   const parent = document.getElementsByClassName('job-details-jobs-unified-top-card__company-name')[0];
