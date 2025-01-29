@@ -135,7 +135,7 @@ function onClickCancel() {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .drop-hover {
   border-color: var(--color-red-700) !important;
 }
