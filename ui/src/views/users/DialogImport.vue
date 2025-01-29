@@ -93,16 +93,16 @@ function parseFile(file: File) {
 		complete(results) {
 			users.value = results.data.map((data) => {
 				const birthDate = data["Birth Date"];
-        	const user = UserModel.create({
-        		firstName: data["First Name"],
-        		lastName: data["Last Name"],
-        		gender: data.Gender,
-        		phone: data.Phone,
-        		email: data.Email,
-        	});
-        	if (birthDate) {
-        		user.birthDate = new Date(birthDate).getTime();
-        	}
+				const user = UserModel.create({
+					firstName: data["First Name"],
+					lastName: data["Last Name"],
+					gender: data.Gender,
+					phone: data.Phone,
+					email: data.Email,
+				});
+				if (birthDate) {
+					user.birthDate = new Date(birthDate).getTime();
+				}
 				return user;
 			});
 			showViewUsers.value = true;
@@ -137,6 +137,6 @@ function onClickCancel() {
 
 <style scoped lang="scss">
 .drop-hover {
-  @apply border-red-700 #{!important};
+  border-color: var(--color-red-700) !important;
 }
 </style>

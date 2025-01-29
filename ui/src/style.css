@@ -1,8 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https:fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+    --color-select-200: var(--color-sky-200);
+    --color-select-600: var(--color-sky-600);
+    --color-b: var(--color-gray-400);
+    --default-font-family: "Open Sans";
+}
 
 @layer utilities {
     .writing-mode-vertical {
@@ -14,6 +18,7 @@
     .table-hide-headers table thead tr {
         @apply hidden bg-transparent;
     }
+
     .base-grid {
         @apply grid grow grid-rows-11 grid-cols-16;
     }
@@ -27,7 +32,7 @@
     }
 
     .grid-cell-selected {
-        @apply bg-blue-200 #{!important};
+        @apply bg-blue-200;
     }
 
     .grid-show-lines .grid-cell {
@@ -39,46 +44,16 @@
         @apply border-r;
     }
 
-    /* Taken from https://keithclark.co.uk/articles/targeting-first-and-last-rows-in-css-grid-layouts/ */
+    /* Taken from https:keithclark.co.uk/articles/targeting-first-and-last-rows-in-css-grid-layouts/ */
     /* Target last row, which is considered the first row due to the grid's starting position... 0,0 is bottom left */
     .grid-show-lines:not(.grid-origin-top-left) .grid-cell:nth-child(-n+16) {
         @apply border-b;
     }
 
-    /* Taken from https://keithclark.co.uk/articles/targeting-first-and-last-rows-in-css-grid-layouts/ */
+    /* Taken from https:keithclark.co.uk/articles/targeting-first-and-last-rows-in-css-grid-layouts/ */
     /* Target last row, which is considered the first row due to the grid's starting position... 0,0 is bottom left */
     .grid-show-lines.grid-origin-top-left .grid-cell:nth-last-child(-n+16) {
         @apply border-b;
-    }
-
-    .context-menu {
-        @apply absolute bg-gray-100;
-    }
-
-    .context-menu-item {
-        @apply border-b px-4 py-2 cursor-pointer hover:bg-select-200;
-    }
-
-    .base-dialog {
-        @apply w-full h-full absolute z-10 bg-blue-200 bg-opacity-50;
-    }
-
-    .base-dialog-title {
-        @apply h-8 bg-blue-400 w-full text-white flex items-center px-2;
-    }
-
-    .base-dialog-content {
-        @apply m-8 bg-white shadow flex flex-col;
-        height: calc(100% - 4rem);
-        width: calc(100% - 4rem);
-    }
-
-    .base-list {
-        @apply absolute text-sm w-full border border-t-0 shadow-sm bg-white z-10 overflow-auto;
-    }
-
-    .base-list-item {
-        @apply p-1 hover:bg-select-200 cursor-pointer;
     }
 
     .base-card-title {
