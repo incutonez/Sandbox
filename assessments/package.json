@@ -9,24 +9,24 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@material-symbols/svg-400": "^0.25.1",
-    "axios": "^1.7.7",
-    "vue": "^3.5.12",
-    "vue-router": "^4.4.5"
+    "@material-symbols/svg-400": "^0.28.1",
+    "axios": "^1.7.9",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@incutonez/eslint-plugin": "^1.1.4",
-    "@stylistic/eslint-plugin-ts": "^2.9.0",
-    "@typescript-eslint/eslint-plugin": "^8.10.0",
-    "@typescript-eslint/parser": "^8.10.0",
-    "@vitejs/plugin-vue": "^5.1.4",
-    "eslint-plugin-tailwindcss": "^3.17.5",
-    "eslint-plugin-vue": "^9.29.0",
-    "globals": "^15.11.0",
-    "tailwindcss": "^3.4.14",
-    "typescript": "^5.6.3",
-    "vite": "^5.4.9",
+    "@stylistic/eslint-plugin-ts": "^3.0.0",
+    "@tailwindcss/postcss": "^4.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.22.0",
+    "@typescript-eslint/parser": "^8.22.0",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "eslint-plugin-vue": "^9.32.0",
+    "globals": "^15.14.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.11",
     "vite-svg-loader": "^5.1.0",
-    "vue-tsc": "^2.1.6"
+    "vue-tsc": "^2.2.0"
   }
 }

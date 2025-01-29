@@ -1,4 +1,4 @@
-import "@/style.scss";
+import "@/style.css";
 import { createApp } from "vue";
 import PrimeVue from "primevue/config";
 import App from "@/App.vue";

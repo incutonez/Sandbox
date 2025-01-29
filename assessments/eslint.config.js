@@ -2,7 +2,6 @@
 import pluginIncutonez from "@incutonez/eslint-plugin";
 import stylisticTs from "@stylistic/eslint-plugin-ts";
 import pluginImport from "eslint-plugin-simple-import-sort";
-import tailwind from "eslint-plugin-tailwindcss";
 import pluginVue from "eslint-plugin-vue";
 import globals from "globals";
 import tsEslint from "typescript-eslint";
@@ -10,9 +9,7 @@ import tsEslint from "typescript-eslint";
 export default [
 	eslint.configs.recommended,
 	...tsEslint.configs.recommended,
-	...pluginVue.configs["flat/strongly-recommended"],
-	...tailwind.configs["flat/recommended"
-	], {
+	...pluginVue.configs["flat/strongly-recommended"], {
 		plugins: {
 			"typescript-eslint": tsEslint.plugin,
 			"@stylistic/ts": stylisticTs,
@@ -39,32 +36,31 @@ export default [
 		rules: {
 			"vue/html-indent": ["error", "tab"],
 			"vue/attributes-order": "error",
-			"tailwindcss/classnames-order": "error",
 			"tailwindcss/no-custom-classname": "off",
 			"quote-props": ["error", "as-needed"],
 			"padding-line-between-statements": ["error", {
-					blankLine: "always",
-					prev: "*",
-					next: "export",
-				}],
+				blankLine: "always",
+				prev: "*",
+				next: "export",
+			}],
 			"space-before-function-paren": ["error", {
-					anonymous: "never",
-					named: "never",
-					asyncArrow: "always",
-				}],
+				anonymous: "never",
+				named: "never",
+				asyncArrow: "always",
+			}],
 			"function-call-argument-newline": ["error", "never"],
 			"function-paren-newline": ["error", "never"],
 			"no-mixed-spaces-and-tabs": "off",
 			"no-var": "error",
 			"@typescript-eslint/no-unused-vars": "error",
 			"@stylistic/ts/indent": ["error", "tab", {
-					SwitchCase: 1,
-					ignoredNodes: ["PropertyDefinition"],
-				}],
+				SwitchCase: 1,
+				ignoredNodes: ["PropertyDefinition"],
+			}],
 			"@typescript-eslint/ban-ts-comment": ["error", {
-					"ts-expect-error": "allow-with-description",
-					"ts-nocheck": "allow-with-description",
-				}],
+				"ts-expect-error": "allow-with-description",
+				"ts-nocheck": "allow-with-description",
+			}],
 			semi: [2, "always"],
 			quotes: ["error", "double"],
 			curly: "error",
@@ -73,12 +69,12 @@ export default [
 			"comma-dangle": ["error", "always-multiline"],
 			"eol-last": ["error", "always"],
 			"object-curly-newline": ["error", {
-					ObjectExpression: {
-						multiline: true,
-						minProperties: 1,
-					},
-					ObjectPattern: "never",
-				}],
+				ObjectExpression: {
+					multiline: true,
+					minProperties: 1,
+				},
+				ObjectPattern: "never",
+			}],
 			"object-curly-spacing": ["error", "always"],
 			"object-property-newline": "error",
 			"no-trailing-spaces": ["error"],
@@ -91,19 +87,19 @@ export default [
 			"prefer-const": "error",
 			"array-bracket-spacing": ["error", "never"],
 			"comma-spacing": ["error", {
-					before: false,
-					after: true,
-				}],
+				before: false,
+				after: true,
+			}],
 			"@incutonez/array-element-newline": ["error", {
-					multiline: true,
-					minItems: 5,
-					bracesSameLine: true,
-				}],
+				multiline: true,
+				minItems: 5,
+				bracesSameLine: true,
+			}],
 			"@incutonez/array-bracket-newline": ["error", {
-					multiline: true,
-					minItems: 5,
-					bracesSameLine: true,
-				}],
+				multiline: true,
+				minItems: 5,
+				bracesSameLine: true,
+			}],
 			"key-spacing": "error",
 			"space-infix-ops": "error",
 			"no-multi-spaces": "error",
@@ -111,14 +107,14 @@ export default [
 			"keyword-spacing": "error",
 			"space-in-parens": "error",
 			"simple-import-sort/imports": ["error", {
-					groups: [[
-						"^\\u0000",
-						"^vue",
-						"^@?\\w",
-						"^[^.]",
-						"^\\.",
-					]],
-				}],
+				groups: [[
+					"^\\u0000",
+					"^vue",
+					"^@?\\w",
+					"^[^.]",
+					"^\\.",
+				]],
+			}],
 		},
 	},
 ];

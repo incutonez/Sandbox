@@ -79,7 +79,7 @@ watch(content, () => setContent());
 onMounted(() => setContent());
 </script>
 
-<style lang="scss">
+<style>
 .ProseMirror {
   @apply flex;
   outline: none;

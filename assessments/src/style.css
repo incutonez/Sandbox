@@ -1,8 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  --default-font-family: "Open Sans";
+  --breakpoint-sm: 500px;
+  --breakpoint-md: 750px;
+  --breakpoint-lg: 1000px;
+}
 
 #app, body, html {
   @apply h-full w-full;
@@ -12,10 +16,10 @@
   @apply flex flex-col;
 }
 
-@layer utilities {
-  .revert {
-    display: revert;
-  }
+/* This must be @utility... @layer utilities no longer works
+ * https://tailwindcss.com/docs/adding-custom-styles#simple-utilities */
+@utility revert {
+  display: revert !important;
 }
 
 @layer base {

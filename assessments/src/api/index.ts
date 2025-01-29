@@ -1,12 +1,12 @@
 import { ref } from "vue";
-import { Configuration, DefaultApi, LeagueMatchEntity, LeaguesApi, ProfileEntity } from "@incutonez/spec";
+import { Configuration, AppApi, LeagueMatchEntity, LeaguesApi, ProfileEntity } from "@incutonez/spec";
 import axios from "axios";
 
 export const configuration = new Configuration({
 	basePath: "http://localhost:3000",
 });
 
-export const DefaultService = new DefaultApi(configuration);
+export const DefaultService = new AppApi(configuration);
 
 export const LeaguesService = new LeaguesApi(configuration);
 
