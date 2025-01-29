@@ -25,7 +25,7 @@ const WideOrbitTasks = [
 </script>
 
 <template>
-	<main class="mx-auto flex overflow-auto bg-white md:h-letter md:w-letter">
+	<main class="mx-auto flex bg-white md:w-(--letter-w)">
 		<section class="flex flex-1 flex-col">
 			<article class="flex justify-between bg-blue-resume p-4 text-white">
 				<section class="flex flex-col">

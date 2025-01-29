@@ -72,6 +72,8 @@ getVersion();
 </template>
 
 <style scoped lang="postcss">
+@reference "./style.css";
+
 .page-nav {
   @apply px-10 flex items-center justify-between;
   height: 3.75rem;

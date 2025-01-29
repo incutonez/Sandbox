@@ -17,6 +17,7 @@
   "devDependencies": {
     "@incutonez/eslint-plugin": "^1.1.4",
     "@stylistic/eslint-plugin-ts": "^3.0.0",
+    "@tailwindcss/postcss": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^8.22.0",
     "@typescript-eslint/parser": "^8.22.0",
     "@vitejs/plugin-vue": "^5.2.1",

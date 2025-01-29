@@ -13,6 +13,8 @@ defineProps<IPageHeader>();
 </template>
 
 <style scoped lang="postcss">
+@reference "../style.css";
+
 .page-header {
   @apply text-2xl font-semibold;
   color: #182C62;
