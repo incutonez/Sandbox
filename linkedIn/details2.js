@@ -7,7 +7,7 @@ let appliedDate = new Intl.DateTimeFormat('en-US', {
   year: 'numeric'
 }).format(new Date());
 if (location.hostname === "www.indeed.com") {
-  const parent = document.querySelector("[data-testid='inlineHeader-companyName']") ?? document.querySelector('.jobsearch-JobInfoHeader-companyNameLink');
+  const parent = document.querySelector("[data-testid='inlineHeader-companyName']") ?? document.querySelector('.jobsearch-JobInfoHeader-companyNameLink') ?? document.querySelector('.jobsearch-JobInfoHeader-companyNameSimple');
   companyName = parent.getElementsByTagName("a")[0]?.innerText || parent.innerText;
   jobTitle = (document.querySelector("[data-testid='jobsearch-JobInfoHeader-title'") ?? document.querySelector("[data-testid='simpler-jobTitle']")).innerText;
   url = location.href.split('?')[0] + `?jk=${Object.fromEntries(new URLSearchParams(location.search)).jk}`;
