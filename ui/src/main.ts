@@ -1,4 +1,5 @@
 import "@/style.css";
+import "highlight.js/styles/github.css";
 import { createApp } from "vue";
 import PrimeVue from "primevue/config";
 import App from "@/App.vue";

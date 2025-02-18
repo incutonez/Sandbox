@@ -18,7 +18,6 @@ import { computed } from "vue";
 import PrimeInputNumber from "primevue/inputnumber";
 import BaseField, { IBaseField } from "@/components/BaseField.vue";
 
-// TODOJEF: Create a BaseField that has label and whatnot
 interface IFieldNumber extends IBaseField {
 	disabled?: boolean;
 	/**

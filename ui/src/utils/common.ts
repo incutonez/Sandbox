@@ -1,9 +1,13 @@
 import { faker } from "@faker-js/faker";
 import get from "just-safe-get";
-import { isFunction as lodashIsFunction, isObject as lodashIsObject } from "lodash-es";
+import { capitalize, isFunction as lodashIsFunction, isObject as lodashIsObject } from "lodash-es";
 import MimeTypes from "mime-types";
 
 export { default as clone } from "just-clone";
+
+export { snakeCase } from "lodash-es";
+
+export const capitalCase = capitalize;
 
 // TODO: Get i18n string from somewhere
 const DateLong = Intl.DateTimeFormat("en-us", {
