@@ -6,6 +6,7 @@ import DialogImport from "@/views/users/DialogImport.vue";
 import ViewAuditor from "@/views/ViewAuditor.vue";
 import ViewGameWorldBuilder from "@/views/ViewGameWorldBuilder.vue";
 import ViewModeling from "@/views/ViewModeling.vue";
+import ViewSequelizeModelBuilder from "@/views/ViewSequelizeModelBuilder.vue";
 import ViewTipTap from "@/views/ViewTipTap.vue";
 import ViewUser from "@/views/ViewUser.vue";
 import ViewUsers from "@/views/ViewUsers.vue";
@@ -33,6 +34,8 @@ export const RouteModelingClassValidatorView = "modeling-class-validator-view";
 export const RouteModelingTypeBoxView = "modeling-typebox-view";
 
 export const RouteModelingZodView = "modeling-zod-view";
+
+export const RouteSequelizeModelView = "sequelize-model-view";
 
 export const routes = [{
 	path: "/users",
@@ -93,6 +96,10 @@ export const routes = [{
 	meta: {
 		showNav: false,
 	},
+}, {
+	path: "/sequelize",
+	name: RouteSequelizeModelView,
+	component: ViewSequelizeModelBuilder,
 }];
 
 export const router = createRouter({
@@ -136,6 +143,12 @@ export function viewTreeChanges() {
 export function viewTipTap() {
 	return router.push({
 		name: RouteTipTap,
+	});
+}
+
+export function viewSequelizeModel() {
+	return router.push({
+		name: RouteSequelizeModelView,
 	});
 }
 

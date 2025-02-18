@@ -1,6 +1,7 @@
 <script setup lang="ts">
 interface IBaseTabs {
 	tabs: string[];
+	contentCls?: string;
 }
 
 defineProps<IBaseTabs>();
@@ -31,7 +32,10 @@ function getTabCls(tab: string) {
 				<span>{{ tab }}</span>
 			</div>
 		</section>
-		<section class="flex-1 overflow-auto rounded-r rounded-bl border border-gray-b p-2">
+		<section
+			class="flex-1 overflow-auto rounded-r rounded-bl border border-gray-b p-2"
+			:class="contentCls"
+		>
 			<slot name="content" />
 		</section>
 	</article>

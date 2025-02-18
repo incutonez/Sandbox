@@ -27,6 +27,11 @@
 					class="size-10 cursor-pointer rounded-full fill-fuchsia-500 p-2 hover:bg-slate-500"
 					@click="onClickViewTipTap"
 				/>
+				<IconModelTransform
+					title="Sequelize Model"
+					class="size-10 cursor-pointer rounded-full fill-sky-400 p-2 hover:bg-slate-500"
+					@click="onClickViewSequelizeModel"
+				/>
 			</div>
 		</nav>
 		<section class="flex size-full flex-1 flex-col overflow-hidden">
@@ -68,9 +73,10 @@
 import IconDifference from "@/assets/IconDifference.vue";
 import IconEditor from "@/assets/IconEditor.vue";
 import IconModeling from "@/assets/IconModeling.vue";
+import IconModelTransform from "@/assets/IconModelTransform.vue";
 import IconTriforce from "@/assets/IconTriforce.vue";
 import IconUsers from "@/assets/IconUsers.vue";
-import { viewGameWorldBuilder, viewModeling, viewTipTap, viewTreeChanges, viewUsers } from "@/router";
+import { viewGameWorldBuilder, viewModeling, viewSequelizeModel, viewTipTap, viewTreeChanges, viewUsers } from "@/router";
 
 function onClickViewUsers() {
 	viewUsers();
@@ -90,5 +96,9 @@ function onClickViewModeling() {
 
 function onClickViewTipTap() {
 	viewTipTap();
+}
+
+function onClickViewSequelizeModel() {
+	viewSequelizeModel();
 }
 </script>
