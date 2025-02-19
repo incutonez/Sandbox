@@ -5,7 +5,7 @@ import MimeTypes from "mime-types";
 
 export { default as clone } from "just-clone";
 
-export { snakeCase } from "lodash-es";
+export { snakeCase, camelCase } from "lodash-es";
 
 export const capitalCase = capitalize;
 
