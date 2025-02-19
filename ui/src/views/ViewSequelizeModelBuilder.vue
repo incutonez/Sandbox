@@ -36,7 +36,13 @@ const selectedContent = computed(() => {
 	return found !== -1 ? outputValue.value[found] : "";
 });
 
-watch(inputValue, ($inputValue) => validInput.value = safeParse($inputValue));
+watch(inputValue, ($inputValue) => {
+	let parsed = safeParse($inputValue);
+	if (Array.isArray(parsed)) {
+		parsed = parsed[0];
+	}
+	validInput.value = parsed;
+});
 
 function safeParse(value: string) {
 	try {
