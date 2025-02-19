@@ -3,11 +3,12 @@ import { computed, ref, watch } from "vue";
 import pluralize from "pluralize";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseTabs from "@/components/BaseTabs.vue";
+import FieldCheckbox from "@/components/FieldCheckbox.vue";
 import FieldLabel from "@/components/FieldLabel.vue";
 import FieldText from "@/components/FieldText.vue";
 import FieldTextArea from "@/components/FieldTextArea.vue";
 import HighlightTypeScript from "@/components/HighlightTypeScript.vue";
-import { capitalCase, isObject, snakeCase } from "@/utils/common";
+import { camelCase, capitalCase, isObject, snakeCase } from "@/utils/common";
 
 interface IModelField {
 	key: string;
@@ -25,10 +26,12 @@ interface IOutput {
 	model: string;
 }
 
+const isViewModel = ref(false);
 const inputValue = ref("");
 const outputValue = ref<string[]>([]);
 const validInput = ref<TInput>();
 const modelName = ref("");
+const outputType = ref("Sequelize");
 const sequelizeTabs = ref<string[]>([]);
 const selectedSequelizeTab = ref("");
 const selectedContent = computed(() => {
@@ -53,27 +56,67 @@ function safeParse(value: string) {
 	}
 }
 
-function makeColumn(field: IModelField) {
-	const column = [];
-	if (field.fk) {
-		column.push(`@ForeignKey(() => ${field.fk})`);
-	}
-	if (field.primaryKey) {
-		column.push("@PrimaryKeyGuid()");
-	}
-	else if (field.hasMany) {
-		column.push(`@HasMany(() => ${field.type}, "id")`);
-		field.type += "[]";
-	}
-	else if (field.hasOne) {
-		column.push(`@BelongsTo(() => ${field.type}, "${field.key}_id")`);
+function makeClass(fields: string[], model: string) {
+	let code;
+	let modelCapital;
+	if (isViewModel.value) {
+		modelCapital = capitalCase(pluralize.singular(model)) + "ViewModel";
+		code = `export class ${modelCapital} {
+\t${fields.join("\n\t")}
+}`;
 	}
 	else {
-		column.push("@Column");
+		modelCapital = capitalCase(pluralize.singular(model)) + "Model";
+		code = `import { Column, Model, Table } from "sequelize-typescript";
+import { PrimaryKeyGuid } from "src/db/decorators";
+import { ModelInterface } from "src/types";
+
+export type I${modelCapital} = ModelInterface<${modelCapital}>;
+
+@Table({
+\ttableName: "${pluralize(model.toLowerCase(), 2)}",
+\ttimestamps: false,
+})
+export class ${modelCapital} extends Model {
+${fields.join("\n\n")}
+}`;
 	}
-	const nullable = field.nullable ? "?" : "";
-	return `\t${column.join("\n\t")}
-\tdeclare ${field.key}${nullable}: ${field.type};`;
+	return {
+		code,
+		model: modelCapital,
+	};
+}
+
+function makeField({ nullable, key, type, fk, primaryKey, hasOne, hasMany }: IModelField): string {
+	const column = [];
+	key = isViewModel.value ? camelCase(key) : snakeCase(key);
+	const nullableSymbol = nullable ? "?" : "";
+	if (isViewModel.value) {
+		return `${key}${nullableSymbol}: ${type};`;
+	}
+	if (fk) {
+		column.push(`\t@ForeignKey(() => ${fk})`);
+	}
+	if (primaryKey) {
+		column.push("\t@PrimaryKeyGuid()");
+	}
+	else if (hasMany) {
+		column.push(`\t@HasMany(() => ${type}, "id")`);
+		type += "[]";
+	}
+	else if (hasOne) {
+		const idField = makeField({
+			type: "string",
+			key: `${key.toLowerCase()}_id`,
+			fk: type,
+		});
+		column.push(`${idField}\n\n\t@BelongsTo(() => ${type}, "${key}_id")`);
+	}
+	else {
+		column.push("\t@Column");
+	}
+	return `${column.join("\n")}
+\tdeclare ${key}${nullableSymbol}: ${type};`;
 }
 
 function makeModel(input?: TInput, model?: string) {
@@ -97,38 +140,17 @@ function makeModel(input?: TInput, model?: string) {
 				hasOne = true;
 				type = response[0].model;
 				output.push(...response);
-				fields.push(makeColumn({
-					type: "string",
-					key: `${key.toLowerCase()}_id`,
-					fk: type,
-				}));
 			}
-			fields.push(makeColumn({
+			fields.push(makeField({
 				type,
 				nullable,
 				hasMany,
 				hasOne,
-				key: snakeCase(key),
+				key,
 				primaryKey: key === "id",
 			}));
 		}
-		const modelCapital = capitalCase(pluralize.singular(model)) + "Model";
-		output.unshift({
-			code: `import { Column, Model, Table } from "sequelize-typescript";
-import { PrimaryKeyGuid } from "src/db/decorators";
-import { ModelInterface } from "src/types";
-
-export type I${modelCapital} = ModelInterface<${modelCapital}>;
-
-@Table({
-\ttableName: "${pluralize(model.toLowerCase(), 2)}",
-\ttimestamps: false,
-})
-export class ${modelCapital} extends Model {
-${fields.join("\n\n")}
-}`,
-			model: modelCapital,
-		});
+		output.unshift(makeClass(fields, model));
 	}
 	return output;
 }
@@ -149,15 +171,23 @@ function onClickConvert() {
 function onClickCopyModel() {
 	navigator.clipboard.writeText(selectedContent.value);
 }
+
+watch(isViewModel, ($isViewModel) => outputType.value = $isViewModel ? "View Model" : "Sequelize");
 </script>
 
 <template>
 	<article class="size-full flex flex-col p-4 space-y-4">
-		<FieldText
-			v-model="modelName"
-			label="Model Name"
-			input-width="w-48"
-		/>
+		<section class="flex space-x-4">
+			<FieldText
+				v-model="modelName"
+				label="Model Name"
+				input-width="w-48"
+			/>
+			<FieldCheckbox
+				v-model="isViewModel"
+				label="View Model"
+			/>
+		</section>
 		<section class="flex-1 flex space-x-4 items-center">
 			<FieldTextArea
 				v-model="inputValue"
@@ -173,7 +203,7 @@ function onClickCopyModel() {
 			/>
 			<section class="flex flex-col flex-1 h-full max-h-full overflow-hidden">
 				<FieldLabel
-					text="Sequelize"
+					:text="outputType"
 					position="top"
 				/>
 				<BaseTabs
