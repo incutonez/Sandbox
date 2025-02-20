@@ -108,8 +108,6 @@ ${fields.join("\n\n")}
 	};
 }
 
-// TODOJEF: Need to add imports for interface/classes
-// TODOJEF: It'd be nice if single file download didn't do all the imports
 function makeField({ nullable, key, type, fk, primaryKey, hasOne, hasMany }: IModelField): string {
 	const column = [];
 	const nullableSymbol = nullable ? "?" : "";
