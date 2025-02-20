@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { computed, ref, unref, watch } from "vue";
+import { downloadZip } from "client-zip";
 import pluralize from "pluralize";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseTabs from "@/components/BaseTabs.vue";
 import FieldCheckbox from "@/components/FieldCheckbox.vue";
+import FieldComboBox from "@/components/FieldComboBox.vue";
 import FieldLabel from "@/components/FieldLabel.vue";
 import FieldText from "@/components/FieldText.vue";
 import FieldTextArea from "@/components/FieldTextArea.vue";
 import HighlightTypeScript from "@/components/HighlightTypeScript.vue";
-import { camelCase, capitalCase, isObject, snakeCase } from "@/utils/common";
+import { camelCase, downloadFile, isEmpty, isObject, snakeCase, splitCapitalize } from "@/utils/common";
 
 interface IModelField {
 	key: string;
@@ -26,17 +28,33 @@ interface IOutput {
 	model: string;
 }
 
-const isViewModel = ref(false);
+const SequelizeImport = createImport(["Column", "Model", "Table"], "sequelize-typescript");
+const SrcImport = createImport("ModelInterface", "src/types");
+const PrimaryKeyImport = createImport("PrimaryKeyGuid", "src/db/decorators");
+const downloadSingleFile = ref(true);
 const inputValue = ref("");
-const outputValue = ref<string[]>([]);
+const outputValue = ref<IOutput[]>([]);
 const validInput = ref<TInput>();
 const modelName = ref("");
-const outputType = ref("Sequelize");
+const modelSuffix = ref("Model");
 const sequelizeTabs = ref<string[]>([]);
 const selectedSequelizeTab = ref("");
+const outputOptions = [{
+	name: "Sequelize",
+	id: "sequelize",
+}, {
+	name: "Class",
+	id: "class",
+}, {
+	name: "Interface",
+	id: "interface",
+}];
+const selectedOutputOption = ref(outputOptions[0]);
+const isPlain = computed(() => selectedOutputOption.value.id !== "sequelize");
 const selectedContent = computed(() => {
-	const found = sequelizeTabs.value.indexOf(selectedSequelizeTab.value);
-	return found !== -1 ? outputValue.value[found] : "";
+	const $selectedFile = unref(selectedSequelizeTab);
+	const found = outputValue.value.find(({ model }) => model === $selectedFile);
+	return found?.code;
 });
 
 watch(inputValue, ($inputValue) => {
@@ -56,22 +74,25 @@ function safeParse(value: string) {
 	}
 }
 
-function makeClass(fields: string[], model: string) {
-	let code;
-	let modelCapital;
-	if (isViewModel.value) {
-		modelCapital = capitalCase(pluralize.singular(model)) + "ViewModel";
-		code = `export class ${modelCapital} {
+function makeClass(fields: string[], model: string, imports: string[]) {
+	const code: string[] = [];
+	const $isPlain = unref(isPlain);
+	const modelCapital = splitCapitalize(pluralize.singular(model)) + (modelSuffix.value ?? "");
+	if (!downloadSingleFile.value) {
+		if (!$isPlain) {
+			imports.push(SequelizeImport, SrcImport);
+		}
+		if (imports.length) {
+			code.push(`${imports.join("\n")}\n\n`);
+		}
+	}
+	if ($isPlain) {
+		code.push(`export ${selectedOutputOption.value.id} ${modelCapital} {
 \t${fields.join("\n\t")}
-}`;
+}`);
 	}
 	else {
-		modelCapital = capitalCase(pluralize.singular(model)) + "Model";
-		code = `import { Column, Model, Table } from "sequelize-typescript";
-import { PrimaryKeyGuid } from "src/db/decorators";
-import { ModelInterface } from "src/types";
-
-export type I${modelCapital} = ModelInterface<${modelCapital}>;
+		code.push(`export type I${modelCapital} = ModelInterface<${modelCapital}>;
 
 @Table({
 \ttableName: "${pluralize(model.toLowerCase(), 2)}",
@@ -79,21 +100,23 @@ export type I${modelCapital} = ModelInterface<${modelCapital}>;
 })
 export class ${modelCapital} extends Model {
 ${fields.join("\n\n")}
-}`;
+}`);
 	}
 	return {
-		code,
+		code: code.join(""),
 		model: modelCapital,
 	};
 }
 
+// TODOJEF: Need to add imports for interface/classes
+// TODOJEF: It'd be nice if single file download didn't do all the imports
 function makeField({ nullable, key, type, fk, primaryKey, hasOne, hasMany }: IModelField): string {
 	const column = [];
-	key = isViewModel.value ? camelCase(key) : snakeCase(key);
 	const nullableSymbol = nullable ? "?" : "";
-	if (isViewModel.value) {
-		return `${key}${nullableSymbol}: ${type};`;
+	if (isPlain.value) {
+		return `${camelCase(key)}${nullableSymbol}: ${type};`;
 	}
+	key = snakeCase(key);
 	if (fk) {
 		column.push(`\t@ForeignKey(() => ${fk})`);
 	}
@@ -105,12 +128,14 @@ function makeField({ nullable, key, type, fk, primaryKey, hasOne, hasMany }: IMo
 		type += "[]";
 	}
 	else if (hasOne) {
+		let associationKey = key.toLowerCase();
+		associationKey = associationKey.endsWith("_id") ? associationKey : `${associationKey}_id`;
 		const idField = makeField({
 			type: "string",
-			key: `${key.toLowerCase()}_id`,
+			key: associationKey,
 			fk: type,
 		});
-		column.push(`${idField}\n\n\t@BelongsTo(() => ${type}, "${key}_id")`);
+		column.push(`${idField}\n\n\t@BelongsTo(() => ${type}, "${associationKey}")`);
 	}
 	else {
 		column.push("\t@Column");
@@ -119,27 +144,58 @@ function makeField({ nullable, key, type, fk, primaryKey, hasOne, hasMany }: IMo
 \tdeclare ${key}${nullableSymbol}: ${type};`;
 }
 
+function createImport(values: string | string[], path?: string) {
+	if (Array.isArray(values)) {
+		values = values.join(", ");
+	}
+	if (isEmpty(path)) {
+		path = `./${values}`;
+	}
+	return `import { ${values} } from "${path}";`;
+}
+
 function makeModel(input?: TInput, model?: string) {
 	const output: IOutput[] = [];
 	if (input && model) {
+		const imports: string[] = [];
 		const fields: string[] = [];
-		for (const key in input) {
+		for (let key in input) {
 			let hasMany = false;
 			let hasOne = false;
 			const value = input[key];
 			const nullable = value === undefined || value === null;
 			let type = nullable ? "unknown" : typeof value;
 			if (Array.isArray(value)) {
-				const response = makeModel(value[0], key);
-				hasMany = true;
-				type = response[0].model;
-				output.push(...response);
+				const firstItem = value[0];
+				if (isObject(firstItem)) {
+					const response = makeModel(value[0], key);
+					type = response[0]?.model ?? "unknown[]";
+					hasMany = true;
+					if (response.length) {
+						output.push(...response);
+						imports.push(createImport(type));
+					}
+				}
+				else if (firstItem === null || firstItem === undefined) {
+					type = "unknown[]";
+				}
+				else {
+					type = `${typeof firstItem}[]`;
+				}
 			}
 			else if (isObject(value)) {
+				if (key.endsWith("Id")) {
+					key = key.substring(0, key.lastIndexOf("Id"));
+				}
 				const response = makeModel(value as TInput, key);
 				hasOne = true;
 				type = response[0].model;
+				imports.push(createImport(type));
 				output.push(...response);
+			}
+			const primaryKey = key === "id";
+			if (primaryKey) {
+				imports.push(PrimaryKeyImport);
 			}
 			fields.push(makeField({
 				type,
@@ -147,32 +203,50 @@ function makeModel(input?: TInput, model?: string) {
 				hasMany,
 				hasOne,
 				key,
-				primaryKey: key === "id",
+				primaryKey,
 			}));
 		}
-		output.unshift(makeClass(fields, model));
+		output.unshift(makeClass(fields, model, imports));
 	}
 	return output;
 }
 
 function onClickConvert() {
-	const output: string[] = [];
-	const models: string[] = [];
 	const results = makeModel(validInput.value, modelName.value);
-	results.forEach(({ code, model }) => {
-		models.push(model);
-		output.push(code);
-	});
-	outputValue.value = output;
-	sequelizeTabs.value = models;
+	outputValue.value = results;
+	sequelizeTabs.value = results.map(({ model }) => model);
 	selectedSequelizeTab.value = sequelizeTabs.value[0];
 }
 
-function onClickCopyModel() {
-	navigator.clipboard.writeText(selectedContent.value);
+async function onClickDownload() {
+	let contents: Blob;
+	let extension: string;
+	if (downloadSingleFile.value) {
+		extension = "ts";
+		let code = isPlain.value ? "" : [SequelizeImport, SrcImport, PrimaryKeyImport].join("\n") + "\n\n";
+		code += outputValue.value.reduce((output, item) => `${output}` + item.code + "\n\n", "");
+		contents = new Blob([code], {
+			type: "text/plain",
+		});
+	}
+	else {
+		extension = "zip";
+		contents = await downloadZip(outputValue.value.map(({ code, model }) => {
+			return {
+				input: code,
+				name: `${model}.ts`,
+			};
+		})).blob();
+	}
+	downloadFile(contents, "models", extension);
 }
 
-watch(isViewModel, ($isViewModel) => outputType.value = $isViewModel ? "View Model" : "Sequelize");
+function onClickCopyModel() {
+	const $selectedContent = unref(selectedContent);
+	if ($selectedContent) {
+		navigator.clipboard.writeText($selectedContent);
+	}
+}
 </script>
 
 <template>
@@ -183,9 +257,16 @@ watch(isViewModel, ($isViewModel) => outputType.value = $isViewModel ? "View Mod
 				label="Model Name"
 				input-width="w-48"
 			/>
-			<FieldCheckbox
-				v-model="isViewModel"
-				label="View Model"
+			<FieldText
+				v-model="modelSuffix"
+				label="Model Suffix"
+				input-width="w-32"
+			/>
+			<FieldComboBox
+				v-model="selectedOutputOption"
+				label="Output Type"
+				:value-only="false"
+				:options="outputOptions"
 			/>
 		</section>
 		<section class="flex-1 flex space-x-4 items-center">
@@ -196,14 +277,25 @@ watch(isViewModel, ($isViewModel) => outputType.value = $isViewModel ? "View Mod
 				label-position="top"
 				input-classes="h-full"
 			/>
-			<BaseButton
-				text="Convert"
-				:disabled="!validInput || !modelName"
-				@click="onClickConvert"
-			/>
+			<section class="flex flex-col space-y-4">
+				<BaseButton
+					text="Convert"
+					:disabled="!validInput || !modelName"
+					@click="onClickConvert"
+				/>
+				<BaseButton
+					text="Download"
+					:disabled="!outputValue.length"
+					@click="onClickDownload"
+				/>
+				<FieldCheckbox
+					v-model="downloadSingleFile"
+					label="Single File"
+				/>
+			</section>
 			<section class="flex flex-col flex-1 h-full max-h-full overflow-hidden">
 				<FieldLabel
-					:text="outputType"
+					:text="selectedOutputOption.name"
 					position="top"
 				/>
 				<BaseTabs
@@ -213,7 +305,7 @@ watch(isViewModel, ($isViewModel) => outputType.value = $isViewModel ? "View Mod
 					:tabs="sequelizeTabs"
 				>
 					<template #content>
-						<section class="sticky top-0 flex w-full h-0">
+						<section class="sticky top-0 left-0 flex w-full h-0">
 							<BaseButton
 								text="Copy"
 								class="ml-auto"

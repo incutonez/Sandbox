@@ -21,11 +21,11 @@ function getTabCls(tab: string) {
 
 <template>
 	<article class="flex flex-col overflow-hidden">
-		<section class="flex h-8">
+		<section class="flex overflow-auto">
 			<div
 				v-for="tab in tabs"
 				:key="tab"
-				class="flex h-full cursor-pointer items-center rounded-t border border-b-0 border-gray-b px-3 text-sm hover:bg-sky-200 [&:nth-child(n+2)]:border-l-0"
+				class="flex h-8 cursor-pointer items-center rounded-t border border-b-0 border-gray-b px-3 text-sm hover:bg-sky-200 [&:nth-child(n+2)]:border-l-0"
 				:class="getTabCls(tab)"
 				@click="onClickTab(tab)"
 			>
