@@ -9,6 +9,7 @@ export { snakeCase, camelCase } from "lodash-es";
 
 export const capitalCase = capitalize;
 
+const SplitCapitalizeRe = /[a-z]+|[A-Z]+[a-z]*/g;
 // TODO: Get i18n string from somewhere
 const DateLong = Intl.DateTimeFormat("en-us", {
 	month: "2-digit",
@@ -56,6 +57,13 @@ export function isObject(value?: unknown): value is object {
 	return lodashIsObject(value);
 }
 
+export function splitCapitalize(word: string) {
+	const matches = word.match(SplitCapitalizeRe);
+	if (matches?.length) {
+		return matches.reduce((output, item) => output + capitalize(item), "");
+	}
+}
+
 export function pluck<T = unknown>(items: object[], keys: string | string[]) {
 	const collection: T[] = [];
 	if (Array.isArray(keys)) {
@@ -97,8 +105,7 @@ export function getAvatar() {
 	return Avatars[index];
 }
 
-export function downloadFile(blob: Blob, name = "download") {
-	const extension = MimeTypes.extension(blob.type);
+export function downloadFile(blob: Blob, name = "download", extension = MimeTypes.extension(blob.type)) {
 	if (!extension) {
 		return;
 	}
