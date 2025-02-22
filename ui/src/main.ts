@@ -1,15 +1,11 @@
 import "@/style.css";
 import "highlight.js/styles/github.css";
 import { createApp } from "vue";
-import PrimeVue from "primevue/config";
+import theme from "@incutonez/core-ui/theme";
 import App from "@/App.vue";
-import { TailwindTheme } from "@/assets/theme";
 import { router } from "@/router";
 
 const app = createApp(App);
-app.use(PrimeVue, {
-	unstyled: true,
-	pt: TailwindTheme,
-});
+app.use(theme);
 app.use(router);
 app.mount("#app");
