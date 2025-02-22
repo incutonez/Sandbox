@@ -34,20 +34,15 @@
 </template>
 
 <script setup lang="ts">
+// TODOJEF: Keep replacing components with @incutonez/core-ui/dist/components and anything else in that package
+// TODOJEF: look at why styling still might not be applied from the theme... like the font didn't seem like it was downloading
 import { ref, unref } from "vue";
+import { BaseButton, DialogConfirm, TableCellActions, TableGrid } from "@incutonez/core-ui";
+import { IconCopy, IconDelete, IconEdit, IconImport } from "@incutonez/core-ui/assets";
+import { IBaseButton, ITableCellActions, ITableColumn } from "@incutonez/core-ui/types";
 import { ApiPaginatedRequest } from "@incutonez/spec/dist";
-import IconCopy from "@/assets/IconCopy.vue";
-import IconDelete from "@/assets/IconDelete.vue";
-import IconEdit from "@/assets/IconEdit.vue";
-import IconImport from "@/assets/IconImport.vue";
-import BaseButton from "@/components/BaseButton.vue";
-import DialogConfirm from "@/components/DialogConfirm.vue";
-import TableCellActions, { ITableCellActions } from "@/components/TableCellActions.vue";
-import TableGrid from "@/components/TableGrid.vue";
 import { UserModel } from "@/models/UserModel";
 import { viewUser, viewUsers, viewUsersImport } from "@/router";
-import { IBaseButton } from "@/types/components";
-import { ITableColumn } from "@/types/table";
 import { useColumnIndex } from "@/views/shared/columns";
 import { useUsersDefaultColumns } from "@/views/users/usersColumns";
 

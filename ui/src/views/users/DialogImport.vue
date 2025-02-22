@@ -47,7 +47,6 @@
 </template>
 
 <script setup lang="ts">
-// TODOJEF: Pick up here and add a preview grid for after when the file is parsed
 import { ref } from "vue";
 import MimeTypes from "mime-types";
 import Papa from "papaparse";
