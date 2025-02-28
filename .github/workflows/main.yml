@@ -31,7 +31,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE }}
-        run: npx multi-semantic-release --deps.bump=inherit
+        run: |
+          cd ${{ github.workspace }}/ui
+          npx semantic-release --deps.bump=inherit
       - name: Build Spec
         run: npm run build:spec
       - name: Build UI
