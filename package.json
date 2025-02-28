@@ -30,8 +30,10 @@
   "homepage": "https://github.com/incutonez/Sandbox#readme",
   "devDependencies": {
     "@eslint/js": "^9.3.0",
+    "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
+    "conventional-changelog-conventionalcommits": "^8.0.0",
     "eslint": "^9.3.0",
     "eslint-plugin-simple-import-sort": "^12.1.0",
     "husky": "^9.0.11",
@@ -64,8 +66,19 @@
       "main"
     ],
     "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      [
+        "@semantic-release/release-notes-generator",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/changelog",
       [
         "@semantic-release/npm",
         {
