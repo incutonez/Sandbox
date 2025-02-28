@@ -1,8 +1,8 @@
 import "reflect-metadata";
+import { getObjectValue, isEmpty, isObject } from "@incutonez/core-ui/utils";
 import { ClassTransformOptions, plainToInstance } from "class-transformer";
 import { validateSync, ValidationError, ValidatorOptions } from "class-validator";
 import { unset } from "lodash-es";
-import { getObjectValue, isEmpty, isObject } from "@/utils/common";
 
 type IfEquals<X, Y, A = X, B = never> =
 	(<T>() => T extends X ? 1 : 2) extends
@@ -154,13 +154,13 @@ export class ViewModel {
 							}
 						}
 					}
-					// TODO: What about Set/Map?
+					// TODOJEF: What about Set/Map?
 					else if (isObject(value)) {
 						delete value[key as keyof typeof value];
 					}
 					// If our object is now empty because that was the last property, let's just remove it from the array
 					if (isEmpty(value)) {
-						// TODO: Figure out how to do this without lodash
+						// TODOJEF: Figure out how to do this without lodash
 						unset(data, parentKey);
 					}
 				}

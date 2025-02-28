@@ -1,11 +1,11 @@
-﻿import { IsArray, IsObject, IsString } from "class-validator";
+﻿import { isEmpty } from "@incutonez/core-ui/utils";
+import { IsArray, IsObject, IsString } from "class-validator";
 import { Tiles } from "@/enums/game/Tiles";
 import { ModelTransform } from "@/models/decorators";
 import { GameTargetColor } from "@/models/GameTargetColor";
 import { GameTileCell } from "@/models/GameTileCell";
 import { ViewModel } from "@/models/ViewModel";
 import { type IGameEnum } from "@/types/components";
-import { isEmpty } from "@/utils/common";
 import { replaceColors } from "@/utils/game";
 
 export interface IGameWorldObjectConfig {

@@ -1,4 +1,4 @@
-import { ITableColumn } from "@/types/table";
+import { ITableColumn } from "@incutonez/core-ui/types";
 
 export function useUsersDefaultColumns(): ITableColumn[] {
 	return [{

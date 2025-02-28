@@ -1,4 +1,5 @@
-﻿import { Allow, IsArray, IsNumber, IsObject, IsString } from "class-validator";
+﻿import { isEmpty } from "@incutonez/core-ui/utils";
+import { Allow, IsArray, IsNumber, IsObject, IsString } from "class-validator";
 import {
 	Tiles,
 	TilesBlock, TilesBush,
@@ -73,7 +74,6 @@ import { GameTileCell } from "@/models/GameTileCell";
 import { IGameWorldObjectConfig } from "@/models/GameWorldObject";
 import { IViewModel, ViewModel } from "@/models/ViewModel";
 import { type IGameEnum } from "@/types/components";
-import { isEmpty } from "@/utils/common";
 import { replaceColors } from "@/utils/game";
 
 const TransitionTypes = [TilesTransition.name, TilesDoor.name];
@@ -195,7 +195,7 @@ export function getDefaultTileColors(type: IGameEnum) {
 
 export interface IGameTileConfig extends IGameWorldObjectConfig {
 	Name?: string;
-	Transition?: IViewModel<GameScreen>;
+	Transition?: GameScreen | IViewModel<GameScreen>;
 }
 
 export interface IGameTileMeta {

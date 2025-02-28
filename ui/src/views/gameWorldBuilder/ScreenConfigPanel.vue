@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import FieldCheckbox from "@/components/FieldCheckbox.vue";
-import FieldNumber from "@/components/FieldNumber.vue";
-import FieldText from "@/components/FieldText.vue";
+import { FieldCheckbox, FieldNumber, FieldText } from "@incutonez/core-ui";
 import { IsNew } from "@/models/ViewModel";
 import FieldWorldColors from "@/views/gameWorldBuilder/FieldWorldColors.vue";
 import { injectWorldConfig } from "@/views/gameWorldBuilder/providers";

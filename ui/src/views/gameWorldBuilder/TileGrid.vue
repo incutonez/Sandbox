@@ -1,78 +1,8 @@
-﻿<template>
-	<div
-		ref="rootEl"
-		class="base-grid"
-		v-bind="$attrs"
-	>
-		<div
-			v-for="cell in cells"
-			:key="cell.id"
-			class="relative"
-			:class="getCellCls(cell)"
-			@mouseup="onMouseUpCell($event, cell)"
-			@contextmenu="onContextMenuCell"
-			@mouseover="onMouseOverCell(cell)"
-		>
-			<div
-				v-if="cell.tile.isTransition && !cell.tile.isDoor"
-				class="size-full bg-green-700"
-			/>
-			<img
-				v-if="cell.tile.src"
-				:src="cell.tile.src"
-				class="absolute size-full"
-				alt="Tile Image"
-			>
-			<div
-				v-if="cell.item.src"
-				class="absolute flex size-full justify-center"
-			>
-				<img
-					:src="cell.item.src"
-					class="h-full"
-					alt="Item Image"
-				>
-			</div>
-			<div
-				v-if="cell.enemy.src"
-				class="absolute flex size-full justify-center"
-			>
-				<img
-					:src="cell.enemy.src"
-					class="h-full"
-					alt="Enemy Image"
-				>
-			</div>
-		</div>
-	</div>
-	<BaseContextMenu
-		ref="contextMenu"
-		:items="contextItems"
-	/>
-	<BaseDialog
-		ref="testDialog"
-		v-model="showTestDialog"
-		title="Hello World"
-	>
-		<template #body>
-			<FieldDisplay
-				:value="testValue"
-				label="Hello"
-			/>
-		</template>
-	</BaseDialog>
-</template>
-
-<script setup lang="ts">
-import {
-	ref, unref,
-	watch,
-} from "vue";
-import BaseContextMenu from "@/components/BaseContextMenu.vue";
-import BaseDialog from "@/components/BaseDialog.vue";
-import FieldDisplay from "@/components/FieldDisplay.vue";
+﻿<script setup lang="ts">
+import { ref, unref, watch } from "vue";
+import { BaseContextMenu, BaseDialog, FieldDisplay } from "@incutonez/core-ui";
+import { IMenuItem } from "@incutonez/core-ui/types";
 import { GameTileCell } from "@/models/GameTileCell";
-import { IMenuItem } from "@/types/components";
 import { injectCellCopy } from "@/views/gameWorldBuilder/cellCopy";
 
 defineOptions({
@@ -248,3 +178,68 @@ watch(() => pressedKeys.paste, (value) => {
 	}
 });
 </script>
+
+<template>
+	<div
+		ref="rootEl"
+		class="base-grid"
+		v-bind="$attrs"
+	>
+		<div
+			v-for="cell in cells"
+			:key="cell.id"
+			class="relative"
+			:class="getCellCls(cell)"
+			@mouseup="onMouseUpCell($event, cell)"
+			@contextmenu="onContextMenuCell"
+			@mouseover="onMouseOverCell(cell)"
+		>
+			<div
+				v-if="cell.tile.isTransition && !cell.tile.isDoor"
+				class="size-full bg-green-700"
+			/>
+			<img
+				v-if="cell.tile.src"
+				:src="cell.tile.src"
+				class="absolute size-full"
+				alt="Tile Image"
+			>
+			<div
+				v-if="cell.item.src"
+				class="absolute flex size-full justify-center"
+			>
+				<img
+					:src="cell.item.src"
+					class="h-full"
+					alt="Item Image"
+				>
+			</div>
+			<div
+				v-if="cell.enemy.src"
+				class="absolute flex size-full justify-center"
+			>
+				<img
+					:src="cell.enemy.src"
+					class="h-full"
+					alt="Enemy Image"
+				>
+			</div>
+		</div>
+	</div>
+	<BaseContextMenu
+		ref="contextMenu"
+		:items="contextItems"
+	/>
+	<BaseDialog
+		ref="testDialog"
+		v-model="showTestDialog"
+		title="Hello World"
+	>
+		<template #body>
+			<FieldDisplay
+				:value="testValue"
+				label="Hello"
+			/>
+		</template>
+	</BaseDialog>
+</template>

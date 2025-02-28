@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { FieldDisplay, FieldLabel, FieldText } from "@incutonez/core-ui";
+import { injectPersonProvider } from "@/views/modeling/personProvider";
+
+const { record, isValid } = injectPersonProvider();
+</script>
+
 <template>
 	<article class="flex gap-x-4 p-4">
 		<article class="flex flex-col gap-y-4">
@@ -83,12 +90,3 @@
 		</article>
 	</article>
 </template>
-
-<script setup lang="ts">
-import FieldDisplay from "@/components/FieldDisplay.vue";
-import FieldLabel from "@/components/FieldLabel.vue";
-import FieldText from "@/components/FieldText.vue";
-import { injectPersonProvider } from "@/views/modeling/personProvider";
-
-const { record, isValid } = injectPersonProvider();
-</script>

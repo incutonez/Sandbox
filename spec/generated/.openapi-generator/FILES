@@ -2,7 +2,8 @@
 .npmignore
 .openapi-generator-ignore
 api.ts
-api/default-api.ts
+api/accounts-api.ts
+api/app-api.ts
 api/differ-api.ts
 api/leagues-api.ts
 api/random-api.ts

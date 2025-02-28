@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { computed, ref, unref, watch } from "vue";
+import { BaseButton, BaseTabs, FieldCheckbox, FieldComboBox, FieldLabel, FieldText, FieldTextArea } from "@incutonez/core-ui";
+import {
+	camelCase,
+	downloadFile,
+	isEmpty,
+	isObject,
+	makePlural,
+	makeSingular,
+	snakeCase,
+	splitCapitalize,
+} from "@incutonez/core-ui/utils";
 import { downloadZip } from "client-zip";
-import pluralize from "pluralize";
-import BaseButton from "@/components/BaseButton.vue";
-import BaseTabs from "@/components/BaseTabs.vue";
-import FieldCheckbox from "@/components/FieldCheckbox.vue";
-import FieldComboBox from "@/components/FieldComboBox.vue";
-import FieldLabel from "@/components/FieldLabel.vue";
-import FieldText from "@/components/FieldText.vue";
-import FieldTextArea from "@/components/FieldTextArea.vue";
 import HighlightTypeScript from "@/components/HighlightTypeScript.vue";
-import { camelCase, downloadFile, isEmpty, isObject, snakeCase, splitCapitalize } from "@/utils/common";
 
 interface IModelField {
 	key: string;
@@ -77,7 +79,7 @@ function safeParse(value: string) {
 function makeClass(fields: string[], model: string, imports: string[]) {
 	const code: string[] = [];
 	const $isPlain = unref(isPlain);
-	const modelCapital = splitCapitalize(pluralize.singular(model)) + (modelSuffix.value ?? "");
+	const modelCapital = splitCapitalize(makeSingular(model)) + (modelSuffix.value ?? "");
 	if (!downloadSingleFile.value) {
 		if (!$isPlain) {
 			imports.push(SequelizeImport, SrcImport);
@@ -95,7 +97,7 @@ function makeClass(fields: string[], model: string, imports: string[]) {
 		code.push(`export type I${modelCapital} = ModelInterface<${modelCapital}>;
 
 @Table({
-\ttableName: "${pluralize(model.toLowerCase(), 2)}",
+\ttableName: "${makePlural(model.toLowerCase())}",
 \ttimestamps: false,
 })
 export class ${modelCapital} extends Model {

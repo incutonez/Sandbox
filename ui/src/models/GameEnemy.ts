@@ -1,4 +1,5 @@
-﻿import { IsNumber } from "class-validator";
+﻿import { isEmpty } from "@incutonez/core-ui/utils";
+import { IsNumber } from "class-validator";
 import {
 	Enemies,
 	EnemiesArmos,
@@ -63,7 +64,6 @@ import {
 import { GameTargetColor, IGameTargetColor } from "@/models/GameTargetColor";
 import { GameTileCell } from "@/models/GameTileCell";
 import { GameWorldObject, IGameWorldObjectConfig } from "@/models/GameWorldObject";
-import { isEmpty } from "@/utils/common";
 
 const WhiteBlack = [WorldColorsWhitePure, WorldColorsBlack];
 const WhiteBlackRed = [WorldColorsWhitePure, WorldColorsBlack, WorldColorsRedPure];

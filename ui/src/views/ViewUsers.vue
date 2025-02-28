@@ -1,49 +1,12 @@
-<template>
-	<TableGrid
-		ref="usersGrid"
-		:columns="columns"
-		:load="loadUsers"
-		remote
-		:remote-max="15"
-		title="Users"
-		:add-entity-config="addUserConfig"
-	>
-		<template #headerEnd>
-			<BaseButton
-				text="Import"
-				:icon="IconImport"
-				@click="onClickImportUsers"
-			/>
-		</template>
-	</TableGrid>
-	<RouterView @saved="onSavedUser" />
-	<DialogConfirm
-		v-model="showDelete"
-		:entity-name="selectedRecord?.name"
-		action="Delete"
-		:loading="deleting"
-		@confirm="onDeleteUser"
-	/>
-	<DialogConfirm
-		v-model="showCopy"
-		:entity-name="selectedRecord?.name"
-		action="Copy"
-		:loading="copying"
-		@confirm="onCopyUser"
-	/>
-</template>
-
 <script setup lang="ts">
-// TODOJEF: Keep replacing components with @incutonez/core-ui/dist/components and anything else in that package
-// TODOJEF: look at why styling still might not be applied from the theme... like the font didn't seem like it was downloading
 import { ref, unref } from "vue";
 import { BaseButton, DialogConfirm, TableCellActions, TableGrid } from "@incutonez/core-ui";
 import { IconCopy, IconDelete, IconEdit, IconImport } from "@incutonez/core-ui/assets";
 import { IBaseButton, ITableCellActions, ITableColumn } from "@incutonez/core-ui/types";
+import { useColumnIndex } from "@incutonez/core-ui/utils";
 import { ApiPaginatedRequest } from "@incutonez/spec/dist";
 import { UserModel } from "@/models/UserModel";
 import { viewUser, viewUsers, viewUsersImport } from "@/router";
-import { useColumnIndex } from "@/views/shared/columns";
 import { useUsersDefaultColumns } from "@/views/users/usersColumns";
 
 const showDelete = ref(false);
@@ -133,3 +96,38 @@ function onClickImportUsers() {
 	viewUsersImport();
 }
 </script>
+
+<template>
+	<TableGrid
+		ref="usersGrid"
+		:columns="columns"
+		:load="loadUsers"
+		remote
+		:remote-max="15"
+		title="Users"
+		:add-entity-config="addUserConfig"
+	>
+		<template #headerEnd>
+			<BaseButton
+				text="Import"
+				:icon="IconImport"
+				@click="onClickImportUsers"
+			/>
+		</template>
+	</TableGrid>
+	<RouterView @saved="onSavedUser" />
+	<DialogConfirm
+		v-model="showDelete"
+		:entity-name="selectedRecord?.name"
+		action="Delete"
+		:loading="deleting"
+		@confirm="onDeleteUser"
+	/>
+	<DialogConfirm
+		v-model="showCopy"
+		:entity-name="selectedRecord?.name"
+		action="Copy"
+		:loading="copying"
+		@confirm="onCopyUser"
+	/>
+</template>

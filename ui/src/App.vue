@@ -17,6 +17,7 @@
  *
  */
 import { IconDifference, IconEditor, IconModeling, IconModelTransform, IconTriforce, IconUsers } from "@incutonez/core-ui/assets";
+import { version } from "@/../package.json";
 import { viewGameWorldBuilder, viewModeling, viewSequelizeModel, viewTipTap, viewTreeChanges, viewUsers } from "@/router";
 
 function onClickViewUsers() {
@@ -85,8 +86,11 @@ function onClickViewSequelizeModel() {
 				<article class="border-b border-r border-sky-700 bg-sky-200 px-4 py-2">
 					Switcher
 				</article>
-				<article class="flex-1 border-b border-orange-700 bg-orange-200 px-4 py-2">
-					User Panel
+				<article class="flex-1 border-b border-orange-700 bg-orange-200 px-4 py-2 flex">
+					<section>User Panel</section>
+					<section class="ml-auto">
+						Version: {{ version }}
+					</section>
 				</article>
 			</section>
 			<section class="flex w-full flex-1 overflow-hidden">

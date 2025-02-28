@@ -1,3 +1,52 @@
+<script setup lang="ts">
+import { ref } from "vue";
+import { BaseButton, BaseDialog, TableCellActions, TableGrid } from "@incutonez/core-ui";
+import { IconDelete, IconImport } from "@incutonez/core-ui/assets";
+import { ITableCellActions, ITableColumn } from "@incutonez/core-ui/types";
+import { removeItem } from "@incutonez/core-ui/utils";
+import { BulkResponse } from "@incutonez/spec/dist";
+import { UserModel } from "@/models/UserModel";
+import { useUsersDefaultColumns } from "@/views/users/usersColumns";
+import { injectUsersImport } from "@/views/users/usersProvider";
+
+const errors = ref<BulkResponse[]>([]);
+const loading = ref(false);
+const { users } = injectUsersImport();
+const columns: ITableColumn[] = [{
+	lock: "left",
+	showMenu: false,
+	cls: "w-8",
+	cellClass: "text-center",
+	cellComponent: TableCellActions,
+	cellParams(record: UserModel) {
+		return {
+			class: "justify-end",
+			actions: [{
+				title: "Delete",
+				icon: IconDelete,
+				onClick() {
+					removeItem(users.value, record);
+				},
+			}],
+		} as ITableCellActions;
+	},
+
+}, ...useUsersDefaultColumns(), {
+	title: "Errors",
+	cellDisplay(data, records) {
+		const index = records.indexOf(data);
+		return errors.value[index]?.message.join("\n");
+	},
+}];
+
+async function onClickImport() {
+	loading.value = true;
+	errors.value = await UserModel.bulk(users.value);
+	users.value = users.value.filter((_, i) => !!errors.value.find(({ index }) => index === i));
+	loading.value = false;
+}
+</script>
+
 <template>
 	<BaseDialog
 		title="Import Users"
@@ -23,56 +72,3 @@
 		</template>
 	</BaseDialog>
 </template>
-
-<script setup lang="ts">
-import { ref } from "vue";
-import { BulkResponse } from "@incutonez/spec/dist";
-import IconDelete from "@/assets/IconDelete.vue";
-import IconImport from "@/assets/IconImport.vue";
-import BaseButton from "@/components/BaseButton.vue";
-import BaseDialog from "@/components/BaseDialog.vue";
-import TableCellActions, { ITableCellActions } from "@/components/TableCellActions.vue";
-import TableGrid from "@/components/TableGrid.vue";
-import { UserModel } from "@/models/UserModel";
-import { ITableColumn } from "@/types/table";
-import { removeItem } from "@/utils/common";
-import { useUsersDefaultColumns } from "@/views/users/usersColumns";
-import { injectUsersImport } from "@/views/users/usersProvider";
-
-const errors = ref<BulkResponse[]>([]);
-const loading = ref(false);
-const { users } = injectUsersImport();
-const columns: ITableColumn[] = [{
-	lock: "left",
-	showMenu: false,
-	cls: "w-8",
-	cellClass: "text-center",
-	cellComponent: TableCellActions,
-	cellParams(record: UserModel) {
-		return {
-			class: "justify-end",
-			actions: [{
-				title: "Delete",
-				icon: IconDelete,
-				onClick() {
-					removeItem(users.value, record);
-				},
-			}],
-		} as ITableCellActions;
-	},
-// eslint-disable-next-line @incutonez/array-element-newline
-}, ...useUsersDefaultColumns(), {
-	title: "Errors",
-	cellDisplay(data, records) {
-		const index = records.indexOf(data);
-		return errors.value[index]?.message.join("\n");
-	},
-}];
-
-async function onClickImport() {
-	loading.value = true;
-	errors.value = await UserModel.bulk(users.value);
-	users.value = users.value.filter((_, i) => !!errors.value.find(({ index }) => index === i));
-	loading.value = false;
-}
-</script>

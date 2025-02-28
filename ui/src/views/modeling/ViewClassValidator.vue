@@ -1,7 +1,3 @@
-<template>
-	<BaseView />
-</template>
-
 <script setup lang="ts">
 import BaseView from "@/views/modeling/BaseView.vue";
 import { PersonModel } from "@/views/modeling/classValidator/PersonModel";
@@ -13,3 +9,7 @@ record.value = PersonModel.create({
 	lastName: "Validator",
 });
 </script>
+
+<template>
+	<BaseView />
+</template>

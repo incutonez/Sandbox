@@ -1,3 +1,192 @@
+<script setup lang="ts">
+import { computed, reactive, ref, unref, watch } from "vue";
+import { BaseButton, BaseTabs, FieldCheckbox, FieldComboBox, FieldDisplay, FieldLabel, FieldNumber } from "@incutonez/core-ui";
+import { IconAdd, IconDelete, IconSave, IconUploadFile } from "@incutonez/core-ui/assets";
+import { makeArray, removeItem } from "@incutonez/core-ui/utils";
+import { Items } from "@/enums/game/Items";
+import { Enemies } from "@/enums/game/NPCs";
+import { ScreenTemplates } from "@/enums/game/ScreenTemplates";
+import { Tiles } from "@/enums/game/Tiles";
+import { WorldColors, WorldColorsNone } from "@/enums/game/WorldColors";
+import { findRecord } from "@/enums/helper";
+import { GameScreen } from "@/models/GameScreen";
+import { GameTileCell } from "@/models/GameTileCell";
+import { GameWorld } from "@/models/GameWorld";
+import { Parent } from "@/models/ViewModel";
+import { provideCellCopy } from "@/views/gameWorldBuilder/cellCopy";
+import FieldWorldColors from "@/views/gameWorldBuilder/FieldWorldColors.vue";
+import { provideWorldConfig } from "@/views/gameWorldBuilder/providers";
+import ScreenConfigPanel from "@/views/gameWorldBuilder/ScreenConfigPanel.vue";
+import TileGrid from "@/views/gameWorldBuilder/TileGrid.vue";
+import WorldConfigPanel from "@/views/gameWorldBuilder/WorldConfigPanel.vue";
+
+/**
+ * TODOJEF:
+ * - I think I need to rework the JSON output... it should output the entire world in a single JSON, and load it that way...
+ * -- This is because I think it'll eventually get shoved into a DB
+ * - Add special properties for Transitions
+ * - Should rename Door to ShopDoor, as it's a little special
+ * - Optimize the export... right now, it does all individual cells... should be able to group by type
+ * - Load into Unity game to see it working
+ * - Finish other TODOJEFs
+ * - Add special properties to Tiles... will need to wire this up in Unity code
+ * -- Like CanBreak, CanBurn, CanBomb
+ */
+const fileInputEl = ref<HTMLInputElement>();
+const selectedCell = ref<GameTileCell>();
+const { worldRecord: selectedWorld, screenRecord: selectedScreen } = provideWorldConfig();
+const showGridLines = ref(true);
+const worlds = reactive<GameWorld[]>([]);
+const isTransition = computed(() => selectedCell.value?.tile.isTransition);
+const selectedTile = computed(() => selectedCell.value?.tile);
+const selectedItem = computed(() => selectedCell.value?.item);
+const selectedEnemy = computed(() => selectedCell.value?.enemy);
+const showColors = computed(() => !isTransition.value && selectedTile.value?.hasImage());
+const tabs = ref(["World"]);
+const selectedTab = ref(tabs.value[0]);
+const gridCls = computed(() => {
+	return {
+		"grid-origin-top-left": selectedScreen.value?.OriginTopLeft,
+		"grid-show-lines": showGridLines.value,
+	};
+});
+
+function getCellColor() {
+	const found = findRecord(WorldColors, selectedScreen.value?.GroundColor);
+	if (found === WorldColorsNone || !found) {
+		return "";
+	}
+	return `background-color: #${found.id};`;
+}
+
+function onUpdateTileColor() {
+	selectedTile.value?.updateImage();
+}
+
+function onUpdateEnemyColor() {
+	selectedEnemy.value?.updateImage();
+}
+
+function onReplaceCell({ indices, replacement }: { indices: number | number[], replacement: GameTileCell }) {
+	indices = makeArray(indices);
+	// Make sure we update the selection with the replacement
+	selectedCell.value = replacement;
+	const $selectedScreen = unref(selectedScreen);
+	if ($selectedScreen) {
+		indices.forEach((idx) => {
+			const record = $selectedScreen.cells[idx];
+			const clone = replacement.clone({
+				options: {
+					init: true,
+				},
+			});
+			clone.Coordinates = record.Coordinates;
+			// Replace the parent, as it gets cloned incorrectly
+			clone[Parent] = $selectedScreen!;
+			$selectedScreen.cells[idx] = clone;
+		});
+	}
+}
+
+function onClickLoadBtn() {
+	fileInputEl.value?.click();
+}
+
+function onClickAddWorld() {
+	selectedWorld.value = GameWorld.create({
+		Name: "Temporary Name",
+	}, {
+		[Parent]: worlds,
+	});
+	worlds.push(selectedWorld.value);
+}
+
+function onClickDeleteWorld() {
+	removeItem(worlds, selectedWorld.value);
+	selectedWorld.value = undefined;
+}
+
+function onChangeLoadFile() {
+	const reader = new FileReader();
+	reader.addEventListener("load", () => {
+		selectedScreen.value?.loadFileData(JSON.parse(reader.result as string));
+	});
+	const [file] = fileInputEl.value?.files ?? [];
+	if (file) {
+		reader.readAsText(file);
+	}
+}
+
+function onClickSaveBtn() {
+	// TODO: Move this logic to a utility function
+	const contents = new Blob([JSON.stringify(worlds.map((world) => world.getConfig()))], {
+		type: "application/json",
+	});
+	const tempEl = document.createElement("a");
+	tempEl.download = "game.json";
+	tempEl.href = window.URL.createObjectURL(contents);
+	tempEl.click();
+}
+
+function onClickAddScreen() {
+	selectedScreen.value = GameScreen.create({
+		totalRows: 11,
+		totalColumns: 16,
+		Name: "Screen Name",
+	}, {
+		init: true,
+	});
+	selectedWorld.value!.Children.push(selectedScreen.value);
+}
+
+function onClickDeleteScreen() {
+	removeItem(selectedWorld.value!.Children, selectedScreen.value);
+	selectedScreen.value = undefined;
+}
+
+watch(selectedWorld, () => {
+	selectedCell.value = undefined;
+	selectedScreen.value = undefined;
+});
+
+watch(selectedScreen, ($selectedScreen, $previousValue) => {
+	selectedCell.value = undefined;
+	if ($selectedScreen && !$previousValue) {
+		tabs.value.push("Screen");
+		selectedTab.value = "Screen";
+	}
+	else if (!$selectedScreen) {
+		removeItem(tabs.value, "Screen");
+		selectedTab.value = "World";
+	}
+});
+
+watch(() => selectedScreen.value?.OriginTopLeft, ($originTopLeft) => {
+	const cells = selectedScreen.value?.cells;
+	if ($originTopLeft && cells?.[0].Coordinates[1] !== 0 || !$originTopLeft && cells?.[0].Coordinates[1] !== 10) {
+		selectedScreen.value?.cells.forEach((cell) => cell.Coordinates = [cell.x, 10 - cell.y]);
+	}
+});
+
+watch(selectedCell, ($selectedCell, $previousValue) => {
+	const $tabs = unref(tabs);
+	if ($selectedCell && !$previousValue) {
+		$tabs.push("Tile", "Item", "Enemy");
+		selectedTab.value = "Tile";
+	}
+	else if (!$selectedCell) {
+		removeItem($tabs, "Tile");
+		removeItem($tabs, "Item");
+		removeItem($tabs, "Enemy");
+		if (selectedTab.value !== "World") {
+			selectedTab.value = "Screen";
+		}
+	}
+});
+
+provideCellCopy();
+</script>
+
 <template>
 	<article class="flex h-full space-x-4 p-4">
 		<TileGrid
@@ -287,201 +476,3 @@
 		</section>
 	</article>
 </template>
-
-<script setup lang="ts">
-import { computed, reactive, ref, unref, watch } from "vue";
-import IconAdd from "@/assets/IconAdd.vue";
-import IconDelete from "@/assets/IconDelete.vue";
-import IconSave from "@/assets/IconSave.vue";
-import IconUploadFile from "@/assets/IconUploadFile.vue";
-import BaseButton from "@/components/BaseButton.vue";
-import BaseTabs from "@/components/BaseTabs.vue";
-import FieldCheckbox from "@/components/FieldCheckbox.vue";
-import FieldComboBox from "@/components/FieldComboBox.vue";
-import FieldDisplay from "@/components/FieldDisplay.vue";
-import FieldLabel from "@/components/FieldLabel.vue";
-import FieldNumber from "@/components/FieldNumber.vue";
-import { Items } from "@/enums/game/Items";
-import { Enemies } from "@/enums/game/NPCs";
-import { ScreenTemplates } from "@/enums/game/ScreenTemplates";
-import { Tiles } from "@/enums/game/Tiles";
-import { WorldColors, WorldColorsNone } from "@/enums/game/WorldColors";
-import { findRecord } from "@/enums/helper";
-import { GameScreen } from "@/models/GameScreen";
-import { GameTileCell } from "@/models/GameTileCell";
-import { GameWorld } from "@/models/GameWorld";
-import { Parent } from "@/models/ViewModel";
-import { makeArray, removeItem } from "@/utils/common";
-import { provideCellCopy } from "@/views/gameWorldBuilder/cellCopy";
-import FieldWorldColors from "@/views/gameWorldBuilder/FieldWorldColors.vue";
-import { provideWorldConfig } from "@/views/gameWorldBuilder/providers";
-import ScreenConfigPanel from "@/views/gameWorldBuilder/ScreenConfigPanel.vue";
-import TileGrid from "@/views/gameWorldBuilder/TileGrid.vue";
-import WorldConfigPanel from "@/views/gameWorldBuilder/WorldConfigPanel.vue";
-
-/**
- * TODOJEF:
- * - I think I need to rework the JSON output... it should output the entire world in a single JSON, and load it that way...
- * -- This is because I think it'll eventually get shoved into a DB
- * - Add special properties for Transitions
- * - Should rename Door to ShopDoor, as it's a little special
- * - Optimize the export... right now, it does all individual cells... should be able to group by type
- * - Load into Unity game to see it working
- * - Finish other TODOJEFs
- * - Add special properties to Tiles... will need to wire this up in Unity code
- * -- Like CanBreak, CanBurn, CanBomb
- */
-const fileInputEl = ref<HTMLInputElement>();
-const selectedCell = ref<GameTileCell>();
-const { worldRecord: selectedWorld, screenRecord: selectedScreen } = provideWorldConfig();
-const showGridLines = ref(true);
-const worlds = reactive<GameWorld[]>([]);
-const isTransition = computed(() => selectedCell.value?.tile.isTransition);
-const selectedTile = computed(() => selectedCell.value?.tile);
-const selectedItem = computed(() => selectedCell.value?.item);
-const selectedEnemy = computed(() => selectedCell.value?.enemy);
-const showColors = computed(() => !isTransition.value && selectedTile.value?.hasImage());
-const tabs = ref(["World"]);
-const selectedTab = ref(tabs.value[0]);
-const gridCls = computed(() => {
-	return {
-		"grid-origin-top-left": selectedScreen.value?.OriginTopLeft,
-		"grid-show-lines": showGridLines.value,
-	};
-});
-
-function getCellColor() {
-	const found = findRecord(WorldColors, selectedScreen.value?.GroundColor);
-	if (found === WorldColorsNone || !found) {
-		return "";
-	}
-	return `background-color: #${found.id};`;
-}
-
-function onUpdateTileColor() {
-	selectedTile.value?.updateImage();
-}
-
-function onUpdateEnemyColor() {
-	selectedEnemy.value?.updateImage();
-}
-
-function onReplaceCell({ indices, replacement }: { indices: number | number[], replacement: GameTileCell }) {
-	indices = makeArray(indices);
-	// Make sure we update the selection with the replacement
-	selectedCell.value = replacement;
-	const $selectedScreen = unref(selectedScreen);
-	if ($selectedScreen) {
-		indices.forEach((idx) => {
-			const record = $selectedScreen.cells[idx];
-			const clone = replacement.clone({
-				options: {
-					init: true,
-				},
-			});
-			clone.Coordinates = record.Coordinates;
-			// Replace the parent, as it gets cloned incorrectly
-			clone[Parent] = $selectedScreen!;
-			$selectedScreen.cells[idx] = clone;
-		});
-	}
-}
-
-function onClickLoadBtn() {
-	fileInputEl.value?.click();
-}
-
-function onClickAddWorld() {
-	selectedWorld.value = GameWorld.create({
-		Name: "Temporary Name",
-	}, {
-		[Parent]: worlds,
-	});
-	worlds.push(selectedWorld.value);
-}
-
-function onClickDeleteWorld() {
-	removeItem(worlds, selectedWorld.value);
-	selectedWorld.value = undefined;
-}
-
-function onChangeLoadFile() {
-	const reader = new FileReader();
-	reader.addEventListener("load", () => {
-		selectedScreen.value?.loadFileData(JSON.parse(reader.result as string));
-	});
-	const [file] = fileInputEl.value?.files ?? [];
-	if (file) {
-		reader.readAsText(file);
-	}
-}
-
-function onClickSaveBtn() {
-	// TODO: Move this logic to a utility function
-	const contents = new Blob([JSON.stringify(worlds.map((world) => world.getConfig()))], {
-		type: "application/json",
-	});
-	const tempEl = document.createElement("a");
-	tempEl.download = "game.json";
-	tempEl.href = window.URL.createObjectURL(contents);
-	tempEl.click();
-}
-
-function onClickAddScreen() {
-	selectedScreen.value = GameScreen.create({
-		totalRows: 11,
-		totalColumns: 16,
-		Name: "Screen Name",
-	}, {
-		init: true,
-	});
-	selectedWorld.value!.Children.push(selectedScreen.value);
-}
-
-function onClickDeleteScreen() {
-	removeItem(selectedWorld.value!.Children, selectedScreen.value);
-	selectedScreen.value = undefined;
-}
-
-watch(selectedWorld, () => {
-	selectedCell.value = undefined;
-	selectedScreen.value = undefined;
-});
-
-watch(selectedScreen, ($selectedScreen, $previousValue) => {
-	selectedCell.value = undefined;
-	if ($selectedScreen && !$previousValue) {
-		tabs.value.push("Screen");
-		selectedTab.value = "Screen";
-	}
-	else if (!$selectedScreen) {
-		removeItem(tabs.value, "Screen");
-		selectedTab.value = "World";
-	}
-});
-
-watch(() => selectedScreen.value?.OriginTopLeft, ($originTopLeft) => {
-	const cells = selectedScreen.value?.cells;
-	if ($originTopLeft && cells?.[0].Coordinates[1] !== 0 || !$originTopLeft && cells?.[0].Coordinates[1] !== 10) {
-		selectedScreen.value?.cells.forEach((cell) => cell.Coordinates = [cell.x, 10 - cell.y]);
-	}
-});
-
-watch(selectedCell, ($selectedCell, $previousValue) => {
-	const $tabs = unref(tabs);
-	if ($selectedCell && !$previousValue) {
-		$tabs.push("Tile", "Item", "Enemy");
-		selectedTab.value = "Tile";
-	}
-	else if (!$selectedCell) {
-		removeItem($tabs, "Tile");
-		removeItem($tabs, "Item");
-		removeItem($tabs, "Enemy");
-		if (selectedTab.value !== "World") {
-			selectedTab.value = "Screen";
-		}
-	}
-});
-
-provideCellCopy();
-</script>

@@ -1,4 +1,5 @@
-﻿import { IsArray, IsBoolean, IsInt, IsNumber, IsString } from "class-validator";
+﻿import { isEmpty, removeItem } from "@incutonez/core-ui/utils";
+import { IsArray, IsBoolean, IsInt, IsNumber, IsString } from "class-validator";
 import { Items as EnumItems } from "@/enums/game/Items";
 import { Enemies as EnumEnemies } from "@/enums/game/NPCs";
 import { Tiles as EnumTiles } from "@/enums/game/Tiles";
@@ -10,7 +11,6 @@ import { IGameItemConfig } from "@/models/GameItem";
 import { getDefaultTileColors, IGameTileMeta } from "@/models/GameTile";
 import { GameTileCell } from "@/models/GameTileCell";
 import { Parent, ViewModel } from "@/models/ViewModel";
-import { isEmpty, removeItem } from "@/utils/common";
 
 export interface ILoadData {
 	Tiles?: IGameTileMeta[];

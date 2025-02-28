@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import { FieldComboBox } from "@incutonez/core-ui";
+import { WorldColors } from "@/enums/game/WorldColors";
+</script>
+
 <template>
 	<FieldComboBox
 		:options="WorldColors"
@@ -5,8 +10,3 @@
 		label-cls="w-20"
 	/>
 </template>
-
-<script setup lang="ts">
-import FieldComboBox from "@/components/FieldComboBox.vue";
-import { WorldColors } from "@/enums/game/WorldColors";
-</script>

@@ -1,17 +1,3 @@
-<template>
-	<NodeViewWrapper
-		class="mx-2 rounded-full px-2 py-0.5 text-base text-white"
-		:class="wrapperClasses"
-	>
-		<EditorContent
-			:editor="editor"
-			:contenteditable="isTokenNumber"
-			@click.stop
-			@keydown="onKeyDown"
-		/>
-	</NodeViewWrapper>
-</template>
-
 <script setup lang="ts">
 import { computed, onMounted, watch } from "vue";
 import { StarterKit } from "@tiptap/starter-kit";
@@ -51,3 +37,17 @@ function onKeyDown(event: KeyboardEvent) {
 watch(() => token.value.value, () => setContents());
 onMounted(() => setContents());
 </script>
+
+<template>
+	<NodeViewWrapper
+		class="mx-2 rounded-full px-2 py-0.5 text-base text-white"
+		:class="wrapperClasses"
+	>
+		<EditorContent
+			:editor="editor"
+			:contenteditable="isTokenNumber"
+			@click.stop
+			@keydown="onKeyDown"
+		/>
+	</NodeViewWrapper>
+</template>
