@@ -1,54 +1,12 @@
-<template>
-	<TableGrid
-		ref="usersGrid"
-		:columns="columns"
-		:load="loadUsers"
-		remote
-		:remote-max="15"
-		title="Users"
-		:add-entity-config="addUserConfig"
-	>
-		<template #headerEnd>
-			<BaseButton
-				text="Import"
-				:icon="IconImport"
-				@click="onClickImportUsers"
-			/>
-		</template>
-	</TableGrid>
-	<RouterView @saved="onSavedUser" />
-	<DialogConfirm
-		v-model="showDelete"
-		:entity-name="selectedRecord?.name"
-		action="Delete"
-		:loading="deleting"
-		@confirm="onDeleteUser"
-	/>
-	<DialogConfirm
-		v-model="showCopy"
-		:entity-name="selectedRecord?.name"
-		action="Copy"
-		:loading="copying"
-		@confirm="onCopyUser"
-	/>
-</template>
-
 <script setup lang="ts">
 import { ref, unref } from "vue";
+import { BaseButton, DialogConfirm, TableCellActions, TableGrid } from "@incutonez/core-ui";
+import { IconCopy, IconDelete, IconEdit, IconImport } from "@incutonez/core-ui/assets";
+import { IBaseButton, ITableCellActions, ITableColumn } from "@incutonez/core-ui/types";
+import { useColumnIndex } from "@incutonez/core-ui/utils";
 import { ApiPaginatedRequest } from "@incutonez/spec/dist";
-import IconCopy from "@/assets/IconCopy.vue";
-import IconDelete from "@/assets/IconDelete.vue";
-import IconEdit from "@/assets/IconEdit.vue";
-import IconImport from "@/assets/IconImport.vue";
-import BaseButton from "@/components/BaseButton.vue";
-import DialogConfirm from "@/components/DialogConfirm.vue";
-import TableCellActions, { ITableCellActions } from "@/components/TableCellActions.vue";
-import TableGrid from "@/components/TableGrid.vue";
 import { UserModel } from "@/models/UserModel";
 import { viewUser, viewUsers, viewUsersImport } from "@/router";
-import { IBaseButton } from "@/types/components";
-import { ITableColumn } from "@/types/table";
-import { useColumnIndex } from "@/views/shared/columns";
 import { useUsersDefaultColumns } from "@/views/users/usersColumns";
 
 const showDelete = ref(false);
@@ -138,3 +96,38 @@ function onClickImportUsers() {
 	viewUsersImport();
 }
 </script>
+
+<template>
+	<TableGrid
+		ref="usersGrid"
+		:columns="columns"
+		:load="loadUsers"
+		remote
+		:remote-max="15"
+		title="Users"
+		:add-entity-config="addUserConfig"
+	>
+		<template #headerEnd>
+			<BaseButton
+				text="Import"
+				:icon="IconImport"
+				@click="onClickImportUsers"
+			/>
+		</template>
+	</TableGrid>
+	<RouterView @saved="onSavedUser" />
+	<DialogConfirm
+		v-model="showDelete"
+		:entity-name="selectedRecord?.name"
+		action="Delete"
+		:loading="deleting"
+		@confirm="onDeleteUser"
+	/>
+	<DialogConfirm
+		v-model="showCopy"
+		:entity-name="selectedRecord?.name"
+		action="Copy"
+		:loading="copying"
+		@confirm="onCopyUser"
+	/>
+</template>

@@ -1,62 +1,12 @@
-<template>
-	<BaseDialog
-		title="Import Users"
-		class="h-64 w-96"
-		body-cls="h-full"
-		@close="onClickCancel"
-	>
-		<template #body>
-			<input
-				ref="fileField"
-				type="file"
-				class="hidden"
-				accept="text/csv"
-				@change="onSelectFiles"
-			>
-			<section
-				class="flex h-full cursor-pointer flex-col items-center justify-center border-2 border-dashed border-slate-400 hover:border-red-700 [&>*]:pointer-events-none"
-				@click="onClickSelectFiles"
-				@dragenter="onDragEnter"
-				@dragleave="onDragLeave"
-				@dragover.prevent
-				@drop.prevent="onDropFiles"
-			>
-				<section class="flex items-center">
-					<IconDownload class="mr-1 size-8" />
-					<p class="text-sm">
-						Drag & Drop files or click to select
-					</p>
-				</section>
-				<p class="text-sm text-gray-700">
-					Allowed File Types:
-				</p>
-				<p class="text-sm font-semibold text-sky-700">
-					csv
-				</p>
-			</section>
-			<ViewUsersImport v-model="showViewUsers" />
-		</template>
-		<template #beforeCancel>
-			<BaseButton
-				text="Template"
-				:icon="IconDownload"
-				@click="onClickDownloadTemplate"
-			/>
-		</template>
-	</BaseDialog>
-</template>
-
 <script setup lang="ts">
-// TODOJEF: Pick up here and add a preview grid for after when the file is parsed
 import { ref } from "vue";
+import { BaseButton, BaseDialog } from "@incutonez/core-ui";
+import { IconDownload } from "@incutonez/core-ui/assets";
+import { downloadFile } from "@incutonez/core-ui/utils";
 import MimeTypes from "mime-types";
 import Papa from "papaparse";
-import IconDownload from "@/assets/IconDownload.vue";
-import BaseButton from "@/components/BaseButton.vue";
-import BaseDialog from "@/components/BaseDialog.vue";
 import { IUserCSV, UserModel } from "@/models/UserModel";
 import { viewUsers } from "@/router";
-import { downloadFile } from "@/utils/common";
 import { provideUsersImport } from "@/views/users/usersProvider";
 import ViewUsersImport from "@/views/users/ViewUsersImport.vue";
 
@@ -134,6 +84,54 @@ function onClickCancel() {
 	viewUsers();
 }
 </script>
+
+<template>
+	<BaseDialog
+		title="Import Users"
+		class="h-64 w-96"
+		body-cls="h-full"
+		@close="onClickCancel"
+	>
+		<template #body>
+			<input
+				ref="fileField"
+				type="file"
+				class="hidden"
+				accept="text/csv"
+				@change="onSelectFiles"
+			>
+			<section
+				class="flex h-full cursor-pointer flex-col items-center justify-center border-2 border-dashed border-slate-400 hover:border-red-700 [&>*]:pointer-events-none"
+				@click="onClickSelectFiles"
+				@dragenter="onDragEnter"
+				@dragleave="onDragLeave"
+				@dragover.prevent
+				@drop.prevent="onDropFiles"
+			>
+				<section class="flex items-center">
+					<IconDownload class="mr-1 size-8" />
+					<p class="text-sm">
+						Drag & Drop files or click to select
+					</p>
+				</section>
+				<p class="text-sm text-gray-700">
+					Allowed File Types:
+				</p>
+				<p class="text-sm font-semibold text-sky-700">
+					csv
+				</p>
+			</section>
+			<ViewUsersImport v-model="showViewUsers" />
+		</template>
+		<template #beforeCancel>
+			<BaseButton
+				text="Template"
+				:icon="IconDownload"
+				@click="onClickDownloadTemplate"
+			/>
+		</template>
+	</BaseDialog>
+</template>
 
 <style scoped>
 .drop-hover {

@@ -1,11 +1,3 @@
-<template>
-	<EditorContent
-		:editor="editor"
-		class="m-1 flex flex-wrap gap-2 rounded border border-gray-400 p-2"
-		@keydown.stop="onKeyDown"
-	/>
-</template>
-
 <script setup lang="ts">
 import { computed, onMounted, reactive, unref, watch } from "vue";
 import { StarterKit } from "@tiptap/starter-kit";
@@ -78,6 +70,14 @@ function setContent() {
 watch(content, () => setContent());
 onMounted(() => setContent());
 </script>
+
+<template>
+	<EditorContent
+		:editor="editor"
+		class="m-1 flex flex-wrap gap-2 rounded border border-gray-400 p-2"
+		@keydown.stop="onKeyDown"
+	/>
+</template>
 
 <style>
 .ProseMirror {

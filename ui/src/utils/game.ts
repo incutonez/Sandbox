@@ -1,6 +1,6 @@
+import { toInt } from "@incutonez/core-ui/utils";
 import { GameTargetColor } from "@/models/GameTargetColor";
 import { IGameEnum } from "@/types/components";
-import { toInt } from "@/utils/common";
 
 const ImageCache: Record<string, HTMLImageElement> = {};
 

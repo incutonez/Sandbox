@@ -1,30 +1,11 @@
-<template>
-	<TableTree
-		:filters="filters"
-		:columns="columns"
-		:load="loadRecords"
-		:show-search="false"
-		show-striped-rows
-	>
-		<template #beforeSearch>
-			<FieldCheckbox
-				v-model="showUnchanged"
-				label="Show Unchanged"
-			/>
-		</template>
-	</TableTree>
-</template>
-
 <script setup lang="ts">
 import { reactive, ref, watch } from "vue";
+import { FieldCheckbox, TableTree } from "@incutonez/core-ui";
+import { IPassThroughOptions, ITableColumn, ITableFilter, ITreeNode } from "@incutonez/core-ui/types";
+import { getPassThroughNode, isEmpty } from "@incutonez/core-ui/utils";
 import { EnumChangeStatus, TreeItemModel } from "@incutonez/spec";
 import { FilterMatchMode } from "@primevue/core/api";
-import FieldCheckbox from "@/components/FieldCheckbox.vue";
-import TableTree from "@/components/TableTree.vue";
 import { TreeViewModel } from "@/models/TreeViewModel";
-import { IPassThroughOptions, ITableColumn, ITableFilter, ITreeNode } from "@/types/table";
-import { isEmpty } from "@/utils/common";
-import { getPassThroughNode } from "@/utils/table";
 import ColumnField from "@/views/auditor/ColumnField.vue";
 import ColumnValue from "@/views/auditor/ColumnValue.vue";
 
@@ -111,3 +92,20 @@ watch(showUnchanged, ($showUnchanged) => {
 	}
 });
 </script>
+
+<template>
+	<TableTree
+		:filters="filters"
+		:columns="columns"
+		:load="loadRecords"
+		:show-search="false"
+		show-striped-rows
+	>
+		<template #beforeSearch>
+			<FieldCheckbox
+				v-model="showUnchanged"
+				label="Show Unchanged"
+			/>
+		</template>
+	</TableTree>
+</template>

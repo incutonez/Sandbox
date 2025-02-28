@@ -1,5 +1,6 @@
 import { toRaw } from "vue";
 import { faker } from "@faker-js/faker";
+import { removeItem } from "@incutonez/core-ui/utils";
 import { ApiPaginatedRequest, UserEntity, UsersApi } from "@incutonez/spec/dist";
 import { Allow, IsInt, IsString } from "class-validator";
 import { configuration } from "@/apiConfig";
@@ -7,7 +8,6 @@ import { HasAPI } from "@/enums/helper";
 import { AddressModel } from "@/models/AddressModel";
 import { IsRequired, ModelTransform } from "@/models/decorators";
 import { ViewModel } from "@/models/ViewModel";
-import { removeItem } from "@/utils/common";
 
 export const UsersAPI = new UsersApi(configuration);
 

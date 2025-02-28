@@ -1,4 +1,4 @@
-import { type IOption } from "@/types/components";
+import { type IOption } from "@incutonez/core-ui/types";
 
 export const HasAPI = import.meta.env.MODE !== "GitHubPages";
 

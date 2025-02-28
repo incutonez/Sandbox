@@ -28,10 +28,10 @@ import { ProfileEntity } from '../models';
 // @ts-ignore
 import { VersionEntity } from '../models';
 /**
- * DefaultApi - axios parameter creator
+ * AppApi - axios parameter creator
  * @export
  */
-export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
+export const AppApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
@@ -40,35 +40,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          */
         getAccessToken: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/access-token`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAccounts: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/accounts`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -153,11 +124,11 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 };
 
 /**
- * DefaultApi - functional programming interface
+ * AppApi - functional programming interface
  * @export
  */
-export const DefaultApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
+export const AppApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AppApiAxiosParamCreator(configuration)
     return {
         /**
          * 
@@ -166,15 +137,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async getAccessToken(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccessTokenEntity>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getAccessToken(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getAccounts(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAccounts(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -199,11 +161,11 @@ export const DefaultApiFp = function(configuration?: Configuration) {
 };
 
 /**
- * DefaultApi - factory interface
+ * AppApi - factory interface
  * @export
  */
-export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = DefaultApiFp(configuration)
+export const AppApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AppApiFp(configuration)
     return {
         /**
          * 
@@ -212,14 +174,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         getAccessToken(options?: any): AxiosPromise<AccessTokenEntity> {
             return localVarFp.getAccessToken(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAccounts(options?: any): AxiosPromise<void> {
-            return localVarFp.getAccounts(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -241,16 +195,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
 };
 
 /**
- * DefaultApi - interface
+ * AppApi - interface
  * @export
- * @interface DefaultApi
+ * @interface AppApi
  */
-export interface DefaultApiInterface {
+export interface AppApiInterface {
     /**
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DefaultApiInterface
+     * @memberof AppApiInterface
      */
     getAccessToken(options?: AxiosRequestConfig): AxiosPromise<AccessTokenEntity>;
 
@@ -258,15 +212,7 @@ export interface DefaultApiInterface {
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DefaultApiInterface
-     */
-    getAccounts(options?: AxiosRequestConfig): AxiosPromise<void>;
-
-    /**
-     * 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApiInterface
+     * @memberof AppApiInterface
      */
     getProfile(options?: AxiosRequestConfig): AxiosPromise<ProfileEntity>;
 
@@ -274,56 +220,46 @@ export interface DefaultApiInterface {
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DefaultApiInterface
+     * @memberof AppApiInterface
      */
     getVersion(options?: AxiosRequestConfig): AxiosPromise<VersionEntity>;
 
 }
 
 /**
- * DefaultApi - object-oriented interface
+ * AppApi - object-oriented interface
  * @export
- * @class DefaultApi
+ * @class AppApi
  * @extends {BaseAPI}
  */
-export class DefaultApi extends BaseAPI implements DefaultApiInterface {
+export class AppApi extends BaseAPI implements AppApiInterface {
     /**
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DefaultApi
+     * @memberof AppApi
      */
     public getAccessToken(options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getAccessToken(options).then((request) => request(this.axios, this.basePath));
+        return AppApiFp(this.configuration).getAccessToken(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public getAccounts(options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getAccounts(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
+     * @memberof AppApi
      */
     public getProfile(options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getProfile(options).then((request) => request(this.axios, this.basePath));
+        return AppApiFp(this.configuration).getProfile(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DefaultApi
+     * @memberof AppApi
      */
     public getVersion(options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getVersion(options).then((request) => request(this.axios, this.basePath));
+        return AppApiFp(this.configuration).getVersion(options).then((request) => request(this.axios, this.basePath));
     }
 }

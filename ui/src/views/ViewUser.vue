@@ -1,9 +1,50 @@
+<script setup lang="ts">
+import { ref, watch } from "vue";
+import { BaseButton, BaseDialog, FieldDate, FieldText } from "@incutonez/core-ui";
+import { UserModel } from "@/models/UserModel";
+import { viewUsers } from "@/router";
+
+interface IProps {
+	userId?: string;
+}
+
+const props = defineProps<IProps>();
+const emit = defineEmits(["saved"]);
+const show = ref(true);
+const record = ref(UserModel.create());
+const loading = ref(false);
+
+function onClose() {
+	viewUsers();
+}
+
+async function loadRecord() {
+	const { userId } = props;
+	if (userId) {
+		await record.value.load(userId);
+	}
+	else {
+		record.value.clear();
+	}
+}
+
+async function onClickSave() {
+	loading.value = true;
+	await record.value.save();
+	loading.value = false;
+	emit("saved");
+}
+
+watch(() => props.userId, () => loadRecord(), {
+	immediate: true,
+});
+</script>
+
 <template>
 	<BaseDialog
 		v-model="show"
 		class="w-1/2"
 		title="User"
-		@cancel="onClose"
 		@close="onClose"
 	>
 		<template #body>
@@ -53,48 +94,3 @@
 		</template>
 	</BaseDialog>
 </template>
-
-<script setup lang="ts">
-import { ref, watch } from "vue";
-import BaseButton from "@/components/BaseButton.vue";
-import BaseDialog from "@/components/BaseDialog.vue";
-import FieldDate from "@/components/FieldDate.vue";
-import FieldText from "@/components/FieldText.vue";
-import { UserModel } from "@/models/UserModel";
-import { viewUsers } from "@/router";
-
-interface IProps {
-	userId?: string;
-}
-
-const props = defineProps<IProps>();
-const emit = defineEmits(["saved"]);
-const show = ref(true);
-const record = ref(UserModel.create());
-const loading = ref(false);
-
-function onClose() {
-	viewUsers();
-}
-
-async function loadRecord() {
-	const { userId } = props;
-	if (userId) {
-		await record.value.load(userId);
-	}
-	else {
-		record.value.clear();
-	}
-}
-
-async function onClickSave() {
-	loading.value = true;
-	await record.value.save();
-	loading.value = false;
-	emit("saved");
-}
-
-watch(() => props.userId, () => loadRecord(), {
-	immediate: true,
-});
-</script>
