@@ -87,7 +87,7 @@ function onClickViewSequelizeModel() {
 					Switcher
 				</article>
 				<article class="flex-1 border-b border-orange-700 bg-orange-200 px-4 py-2 flex">
-					<section>User Panel</section>
+					<section>Hello User!</section>
 					<section class="ml-auto">
 						Version: {{ version }}
 					</section>
