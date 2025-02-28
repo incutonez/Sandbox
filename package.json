@@ -88,5 +88,8 @@
       "@semantic-release/git",
       "@semantic-release/github"
     ]
+  },
+  "multi-release": {
+    "ignorePrivate": false
   }
 }
