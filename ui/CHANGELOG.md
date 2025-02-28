@@ -1,3 +1,17 @@
+## [2.0.0](https://github.com/incutonez/Sandbox/compare/v1.0.0...v2.0.0) (2025-02-28)
+
+### ⚠ BREAKING CHANGES
+
+* Testing breaking change and tag format in UI (#93)
+* Testing breaking change and tag format in UI (#92)
+* Testing breaking change and tag format in UI (#91)
+
+### Features
+
+* Testing breaking change and tag format in UI ([#91](https://github.com/incutonez/Sandbox/issues/91)) ([c7248a5](https://github.com/incutonez/Sandbox/commit/c7248a527d63b2d6a6bbc1c0fed66ca15b56b9da))
+* Testing breaking change and tag format in UI ([#92](https://github.com/incutonez/Sandbox/issues/92)) ([2e2b050](https://github.com/incutonez/Sandbox/commit/2e2b050a3d37a59cf3d4230df2b0d2b00334b7ca))
+* Testing breaking change and tag format in UI ([#93](https://github.com/incutonez/Sandbox/issues/93)) ([ad0889b](https://github.com/incutonez/Sandbox/commit/ad0889b38c36b3215e5b3fd846b4ed4b0a352467))
+
 ## 1.0.0 (2025-02-28)
 
 ### ⚠ BREAKING CHANGES
