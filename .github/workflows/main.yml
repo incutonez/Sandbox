@@ -33,7 +33,7 @@ jobs:
           GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE }}
         run: |
           cd ${{ github.workspace }}/ui
-          npx semantic-release --deps.bump=inherit
+          npx semantic-release --deps.bump=inherit --tag-format="@incutonez/ui@${version}"
       - name: Build Spec
         run: npm run build:spec
       - name: Build UI
