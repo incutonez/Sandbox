@@ -1,3 +1,9 @@
+## [3.0.1](https://github.com/incutonez/Sandbox/compare/@incutonez/ui@3.0.0...@incutonez/ui@3.0.1) (2025-03-02)
+
+### Bug Fixes
+
+* Addressing issue with semantic multi-release ([#95](https://github.com/incutonez/Sandbox/issues/95)) ([b49dfd3](https://github.com/incutonez/Sandbox/commit/b49dfd31bb2e8c7eecf0babe1e4fb735f39c8791))
+
 ## [3.0.0](https://github.com/incutonez/Sandbox/compare/@incutonez/ui@2.11.0...@incutonez/ui@3.0.0) (2025-02-28)
 
 ### ⚠ BREAKING CHANGES
