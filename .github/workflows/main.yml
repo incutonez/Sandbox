@@ -34,7 +34,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}/api
           npx semantic-release --deps.bump=inherit
-          cd ${{ github.workspace }}/asssessments
+          cd ${{ github.workspace }}/assessments
           npx semantic-release --deps.bump=inherit
           cd ${{ github.workspace }}/resume
           npx semantic-release --deps.bump=inherit
