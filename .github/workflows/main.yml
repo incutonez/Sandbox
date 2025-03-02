@@ -32,6 +32,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE }}
         run: |
+          cd ${{ github.workspace }}/api
+          npx semantic-release --deps.bump=inherit
+          cd ${{ github.workspace }}/asssessments
+          npx semantic-release --deps.bump=inherit
+          cd ${{ github.workspace }}/resume
+          npx semantic-release --deps.bump=inherit
+          cd ${{ github.workspace }}/spec
+          npx semantic-release --deps.bump=inherit
           cd ${{ github.workspace }}/ui
           npx semantic-release --deps.bump=inherit
       - name: Build Spec

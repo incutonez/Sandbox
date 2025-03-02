@@ -28,5 +28,34 @@
     "vite": "^6.2.0",
     "vite-svg-loader": "^5.1.0",
     "vue-tsc": "^2.2.4"
+  },
+  "release": {
+    "tagFormat": "@incutonez/resume@${version}",
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      [
+        "@semantic-release/release-notes-generator",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/changelog",
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
+      "@semantic-release/git",
+      "@semantic-release/github"
+    ]
   }
 }
