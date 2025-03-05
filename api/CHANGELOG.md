@@ -1,3 +1,9 @@
+## [3.1.0](https://github.com/incutonez/Sandbox/compare/@incutonez/api@3.0.0...@incutonez/api@3.1.0) (2025-03-05)
+
+### Features
+
+* Combined PR ([#104](https://github.com/incutonez/Sandbox/issues/104)) ([40a3025](https://github.com/incutonez/Sandbox/commit/40a3025465381a62cea047de4cead579ee4e53ce))
+
 ## [3.0.0](https://github.com/incutonez/Sandbox/compare/@incutonez/api@2.4.0...@incutonez/api@3.0.0) (2025-03-02)
 
 ### ⚠ BREAKING CHANGES
