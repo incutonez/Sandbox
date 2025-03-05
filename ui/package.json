@@ -17,7 +17,7 @@
     "@tiptap/pm": "2.11.5",
     "@tiptap/starter-kit": "2.11.5",
     "@tiptap/vue-3": "2.11.5",
-    "@vue/language-core": "^2.2.4",
+    "@vue/language-core": "^2.2.8",
     "@vueuse/core": "^12.7.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
