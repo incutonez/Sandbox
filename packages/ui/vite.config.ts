@@ -9,9 +9,6 @@ export default defineConfig(({ mode }) => {
 	return {
 		plugins: [vue(), svgLoader(), tailwindcss()],
 		base: mode === "GitHubPages" ? "/Sandbox/" : "",
-		build: {
-			outDir: "../dist",
-		},
 		resolve: {
 			alias: [{
 				find: "@",
