@@ -16,7 +16,7 @@
     "generate:spec": "cd packages/spec && npm run generate",
     "build:ui": "cd packages/ui && npm run build",
     "build:resume": "cd packages/resume && npm run build",
-    "update:deps": "node ./updateDependencies.js && npm run explode",
+    "update:deps": "node ./updateDependencies.js",
     "update:versions": "node ./updateVersions.js",
     "validate:api": "cd packages/api && npx tsc --noEmit",
     "validate:assessments": "cd packages/assessments && npx vue-tsc --noEmit",
