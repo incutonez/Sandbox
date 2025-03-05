@@ -37,4 +37,4 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           branch: ${{ github.event.inputs.branchName }}
-          title: 'feat: Update Dependencies'
+          title: 'ADD TITLE HERE TO TRIGGER BRANCH WORKFLOWS'
