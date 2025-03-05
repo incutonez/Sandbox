@@ -1,0 +1,35 @@
+name: 'Combine PRs'
+on:
+  workflow_dispatch:
+    inputs:
+      branchName:
+        description: 'Branch name'
+        required: true
+        default: 'update-dependencies'
+jobs:
+  combine-prs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+      packages: write
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+      - name: Create npmrc
+        run: echo '//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN  }}' >> ${{ github.workspace }}/.npmrc
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Update Deps
+        run: npm run updateDeps
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: ${{ github.event.inputs.branchName }}
+          title: 'feat: Update Dependencies'
