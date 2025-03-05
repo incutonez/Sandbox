@@ -25,7 +25,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set Token
+        run: npm set "//npm.pkg.github.com/:_authToken=BLAH"
       - name: Install dependencies
         run: npm clean-install
       - name: Update Deps
