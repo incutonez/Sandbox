@@ -1,3 +1,13 @@
+## [3.2.0](https://github.com/incutonez/Sandbox/compare/@incutonez/ui@3.1.0...@incutonez/ui@3.2.0) (2025-03-05)
+
+### Features
+
+* Moving to packages dir ([#109](https://github.com/incutonez/Sandbox/issues/109)) ([41618dd](https://github.com/incutonez/Sandbox/commit/41618dd86db76fbef413bf96a317798a0a39996e))
+
+### Bug Fixes
+
+* Fixing release directory changes ([#111](https://github.com/incutonez/Sandbox/issues/111)) ([6cbb408](https://github.com/incutonez/Sandbox/commit/6cbb408a3a5e174940e54c2cfee1a644253e4845))
+
 ## [3.1.0](https://github.com/incutonez/Sandbox/compare/@incutonez/ui@3.0.1...@incutonez/ui@3.1.0) (2025-03-05)
 
 ### Features
