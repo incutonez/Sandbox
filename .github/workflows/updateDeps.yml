@@ -18,10 +18,14 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Install dependencies
         run: npm clean-install
       - name: Update Deps
