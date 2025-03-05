@@ -27,11 +27,8 @@ jobs:
           node-version: "lts/*"
       - name: Set Token
         run: npm set "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}"
-      - name: Update Workspace Packages
-        if: ${{ hashFiles('updateDependencies.js') != '' }}
+      - name: Update Workspace and Package Dependencies
         run: npm run update:deps
-      - name: Update Workspace Deps
-        run: npx npm-check-updates -u
       - name: Install dependencies
         run: npm run explode
       - name: Create Pull Request
