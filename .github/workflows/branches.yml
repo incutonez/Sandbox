@@ -36,20 +36,11 @@ jobs:
       - name: Set Token
         run: npm set "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}"
       - run: npm ci
-      - name: UI TypeScript Error Free
-        run: |
-          npm run build:spec
-          cd ui
-          npx vue-tsc --noEmit
-      - name: Assessments TypeScript Error Free
-        run: |
-          cd assessments
-          npx vue-tsc --noEmit
-      - name: Resume TypeScript Error Free
-        run: |
-          cd resume
-          npx vue-tsc --noEmit
       - name: API TypeScript Error Free
-        run: |
-          cd api
-          npx tsc --noEmit
+        run: npm run validate:api
+      - name: UI TypeScript Error Free
+        run: npm run validate:ui
+      - name: Assessments TypeScript Error Free
+        run: npm run validate:assessments
+      - name: Resume TypeScript Error Free
+        run: npm run validate:resume

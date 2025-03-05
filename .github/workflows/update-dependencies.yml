@@ -27,12 +27,13 @@ jobs:
           node-version: "lts/*"
       - name: Set Token
         run: npm set "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}"
-      - name: Update Deps
+      - name: Update Workspace Packages
+        if: ${{ hashFiles('updateDependencies.js') != '' }}
         run: npm run updateDeps
       - name: Update Workspace Deps
         run: npx npm-check-updates -u
       - name: Install dependencies
-        run: npm i
+        run: npm run explode
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
