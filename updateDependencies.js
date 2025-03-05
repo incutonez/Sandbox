@@ -1,16 +1,13 @@
 ﻿import { execSync } from "child_process";
+import { readdirSync } from "fs";
 
-const apps = [
-	"ui",
-	"api",
-	"assessments",
-	"spec",
-	"resume",
-];
-apps.forEach((app) => {
-	console.info(`Updating: ${app}`);
-	const out = execSync("npx npm-check-updates -u", {
-		cwd: app,
+const stdio = [0, 1, 2];
+readdirSync("packages/").forEach((packageName) => {
+	console.info(`Updating: ${packageName}`);
+	execSync("npx npm-check-updates -u", {
+		stdio,
+		cwd: `packages/${packageName}`,
 	});
-	console.info(out.toString());
+}, {
+	stdio,
 });

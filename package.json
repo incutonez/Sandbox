@@ -4,21 +4,23 @@
   "type": "module",
   "private": false,
   "scripts": {
-    "ui": "cd ui && npm run dev",
-    "api": "cd api && npm run start:dev",
+    "ui": "cd packages/ui && npm run dev",
+    "api": "cd packages/api && npm run start:dev",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "resume": "cd resume && npm run dev",
-    "assessments": "cd assessments && npm run dev",
+    "resume": "cd packages/resume && npm run dev",
+    "assessments": "cd packages/assessments && npm run dev",
     "updateDeps": "node ./updateDependencies.js && npm run explode",
     "lint": "npx eslint . --ext .js --fix",
     "lint:fix": "prettier --write && npx eslint --fix",
     "explode": "npm cache clean --force && npx rimraf package-lock.json **/node_modules --glob && npm i",
-    "build:spec": "cd spec && rimraf dist && npm run build",
-    "generate:spec": "cd spec && npm run generate",
-    "build:ui": "cd ui && npm run build",
-    "build:resume": "cd resume && npm run build",
-    "validate:api": "cd api && npx tsc-files --noEmit",
-    "validate:ui": "cd ui && npx vue-tsc-files --noEmit"
+    "build:spec": "cd packages/spec && rimraf dist && npm run build",
+    "generate:spec": "cd packages/spec && npm run generate",
+    "build:ui": "cd packages/ui && npm run build",
+    "build:resume": "cd packages/resume && npm run build",
+    "validate:api": "cd packages/api && npx tsc --noEmit",
+    "validate:assessments": "cd packages/assessments && npx vue-tsc --noEmit",
+    "validate:resume": "cd packages/resume && npx vue-tsc --noEmit",
+    "validate:ui": "npm run build:spec && cd packages/ui && npx vue-tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -44,11 +46,7 @@
     "vue-tsc-files": "^0.0.6"
   },
   "workspaces": [
-    "ui",
-    "api",
-    "assessments",
-    "spec",
-    "resume"
+    "packages/*"
   ],
   "engines": {
     "node": ">=20",
