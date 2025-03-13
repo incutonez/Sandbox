@@ -1,3 +1,9 @@
+## [1.2.1](https://github.com/incutonez/Sandbox/compare/@incutonez/resume@1.2.0...@incutonez/resume@1.2.1) (2025-03-13)
+
+### Bug Fixes
+
+* Fixing deployment of resume dir ([#114](https://github.com/incutonez/Sandbox/issues/114)) ([4f810c9](https://github.com/incutonez/Sandbox/commit/4f810c98f586d08c60a0a97950b44df4ca753e4f))
+
 ## [1.2.0](https://github.com/incutonez/Sandbox/compare/@incutonez/resume@1.1.0...@incutonez/resume@1.2.0) (2025-03-05)
 
 ### Features
