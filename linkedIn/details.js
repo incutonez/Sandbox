@@ -1,11 +1,16 @@
-browser.contextMenus.create({
-  id: "details-copy",
-  title: "Copy Job Details",
-  onclick() {
-    browser.tabs.executeScript({
-      // This must be a separate file, so we can access the HTML on the current page... background page's can't access the HTML
-      // https://stackoverflow.com/a/20419249/1253609
-      file: 'details2.js'
-    });
-  }
+/**
+ * Had to change a lot of this for manifest v3
+ * Source: https://stackoverflow.com/a/76567695/1253609
+ */
+chrome.runtime.onInstalled.addListener(() => {
+	browser.contextMenus.create({
+	  id: "details-copy",
+	  title: "Copy Job Details",
+	});
+	chrome.contextMenus.onClicked.addListener((data, tab) => {
+		chrome.scripting.executeScript({
+		  target: { tabId: tab.id, allFrames: true },
+		  files: ['details2.js']
+		});
+	});
 });
