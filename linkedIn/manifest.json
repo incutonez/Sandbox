@@ -21,12 +21,14 @@
   "content_scripts": [
     {
       "matches": ["*://*.linkedin.com/jobs/*"],
-	  "run_at": "document_idle",
       "js": ["main.js"]
     },
     {
+      "matches": ["*://*.indeed.com/jobs*"],
+      "js": ["main.indeed.js"]
+    },
+    {
       "matches": ["*://*.vuejobs.com/jobs"],
-	  "run_at": "document_idle",
       "js": ["main.vuejobs.js"]
     }
   ],
@@ -35,8 +37,8 @@
 		"16": "images/icon-32.png"
 	  }
 	},
-  "host_permissions": [
-	"*://*.linkedin.com/jobs/*",
-	"*://*.vuejobs.com/jobs"
-  ]
+	"web_accessible_resources": [{
+		"matches": ["<all_urls>"],
+		"resources": ["companies.js"]
+	}]
 }

@@ -7,10 +7,11 @@ chrome.runtime.onInstalled.addListener(() => {
 	  id: "details-copy",
 	  title: "Copy Job Details",
 	});
-	chrome.contextMenus.onClicked.addListener((data, tab) => {
-		chrome.scripting.executeScript({
-		  target: { tabId: tab.id, allFrames: true },
-		  files: ['details2.js']
-		});
+});
+
+chrome.contextMenus.onClicked.addListener((data, tab) => {
+	chrome.scripting.executeScript({
+	  target: { tabId: tab.id, allFrames: true },
+	  files: ['details2.js']
 	});
 });
