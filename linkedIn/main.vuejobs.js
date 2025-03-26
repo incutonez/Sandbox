@@ -1,5 +1,5 @@
 const ParentCard = ".transition-all";
-const LastCompany = "Ankorstore";
+const LastCompany = "Polly";
 let found = false;
 
 document.querySelectorAll('.flex.items-center.text-sm.font-medium.text-muted').forEach((el) => {

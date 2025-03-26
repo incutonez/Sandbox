@@ -36,7 +36,6 @@ export default [
 		rules: {
 			"vue/html-indent": ["error", "tab"],
 			"vue/attributes-order": "error",
-			"tailwindcss/classnames-order": "error",
 			"quote-props": ["error", "as-needed"],
 			"padding-line-between-statements": ["error", {
 				blankLine: "always",
