@@ -8,20 +8,20 @@ import SectionJobDescription from "@/components/SectionJobDescription.vue";
 
 const QADTasks = [
 	"Led biweekly web forum discussions on technical decisions, roadblocks, and features",
+	"Increased customer velocity by adding multi-upload area for managing entities",
+	"Increased developer velocity by creating common page layouts, inputs, and data tables",
 	"Maintained NestJS BFF endpoints, e2e tests, data mappers, and OpenAPI spec",
-	"Introduced components for common page layouts, inputs, and data tables",
 	"Architected provide/inject concept for local state in lieu of Pinia",
-	"Increased velocity for getting MVP production ready",
 ];
-const IntrinsiQTasks = ["Tailored core components from scratch and by wrapping Kendo UI components", "Implemented micro front-end architecture for shared modules", "Migrated core components to NPM package for reusability", "Completed patient search tool MVP in 3 months"];
+const IntrinsiQTasks = [
+	"Added virtual scrolling functionality in non-performant data tables",
+	"Tailored core components from scratch and by wrapping Kendo UI components",
+	"Implemented micro front-end architecture for shared modules",
+	"Migrated core components to NPM package for reusability",
+	"Completed patient search tool MVP in 3 months",
+];
 const PureTasks = ["Acted as primary lead on financial reporting team and co-led another team", "Documented engineering guidelines for more efficient on-boarding process", "Designed core components NPM package for offshore team", "Mentored junior developers"];
-const WideOrbitTasks = [
-	"Wrote technical design documents for Jira epics",
-	"Created wiki documents for best practices, pull request rules, and UI architecture",
-	"Reported over 200 issues on the Sencha Support portal",
-	"Patched over 100 framework bugs and quirks",
-	"Implemented complex nested routing across applications",
-];
+const WideOrbitTasks = ["Wrote technical design documents based on product one-pagers", "Created wiki documents for best practices, pull request rules, and UI architecture", "Reported over 200 issues on the Sencha Support portal", "Patched over 100 framework bugs and quirks"];
 </script>
 
 <template>
@@ -84,7 +84,7 @@ const WideOrbitTasks = [
 							Summary
 						</h1>
 						<p class="text-sm">
-							Meticulous Senior Software Engineer with a big personality looking for an even bigger project to wrangle.  Loves long walks on the beach with Vue but has a curiosity for using React in a production setting.  Mentors engineers of all ages, ranks, and walks of life.  Jira champion, enthusiastic debugger, defensive programmer, effective communicator, and a loud advocator for best practices.
+							Meticulous Senior Software Engineer with a big personality looking for an even bigger project to wrangle.  Loves long walks on the beach with Vue but loves learning and trying out new frameworks.  Mentors engineers of all ages, ranks, and walks of life.  Jira champion, enthusiastic debugger, defensive programmer, effective communicator, and a loud advocator for best practices.
 						</p>
 					</article>
 
