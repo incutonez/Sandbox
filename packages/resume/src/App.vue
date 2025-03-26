@@ -84,7 +84,7 @@ const WideOrbitTasks = ["Wrote technical design documents based on product one-p
 							Summary
 						</h1>
 						<p class="text-sm">
-							Meticulous Senior Software Engineer with a big personality looking for an even bigger project to wrangle.  Loves long walks on the beach with Vue but loves learning and trying out new frameworks.  Mentors engineers of all ages, ranks, and walks of life.  Jira champion, enthusiastic debugger, defensive programmer, effective communicator, and a loud advocator for best practices.
+							Meticulous Senior Software Engineer with a big personality looking for an even bigger project to wrangle.  Loves long walks on the beach with Vue but loves learning and trying out new frameworks.  Mentors engineers of all ages, ranks, and walks of life.  Jira champion, world-class organizer, enthusiastic debugger, defensive programmer, effective communicator, and a loud advocator for best practices.
 						</p>
 					</article>
 
@@ -201,10 +201,11 @@ const WideOrbitTasks = ["Wrote technical design documents based on product one-p
 								<li>Node.js</li>
 								<li>NestJS</li>
 								<li>C#</li>
-								<li>CRUD</li>
 								<li>TypeORM</li>
 								<li>GraphQL</li>
 								<li>SQL</li>
+								<li>REST</li>
+								<li>CRUD</li>
 							</ul>
 						</section>
 						<section>
@@ -213,10 +214,10 @@ const WideOrbitTasks = ["Wrote technical design documents based on product one-p
 							</h2>
 							<ul class="flex flex-wrap gap-x-2 gap-y-1">
 								<li>Data Modeling</li>
+								<li>Rapid Prototyping</li>
 								<li>OOP</li>
-								<li>OpenAPI</li>
-								<li>REST</li>
 								<li>Web Sockets</li>
+								<li>OpenAPI</li>
 								<li>AWS</li>
 							</ul>
 						</section>
