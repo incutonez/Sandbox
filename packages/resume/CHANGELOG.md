@@ -1,3 +1,9 @@
+## [1.2.3](https://github.com/incutonez/Sandbox/compare/@incutonez/resume@1.2.2...@incutonez/resume@1.2.3) (2025-03-26)
+
+### Bug Fixes
+
+* Updating resume ([#118](https://github.com/incutonez/Sandbox/issues/118)) ([2736aa8](https://github.com/incutonez/Sandbox/commit/2736aa8314cca8268550dd6b0441d5c28878b742))
+
 ## [1.2.2](https://github.com/incutonez/Sandbox/compare/@incutonez/resume@1.2.1...@incutonez/resume@1.2.2) (2025-03-26)
 
 ### Bug Fixes
