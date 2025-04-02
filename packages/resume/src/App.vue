@@ -1,33 +1,108 @@
 <script setup lang="ts">
+import { ref, watch } from "vue";
 import IconEmail from "@/assets/IconEmail.vue";
 import IconGitHub from "@/assets/IconGitHub.vue";
 import IconLinkedIn from "@/assets/IconLinkedIn.vue";
 import IconPhone from "@/assets/IconPhone.vue";
 import IconPin from "@/assets/IconPin.vue";
+import CoverLetter from "@/components/CoverLetter.vue";
 import SectionJobDescription from "@/components/SectionJobDescription.vue";
 
+const PersonalTasks = [
+	"Created sample e-commerce app using React 19, NestJS API, and SQLite DB",
+	"Deployed Core UI package to GitHub for consumption in personal Vue projects",
+	"Designed micro architecture scaffolding script to increase initial app productivity",
+	"Experimented with OOP based UI View Models that encapsulate API calls",
+	"Prototyped Legend of Zelda clone using Phaser 3 and TypeScript",
+];
 const QADTasks = [
-	"Led biweekly web forum discussions on technical decisions, roadblocks, and features",
 	"Increased customer velocity by adding multi-upload area for managing entities",
 	"Increased developer velocity by creating common page layouts, inputs, and data tables",
+	"Designed provide/inject concept for local state in lieu of Pinia",
+	"Led biweekly web forum discussions on technical decisions, roadblocks, and features",
 	"Maintained NestJS BFF endpoints, e2e tests, data mappers, and OpenAPI spec",
-	"Architected provide/inject concept for local state in lieu of Pinia",
 ];
 const IntrinsiQTasks = [
 	"Added virtual scrolling functionality in non-performant data tables",
 	"Tailored core components from scratch and by wrapping Kendo UI components",
-	"Implemented micro front-end architecture for shared modules",
+	"Designed micro front-end architecture for shared modules",
 	"Migrated core components to NPM package for reusability",
-	"Completed patient search tool MVP in 3 months",
+	"Completed patient search tool MVP in 3 months, well ahead of schedule",
 ];
-const PureTasks = ["Acted as primary lead on financial reporting team and co-led another team", "Documented engineering guidelines for more efficient on-boarding process", "Designed core components NPM package for offshore team", "Mentored junior developers"];
-const WideOrbitTasks = ["Wrote technical design documents based on product one-pagers", "Created wiki documents for best practices, pull request rules, and UI architecture", "Reported over 200 issues on the Sencha Support portal", "Patched over 100 framework bugs and quirks"];
+const PureTasks = [
+	"Acted as primary lead on financial reporting team and co-led another team",
+	"Documented engineering guidelines for more efficient on-boarding process",
+	"Designed core components NPM package for offshore team",
+	"Collaborated with and provided feedback to product team on mockups for upcoming features",
+	"Mentored junior and offshore developers through code reviews and ad hoc meetings",
+];
+const WideOrbitTasks = [
+	"Wrote technical design documents based on product one-pagers",
+	"Created wiki documents for best practices, pull request rules, and UI architecture",
+	"Designed and shared core components built in Ext JS across multiple teams",
+	"Reported over 200 issues on the Sencha Support portal",
+	"Patched over 100 framework bugs and quirks",
+];
+const VitalWareTasks = ["Organized and led UI/UX architecture team", "Prototyped new product based on urgent requirements from CEO and clients", "Designed mock-ups for product managers", "Interviewed candidates for developer positions"];
+const WideOrbit2Tasks = ["Optimized Ext JS Grid component for thousands of rows and hundreds of columns", "Held UI/UX meetings with designers, product managers, and other developers", "Led UI development on sell-side platform"];
+const TimeWarnerTasks = ["Unified device owners from shared Excel spreadsheet to online web app", "Maintained and developed Ruby API for listing company property", "Migrated from Ruby on Rails UI to Ext JS 4 for improved performance and richer features"];
+const DoDTasks = ["Rotated offices every 6-8 months, contributing to several different missions within DoD", "Passed 4 post-graduate level courses at UMBC per development program requirement"];
+const showCoverLetter = ref(false);
+
+function onClickResume() {
+	showCoverLetter.value = false;
+}
+
+function onClickCoverLetter() {
+	showCoverLetter.value = true;
+}
+
+watch(showCoverLetter, ($showCoverLetter) => document.title = $showCoverLetter ? "Jef Harkay Cover Letter" : "Jef Harkay Resume");
 </script>
 
 <template>
-	<main class="mx-auto flex bg-white md:w-(--letter-w)">
-		<section class="flex flex-1 flex-col">
-			<article class="flex justify-between bg-blue-resume p-4 text-white">
+	<main class="mx-auto flex bg-white md:w-(--letter-w) relative">
+		<article class="flex flex-1 flex-col relative">
+			<article class="flex justify-between bg-blue-resume p-4 text-white sticky top-0">
+				<nav class="print:hidden bg-blue-resume absolute p-4 end-full top-full">
+					<ul class="w-max">
+						<li>
+							<a
+								class="hover:text-cyan-400"
+								href="#summary"
+								@click="onClickResume"
+							>Summary</a>
+						</li>
+						<li>
+							<a
+								class="hover:text-cyan-400"
+								href="#skills"
+								@click="onClickResume"
+							>Skills</a>
+						</li>
+						<li>
+							<a
+								class="hover:text-cyan-400"
+								href="#experience"
+								@click="onClickResume"
+							>Experience</a>
+						</li>
+						<li>
+							<a
+								class="hover:text-cyan-400"
+								href="#education"
+								@click="onClickResume"
+							>Education</a>
+						</li>
+						<li>
+							<a
+								class="hover:text-cyan-400"
+								href="#cover-letter"
+								@click="onClickCoverLetter"
+							>Cover Letter</a>
+						</li>
+					</ul>
+				</nav>
 				<section class="flex flex-col">
 					<h1 class="text-3xl font-semibold">
 						Jef Harkay
@@ -77,188 +152,229 @@ const WideOrbitTasks = ["Wrote technical design documents based on product one-p
 					</li>
 				</ul>
 			</article>
-			<article class="flex space-x-8 bg-white px-4 pt-2">
-				<section class="flex-1 space-y-4">
-					<article>
-						<h1 class="section-title">
-							Summary
-						</h1>
-						<p class="text-sm">
-							Meticulous Senior Software Engineer with a big personality looking for an even bigger project to wrangle.  Loves long walks on the beach with Vue but loves learning and trying out new frameworks.  Mentors engineers of all ages, ranks, and walks of life.  Jira champion, world-class organizer, enthusiastic debugger, defensive programmer, effective communicator, and a loud advocator for best practices.
-						</p>
-					</article>
-
-					<article class="flex flex-col">
-						<h1 class="section-title">
-							Experience
-						</h1>
-						<section class="flex flex-col space-y-3">
-							<SectionJobDescription
-								date-start="Mar 2023"
-								project="Vue 3, TypeScript 5.x, Tailwind, Pinia, NestJS, OpenAPI"
-								company="QAD Redzone"
-								location="Remote"
-								industry="Manufacturing Tech"
-								position="Senior Web Engineer"
-								date-end="Feb 2024"
-								:tasks="QADTasks"
-							/>
-							<SectionJobDescription
-								date-start="May 2022"
-								project="Vue 3, TypeScript, Tailwind, C#"
-								company="IntrinsiQ"
-								location="Remote"
-								industry="Health Tech"
-								position="Software Developer (contractor)"
-								date-end="Dec 2022"
-								:tasks="IntrinsiQTasks"
-							/>
-							<SectionJobDescription
-								date-start="Aug 2021"
-								project="Vue 3, TypeScript, GraphQL, Node.js"
-								company="PURE Property Management"
-								location="Remote"
-								industry="Property Tech"
-								position="SSE/Tech Lead"
-								date-end="Apr 2022"
-								:tasks="PureTasks"
-							/>
-							<SectionJobDescription
-								date-start="Apr 2018"
-								project="Ext JS, C#"
-								company="WideOrbit"
-								location="Remote"
-								industry="Advertising Tech"
-								position="Senior Software Engineer"
-								date-end="Apr 2021"
-								:tasks="WideOrbitTasks"
-							/>
-							<SectionJobDescription
-								date-start="May 2017"
-								project="Ext JS, GraphQL, ColdFusion"
-								company="VitalWare"
-								location="Remote"
-								industry="Health Tech"
-								position="Web Developer"
-								date-end="Mar 2018"
-							/>
-							<SectionJobDescription
-								date-start="Apr 2015"
-								project="Ext JS, C#"
-								company="WideOrbit"
-								location="Lynnwood, WA"
-								industry="Advertising Tech"
-								position="UI Developer (contractor)"
-								date-end="Feb 2017"
-							/>
-							<SectionJobDescription
-								date-start="Aug 2013"
-								project="Ext JS, Node.js, Ruby"
-								company="Time Warner Cable"
-								location="Broomfield, CO"
-								industry="Communications Tech"
-								position="UI Developer (contractor)"
-								date-end="Mar 2015"
-							/>
-							<SectionJobDescription
-								date-start="Jun 2010"
-								project="Ext JS, jQuery, Perl, AngularJS"
-								company="Dept. of Defense"
-								location="Fort Meade, MD"
-								industry="Classified Tech"
-								position="Cryptologic Computer Scientist"
-								date-end="Jul 2013"
-								multiple-projects
-							/>
-						</section>
-					</article>
-				</section>
-				<section class="relative flex max-w-56 flex-col space-y-4">
-					<article class="space-y-4">
-						<section>
-							<h2 class="section-title">
-								Front-End Skills
+			<article class="bg-white space-y-2 px-4 py-2 overflow-hidden">
+				<Transition
+					enter-active-class="transition ease-in duration-1000"
+					leave-active-class="transition ease-in duration-1000"
+					enter-from-class="translate-x-full absolute top-0 opacity-0"
+					enter-to-class="translate-x-0"
+					leave-to-class="-translate-x-full absolute"
+					leave-from-class="translate-x-0"
+				>
+					<CoverLetter
+						v-if="showCoverLetter"
+						id="cover-letter"
+					/>
+					<section
+						v-else
+						class="space-y-2"
+					>
+						<article
+							id="summary"
+							class="scroll-mt-30"
+						>
+							<h2 class="section-title !mb-1 w-full">
+								Summary
 							</h2>
-							<ul class="flex flex-wrap gap-x-2 gap-y-1">
-								<li>Vue</li>
-								<li>React</li>
-								<li>TypeScript</li>
-								<li>Ext JS</li>
-								<li>JSON</li>
-								<li>ECMAScript 6+</li>
-								<li>SCSS</li>
-								<li>Tailwind</li>
-								<li>PrimeVue</li>
-								<li>Phaser</li>
-								<li>HTML</li>
-							</ul>
-						</section>
-						<section>
-							<h2 class="section-title">
-								Back-End Skills
-							</h2>
-							<ul class="flex flex-wrap gap-x-2 gap-y-1">
-								<li>Node.js</li>
-								<li>NestJS</li>
-								<li>C#</li>
-								<li>TypeORM</li>
-								<li>GraphQL</li>
-								<li>SQL</li>
-								<li>REST</li>
-								<li>CRUD</li>
-							</ul>
-						</section>
-						<section>
-							<h2 class="section-title">
-								Misc Skills
-							</h2>
-							<ul class="flex flex-wrap gap-x-2 gap-y-1">
-								<li>Data Modeling</li>
-								<li>Rapid Prototyping</li>
-								<li>OOP</li>
-								<li>Web Sockets</li>
-								<li>OpenAPI</li>
-								<li>AWS</li>
-							</ul>
-						</section>
-					</article>
-					<article>
-						<h1 class="section-title">
-							Education
-						</h1>
-						<section>
-							<div class="font-semibold">
-								Bachelor of Computer Science
-							</div>
-							<div>
-								Penn State
-							</div>
-							<div>
-								Aug 2006 - May 2010
-							</div>
-						</section>
-						<section class="mt-4">
-							<div class="font-semibold">
-								4 Postgraduate Classes
-							</div>
-							<div>
-								UMBC
-							</div>
-							<div>
-								Aug 2010 - May 2012
-							</div>
-						</section>
-					</article>
-					<section class="absolute bottom-2 w-full text-center">
-						<a
-							target="_blank"
-							class="underline"
-							title="https://incutonez.github.io/Sandbox/resume/"
-							href="https://incutonez.github.io/Sandbox/resume/"
-						>Created with ❤️ and Vue</a>
+							<p>
+								Meticulous Senior Software Engineer with a big personality looking for an even bigger project to wrangle.  Loves long walks on the beach with Vue but loves learning and trying out new frameworks.  Mentors engineers of all ages, ranks, and walks of life.  Jira champion, world-class organizer, enthusiastic debugger, defensive programmer, effective communicator, and a loud advocator for best practices.
+							</p>
+						</article>
+						<article
+							id="skills"
+							class="gap-4 flex scroll-mt-30"
+						>
+							<section class="flex-3">
+								<h2 class="skill-title">
+									Front-End Skills
+								</h2>
+								<ul class="skill-list">
+									<li>Vue</li>
+									<li>React</li>
+									<li>TypeScript</li>
+									<li>Ext JS</li>
+									<li>JSON</li>
+									<li>Phaser</li>
+									<li>ECMAScript 6+</li>
+									<li>SCSS</li>
+									<li>Tailwind</li>
+									<li>PrimeVue</li>
+									<li>HTML</li>
+								</ul>
+							</section>
+							<section class="flex-2">
+								<h2 class="skill-title">
+									Back-End Skills
+								</h2>
+								<ul class="skill-list">
+									<li>Node.js</li>
+									<li>NestJS</li>
+									<li>C#</li>
+									<li>TypeORM</li>
+									<li>GraphQL</li>
+									<li>SQL</li>
+									<li>REST</li>
+									<li>CRUD</li>
+								</ul>
+							</section>
+							<section class="flex-2">
+								<h2 class="skill-title">
+									Misc Skills
+								</h2>
+								<ul class="skill-list">
+									<li>Data Modeling</li>
+									<li>AWS</li>
+									<li>Rapid Prototyping</li>
+									<li>OOP</li>
+									<li>Web Sockets</li>
+									<li>OpenAPI</li>
+								</ul>
+							</section>
+						</article>
+						<article
+							id="experience"
+							class="flex flex-col scroll-mt-30"
+						>
+							<h1 class="section-title">
+								Experience
+							</h1>
+							<section class="flex flex-col space-y-3">
+								<SectionJobDescription
+									date-start="Mar 2024"
+									project="Vue 3, React 19, TypeScript, TailwindCSS 4, NestJS, OpenAPI"
+									company="Personal Growth"
+									location="Remote"
+									industry="Personal Tech"
+									position="Senior Web Engineer"
+									date-end="Present"
+									:tasks="PersonalTasks"
+								/>
+								<SectionJobDescription
+									date-start="Mar 2023"
+									project="Vue 3, TypeScript, Tailwind, Pinia, NestJS, OpenAPI"
+									company="QAD Redzone"
+									location="Remote"
+									industry="Manufacturing Tech"
+									position="Senior Web Engineer"
+									date-end="Feb 2024"
+									:tasks="QADTasks"
+								/>
+								<SectionJobDescription
+									date-start="May 2022"
+									project="Vue 3, TypeScript, Tailwind, C#"
+									company="IntrinsiQ"
+									location="Remote"
+									industry="Health Tech"
+									position="Software Developer (contractor)"
+									date-end="Dec 2022"
+									class="print:break-after-page"
+									:tasks="IntrinsiQTasks"
+								/>
+								<SectionJobDescription
+									date-start="Aug 2021"
+									project="Vue 3, TypeScript, GraphQL, Node.js"
+									company="PURE Property Management"
+									location="Remote"
+									industry="Property Tech"
+									position="SSE/Tech Lead"
+									date-end="Apr 2022"
+									class="print:pt-4"
+									:tasks="PureTasks"
+								/>
+								<SectionJobDescription
+									date-start="Apr 2018"
+									project="Ext JS, C#"
+									company="WideOrbit"
+									location="Remote"
+									industry="Advertising Tech"
+									position="Senior Software Engineer"
+									date-end="Apr 2021"
+									:tasks="WideOrbitTasks"
+								/>
+								<SectionJobDescription
+									date-start="May 2017"
+									project="Ext JS, GraphQL, ColdFusion"
+									company="VitalWare"
+									location="Remote"
+									industry="Health Tech"
+									position="Web Developer"
+									date-end="Mar 2018"
+									:tasks="VitalWareTasks"
+								/>
+								<SectionJobDescription
+									date-start="Apr 2015"
+									project="Ext JS, C#"
+									company="WideOrbit"
+									location="Lynnwood, WA"
+									industry="Advertising Tech"
+									position="UI Developer (contractor)"
+									date-end="Feb 2017"
+									:tasks="WideOrbit2Tasks"
+								/>
+								<SectionJobDescription
+									date-start="Aug 2013"
+									project="Ext JS, Node.js, Ruby, Web Sockets"
+									company="Time Warner Cable"
+									location="Broomfield, CO"
+									industry="Communications Tech"
+									position="UI Developer (contractor)"
+									date-end="Mar 2015"
+									:tasks="TimeWarnerTasks"
+								/>
+								<SectionJobDescription
+									date-start="Jun 2010"
+									project="Ext JS, jQuery, Perl, AngularJS"
+									company="Dept. of Defense"
+									location="Fort Meade, MD"
+									industry="Classified Tech"
+									position="Cryptologic Computer Scientist"
+									date-end="Jul 2013"
+									multiple-projects
+									:tasks="DoDTasks"
+								/>
+							</section>
+						</article>
+						<article
+							id="education"
+							class="scroll-mt-30"
+						>
+							<h1 class="section-title">
+								Education
+							</h1>
+							<section class="flex gap-x-8">
+								<section>
+									<div class="font-semibold">
+										Bachelor of Computer Science
+									</div>
+									<div>
+										Pennsylvania State University
+									</div>
+									<div>
+										Aug 2006 - May 2010
+									</div>
+								</section>
+								<section>
+									<div class="font-semibold">
+										4 Postgraduate Classes
+									</div>
+									<div>
+										University of Maryland, Baltimore County
+									</div>
+									<div>
+										Aug 2010 - May 2012
+									</div>
+								</section>
+							</section>
+						</article>
 					</section>
-				</section>
+				</Transition>
 			</article>
-		</section>
+			<a
+				target="_blank"
+				class="hidden print:inline underline mx-auto mt-6 w-max"
+				title="https://incutonez.github.io/Sandbox/resume/"
+				href="https://incutonez.github.io/Sandbox/resume/"
+			>Created with ❤️ and Vue</a>
+		</article>
 	</main>
 </template>

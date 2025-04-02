@@ -1,4 +1,4 @@
-@import url('https:fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -19,7 +19,20 @@
 }
 
 @layer components {
+    .skill-title,
     .section-title {
-        @apply text-lg font-semibold border-b-2 border-black;
+        @apply text-lg font-semibold border-b-2 border-black mb-2;
+    }
+    
+    .skill-title {
+        @apply w-max;
+    }
+    
+    .skill-list {
+        @apply flex flex-wrap gap-x-2 gap-y-1;
+        
+        li {
+            @apply border px-2 rounded-lg border-blue-resume bg-blue-resume text-white;
+        }
     }
 }
