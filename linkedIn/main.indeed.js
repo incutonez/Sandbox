@@ -13,6 +13,10 @@ async function main() {
 				el.closest(ParentCls).remove();
 			}
 		});
+		
+		document.querySelectorAll(".css-ggmybd").forEach((el) => {
+				el.closest(ParentCls).remove();
+		});
 
 		document.querySelectorAll(VisitedCls).forEach((el) => {
 			if (el.innerText.includes("Visited ")) {

@@ -1,3 +1,4 @@
+import tailwindcss from "@tailwindcss/vite";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 import { defineConfig } from "vite";
@@ -5,7 +6,7 @@ import { defineConfig } from "vite";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
 	return {
-		plugins: [vue()],
+		plugins: [vue(), tailwindcss()],
 		base: mode === "GitHubPages" ? "/Sandbox/resume" : "",
 		build: {
 			outDir: "../dist/resume",

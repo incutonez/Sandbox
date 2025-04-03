@@ -1,264 +1,90 @@
 <script setup lang="ts">
-import IconEmail from "@/assets/IconEmail.vue";
-import IconGitHub from "@/assets/IconGitHub.vue";
-import IconLinkedIn from "@/assets/IconLinkedIn.vue";
-import IconPhone from "@/assets/IconPhone.vue";
-import IconPin from "@/assets/IconPin.vue";
-import SectionJobDescription from "@/components/SectionJobDescription.vue";
+import { computed, onMounted, ref, TransitionProps, watch } from "vue";
+import { useRoute } from "vue-router";
+import PageHeader from "@/components/PageHeader.vue";
+import { CoverLetterRoute, duration } from "@/router";
 
-const QADTasks = [
-	"Led biweekly web forum discussions on technical decisions, roadblocks, and features",
-	"Increased customer velocity by adding multi-upload area for managing entities",
-	"Increased developer velocity by creating common page layouts, inputs, and data tables",
-	"Maintained NestJS BFF endpoints, e2e tests, data mappers, and OpenAPI spec",
-	"Architected provide/inject concept for local state in lieu of Pinia",
-];
-const IntrinsiQTasks = [
-	"Added virtual scrolling functionality in non-performant data tables",
-	"Tailored core components from scratch and by wrapping Kendo UI components",
-	"Implemented micro front-end architecture for shared modules",
-	"Migrated core components to NPM package for reusability",
-	"Completed patient search tool MVP in 3 months",
-];
-const PureTasks = ["Acted as primary lead on financial reporting team and co-led another team", "Documented engineering guidelines for more efficient on-boarding process", "Designed core components NPM package for offshore team", "Mentored junior developers"];
-const WideOrbitTasks = ["Wrote technical design documents based on product one-pagers", "Created wiki documents for best practices, pull request rules, and UI architecture", "Reported over 200 issues on the Sencha Support portal", "Patched over 100 framework bugs and quirks"];
+const route = useRoute();
+const showCoverLetter = ref(false);
+const resumeTransitionProps = ref<TransitionProps>();
+const coverLetterTransitionProps = ref<TransitionProps>();
+const mainCls = computed(() => showCoverLetter.value ? "min-h-(--letter-h)" : "min-h-(--letter-h-2)");
+
+function onBeforeEnter() {
+	// We want to hide the horizontal scroll that appears when transitioning between areas because it causes a jarring experience
+	document.body.style.overflowX = "hidden";
+}
+
+function onAfterEnter() {
+	document.body.style.overflowX = "auto";
+}
+
+watch(route, ({ name }) => showCoverLetter.value = name === CoverLetterRoute);
+watch(showCoverLetter, ($showCoverLetter) => document.title = $showCoverLetter ? "Jef Harkay Cover Letter" : "Jef Harkay Resume");
+
+onMounted(() => {
+	setTimeout(() => {
+		// We don't want the transition to happen on initial page render, which is why we set it in a timeout of onMounted
+		resumeTransitionProps.value = {
+			onBeforeEnter,
+			onAfterEnter,
+			enterActiveClass: `transition duration-${duration}`,
+			leaveActiveClass: `transition duration-${duration} absolute`,
+			enterFromClass: "-translate-x-full opacity-0",
+			leaveToClass: "-translate-x-full opacity-0",
+			enterToClass: "translate-x-0",
+			leaveFromClass: "translate-x-0",
+		};
+		coverLetterTransitionProps.value = {
+			onBeforeEnter,
+			onAfterEnter,
+			enterActiveClass: `transition duration-${duration}`,
+			leaveActiveClass: `transition duration-${duration} absolute`,
+			enterFromClass: "translate-x-full opacity-0",
+			leaveToClass: "translate-x-full opacity-0",
+			enterToClass: "translate-x-0",
+			leaveFromClass: "translate-x-0",
+		};
+	});
+});
 </script>
 
 <template>
-	<main class="mx-auto flex bg-white md:w-(--letter-w)">
-		<section class="flex flex-1 flex-col">
-			<article class="flex justify-between bg-blue-resume p-4 text-white">
-				<section class="flex flex-col">
-					<h1 class="text-3xl font-semibold">
-						Jef Harkay
-					</h1>
-					<h2 class="text-xl">
-						Senior Software Engineer
-					</h2>
-				</section>
-				<ul>
-					<li class="flex items-center space-x-2">
-						<IconEmail class="size-5" />
-						<a
-							href="mailto:jefharkay@gmail.com"
-							class="underline"
-							target="_blank"
-						>jefharkay@gmail.com</a>
-					</li>
-					<li class="flex items-center space-x-2">
-						<IconPhone class="size-5" />
-						<span>
-							720-252-1193
-						</span>
-					</li>
-					<li class="flex items-center space-x-2">
-						<IconPin class="size-5" />
-						<span>
-							Fairfax, VA
-						</span>
-					</li>
-				</ul>
-				<ul>
-					<li class="flex items-center space-x-2">
-						<IconLinkedIn class="size-5" />
-						<a
-							href="https://www.linkedin.com/in/jefharkay"
-							class="underline"
-							target="_blank"
-						>linkedin.com/in/jefharkay</a>
-					</li>
-					<li class="flex items-center space-x-2">
-						<IconGitHub class="size-5" />
-						<a
-							href="https://github.com/incutonez"
-							class="underline"
-							target="_blank"
-						>github.com/incutonez</a>
-					</li>
-				</ul>
+	<main
+		class="mx-auto flex bg-white md:w-(--letter-w) relative"
+		:class="mainCls"
+	>
+		<article class="flex flex-1 flex-col relative">
+			<PageHeader v-model="showCoverLetter" />
+			<article class="bg-white space-y-2 px-4 py-2 flex flex-1">
+				<RouterView
+					v-slot="slotProps"
+					name="JefHarkayResume"
+				>
+					<Transition v-bind="resumeTransitionProps">
+						<KeepAlive>
+							<Component
+								:is="slotProps.Component"
+								v-show="!showCoverLetter"
+							/>
+						</KeepAlive>
+					</Transition>
+				</RouterView>
+				<RouterView
+					v-slot="slotProps"
+					name="JefHarkayCoverLetter"
+				>
+					<Transition v-bind="coverLetterTransitionProps">
+						<KeepAlive>
+							<Component
+								:is="slotProps.Component"
+								v-show="showCoverLetter"
+								class="h-full"
+							/>
+						</KeepAlive>
+					</Transition>
+				</RouterView>
 			</article>
-			<article class="flex space-x-8 bg-white px-4 pt-2">
-				<section class="flex-1 space-y-4">
-					<article>
-						<h1 class="section-title">
-							Summary
-						</h1>
-						<p class="text-sm">
-							Meticulous Senior Software Engineer with a big personality looking for an even bigger project to wrangle.  Loves long walks on the beach with Vue but loves learning and trying out new frameworks.  Mentors engineers of all ages, ranks, and walks of life.  Jira champion, world-class organizer, enthusiastic debugger, defensive programmer, effective communicator, and a loud advocator for best practices.
-						</p>
-					</article>
-
-					<article class="flex flex-col">
-						<h1 class="section-title">
-							Experience
-						</h1>
-						<section class="flex flex-col space-y-3">
-							<SectionJobDescription
-								date-start="Mar 2023"
-								project="Vue 3, TypeScript 5.x, Tailwind, Pinia, NestJS, OpenAPI"
-								company="QAD Redzone"
-								location="Remote"
-								industry="Manufacturing Tech"
-								position="Senior Web Engineer"
-								date-end="Feb 2024"
-								:tasks="QADTasks"
-							/>
-							<SectionJobDescription
-								date-start="May 2022"
-								project="Vue 3, TypeScript, Tailwind, C#"
-								company="IntrinsiQ"
-								location="Remote"
-								industry="Health Tech"
-								position="Software Developer (contractor)"
-								date-end="Dec 2022"
-								:tasks="IntrinsiQTasks"
-							/>
-							<SectionJobDescription
-								date-start="Aug 2021"
-								project="Vue 3, TypeScript, GraphQL, Node.js"
-								company="PURE Property Management"
-								location="Remote"
-								industry="Property Tech"
-								position="SSE/Tech Lead"
-								date-end="Apr 2022"
-								:tasks="PureTasks"
-							/>
-							<SectionJobDescription
-								date-start="Apr 2018"
-								project="Ext JS, C#"
-								company="WideOrbit"
-								location="Remote"
-								industry="Advertising Tech"
-								position="Senior Software Engineer"
-								date-end="Apr 2021"
-								:tasks="WideOrbitTasks"
-							/>
-							<SectionJobDescription
-								date-start="May 2017"
-								project="Ext JS, GraphQL, ColdFusion"
-								company="VitalWare"
-								location="Remote"
-								industry="Health Tech"
-								position="Web Developer"
-								date-end="Mar 2018"
-							/>
-							<SectionJobDescription
-								date-start="Apr 2015"
-								project="Ext JS, C#"
-								company="WideOrbit"
-								location="Lynnwood, WA"
-								industry="Advertising Tech"
-								position="UI Developer (contractor)"
-								date-end="Feb 2017"
-							/>
-							<SectionJobDescription
-								date-start="Aug 2013"
-								project="Ext JS, Node.js, Ruby"
-								company="Time Warner Cable"
-								location="Broomfield, CO"
-								industry="Communications Tech"
-								position="UI Developer (contractor)"
-								date-end="Mar 2015"
-							/>
-							<SectionJobDescription
-								date-start="Jun 2010"
-								project="Ext JS, jQuery, Perl, AngularJS"
-								company="Dept. of Defense"
-								location="Fort Meade, MD"
-								industry="Classified Tech"
-								position="Cryptologic Computer Scientist"
-								date-end="Jul 2013"
-								multiple-projects
-							/>
-						</section>
-					</article>
-				</section>
-				<section class="relative flex max-w-56 flex-col space-y-4">
-					<article class="space-y-4">
-						<section>
-							<h2 class="section-title">
-								Front-End Skills
-							</h2>
-							<ul class="flex flex-wrap gap-x-2 gap-y-1">
-								<li>Vue</li>
-								<li>React</li>
-								<li>TypeScript</li>
-								<li>Ext JS</li>
-								<li>JSON</li>
-								<li>ECMAScript 6+</li>
-								<li>SCSS</li>
-								<li>Tailwind</li>
-								<li>PrimeVue</li>
-								<li>Phaser</li>
-								<li>HTML</li>
-							</ul>
-						</section>
-						<section>
-							<h2 class="section-title">
-								Back-End Skills
-							</h2>
-							<ul class="flex flex-wrap gap-x-2 gap-y-1">
-								<li>Node.js</li>
-								<li>NestJS</li>
-								<li>C#</li>
-								<li>TypeORM</li>
-								<li>GraphQL</li>
-								<li>SQL</li>
-								<li>REST</li>
-								<li>CRUD</li>
-							</ul>
-						</section>
-						<section>
-							<h2 class="section-title">
-								Misc Skills
-							</h2>
-							<ul class="flex flex-wrap gap-x-2 gap-y-1">
-								<li>Data Modeling</li>
-								<li>Rapid Prototyping</li>
-								<li>OOP</li>
-								<li>Web Sockets</li>
-								<li>OpenAPI</li>
-								<li>AWS</li>
-							</ul>
-						</section>
-					</article>
-					<article>
-						<h1 class="section-title">
-							Education
-						</h1>
-						<section>
-							<div class="font-semibold">
-								Bachelor of Computer Science
-							</div>
-							<div>
-								Penn State
-							</div>
-							<div>
-								Aug 2006 - May 2010
-							</div>
-						</section>
-						<section class="mt-4">
-							<div class="font-semibold">
-								4 Postgraduate Classes
-							</div>
-							<div>
-								UMBC
-							</div>
-							<div>
-								Aug 2010 - May 2012
-							</div>
-						</section>
-					</article>
-					<section class="absolute bottom-2 w-full text-center">
-						<a
-							target="_blank"
-							class="underline"
-							title="https://incutonez.github.io/Sandbox/resume/"
-							href="https://incutonez.github.io/Sandbox/resume/"
-						>Created with ❤️ and Vue</a>
-					</section>
-				</section>
-			</article>
-		</section>
+		</article>
 	</main>
 </template>
