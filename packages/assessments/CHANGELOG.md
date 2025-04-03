@@ -1,3 +1,9 @@
+## [1.3.2](https://github.com/incutonez/Sandbox/compare/@incutonez/assessments@1.3.1...@incutonez/assessments@1.3.2) (2025-04-03)
+
+### Bug Fixes
+
+* Fixing build ([#126](https://github.com/incutonez/Sandbox/issues/126)) ([294aa4b](https://github.com/incutonez/Sandbox/commit/294aa4bf8cd5e835b1316f0a0dcb78c12b60a621))
+
 ## [1.3.1](https://github.com/incutonez/Sandbox/compare/@incutonez/assessments@1.3.0...@incutonez/assessments@1.3.1) (2025-04-03)
 
 ### Bug Fixes
