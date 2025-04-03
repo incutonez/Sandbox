@@ -4,26 +4,38 @@ import IconGitHub from "@/assets/IconGitHub.vue";
 import IconLinkedIn from "@/assets/IconLinkedIn.vue";
 import IconPhone from "@/assets/IconPhone.vue";
 import IconPin from "@/assets/IconPin.vue";
+import {
+	viewCoverLetter,
+	viewResumeEducation,
+	viewResumeExperience,
+	viewResumeSkills,
+	viewResumeSummary,
+} from "@/router";
 
 const showCoverLetter = defineModel<boolean>();
 
 function onClickResumeSummary() {
+	viewResumeSummary();
 	showCoverLetter.value = false;
 }
 
 function onClickResumeSkills() {
+	viewResumeSkills();
 	showCoverLetter.value = false;
 }
 
 function onClickResumeExperience() {
+	viewResumeExperience();
 	showCoverLetter.value = false;
 }
 
 function onClickResumeEducation() {
+	viewResumeEducation();
 	showCoverLetter.value = false;
 }
 
 function onClickCoverLetter() {
+	viewCoverLetter();
 	showCoverLetter.value = true;
 }
 </script>

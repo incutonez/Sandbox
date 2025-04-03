@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
 import JefHarkayCoverLetter from "@/components/JefHarkayCoverLetter.vue";
-import JefHarkayResume from "@/components/JefHarkayResume.vue";
 import PageHeader from "@/components/PageHeader.vue";
 
 const showCoverLetter = ref(false);
@@ -30,47 +29,51 @@ watch(showCoverLetter, ($showCoverLetter) => document.title = $showCoverLetter ?
 		<article class="flex flex-1 flex-col relative">
 			<PageHeader v-model="showCoverLetter" />
 			<article class="bg-white space-y-2 px-4 py-2 flex flex-1">
-				<Transition
-					enter-active-class="transition duration-3000"
-					leave-active-class="transition duration-3000 absolute"
-					enter-from-class="-translate-x-full opacity-0"
-					leave-to-class="-translate-x-full opacity-0"
-					enter-to-class="translate-x-0"
-					leave-from-class="translate-x-0"
-					@before-enter="onBeforeEnter"
-					@after-enter="onAfterEnter"
+				<RouterView
+					v-slot="slotProps"
+					name="JefHarkayResume"
 				>
-					<section
-						v-show="!showCoverLetter"
-						class="flex flex-col"
+					<Transition
+						enter-active-class="transition duration-3000"
+						leave-active-class="transition duration-3000 absolute"
+						enter-from-class="-translate-x-full opacity-0"
+						leave-to-class="-translate-x-full opacity-0"
+						enter-to-class="translate-x-0"
+						leave-from-class="translate-x-0"
+						@before-enter="onBeforeEnter"
+						@after-enter="onAfterEnter"
 					>
-						<JefHarkayResume />
-						<!-- Because this only shows in print preview, AND we have a print page break in JefHarkayResume, we can't
-						  -- use mt-auto, as the position of this element gets altered from the calculated mt-auto that would be
-						  -- correct if we didn't have the print page break -->
-						<a
-							target="_blank"
-							class="hidden print:inline underline mt-5 mx-auto w-max"
-							title="https://incutonez.github.io/Sandbox/resume/"
-							href="https://incutonez.github.io/Sandbox/resume/"
-						>Created with ❤️ and Vue</a>
-					</section>
-				</Transition>
-				<Transition
-					enter-active-class="transition duration-3000"
-					leave-active-class="transition duration-3000 absolute"
-					enter-from-class="translate-x-full opacity-0"
-					leave-to-class="translate-x-full opacity-0"
-					enter-to-class="translate-x-0"
-					leave-from-class="translate-x-0"
-					@before-enter="onBeforeEnter"
-					@after-enter="onAfterEnter"
+						<KeepAlive>
+							<Component
+								:is="slotProps.Component"
+								v-show="!showCoverLetter"
+							/>
+						</KeepAlive>
+					</Transition>
+				</RouterView>
+				<RouterView
+					v-slot="slotProps"
+					name="JefHarkayCoverLetter"
 				>
-					<JefHarkayCoverLetter
-						v-show="showCoverLetter"
-						class="h-full"
-					/>
-				</Transition>
+					<Transition
+						enter-active-class="transition duration-3000"
+						leave-active-class="transition duration-3000 absolute"
+						enter-from-class="translate-x-full opacity-0"
+						leave-to-class="translate-x-full opacity-0"
+						enter-to-class="translate-x-0"
+						leave-from-class="translate-x-0"
+						@before-enter="onBeforeEnter"
+						@after-enter="onAfterEnter"
+					>
+						<KeepAlive>
+							<Component
+								:is="slotProps.Component"
+								v-show="showCoverLetter"
+								class="h-full"
+							/>
+						</KeepAlive>
+					</Transition>
+				</RouterView>
 			</article>
 		</article>
 	</main>

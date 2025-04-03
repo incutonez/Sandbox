@@ -243,5 +243,16 @@ const DoDTasks = ["Rotated offices every 6-8 months, contributing to several dif
 				</section>
 			</section>
 		</article>
+		<section class="mt-5 flex">
+			<!-- Because this only shows in print preview, AND we have a print page break in JefHarkayResume, we can't
+        -- use mt-auto, as the position of this element gets altered from the calculated mt-auto that would be
+        -- correct if we didn't have the print page break -->
+			<a
+				target="_blank"
+				class="hidden print:inline underline mx-auto"
+				title="https://incutonez.github.io/Sandbox/resume/"
+				href="https://incutonez.github.io/Sandbox/resume/"
+			>Created with ❤️ and Vue</a>
+		</section>
 	</article>
 </template>
