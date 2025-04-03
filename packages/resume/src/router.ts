@@ -17,6 +17,11 @@ export const EducationRoute = "education";
 export const CoverLetterRoute = "coverLetter";
 
 export const routes: RouteRecordRaw[] = [{
+	path: "/",
+	redirect: {
+		name: SummaryRoute,
+	},
+}, {
 	path: "/resume",
 	name: ResumeRoute,
 	children: [{

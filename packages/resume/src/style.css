@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 @import "tailwindcss";
 
+/**
+ * This is the newer way of using safelist from v3
+ * Source: https://github.com/tailwindlabs/tailwindcss/pull/17147
+ */
+@source inline("duration-3000");
+
 @theme {
     --color-blue-resume: #041E42;
     --default-font-family: "Calibri", "Open Sans";
