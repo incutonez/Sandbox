@@ -36,8 +36,6 @@ jobs:
         run: npm run build:spec
       - name: Build UI
         run: npm run build:ui
-      - name: Build Resume
-        run: npm run build:resume
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
