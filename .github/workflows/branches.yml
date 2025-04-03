@@ -42,5 +42,3 @@ jobs:
         run: npm run validate:ui
       - name: Assessments TypeScript Error Free
         run: npm run validate:assessments
-      - name: Resume TypeScript Error Free
-        run: npm run validate:resume
