@@ -1,3 +1,9 @@
+## [1.3.1](https://github.com/incutonez/Sandbox/compare/@incutonez/assessments@1.3.0...@incutonez/assessments@1.3.1) (2025-04-03)
+
+### Bug Fixes
+
+* Redirecting to newer resume link ([#125](https://github.com/incutonez/Sandbox/issues/125)) ([613aa9e](https://github.com/incutonez/Sandbox/commit/613aa9ea4172ca55f1b4c20289cd67823c811e89))
+
 ## [1.3.0](https://github.com/incutonez/Sandbox/compare/@incutonez/assessments@1.2.3...@incutonez/assessments@1.3.0) (2025-04-03)
 
 ### Features
