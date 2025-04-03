@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/incutonez/Sandbox/compare/@incutonez/resume@1.3.0...@incutonez/resume@1.3.1) (2025-04-03)
+
+### Bug Fixes
+
+* Fixing build ([#126](https://github.com/incutonez/Sandbox/issues/126)) ([294aa4b](https://github.com/incutonez/Sandbox/commit/294aa4bf8cd5e835b1316f0a0dcb78c12b60a621))
+* Redirecting to newer resume link ([#125](https://github.com/incutonez/Sandbox/issues/125)) ([613aa9e](https://github.com/incutonez/Sandbox/commit/613aa9ea4172ca55f1b4c20289cd67823c811e89))
+
 ## [1.3.0](https://github.com/incutonez/Sandbox/compare/@incutonez/resume@1.2.3...@incutonez/resume@1.3.0) (2025-04-03)
 
 ### Features
