@@ -2,7 +2,7 @@
 </script>
 
 <template>
-	<article class="space-y-4">
+	<article class="space-y-4 bg-white">
 		<p>
 			Hello there!
 		</p>
