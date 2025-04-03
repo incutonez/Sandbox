@@ -1,5 +1,6 @@
 ﻿<script setup lang="ts">
 import SectionJobDescription from "@/components/SectionJobDescription.vue";
+import { EducationRoute, ExperienceRoute, SkillsRoute, SummaryRoute } from "@/router";
 
 const PersonalTasks = [
 	"Created sample e-commerce app using React 19, NestJS API, and SQLite DB",
@@ -45,10 +46,7 @@ const DoDTasks = ["Rotated offices every 6-8 months, contributing to several dif
 
 <template>
 	<article class="space-y-2 bg-white">
-		<section
-			id="summary"
-			class="scroll-mt-30"
-		>
+		<section :id="SummaryRoute">
 			<h2 class="section-title !mb-1 w-full">
 				Summary
 			</h2>
@@ -57,8 +55,8 @@ const DoDTasks = ["Rotated offices every 6-8 months, contributing to several dif
 			</p>
 		</section>
 		<article
-			id="skills"
-			class="gap-4 flex scroll-mt-30"
+			:id="SkillsRoute"
+			class="gap-4 flex"
 		>
 			<section class="flex-3">
 				<h2 class="skill-title">
@@ -108,8 +106,8 @@ const DoDTasks = ["Rotated offices every 6-8 months, contributing to several dif
 			</section>
 		</article>
 		<article
-			id="experience"
-			class="flex flex-col scroll-mt-30"
+			:id="ExperienceRoute"
+			class="flex flex-col"
 		>
 			<h1 class="section-title">
 				Experience
@@ -211,10 +209,7 @@ const DoDTasks = ["Rotated offices every 6-8 months, contributing to several dif
 				/>
 			</section>
 		</article>
-		<article
-			id="education"
-			class="scroll-mt-30"
-		>
+		<article :id="EducationRoute">
 			<h1 class="section-title">
 				Education
 			</h1>
