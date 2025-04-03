@@ -1,3 +1,9 @@
+## [3.3.0](https://github.com/incutonez/Sandbox/compare/@incutonez/ui@3.2.3...@incutonez/ui@3.3.0) (2025-04-03)
+
+### Features
+
+* Resume changes ([#124](https://github.com/incutonez/Sandbox/issues/124)) ([a1d4374](https://github.com/incutonez/Sandbox/commit/a1d437498f20d38bed2369e58615af21e6539ea7))
+
 ## [3.2.3](https://github.com/incutonez/Sandbox/compare/@incutonez/ui@3.2.2...@incutonez/ui@3.2.3) (2025-03-26)
 
 ### Bug Fixes
