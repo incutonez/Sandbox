@@ -1,5 +1,5 @@
 const ParentCard = ".transition-all";
-const LastCompany = "Xebia";
+const LastCompany = "Fork Unstable Media";
 let found = false;
 
 document.querySelectorAll('.flex.items-center.text-sm.font-medium.text-muted').forEach((el) => {
