@@ -1,0 +1,43 @@
+{
+  "name": "@incutonez/satisfactory",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "npx eslint --fix",
+    "preview": "vite preview",
+    "generate:items": "npx tsx src/generator.ts"
+  },
+  "dependencies": {
+    "@material-symbols/svg-400": "latest",
+    "@tanstack/react-table": "^8.21.2",
+    "just-camel-case": "^6.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "latest",
+    "@incutonez/eslint-plugin": "latest",
+    "@stylistic/eslint-plugin-ts": "latest",
+    "@tailwindcss/vite": "latest",
+    "@types/node": "latest",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "latest",
+    "eslint-plugin-react": "latest",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "eslint-plugin-simple-import-sort": "latest",
+    "globals": "latest",
+    "tailwindcss": "latest",
+    "typescript": "~5.7.2",
+    "typescript-eslint": "latest",
+    "vite": "^6.2.0",
+    "vite-plugin-svgr": "latest"
+  }
+}
