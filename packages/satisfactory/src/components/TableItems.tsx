@@ -10,7 +10,7 @@ import {
 import items from "@/api/inventory.json";
 import { loadInventory } from "@/api/inventory.ts";
 import { FieldText } from "@/components/FieldText.tsx";
-import { IInventoryItem, ITableItem, TItemKey } from "@/types.ts";
+import { IInventoryItem, ITableItem } from "@/types.ts";
 
 const columnHelper = createColumnHelper<ITableItem>();
 
@@ -26,15 +26,8 @@ DefaultColumns.unshift(columnHelper.accessor("label", {
 	cell: (info) => info.getValue(),
 }));
 
-console.log(DefaultColumns);
-
-const getCommonPinningStyles = (column: Column<ITableItem>): CSSProperties => {
+function getCommonPinningStyles(column: Column<ITableItem>): CSSProperties {
 	const isPinned = column.getIsPinned();
-	const isLastLeftPinnedColumn =
-		isPinned === "left" && column.getIsLastColumn("left");
-	const isFirstRightPinnedColumn =
-		isPinned === "right" && column.getIsFirstColumn("right");
-
 	return {
 		left: isPinned === "left" ? `${column.getStart("left")}px` : undefined,
 		right: isPinned === "right" ? `${column.getAfter("right")}px` : undefined,
@@ -42,7 +35,7 @@ const getCommonPinningStyles = (column: Column<ITableItem>): CSSProperties => {
 		width: column.getSize(),
 		zIndex: isPinned ? 1 : 0,
 	};
-};
+}
 
 export function TableItems() {
 	const [columns, setColumns] = useState(DefaultColumns);

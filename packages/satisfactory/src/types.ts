@@ -13,7 +13,5 @@ export interface IInventoryItem {
 }
 
 export type ITableItem = {
-	[key in TItemKey]: number;
-} & {
-	label: string;
+	[key in TItemKey | "label"]: number | string;
 };
