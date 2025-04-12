@@ -1,5 +1,6 @@
-﻿import { writeFileSync } from "fs";
+﻿import { copyFileSync, readdirSync, writeFileSync } from "fs";
 import camelCase from "just-camel-case";
+import path from "path";
 import { IInventoryItem, TCategory, TItemKey } from "@/types.ts";
 import data from "./satisfactory.json";
 
@@ -90,8 +91,9 @@ function getCategory({ mDisplayName }: ISatisfactoryClass): TCategory | null {
 
 (data as unknown as ISatisfactoryItem[]).forEach((item) => {
 	item.Classes.forEach((itemClass) => {
-		const { mDisplayName } = itemClass;
+		let { mDisplayName } = itemClass;
 		if (mDisplayName && itemClass.mResourceSinkPoints && !itemClass.mHealthGain) {
+			mDisplayName = mDisplayName.replace("™", "");
 			items.push({
 				id: camelCase(mDisplayName) as TItemKey,
 				name: mDisplayName,
@@ -103,4 +105,172 @@ function getCategory({ mDisplayName }: ISatisfactoryClass): TCategory | null {
 	});
 });
 
+const removeItems: IInventoryItem[] = [];
+const ImageDir = path.join("/Users", "incut", "workspace", "SatisfactoryTools", "www", "assets", "images", "items");
+const images = readdirSync(ImageDir);
+items.forEach((item) => {
+	let nameLC;
+	switch (item.id) {
+		case "uraniumFuelRod":
+			nameLC = "nuclearfuelrod";
+			break;
+		case "alienPowerMatrix":
+			nameLC = "alienpowerfuel";
+			break;
+		case "hatcherRemains":
+		case "stingerRemains":
+		case "spitterRemains":
+		case "hogRemains":
+			nameLC = item.id.replace("Remains", "parts");
+			break;
+		case "packagedAluminaSolution":
+		case "packagedLiquidBiofuel":
+			nameLC = item.id.replace("packaged", "");
+			break;
+		case "solidBiofuel":
+			nameLC = "biofuel";
+			break;
+		case "crudeOil":
+			nameLC = "liquidoil";
+			break;
+		case "limestone":
+			nameLC = "stone";
+			break;
+		case "copperOre":
+			nameLC = "orecopper";
+			break;
+		case "cateriumOre":
+			nameLC = "caterium-0";
+			break;
+		case "ironOre":
+			nameLC = "oreiron";
+			break;
+		case "turboRifleAmmo":
+			nameLC = "rifleammoturbo";
+			break;
+		case "homingRifleAmmo":
+			nameLC = "rifleammohoming";
+			break;
+		case "rifleAmmo":
+			nameLC = "advancedammopack";
+			break;
+		case "shatterRebar":
+			nameLC = "rebarshatter";
+			break;
+		case "ironRebar":
+			nameLC = "spikedrebar";
+			break;
+		case "stunRebar":
+			nameLC = "rebarstun";
+			break;
+		case "explosiveRebar":
+			nameLC = "rebarexplosive";
+			break;
+		case "nobelisk":
+			nameLC = "nobeliskexplosive";
+			break;
+		case "pulseNobelisk":
+			nameLC = "nobeliskpulse";
+			break;
+		case "nukeNobelisk":
+			nameLC = "nobelisknuke";
+			break;
+		case "gasNobelisk":
+			nameLC = "nobeliskgas";
+			break;
+		case "clusterNobelisk":
+			nameLC = "nobeliskcluster";
+			break;
+		case "encasedUraniumCell":
+			nameLC = "uraniumcell";
+			break;
+		case "encasedPlutoniumCell":
+			nameLC = "plutoniumcell";
+			break;
+		case "uraniumWaste":
+			nameLC = "nuclearwaste";
+			break;
+		case "nonFissileUranium":
+			nameLC = "nonfissibleuranium";
+			break;
+		case "packagedHeavyOilResidue":
+			nameLC = "packagedOilResidue";
+			break;
+		case "alcladAluminumSheet":
+			nameLC = "alcladSheet";
+			break;
+		case "diamonds":
+			nameLC = "diamond";
+			break;
+		case "excitedPhotonicMatter":
+			nameLC = "quantumenergy";
+			break;
+		case "reanimatedSam":
+			nameLC = "samingot";
+			break;
+		case "darkMatterResidue":
+			nameLC = "darkenergy";
+			break;
+		case "darkMatterCrystal":
+			nameLC = "darkmatter";
+			break;
+		case "screws":
+			nameLC = "ironscrew";
+			break;
+		case "gasFilter":
+			nameLC = "filter";
+			break;
+		case "iodineInfusedFilter":
+			nameLC = "hazmatfilter";
+			break;
+		case "versatileFramework":
+			nameLC = "spaceelevatorpart-2";
+			break;
+		case "automatedWiring":
+			nameLC = "spaceelevatorpart-3";
+			break;
+		case "modularEngine":
+			nameLC = "spaceelevatorpart-4";
+			break;
+		case "adaptiveControlUnit":
+			nameLC = "spaceelevatorpart-5";
+			break;
+		case "magneticFieldGenerator":
+			nameLC = "spaceelevatorpart-6";
+			break;
+		case "assemblyDirectorSystem":
+			nameLC = "spaceelevatorpart-7";
+			break;
+		case "thermalPropulsionRocket":
+			nameLC = "spaceelevatorpart-8";
+			break;
+		case "nuclearPasta":
+			nameLC = "spaceelevatorpart-9";
+			break;
+		case "biochemicalSculptor":
+			nameLC = "spaceelevatorpart-10";
+			break;
+		case "ballisticWarpDrive":
+			nameLC = "spaceelevatorpart-11";
+			break;
+		case "aiExpansionServer":
+			nameLC = "spaceelevatorpart-12";
+			break;
+		case "candyCane":
+			nameLC = "_removethis_";
+			break;
+	}
+	nameLC ??= item.id;
+	nameLC = nameLC.toLowerCase() + "-c_256";
+	const found = images.find((image) => image.includes(nameLC));
+	if (found) {
+		const imageName = `${item.id}.png`;
+		copyFileSync(path.join(ImageDir, found), path.join("./src", "assets", imageName));
+		item.image = imageName;
+	}
+	else {
+		removeItems.push(item);
+	}
+});
+removeItems.forEach((removeItem) => items.splice(items.indexOf(removeItem), 1));
 writeFileSync("./src/api/inventory.json", JSON.stringify(items));

@@ -7,11 +7,11 @@ export type TItemKey = "aluminumIngot" | "iodineInfusedFilter" | "ironPlate" | "
 export interface IInventoryItem {
 	id: TItemKey;
 	name: string;
+	image?: string;
 	category: TCategory | null;
 	producing: number[];
 	consuming: number[];
+	producingTotal: number;
+	consumingTotal: number;
+	total: number;
 }
-
-export type ITableItem = {
-	[key in TItemKey | "label"]: number | string;
-};

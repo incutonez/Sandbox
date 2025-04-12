@@ -1,67 +1,75 @@
-﻿import { CSSProperties, useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import {
-	Column,
-	ColumnPinningState,
+	Cell,
 	createColumnHelper,
 	flexRender,
-	getCoreRowModel,
+	getCoreRowModel, getSortedRowModel, Header, SortingState,
 	useReactTable,
 } from "@tanstack/react-table";
-import items from "@/api/inventory.json";
 import { loadInventory } from "@/api/inventory.ts";
 import { FieldText } from "@/components/FieldText.tsx";
-import { IInventoryItem, ITableItem } from "@/types.ts";
+import { IInventoryItem } from "@/types.ts";
 
-const columnHelper = createColumnHelper<ITableItem>();
-
-const DefaultColumns = (items as IInventoryItem[]).map((item) => {
-	return columnHelper.accessor(item.id, {
-		header: item.name,
-		cell: (info) => info.getValue(),
-	});
-});
-
-DefaultColumns.unshift(columnHelper.accessor("label", {
-	header: "",
+const columnHelper = createColumnHelper<IInventoryItem>();
+const DefaultCellCls = "border-r border-b first:border-l px-2 py-1";
+const DefaultColumns = [columnHelper.accessor("name", {
+	header: "Name",
 	cell: (info) => info.getValue(),
-}));
-
-function getCommonPinningStyles(column: Column<ITableItem>): CSSProperties {
-	const isPinned = column.getIsPinned();
-	return {
-		left: isPinned === "left" ? `${column.getStart("left")}px` : undefined,
-		right: isPinned === "right" ? `${column.getAfter("right")}px` : undefined,
-		position: isPinned ? "sticky" : "relative",
-		width: column.getSize(),
-		zIndex: isPinned ? 1 : 0,
-	};
-}
+}), columnHelper.accessor("producingTotal", {
+	header: "Producing",
+	meta: {
+		cellCls: "text-right",
+	},
+	cell: (info) => info.getValue(),
+}), columnHelper.accessor("consumingTotal", {
+	header: "Consuming",
+	meta: {
+		cellCls: "text-right",
+	},
+	cell: (info) => info.getValue(),
+}), columnHelper.accessor("total", {
+	header: "Total",
+	meta: {
+		cellCls: "text-right",
+	},
+	cell: (info) => info.getValue(),
+})];
 
 export function TableItems() {
 	const [columns, setColumns] = useState(DefaultColumns);
-	const [columnPinning, setColumnPinning] = useState<ColumnPinningState>({
-		left: ["label"],
-		right: [],
-	});
-	const [data, setData] = useState<ITableItem[]>([]);
-	const [inventory, setInventory] = useState<IInventoryItem[]>([]);
+	const [data, setData] = useState<IInventoryItem[]>([]);
 	const [search, setSearch] = useState("");
+	const [sorting, setSorting] = useState<SortingState>([{
+		id: "name",
+		desc: false,
+	}]);
 	const table = useReactTable({
 		columns,
 		data,
 		getCoreRowModel: getCoreRowModel(),
-		onColumnPinningChange: setColumnPinning,
+		getSortedRowModel: getSortedRowModel(),
+		onSortingChange: setSorting,
 		state: {
-			columnPinning,
+			sorting,
 		},
 	});
+	// TODOJEF: ADD SORT ICON
 	const tableHeaders = table.getHeaderGroups().map((headerGroup) => {
 		const rows = headerGroup.headers.map((header) => {
 			return (
 				<th
 					key={header.id}
-					className="min-w-64 p-2 bg-gray-400 border-r first:border-l border-y"
-					style={getCommonPinningStyles(header.column)}
+					className={getHeaderClass(header)}
+					onClick={header.column.getToggleSortingHandler()}
+					title={
+						header.column.getCanSort()
+							? header.column.getNextSortingOrder() === "asc"
+								? "Sort ascending"
+								: header.column.getNextSortingOrder() === "desc"
+									? "Sort descending"
+									: "Clear sort"
+							: undefined
+					}
 				>
 					{flexRender(header.column.columnDef.header, header.getContext())}
 				</th>
@@ -84,30 +92,42 @@ export function TableItems() {
 		}
 	}
 
+	function getHeaderClass(header: Header<IInventoryItem, unknown>) {
+		const cls = ["z-1 min-w-64 p-2 bg-gray-400 border-r first:border-l border-y sticky top-0"];
+		if (header.column.getCanSort()) {
+			cls.push("cursor-pointer select-none");
+		}
+		return cls.join(" ");
+	}
+
+	function getCellClass(cell: Cell<IInventoryItem, unknown>) {
+		const cls = [DefaultCellCls];
+		if (cell.column.id === "total") {
+			if (cell.getValue<number>() < 0) {
+				cls.push("bg-red-200");
+			}
+			else if (cell.getValue<number>() > 0) {
+				cls.push("bg-green-200");
+			}
+			else {
+				cls.push("bg-white");
+			}
+		}
+		else {
+			cls.push("bg-white");
+		}
+		if (cell.column.columnDef.meta?.cellCls) {
+			cls.push(cell.column.columnDef.meta?.cellCls);
+		}
+		return cls.join(" ");
+	}
+
 	useEffect(() => {
-		setInventory(loadInventory());
+		setData(loadInventory());
 	}, []);
 
-	useEffect(() => {
-		const dataProducing = {
-			label: "Producing",
-		} as ITableItem;
-		const dataConsuming = {
-			label: "Consuming",
-		} as ITableItem;
-		const dataTotal = {
-			label: "Total",
-		} as ITableItem;
-		inventory.forEach(({ id, producing, consuming }) => {
-			dataProducing[id] = producing.reduce((previous, current) => previous + current, 0);
-			dataConsuming[id] = consuming.reduce((previous, current) => previous + current, 0);
-			dataTotal[id] = dataProducing[id] - dataConsuming[id];
-		});
-		setData([dataProducing, dataConsuming, dataTotal]);
-	}, [inventory]);
-
 	return (
-		<article className="w-full">
+		<article className="size-full flex flex-col">
 			<section>
 				<FieldText
 					value={search}
@@ -116,8 +136,8 @@ export function TableItems() {
 					onInputChange={onBlurSearch}
 				/>
 			</section>
-			<section className="overflow-auto">
-				<table className="border-spacing-0 border-separate">
+			<section className="overflow-auto flex-1">
+				<table className="border-spacing-0 border-separate w-full">
 					<thead>
 						{tableHeaders}
 					</thead>
@@ -127,8 +147,7 @@ export function TableItems() {
 								{row.getVisibleCells().map((cell) => (
 									<td
 										key={cell.id}
-										style={getCommonPinningStyles(cell.column)}
-										className="bg-white border-r border-b"
+										className={getCellClass(cell)}
 									>
 										{flexRender(cell.column.columnDef.cell, cell.getContext())}
 									</td>

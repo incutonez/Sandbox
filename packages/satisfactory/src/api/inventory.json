@@ -4,1308 +4,1295 @@
     "name": "Aluminum Ingot",
     "category": "ingot",
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "aluminumIngot.png"
   },
   {
     "id": "iodineInfusedFilter",
     "name": "Iodine-Infused Filter",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "iodineInfusedFilter.png"
   },
   {
     "id": "ironPlate",
     "name": "Iron Plate",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "ironPlate.png"
   },
   {
     "id": "ironRod",
     "name": "Iron Rod",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "ironRod.png"
   },
   {
     "id": "ironIngot",
     "name": "Iron Ingot",
     "category": "ingot",
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "ironIngot.png"
   },
   {
     "id": "cable",
     "name": "Cable",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "cable.png"
   },
   {
     "id": "reinforcedIronPlate",
     "name": "Reinforced Iron Plate",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "reinforcedIronPlate.png"
   },
   {
     "id": "wire",
     "name": "Wire",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "wire.png"
   },
   {
     "id": "concrete",
     "name": "Concrete",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "concrete.png"
   },
   {
     "id": "rotor",
     "name": "Rotor",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "rotor.png"
   },
   {
     "id": "compactedCoal",
     "name": "Compacted Coal",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "compactedCoal.png"
   },
   {
     "id": "fuel",
     "name": "Fuel",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "fuel.png"
   },
   {
     "id": "rocketFuel",
     "name": "Rocket Fuel",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "rocketFuel.png"
   },
   {
     "id": "copperSheet",
     "name": "Copper Sheet",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "copperSheet.png"
   },
   {
     "id": "modularFrame",
     "name": "Modular Frame",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "modularFrame.png"
   },
   {
     "id": "screws",
     "name": "Screws",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "screws.png"
   },
   {
     "id": "nitricAcid",
     "name": "Nitric Acid",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "nitricAcid.png"
   },
   {
     "id": "turbofuel",
     "name": "Turbofuel",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "turbofuel.png"
   },
   {
     "id": "emptyFluidTank",
     "name": "Empty Fluid Tank",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "emptyFluidTank.png"
   },
   {
     "id": "packagedRocketFuel",
     "name": "Packaged Rocket Fuel",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "packagedRocketFuel.png"
   },
   {
     "id": "crystalOscillator",
     "name": "Crystal Oscillator",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "crystalOscillator.png"
   },
   {
     "id": "motor",
     "name": "Motor",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "motor.png"
   },
   {
     "id": "packagedTurbofuel",
     "name": "Packaged Turbofuel",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "packagedTurbofuel.png"
   },
   {
     "id": "darkMatterCrystal",
     "name": "Dark Matter Crystal",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "darkMatterCrystal.png"
   },
   {
     "id": "ionizedFuel",
     "name": "Ionized Fuel",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "ionizedFuel.png"
   },
   {
     "id": "supercomputer",
     "name": "Supercomputer",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "supercomputer.png"
   },
   {
     "id": "coolingSystem",
     "name": "Cooling System",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "coolingSystem.png"
   },
   {
     "id": "ficsiteTrigon",
     "name": "Ficsite Trigon",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "ficsiteTrigon.png"
   },
   {
     "id": "turboMotor",
     "name": "Turbo Motor",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "turboMotor.png"
   },
   {
     "id": "timeCrystal",
     "name": "Time Crystal",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "timeCrystal.png"
   },
   {
     "id": "darkMatterResidue",
     "name": "Dark Matter Residue",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "darkMatterResidue.png"
   },
   {
     "id": "reanimatedSam",
     "name": "Reanimated SAM",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "reanimatedSam.png"
   },
   {
     "id": "excitedPhotonicMatter",
     "name": "Excited Photonic Matter",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "excitedPhotonicMatter.png"
   },
   {
     "id": "diamonds",
     "name": "Diamonds",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "diamonds.png"
   },
   {
     "id": "alcladAluminumSheet",
     "name": "Alclad Aluminum Sheet",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "alcladAluminumSheet.png"
   },
   {
     "id": "superpositionOscillator",
     "name": "Superposition Oscillator",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "superpositionOscillator.png"
   },
   {
     "id": "neuralQuantumProcessor",
     "name": "Neural-Quantum Processor",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "neuralQuantumProcessor.png"
   },
   {
     "id": "aiExpansionServer",
     "name": "AI Expansion Server",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "aiExpansionServer.png"
   },
   {
     "id": "magneticFieldGenerator",
     "name": "Magnetic Field Generator",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "magneticFieldGenerator.png"
   },
   {
     "id": "packagedIonizedFuel",
     "name": "Packaged Ionized Fuel",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "packagedIonizedFuel.png"
   },
   {
     "id": "samFluctuator",
     "name": "SAM Fluctuator",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "samFluctuator.png"
   },
   {
     "id": "steelPipe",
     "name": "Steel Pipe",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "steelPipe.png"
   },
   {
     "id": "fusedModularFrame",
     "name": "Fused Modular Frame",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "fusedModularFrame.png"
   },
   {
     "id": "radioControlUnit",
     "name": "Radio Control Unit",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "radioControlUnit.png"
   },
   {
     "id": "ficsiteIngot",
     "name": "Ficsite Ingot",
     "category": "ingot",
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "ficsiteIngot.png"
   },
   {
     "id": "biochemicalSculptor",
     "name": "Biochemical Sculptor",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "biochemicalSculptor.png"
   },
   {
     "id": "assemblyDirectorSystem",
     "name": "Assembly Director System",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "assemblyDirectorSystem.png"
   },
   {
     "id": "cateriumIngot",
     "name": "Caterium Ingot",
     "category": "ingot",
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "cateriumIngot.png"
   },
   {
     "id": "emptyCanister",
     "name": "Empty Canister",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "emptyCanister.png"
   },
   {
     "id": "packagedFuel",
     "name": "Packaged Fuel",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "packagedFuel.png"
   },
   {
     "id": "circuitBoard",
     "name": "Circuit Board",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "circuitBoard.png"
   },
   {
     "id": "plastic",
     "name": "Plastic",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "plastic.png"
   },
   {
     "id": "encasedIndustrialBeam",
     "name": "Encased Industrial Beam",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "encasedIndustrialBeam.png"
   },
   {
     "id": "rubber",
     "name": "Rubber",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "rubber.png"
   },
   {
     "id": "steelBeam",
     "name": "Steel Beam",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "steelBeam.png"
   },
   {
     "id": "polymerResin",
     "name": "Polymer Resin",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "polymerResin.png"
   },
   {
     "id": "heavyOilResidue",
     "name": "Heavy Oil Residue",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "heavyOilResidue.png"
   },
   {
     "id": "petroleumCoke",
     "name": "Petroleum Coke",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "petroleumCoke.png"
   },
   {
     "id": "quartzCrystal",
     "name": "Quartz Crystal",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "quartzCrystal.png"
   },
   {
     "id": "steelIngot",
     "name": "Steel Ingot",
     "category": "ingot",
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "steelIngot.png"
   },
   {
     "id": "versatileFramework",
     "name": "Versatile Framework",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "versatileFramework.png"
   },
   {
     "id": "packagedOil",
     "name": "Packaged Oil",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "packagedOil.png"
   },
   {
     "id": "packagedHeavyOilResidue",
     "name": "Packaged Heavy Oil Residue",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "packagedHeavyOilResidue.png"
   },
   {
     "id": "packagedWater",
     "name": "Packaged Water",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "packagedWater.png"
   },
   {
     "id": "copperIngot",
     "name": "Copper Ingot",
     "category": "ingot",
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "copperIngot.png"
   },
   {
     "id": "aluminumScrap",
     "name": "Aluminum Scrap",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "aluminumScrap.png"
   },
   {
     "id": "aluminumCasing",
     "name": "Aluminum Casing",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "aluminumCasing.png"
   },
   {
     "id": "aluminaSolution",
     "name": "Alumina Solution",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "aluminaSolution.png"
   },
   {
     "id": "silica",
     "name": "Silica",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "silica.png"
   },
   {
     "id": "computer",
     "name": "Computer",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "computer.png"
   },
   {
     "id": "heavyModularFrame",
     "name": "Heavy Modular Frame",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "heavyModularFrame.png"
   },
   {
     "id": "smartPlating",
     "name": "Smart Plating",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "smartPlating.png"
   },
   {
     "id": "highSpeedConnector",
     "name": "High-Speed Connector",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "highSpeedConnector.png"
   },
   {
     "id": "automatedWiring",
     "name": "Automated Wiring",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "automatedWiring.png"
   },
   {
     "id": "stator",
     "name": "Stator",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "stator.png"
   },
   {
     "id": "aiLimiter",
     "name": "AI Limiter",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "aiLimiter.png"
   },
   {
     "id": "quickwire",
     "name": "Quickwire",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "quickwire.png"
   },
   {
     "id": "modularEngine",
     "name": "Modular Engine",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "modularEngine.png"
   },
   {
     "id": "adaptiveControlUnit",
     "name": "Adaptive Control Unit",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "adaptiveControlUnit.png"
   },
   {
     "id": "pressureConversionCube",
     "name": "Pressure Conversion Cube",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "pressureConversionCube.png"
   },
   {
     "id": "encasedPlutoniumCell",
     "name": "Encased Plutonium Cell",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "encasedPlutoniumCell.png"
   },
   {
     "id": "plutoniumPellet",
     "name": "Plutonium Pellet",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "plutoniumPellet.png"
   },
   {
     "id": "nonFissileUranium",
     "name": "Non-Fissile Uranium",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "nonFissileUranium.png"
   },
   {
     "id": "uraniumWaste",
     "name": "Uranium Waste",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "uraniumWaste.png"
   },
   {
     "id": "sulfuricAcid",
     "name": "Sulfuric Acid",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "sulfuricAcid.png"
   },
   {
     "id": "copperPowder",
     "name": "Copper Powder",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "copperPowder.png"
   },
   {
     "id": "heatSink",
     "name": "Heat Sink",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "heatSink.png"
   },
   {
     "id": "electromagneticControlRod",
     "name": "Electromagnetic Control Rod",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "electromagneticControlRod.png"
   },
   {
     "id": "plutoniumWaste",
     "name": "Plutonium Waste",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "plutoniumWaste.png"
   },
   {
     "id": "nuclearPasta",
     "name": "Nuclear Pasta",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "nuclearPasta.png"
   },
   {
     "id": "encasedUraniumCell",
     "name": "Encased Uranium Cell",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "encasedUraniumCell.png"
   },
   {
     "id": "battery",
     "name": "Battery",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "battery.png"
   },
   {
     "id": "dissolvedSilica",
     "name": "Dissolved Silica",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "dissolvedSilica.png"
   },
   {
     "id": "thermalPropulsionRocket",
     "name": "Thermal Propulsion Rocket",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "thermalPropulsionRocket.png"
   },
   {
     "id": "blackPowder",
     "name": "Black Powder",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "blackPowder.png"
   },
   {
     "id": "ficsonium",
     "name": "Ficsonium",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "ficsonium.png"
   },
   {
     "id": "singularityCell",
     "name": "Singularity Cell",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "singularityCell.png"
   },
   {
     "id": "ballisticWarpDrive",
     "name": "Ballistic Warp Drive",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "ballisticWarpDrive.png"
   },
   {
     "id": "gasFilter",
     "name": "Gas Filter",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "gasFilter.png"
   },
   {
     "id": "alienProtein",
     "name": "Alien Protein",
     "category": null,
     "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "bluePowerSlug",
-    "name": "Blue Power Slug",
-    "category": null,
-    "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "alienProtein.png"
   },
   {
     "id": "alienDnaCapsule",
     "name": "Alien DNA Capsule",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "alienDnaCapsule.png"
   },
   {
     "id": "mercerSphere",
     "name": "Mercer Sphere",
     "category": null,
     "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "purplePowerSlug",
-    "name": "Purple Power Slug",
-    "category": null,
-    "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "yellowPowerSlug",
-    "name": "Yellow Power Slug",
-    "category": null,
-    "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "mercerSphere.png"
   },
   {
     "id": "smokelessPowder",
     "name": "Smokeless Powder",
     "category": null,
     "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "ficsmasWonderStar",
-    "name": "FICSMAS Wonder Star",
-    "category": null,
-    "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "ficsmasOrnamentBundle",
-    "name": "FICSMAS Ornament Bundle",
-    "category": null,
-    "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "ficsmasTreeBranch",
-    "name": "FICSMAS Tree Branch",
-    "category": null,
-    "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "ficsmasWreath",
-    "name": "FICSMAS Wreath",
-    "category": null,
-    "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "candyCane",
-    "name": "Candy Cane",
-    "category": null,
-    "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "ficsmasActualSnow",
-    "name": "FICSMAS Actual Snow",
-    "category": null,
-    "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "ficsmasBow",
-    "name": "FICSMAS Bow",
-    "category": null,
-    "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "ficsmasGift",
-    "name": "FICSMAS Gift",
-    "category": null,
-    "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "redFicsmasOrnament",
-    "name": "Red FICSMAS Ornament",
-    "category": null,
-    "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "blueFicsmasOrnament",
-    "name": "Blue FICSMAS Ornament",
-    "category": null,
-    "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "copperFicsmasOrnament",
-    "name": "Copper FICSMAS Ornament",
-    "category": null,
-    "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "ironFicsmasOrnament",
-    "name": "Iron FICSMAS Ornament",
-    "category": null,
-    "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "smokelessPowder.png"
   },
   {
     "id": "explosiveRebar",
     "name": "Explosive Rebar",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "explosiveRebar.png"
   },
   {
     "id": "stunRebar",
     "name": "Stun Rebar",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "stunRebar.png"
   },
   {
     "id": "ironRebar",
     "name": "Iron Rebar",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "ironRebar.png"
   },
   {
     "id": "homingRifleAmmo",
     "name": "Homing Rifle Ammo",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "homingRifleAmmo.png"
   },
   {
     "id": "clusterNobelisk",
     "name": "Cluster Nobelisk",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "clusterNobelisk.png"
   },
   {
     "id": "nobelisk",
     "name": "Nobelisk",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "nobelisk.png"
   },
   {
     "id": "gasNobelisk",
     "name": "Gas Nobelisk",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "gasNobelisk.png"
   },
   {
     "id": "nukeNobelisk",
     "name": "Nuke Nobelisk",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "nukeNobelisk.png"
   },
   {
     "id": "pulseNobelisk",
     "name": "Pulse Nobelisk",
     "category": null,
     "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "sweetFireworks",
-    "name": "Sweet Fireworks",
-    "category": null,
-    "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "fancyFireworks",
-    "name": "Fancy Fireworks",
-    "category": null,
-    "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "sparklyFireworks",
-    "name": "Sparkly Fireworks",
-    "category": null,
-    "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "snowball",
-    "name": "Snowball",
-    "category": null,
-    "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "rebarGun",
-    "name": "Rebar Gun",
-    "category": null,
-    "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "pulseNobelisk.png"
   },
   {
     "id": "rifle",
     "name": "Rifle",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "rifle.png"
   },
   {
     "id": "hazmatSuit",
     "name": "Hazmat Suit",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "hazmatSuit.png"
   },
   {
     "id": "nobeliskDetonator",
     "name": "Nobelisk Detonator",
     "category": null,
     "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "xenoZapper",
-    "name": "Xeno-Zapper",
-    "category": null,
-    "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "nobeliskDetonator.png"
   },
   {
     "id": "objectScanner",
     "name": "Object Scanner",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "objectScanner.png"
   },
   {
     "id": "portableMiner",
     "name": "Portable Miner",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "portableMiner.png"
   },
   {
     "id": "hoverpack",
     "name": "Hoverpack",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "hoverpack.png"
   },
   {
     "id": "jetpack",
     "name": "Jetpack",
     "category": null,
     "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "xenoBasher",
-    "name": "Xeno-Basher",
-    "category": null,
-    "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "jetpack.png"
   },
   {
     "id": "chainsaw",
     "name": "Chainsaw",
     "category": null,
     "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "bladeRunners",
-    "name": "Blade Runners",
-    "category": null,
-    "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "chainsaw.png"
   },
   {
     "id": "zipline",
     "name": "Zipline",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "zipline.png"
   },
   {
     "id": "gasMask",
     "name": "Gas Mask",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "gasMask.png"
   },
   {
-    "id": "candyCaneBasher",
-    "name": "Candy Cane Basher",
+    "id": "factoryCart",
+    "name": "Factory Cart",
     "category": null,
     "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "factoryCart™",
-    "name": "Factory Cart™",
-    "category": null,
-    "producing": [],
-    "consuming": []
-  },
-  {
-    "id": "goldenFactoryCart™",
-    "name": "Golden Factory Cart™",
-    "category": null,
-    "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "factoryCart.png"
   },
   {
     "id": "shatterRebar",
     "name": "Shatter Rebar",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "shatterRebar.png"
   },
   {
     "id": "turboRifleAmmo",
     "name": "Turbo Rifle Ammo",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "turboRifleAmmo.png"
   },
   {
     "id": "rifleAmmo",
     "name": "Rifle Ammo",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "rifleAmmo.png"
   },
   {
     "id": "ironOre",
     "name": "Iron Ore",
     "category": "ore",
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "ironOre.png"
   },
   {
     "id": "coal",
     "name": "Coal",
     "category": "ore",
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "coal.png"
   },
   {
     "id": "nitrogenGas",
     "name": "Nitrogen Gas",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "nitrogenGas.png"
   },
   {
     "id": "sulfur",
     "name": "Sulfur",
     "category": "ore",
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "sulfur.png"
   },
   {
     "id": "water",
     "name": "Water",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "water.png"
   },
   {
     "id": "sam",
     "name": "SAM",
     "category": "ore",
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "sam.png"
   },
   {
     "id": "bauxite",
     "name": "Bauxite",
     "category": "ore",
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "bauxite.png"
   },
   {
     "id": "cateriumOre",
     "name": "Caterium Ore",
     "category": "ore",
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "cateriumOre.png"
   },
   {
     "id": "copperOre",
     "name": "Copper Ore",
     "category": "ore",
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "copperOre.png"
   },
   {
     "id": "rawQuartz",
     "name": "Raw Quartz",
     "category": "ore",
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "rawQuartz.png"
   },
   {
     "id": "limestone",
     "name": "Limestone",
     "category": "ore",
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "limestone.png"
   },
   {
     "id": "uranium",
     "name": "Uranium",
     "category": "ore",
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "uranium.png"
   },
   {
     "id": "crudeOil",
     "name": "Crude Oil",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "crudeOil.png"
   },
   {
     "id": "leaves",
     "name": "Leaves",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "leaves.png"
   },
   {
     "id": "wood",
     "name": "Wood",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "wood.png"
   },
   {
     "id": "biomass",
     "name": "Biomass",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "biomass.png"
   },
   {
     "id": "solidBiofuel",
     "name": "Solid Biofuel",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "solidBiofuel.png"
   },
   {
     "id": "liquidBiofuel",
     "name": "Liquid Biofuel",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "liquidBiofuel.png"
   },
   {
     "id": "packagedLiquidBiofuel",
     "name": "Packaged Liquid Biofuel",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "packagedLiquidBiofuel.png"
   },
   {
     "id": "packagedAluminaSolution",
     "name": "Packaged Alumina Solution",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "packagedAluminaSolution.png"
   },
   {
     "id": "packagedNitrogenGas",
     "name": "Packaged Nitrogen Gas",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "packagedNitrogenGas.png"
   },
   {
     "id": "packagedNitricAcid",
     "name": "Packaged Nitric Acid",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "packagedNitricAcid.png"
   },
   {
     "id": "packagedSulfuricAcid",
     "name": "Packaged Sulfuric Acid",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "packagedSulfuricAcid.png"
   },
   {
     "id": "fabric",
     "name": "Fabric",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "fabric.png"
   },
   {
     "id": "mycelia",
     "name": "Mycelia",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "mycelia.png"
   },
   {
     "id": "hogRemains",
     "name": "Hog Remains",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "hogRemains.png"
   },
   {
     "id": "spitterRemains",
     "name": "Spitter Remains",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "spitterRemains.png"
   },
   {
     "id": "stingerRemains",
     "name": "Stinger Remains",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "stingerRemains.png"
   },
   {
     "id": "hatcherRemains",
     "name": "Hatcher Remains",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "hatcherRemains.png"
   },
   {
     "id": "powerShard",
     "name": "Power Shard",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "powerShard.png"
   },
   {
     "id": "somersloop",
     "name": "Somersloop",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "somersloop.png"
   },
   {
     "id": "plutoniumFuelRod",
     "name": "Plutonium Fuel Rod",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "plutoniumFuelRod.png"
   },
   {
     "id": "uraniumFuelRod",
     "name": "Uranium Fuel Rod",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "uraniumFuelRod.png"
   },
   {
     "id": "ficsoniumFuelRod",
     "name": "Ficsonium Fuel Rod",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "ficsoniumFuelRod.png"
   },
   {
     "id": "parachute",
     "name": "Parachute",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "parachute.png"
   },
   {
     "id": "alienPowerMatrix",
     "name": "Alien Power Matrix",
     "category": null,
     "producing": [],
-    "consuming": []
+    "consuming": [],
+    "image": "alienPowerMatrix.png"
   }
 ]
