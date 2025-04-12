@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+﻿import { ReactNode, useEffect, useState } from "react";
 import {
 	Cell,
 	createColumnHelper,
@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-table";
 import { loadInventory } from "@/api/inventory.ts";
 import { FieldText } from "@/components/FieldText.tsx";
+import { IconSort } from "@/components/Icons.tsx";
 import { IInventoryItem } from "@/types.ts";
 
 const columnHelper = createColumnHelper<IInventoryItem>();
@@ -19,18 +20,21 @@ const DefaultColumns = [columnHelper.accessor("name", {
 	header: "Producing",
 	meta: {
 		cellCls: "text-right",
+		canClick: true,
 	},
 	cell: (info) => info.getValue(),
 }), columnHelper.accessor("consumingTotal", {
 	header: "Consuming",
 	meta: {
 		cellCls: "text-right",
+		canClick: true,
 	},
 	cell: (info) => info.getValue(),
 }), columnHelper.accessor("total", {
 	header: "Total",
 	meta: {
 		cellCls: "text-right",
+		canClick: true,
 	},
 	cell: (info) => info.getValue(),
 })];
@@ -56,22 +60,44 @@ export function TableItems() {
 	// TODOJEF: ADD SORT ICON
 	const tableHeaders = table.getHeaderGroups().map((headerGroup) => {
 		const rows = headerGroup.headers.map((header) => {
+			const { column } = header;
+			let title = "";
+			let sortIcon: ReactNode;
+			if (column.getCanSort()) {
+				const sortDir = column.getIsSorted();
+				switch (column.getNextSortingOrder()) {
+					case "asc":
+						title = "Sort Ascending";
+						break;
+					case "desc":
+						title = "Sort Descending";
+						break;
+					default:
+						title = "Clear Sort";
+				}
+				if (sortDir) {
+					const sortCls = ["size-6"];
+					if (sortDir === "asc") {
+						sortCls.push("rotate-180 -scale-x-90");
+					}
+					sortIcon = (
+						<div className="absolute right-2 top-2">
+							<IconSort className={sortCls.join(" ")} />
+						</div>
+					);
+				}
+			}
 			return (
 				<th
 					key={header.id}
 					className={getHeaderClass(header)}
-					onClick={header.column.getToggleSortingHandler()}
-					title={
-						header.column.getCanSort()
-							? header.column.getNextSortingOrder() === "asc"
-								? "Sort ascending"
-								: header.column.getNextSortingOrder() === "desc"
-									? "Sort descending"
-									: "Clear sort"
-							: undefined
-					}
+					onClick={column.getToggleSortingHandler()}
+					title={title}
 				>
-					{flexRender(header.column.columnDef.header, header.getContext())}
+					<span>
+						{flexRender(header.column.columnDef.header, header.getContext())}
+					</span>
+					{sortIcon}
 				</th>
 			);
 		});
@@ -93,20 +119,29 @@ export function TableItems() {
 	}
 
 	function getHeaderClass(header: Header<IInventoryItem, unknown>) {
-		const cls = ["z-1 min-w-64 p-2 bg-gray-400 border-r first:border-l border-y sticky top-0"];
+		const cls = ["z-1 min-w-64 p-2 border-r first:border-l border-y sticky top-0"];
 		if (header.column.getCanSort()) {
-			cls.push("cursor-pointer select-none");
+			cls.push("cursor-pointer select-none hover:bg-blue-300");
+		}
+		if (header.column.getIsSorted()) {
+			cls.push("bg-blue-400");
+		}
+		else {
+			cls.push("bg-gray-300");
 		}
 		return cls.join(" ");
 	}
 
 	function getCellClass(cell: Cell<IInventoryItem, unknown>) {
 		const cls = [DefaultCellCls];
-		if (cell.column.id === "total") {
-			if (cell.getValue<number>() < 0) {
+		const { column } = cell;
+		const { meta } = column.columnDef;
+		if (column.id === "total") {
+			const value = cell.getValue<number>();
+			if (value < 0) {
 				cls.push("bg-red-200");
 			}
-			else if (cell.getValue<number>() > 0) {
+			else if (value > 0) {
 				cls.push("bg-green-200");
 			}
 			else {
@@ -116,8 +151,13 @@ export function TableItems() {
 		else {
 			cls.push("bg-white");
 		}
-		if (cell.column.columnDef.meta?.cellCls) {
-			cls.push(cell.column.columnDef.meta?.cellCls);
+		if (meta) {
+			if (meta.cellCls) {
+				cls.push(meta.cellCls);
+			}
+			if (meta.canClick) {
+				cls.push("cursor-pointer hover:bg-blue-200");
+			}
 		}
 		return cls.join(" ");
 	}
