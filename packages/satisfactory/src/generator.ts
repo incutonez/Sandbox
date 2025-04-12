@@ -1,6 +1,6 @@
 ﻿import { writeFileSync } from "fs";
 import camelCase from "just-camel-case";
-import { IInventoryItem, TCategory } from "@/types.ts";
+import { IInventoryItem, TCategory, TItemKey } from "@/types.ts";
 import data from "./satisfactory.json";
 
 export interface ISatisfactoryItem {
@@ -93,11 +93,11 @@ function getCategory({ mDisplayName }: ISatisfactoryClass): TCategory | null {
 		const { mDisplayName } = itemClass;
 		if (mDisplayName && itemClass.mResourceSinkPoints && !itemClass.mHealthGain) {
 			items.push({
-				id: camelCase(mDisplayName),
+				id: camelCase(mDisplayName) as TItemKey,
 				name: mDisplayName,
 				category: getCategory(itemClass),
-				producing: [0],
-				consuming: [0],
+				producing: [],
+				consuming: [],
 			});
 		}
 	});
