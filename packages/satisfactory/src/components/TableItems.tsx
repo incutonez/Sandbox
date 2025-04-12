@@ -3,12 +3,13 @@ import {
 	Cell,
 	createColumnHelper,
 	flexRender,
-	getCoreRowModel, getSortedRowModel, Header, SortingState,
+	getCoreRowModel, getFilteredRowModel, getSortedRowModel, Header, SortingState,
 	useReactTable,
 } from "@tanstack/react-table";
 import { loadInventory } from "@/api/inventory.ts";
 import { FieldText } from "@/components/FieldText.tsx";
 import { IconSort } from "@/components/Icons.tsx";
+import { ViewItem } from "@/components/ViewItem.tsx";
 import { IInventoryItem } from "@/types.ts";
 
 const columnHelper = createColumnHelper<IInventoryItem>();
@@ -40,9 +41,12 @@ const DefaultColumns = [columnHelper.accessor("name", {
 })];
 
 export function TableItems() {
-	const [columns, setColumns] = useState(DefaultColumns);
+	const [columns] = useState(DefaultColumns);
 	const [data, setData] = useState<IInventoryItem[]>([]);
 	const [search, setSearch] = useState("");
+	const [globalFilter, setGlobalFilter] = useState<string>();
+	const [showItemDialog, setShowItemDialog] = useState(false);
+	const [activeCell, setActiveCell] = useState<IInventoryItem>();
 	const [sorting, setSorting] = useState<SortingState>([{
 		id: "name",
 		desc: false,
@@ -50,14 +54,17 @@ export function TableItems() {
 	const table = useReactTable({
 		columns,
 		data,
+		globalFilterFn: "includesString",
 		getCoreRowModel: getCoreRowModel(),
+		getFilteredRowModel: getFilteredRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 		onSortingChange: setSorting,
+		onGlobalFilterChange: setGlobalFilter,
 		state: {
 			sorting,
+			globalFilter,
 		},
 	});
-	// TODOJEF: ADD SORT ICON
 	const tableHeaders = table.getHeaderGroups().map((headerGroup) => {
 		const rows = headerGroup.headers.map((header) => {
 			const { column } = header;
@@ -108,14 +115,8 @@ export function TableItems() {
 		);
 	});
 
-	function onBlurSearch(searchValue: string) {
-		if (searchValue) {
-			const searchRegex = new RegExp(searchValue, "i");
-			setColumns(DefaultColumns.filter(({ header }) => header === "" || searchRegex.test(header as string)));
-		}
-		else {
-			setColumns(DefaultColumns.slice());
-		}
+	function onChangeSearch(searchValue: string) {
+		table.setGlobalFilter(searchValue);
 	}
 
 	function getHeaderClass(header: Header<IInventoryItem, unknown>) {
@@ -130,6 +131,13 @@ export function TableItems() {
 			cls.push("bg-gray-300");
 		}
 		return cls.join(" ");
+	}
+
+	function onClickCell(cell: Cell<IInventoryItem, unknown>) {
+		if (cell.column.columnDef.meta?.canClick) {
+			setActiveCell(cell.row.original);
+			setShowItemDialog(true);
+		}
 	}
 
 	function getCellClass(cell: Cell<IInventoryItem, unknown>) {
@@ -167,13 +175,14 @@ export function TableItems() {
 	}, []);
 
 	return (
-		<article className="size-full flex flex-col">
-			<section>
+		<article className="size-full flex flex-col space-y-2">
+			<section className="ml-auto">
 				<FieldText
 					value={search}
 					setter={setSearch}
 					label="Search"
-					onInputChange={onBlurSearch}
+					placeholder="Search..."
+					onInputChange={onChangeSearch}
 				/>
 			</section>
 			<section className="overflow-auto flex-1">
@@ -188,6 +197,7 @@ export function TableItems() {
 									<td
 										key={cell.id}
 										className={getCellClass(cell)}
+										onClick={() => onClickCell(cell)}
 									>
 										{flexRender(cell.column.columnDef.cell, cell.getContext())}
 									</td>
@@ -197,6 +207,11 @@ export function TableItems() {
 					</tbody>
 				</table>
 			</section>
+			<ViewItem
+				record={activeCell}
+				show={showItemDialog}
+				setShow={setShowItemDialog}
+			/>
 		</article>
 	);
 }

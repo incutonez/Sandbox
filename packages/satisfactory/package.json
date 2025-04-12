@@ -13,6 +13,7 @@
   "dependencies": {
     "@material-symbols/svg-400": "latest",
     "@tanstack/react-table": "^8.21.2",
+    "classnames": "^2.5.1",
     "just-camel-case": "^6.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
