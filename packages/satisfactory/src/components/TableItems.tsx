@@ -7,6 +7,7 @@ import {
 	useReactTable,
 } from "@tanstack/react-table";
 import { loadInventory } from "@/api/inventory.ts";
+import { CellItemName } from "@/components/CellItemName.tsx";
 import { FieldText } from "@/components/FieldText.tsx";
 import { IconSort } from "@/components/Icons.tsx";
 import { ViewItem } from "@/components/ViewItem.tsx";
@@ -16,7 +17,7 @@ const columnHelper = createColumnHelper<IInventoryItem>();
 const DefaultCellCls = "border-r border-b first:border-l px-2 py-1";
 const DefaultColumns = [columnHelper.accessor("name", {
 	header: "Name",
-	cell: (info) => info.getValue(),
+	cell: (info) => <CellItemName cell={info.cell} />,
 }), columnHelper.accessor("producingTotal", {
 	header: "Producing",
 	meta: {

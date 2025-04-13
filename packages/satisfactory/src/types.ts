@@ -8,7 +8,7 @@ export interface IInventoryItem {
 	id: TItemKey;
 	name: string;
 	image?: string;
-	category: TCategory | null;
+	category?: TCategory;
 	producing: number[];
 	consuming: number[];
 	producingTotal: number;
