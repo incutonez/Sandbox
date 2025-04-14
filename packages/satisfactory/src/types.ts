@@ -15,3 +15,30 @@ export interface IInventoryItem {
 	consumingTotal: number;
 	total: number;
 }
+
+export interface IRecipeConsume {
+	item: TItemKey;
+	amountPerCycle: number;
+	// recipe.cyclesPerMinute * amountPerCycle
+	amountPerMinute: number;
+}
+
+export interface IRecipeProduce {
+	item: TItemKey;
+	amountPerCycle: number;
+	// recipe.cyclesPerMinute * amountPerCycle
+	amountPerMinute: number;
+}
+
+export interface IRecipe {
+	id: string;
+	name: string;
+	// In seconds
+	productionCycleTime: number;
+	// 60 / productionCycleTime
+	cyclesPerMinute: number;
+	isAlternate: boolean;
+	consumes: IRecipeConsume[];
+	produces: IRecipeProduce[];
+	producedIn: string[];
+}

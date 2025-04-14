@@ -2,9 +2,11 @@
 import { IInventoryItem } from "@/types.ts";
 import { sum } from "@/utils/common.ts";
 
+export const inventoryItems = defaultInventory as IInventoryItem[];
+
 export function loadInventory() {
 	const data = localStorage.getItem("inventory");
-	const inventory: IInventoryItem[] = data ? JSON.parse(data) : defaultInventory;
+	const inventory: IInventoryItem[] = data ? JSON.parse(data) : inventoryItems;
 	inventory.forEach((item) => {
 		item.producingTotal = sum(item.producing);
 		item.consumingTotal = sum(item.consuming);

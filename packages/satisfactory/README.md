@@ -1,54 +1,11 @@
-# React + TypeScript + Vite
+# Satisfactory Production Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+I wanted a tool that could help me keep track of what I'm producing and consuming in my factory.  I know things like [Satisfactory Calculator](https://satisfactory-calculator.com/en/planners/production) exist, but I wanted to try and make my own in React.
 
-Currently, two official plugins are available:
+## Data
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The [initial data](https://github.com/greeny/SatisfactoryTools/blob/master/data/data1.0.json#L3154) was pulled from the SatisfactoryTools GH repo, and I wrote a generator.ts script to massage the data into what I needed.  This included both recipes and items that can be produced.  The images for the items were pulled from [here](https://github.com/greeny/SatisfactoryTools/tree/master/www/assets/images/items).
 
-## Expanding the ESLint configuration
+## UI
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+The UI is pretty simple.  The user is presented with a data table (using [TanStack Table](https://tanstack.com/table/latest)), with the items and the current production, consumption, and total amounts.  If the total amount is positive, the cell will be green, red if negative, and white if neutral.  The producing and consuming cells can be clicked, which opens a dialog to edit the amounts from recipes.
