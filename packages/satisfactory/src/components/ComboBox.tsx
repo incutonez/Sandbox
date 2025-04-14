@@ -14,11 +14,11 @@ import { IconArrowDown } from "@/components/Icons.tsx";
 export type TComboBoxValue = Key | null;
 
 export interface IComboBox<TOption extends object, TKey = keyof TOption> extends Omit<ComboBoxProps<TOption>, "children"> {
-	value: TComboBoxValue;
+	value?: TComboBoxValue;
 	options: TOption[];
 	valueField: TKey;
 	displayField: TKey;
-	setValue: (value: TComboBoxValue) => void;
+	setValue?: (value: TComboBoxValue) => void;
 	setSelection?: (value?: TOption) => void;
 	label?: string;
 	children?: ReactNode | ((item: TOption) => ReactNode);
@@ -28,11 +28,12 @@ export interface IComboBox<TOption extends object, TKey = keyof TOption> extends
 
 export function ComboBox<TOption extends object>({ value, inputCls, setValue, setSelection, options, label, children, menuTrigger = "focus", valueField = "value" as keyof TOption, displayField = "display" as keyof TOption, listHeight = 300, ...props }: IComboBox<TOption>) {
 	let labelEl: ReactNode;
-	inputCls = classNames("appearance-none rounded-md h-8 outline-none ring-1 ring-inset ring-offset-0 ring-gray-500 enabled:focus:ring-sky-600 text-sm pl-2 pr-6 py-1", inputCls);
+	inputCls = classNames("appearance-none rounded-md h-full outline-none ring-1 ring-inset ring-offset-0 ring-gray-500 enabled:focus:ring-sky-600 text-sm pl-2 pr-6 py-1", inputCls);
 	if (label) {
 		labelEl = (
-			<BaseLabel>
+			<BaseLabel className="text-sm uppercase font-semibold mr-2">
 				{label}
+				:
 			</BaseLabel>
 		);
 	}
@@ -48,7 +49,9 @@ export function ComboBox<TOption extends object>({ value, inputCls, setValue, se
 	};
 
 	function onSelectionChange(key: TComboBoxValue) {
-		setValue(key);
+		if (setValue) {
+			setValue(key);
+		}
 		if (setSelection) {
 			setSelection(options.find((item) => item[valueField] === key));
 		}
@@ -57,6 +60,7 @@ export function ComboBox<TOption extends object>({ value, inputCls, setValue, se
 	return (
 		<BaseComboBox
 			{...props}
+			className="h-8 flex items-center"
 			items={options}
 			menuTrigger={menuTrigger}
 			selectedKey={value}
@@ -64,7 +68,7 @@ export function ComboBox<TOption extends object>({ value, inputCls, setValue, se
 		>
 			{labelEl}
 			<BaseInput className={inputCls} />
-			<BaseButton className="relative cursor-pointer -ml-6 top-1.5">
+			<BaseButton className="relative cursor-pointer -ml-6">
 				<IconArrowDown className="size-6" />
 			</BaseButton>
 			<BasePopover

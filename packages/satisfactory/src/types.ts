@@ -9,8 +9,8 @@ export interface IInventoryItem {
 	name: string;
 	image?: string;
 	category?: TCategory;
-	producing: number[];
-	consuming: number[];
+	producing: IRecipe[];
+	consuming: IRecipe[];
 	producingTotal: number;
 	consumingTotal: number;
 	total: number;
@@ -32,6 +32,7 @@ export interface IRecipeProduce {
 
 export interface IRecipe {
 	id: string;
+	rowId?: string;
 	name: string;
 	// In seconds
 	productionCycleTime: number;

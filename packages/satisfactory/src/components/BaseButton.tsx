@@ -15,7 +15,7 @@ export type IBaseButton<T extends ElementType = "button"> = ComponentProps<T> & 
 	loading?: boolean;
 }
 
-export function BaseButton({ text, color = "bg-slate-300 hover:bg-slate-400", loading = false, icon, iconSlot, hidden = false, size = "h-8", iconCls = "", className, iconAfter = false, ...attrs }: IBaseButton) {
+export function BaseButton({ text, color = "bg-slate-300 enabled:hover:bg-slate-400", loading = false, icon, iconSlot, hidden = false, size = "h-8", iconCls = "", className, iconAfter = false, ...attrs }: IBaseButton) {
 	let textNode: ReactNode;
 	let buttonIcon: ReactNode;
 	if (loading) {

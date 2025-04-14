@@ -2,12 +2,13 @@
 import { createPortal } from "react-dom";
 import classNames from "classnames";
 import { BaseButton } from "@/components/BaseButton.tsx";
-import { IconClose } from "@/components/Icons.tsx";
+import { IconCancel, IconClose } from "@/components/Icons.tsx";
 
 export interface IBaseDialog extends ComponentProps<"dialog"> {
 	titleSlot?: ReactNode;
 	footerSlot?: ReactNode;
 	bodyCls?: string;
+	footerCls?: string;
 	title?: string;
 	size?: string;
 	closable?: boolean;
@@ -15,11 +16,12 @@ export interface IBaseDialog extends ComponentProps<"dialog"> {
 	setShow: (show: boolean) => void;
 }
 
-export function BaseDialog({ children, bodyCls, title, show, setShow, titleSlot, className, size = "size-5/6", closable = true, footerSlot }: IBaseDialog) {
+export function BaseDialog({ children, bodyCls, footerCls, title, show, setShow, titleSlot, className, size = "size-5/6", closable = true, footerSlot }: IBaseDialog) {
 	const dialogCls = classNames("z-1 flex shadow-md border rounded border-gray-300 flex-col absolute left-0 right-0 top-0 bottom-0 m-auto bg-white", show ? "" : "hidden", className, size);
 	let titleCloseNode: ReactNode;
-	let closeButtonNode: ReactNode;
+	let cancelButtonNode: ReactNode;
 	bodyCls = classNames("flex-1 overflow-auto p-2", bodyCls);
+	footerCls = classNames("flex space-x-2 justify-end border-t border-slate-400 p-2", footerCls);
 	titleSlot ??= (
 		<h1 className="font-bold">
 			{title}
@@ -30,18 +32,19 @@ export function BaseDialog({ children, bodyCls, title, show, setShow, titleSlot,
 		titleCloseNode = (
 			<BaseButton
 				icon={IconClose}
-				onClick={onClickClose}
+				onClick={onClickCancel}
 			/>
 		);
-		closeButtonNode = (
+		cancelButtonNode = (
 			<BaseButton
-				text="Close"
-				onClick={onClickClose}
+				text="Cancel"
+				icon={IconCancel}
+				onClick={onClickCancel}
 			/>
 		);
 	}
 
-	function onClickClose() {
+	function onClickCancel() {
 		setShow(false);
 	}
 
@@ -54,9 +57,9 @@ export function BaseDialog({ children, bodyCls, title, show, setShow, titleSlot,
 			<section className={bodyCls}>
 				{children}
 			</section>
-			<footer className="flex justify-end border-t border-slate-400 p-2">
+			<footer className={footerCls}>
 				{footerSlot}
-				{closeButtonNode}
+				{cancelButtonNode}
 			</footer>
 		</dialog>
 	);
