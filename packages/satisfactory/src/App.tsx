@@ -1,10 +1,10 @@
-import { TableItems } from "@/components/TableItems.tsx";
+import { ViewInventoryItems } from "@/views/ViewInventoryItems.tsx";
 
 export function App() {
 	return (
 		<>
 			<main className="flex size-full overflow-hidden">
-				<TableItems />
+				<ViewInventoryItems />
 			</main>
 		</>
 	);

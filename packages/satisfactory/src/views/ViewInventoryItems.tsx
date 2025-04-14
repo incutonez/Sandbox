@@ -9,8 +9,8 @@ import { loadInventory } from "@/api/inventory.ts";
 import { CellItemName } from "@/components/CellItemName.tsx";
 import { FieldText } from "@/components/FieldText.tsx";
 import { TableData } from "@/components/TableData.tsx";
-import { ViewItem } from "@/components/ViewItem.tsx";
 import { IInventoryItem } from "@/types.ts";
+import { ViewInventoryItem } from "@/views/ViewInventoryItem.tsx";
 
 const columnHelper = createColumnHelper<IInventoryItem>();
 const DefaultColumns = [columnHelper.accessor("name", {
@@ -39,7 +39,7 @@ const DefaultColumns = [columnHelper.accessor("name", {
 	cell: (info) => info.getValue(),
 })];
 
-export function TableItems() {
+export function ViewInventoryItems() {
 	const [data, setData] = useState<IInventoryItem[]>([]);
 	const [search, setSearch] = useState("");
 	const [globalFilter, setGlobalFilter] = useState<string>();
@@ -94,7 +94,7 @@ export function TableItems() {
 				table={table}
 				onClickCell={onClickCell}
 			/>
-			<ViewItem
+			<ViewInventoryItem
 				record={activeCell}
 				show={showItemDialog}
 				setShow={setShowItemDialog}

@@ -13,7 +13,7 @@ export interface IViewItem extends IBaseDialog {
 }
 
 // TODOJEF: On save, it needs to update the associations in consuming AND producing
-export function ViewItem({ record, show, setShow }: IViewItem) {
+export function ViewInventoryItem({ record, show, setShow }: IViewItem) {
 	const recordClone = useRef<IInventoryItem>(undefined);
 	const [availableRecipes, setAvailableRecipes] = useState<IRecipe[]>(recipes);
 	const [selectedRecipe, setSelectedRecipe] = useState<IRecipe>();
