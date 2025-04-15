@@ -10,6 +10,7 @@ import {
 } from "react-aria-components";
 import classNames from "classnames";
 import { IconArrowDown } from "@/components/Icons.tsx";
+import { getData } from "@/utils/common.ts";
 
 export type TComboBoxValue = Key | null;
 
@@ -43,7 +44,7 @@ export function ComboBox<TOption extends object>({ value, inputCls, setValue, se
 				id={item[valueField] as Key}
 				className="hover:bg-sky-100 cursor-pointer p-2 text-sm data-[focus-visible]:bg-sky-100 aria-selected:bg-sky-200 aria-selected:font-semibold"
 			>
-				{item[displayField] as string}
+				{getData(item, displayField as string)}
 			</BaseListBoxItem>
 		);
 	};

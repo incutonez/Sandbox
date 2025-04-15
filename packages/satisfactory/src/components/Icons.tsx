@@ -16,4 +16,8 @@ export { default as IconRemove } from "@material-symbols/svg-400/outlined/remove
 
 export { default as IconDelete } from "@material-symbols/svg-400/outlined/delete.svg?react";
 
+export { default as IconEdit } from "@material-symbols/svg-400/outlined/edit.svg?react";
+
 export { default as IconSave } from "@material-symbols/svg-400/outlined/save.svg?react";
+
+export { default as IconArrowForward } from "@material-symbols/svg-400/outlined/arrow_forward.svg?react";

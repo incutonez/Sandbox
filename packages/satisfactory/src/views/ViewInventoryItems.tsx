@@ -1,13 +1,16 @@
-﻿import { useEffect, useState } from "react";
+﻿import { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import {
 	Cell,
 	createColumnHelper,
 	getCoreRowModel, getFilteredRowModel, getSortedRowModel, SortingState,
 	useReactTable,
 } from "@tanstack/react-table";
-import { loadInventory } from "@/api/inventory.ts";
-import { CellItemName } from "@/components/CellItemName.tsx";
+import { loadInventory, saveInventory, setActiveItem, store, useAppSelector } from "@/api/inventory.ts";
+import { BaseButton } from "@/components/BaseButton.tsx";
+import { CellItemName } from "@/components/CellItem.tsx";
 import { FieldText } from "@/components/FieldText.tsx";
+import { IconDelete } from "@/components/Icons.tsx";
 import { TableData } from "@/components/TableData.tsx";
 import { IInventoryItem } from "@/types.ts";
 import { ViewInventoryItem } from "@/views/ViewInventoryItem.tsx";
@@ -40,11 +43,13 @@ const DefaultColumns = [columnHelper.accessor("name", {
 })];
 
 export function ViewInventoryItems() {
+	let itemDialogNode;
+	const dispatch = useDispatch();
 	const [data, setData] = useState<IInventoryItem[]>([]);
-	const [search, setSearch] = useState("");
+	const [search, setSearch] = useState<string>();
 	const [globalFilter, setGlobalFilter] = useState<string>();
 	const [showItemDialog, setShowItemDialog] = useState(false);
-	const [activeCell, setActiveCell] = useState<IInventoryItem>();
+	const activeCell = useAppSelector((state) => state.activeItem);
 	const [sorting, setSorting] = useState<SortingState>([{
 		id: "name",
 		desc: false,
@@ -63,25 +68,71 @@ export function ViewInventoryItems() {
 			globalFilter,
 		},
 	});
+	const reloadInventory = useCallback(() => {
+		dispatch(loadInventory());
+		setData(store.getState().inventory);
+	}, [dispatch]);
+
+	if (showItemDialog && activeCell) {
+		itemDialogNode = (
+			<ViewInventoryItem
+				show={showItemDialog}
+				setShow={setShowItemDialog}
+				onClickSave={onClickSave}
+			/>
+		);
+	}
 
 	function onChangeSearch(searchValue: string) {
 		table.setGlobalFilter(searchValue);
 	}
 
+	// TODOJEF: Need to swap between producing and consuming here... show a different dialog or figure out how to combine?
 	function onClickCell(cell: Cell<IInventoryItem, unknown>) {
 		if (cell.column.columnDef.meta?.canClick) {
-			setActiveCell(cell.row.original);
+			dispatch(setActiveItem(cell.row.original));
 			setShowItemDialog(true);
 		}
 	}
 
+	// TODOJEF: NEED TO FIX THIS... figure out how to handle the updates, deletes, and creates
+	function onClickSave(recipeUpdates: IInventoryItem) {
+		// const diff = getDiff(previousCell ?? {}, recipeUpdates);
+		// diff.forEach((item) => {
+		// 	if (item.op === "add") {
+		// 		recipeUpdates.forEach((recipe) => {
+		// 			recipe.recipe.produces.forEach((produce) => {
+		// 				const found = data.find((item) => item.id === produce.item);
+		// 				if (found) {
+		// 					found.producedBy.push(recipe);
+		// 				}
+		// 			});
+		// 			recipe.recipe.consumes.forEach((produce) => {
+		// 				const found = data.find((item) => item.id === produce.item);
+		// 				if (found) {
+		// 					found.consumedBy.push(recipe);
+		// 				}
+		// 			});
+		// 		});
+		// 	}
+		// });
+		// dispatch(saveInventory(data));
+		// reloadInventory();
+		setShowItemDialog(false);
+	}
+
+	function onClickClearData() {
+		dispatch(saveInventory());
+		reloadInventory();
+	}
+
 	useEffect(() => {
-		setData(loadInventory());
-	}, []);
+		reloadInventory();
+	}, [reloadInventory]);
 
 	return (
 		<article className="size-full flex flex-col space-y-2">
-			<section className="ml-auto">
+			<section className="ml-auto flex space-x-2">
 				<FieldText
 					value={search}
 					setter={setSearch}
@@ -89,16 +140,17 @@ export function ViewInventoryItems() {
 					placeholder="Search..."
 					onInputChange={onChangeSearch}
 				/>
+				<BaseButton
+					text="Delete"
+					icon={IconDelete}
+					onClick={onClickClearData}
+				/>
 			</section>
 			<TableData<IInventoryItem>
 				table={table}
 				onClickCell={onClickCell}
 			/>
-			<ViewInventoryItem
-				record={activeCell}
-				show={showItemDialog}
-				setShow={setShowItemDialog}
-			/>
+			{itemDialogNode}
 		</article>
 	);
 }

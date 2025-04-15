@@ -9,37 +9,41 @@ export interface IInventoryItem {
 	name: string;
 	image?: string;
 	category?: TCategory;
-	producing: IRecipe[];
-	consuming: IRecipe[];
+	producedBy: IInventoryRecipe[];
+	consumedBy: IInventoryRecipe[];
 	producingTotal: number;
 	consumingTotal: number;
 	total: number;
 }
 
-export interface IRecipeConsume {
+export interface IRecipeItem {
 	item: TItemKey;
 	amountPerCycle: number;
-	// recipe.cyclesPerMinute * amountPerCycle
+	// IRecipe.cyclesPerMinute * amountPerCycle
 	amountPerMinute: number;
+	// amountPerMinute * (IInventoryRecipe.overclockValue / 60)
+	amountPerMinuteDisplay: number;
+	// amountPerCycle * (IInventoryRecipe.overclockValue / 60)
+	amountPerCycleDisplay: number;
 }
 
-export interface IRecipeProduce {
-	item: TItemKey;
-	amountPerCycle: number;
-	// recipe.cyclesPerMinute * amountPerCycle
-	amountPerMinute: number;
+export interface IInventoryRecipe {
+	id: string;
+	overclockValue: number;
+	somersloopValue: number;
+	machineCount: number;
+	recipe: IRecipe;
 }
 
 export interface IRecipe {
 	id: string;
-	rowId?: string;
 	name: string;
 	// In seconds
 	productionCycleTime: number;
 	// 60 / productionCycleTime
 	cyclesPerMinute: number;
 	isAlternate: boolean;
-	consumes: IRecipeConsume[];
-	produces: IRecipeProduce[];
+	consumes: IRecipeItem[];
+	produces: IRecipeItem[];
 	producedIn: string[];
 }

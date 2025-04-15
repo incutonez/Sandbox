@@ -1,7 +1,7 @@
 ﻿import { copyFileSync, writeFileSync } from "fs";
 import camelCase from "just-camel-case";
 import path from "path";
-import { IInventoryItem, IRecipe, IRecipeConsume, IRecipeProduce, TItemKey } from "@/types.ts";
+import { IInventoryItem, IRecipe, IRecipeItem, TItemKey } from "@/types.ts";
 import data from "./satisfactory.json";
 
 export interface ISatisfactoryData {
@@ -72,9 +72,9 @@ for (const key in items) {
 		id,
 		image,
 		name: item.name,
-		producing: [],
+		producedBy: [],
 		producingTotal: 0,
-		consuming: [],
+		consumedBy: [],
 		consumingTotal: 0,
 		total: 0,
 	});
@@ -88,8 +88,8 @@ for (const key in recipes) {
 	const productionCycleTime = recipe.time;
 	const cyclesPerMinute = 60 / productionCycleTime;
 	const id = camelCase(recipe.slug);
-	const consumes: IRecipeConsume[] = [];
-	const produces: IRecipeProduce[] = [];
+	const consumes: IRecipeItem[] = [];
+	const produces: IRecipeItem[] = [];
 	recipe.ingredients.forEach((ingredient) => {
 		consumes.push({
 			item: inventoryMapping[ingredient.item] as TItemKey,

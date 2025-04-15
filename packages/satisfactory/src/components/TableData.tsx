@@ -1,5 +1,6 @@
 ﻿import { ReactNode } from "react";
 import { Cell, flexRender, Header, Table } from "@tanstack/react-table";
+import classNames from "classnames";
 import { IconSort } from "@/components/Icons.tsx";
 import { emptyFn } from "@/utils/common.ts";
 
@@ -8,10 +9,12 @@ export interface ITableData<TData = unknown> {
 	onClickCell?: (cell: Cell<TData, unknown>) => void;
 }
 
-const DefaultCellCls = "border-r border-b first:border-l px-2 py-1";
+const DefaultCellCls = "border-r border-b last:border-r-0 px-2 py-1";
 
 export function TableData<TData = unknown>({ table, onClickCell = emptyFn }: ITableData<TData>) {
-	const tableHeaders = table.getHeaderGroups().map((headerGroup) => {
+	const hideHeaders = !!table.options.meta?.hideHeaders;
+	const tableCls = classNames("border-spacing-0 border-separate w-full border-x", hideHeaders ? "border-t" : "");
+	const tableHeaders = !hideHeaders && table.getHeaderGroups().map((headerGroup) => {
 		const rows = headerGroup.headers.map((header) => {
 			const { column } = header;
 			let title = "";
@@ -62,7 +65,7 @@ export function TableData<TData = unknown>({ table, onClickCell = emptyFn }: ITa
 	});
 
 	function getHeaderClass(header: Header<TData, unknown>) {
-		const cls = ["z-1 min-w-64 p-2 border-r first:border-l border-y sticky top-0"];
+		const cls = ["z-1 p-2 border-r last:border-r-0 border-b border-t sticky top-0", header.column.columnDef.meta?.columnWidth ?? "min-w-64"];
 		if (header.column.getCanSort()) {
 			cls.push("cursor-pointer select-none hover:bg-blue-300");
 		}
@@ -107,7 +110,7 @@ export function TableData<TData = unknown>({ table, onClickCell = emptyFn }: ITa
 
 	return (
 		<article className="overflow-auto flex-1">
-			<table className="border-spacing-0 border-separate w-full">
+			<table className={tableCls}>
 				<thead>
 					{tableHeaders}
 				</thead>
