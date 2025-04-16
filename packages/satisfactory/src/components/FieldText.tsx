@@ -1,4 +1,5 @@
 ﻿import { ChangeEvent, ComponentProps, ReactNode, useRef } from "react";
+import classNames from "classnames";
 import { FieldLabel } from "@/components/FieldLabel.tsx";
 import { TSetTimeout } from "@/types.ts";
 import { emptyFn } from "@/utils/common.ts";
@@ -8,12 +9,25 @@ export interface IFieldText<T = string> extends ComponentProps<"input"> {
 	placeholder?: string;
 	label?: string;
 	typeDelay?: number;
+	inputCls?: string;
+	inputWidth?: string;
+	labelCls?: string;
+	labelPosition?: "top" | "left";
 	onInputChange?: (value: string) => void;
 }
 
-export function FieldText({ value, type = "text", setter, label, onBlur = emptyFn, typeDelay = 250, onInputChange, placeholder }: IFieldText) {
+export function FieldText({ value, labelCls, labelPosition = "left", inputCls, inputWidth = "w-auto", type = "text", setter, label, onBlur = emptyFn, typeDelay = 250, onInputChange, placeholder }: IFieldText) {
 	let labelEl: ReactNode;
 	const typeDelayTimer = useRef<TSetTimeout>(undefined);
+	const cls = ["flex"];
+	inputCls = classNames("appearance-none rounded-md h-8 py-1 px-2 outline-none text-sm ring-1 ring-inset ring-offset-0 ring-gray-500 enabled:focus:ring-sky-600 bg-white text-gray-800 disabled:bg-gray-200 disabled:opacity-100 placeholder:text-gray-500", inputWidth);
+
+	if (labelPosition === "top") {
+		cls.push("flex-col");
+	}
+	else {
+		cls.push("space-x-1 items-center");
+	}
 
 	function onChange({ target }: ChangeEvent<HTMLInputElement>) {
 		const { value } = target;
@@ -25,14 +39,19 @@ export function FieldText({ value, type = "text", setter, label, onBlur = emptyF
 	}
 
 	if (label) {
-		labelEl = <FieldLabel text={label} />;
+		labelEl = (
+			<FieldLabel
+				text={label}
+				className={labelCls}
+			/>
+		);
 	}
 	return (
-		<article>
+		<article className={cls.join(" ")}>
 			{labelEl}
 			<input
 				type={type}
-				className="appearance-none rounded-md h-8 py-1 px-2 outline-none text-sm ring-1 ring-inset ring-offset-0 ring-gray-500 enabled:focus:ring-sky-600 bg-white text-gray-800 disabled:bg-gray-200 disabled:opacity-100 placeholder:text-gray-500"
+				className={inputCls}
 				value={value}
 				placeholder={placeholder}
 				onChange={onChange}

@@ -20,4 +20,4 @@ export { default as IconEdit } from "@material-symbols/svg-400/outlined/edit.svg
 
 export { default as IconSave } from "@material-symbols/svg-400/outlined/save.svg?react";
 
-export { default as IconArrowForward } from "@material-symbols/svg-400/outlined/arrow_forward.svg?react";
+export { default as IconArrowForward } from "@material-symbols/svg-400/outlined/arrow_right_alt.svg?react";

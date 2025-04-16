@@ -100,7 +100,6 @@ export function TableData<TData = unknown>({ table, showSummary = false, hideHea
 				</tr>
 			);
 		});
-		console.log("rerendering");
 		footerNodes = (
 			<tfoot>
 				{footerNodes}

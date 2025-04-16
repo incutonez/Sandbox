@@ -1,15 +1,17 @@
 ﻿import { Cell } from "@tanstack/react-table";
-import { getInventoryItem } from "@/api/inventory.ts";
-import { IInventoryItem, TItemKey } from "@/types.ts";
+import { useAppSelector } from "@/api/inventory.ts";
+import { machines } from "@/api/machines.ts";
+import { IconArrowForward } from "@/components/Icons.tsx";
+import { IInventoryItem, IInventoryRecipe, IRecipe, TItemKey } from "@/types.ts";
 
-interface ICellItemName {
+interface IItemName {
 	cell: Cell<IInventoryItem, unknown>;
 }
 
-export function CellItemName({ cell }: ICellItemName) {
+export function ItemName({ cell }: IItemName) {
 	return (
 		<article className="flex space-x-2">
-			<CellItemImage itemId={cell.row.original.id} />
+			<ItemImage itemId={cell.row.original.id} />
 			<span>
 				{cell.getValue() as string}
 			</span>
@@ -17,8 +19,8 @@ export function CellItemName({ cell }: ICellItemName) {
 	);
 }
 
-export function CellItemImage({ itemId }: { itemId: TItemKey }) {
-	const record = getInventoryItem(itemId);
+export function ItemImage({ itemId }: { itemId: TItemKey }) {
+	const record = useAppSelector((state) => state.inventory.find((item) => item.id === itemId));
 	if (!record) {
 		return;
 	}
@@ -28,5 +30,28 @@ export function CellItemImage({ itemId }: { itemId: TItemKey }) {
 			alt={record.name}
 			src={record.image}
 		/>
+	);
+}
+
+export function RecipeMachine({ record }: { record?: IRecipe }) {
+	if (!record) {
+		return;
+	}
+	const [machineId] = record.producedIn;
+	const found = machines.find((machine) => machine.id === machineId);
+	if (!found) {
+		return;
+	}
+	return (
+		<>
+			<IconArrowForward className="size-10" />
+			<img
+				className="size-32"
+				alt={found.name}
+				title={found.name}
+				src={found.image}
+			/>
+			<IconArrowForward className="size-10" />
+		</>
 	);
 }

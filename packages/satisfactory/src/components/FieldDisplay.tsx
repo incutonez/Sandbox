@@ -4,12 +4,24 @@ import { FieldLabel } from "@/components/FieldLabel.tsx";
 export interface IFieldDisplay extends ComponentProps<"article"> {
 	label?: string;
 	value?: string | number;
+	labelPosition?: "top" | "left";
+	labelCls?: string;
 }
 
-export function FieldDisplay({ label, value = "" }: IFieldDisplay) {
+export function FieldDisplay({ label, labelCls, value = "", labelPosition = "left" }: IFieldDisplay) {
+	const cls = ["h-8 flex items-center"];
+	if (labelPosition === "top") {
+		cls.push("flex-col");
+	}
+	else {
+		cls.push("space-x-1");
+	}
 	return (
-		<article className="h-8 flex space-x-2 items-center">
-			<FieldLabel text={label} />
+		<article className={cls.join(" ")}>
+			<FieldLabel
+				text={label}
+				className={labelCls}
+			/>
 			<span className="text-sm font-semibold">
 				{value}
 			</span>

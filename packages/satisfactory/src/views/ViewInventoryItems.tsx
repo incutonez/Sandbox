@@ -14,7 +14,7 @@ import {
 	useAppSelector,
 } from "@/api/inventory.ts";
 import { BaseButton } from "@/components/BaseButton.tsx";
-import { CellItemName } from "@/components/CellItem.tsx";
+import { ItemName } from "@/components/CellItem.tsx";
 import { FieldText } from "@/components/FieldText.tsx";
 import { IconDelete } from "@/components/Icons.tsx";
 import { TableData } from "@/components/TableData.tsx";
@@ -28,7 +28,7 @@ export function ViewInventoryItems() {
 	const dispatch = useDispatch();
 	const [columns] = useState([columnHelper.accessor("name", {
 		header: "Name",
-		cell: (info) => <CellItemName cell={info.cell} />,
+		cell: (info) => <ItemName cell={info.cell} />,
 	}), columnHelper.accessor("producingTotal", {
 		header: "Producing",
 		meta: {
