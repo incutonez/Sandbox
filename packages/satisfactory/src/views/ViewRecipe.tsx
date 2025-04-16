@@ -7,7 +7,7 @@ import { FieldNumber } from "@/components/FieldNumber.tsx";
 import { IconArrowForward, IconSave } from "@/components/Icons.tsx";
 import { RecipeItems } from "@/components/RecipeItems.tsx";
 import { IInventoryRecipe, IRecipe } from "@/types.ts";
-import { calculateAmountDisplays, clone, uuid } from "@/utils/common.ts";
+import { clone, uuid } from "@/utils/common.ts";
 
 export interface IViewRecipe extends IBaseDialog {
 	record?: IInventoryRecipe;
@@ -81,7 +81,7 @@ export function ViewRecipe({ show, setShow, onSave, record, recipes }: IViewReci
 	function onClickSave() {
 		if (recipe) {
 			onSave({
-				recipe,
+				recipe: clone(recipe),
 				id: record?.id || uuid(),
 				machineCount: record?.machineCount ?? 1,
 				overclockValue: overclock,

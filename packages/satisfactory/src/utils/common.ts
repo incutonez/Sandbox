@@ -6,8 +6,6 @@ export { v4 as uuid } from "uuid";
 
 export { default as getData } from "just-safe-get";
 
-export { diff as getDiff } from "just-diff";
-
 export { default as pluralize } from "pluralize";
 
 export function emptyFn() {

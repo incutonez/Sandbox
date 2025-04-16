@@ -18,7 +18,6 @@
     "classnames": "^2.5.1",
     "just-camel-case": "^6.2.0",
     "just-clone": "^6.2.0",
-    "just-diff": "^6.0.2",
     "just-safe-get": "^4.2.0",
     "pluralize": "^8.0.0",
     "react": "^19.0.0",

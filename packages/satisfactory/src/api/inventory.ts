@@ -2,7 +2,7 @@
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import defaultInventory from "@/api/inventory.json";
 import { IInventoryItem, IInventoryRecipe, TItemKey } from "@/types.ts";
-import { sumConsumes, sumProduces } from "@/utils/common.ts";
+import { calculateAmountDisplays, clone, sumConsumes, sumProduces } from "@/utils/common.ts";
 
 export const inventoryItems = defaultInventory as IInventoryItem[];
 
@@ -24,8 +24,64 @@ const { actions, reducer } = createSlice({
 		setActiveItem(state, { payload }: PayloadAction<IInventoryItem>) {
 			state.activeItem = payload;
 		},
+		deleteRecipe(state, { payload }: PayloadAction<IInventoryRecipe>) {
+			payload.recipe.consumes.forEach((consumes) => {
+				const found = state.inventory.find((record) => record.id === consumes.item);
+				if (found) {
+					const foundIndex = found.consumedBy.findIndex((record) => record.id === payload.id);
+					if (foundIndex >= 0) {
+						found.consumedBy.splice(foundIndex, 1);
+					}
+				}
+			});
+			payload.recipe.produces.forEach((produces) => {
+				const found = state.inventory.find((record) => record.id === produces.item);
+				if (found) {
+					const foundIndex = found.producedBy.findIndex((record) => record.id === payload.id);
+					if (foundIndex >= 0) {
+						found.producedBy.splice(foundIndex, 1);
+					}
+				}
+			});
+		},
+		updateRecipe(state, { payload }: PayloadAction<IInventoryRecipe>) {
+			payload.recipe.consumes.forEach((consumes) => {
+				const found = state.inventory.find((record) => record.id === consumes.item);
+				if (found) {
+					const foundIndex = found.consumedBy.findIndex((record) => record.id === payload.id);
+					if (foundIndex >= 0) {
+						found.consumedBy[foundIndex] = payload;
+					}
+				}
+			});
+			payload.recipe.produces.forEach((produces) => {
+				const found = state.inventory.find((record) => record.id === produces.item);
+				if (found) {
+					const foundIndex = found.producedBy.findIndex((record) => record.id === payload.id);
+					if (foundIndex >= 0) {
+						found.producedBy[foundIndex] = payload;
+					}
+				}
+			});
+		},
+		addRecipe(state, { payload }: PayloadAction<IInventoryRecipe>) {
+			payload.recipe.consumes.forEach((consumes) => {
+				const found = state.inventory.find((record) => record.id === consumes.item);
+				if (found) {
+					found.consumedBy.push(payload);
+				}
+			});
+			payload.recipe.produces.forEach((produces) => {
+				const found = state.inventory.find((record) => record.id === produces.item);
+				if (found) {
+					found.producedBy.push(payload);
+				}
+			});
+		},
 		updateActiveItemRecipe(state, { payload }: PayloadAction<IInventoryRecipe>) {
 			const foundIndex = state.activeItem?.producedBy.findIndex((item) => item.id === payload.id) ?? -1;
+			calculateAmountDisplays(payload.recipe.produces, payload.overclockValue);
+			calculateAmountDisplays(payload.recipe.consumes, payload.overclockValue);
 			if (foundIndex >= 0) {
 				state.activeItem!.producedBy[foundIndex] = payload;
 			}
@@ -41,7 +97,7 @@ const { actions, reducer } = createSlice({
 		},
 		loadInventory(state) {
 			const data = localStorage.getItem("inventory");
-			const inventory: IInventoryItem[] = data ? JSON.parse(data) : inventoryItems;
+			const inventory: IInventoryItem[] = data ? JSON.parse(data) : clone(inventoryItems);
 			inventory.forEach((item) => {
 				item.producingTotal = sumProduces(item.producedBy, item.id);
 				item.consumingTotal = sumConsumes(item.consumedBy, item.id);
@@ -49,28 +105,19 @@ const { actions, reducer } = createSlice({
 			});
 			state.inventory = inventory;
 		},
-		saveInventory(_state, { payload }: PayloadAction<IInventoryItem[] | undefined>) {
+		saveInventory(state, { payload }: PayloadAction<boolean>) {
+			// Clear
 			if (payload) {
-				localStorage.setItem("inventory", JSON.stringify(payload));
-			}
-			else {
 				localStorage.removeItem("inventory");
 			}
-		},
-		updateConsumedRecipe(state, { payload }: PayloadAction<{record: IInventoryItem, recipe: IInventoryRecipe}>) {
-			const { record, recipe } = payload;
-			const found = state.inventory.find((item) => item.id === record.id);
-			if (found) {
-				const foundIndex = found.consumedBy.findIndex((item) => item.id === recipe.id);
-				if (foundIndex >= 0) {
-					found.consumedBy[foundIndex] = recipe;
-				}
+			else {
+				localStorage.setItem("inventory", JSON.stringify(state.inventory));
 			}
 		},
 	},
 });
 
-export const { loadInventory, saveInventory, setActiveItem, updateActiveItemRecipe, deleteActiveItemRecipe } = actions;
+export const { addRecipe, updateRecipe, deleteRecipe, loadInventory, saveInventory, setActiveItem, updateActiveItemRecipe, deleteActiveItemRecipe } = actions;
 
 export const store = configureStore({
 	reducer,

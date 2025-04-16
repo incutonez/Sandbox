@@ -6,7 +6,14 @@ import {
 	getCoreRowModel, getFilteredRowModel, getSortedRowModel, SortingState,
 	useReactTable,
 } from "@tanstack/react-table";
-import { loadInventory, saveInventory, setActiveItem, store, useAppSelector } from "@/api/inventory.ts";
+import {
+	addRecipe,
+	deleteRecipe,
+	loadInventory,
+	saveInventory,
+	setActiveItem, updateRecipe,
+	useAppSelector,
+} from "@/api/inventory.ts";
 import { BaseButton } from "@/components/BaseButton.tsx";
 import { CellItemName } from "@/components/CellItem.tsx";
 import { FieldText } from "@/components/FieldText.tsx";
@@ -45,10 +52,10 @@ const DefaultColumns = [columnHelper.accessor("name", {
 export function ViewInventoryItems() {
 	let itemDialogNode;
 	const dispatch = useDispatch();
-	const [data, setData] = useState<IInventoryItem[]>([]);
 	const [search, setSearch] = useState<string>();
 	const [globalFilter, setGlobalFilter] = useState<string>();
 	const [showItemDialog, setShowItemDialog] = useState(false);
+	const data = useAppSelector((state) => state.inventory);
 	const activeCell = useAppSelector((state) => state.activeItem);
 	const [sorting, setSorting] = useState<SortingState>([{
 		id: "name",
@@ -70,7 +77,6 @@ export function ViewInventoryItems() {
 	});
 	const reloadInventory = useCallback(() => {
 		dispatch(loadInventory());
-		setData(store.getState().inventory);
 	}, [dispatch]);
 
 	if (showItemDialog && activeCell) {
@@ -95,34 +101,35 @@ export function ViewInventoryItems() {
 		}
 	}
 
-	// TODOJEF: NEED TO FIX THIS... figure out how to handle the updates, deletes, and creates
 	function onClickSave(recipeUpdates: IInventoryItem) {
-		// const diff = getDiff(previousCell ?? {}, recipeUpdates);
-		// diff.forEach((item) => {
-		// 	if (item.op === "add") {
-		// 		recipeUpdates.forEach((recipe) => {
-		// 			recipe.recipe.produces.forEach((produce) => {
-		// 				const found = data.find((item) => item.id === produce.item);
-		// 				if (found) {
-		// 					found.producedBy.push(recipe);
-		// 				}
-		// 			});
-		// 			recipe.recipe.consumes.forEach((produce) => {
-		// 				const found = data.find((item) => item.id === produce.item);
-		// 				if (found) {
-		// 					found.consumedBy.push(recipe);
-		// 				}
-		// 			});
-		// 		});
-		// 	}
-		// });
-		// dispatch(saveInventory(data));
-		// reloadInventory();
+		const found = data.find((item) => item.id === recipeUpdates.id)!;
+		found.producedBy.forEach((item) => {
+			if (!recipeUpdates.producedBy.find((recipe) => recipe.id === item.id)) {
+				dispatch(deleteRecipe(item));
+			}
+		});
+		for (const item of recipeUpdates.producedBy) {
+			const foundProduced = found.producedBy.find((producedItem) => producedItem.id === item.id);
+			// No changes, skip
+			if (foundProduced === item) {
+				continue;
+			}
+			// Already exists but has changes
+			else if (foundProduced) {
+				dispatch(updateRecipe(item));
+			}
+			// Not found, new record
+			else {
+				dispatch(addRecipe(item));
+			}
+		}
+		dispatch(saveInventory(false));
+		reloadInventory();
 		setShowItemDialog(false);
 	}
 
 	function onClickClearData() {
-		dispatch(saveInventory());
+		dispatch(saveInventory(true));
 		reloadInventory();
 	}
 
