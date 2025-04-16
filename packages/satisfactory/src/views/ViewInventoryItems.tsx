@@ -93,6 +93,7 @@ export function ViewInventoryItems() {
 		table.setGlobalFilter(searchValue);
 	}
 
+	// TODOJEF: Add consuming and total views
 	// TODOJEF: Need to swap between producing and consuming here... show a different dialog or figure out how to combine?
 	function onClickCell(cell: Cell<IInventoryItem, unknown>) {
 		if (cell.column.columnDef.meta?.canClick) {
