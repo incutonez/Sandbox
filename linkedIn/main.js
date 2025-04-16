@@ -1,7 +1,7 @@
 /**
  * In order to use this, go to about:debugging#/runtime/this-firefox and load the manifest.json file as the Temporary Add-on
  */
-const MatchRegex = /Viewed|Applied|Promoted/;
+const MatchRegex = /Viewed|Applied/;
 const Today = new Date();
 const OneWeek = 604800000;
 const HoursAgoRegex = /(\d+) hours ago/;
