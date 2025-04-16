@@ -18,7 +18,6 @@ export function CellItemName({ cell }: ICellItemName) {
 }
 
 export function CellItemImage({ itemId }: { itemId: TItemKey }) {
-	// TODOJEF: FIX THIS?
 	const record = getInventoryItem(itemId);
 	if (!record) {
 		return;

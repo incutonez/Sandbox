@@ -1,4 +1,7 @@
-﻿import { IInventoryRecipe, IRecipeItem, TItemKey } from "@/types.ts";
+﻿import justCapitalize from "just-capitalize";
+import { IInventoryRecipe, IRecipeItem, TItemKey } from "@/types.ts";
+
+const CapitalizeWordBoundary = /(?=[A-Z])/;
 
 export { default as clone } from "just-clone";
 
@@ -32,4 +35,9 @@ export function calculateAmountDisplays(recipes: IRecipeItem[], overclock: numbe
 		item.amountPerMinuteDisplay = item.amountPerMinute * overclock * machineCount;
 		item.amountPerCycleDisplay = item.amountPerCycle * overclock * machineCount;
 	});
+}
+
+export function capitalizeFirstLetters(value: string) {
+	const splits = value.split(CapitalizeWordBoundary);
+	return splits.map((word) => justCapitalize(word)).join(" ");
 }

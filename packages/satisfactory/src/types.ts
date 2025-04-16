@@ -47,3 +47,9 @@ export interface IRecipe {
 	produces: IRecipeItem[];
 	producedIn: string[];
 }
+
+export interface IMachine {
+	id: string;
+	name: string;
+	image: string;
+}

@@ -1,8 +1,9 @@
 ﻿import { copyFileSync, writeFileSync } from "fs";
 import camelCase from "just-camel-case";
 import path from "path";
-import { IInventoryItem, IRecipe, IRecipeItem, TItemKey } from "@/types.ts";
 import data from "./satisfactory.json";
+import { IInventoryItem, IMachine, IRecipe, IRecipeItem, TItemKey } from "./types.ts";
+import { capitalizeFirstLetters } from "./utils/common.ts";
 
 export interface ISatisfactoryData {
 	items: ISatisfactoryItem[];
@@ -54,11 +55,14 @@ export interface ISatisfactoryRecipe {
 	maxPower: number;
 }
 
+const machinesOut: IMachine[] = [];
 const inventoryMapping: Record<string, string> = {};
 const itemsOut: IInventoryItem[] = [];
 const recipesOut: IRecipe[] = [];
 const CopyItems = false;
 const CopyRecipes = true;
+const CopyMachines = true;
+const ReadOnly = false;
 const OutputDir = path.join("./src", "api");
 const { items, recipes } = data as unknown as ISatisfactoryData;
 
@@ -78,7 +82,7 @@ for (const key in items) {
 		consumingTotal: 0,
 		total: 0,
 	});
-	if (CopyItems) {
+	if (CopyItems && !ReadOnly) {
 		copyFileSync(path.join(ImageDir, `${item.icon}_256.png`), path.join("./public", image));
 	}
 }
@@ -92,6 +96,8 @@ for (const key in recipes) {
 	const produces: IRecipeItem[] = [];
 	recipe.ingredients.forEach((ingredient) => {
 		consumes.push({
+			amountPerCycleDisplay: 0,
+			amountPerMinuteDisplay: 0,
 			item: inventoryMapping[ingredient.item] as TItemKey,
 			amountPerCycle: ingredient.amount,
 			amountPerMinute: ingredient.amount * cyclesPerMinute,
@@ -99,10 +105,34 @@ for (const key in recipes) {
 	});
 	recipe.products.forEach((product) => {
 		produces.push({
+			amountPerCycleDisplay: 0,
+			amountPerMinuteDisplay: 0,
 			item: inventoryMapping[product.item] as TItemKey,
 			amountPerCycle: product.amount,
 			amountPerMinute: product.amount * cyclesPerMinute,
 		});
+	});
+	recipe.producedIn = recipe.producedIn.map((machineKey) => {
+		let id = camelCase(machineKey.replace(/^Desc_|Mk1_C$|_C$/g, ""));
+		if (id === "oilRefinery") {
+			id = "refinery";
+		}
+		else if (id === "hadronCollider") {
+			id = "particleAccelerator";
+		}
+		const image = `${id}.png`;
+		const found = machinesOut.find((machine) => machine.id === id);
+		if (!found) {
+			machinesOut.push({
+				id,
+				image,
+				name: capitalizeFirstLetters(id),
+			});
+			if (CopyMachines && !ReadOnly) {
+				copyFileSync(path.join(ImageDir, `${machineKey.replace(/_/g, "-").toLowerCase()}_256.png`), path.join("./public", image));
+			}
+		}
+		return id;
 	});
 	recipesOut.push({
 		id,
@@ -112,14 +142,16 @@ for (const key in recipes) {
 		produces,
 		name: recipe.name,
 		isAlternate: recipe.alternate,
-		// TODOJEF: need to get a list of machines
 		producedIn: recipe.producedIn,
 	});
 }
 
-if (CopyItems) {
+if (CopyItems && !ReadOnly) {
 	writeFileSync(path.join(OutputDir, "inventory.json"), JSON.stringify(itemsOut));
 }
-if (CopyRecipes) {
+if (CopyRecipes && !ReadOnly) {
 	writeFileSync(path.join(OutputDir, "recipes.json"), JSON.stringify(recipesOut));
+}
+if (CopyMachines && !ReadOnly) {
+	writeFileSync(path.join(OutputDir, "machines.json"), JSON.stringify(machinesOut));
 }
