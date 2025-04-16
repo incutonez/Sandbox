@@ -26,10 +26,10 @@ export function sumConsumes(value: IInventoryRecipe[], id: TItemKey) {
 	}, 0);
 }
 
-export function calculateAmountDisplays(recipes: IRecipeItem[], overclock: number) {
+export function calculateAmountDisplays(recipes: IRecipeItem[], overclock: number, machineCount: number) {
 	overclock /= 100;
 	recipes.forEach((item) => {
-		item.amountPerMinuteDisplay = item.amountPerMinute * overclock;
-		item.amountPerCycleDisplay = item.amountPerCycle * overclock;
+		item.amountPerMinuteDisplay = item.amountPerMinute * overclock * machineCount;
+		item.amountPerCycleDisplay = item.amountPerCycle * overclock * machineCount;
 	});
 }

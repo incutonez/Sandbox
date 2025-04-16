@@ -1,7 +1,6 @@
 ﻿import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
-	Cell,
 	createColumnHelper,
 	getCoreRowModel, getFilteredRowModel, getSortedRowModel, SortingState,
 	useReactTable,
@@ -23,36 +22,44 @@ import { IInventoryItem } from "@/types.ts";
 import { ViewInventoryItem } from "@/views/ViewInventoryItem.tsx";
 
 const columnHelper = createColumnHelper<IInventoryItem>();
-const DefaultColumns = [columnHelper.accessor("name", {
-	header: "Name",
-	cell: (info) => <CellItemName cell={info.cell} />,
-}), columnHelper.accessor("producingTotal", {
-	header: "Producing",
-	meta: {
-		cellCls: "text-right",
-		canClick: true,
-	},
-	cell: (info) => info.getValue(),
-}), columnHelper.accessor("consumingTotal", {
-	header: "Consuming",
-	meta: {
-		cellCls: "text-right",
-		canClick: true,
-	},
-	cell: (info) => info.getValue(),
-}), columnHelper.accessor("total", {
-	header: "Total",
-	meta: {
-		cellCls: "text-right",
-		canClick: true,
-	},
-	cell: (info) => info.getValue(),
-})];
 
 export function ViewInventoryItems() {
 	let itemDialogNode;
 	const dispatch = useDispatch();
+	const [columns] = useState([columnHelper.accessor("name", {
+		header: "Name",
+		cell: (info) => <CellItemName cell={info.cell} />,
+	}), columnHelper.accessor("producingTotal", {
+		header: "Producing",
+		meta: {
+			cellCls: "text-right",
+			onClickCell(cell) {
+				dispatch(setActiveItem(cell.row.original));
+				setIsItemProduction(true);
+				setShowItemDialog(true);
+			},
+		},
+		cell: (info) => info.getValue(),
+	}), columnHelper.accessor("consumingTotal", {
+		header: "Consuming",
+		meta: {
+			cellCls: "text-right",
+			onClickCell(cell) {
+				dispatch(setActiveItem(cell.row.original));
+				setIsItemProduction(false);
+				setShowItemDialog(true);
+			},
+		},
+		cell: (info) => info.getValue(),
+	}), columnHelper.accessor("total", {
+		header: "Total",
+		meta: {
+			cellCls: "text-right",
+		},
+		cell: (info) => info.getValue(),
+	})]);
 	const [search, setSearch] = useState<string>();
+	const [isItemProduction, setIsItemProduction] = useState(false);
 	const [globalFilter, setGlobalFilter] = useState<string>();
 	const [showItemDialog, setShowItemDialog] = useState(false);
 	const data = useAppSelector((state) => state.inventory);
@@ -63,7 +70,7 @@ export function ViewInventoryItems() {
 	}]);
 	const table = useReactTable({
 		data,
-		columns: DefaultColumns,
+		columns,
 		globalFilterFn: "includesString",
 		getCoreRowModel: getCoreRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
@@ -82,6 +89,7 @@ export function ViewInventoryItems() {
 	if (showItemDialog && activeCell) {
 		itemDialogNode = (
 			<ViewInventoryItem
+				isProduction={isItemProduction}
 				show={showItemDialog}
 				setShow={setShowItemDialog}
 				onClickSave={onClickSave}
@@ -95,28 +103,26 @@ export function ViewInventoryItems() {
 
 	// TODOJEF: Add consuming and total views
 	// TODOJEF: Need to swap between producing and consuming here... show a different dialog or figure out how to combine?
-	function onClickCell(cell: Cell<IInventoryItem, unknown>) {
-		if (cell.column.columnDef.meta?.canClick) {
-			dispatch(setActiveItem(cell.row.original));
-			setShowItemDialog(true);
-		}
-	}
-
-	function onClickSave(recipeUpdates: IInventoryItem) {
-		const found = data.find((item) => item.id === recipeUpdates.id)!;
-		found.producedBy.forEach((item) => {
-			if (!recipeUpdates.producedBy.find((recipe) => recipe.id === item.id)) {
+	function onClickSave(updateRecord: IInventoryItem) {
+		// This gets the previous state of our record
+		const found = data.find((item) => item.id === updateRecord.id)!;
+		const previousItems = isItemProduction ? found.producedBy : found.consumedBy;
+		const updatedItems = isItemProduction ? updateRecord.producedBy : updateRecord.consumedBy;
+		previousItems.forEach((item) => {
+			const { id } = item;
+			if (!updatedItems.find((recipe) => recipe.id === id)) {
 				dispatch(deleteRecipe(item));
 			}
 		});
-		for (const item of recipeUpdates.producedBy) {
-			const foundProduced = found.producedBy.find((producedItem) => producedItem.id === item.id);
+		for (const item of updatedItems) {
+			const { id } = item;
+			const foundPreviousItem = previousItems.find((previousItem) => previousItem.id === id);
 			// No changes, skip
-			if (foundProduced === item) {
+			if (foundPreviousItem === item) {
 				continue;
 			}
 			// Already exists but has changes
-			else if (foundProduced) {
+			else if (foundPreviousItem) {
 				dispatch(updateRecipe(item));
 			}
 			// Not found, new record
@@ -156,7 +162,6 @@ export function ViewInventoryItems() {
 			</section>
 			<TableData<IInventoryItem>
 				table={table}
-				onClickCell={onClickCell}
 			/>
 			{itemDialogNode}
 		</article>

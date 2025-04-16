@@ -13,6 +13,11 @@ export interface IState {
 	activeItem?: IInventoryItem;
 }
 
+export interface IActiveItemPayload {
+	record: IInventoryRecipe;
+	isProduction: boolean;
+}
+
 const initialState: IState = {
 	inventory: [],
 };
@@ -78,22 +83,38 @@ const { actions, reducer } = createSlice({
 				}
 			});
 		},
-		updateActiveItemRecipe(state, { payload }: PayloadAction<IInventoryRecipe>) {
-			const foundIndex = state.activeItem?.producedBy.findIndex((item) => item.id === payload.id) ?? -1;
-			calculateAmountDisplays(payload.recipe.produces, payload.overclockValue);
-			calculateAmountDisplays(payload.recipe.consumes, payload.overclockValue);
+		updateActiveItemRecipe({ activeItem }, { payload }: PayloadAction<IActiveItemPayload>) {
+			if (!activeItem) {
+				return;
+			}
+			const { record } = payload;
+			const { id, overclockValue, machineCount } = record;
+			const data = payload.isProduction ? activeItem.producedBy : activeItem.consumedBy;
+			const recipe = record.recipe;
+			const foundIndex = data.findIndex((item) => item.id === id) ?? -1;
+			calculateAmountDisplays(recipe.produces, overclockValue, machineCount);
+			calculateAmountDisplays(recipe.consumes, overclockValue, machineCount);
 			if (foundIndex >= 0) {
-				state.activeItem!.producedBy[foundIndex] = payload;
+				data[foundIndex] = record;
 			}
 			else {
-				state.activeItem!.producedBy.push(payload);
+				data.push(record);
 			}
+			activeItem.producingTotal = sumProduces(activeItem.producedBy, activeItem.id);
+			activeItem.consumingTotal = sumConsumes(activeItem.consumedBy, activeItem.id);
 		},
-		deleteActiveItemRecipe(state, { payload }: PayloadAction<IInventoryRecipe>) {
-			const foundIndex = state.activeItem?.producedBy.findIndex((item) => item.id === payload.id) ?? -1;
-			if (foundIndex >= 0) {
-				state.activeItem!.producedBy.splice(foundIndex, 1);
+		deleteActiveItemRecipe({ activeItem }, { payload }: PayloadAction<IActiveItemPayload>) {
+			if (!activeItem) {
+				return;
 			}
+			const { id } = payload.record;
+			const data = payload.isProduction ? activeItem.producedBy : activeItem.consumedBy;
+			const foundIndex = data.findIndex((item) => item.id === id) ?? -1;
+			if (foundIndex >= 0) {
+				data.splice(foundIndex, 1);
+			}
+			activeItem.producingTotal = sumProduces(activeItem.producedBy, activeItem.id);
+			activeItem.consumingTotal = sumConsumes(activeItem.consumedBy, activeItem.id);
 		},
 		loadInventory(state) {
 			const data = localStorage.getItem("inventory");

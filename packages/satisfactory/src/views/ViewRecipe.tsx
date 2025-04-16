@@ -6,20 +6,22 @@ import { FieldDisplay } from "@/components/FieldDisplay.tsx";
 import { FieldNumber } from "@/components/FieldNumber.tsx";
 import { IconArrowForward, IconSave } from "@/components/Icons.tsx";
 import { RecipeItems } from "@/components/RecipeItems.tsx";
-import { IInventoryRecipe, IRecipe } from "@/types.ts";
+import { IInventoryRecipe, IRecipe, TItemKey } from "@/types.ts";
 import { clone, uuid } from "@/utils/common.ts";
 
 export interface IViewRecipe extends IBaseDialog {
 	record?: IInventoryRecipe;
 	recipes: IRecipe[];
+	highlightItem?: TItemKey;
 	onSave: (recipe: IInventoryRecipe) => void;
 }
 
-export function ViewRecipe({ show, setShow, onSave, record, recipes }: IViewRecipe) {
+export function ViewRecipe({ show, setShow, onSave, record, recipes, highlightItem }: IViewRecipe) {
 	let recipeNode;
 	const [recipe, setRecipe] = useState<IRecipe | undefined>(record?.recipe);
 	const [overclock, setOverclock] = useState<number>(record?.overclockValue ?? 100);
 	const [somersloop, setSomersloop] = useState<number>(record?.somersloopValue ?? 0);
+	const [machineCount, setMachineCount] = useState<number>(record?.machineCount ?? 1);
 	const footerNode = (
 		<BaseButton
 			text="Save"
@@ -55,12 +57,20 @@ export function ViewRecipe({ show, setShow, onSave, record, recipes }: IViewReci
 							setter={(value = 0) => setSomersloop(value)}
 							value={somersloop}
 						/>
+						<FieldNumber
+							label="Machine Count"
+							min={1}
+							setter={(value = 1) => setMachineCount(value)}
+							value={machineCount}
+						/>
 					</section>
 				</section>
 				<section className="flex items-center space-x-16">
 					<section className="flex flex-col space-y-2">
 						<RecipeItems
 							items={recipe.consumes}
+							highlightItem={highlightItem}
+							machineCount={machineCount}
 							overclock={overclock}
 							somersloop={somersloop}
 						/>
@@ -69,6 +79,8 @@ export function ViewRecipe({ show, setShow, onSave, record, recipes }: IViewReci
 					<section className="flex flex-col space-y-2">
 						<RecipeItems
 							items={recipe.produces}
+							highlightItem={highlightItem}
+							machineCount={machineCount}
 							overclock={overclock}
 							somersloop={somersloop}
 						/>
@@ -81,9 +93,9 @@ export function ViewRecipe({ show, setShow, onSave, record, recipes }: IViewReci
 	function onClickSave() {
 		if (recipe) {
 			onSave({
+				machineCount,
 				recipe: clone(recipe),
 				id: record?.id || uuid(),
-				machineCount: record?.machineCount ?? 1,
 				overclockValue: overclock,
 				somersloopValue: somersloop,
 			});
