@@ -18,8 +18,8 @@ export function emptyFn() {
 export function sumRecipes(value: IInventoryRecipe[], id: TItemKey) {
 	let produces = 0;
 	let consumes = 0;
-	value.forEach(({ recipe }) => {
-		const found = recipe.items.filter(({ itemId }) => itemId === id);
+	value.forEach(({ items }) => {
+		const found = items.filter(({ itemId }) => itemId === id);
 		found.forEach(({ recipeType, amountPerMinuteDisplay }) => {
 			if (recipeType === "produces") {
 				produces += amountPerMinuteDisplay;

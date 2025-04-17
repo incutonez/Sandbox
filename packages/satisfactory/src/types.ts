@@ -31,12 +31,18 @@ export type TRecipeType = "consumes" | "produces" | "both";
 
 export interface IInventoryRecipe {
 	id: string;
-	recipeType: TRecipeType;
+	recipeId: string;
+	recipeName: string;
 	overclockValue: number;
 	somersloopValue: number;
 	machineCount: number;
-	// TODOJEF: Potentially spread this to this object and map id to recipeId?
-	recipe: IRecipe;
+	// In seconds
+	productionCycleTime: number;
+	// 60 / productionCycleTime
+	cyclesPerMinute: number;
+	isAlternate: boolean;
+	items: IRecipeItem[];
+	producedIn: string[];
 }
 
 export interface IRecipe {

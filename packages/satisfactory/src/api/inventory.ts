@@ -30,7 +30,7 @@ const { actions, reducer } = createSlice({
 			state.activeItem = payload;
 		},
 		deleteRecipe(state, { payload }: PayloadAction<IInventoryRecipe>) {
-			payload.recipe.items.forEach(({ itemId }) => {
+			payload.items.forEach(({ itemId }) => {
 				const found = state.inventory.find((record) => record.id === itemId);
 				if (found) {
 					const foundIndex = found.recipes.findIndex((record) => record.id === payload.id);
@@ -41,20 +41,20 @@ const { actions, reducer } = createSlice({
 			});
 		},
 		updateRecipe(state, { payload }: PayloadAction<IInventoryRecipe>) {
-			payload.recipe.items.forEach(({ itemId }) => {
+			payload.items.forEach(({ itemId }) => {
 				const found = state.inventory.find((record) => record.id === itemId);
 				if (found) {
 					const { recipes } = found;
-					const foundRecipe = recipes.find((record) => record.id === payload.id);
-					if (foundRecipe) {
-						recipes[recipes.indexOf(foundRecipe)] = payload;
+					const foundIndex = recipes.findIndex((record) => record.id === payload.id);
+					if (foundIndex >= 0) {
+						recipes[foundIndex] = payload;
 					}
 				}
 			});
 		},
 		addRecipe(state, { payload }: PayloadAction<IInventoryRecipe>) {
 			const processedIds: string[] = [];
-			for (const { itemId } of payload.recipe.items) {
+			for (const { itemId } of payload.items) {
 				// Some recipes produce and consume this item, so we only want 1 record representing that
 				if (processedIds.find((id) => id === itemId)) {
 					continue;
@@ -71,10 +71,10 @@ const { actions, reducer } = createSlice({
 				return;
 			}
 			const { record } = payload;
-			const { id, overclockValue, machineCount, recipe, recipeType } = record;
+			const { id, overclockValue, machineCount, items } = record;
 			const { recipes } = activeItem;
-			const foundIndex = recipes.findIndex((item) => item.id === id && item.recipeType === recipeType) ?? -1;
-			calculateAmountDisplays(recipe.items, overclockValue, machineCount);
+			const foundIndex = recipes.findIndex((item) => item.id === id) ?? -1;
+			calculateAmountDisplays(items, overclockValue, machineCount);
 			if (foundIndex >= 0) {
 				recipes[foundIndex] = record;
 			}

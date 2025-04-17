@@ -39,7 +39,7 @@ export function ViewInventoryItem({ show, setShow, onClickSave, recipeType }: IV
 	useEffect(() => {
 		const recordId = record?.id;
 		if (recipeType) {
-			setData(records.filter(({ recipe }) => recipe.items.filter((item) => item.recipeType === recipeType && item.itemId === recordId).length));
+			setData(records.filter(({ items }) => items.filter((item) => item.recipeType === recipeType && item.itemId === recordId).length));
 		}
 		else {
 			setData(records);
@@ -75,8 +75,7 @@ export function ViewInventoryItem({ show, setShow, onClickSave, recipeType }: IV
 			},
 		}, {
 			header: "Recipe",
-			id: "recipeName",
-			accessorKey: "recipe.name",
+			accessorKey: "recipeName",
 			cell: (info) => info.getValue(),
 		}, {
 			header: "Overclock",
@@ -106,7 +105,8 @@ export function ViewInventoryItem({ show, setShow, onClickSave, recipeType }: IV
 		if (recipeType === "produces" || !recipeType) {
 			columnDefs.push({
 				header: "Produces",
-				accessorFn: (info) => info.recipe.items,
+				id: "produces_items",
+				accessorKey: "items",
 				meta: {
 					cellCls: "text-center",
 					columnWidth: "min-w-auto",
@@ -129,7 +129,8 @@ export function ViewInventoryItem({ show, setShow, onClickSave, recipeType }: IV
 		if (recipeType === "consumes" || !recipeType) {
 			columnDefs.push({
 				header: "Consumes",
-				accessorFn: (info) => info.recipe.items,
+				id: "consumes_items",
+				accessorKey: "items",
 				meta: {
 					cellCls: "text-center",
 					columnWidth: "min-w-auto",
@@ -160,7 +161,13 @@ export function ViewInventoryItem({ show, setShow, onClickSave, recipeType }: IV
 							return "";
 						}
 						const total = record.producingTotal - record.consumingTotal;
-						return total < 0 ? "!bg-red-200" : "!bg-green-200";
+						if (total === 0) {
+							return "";
+						}
+						else if (total < 0) {
+							return "!bg-red-200";
+						}
+						return "!bg-green-200";
 					},
 				},
 				footer() {

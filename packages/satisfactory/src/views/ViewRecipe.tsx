@@ -3,7 +3,7 @@ import { recipes } from "@/api/recipes.ts";
 import { BaseButton } from "@/components/BaseButton.tsx";
 import { BaseDialog, IBaseDialog } from "@/components/BaseDialog.tsx";
 import { RecipeMachine } from "@/components/CellItem.tsx";
-import { ComboBox } from "@/components/ComboBox.tsx";
+import { ComboBox, TComboBoxValue } from "@/components/ComboBox.tsx";
 import { FieldDisplay } from "@/components/FieldDisplay.tsx";
 import { FieldNumber } from "@/components/FieldNumber.tsx";
 import { IconSave } from "@/components/Icons.tsx";
@@ -21,7 +21,8 @@ export interface IViewRecipe extends IBaseDialog {
 export function ViewRecipe({ show, setShow, onSave, record, recipeType, highlightItem }: IViewRecipe) {
 	let recipeNode;
 	const [availableRecipes, setAvailableRecipes] = useState<IRecipe[]>(recipes);
-	const [recipe, setRecipe] = useState<IRecipe | undefined>(record?.recipe);
+	const [recipe, setRecipe] = useState<TComboBoxValue>(record?.recipeId ?? "");
+	const [recipeRecord, setRecipeRecord] = useState<IRecipe>();
 	const [overclock, setOverclock] = useState<number>(record?.overclockValue ?? 100);
 	const [somersloop, setSomersloop] = useState<number>(record?.somersloopValue ?? 0);
 	const [machineCount, setMachineCount] = useState<number>(record?.machineCount ?? 1);
@@ -29,22 +30,22 @@ export function ViewRecipe({ show, setShow, onSave, record, recipeType, highligh
 		<BaseButton
 			text="Save"
 			icon={IconSave}
-			disabled={!recipe}
+			disabled={!recipeRecord}
 			onClick={onClickSave}
 		/>
 	);
-	if (recipe) {
+	if (recipeRecord) {
 		recipeNode = (
 			<section className="flex flex-col space-y-4 flex-1">
 				<section className="flex space-x-4 items-start">
 					<section className="flex flex-col space-y-2">
 						<FieldDisplay
 							label="Cycle Time (seconds)"
-							value={recipe.productionCycleTime}
+							value={recipeRecord.productionCycleTime}
 						/>
 						<FieldDisplay
 							label="Cycles / Min"
-							value={recipe.cyclesPerMinute}
+							value={recipeRecord.cyclesPerMinute}
 						/>
 					</section>
 					<section className="flex flex-col space-y-2">
@@ -77,16 +78,16 @@ export function ViewRecipe({ show, setShow, onSave, record, recipeType, highligh
 				</section>
 				<section className="flex items-center justify-center space-x-4 flex-1">
 					<RecipeItems
-						items={recipe.items}
+						items={recipeRecord.items}
 						recipeType="consumes"
 						highlightItem={highlightItem}
 						machineCount={machineCount}
 						overclock={overclock}
 						somersloop={somersloop}
 					/>
-					<RecipeMachine record={recipe} />
+					<RecipeMachine record={record} />
 					<RecipeItems
-						items={recipe.items}
+						items={recipeRecord.items}
 						recipeType="produces"
 						highlightItem={highlightItem}
 						machineCount={machineCount}
@@ -99,12 +100,16 @@ export function ViewRecipe({ show, setShow, onSave, record, recipeType, highligh
 	}
 
 	function onClickSave() {
-		if (recipe) {
-			const found = recipe.items.filter((item) => item.itemId === highlightItem);
+		if (recipeRecord) {
 			onSave({
 				machineCount,
-				recipeType: found.length === 1 ? found[0].recipeType : "both",
-				recipe: clone(recipe),
+				recipeId: recipeRecord.id,
+				recipeName: recipeRecord.name,
+				cyclesPerMinute: recipeRecord.cyclesPerMinute,
+				isAlternate: recipeRecord.isAlternate,
+				items: clone(recipeRecord.items),
+				producedIn: clone(recipeRecord.producedIn),
+				productionCycleTime: recipeRecord.productionCycleTime,
 				id: record?.id || uuid(),
 				overclockValue: overclock,
 				somersloopValue: somersloop,
@@ -113,11 +118,6 @@ export function ViewRecipe({ show, setShow, onSave, record, recipeType, highligh
 		}
 	}
 
-	function onSelectRecipe(value?: IRecipe) {
-		setRecipe(value ? clone(value) : undefined);
-	}
-
-	// TODOJEF: Finish other TODOJEFs
 	useEffect(() => {
 		setAvailableRecipes(recipes.filter((recipe) => {
 			return recipe.items.find((produce) => {
@@ -140,8 +140,9 @@ export function ViewRecipe({ show, setShow, onSave, record, recipeType, highligh
 			<article className="flex h-full flex-col space-y-4">
 				<ComboBox
 					label="Recipe"
-					value={recipe?.id ?? ""}
-					setSelection={onSelectRecipe}
+					value={recipe}
+					setValue={setRecipe}
+					setSelection={setRecipeRecord}
 					options={availableRecipes}
 					valueField="id"
 					displayField="name"
