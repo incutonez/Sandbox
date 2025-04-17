@@ -15,18 +15,24 @@ export function emptyFn() {
 
 }
 
-export function sumProduces(value: IInventoryRecipe[], id: TItemKey) {
-	return value.reduce((total, { recipe }) => {
-		const found = recipe.produces.find(({ item }) => item === id)?.amountPerMinuteDisplay ?? 0;
-		return total + found;
-	}, 0);
-}
-
-export function sumConsumes(value: IInventoryRecipe[], id: TItemKey) {
-	return value.reduce((total, { recipe }) => {
-		const found = recipe.consumes.find(({ item }) => item === id)?.amountPerMinuteDisplay ?? 0;
-		return total + found;
-	}, 0);
+export function sumRecipes(value: IInventoryRecipe[], id: TItemKey) {
+	let produces = 0;
+	let consumes = 0;
+	value.forEach(({ recipe }) => {
+		const found = recipe.items.filter(({ itemId }) => itemId === id);
+		found.forEach(({ recipeType, amountPerMinuteDisplay }) => {
+			if (recipeType === "produces") {
+				produces += amountPerMinuteDisplay;
+			}
+			else if (recipeType === "consumes") {
+				consumes += amountPerMinuteDisplay;
+			}
+		});
+	});
+	return {
+		produces,
+		consumes,
+	};
 }
 
 export function calculateAmountDisplays(recipes: IRecipeItem[], overclock: number, machineCount: number) {

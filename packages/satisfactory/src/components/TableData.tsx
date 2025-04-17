@@ -126,7 +126,11 @@ export function TableData<TData = unknown>({ table, showSummary = false, hideHea
 	}
 
 	function getFooterClass(header: Header<TData, unknown>) {
-		const cls = ["z-1 p-2 border-r last:border-r-0 border-b border-t sticky bottom-0 bg-stone-200", header.column.columnDef.meta?.columnWidth ?? "min-w-64"];
+		const meta = header.column.columnDef.meta;
+		const cls = ["z-1 p-2 border-r last:border-r-0 border-b border-t sticky bottom-0 bg-stone-200", meta?.columnWidth ?? "min-w-64"];
+		if (meta?.footerCls) {
+			cls.push(meta.footerCls(header));
+		}
 		return cls.join(" ");
 	}
 

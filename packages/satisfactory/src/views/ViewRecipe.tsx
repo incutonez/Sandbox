@@ -8,17 +8,17 @@ import { FieldDisplay } from "@/components/FieldDisplay.tsx";
 import { FieldNumber } from "@/components/FieldNumber.tsx";
 import { IconSave } from "@/components/Icons.tsx";
 import { RecipeItems } from "@/components/RecipeItems.tsx";
-import { IInventoryRecipe, IRecipe, IRecipeItem, TItemKey, TRecipeType } from "@/types.ts";
+import { IInventoryRecipe, IRecipe, TItemKey, TRecipeType } from "@/types.ts";
 import { clone, uuid } from "@/utils/common.ts";
 
 export interface IViewRecipe extends IBaseDialog {
 	record?: IInventoryRecipe;
 	recipeType?: TRecipeType;
-	highlightItem?: TItemKey;
+	highlightItem: TItemKey;
 	onSave: (recipe: IInventoryRecipe) => void;
 }
 
-export function ViewRecipe({ show, setShow, onSave, record, recipeType = "produces", highlightItem }: IViewRecipe) {
+export function ViewRecipe({ show, setShow, onSave, record, recipeType, highlightItem }: IViewRecipe) {
 	let recipeNode;
 	const [availableRecipes, setAvailableRecipes] = useState<IRecipe[]>(recipes);
 	const [recipe, setRecipe] = useState<IRecipe | undefined>(record?.recipe);
@@ -77,7 +77,8 @@ export function ViewRecipe({ show, setShow, onSave, record, recipeType = "produc
 				</section>
 				<section className="flex items-center justify-center space-x-4 flex-1">
 					<RecipeItems
-						items={recipe.consumes}
+						items={recipe.items}
+						recipeType="consumes"
 						highlightItem={highlightItem}
 						machineCount={machineCount}
 						overclock={overclock}
@@ -85,7 +86,8 @@ export function ViewRecipe({ show, setShow, onSave, record, recipeType = "produc
 					/>
 					<RecipeMachine record={recipe} />
 					<RecipeItems
-						items={recipe.produces}
+						items={recipe.items}
+						recipeType="produces"
 						highlightItem={highlightItem}
 						machineCount={machineCount}
 						overclock={overclock}
@@ -98,9 +100,10 @@ export function ViewRecipe({ show, setShow, onSave, record, recipeType = "produc
 
 	function onClickSave() {
 		if (recipe) {
+			const found = recipe.items.filter((item) => item.itemId === highlightItem);
 			onSave({
 				machineCount,
-				recipeType,
+				recipeType: found.length === 1 ? found[0].recipeType : "both",
 				recipe: clone(recipe),
 				id: record?.id || uuid(),
 				overclockValue: overclock,
@@ -114,16 +117,16 @@ export function ViewRecipe({ show, setShow, onSave, record, recipeType = "produc
 		setRecipe(value ? clone(value) : undefined);
 	}
 
-	// TODOJEF: Allow table footer background color somehow?
 	// TODOJEF: Finish other TODOJEFs
 	useEffect(() => {
 		setAvailableRecipes(recipes.filter((recipe) => {
-			// let items: IRecipeItem[] = [];
-			// if (recipeType === "produces") {
-			// 	items = recipe.produces
-			// }
-			const items = recipeType === "produces" ? recipe.produces : recipe.consumes;
-			return items.find((produce) => produce.item === highlightItem);
+			return recipe.items.find((produce) => {
+				if (recipeType) {
+					return produce.itemId === highlightItem && produce.recipeType === recipeType;
+				}
+				// We're in the total view here, and we want all combined recipes
+				return produce.itemId === highlightItem;
+			});
 		}));
 	}, [recipeType, setAvailableRecipes, highlightItem]);
 

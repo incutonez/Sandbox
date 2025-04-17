@@ -1,6 +1,6 @@
 ﻿import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { ColumnDef, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { ColumnDef, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 import { deleteActiveItemRecipe, updateActiveItemRecipe, useAppSelector } from "@/api/inventory.ts";
 import { BaseButton } from "@/components/BaseButton.tsx";
 import { BaseDialog, IBaseDialog } from "@/components/BaseDialog.tsx";
@@ -23,23 +23,28 @@ export function ViewInventoryItem({ show, setShow, onClickSave, recipeType }: IV
 	const [columns, setColumns] = useState<ColumnDef<IInventoryRecipe>[]>([]);
 	const [selectedRecipe, setSelectedRecipe] = useState<IInventoryRecipe>();
 	const [showRecipe, setShowRecipe] = useState(false);
+	const [sorting, setSorting] = useState<SortingState>([]);
 	const table = useReactTable({
 		data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
+		getSortedRowModel: getSortedRowModel(),
+		onSortingChange: setSorting,
+		state: {
+			sorting,
+		},
 	});
 
 	// TODOJEF: Add ability to add different factories and change name
-	// TODOJEF: Adding something that consumes and produces the item adds it twice... like Alternate: Distilled Silica
 	useEffect(() => {
-		records.sort((lhs, rhs) => lhs.recipe.name.localeCompare(rhs.recipe.name));
+		const recordId = record?.id;
 		if (recipeType) {
-			setData(records.filter((record) => record.recipeType === recipeType));
+			setData(records.filter(({ recipe }) => recipe.items.filter((item) => item.recipeType === recipeType && item.itemId === recordId).length));
 		}
 		else {
 			setData(records);
 		}
-	}, [records, recipeType]);
+	}, [records, recipeType, record?.id]);
 
 	useEffect(() => {
 		const recordId = record?.id;
@@ -70,6 +75,7 @@ export function ViewInventoryItem({ show, setShow, onClickSave, recipeType }: IV
 			},
 		}, {
 			header: "Recipe",
+			id: "recipeName",
 			accessorKey: "recipe.name",
 			cell: (info) => info.getValue(),
 		}, {
@@ -100,14 +106,14 @@ export function ViewInventoryItem({ show, setShow, onClickSave, recipeType }: IV
 		if (recipeType === "produces" || !recipeType) {
 			columnDefs.push({
 				header: "Produces",
-				accessorKey: "recipe.produces",
+				accessorFn: (info) => info.recipe.items,
 				meta: {
 					cellCls: "text-center",
 					columnWidth: "min-w-auto",
 				},
 				cell(info) {
 					const value = info.getValue<IRecipeItem[]>();
-					const found = value.find((item) => item.item === recordId);
+					const found = value.find((item) => item.itemId === recordId && item.recipeType === "produces");
 					if (!found) {
 						return "-";
 					}
@@ -123,14 +129,14 @@ export function ViewInventoryItem({ show, setShow, onClickSave, recipeType }: IV
 		if (recipeType === "consumes" || !recipeType) {
 			columnDefs.push({
 				header: "Consumes",
-				accessorKey: "recipe.consumes",
+				accessorFn: (info) => info.recipe.items,
 				meta: {
 					cellCls: "text-center",
 					columnWidth: "min-w-auto",
 				},
 				cell(info) {
 					const value = info.getValue<IRecipeItem[]>();
-					const found = value.find((item) => item.item === recordId);
+					const found = value.find((item) => item.itemId === recordId && item.recipeType === "consumes");
 					if (!found) {
 						return "-";
 					}
@@ -149,6 +155,13 @@ export function ViewInventoryItem({ show, setShow, onClickSave, recipeType }: IV
 				meta: {
 					cellCls: "text-center",
 					columnWidth: "min-w-auto",
+					footerCls() {
+						if (!record) {
+							return "";
+						}
+						const total = record.producingTotal - record.consumingTotal;
+						return total < 0 ? "!bg-red-200" : "!bg-green-200";
+					},
 				},
 				footer() {
 					if (!record) {
@@ -159,6 +172,10 @@ export function ViewInventoryItem({ show, setShow, onClickSave, recipeType }: IV
 			});
 		}
 		setColumns(columnDefs);
+		setSorting([{
+			id: "recipeName",
+			desc: false,
+		}]);
 	}, [recipeType, setColumns, record, dispatch]);
 
 	if (!record) {
@@ -217,7 +234,7 @@ export function ViewInventoryItem({ show, setShow, onClickSave, recipeType }: IV
 				setShow={setShow}
 				footerSlot={footerButtons}
 			>
-				<article className="flex flex-col space-y-4">
+				<article className="flex flex-col h-full space-y-4">
 					<section className="flex space-x-4 items-center">
 						<BaseButton
 							title="Add Recipe"

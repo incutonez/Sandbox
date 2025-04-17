@@ -59,8 +59,8 @@ const machinesOut: IMachine[] = [];
 const inventoryMapping: Record<string, string> = {};
 const itemsOut: IInventoryItem[] = [];
 const recipesOut: IRecipe[] = [];
-const CopyItems = true;
-const CopyRecipes = false;
+const CopyItems = false;
+const CopyRecipes = true;
 const CopyMachines = false;
 const ReadOnly = false;
 const OutputDir = path.join("./src", "api");
@@ -91,22 +91,23 @@ for (const key in recipes) {
 	const productionCycleTime = recipe.time;
 	const cyclesPerMinute = 60 / productionCycleTime;
 	const id = camelCase(recipe.slug);
-	const consumes: IRecipeItem[] = [];
-	const produces: IRecipeItem[] = [];
+	const items: IRecipeItem[] = [];
 	recipe.ingredients.forEach((ingredient) => {
-		consumes.push({
+		items.push({
+			recipeType: "consumes",
 			amountPerCycleDisplay: 0,
 			amountPerMinuteDisplay: 0,
-			item: inventoryMapping[ingredient.item] as TItemKey,
+			itemId: inventoryMapping[ingredient.item] as TItemKey,
 			amountPerCycle: ingredient.amount,
 			amountPerMinute: ingredient.amount * cyclesPerMinute,
 		});
 	});
 	recipe.products.forEach((product) => {
-		produces.push({
+		items.push({
+			recipeType: "produces",
 			amountPerCycleDisplay: 0,
 			amountPerMinuteDisplay: 0,
-			item: inventoryMapping[product.item] as TItemKey,
+			itemId: inventoryMapping[product.item] as TItemKey,
 			amountPerCycle: product.amount,
 			amountPerMinute: product.amount * cyclesPerMinute,
 		});
@@ -137,8 +138,7 @@ for (const key in recipes) {
 		id,
 		productionCycleTime,
 		cyclesPerMinute,
-		consumes,
-		produces,
+		items,
 		name: recipe.name,
 		isAlternate: recipe.alternate,
 		producedIn: recipe.producedIn,

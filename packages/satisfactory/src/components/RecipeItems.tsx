@@ -1,22 +1,26 @@
 ﻿import classNames from "classnames";
 import { getInventoryItem } from "@/api/inventory.ts";
 import { ItemImage } from "@/components/CellItem.tsx";
-import { IRecipeItem, TItemKey } from "@/types.ts";
+import { IRecipeItem, TItemKey, TRecipeType } from "@/types.ts";
 import { pluralize } from "@/utils/common.ts";
 
 export interface IRecipeItems {
 	items?: IRecipeItem[];
 	highlightItem?: TItemKey;
+	recipeType?: TRecipeType;
 	overclock: number;
 	somersloop: number;
 	machineCount: number;
 }
 
 // TODOJEF: Use somersloop value
-export function RecipeItems({ items = [], overclock, somersloop, highlightItem, machineCount }: IRecipeItems) {
+export function RecipeItems({ items = [], overclock, somersloop, recipeType, highlightItem, machineCount }: IRecipeItems) {
 	overclock /= 100;
 	const itemNodes = items.map((item) => {
-		const itemId = item.item;
+		if (item.recipeType !== recipeType) {
+			return;
+		}
+		const { itemId } = item;
 		const inventoryItem = getInventoryItem(itemId);
 		if (!inventoryItem) {
 			return;
@@ -25,7 +29,7 @@ export function RecipeItems({ items = [], overclock, somersloop, highlightItem, 
 		const cls = classNames("rounded-md", highlightItem === itemId ? "bg-yellow-200" : "");
 		return (
 			<tr
-				key={`consumes_${itemId}`}
+				key={`${item.recipeType}_${itemId}`}
 				className={cls}
 				title={inventoryItem.name}
 			>

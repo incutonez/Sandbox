@@ -63,7 +63,7 @@ export function ViewInventoryItems() {
 			},
 		},
 	})]);
-	const [search, setSearch] = useState<string>();
+	const [search, setSearch] = useState<string | undefined>("");
 	const [recipeType, setRecipeType] = useState<TRecipeType>();
 	const [globalFilter, setGlobalFilter] = useState<string>();
 	const [showItemDialog, setShowItemDialog] = useState(false);

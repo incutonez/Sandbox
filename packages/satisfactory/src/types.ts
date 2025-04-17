@@ -16,7 +16,8 @@ export interface IInventoryItem {
 }
 
 export interface IRecipeItem {
-	item: TItemKey;
+	itemId: TItemKey;
+	recipeType: TRecipeType;
 	amountPerCycle: number;
 	// IRecipe.cyclesPerMinute * amountPerCycle
 	amountPerMinute: number;
@@ -26,7 +27,7 @@ export interface IRecipeItem {
 	amountPerCycleDisplay: number;
 }
 
-export type TRecipeType = "consumes" | "produces";
+export type TRecipeType = "consumes" | "produces" | "both";
 
 export interface IInventoryRecipe {
 	id: string;
@@ -46,8 +47,7 @@ export interface IRecipe {
 	// 60 / productionCycleTime
 	cyclesPerMinute: number;
 	isAlternate: boolean;
-	consumes: IRecipeItem[];
-	produces: IRecipeItem[];
+	items: IRecipeItem[];
 	producedIn: string[];
 }
 
