@@ -2,7 +2,6 @@
 import { Cell, flexRender, Header, Table } from "@tanstack/react-table";
 import classNames from "classnames";
 import { IconSort } from "@/components/Icons.tsx";
-import { emptyFn } from "@/utils/common.ts";
 
 export interface ITableData<TData = unknown> {
 	table: Table<TData>;
@@ -66,12 +65,17 @@ export function TableData<TData = unknown>({ table, showSummary = false, hideHea
 	});
 	const rowNodes = table.getRowModel().rows.map((row) => {
 		const cellNodes = row.getVisibleCells().map((cell) => {
-			const onClickCell = cell.column.columnDef.meta?.onClickCell ?? emptyFn;
+			function onClickCellHandler() {
+				const onClickCell = cell.column.columnDef.meta?.onClickCell;
+				if (onClickCell) {
+					onClickCell(cell);
+				}
+			}
 			return (
 				<td
 					key={cell.id}
 					className={getCellClass(cell)}
-					onClick={() => onClickCell(cell)}
+					onClick={onClickCellHandler}
 				>
 					{flexRender(cell.column.columnDef.cell, cell.getContext())}
 				</td>

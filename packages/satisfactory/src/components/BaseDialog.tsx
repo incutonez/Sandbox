@@ -49,7 +49,10 @@ export function BaseDialog({ children, bodyCls, footerCls, title, show, setShow,
 	}
 
 	const content = (
-		<dialog className={dialogCls}>
+		<dialog
+			className={dialogCls}
+			open={show}
+		>
 			<header className="flex items-center justify-between border-b border-slate-400 bg-slate-200 p-2">
 				{titleSlot}
 				{titleCloseNode}

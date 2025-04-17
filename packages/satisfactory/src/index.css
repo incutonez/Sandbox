@@ -17,6 +17,10 @@ html, body, #root {
     @apply p-4;
 }
 
+body:has(dialog[open]) #root {
+    @apply blur-xs;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;

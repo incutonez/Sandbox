@@ -9,8 +9,7 @@ export interface IInventoryItem {
 	name: string;
 	image?: string;
 	category?: TCategory;
-	producedBy: IInventoryRecipe[];
-	consumedBy: IInventoryRecipe[];
+	recipes: IInventoryRecipe[];
 	producingTotal: number;
 	consumingTotal: number;
 	total: number;
@@ -27,11 +26,15 @@ export interface IRecipeItem {
 	amountPerCycleDisplay: number;
 }
 
+export type TRecipeType = "consumes" | "produces";
+
 export interface IInventoryRecipe {
 	id: string;
+	recipeType: TRecipeType;
 	overclockValue: number;
 	somersloopValue: number;
 	machineCount: number;
+	// TODOJEF: Potentially spread this to this object and map id to recipeId?
 	recipe: IRecipe;
 }
 

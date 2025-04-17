@@ -1,4 +1,5 @@
-﻿import { useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
+import { recipes } from "@/api/recipes.ts";
 import { BaseButton } from "@/components/BaseButton.tsx";
 import { BaseDialog, IBaseDialog } from "@/components/BaseDialog.tsx";
 import { RecipeMachine } from "@/components/CellItem.tsx";
@@ -12,13 +13,14 @@ import { clone, uuid } from "@/utils/common.ts";
 
 export interface IViewRecipe extends IBaseDialog {
 	record?: IInventoryRecipe;
-	recipes: IRecipe[];
 	highlightItem?: TItemKey;
 	onSave: (recipe: IInventoryRecipe) => void;
 }
 
-export function ViewRecipe({ show, setShow, onSave, record, recipes, highlightItem }: IViewRecipe) {
+export function ViewRecipe({ show, setShow, onSave, record, highlightItem }: IViewRecipe) {
 	let recipeNode;
+	const [availableRecipes, setAvailableRecipes] = useState<IRecipe[]>(recipes);
+	const recipeType = useMemo(() => record?.recipeType || "produces", [record?.recipeType]);
 	const [recipe, setRecipe] = useState<IRecipe | undefined>(record?.recipe);
 	const [overclock, setOverclock] = useState<number>(record?.overclockValue ?? 100);
 	const [somersloop, setSomersloop] = useState<number>(record?.somersloopValue ?? 0);
@@ -98,6 +100,7 @@ export function ViewRecipe({ show, setShow, onSave, record, recipes, highlightIt
 		if (recipe) {
 			onSave({
 				machineCount,
+				recipeType,
 				recipe: clone(recipe),
 				id: record?.id || uuid(),
 				overclockValue: overclock,
@@ -111,6 +114,16 @@ export function ViewRecipe({ show, setShow, onSave, record, recipes, highlightIt
 		setRecipe(value ? clone(value) : undefined);
 	}
 
+	// TODOJEF: Need to figure out if Total view is in read only
+	// TODOJEF: Allow table footer background color somehow?
+	// TODOJEF: Finish other TODOJEFs
+	useEffect(() => {
+		setAvailableRecipes(recipes.filter((recipe) => {
+			const items = recipeType === "produces" ? recipe.produces : recipe.consumes;
+			return items.find((produce) => produce.item === highlightItem);
+		}));
+	}, [recipeType, setAvailableRecipes, highlightItem]);
+
 	return (
 		<BaseDialog
 			title="Edit Recipe"
@@ -123,7 +136,7 @@ export function ViewRecipe({ show, setShow, onSave, record, recipes, highlightIt
 					label="Recipe"
 					value={recipe?.id ?? ""}
 					setSelection={onSelectRecipe}
-					options={recipes}
+					options={availableRecipes}
 					valueField="id"
 					displayField="name"
 					inputCls="w-68"

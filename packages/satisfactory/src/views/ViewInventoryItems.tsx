@@ -18,7 +18,7 @@ import { ItemName } from "@/components/CellItem.tsx";
 import { FieldText } from "@/components/FieldText.tsx";
 import { IconDelete } from "@/components/Icons.tsx";
 import { TableData } from "@/components/TableData.tsx";
-import { IInventoryItem } from "@/types.ts";
+import { IInventoryItem, TRecipeType } from "@/types.ts";
 import { ViewInventoryItem } from "@/views/ViewInventoryItem.tsx";
 
 const columnHelper = createColumnHelper<IInventoryItem>();
@@ -31,35 +31,40 @@ export function ViewInventoryItems() {
 		cell: (info) => <ItemName cell={info.cell} />,
 	}), columnHelper.accessor("producingTotal", {
 		header: "Producing",
+		cell: (info) => info.getValue(),
 		meta: {
 			cellCls: "text-right",
 			onClickCell(cell) {
 				dispatch(setActiveItem(cell.row.original));
-				setIsItemProduction(true);
+				setRecipeType("produces");
 				setShowItemDialog(true);
 			},
 		},
-		cell: (info) => info.getValue(),
 	}), columnHelper.accessor("consumingTotal", {
 		header: "Consuming",
+		cell: (info) => info.getValue(),
 		meta: {
 			cellCls: "text-right",
 			onClickCell(cell) {
 				dispatch(setActiveItem(cell.row.original));
-				setIsItemProduction(false);
+				setRecipeType("consumes");
 				setShowItemDialog(true);
 			},
 		},
-		cell: (info) => info.getValue(),
 	}), columnHelper.accessor("total", {
 		header: "Total",
+		cell: (info) => info.getValue(),
 		meta: {
 			cellCls: "text-right",
+			onClickCell(cell) {
+				dispatch(setActiveItem(cell.row.original));
+				setRecipeType(undefined);
+				setShowItemDialog(true);
+			},
 		},
-		cell: (info) => info.getValue(),
 	})]);
 	const [search, setSearch] = useState<string>();
-	const [isItemProduction, setIsItemProduction] = useState(false);
+	const [recipeType, setRecipeType] = useState<TRecipeType>();
 	const [globalFilter, setGlobalFilter] = useState<string>();
 	const [showItemDialog, setShowItemDialog] = useState(false);
 	const data = useAppSelector((state) => state.inventory);
@@ -89,7 +94,7 @@ export function ViewInventoryItems() {
 	if (showItemDialog && activeCell) {
 		itemDialogNode = (
 			<ViewInventoryItem
-				isProduction={isItemProduction}
+				recipeType={recipeType}
 				show={showItemDialog}
 				setShow={setShowItemDialog}
 				onClickSave={onClickSave}
@@ -101,13 +106,11 @@ export function ViewInventoryItems() {
 		table.setGlobalFilter(searchValue);
 	}
 
-	// TODOJEF: Add consuming and total views
-	// TODOJEF: Need to swap between producing and consuming here... show a different dialog or figure out how to combine?
 	function onClickSave(updateRecord: IInventoryItem) {
 		// This gets the previous state of our record
 		const found = data.find((item) => item.id === updateRecord.id)!;
-		const previousItems = isItemProduction ? found.producedBy : found.consumedBy;
-		const updatedItems = isItemProduction ? updateRecord.producedBy : updateRecord.consumedBy;
+		const previousItems = found.recipes;
+		const updatedItems = updateRecord.recipes;
 		previousItems.forEach((item) => {
 			const { id } = item;
 			if (!updatedItems.find((recipe) => recipe.id === id)) {

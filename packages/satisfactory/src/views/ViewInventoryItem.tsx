@@ -2,77 +2,42 @@
 import { useDispatch } from "react-redux";
 import { ColumnDef, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { deleteActiveItemRecipe, updateActiveItemRecipe, useAppSelector } from "@/api/inventory.ts";
-import { recipes } from "@/api/recipes.ts";
 import { BaseButton } from "@/components/BaseButton.tsx";
 import { BaseDialog, IBaseDialog } from "@/components/BaseDialog.tsx";
 import { IconAdd, IconDelete, IconEdit, IconSave } from "@/components/Icons.tsx";
 import { TableData } from "@/components/TableData.tsx";
-import { IInventoryItem, IInventoryRecipe, IRecipe, IRecipeItem } from "@/types.ts";
+import { IInventoryItem, IInventoryRecipe, IRecipeItem, TRecipeType } from "@/types.ts";
 import { ViewRecipe } from "@/views/ViewRecipe.tsx";
 
 export interface IViewItem extends IBaseDialog {
-	isProduction: boolean;
+	recipeType?: TRecipeType;
 	onClickSave: (recipes: IInventoryItem) => void;
 }
 
-export function ViewInventoryItem({ show, setShow, onClickSave, isProduction }: IViewItem) {
+export function ViewInventoryItem({ show, setShow, onClickSave, recipeType }: IViewItem) {
 	let viewRecipeNode;
 	const dispatch = useDispatch();
 	const record = useAppSelector((state) => state.activeItem);
-	const data = useAppSelector((state) => isProduction ? state.activeItem?.producedBy : state.activeItem?.consumedBy) ?? [];
+	const records = useAppSelector((state) => state.activeItem?.recipes ?? []);
+	const [data, setData] = useState<IInventoryRecipe[]>(records);
+	const [columns, setColumns] = useState<ColumnDef<IInventoryRecipe>[]>([]);
 	const [selectedRecipe, setSelectedRecipe] = useState<IInventoryRecipe>();
-	const [availableRecipes, setAvailableRecipes] = useState<IRecipe[]>(recipes);
 	const [showRecipe, setShowRecipe] = useState(false);
-	let totalColumn: ColumnDef<IInventoryRecipe>;
-	if (isProduction) {
-		totalColumn = {
-			header: "Produces",
-			accessorKey: "recipe.produces",
-			meta: {
-				cellCls: "text-center",
-				columnWidth: "min-w-auto",
-			},
-			cell(info) {
-				const value = info.getValue<IRecipeItem[]>();
-				const found = value.find((item) => item.item === record?.id);
-				if (!found) {
-					return 0;
-				}
-				return (
-					<span>
-						{found.amountPerMinuteDisplay}
-					</span>
-				);
-			},
-			footer: () => record?.producingTotal,
-		};
-	}
-	else {
-		totalColumn = {
-			header: "Consumes",
-			accessorKey: "recipe.consumes",
-			meta: {
-				cellCls: "text-center",
-				columnWidth: "min-w-auto",
-			},
-			cell(info) {
-				const value = info.getValue<IRecipeItem[]>();
-				const found = value.find((item) => item.item === record?.id);
-				if (!found) {
-					return 0;
-				}
-				return (
-					<span>
-						{found.amountPerMinuteDisplay}
-					</span>
-				);
-			},
-			footer: () => record?.consumingTotal,
-		};
-	}
 	const table = useReactTable({
 		data,
-		columns: [{
+		columns,
+		getCoreRowModel: getCoreRowModel(),
+	});
+
+	useEffect(() => {
+		if (recipeType) {
+			setData(records.filter((record) => record.recipeType === recipeType));
+		}
+	}, [records, recipeType]);
+
+	useEffect(() => {
+		const recordId = record?.id;
+		const columnDefs: ColumnDef<IInventoryRecipe>[] = [{
 			id: "actions",
 			meta: {
 				cellCls: "flex justify-center space-x-2",
@@ -85,7 +50,7 @@ export function ViewInventoryItem({ show, setShow, onClickSave, isProduction }: 
 							icon={IconDelete}
 							title="Delete Recipe"
 							onClick={() => dispatch(deleteActiveItemRecipe({
-								isProduction,
+								recipeType,
 								record: info.row.original,
 							}))}
 						/>
@@ -125,25 +90,82 @@ export function ViewInventoryItem({ show, setShow, onClickSave, isProduction }: 
 				cellCls: "text-center",
 				columnWidth: "min-w-auto",
 			},
-		},
-		totalColumn],
-		getCoreRowModel: getCoreRowModel(),
-	});
-
-	useEffect(() => {
-		if (record) {
-			const recordId = record.id;
-			setAvailableRecipes(recipes.filter((recipe) => {
-				const items = isProduction ? recipe.produces : recipe.consumes;
-				return items.find((produce) => produce.item === recordId);
-			}));
+		}];
+		if (recipeType === "produces" || !recipeType) {
+			columnDefs.push({
+				header: "Produces",
+				accessorKey: "recipe.produces",
+				meta: {
+					cellCls: "text-center",
+					columnWidth: "min-w-auto",
+				},
+				cell(info) {
+					const value = info.getValue<IRecipeItem[]>();
+					const found = value.find((item) => item.item === recordId);
+					if (!found) {
+						return "-";
+					}
+					return (
+						<span>
+							{found.amountPerMinuteDisplay}
+						</span>
+					);
+				},
+				footer: () => record?.producingTotal || "-",
+			});
 		}
-	}, [isProduction, setAvailableRecipes, record]);
+		if (recipeType === "consumes" || !recipeType) {
+			columnDefs.push({
+				header: "Consumes",
+				accessorKey: "recipe.consumes",
+				meta: {
+					cellCls: "text-center",
+					columnWidth: "min-w-auto",
+				},
+				cell(info) {
+					const value = info.getValue<IRecipeItem[]>();
+					const found = value.find((item) => item.item === recordId);
+					if (!found) {
+						return "-";
+					}
+					return (
+						<span>
+							{found.amountPerMinuteDisplay}
+						</span>
+					);
+				},
+				footer: () => record?.consumingTotal || "-",
+			});
+		}
+		if (!recipeType) {
+			columnDefs.push({
+				header: "Remaining",
+				meta: {
+					cellCls: "text-center",
+					columnWidth: "min-w-auto",
+				},
+				footer() {
+					if (!record) {
+						return "-";
+					}
+					return record.producingTotal - record.consumingTotal;
+				},
+			});
+		}
+		setColumns(columnDefs);
+	}, [recipeType, setColumns, record, dispatch]);
 
 	if (!record) {
 		return;
 	}
-	const title = isProduction ? `Production: ${record.name}` : `Consumption: ${record.name}`;
+	let title = "Total";
+	if (recipeType === "produces") {
+		title = "Production";
+	}
+	else if (recipeType === "consumes") {
+		title = "Consumption";
+	}
+	title = `${title}: ${record.name}`;
 	const footerButtons = (
 		<BaseButton
 			text="Save"
@@ -155,7 +177,6 @@ export function ViewInventoryItem({ show, setShow, onClickSave, isProduction }: 
 		viewRecipeNode = (
 			<ViewRecipe
 				record={selectedRecipe}
-				recipes={availableRecipes}
 				highlightItem={record.id}
 				show={showRecipe}
 				setShow={setShowRecipe}
@@ -177,7 +198,7 @@ export function ViewInventoryItem({ show, setShow, onClickSave, isProduction }: 
 	function onSaveRecipe(record: IInventoryRecipe) {
 		dispatch(updateActiveItemRecipe({
 			record,
-			isProduction,
+			recipeType,
 		}));
 	}
 
@@ -195,7 +216,7 @@ export function ViewInventoryItem({ show, setShow, onClickSave, isProduction }: 
 							title="Add Recipe"
 							text="Recipe"
 							icon={IconAdd}
-							disabled={!isProduction}
+							disabled={recipeType === "consumes"}
 							onClick={onClickAddRecipe}
 						/>
 					</section>

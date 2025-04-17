@@ -59,9 +59,9 @@ const machinesOut: IMachine[] = [];
 const inventoryMapping: Record<string, string> = {};
 const itemsOut: IInventoryItem[] = [];
 const recipesOut: IRecipe[] = [];
-const CopyItems = false;
-const CopyRecipes = true;
-const CopyMachines = true;
+const CopyItems = true;
+const CopyRecipes = false;
+const CopyMachines = false;
 const ReadOnly = false;
 const OutputDir = path.join("./src", "api");
 const { items, recipes } = data as unknown as ISatisfactoryData;
@@ -76,9 +76,8 @@ for (const key in items) {
 		id,
 		image,
 		name: item.name,
-		producedBy: [],
+		recipes: [],
 		producingTotal: 0,
-		consumedBy: [],
 		consumingTotal: 0,
 		total: 0,
 	});
