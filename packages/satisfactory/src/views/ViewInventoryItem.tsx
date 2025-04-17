@@ -1,11 +1,15 @@
 ﻿import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ColumnDef, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
-import { deleteActiveItemRecipe, updateActiveItemRecipe, useAppSelector } from "@/api/inventory.ts";
+import {
+	deleteActiveItemRecipe, getActiveItem, getActiveItemRecipes,
+	updateActiveItemRecipe,
+} from "@/api/inventory.ts";
 import { BaseButton } from "@/components/BaseButton.tsx";
 import { BaseDialog, IBaseDialog } from "@/components/BaseDialog.tsx";
 import { IconAdd, IconDelete, IconEdit, IconSave } from "@/components/Icons.tsx";
 import { TableData } from "@/components/TableData.tsx";
+import { useAppSelector } from "@/store.ts";
 import { IInventoryItem, IInventoryRecipe, IRecipeItem, TRecipeType } from "@/types.ts";
 import { ViewRecipe } from "@/views/ViewRecipe.tsx";
 
@@ -17,8 +21,8 @@ export interface IViewItem extends IBaseDialog {
 export function ViewInventoryItem({ show, setShow, onClickSave, recipeType }: IViewItem) {
 	let viewRecipeNode;
 	const dispatch = useDispatch();
-	const record = useAppSelector((state) => state.activeItem);
-	const records = useAppSelector((state) => state.activeItem?.recipes ?? []);
+	const record = useAppSelector(getActiveItem);
+	const records = useAppSelector(getActiveItemRecipes);
 	const [data, setData] = useState<IInventoryRecipe[]>(records);
 	const [columns, setColumns] = useState<ColumnDef<IInventoryRecipe>[]>([]);
 	const [selectedRecipe, setSelectedRecipe] = useState<IInventoryRecipe>();

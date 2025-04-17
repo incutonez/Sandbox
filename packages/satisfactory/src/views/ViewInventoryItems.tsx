@@ -7,17 +7,17 @@ import {
 } from "@tanstack/react-table";
 import {
 	addRecipe,
-	deleteRecipe,
+	deleteRecipe, getActiveItem, getInventory,
 	loadInventory,
 	saveInventory,
 	setActiveItem, updateRecipe,
-	useAppSelector,
 } from "@/api/inventory.ts";
 import { BaseButton } from "@/components/BaseButton.tsx";
 import { ItemName } from "@/components/CellItem.tsx";
 import { FieldText } from "@/components/FieldText.tsx";
 import { IconDelete } from "@/components/Icons.tsx";
 import { TableData } from "@/components/TableData.tsx";
+import { useAppSelector } from "@/store.ts";
 import { IInventoryItem, TRecipeType } from "@/types.ts";
 import { ViewInventoryItem } from "@/views/ViewInventoryItem.tsx";
 
@@ -67,8 +67,8 @@ export function ViewInventoryItems() {
 	const [recipeType, setRecipeType] = useState<TRecipeType>();
 	const [globalFilter, setGlobalFilter] = useState<string>();
 	const [showItemDialog, setShowItemDialog] = useState(false);
-	const data = useAppSelector((state) => state.inventory);
-	const activeCell = useAppSelector((state) => state.activeItem);
+	const data = useAppSelector(getInventory);
+	const activeCell = useAppSelector(getActiveItem);
 	const [sorting, setSorting] = useState<SortingState>([{
 		id: "name",
 		desc: false,

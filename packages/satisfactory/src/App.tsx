@@ -1,5 +1,5 @@
 import { Provider } from "react-redux";
-import { store } from "@/api/inventory.ts";
+import { store } from "@/store.ts";
 import { ViewInventoryItems } from "@/views/ViewInventoryItems.tsx";
 
 export function App() {

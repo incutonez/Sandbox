@@ -1,5 +1,5 @@
 ﻿import classNames from "classnames";
-import { getInventoryItem } from "@/api/inventory.ts";
+import { getStateInventoryItem } from "@/api/inventory.ts";
 import { ItemImage } from "@/components/CellItem.tsx";
 import { IRecipeItem, TItemKey, TRecipeType } from "@/types.ts";
 import { pluralize } from "@/utils/common.ts";
@@ -21,7 +21,7 @@ export function RecipeItems({ items = [], overclock, somersloop, recipeType, hig
 			return;
 		}
 		const { itemId } = item;
-		const inventoryItem = getInventoryItem(itemId);
+		const inventoryItem = getStateInventoryItem(itemId);
 		if (!inventoryItem) {
 			return;
 		}

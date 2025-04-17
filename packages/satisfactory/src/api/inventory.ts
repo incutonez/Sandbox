@@ -1,12 +1,10 @@
-﻿import { useSelector } from "react-redux";
-import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
+﻿import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import defaultInventory from "@/api/inventory.json";
-import { IInventoryItem, IInventoryRecipe, TItemKey, TRecipeType } from "@/types.ts";
+import { RootState, store } from "@/store.ts";
+import { IInventoryItem, IInventoryRecipe, TRecipeType } from "@/types.ts";
 import { calculateAmountDisplays, clone, sumRecipes } from "@/utils/common.ts";
 
 export const inventoryItems = defaultInventory as IInventoryItem[];
-
-export type RootState = ReturnType<typeof store["getState"]>;
 
 export interface IState {
 	inventory: IInventoryItem[];
@@ -22,7 +20,7 @@ const initialState: IState = {
 	inventory: [],
 };
 
-const { actions, reducer } = createSlice({
+export const inventorySlice = createSlice({
 	initialState,
 	name: "inventory",
 	reducers: {
@@ -122,14 +120,20 @@ const { actions, reducer } = createSlice({
 	},
 });
 
-export const { addRecipe, updateRecipe, deleteRecipe, loadInventory, saveInventory, setActiveItem, updateActiveItemRecipe, deleteActiveItemRecipe } = actions;
+export const { addRecipe, updateRecipe, deleteRecipe, loadInventory, saveInventory, setActiveItem, updateActiveItemRecipe, deleteActiveItemRecipe } = inventorySlice.actions;
 
-export const store = configureStore({
-	reducer,
-});
+export function selectInventory(state: RootState) {
+	return state.inventory;
+}
 
-export const useAppSelector = useSelector.withTypes<RootState>();
+export const getInventory = createSelector(selectInventory, (state) => state.inventory);
 
-export function getInventoryItem(itemId: TItemKey) {
-	return store.getState().inventory.find((item) => item.id === itemId);
+export const getActiveItem = createSelector(selectInventory, (state) => state.activeItem);
+
+export const getActiveItemRecipes = createSelector([getActiveItem], (state) => state?.recipes ?? []);
+
+export const getInventoryItem = (itemId: string) => createSelector([getInventory], (state) => state.find((item) => item.id === itemId));
+
+export function getStateInventoryItem(itemId: string) {
+	return store.getState().inventory.inventory.find((item) => item.id === itemId);
 }

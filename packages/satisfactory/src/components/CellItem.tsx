@@ -1,7 +1,8 @@
 ﻿import { Cell } from "@tanstack/react-table";
-import { useAppSelector } from "@/api/inventory.ts";
+import { getInventoryItem } from "@/api/inventory.ts";
 import { machines } from "@/api/machines.ts";
 import { IconArrowForward } from "@/components/Icons.tsx";
+import { useAppSelector } from "@/store.ts";
 import { IInventoryItem, IInventoryRecipe, TItemKey } from "@/types.ts";
 
 interface IItemName {
@@ -20,7 +21,7 @@ export function ItemName({ cell }: IItemName) {
 }
 
 export function ItemImage({ itemId }: { itemId: TItemKey }) {
-	const record = useAppSelector((state) => state.inventory.find((item) => item.id === itemId));
+	const record = useAppSelector(getInventoryItem(itemId));
 	if (!record) {
 		return;
 	}
