@@ -55,7 +55,10 @@ const { actions, reducer } = createSlice({
 				if (found) {
 					const foundIndex = found.recipes.findIndex((record) => record.id === payload.id);
 					if (foundIndex >= 0) {
-						found.recipes[foundIndex] = payload;
+						found.recipes[foundIndex] = {
+							...payload,
+							recipeType: "consumes",
+						};
 					}
 				}
 			});
@@ -64,7 +67,10 @@ const { actions, reducer } = createSlice({
 				if (found) {
 					const foundIndex = found.recipes.findIndex((record) => record.id === payload.id);
 					if (foundIndex >= 0) {
-						found.recipes[foundIndex] = payload;
+						found.recipes[foundIndex] = {
+							...payload,
+							recipeType: "produces",
+						};
 					}
 				}
 			});

@@ -29,9 +29,15 @@ export function ViewInventoryItem({ show, setShow, onClickSave, recipeType }: IV
 		getCoreRowModel: getCoreRowModel(),
 	});
 
+	// TODOJEF: Add ability to add different factories and change name
+	// TODOJEF: Adding something that consumes and produces the item adds it twice... like Alternate: Distilled Silica
 	useEffect(() => {
+		records.sort((lhs, rhs) => lhs.recipe.name.localeCompare(rhs.recipe.name));
 		if (recipeType) {
 			setData(records.filter((record) => record.recipeType === recipeType));
+		}
+		else {
+			setData(records);
 		}
 	}, [records, recipeType]);
 
@@ -177,6 +183,7 @@ export function ViewInventoryItem({ show, setShow, onClickSave, recipeType }: IV
 		viewRecipeNode = (
 			<ViewRecipe
 				record={selectedRecipe}
+				recipeType={recipeType}
 				highlightItem={record.id}
 				show={showRecipe}
 				setShow={setShowRecipe}
@@ -216,7 +223,6 @@ export function ViewInventoryItem({ show, setShow, onClickSave, recipeType }: IV
 							title="Add Recipe"
 							text="Recipe"
 							icon={IconAdd}
-							disabled={recipeType === "consumes"}
 							onClick={onClickAddRecipe}
 						/>
 					</section>

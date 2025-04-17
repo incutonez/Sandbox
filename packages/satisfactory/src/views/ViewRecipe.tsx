@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { recipes } from "@/api/recipes.ts";
 import { BaseButton } from "@/components/BaseButton.tsx";
 import { BaseDialog, IBaseDialog } from "@/components/BaseDialog.tsx";
@@ -8,19 +8,19 @@ import { FieldDisplay } from "@/components/FieldDisplay.tsx";
 import { FieldNumber } from "@/components/FieldNumber.tsx";
 import { IconSave } from "@/components/Icons.tsx";
 import { RecipeItems } from "@/components/RecipeItems.tsx";
-import { IInventoryRecipe, IRecipe, TItemKey } from "@/types.ts";
+import { IInventoryRecipe, IRecipe, IRecipeItem, TItemKey, TRecipeType } from "@/types.ts";
 import { clone, uuid } from "@/utils/common.ts";
 
 export interface IViewRecipe extends IBaseDialog {
 	record?: IInventoryRecipe;
+	recipeType?: TRecipeType;
 	highlightItem?: TItemKey;
 	onSave: (recipe: IInventoryRecipe) => void;
 }
 
-export function ViewRecipe({ show, setShow, onSave, record, highlightItem }: IViewRecipe) {
+export function ViewRecipe({ show, setShow, onSave, record, recipeType = "produces", highlightItem }: IViewRecipe) {
 	let recipeNode;
 	const [availableRecipes, setAvailableRecipes] = useState<IRecipe[]>(recipes);
-	const recipeType = useMemo(() => record?.recipeType || "produces", [record?.recipeType]);
 	const [recipe, setRecipe] = useState<IRecipe | undefined>(record?.recipe);
 	const [overclock, setOverclock] = useState<number>(record?.overclockValue ?? 100);
 	const [somersloop, setSomersloop] = useState<number>(record?.somersloopValue ?? 0);
@@ -114,11 +114,14 @@ export function ViewRecipe({ show, setShow, onSave, record, highlightItem }: IVi
 		setRecipe(value ? clone(value) : undefined);
 	}
 
-	// TODOJEF: Need to figure out if Total view is in read only
 	// TODOJEF: Allow table footer background color somehow?
 	// TODOJEF: Finish other TODOJEFs
 	useEffect(() => {
 		setAvailableRecipes(recipes.filter((recipe) => {
+			// let items: IRecipeItem[] = [];
+			// if (recipeType === "produces") {
+			// 	items = recipe.produces
+			// }
 			const items = recipeType === "produces" ? recipe.produces : recipe.consumes;
 			return items.find((produce) => produce.item === highlightItem);
 		}));
