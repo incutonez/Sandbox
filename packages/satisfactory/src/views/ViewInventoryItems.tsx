@@ -1,10 +1,18 @@
 ﻿import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import {
 	createColumnHelper,
 	getCoreRowModel, getFilteredRowModel, getSortedRowModel, SortingState,
 	useReactTable,
 } from "@tanstack/react-table";
+import {
+	addFactoryThunk, deleteFactoryThunk,
+	getActiveFactory,
+	getFactories,
+	IFactory,
+	loadFactories,
+	setActiveFactory,
+	setActiveFactoryName,
+} from "@/api/factories.ts";
 import {
 	addRecipe,
 	deleteRecipe, getActiveItem, getInventory,
@@ -13,19 +21,35 @@ import {
 	setActiveItem, updateRecipe,
 } from "@/api/inventory.ts";
 import { BaseButton } from "@/components/BaseButton.tsx";
+import { BaseDialog } from "@/components/BaseDialog.tsx";
 import { ItemName } from "@/components/CellItem.tsx";
+import { ComboBox, TComboBoxValue } from "@/components/ComboBox.tsx";
 import { FieldText } from "@/components/FieldText.tsx";
-import { IconDelete } from "@/components/Icons.tsx";
+import { IconAdd, IconDelete, IconEdit, IconRevert, IconSave } from "@/components/Icons.tsx";
 import { TableData } from "@/components/TableData.tsx";
-import { useAppSelector } from "@/store.ts";
+import { useAppDispatch, useAppSelector } from "@/store.ts";
 import { IInventoryItem, TRecipeType } from "@/types.ts";
+import { uuid } from "@/utils/common.ts";
 import { ViewInventoryItem } from "@/views/ViewInventoryItem.tsx";
 
 const columnHelper = createColumnHelper<IInventoryItem>();
 
 export function ViewInventoryItems() {
 	let itemDialogNode;
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
+	const factories = useAppSelector(getFactories);
+	const activeFactory = useAppSelector(getActiveFactory);
+	const [factoryDialogName, setFactoryDialogName] = useState<string | undefined>("");
+	const [showFactoryDialog, setShowFactoryDialog] = useState(false);
+	const [isEditFactory, setIsEditFactory] = useState(false);
+	const factoryDialogFooter = (
+		<BaseButton
+			text="Save"
+			icon={IconSave}
+			disabled={!factoryDialogName}
+			onClick={onClickSaveFactory}
+		/>
+	);
 	const [columns] = useState([columnHelper.accessor("name", {
 		header: "Name",
 		cell: (info) => <ItemName cell={info.cell} />,
@@ -88,8 +112,10 @@ export function ViewInventoryItems() {
 		},
 	});
 	const reloadInventory = useCallback(() => {
-		dispatch(loadInventory());
-	}, [dispatch]);
+		if (activeFactory) {
+			dispatch(loadInventory(activeFactory));
+		}
+	}, [dispatch, activeFactory]);
 
 	if (showItemDialog && activeCell) {
 		itemDialogNode = (
@@ -100,6 +126,25 @@ export function ViewInventoryItems() {
 				onClickSave={onClickSave}
 			/>
 		);
+	}
+
+	function saveFactory() {
+		if (!factoryDialogName) {
+			return;
+		}
+		if (isEditFactory) {
+			dispatch(setActiveFactoryName({
+				name: factoryDialogName,
+				id: activeFactory!.id,
+			}));
+		}
+		else {
+			dispatch(addFactoryThunk({
+				id: uuid(),
+				name: factoryDialogName,
+			}));
+		}
+		setShowFactoryDialog(false);
 	}
 
 	function onChangeSearch(searchValue: string) {
@@ -143,30 +188,117 @@ export function ViewInventoryItems() {
 		reloadInventory();
 	}
 
+	function onSetActiveFactory(factory?: IFactory) {
+		dispatch(setActiveFactory(factory));
+	}
+
+	function onSetFactory(factoryId?: TComboBoxValue) {
+		dispatch(setActiveFactory(factoryId as string));
+	}
+
+	function onClickEditFactory() {
+		setFactoryDialogName(activeFactory?.name);
+		setIsEditFactory(true);
+		setShowFactoryDialog(true);
+	}
+
+	function onClickAddFactory() {
+		setFactoryDialogName("");
+		setIsEditFactory(false);
+		setShowFactoryDialog(true);
+	}
+
+	function onClickDeleteFactory() {
+		if (activeFactory) {
+			dispatch(deleteFactoryThunk(activeFactory));
+		}
+	}
+
+	function onClickSaveFactory() {
+		saveFactory();
+	}
+
+	function onEnterFactory() {
+		saveFactory();
+	}
+
 	useEffect(() => {
-		reloadInventory();
-	}, [reloadInventory]);
+		dispatch(loadFactories());
+	}, [dispatch]);
+
+	useEffect(() => {
+		if (activeFactory) {
+			reloadInventory();
+		}
+	}, [activeFactory, reloadInventory]);
 
 	return (
 		<article className="size-full flex flex-col space-y-2">
-			<section className="ml-auto flex space-x-2">
-				<FieldText
-					value={search}
-					setter={setSearch}
-					label="Search"
-					placeholder="Search..."
-					onInputChange={onChangeSearch}
-				/>
-				<BaseButton
-					text="Delete"
-					icon={IconDelete}
-					onClick={onClickClearData}
-				/>
+			<section className="flex">
+				<section className="flex space-x-2">
+					<ComboBox
+						label="Factory"
+						value={activeFactory?.id ?? ""}
+						options={factories}
+						valueField="id"
+						displayField="name"
+						setValue={onSetFactory}
+						setSelection={onSetActiveFactory}
+					/>
+					<BaseButton
+						title="Add New Factory"
+						icon={IconAdd}
+						onClick={onClickAddFactory}
+					/>
+					<BaseButton
+						title="Edit Factory Name"
+						icon={IconEdit}
+						onClick={onClickEditFactory}
+					/>
+					<BaseButton
+						title="Delete Factory"
+						icon={IconDelete}
+						onClick={onClickDeleteFactory}
+						disabled={factories?.length <= 1}
+					/>
+					<BaseButton
+						title="Clear Data"
+						icon={IconRevert}
+						onClick={onClickClearData}
+					/>
+				</section>
+				<section className="ml-auto flex space-x-2">
+					<FieldText
+						value={search}
+						setter={setSearch}
+						label="Search"
+						placeholder="Search..."
+						onInputChange={onChangeSearch}
+					/>
+				</section>
 			</section>
 			<TableData<IInventoryItem>
 				table={table}
 			/>
 			{itemDialogNode}
+			<BaseDialog
+				title={isEditFactory ? "Edit Factory" : "Add Factory"}
+				size="size-fit"
+				bodyCls="p-4"
+				footerSlot={factoryDialogFooter}
+				show={showFactoryDialog}
+				setShow={setShowFactoryDialog}
+			>
+				<article>
+					<FieldText
+						label="Name"
+						autoFocus={true}
+						value={factoryDialogName}
+						setter={setFactoryDialogName}
+						onEnter={onEnterFactory}
+					/>
+				</article>
+			</BaseDialog>
 		</article>
 	);
 }

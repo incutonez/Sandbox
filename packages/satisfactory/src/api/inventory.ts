@@ -1,4 +1,5 @@
 ﻿import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IFactory } from "@/api/factories.ts";
 import defaultInventory from "@/api/inventory.json";
 import { RootState, store } from "@/store.ts";
 import { IInventoryItem, IInventoryRecipe, TRecipeType } from "@/types.ts";
@@ -8,6 +9,7 @@ export const inventoryItems = defaultInventory as IInventoryItem[];
 
 export interface IState {
 	inventory: IInventoryItem[];
+	inventoryId: string;
 	activeItem?: IInventoryItem;
 }
 
@@ -18,6 +20,7 @@ export interface IActiveItemPayload {
 
 const initialState: IState = {
 	inventory: [],
+	inventoryId: "",
 };
 
 export const inventorySlice = createSlice({
@@ -97,8 +100,9 @@ export const inventorySlice = createSlice({
 			activeItem.producingTotal = produces;
 			activeItem.consumingTotal = consumes;
 		},
-		loadInventory(state) {
-			const data = localStorage.getItem("inventory");
+		loadInventory(state, { payload }: PayloadAction<IFactory>) {
+			const inventoryId = `inventory_${payload.id}`;
+			const data = localStorage.getItem(inventoryId);
 			const inventory: IInventoryItem[] = data ? JSON.parse(data) : clone(inventoryItems);
 			inventory.forEach((item) => {
 				const { produces, consumes } = sumRecipes(item.recipes, item.id);
@@ -107,20 +111,24 @@ export const inventorySlice = createSlice({
 				item.total = item.producingTotal - item.consumingTotal;
 			});
 			state.inventory = inventory;
+			state.inventoryId = inventoryId;
 		},
 		saveInventory(state, { payload }: PayloadAction<boolean>) {
 			// Clear
 			if (payload) {
-				localStorage.removeItem("inventory");
+				localStorage.removeItem(state.inventoryId);
 			}
 			else {
-				localStorage.setItem("inventory", JSON.stringify(state.inventory));
+				localStorage.setItem(state.inventoryId, JSON.stringify(state.inventory));
 			}
+		},
+		deleteInventory(state) {
+			localStorage.removeItem(state.inventoryId);
 		},
 	},
 });
 
-export const { addRecipe, updateRecipe, deleteRecipe, loadInventory, saveInventory, setActiveItem, updateActiveItemRecipe, deleteActiveItemRecipe } = inventorySlice.actions;
+export const { deleteInventory, addRecipe, updateRecipe, deleteRecipe, loadInventory, saveInventory, setActiveItem, updateActiveItemRecipe, deleteActiveItemRecipe } = inventorySlice.actions;
 
 export function selectInventory(state: RootState) {
 	return state.inventory;

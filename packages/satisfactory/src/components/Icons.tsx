@@ -12,7 +12,7 @@ export { default as IconArrowDown } from "@material-symbols/svg-400/outlined/key
 
 export { default as IconAdd } from "@material-symbols/svg-400/outlined/add.svg?react";
 
-export { default as IconRemove } from "@material-symbols/svg-400/outlined/remove.svg?react";
+export { default as IconRevert } from "@material-symbols/svg-400/outlined/replay.svg?react";
 
 export { default as IconDelete } from "@material-symbols/svg-400/outlined/delete.svg?react";
 

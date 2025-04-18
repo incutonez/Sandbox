@@ -17,8 +17,8 @@ export type TComboBoxValue = Key | null;
 export interface IComboBox<TOption extends object, TKey = keyof TOption> extends Omit<ComboBoxProps<TOption>, "children"> {
 	value?: TComboBoxValue;
 	options: TOption[];
-	valueField: TKey;
-	displayField: TKey;
+	valueField?: TKey;
+	displayField?: TKey;
 	setValue?: (value: TComboBoxValue) => void;
 	setSelection?: (value?: TOption) => void;
 	label?: string;

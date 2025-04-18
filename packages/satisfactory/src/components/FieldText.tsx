@@ -1,4 +1,4 @@
-﻿import { ChangeEvent, ComponentProps, ReactNode, useRef } from "react";
+﻿import { ChangeEvent, ComponentProps, KeyboardEvent, ReactNode, useRef } from "react";
 import classNames from "classnames";
 import { FieldLabel } from "@/components/FieldLabel.tsx";
 import { TSetTimeout } from "@/types.ts";
@@ -13,10 +13,11 @@ export interface IFieldText<T = string> extends ComponentProps<"input"> {
 	inputWidth?: string;
 	labelCls?: string;
 	labelPosition?: "top" | "left";
+	onEnter?: (value: T) => void;
 	onInputChange?: (value: string) => void;
 }
 
-export function FieldText({ value, labelCls, labelPosition = "left", inputCls, inputWidth = "w-auto", type = "text", setter, label, onBlur = emptyFn, typeDelay = 250, onInputChange, placeholder }: IFieldText) {
+export function FieldText({ value, autoFocus, onEnter, labelCls, labelPosition = "left", inputCls, inputWidth = "w-auto", type = "text", setter, label, onBlur = emptyFn, typeDelay = 250, onInputChange, placeholder }: IFieldText) {
 	let labelEl: ReactNode;
 	const typeDelayTimer = useRef<TSetTimeout>(undefined);
 	const cls = ["flex"];
@@ -38,6 +39,12 @@ export function FieldText({ value, labelCls, labelPosition = "left", inputCls, i
 		}
 	}
 
+	function onKeyDown({ key }: KeyboardEvent<HTMLInputElement>) {
+		if (key === "Enter" && onEnter) {
+			onEnter(value as string);
+		}
+	}
+
 	if (label) {
 		labelEl = (
 			<FieldLabel
@@ -50,11 +57,13 @@ export function FieldText({ value, labelCls, labelPosition = "left", inputCls, i
 		<article className={cls.join(" ")}>
 			{labelEl}
 			<input
+				autoFocus={autoFocus}
 				type={type}
 				className={inputCls}
 				value={value}
 				placeholder={placeholder}
 				onChange={onChange}
+				onKeyDown={onKeyDown}
 				onBlur={onBlur}
 			/>
 		</article>
