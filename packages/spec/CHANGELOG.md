@@ -1,3 +1,9 @@
+## [2.3.2](https://github.com/incutonez/Sandbox/compare/@incutonez/spec@2.3.1...@incutonez/spec@2.3.2) (2025-04-20)
+
+### Bug Fixes
+
+* Adding Google Meta Tag ([#131](https://github.com/incutonez/Sandbox/issues/131)) ([cdfa918](https://github.com/incutonez/Sandbox/commit/cdfa9181a0b4fe9c0fead2d4f4084d9d164cba44))
+
 ## [2.3.1](https://github.com/incutonez/Sandbox/compare/@incutonez/spec@2.3.0...@incutonez/spec@2.3.1) (2025-04-03)
 
 ### Bug Fixes
