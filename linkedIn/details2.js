@@ -8,7 +8,7 @@ let appliedDate = new Intl.DateTimeFormat('en-US', {
   year: 'numeric'
 }).format(new Date());
 if (location.hostname === "www.indeed.com") {
-  const skills = document.getElementsByClassName('js-match-insights-provider-4pmm6z');
+  const skills = document.getElementsByClassName('js-match-insights-provider-1vjtffa');
   const parent = document.querySelector("[data-testid='inlineHeader-companyName']") ?? document.querySelector('.jobsearch-JobInfoHeader-companyNameLink') ?? document.querySelector('.jobsearch-JobInfoHeader-companyNameSimple');
   for (const skill of skills) {
     if (skill.innerText.includes("$")) {
