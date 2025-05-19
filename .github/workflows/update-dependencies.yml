@@ -1,5 +1,7 @@
 name: 'Update Dependencies'
 on:
+  schedule:
+    - cron: "0 12 * * 1"
   workflow_dispatch:
     inputs:
       branchName:
@@ -27,6 +29,9 @@ jobs:
           node-version: "lts/*"
       - name: Set Token
         run: npm set "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}"
+      # https://stackoverflow.com/questions/69871324/npm-install-creates-strange-differences-in-package-lock-json-between-different-m
+      - name: Don't use legacy deps to fix package-lock updates
+        run: npm config set legacy-peer-deps false
       - name: Update Workspace and Package Dependencies
         run: npm run update:deps
       - name: Install dependencies
