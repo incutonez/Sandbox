@@ -1,3 +1,9 @@
+## [3.4.0](https://github.com/incutonez/Sandbox/compare/@incutonez/api@3.3.3...@incutonez/api@3.4.0) (2025-05-20)
+
+### Features
+
+* Update Deps ([#141](https://github.com/incutonez/Sandbox/issues/141)) ([fb936ec](https://github.com/incutonez/Sandbox/commit/fb936ece505736f44ef01871a96b223c7d4018f9))
+
 ## [3.3.3](https://github.com/incutonez/Sandbox/compare/@incutonez/api@3.3.2...@incutonez/api@3.3.3) (2025-04-20)
 
 ### Bug Fixes
