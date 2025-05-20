@@ -1,3 +1,9 @@
+## [2.4.0](https://github.com/incutonez/Sandbox/compare/@incutonez/spec@2.3.2...@incutonez/spec@2.4.0) (2025-05-20)
+
+### Features
+
+* Update Deps ([#141](https://github.com/incutonez/Sandbox/issues/141)) ([fb936ec](https://github.com/incutonez/Sandbox/commit/fb936ece505736f44ef01871a96b223c7d4018f9))
+
 ## [2.3.2](https://github.com/incutonez/Sandbox/compare/@incutonez/spec@2.3.1...@incutonez/spec@2.3.2) (2025-04-20)
 
 ### Bug Fixes
