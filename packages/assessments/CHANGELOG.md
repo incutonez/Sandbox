@@ -1,3 +1,9 @@
+## [1.5.0](https://github.com/incutonez/Sandbox/compare/@incutonez/assessments@1.4.0...@incutonez/assessments@1.5.0) (2025-05-20)
+
+### Features
+
+* Update Deps ([#142](https://github.com/incutonez/Sandbox/issues/142)) ([023d018](https://github.com/incutonez/Sandbox/commit/023d018aa12f5f978a3f0b466036b388b6426356))
+
 ## [1.4.0](https://github.com/incutonez/Sandbox/compare/@incutonez/assessments@1.3.3...@incutonez/assessments@1.4.0) (2025-05-20)
 
 ### Features
