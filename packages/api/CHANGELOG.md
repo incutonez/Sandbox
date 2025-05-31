@@ -1,3 +1,9 @@
+## [3.6.1](https://github.com/incutonez/Sandbox/compare/@incutonez/api@3.6.0...@incutonez/api@3.6.1) (2025-05-31)
+
+### Bug Fixes
+
+* Wrapping Field in Quotes When It's Plain ([#145](https://github.com/incutonez/Sandbox/issues/145)) ([4448350](https://github.com/incutonez/Sandbox/commit/4448350e7dc78ad26f26be9170bb5d201192b9bd))
+
 ## [3.6.0](https://github.com/incutonez/Sandbox/compare/@incutonez/api@3.5.0...@incutonez/api@3.6.0) (2025-05-31)
 
 ### Features
