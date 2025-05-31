@@ -1,3 +1,9 @@
+## [2.6.0](https://github.com/incutonez/Sandbox/compare/@incutonez/spec@2.5.0...@incutonez/spec@2.6.0) (2025-05-31)
+
+### Features
+
+* Adding Ability to Change Model Builder Casing ([#144](https://github.com/incutonez/Sandbox/issues/144)) ([cdfa10a](https://github.com/incutonez/Sandbox/commit/cdfa10ab5eeb34e9529a5327280032602468d58e))
+
 ## [2.5.0](https://github.com/incutonez/Sandbox/compare/@incutonez/spec@2.4.0...@incutonez/spec@2.5.0) (2025-05-20)
 
 ### Features
