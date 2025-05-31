@@ -1,3 +1,9 @@
+## [3.6.0](https://github.com/incutonez/Sandbox/compare/@incutonez/ui@3.5.0...@incutonez/ui@3.6.0) (2025-05-31)
+
+### Features
+
+* Adding Ability to Change Model Builder Casing ([#144](https://github.com/incutonez/Sandbox/issues/144)) ([cdfa10a](https://github.com/incutonez/Sandbox/commit/cdfa10ab5eeb34e9529a5327280032602468d58e))
+
 ## [3.5.0](https://github.com/incutonez/Sandbox/compare/@incutonez/ui@3.4.0...@incutonez/ui@3.5.0) (2025-05-20)
 
 ### Features
