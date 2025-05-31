@@ -144,7 +144,7 @@ function makeField({ nullable, key, type, fk, primaryKey, hasOne, hasMany }: IMo
 	const nullableSymbol = nullable ? "?" : "";
 	const formatter = getCaseFormatter();
 	if (isPlain.value) {
-		return `${formatter(key)}${nullableSymbol}: ${type};`;
+		return `"${formatter(key)}"${nullableSymbol}: ${type};`;
 	}
 	key = formatter(key) as string;
 	if (fk) {
