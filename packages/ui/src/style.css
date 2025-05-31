@@ -1,10 +1,5 @@
+@import "@incutonez/core-ui/theme.css";
 @import "tailwindcss";
-
-/* TODOJEF: Figure out how to import this from the core-ui package... may need to not combine the style.css in with components/index.js? */
-@theme {
-    --color-select-200: #bae6fd;
-    --color-select-600: #0284c7;
-}
 
 @layer utilities {
     .writing-mode-vertical {

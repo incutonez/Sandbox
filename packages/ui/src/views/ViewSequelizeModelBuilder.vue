@@ -51,7 +51,21 @@ const outputOptions = [{
 	name: "Interface",
 	id: "interface",
 }];
+const casingOptions = [{
+	name: "Keep Case",
+	id: "keepCase",
+}, {
+	name: "camelCase",
+	id: "camelCase",
+}, {
+	name: "PascalCase",
+	id: "pascalCase",
+}, {
+	name: "snake_case",
+	id: "snakeCase",
+}];
 const selectedOutputOption = ref(outputOptions[0]);
+const selectedCasingOption = ref(casingOptions[0]);
 const isPlain = computed(() => selectedOutputOption.value.id !== "sequelize");
 const selectedContent = computed(() => {
 	const $selectedFile = unref(selectedSequelizeTab);
@@ -110,13 +124,29 @@ ${fields.join("\n\n")}
 	};
 }
 
+function getCaseFormatter() {
+	switch (selectedCasingOption.value.id) {
+		case "camelCase":
+			return camelCase;
+		case "pascalCase":
+			return splitCapitalize;
+		case "snakeCase":
+			return snakeCase;
+		case "keepCase":
+		default:
+			// Just return an identity function
+			return (value: string) => value;
+	}
+}
+
 function makeField({ nullable, key, type, fk, primaryKey, hasOne, hasMany }: IModelField): string {
 	const column = [];
 	const nullableSymbol = nullable ? "?" : "";
+	const formatter = getCaseFormatter();
 	if (isPlain.value) {
-		return `${camelCase(key)}${nullableSymbol}: ${type};`;
+		return `${formatter(key)}${nullableSymbol}: ${type};`;
 	}
-	key = snakeCase(key);
+	key = formatter(key) as string;
 	if (fk) {
 		column.push(`\t@ForeignKey(() => ${fk})`);
 	}
@@ -141,7 +171,7 @@ function makeField({ nullable, key, type, fk, primaryKey, hasOne, hasMany }: IMo
 		column.push("\t@Column");
 	}
 	return `${column.join("\n")}
-\tdeclare ${key}${nullableSymbol}: ${type};`;
+\tdeclare "${key}"${nullableSymbol}: ${type};`;
 }
 
 function createImport(values: string | string[], path?: string) {
@@ -267,6 +297,12 @@ function onClickCopyModel() {
 				label="Output Type"
 				:value-only="false"
 				:options="outputOptions"
+			/>
+			<FieldComboBox
+				v-model="selectedCasingOption"
+				label="Field Casing"
+				:value-only="false"
+				:options="casingOptions"
 			/>
 		</section>
 		<section class="flex-1 flex space-x-4 items-center">
