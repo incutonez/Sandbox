@@ -1,3 +1,9 @@
+## [3.7.0](https://github.com/incutonez/Sandbox/compare/@incutonez/ui@3.6.1...@incutonez/ui@3.7.0) (2026-01-17)
+
+### Features
+
+* Adding ViewGridTemplateColumns.vue ([#158](https://github.com/incutonez/Sandbox/issues/158)) ([40c4441](https://github.com/incutonez/Sandbox/commit/40c444173bde5f1bb52a5ffe96d62f14c921701b))
+
 ## [3.6.1](https://github.com/incutonez/Sandbox/compare/@incutonez/ui@3.6.0...@incutonez/ui@3.6.1) (2025-05-31)
 
 ### Bug Fixes
