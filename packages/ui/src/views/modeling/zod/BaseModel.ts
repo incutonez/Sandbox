@@ -1,10 +1,10 @@
-import { AnyZodObject } from "zod";
+import { ZodObject } from "zod";
 import { ModelInterface } from "@/models/ViewModel";
 
 export const SymSchema = Symbol("schema");
 
 export class BaseModel {
-	[SymSchema]!: AnyZodObject;
+	[SymSchema]!: ZodObject;
 
 	static create<T extends BaseModel>(this: new () => T, data = {} as Partial<ModelInterface<T>>) {
 		const record = new this();
