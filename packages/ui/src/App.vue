@@ -16,9 +16,14 @@
  * - Potentially use provide/inject for users.ts data loading
  *
  */
+import { BaseIcon } from "@incutonez/core-ui";
 import { IconDifference, IconEditor, IconModeling, IconModelTransform, IconTriforce, IconUsers } from "@incutonez/core-ui/assets";
+import GridIcon from "@material-symbols/svg-400/outlined/grid_3x3.svg";
 import { version } from "@/../package.json";
-import { viewGameWorldBuilder, viewModeling, viewSequelizeModel, viewTipTap, viewTreeChanges, viewUsers } from "@/router";
+import {
+	viewGameWorldBuilder,
+	viewGridTemplateColumns, viewModeling, viewSequelizeModel, viewTipTap, viewTreeChanges, viewUsers,
+} from "@/router";
 
 function onClickViewUsers() {
 	viewUsers();
@@ -42,6 +47,10 @@ function onClickViewTipTap() {
 
 function onClickViewSequelizeModel() {
 	viewSequelizeModel();
+}
+
+function onClickViewGridTemplateColumns() {
+	viewGridTemplateColumns();
 }
 </script>
 
@@ -78,6 +87,12 @@ function onClickViewSequelizeModel() {
 					title="Sequelize Model"
 					class="size-10 cursor-pointer rounded-full fill-sky-400 p-2 hover:bg-slate-500"
 					@click="onClickViewSequelizeModel"
+				/>
+				<BaseIcon
+					:icon="GridIcon"
+					title="Grid Template Columns"
+					class="size-10 cursor-pointer rounded-full fill-white p-2 hover:bg-slate-500"
+					@click="onClickViewGridTemplateColumns"
 				/>
 			</div>
 		</nav>
