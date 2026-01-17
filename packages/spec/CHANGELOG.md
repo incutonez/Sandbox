@@ -1,3 +1,9 @@
+## [2.8.0](https://github.com/incutonez/Sandbox/compare/@incutonez/spec@2.7.0...@incutonez/spec@2.8.0) (2026-01-17)
+
+### Features
+
+* Updating Dependencies ([#160](https://github.com/incutonez/Sandbox/issues/160)) ([785c6a1](https://github.com/incutonez/Sandbox/commit/785c6a15e45a5431beeaaa300a548b6adf1ecf48))
+
 ## [2.7.0](https://github.com/incutonez/Sandbox/compare/@incutonez/spec@2.6.1...@incutonez/spec@2.7.0) (2026-01-17)
 
 ### Features
