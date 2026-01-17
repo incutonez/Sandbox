@@ -18,9 +18,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 const	emit = defineEmits(["update:selectedCell", "replaceCell"]);
-const rootEl = ref<HTMLElement>();
 const contextMenu = ref<InstanceType<typeof BaseContextMenu>>();
-const testDialog = ref(null);
 const testValue = ref("Hello");
 const pressedKeys = injectCellCopy();
 const activeCursor = ref("cursor-pointer");
@@ -181,7 +179,6 @@ watch(() => pressedKeys.paste, (value) => {
 
 <template>
 	<div
-		ref="rootEl"
 		class="base-grid"
 		v-bind="$attrs"
 	>
@@ -231,7 +228,6 @@ watch(() => pressedKeys.paste, (value) => {
 		:items="contextItems"
 	/>
 	<BaseDialog
-		ref="testDialog"
 		v-model="showTestDialog"
 		title="Hello World"
 	>

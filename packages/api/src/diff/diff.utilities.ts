@@ -91,7 +91,7 @@ export function generateData(depth = 2) {
 						}
 					}
 					// Should decrease current
-					// eslint-disable-next-line no-dupe-else-if
+
 					else if (faker.datatype.boolean()) {
 						currentValue.splice(
 							0,
@@ -155,7 +155,7 @@ export function getChanges({ current, previous } = generateData()) {
 		);
 	});
 	const record = new TreeChangeModel();
-	record.username = faker.internet.userName();
+	record.username = faker.internet.username();
 	record.date = faker.date.anytime().getTime();
 	record.items = treeDiff({
 		value: current,
