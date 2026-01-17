@@ -1,6 +1,10 @@
 @import "@incutonez/core-ui/theme.css";
 @import "tailwindcss";
 
+/* Safelist syntax in Tailwind v4
+ * Source: https://stackoverflow.com/a/79406229 */
+@source inline("bg-gray-{100..900}");
+
 @layer utilities {
     .writing-mode-vertical {
         writing-mode: vertical-lr;

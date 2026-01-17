@@ -5,6 +5,7 @@ import ViewZod from "@/views/modeling/ViewZod.vue";
 import DialogImport from "@/views/users/DialogImport.vue";
 import ViewAuditor from "@/views/ViewAuditor.vue";
 import ViewGameWorldBuilder from "@/views/ViewGameWorldBuilder.vue";
+import ViewGridTemplateColumns from "@/views/ViewGridTemplateColumns.vue";
 import ViewModeling from "@/views/ViewModeling.vue";
 import ViewSequelizeModelBuilder from "@/views/ViewSequelizeModelBuilder.vue";
 import ViewTipTap from "@/views/ViewTipTap.vue";
@@ -36,6 +37,8 @@ export const RouteModelingTypeBoxView = "modeling-typebox-view";
 export const RouteModelingZodView = "modeling-zod-view";
 
 export const RouteSequelizeModelView = "sequelize-model-view";
+
+export const RouteGridTemplateColumns = "grid-template-columns";
 
 export const routes = [{
 	path: "/users",
@@ -100,6 +103,10 @@ export const routes = [{
 	path: "/sequelize",
 	name: RouteSequelizeModelView,
 	component: ViewSequelizeModelBuilder,
+}, {
+	path: "/gridTemplateColumns",
+	name: RouteGridTemplateColumns,
+	component: ViewGridTemplateColumns,
 }];
 
 export const router = createRouter({
@@ -149,6 +156,12 @@ export function viewTipTap() {
 export function viewSequelizeModel() {
 	return router.push({
 		name: RouteSequelizeModelView,
+	});
+}
+
+export function viewGridTemplateColumns() {
+	return router.push({
+		name: RouteGridTemplateColumns,
 	});
 }
 
