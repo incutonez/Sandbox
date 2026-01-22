@@ -28,7 +28,7 @@
     "just-is-empty": "^3.4.1",
     "just-safe-get": "^4.2.0",
     "just-safe-set": "^4.2.1",
-    "lodash-es": "^4.17.22",
+    "lodash-es": "^4.17.23",
     "mime-types": "^3.0.2",
     "papaparse": "^5.5.3",
     "path-browserify": "^1.0.1",
