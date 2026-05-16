@@ -1,6 +1,6 @@
 ﻿import { faker } from "@faker-js/faker";
-import { getChanges } from "src/diff/diff.utilities";
-import { EnumChangeStatus } from "src/models/diff.entity";
+import { getChanges } from "@/diff/diff.utilities";
+import { EnumChangeStatus } from "@/models/diff.entity";
 
 describe("Differ", () => {
 	const FieldStr = "fieldString";

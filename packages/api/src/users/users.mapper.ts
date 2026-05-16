@@ -1,7 +1,7 @@
-import { Address, IAddress } from "src/db/models/Address";
-import { IUser, User } from "src/db/models/User";
-import { AddressEntity } from "src/models/address.entity";
-import { UserEntity } from "src/models/user.entity";
+import { Address, IAddress } from "@/db/models/Address";
+import { IUser, User } from "@/db/models/User";
+import { AddressEntity } from "@/models/address.entity";
+import { UserEntity } from "@/models/user.entity";
 
 export class UsersMapper {
 	userToViewModel(user: User): UserEntity {
@@ -17,9 +17,9 @@ export class UsersMapper {
 		};
 	}
 
-	viewModelToUser({ id, firstName, lastName, email, phone, birthDate, gender, address }: UserEntity): IUser {
+	viewModelToUser({ id = "", firstName, lastName, email, phone, birthDate, gender, address }: UserEntity): IUser {
 		return {
-			id: id ?? undefined,
+			id,
 			email,
 			phone,
 			gender,
@@ -41,7 +41,7 @@ export class UsersMapper {
 		};
 	}
 
-	viewModelToAddress({ id, lineOne, lineTwo, city, state, zipCode }: AddressEntity): IAddress {
+	viewModelToAddress({ id = -1, lineOne, lineTwo, city, state, zipCode }: AddressEntity): IAddress {
 		return {
 			id,
 			city,

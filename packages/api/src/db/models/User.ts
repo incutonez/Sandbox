@@ -1,7 +1,13 @@
-import { BelongsTo, Column, ForeignKey, Model, Table } from "sequelize-typescript";
-import { PrimaryKeyGuid } from "src/db/decorators";
-import { Address } from "src/db/models/Address";
-import { ModelInterface } from "src/types";
+import {
+	BelongsTo,
+	Column,
+	ForeignKey,
+	Model,
+	Table,
+} from "sequelize-typescript";
+import { PrimaryKeyGuid } from "@/db/decorators";
+import { Address } from "@/db/models/Address";
+import { ModelInterface } from "@/types";
 
 export type IUser = ModelInterface<User>;
 
@@ -20,16 +26,16 @@ export class User extends Model {
 	last_name: string;
 
 	@Column
-	phone: string;
+	phone?: string;
 
 	@Column
 	email: string;
 
 	@Column
-	gender: string;
+	gender?: string;
 
 	@Column
-	birth_date: number;
+	birth_date?: number;
 
 	@ForeignKey(() => Address)
 	@Column

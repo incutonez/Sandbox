@@ -1,7 +1,7 @@
 ﻿import { Controller, Get } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { DiffService } from "src/diff/diff.service";
-import { TreeChangeResponseModel } from "src/models/responses.entity";
+import { DiffService } from "@/diff/diff.service";
+import { TreeChangeResponseModel } from "@/models/responses.entity";
 
 @ApiTags("Differ")
 @Controller("diff")

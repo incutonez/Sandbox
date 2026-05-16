@@ -1,5 +1,5 @@
 import { Column, Model, Table } from "sequelize-typescript";
-import { PrimaryKeyGuid } from "src/db/decorators";
+import { PrimaryKeyGuid } from "@/db/decorators";
 
 @Table({
 	tableName: "league_matches",

@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { LeagueMatch } from "src/db/models/LeagueMatch";
-import { LeaguesMapper } from "src/leagues/leagues.mapper";
+import { LeagueMatch } from "@/db/models/LeagueMatch";
+import { LeaguesMapper } from "@/leagues/leagues.mapper";
 
 @Injectable()
 export class LeaguesService {

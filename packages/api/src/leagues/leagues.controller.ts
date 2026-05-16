@@ -1,8 +1,8 @@
 import { Controller, Get, UseGuards } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { AuthGuard } from "src/auth.guard";
-import { LeaguesService } from "src/leagues/leagues.service";
-import { LeagueMatchResponseModel } from "src/models/responses.entity";
+import { AuthGuard } from "@/auth.guard";
+import { LeaguesService } from "@/leagues/leagues.service";
+import { LeagueMatchResponseModel } from "@/models/responses.entity";
 
 @ApiTags("leagues")
 @Controller("leagues")

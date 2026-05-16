@@ -1,17 +1,18 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const globals = require("globals");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const tsEslint = require("typescript-eslint");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const pluginImport = require("eslint-plugin-simple-import-sort");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const pluginIncutonez = require("@incutonez/eslint-plugin");
+import eslint from "@eslint/js";
+import stylistic from "@stylistic/eslint-plugin";
+import antfu from "eslint-plugin-antfu";
+import pluginImport from "eslint-plugin-simple-import-sort";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
-module.exports = [
-	...tsEslint.configs["recommended"],
+export default [
+	eslint.configs.recommended,
+	...tseslint.configs.recommended,
 	{
 		plugins: {
-			"typescript-eslint": tsEslint.plugin,
+			"@stylistic": stylistic,
+			"simple-import-sort": pluginImport,
+			antfu,
 		},
 		languageOptions: {
 			ecmaVersion: "latest",
@@ -21,70 +22,102 @@ module.exports = [
 				...globals.es2021,
 			},
 			parserOptions: {
-				parser: tsEslint.parser,
-				extraFileExtensions: [".vue"],
+				parser: tseslint.parser,
 				sourceType: "module",
 			},
 		},
-	},
-	{
-		plugins: {
-			"simple-import-sort": pluginImport,
-			"@incutonez": pluginIncutonez,
-		},
 		rules: {
-			"@typescript-eslint/no-unused-vars": "error",
-			"@/indent": [
-				"error",
-				"tab",
-				{
-					SwitchCase: 1,
-					ignoredNodes: ["PropertyDefinition"],
+			"antfu/consistent-list-newline": ["error", {
+				TSTypeLiteral: false,
+			}],
+			"space-before-function-paren": ["error", {
+				anonymous: "never",
+				named: "never",
+				asyncArrow: "always",
+			}],
+			"func-style": ["error", "declaration"],
+			"no-else-return": "error",
+			"function-call-argument-newline": ["error", "consistent"],
+			"function-paren-newline": ["error", "consistent"],
+			"no-var": "error",
+			"@typescript-eslint/no-unused-vars": ["error", {
+				argsIgnorePattern: "^_",
+				varsIgnorePattern: "^_",
+				caughtErrorsIgnorePattern: "^_",
+			}],
+			"@typescript-eslint/ban-ts-comment": ["error", {
+				"ts-expect-error": "allow-with-description",
+				"ts-nocheck": "allow-with-description",
+			}],
+			"@stylistic/no-multi-spaces": "error",
+			"@stylistic/no-mixed-spaces-and-tabs": "error",
+			"@stylistic/space-infix-ops": "error",
+			"@stylistic/space-before-blocks": "error",
+			"@stylistic/space-in-parens": "error",
+			"@stylistic/quote-props": ["error", "consistent-as-needed"],
+			"@stylistic/indent": ["error", "tab", {
+				SwitchCase: 1,
+				ignoredNodes: ["PropertyDefinition"],
+			}],
+			"@stylistic/padding-line-between-statements": ["error", {
+				blankLine: "always",
+				prev: "export",
+				next: "*",
+			}, {
+				blankLine: "any",
+				prev: "export",
+				next: "export",
+			}, {
+				blankLine: "always",
+				prev: "*",
+				next: "return",
+			}, {
+				blankLine: "always",
+				prev: "import",
+				next: "*",
+			}, {
+				blankLine: "any",
+				prev: "import",
+				next: "import",
+			}, {
+				blankLine: "always",
+				prev: "function",
+				next: "*",
+			}, {
+				blankLine: "always",
+				prev: "*",
+				next: "function",
+			}],
+			"@stylistic/object-property-newline": ["error", {
+				allowAllPropertiesOnSameLine: true,
+			}],
+			"@stylistic/object-curly-newline": ["error", {
+				ObjectExpression: {
+					multiline: true,
+					minProperties: 1,
 				},
-			],
-			"@typescript-eslint/ban-ts-comment": [
-				"error",
-				{
-					"ts-expect-error": "allow-with-description",
+				ImportDeclaration: {
+					multiline: true,
+					minProperties: 5,
 				},
-			],
-			indent: [
-				"error",
-				"tab",
-				{
-					SwitchCase: 1,
-					ignoredNodes: ["PropertyDefinition"],
-				},
-			],
+			}],
+			"@stylistic/key-spacing": "error",
+			"eqeqeq": ["error", "always", {
+				null: "ignore",
+			}],
+			"semi": [2, "always"],
+			"quotes": ["error", "double"],
+			"curly": "error",
+			"multiline-ternary": ["error", "always-multiline"],
 			"brace-style": ["error", "stroustrup"],
-			curly: ["error", "all"],
-			"space-before-function-paren": [
-				"error",
-				{
-					anonymous: "never",
-					named: "never",
-					asyncArrow: "always",
-				},
-			],
-			semi: [2, "always"],
-			quotes: ["error", "double"],
-			"no-mixed-spaces-and-tabs": "off",
 			"comma-dangle": ["error", "always-multiline"],
 			"eol-last": ["error", "always"],
-			"object-curly-newline": [
-				"error",
-				{
-					ObjectExpression: {
-						multiline: true,
-						minProperties: 1,
-					},
-					ObjectPattern: "never",
-				},
-			],
 			"object-curly-spacing": ["error", "always"],
-			"object-property-newline": "error",
 			"no-trailing-spaces": ["error"],
-			"no-var": "error",
+			"no-debugger": "error",
+			"no-console": ["error", {
+				allow: ["warn", "error", "info"],
+			}],
 			"arrow-spacing": "error",
 			"no-duplicate-imports": "error",
 			"arrow-parens": "error",
@@ -97,33 +130,16 @@ module.exports = [
 				before: false,
 				after: true,
 			}],
-			"array-element-newline": ["error", "consistent"],
-			"key-spacing": "error",
-			"space-infix-ops": "error",
-			"no-multi-spaces": "error",
-			"space-before-blocks": "error",
 			"keyword-spacing": "error",
-			"space-in-parens": "error",
-			"simple-import-sort/imports": [
-				"error",
-				{
-					groups: [
-					// Side effect imports.
-						["^\\u0000"],
-						// Node.js builtins prefixed with `node:`.
-						["^node:"],
-						["^vue"],
-						// Packages.
-						// Things that start with a letter (or digit or underscore), or `@` followed by a letter.
-						["^@?\\w"],
-						// Absolute imports and other imports such as Vue-style `@/foo`.
-						// Anything not matched in another group.
-						["^"],
-						// Relative imports.
-						// Anything that starts with a dot.
-						["^\\."],
-					],
-				},
-			],
+			"simple-import-sort/imports": ["error", {
+				groups: [[
+					"^\\u0000",
+					"^node:",
+					"^@?\\w",
+					"^[^.]",
+					"^\\.",
+				]],
+			}],
 		},
-	}];
+	},
+];
