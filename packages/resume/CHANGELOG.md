@@ -1,3 +1,9 @@
+## [1.10.0](https://github.com/incutonez/Sandbox/compare/@incutonez/resume@1.9.0...@incutonez/resume@1.10.0) (2026-05-16)
+
+### Features
+
+* Updating Dependencies ([#180](https://github.com/incutonez/Sandbox/issues/180)) ([3e8f53f](https://github.com/incutonez/Sandbox/commit/3e8f53f29e997f81842df356ac54dd0cf15acbc4))
+
 ## [1.9.0](https://github.com/incutonez/Sandbox/compare/@incutonez/resume@1.8.0...@incutonez/resume@1.9.0) (2026-05-16)
 
 ### Features
