@@ -12,7 +12,7 @@
     "lint": "npx eslint . --ext .js --fix",
     "lint:fix": "prettier --write && npx eslint --fix",
     "explode": "npm cache clean --force && npx rimraf package-lock.json **/node_modules --glob && npm i",
-    "build:spec": "cd packages/spec && rimraf dist && npm run build",
+    "build:spec": "cd packages/spec && npx rimraf dist && npm run build",
     "generate:spec": "cd packages/spec && npm run generate",
     "build:ui": "cd packages/ui && npm run build",
     "build:resume": "cd packages/resume && npm run build",
