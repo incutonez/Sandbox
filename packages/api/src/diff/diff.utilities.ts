@@ -1,7 +1,13 @@
 ﻿import { faker } from "@faker-js/faker";
 import { diff } from "just-diff";
 import { get, isDate, set } from "lodash";
-import { EnumChangeStatus, TreeChangeModel, TreeItemModel, TTreeItem, TTreeItemValue } from "src/models/diff.entity";
+import {
+	EnumChangeStatus,
+	TreeChangeModel,
+	TreeItemModel,
+	TTreeItem,
+	TTreeItemValue,
+} from "@/models/diff.entity";
 
 const PropertyTypes = ["string", "number", "date", "boolean", "object", "array"] as const;
 type TPropertyTypes = (typeof PropertyTypes)[number];
@@ -66,9 +72,9 @@ export function generateData(depth = 2) {
 					current[fieldName] = value.current;
 				}
 				break;
-			case "array":
-				const previousValue = previous[fieldName] = [];
-				const currentValue = current[fieldName] = [];
+			case "array": {
+				const previousValue: Record<string, TTreeItemValue>[] = previous[fieldName] = [];
+				const currentValue: Record<string, TTreeItemValue>[] = current[fieldName] = [];
 				let maxValue = faker.number.int({
 					min: 0,
 					max: 5,
@@ -91,7 +97,7 @@ export function generateData(depth = 2) {
 						}
 					}
 					// Should decrease current
-
+					// eslint-disable-next-line no-dupe-else-if
 					else if (faker.datatype.boolean()) {
 						currentValue.splice(
 							0,
@@ -102,8 +108,10 @@ export function generateData(depth = 2) {
 					}
 				}
 				break;
+			}
 		}
 	}
+
 	return {
 		previous,
 		current,
@@ -124,7 +132,7 @@ export function getChanges({ current, previous } = generateData()) {
 	changes.forEach(({ op, path }) => {
 		let status: EnumChangeStatus;
 		let value: TTreeItemValue;
-		let old: TreeItemModel;
+		let old: TreeItemModel | undefined;
 		switch (op) {
 			case "add":
 				status = EnumChangeStatus.Created;
@@ -164,6 +172,7 @@ export function getChanges({ current, previous } = generateData()) {
 	record.creates = creates;
 	record.updates = updates;
 	record.deletes = deletes;
+
 	return record;
 }
 
@@ -190,6 +199,7 @@ export function treeDiff({ value, previous, status, field }: ITreeDiff): TTreeIt
 		if (value.length === 0) {
 			result.status = EnumChangeStatus.Unchanged;
 		}
+
 		return result;
 	}
 	else if (value instanceof Object && !isDate(value)) {
@@ -206,6 +216,7 @@ export function treeDiff({ value, previous, status, field }: ITreeDiff): TTreeIt
 		if (field === undefined) {
 			return result;
 		}
+
 		return {
 			field,
 			value: result,
@@ -221,5 +232,6 @@ export function treeDiff({ value, previous, status, field }: ITreeDiff): TTreeIt
 	if (previous !== undefined) {
 		result.previous = previous;
 	}
+
 	return result;
 }

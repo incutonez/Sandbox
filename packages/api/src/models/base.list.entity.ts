@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { FilterType } from "src/enums.entity";
+import { FilterType } from "@/enums.entity";
 
 interface IResponseListEntity<T> {
 	data: T[];

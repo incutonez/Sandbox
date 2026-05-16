@@ -1,10 +1,10 @@
 import { Controller, Get, Request, UseGuards } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { AppService } from "src/app.service";
-import { AuthGuard } from "src/auth.guard";
-import { AccessTokenEntity } from "src/models/access.token.entity";
-import { ProfileEntity } from "src/models/profile.entity";
-import { VersionEntity } from "src/models/version.entity";
+import { AppService } from "@/app.service";
+import { AuthGuard } from "@/auth.guard";
+import { AccessTokenEntity } from "@/models/access.token.entity";
+import { ProfileEntity } from "@/models/profile.entity";
+import { VersionEntity } from "@/models/version.entity";
 
 @Controller()
 export class AppController {

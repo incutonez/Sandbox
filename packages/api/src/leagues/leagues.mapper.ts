@@ -1,5 +1,5 @@
-import { LeagueMatch } from "src/db/models/LeagueMatch";
-import { LeagueMatchEntity } from "src/models/league.match.entity";
+import { LeagueMatch } from "@/db/models/LeagueMatch";
+import { LeagueMatchEntity } from "@/models/league.match.entity";
 
 export class LeaguesMapper {
 	matchToViewModel(leagueMatch: LeagueMatch): LeagueMatchEntity {

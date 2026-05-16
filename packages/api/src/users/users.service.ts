@@ -1,12 +1,13 @@
 import { Injectable } from "@nestjs/common";
 import { FindOptions } from "sequelize";
-import { User } from "src/db/models/User";
-import { whereSearch } from "src/db/query";
-import { EnumFilterType } from "src/enums.entity";
-import { ApiPaginatedRequest } from "src/models/base.list.entity";
-import { BulkResponse } from "src/models/responses.entity";
-import { UserEntity } from "src/models/user.entity";
-import { UsersMapper } from "src/users/users.mapper";
+import ValidationError from "sequelize/lib/errors/validation-error";
+import { User } from "@/db/models/User";
+import { whereSearch } from "@/db/query";
+import { EnumFilterType } from "@/enums.entity";
+import { ApiPaginatedRequest } from "@/models/base.list.entity";
+import { BulkResponse } from "@/models/responses.entity";
+import { UserEntity } from "@/models/user.entity";
+import { UsersMapper } from "@/users/users.mapper";
 
 @Injectable()
 export class UsersService {
@@ -29,6 +30,7 @@ export class UsersService {
 			}
 		});
 		const { rows, count } = await User.findAndCountAll(query);
+
 		return {
 			data: rows.map((item) => this.mapper.userToViewModel(item)),
 			total: count,
@@ -36,22 +38,19 @@ export class UsersService {
 	}
 
 	async getUser(userId: string) {
-		const response = await User.findOne({
+		const response = await User.findByPk(userId, {
 			raw: true,
-			where: {
-				id: userId,
-			},
-			include: [
-				{
-					all: true,
-				},
-			],
+			include: [{
+				all: true,
+			}],
 		});
-		return this.mapper.userToViewModel(response);
+
+		return response ? this.mapper.userToViewModel(response) : undefined;
 	}
 
 	async createUser(user: UserEntity) {
 		const response = await User.create(this.mapper.viewModelToUser(user));
+
 		return this.mapper.userToViewModel(response);
 	}
 
@@ -62,30 +61,39 @@ export class UsersService {
 				await this.createUser(user);
 			}
 			catch (ex) {
-				errors.push({
-					index,
-					message: ex.errors.map(({ message }) => message),
-				});
+				if (ex instanceof ValidationError) {
+					errors.push({
+						index,
+						message: ex.errors.map(({ message }) => message),
+					});
+				}
 			}
 		}));
+
 		return errors;
 	}
 
 	async copyUser(userId: string) {
 		const user = await this.getUser(userId);
-		delete user.id;
-		user.lastName += " Copy";
-		return this.createUser(user);
+		if (user) {
+			delete user.id;
+			user.lastName += " Copy";
+
+			return this.createUser(user);
+		}
 	}
 
 	async updateUser(user: UserEntity) {
-		await User.update(this.mapper.viewModelToUser(user), {
-			where: {
-				id: user.id,
-			},
-			returning: true,
-		});
-		return this.getUser(user.id);
+		if (user.id) {
+			await User.update(this.mapper.viewModelToUser(user), {
+				where: {
+					id: user.id,
+				},
+				returning: true,
+			});
+
+			return this.getUser(user.id);
+		}
 	}
 
 	async deleteUser(id: string) {

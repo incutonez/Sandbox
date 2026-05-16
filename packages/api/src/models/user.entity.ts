@@ -1,4 +1,4 @@
-import { AddressEntity } from "src/models/address.entity";
+import { AddressEntity } from "@/models/address.entity";
 
 export class UserEntity {
 	id?: string;

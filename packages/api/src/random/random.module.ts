@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
-import { RandomController } from "src/random/random.controller";
-import { RandomService } from "src/random/random.service";
+import { RandomController } from "@/random/random.controller";
+import { RandomService } from "@/random/random.service";
 
 @Module({
 	controllers: [RandomController],

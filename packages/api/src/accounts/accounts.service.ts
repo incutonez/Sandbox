@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { AccountsMapper } from "src/accounts/accounts.mapper";
+import { AccountsMapper } from "@/accounts/accounts.mapper";
 
 @Injectable()
 export class AccountsService {

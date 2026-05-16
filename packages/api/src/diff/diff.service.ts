@@ -1,7 +1,7 @@
 ﻿import { faker } from "@faker-js/faker";
 import { Injectable } from "@nestjs/common";
-import { getChanges } from "src/diff/diff.utilities";
-import { TreeChangeModel } from "src/models/diff.entity";
+import { getChanges } from "@/diff/diff.utilities";
+import { TreeChangeModel } from "@/models/diff.entity";
 
 @Injectable()
 export class DiffService {

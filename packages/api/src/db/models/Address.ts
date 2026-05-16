@@ -1,6 +1,6 @@
 import { Column, Model, Table } from "sequelize-typescript";
-import { PrimaryKeyGuid } from "src/db/decorators";
-import { ModelInterface } from "src/types";
+import { PrimaryKeyGuid } from "@/db/decorators";
+import { ModelInterface } from "@/types";
 
 export type IAddress = ModelInterface<Address>;
 
@@ -16,7 +16,7 @@ export class Address extends Model {
 	line_one: string;
 
 	@Column
-	line_two: string;
+	line_two?: string;
 
 	@Column
 	city: string;

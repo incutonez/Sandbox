@@ -1,6 +1,6 @@
 ﻿import { Controller, Get, Query } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { RandomService } from "src/random/random.service";
+import { RandomService } from "@/random/random.service";
 
 @ApiTags("Random")
 @Controller("random")

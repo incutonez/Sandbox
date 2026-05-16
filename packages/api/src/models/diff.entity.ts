@@ -1,5 +1,5 @@
 import { ApiProperty, getSchemaPath } from "@nestjs/swagger";
-import { ClassInterface } from "src/types";
+import { ClassInterface } from "@/types";
 
 export enum EnumChangeStatus {
 	Unchanged = "Unchanged",
@@ -28,7 +28,7 @@ export class TreeItemModel {
 			type: "number",
 		}],
 	})
-	field: number | string;
+	field?: number | string;
 	@ApiProperty({
 		oneOf: [{
 			type: "string",
