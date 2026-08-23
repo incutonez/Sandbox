@@ -36,8 +36,6 @@ jobs:
         run: npm run build:spec
       - name: Build UI
         run: npm run build:ui
-      - name: Copy Temporary Resume
-        run: mkdir -p "./packages/dist/resume" && cp -f "./resume/index.html" "./packages/dist/resume/index.html"
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:

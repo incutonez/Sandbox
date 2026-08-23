@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Strava Edit",
+  "version": "1.0",
+  "description": "Changes links from view to edit.",
+	"permissions": [
+    "tabs",
+    "activeTab",
+    "scripting"
+  ],
+  "icons": {
+    "48": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.strava.com/*"],
+      "js": ["main.js"]
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "borderify@example.com"
+    }
+  }
+}
