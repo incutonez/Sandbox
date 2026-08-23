@@ -9,25 +9,25 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@material-symbols/svg-400": "^0.44.8",
-    "axios": "^1.16.1",
-    "vue": "^3.5.34",
-    "vue-router": "^5.0.7"
+    "@material-symbols/svg-400": "0.44.12",
+    "axios": "1.19.0",
+    "vue": "3.5.41",
+    "vue-router": "5.2.0"
   },
   "devDependencies": {
-    "@incutonez/eslint-plugin": "^2.1.4",
-    "@stylistic/eslint-plugin-ts": "^4.4.1",
-    "@tailwindcss/postcss": "^4.3.0",
+    "@incutonez/eslint-plugin": "2.1.4",
+    "@stylistic/eslint-plugin-ts": "4.4.1",
+    "@tailwindcss/postcss": "4.3.3",
     "@typescript-eslint/eslint-plugin": "^8.59.3",
     "@typescript-eslint/parser": "^8.59.3",
-    "@vitejs/plugin-vue": "^6.0.7",
-    "eslint-plugin-vue": "^10.9.1",
-    "globals": "^17.6.0",
+    "@vitejs/plugin-vue": "6.0.8",
+    "eslint-plugin-vue": "10.10.0",
+    "globals": "17.11.0",
     "tailwindcss": "^4.3.0",
-    "typescript": "^6.0.3",
-    "vite": "^8.0.13",
-    "vite-svg-loader": "^5.1.1",
-    "vue-tsc": "^3.2.9"
+    "typescript": "6.0.3",
+    "vite": "8.2.2",
+    "vite-svg-loader": "5.1.1",
+    "vue-tsc": "3.3.11"
   },
   "release": {
     "tagFormat": "@incutonez/assessments@${version}",
